@@ -1,6 +1,15 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
+GNOME-Mud 0.9.1 (Unrealeased)
+
+- Minor fixes.
+- Added mnemonics to all menu items.
+- The plugin api documentation is now rewritten in DocBook and usable
+  through your gnome-help viewer.
+- Added missing figures for the user manual.
+- The menu item now works in the GNOME2 Panel.
+
 GNOME-Mud 0.9.0 (15/03/2002)
 
 - GNOME-Mud can now do session recording (logging in realtime), and

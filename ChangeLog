@@ -1,3 +1,7 @@
+Mon Jun 24 16:46:24 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* NEWS: added items for 0.9.1.
+
 Mon Jun 24 13:00:05 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c: added mnemonics to all menu items.
