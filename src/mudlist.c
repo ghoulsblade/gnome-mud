@@ -21,6 +21,7 @@
 #endif
 
 #include <gnome.h>
+#include <gtk/gtktree.h>
 #include <stdio.h>
 
 #include "gnome-mud.h"
@@ -31,6 +32,7 @@ extern SYSTEM_DATA prefs;
 
 struct _mudentry{
 	gchar     *name;
+	glong     floc;
 	GList     *list;
 };
 
@@ -39,8 +41,20 @@ struct _mudcode{
 	gchar     *value;
 };
 
+struct _muddata{
+	GtkWidget *name;
+	GtkWidget *codebase;
+	GtkWidget *www;
+	GtkWidget *description;
+	GtkWidget *button;
+	GtkWidget *telnet;
+};
+
 typedef struct _mudentry mudentry;
 typedef struct _mudcode  mudcode;
+typedef struct _muddata  muddata;
+
+muddata wd;
 
 static char *mudlist_fix_codebase(gchar *codebase)
 {
@@ -81,30 +95,33 @@ static char *mudlist_fix_codebase(gchar *codebase)
 	return codebase;
 }
 
-static void mudlist_tree_fill_subtree(gpointer item, gpointer tree)
+static void mudlist_tree_fill_subtree(gpointer item, GtkTreeStore *tree, GtkTreeIter *iter)
 {
-	gtk_tree_append(GTK_TREE(tree), GTK_WIDGET(item));
-	gtk_widget_show(item);
+	GtkTreeIter child;
+	mudentry *e = (mudentry *) item;
+
+	gtk_tree_store_append(tree, &child, iter);
+	gtk_tree_store_set(tree, &child, 0, e->name, 1, e->floc, -1);
 }
 
-static void mudlist_tree_fill(gpointer e, gpointer tree)
+static void mudlist_tree_fill(gpointer e, gpointer data)
 {
+	GList *list;
+	GtkTreeStore *tree = GTK_TREE_STORE(data);
+	GtkTreeIter iter;
 	mudentry *entry = (mudentry *) e;
-	GtkWidget *item;
-	GtkWidget *subtree;
 	
-	item = gtk_tree_item_new_with_label(entry->name);
-	gtk_tree_append(GTK_TREE(tree), item);
+	gtk_tree_store_append(tree, &iter, NULL);
+	gtk_tree_store_set(tree, &iter, 0, entry->name, -1);
 
-	subtree = gtk_tree_new();
-	gtk_tree_item_set_subtree(GTK_TREE_ITEM(item), subtree);
+	for (list = g_list_first(entry->list); list != NULL; list = g_list_next(list))
+	{
+		mudlist_tree_fill_subtree(list->data, tree, &iter);
+	}
 
-	g_list_foreach(entry->list, mudlist_tree_fill_subtree, subtree);
 	g_list_free(entry->list);
 	g_free(entry->name);
 	g_free(entry);
-	
-	gtk_widget_show_all(tree);
 }
 
 static gint mudlist_compare_char_struct(gconstpointer a, gconstpointer b)
@@ -174,80 +191,90 @@ static void mudlist_button_import_cb(GtkWidget *widget, GtkWidget *button)
 	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(button), "entry_info_mud_port")), port);
 }
 
-static void mudlist_select_item_cb(GtkTreeItem *item, GtkTree *tree)
+static void mudlist_select_item_cb(GtkTreeSelection *selection, gpointer data)
 {
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+
 	FILE *fp;
-	glong floc = (glong) gtk_object_get_data(GTK_OBJECT(item), "floc");
 	gchar line[1024], tmp[1024];
-	
-	fp = fopen(prefs.MudListFile, "r");
-	fseek(fp, floc, SEEK_SET);
-	while(fgets(line, 1024, fp))
+
+	glong floc;
+
+	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
-		if (!strncmp("Mud         :", line, 13))
-		{
-			GtkWidget *entry = gtk_object_get_data(GTK_OBJECT(tree), "entry_name");
-
-			g_snprintf(tmp, strlen(line + 14), line + 14);
-			gtk_entry_set_text(GTK_ENTRY(entry), tmp);
-		}
-		else if (!strncmp("Code Base   :", line, 13))
-		{
-			GtkWidget *entry = gtk_object_get_data(GTK_OBJECT(tree), "entry_codebase");
-
-			g_snprintf(tmp, strlen(line + 14), line + 14);
-			gtk_entry_set_text(GTK_ENTRY(entry), tmp);
-		}
-		else if (!strncmp("WWW         :", line, 13))
-		{
-			GtkWidget *href = gtk_object_get_data(GTK_OBJECT(tree), "href_www");
-			
-			if (!strncmp("None", line + 14, 4))
-			{
-				gtk_widget_set_sensitive(href, FALSE);
-			}
-			else
-			{
-				gtk_widget_set_sensitive(href, TRUE);
-				gnome_href_set_url(GNOME_HREF(href), line + 14);
-			}
-		}
-		else if (!strncmp("Telnet      :", line, 13))
-		{
-			GtkWidget *entry  = gtk_object_get_data(GTK_OBJECT(tree), "entry_telnet");
-			GtkWidget *button = gtk_object_get_data(GTK_OBJECT(tree), "button_connect");
-			
-			g_snprintf(tmp, strlen(line + 14), line + 14);
-			gtk_entry_set_text(GTK_ENTRY(entry), tmp);
-			gtk_widget_set_sensitive(button, TRUE);
-		}
-		else if (!strncmp("Description :", line, 13))
-		{
-			GString *descr = g_string_new("");
-			GtkWidget *text_desc = gtk_object_get_data(GTK_OBJECT(tree), "text_desc");
-			
-			while(fgets(line, 1024, fp))
-			{
-				if (!strncmp("                -", line, 17))
-					break;
-			
-				g_string_append(descr, line);
-			}
-
-			gtk_text_freeze(GTK_TEXT(text_desc));
-			gtk_text_set_point(GTK_TEXT(text_desc), 0);
-			gtk_text_forward_delete(GTK_TEXT(text_desc), gtk_text_get_length(GTK_TEXT(text_desc)));
-			gtk_text_insert(GTK_TEXT(text_desc), NULL, NULL, NULL, descr->str, -1);
-			gtk_text_thaw(GTK_TEXT(text_desc));
-				
-			g_string_free(descr, TRUE);
-			break;
-		}
+		gtk_tree_model_get(model, &iter, 1, &floc, -1);
 	}
-	fclose(fp);
+
+	if (floc != 0)
+	{
+		fp = fopen(prefs.MudListFile, "r");
+		fseek(fp, floc, SEEK_SET);
+		while(fgets(line, 1024, fp))
+		{
+			if (!strncmp("Mud         :", line, 13))
+			{
+				GtkWidget *entry = wd.name;
+
+				g_snprintf(tmp, strlen(line + 14), line + 14);
+				gtk_entry_set_text(GTK_ENTRY(entry), tmp);
+			}
+			else if (!strncmp("Code Base   :", line, 13))
+			{
+				GtkWidget *entry = wd.codebase;
+
+				g_snprintf(tmp, strlen(line + 14), line + 14);
+				gtk_entry_set_text(GTK_ENTRY(entry), tmp);
+			}
+			else if (!strncmp("WWW         :", line, 13))
+			{
+				GtkWidget *href = wd.www;
+			
+				if (!strncmp("None", line + 14, 4))
+				{
+					gtk_widget_set_sensitive(href, FALSE);
+				}
+				else
+				{
+					gtk_widget_set_sensitive(href, TRUE);
+					gnome_href_set_url(GNOME_HREF(href), line + 14);
+				}
+			}
+			else if (!strncmp("Telnet      :", line, 13))
+			{
+				GtkWidget *entry  = wd.telnet;
+				GtkWidget *button = wd.button;
+			
+				g_snprintf(tmp, strlen(line + 14), line + 14);
+				gtk_entry_set_text(GTK_ENTRY(entry), tmp);
+				gtk_widget_set_sensitive(button, TRUE);
+			}
+			else if (!strncmp("Description :", line, 13))
+			{
+				GtkTextBuffer *buffer;
+				GString *descr = g_string_new("");
+				GtkWidget *text_desc = wd.description;
+				
+				while(fgets(line, 1024, fp))
+				{
+					if (!strncmp("                -", line, 17))
+						break;
+				
+					g_string_append(descr, line);
+				}
+
+				buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_desc));
+				gtk_text_buffer_set_text(buffer, descr->str, -1);
+
+				g_string_free(descr, TRUE);
+				break;
+			}
+		}
+		fclose(fp);
+	}
 }
 
-static void mudlist_parse(FILE *fp, GtkWidget *tree)
+static void mudlist_parse(FILE *fp, GtkTreeStore *tree)
 {
 	GList      *codelist = NULL;
 	gchar       line[1024];
@@ -276,8 +303,7 @@ static void mudlist_parse(FILE *fp, GtkWidget *tree)
 		}
 		else if (!strncmp("Code Base   :", line, 13))
 		{
-			GtkWidget *itemm;
-			mudentry  *e = NULL;
+			mudentry  *e = NULL, *ee;
 			GList	  *subtree = NULL;
 			gchar     *p = (line + 14);
 			gchar      code[2048] = "";
@@ -325,10 +351,11 @@ static void mudlist_parse(FILE *fp, GtkWidget *tree)
 				e = subtree->data;
 			}
 
-			itemm = gtk_tree_item_new_with_label(name);
-			gtk_object_set_data(GTK_OBJECT(itemm), "floc", (gpointer) floc_name);
-			gtk_signal_connect(GTK_OBJECT(itemm), "select", GTK_SIGNAL_FUNC(mudlist_select_item_cb), tree);
-			e->list = g_list_append(e->list, itemm);
+			ee = g_malloc0(sizeof(mudentry));
+			ee->name = g_strdup(name);
+			ee->floc = floc_name;
+
+			e->list = g_list_append(e->list, ee);
 		}
 
 		floc = ftell(fp);
@@ -357,6 +384,12 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	GtkWidget  *mudtree;
 	GtkWidget  *box;
 	GtkWidget  *button_connect;
+	
+	GtkTreeStore *mudtree_store;
+	GtkTreeViewColumn *tree_column;
+	GtkTreeSelection *selection;
+	GtkCellRenderer *renderer;
+
 	FILE       *fp;
 	
 	if (mudlist_window != NULL)
@@ -391,7 +424,7 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	gtk_table_attach (GTK_TABLE (table), label_name, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_name), 0, 0.5);
 
-	entry_name = gtk_entry_new ();
+	wd.name = entry_name = gtk_entry_new ();
 	gtk_widget_ref (entry_name);
 	gtk_object_set_data_full (GTK_OBJECT (mudlist_window), "entry_name", entry_name, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (entry_name);
@@ -405,7 +438,7 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	gtk_table_attach (GTK_TABLE (table), label_codebase, 1, 2, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_codebase), 0, 0.5);
 
-	entry_codebase = gtk_entry_new ();
+	wd.codebase = entry_codebase = gtk_entry_new ();
 	gtk_widget_ref (entry_codebase);
 	gtk_object_set_data_full (GTK_OBJECT (mudlist_window), "entry_codebase", entry_codebase, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (entry_codebase);
@@ -417,7 +450,7 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	gtk_table_attach(GTK_TABLE(table), label_telnet, 1, 2, 4, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment(GTK_MISC(label_telnet), 0, 0.5);
 
-	entry_telnet = gtk_entry_new();
+	wd.telnet = entry_telnet = gtk_entry_new();
 	gtk_widget_show(entry_telnet);
 	gtk_table_attach(GTK_TABLE(table), entry_telnet, 1, 2, 5, 6, (GtkAttachOptions) (GTK_FILL), 0, 0, 0);
 	gtk_entry_set_editable(GTK_ENTRY(entry_telnet), FALSE);
@@ -434,12 +467,13 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	{
 		button_connect = gtk_button_new_with_label(_("Import and close"));
 	}
+	wd.button = button_connect;
 	gtk_button_set_relief(GTK_BUTTON(button_connect), GTK_RELIEF_NONE);
 	gtk_widget_show(button_connect);
 	gtk_container_add(GTK_CONTAINER(box), button_connect);
 	gtk_widget_set_sensitive(button_connect, FALSE);
 	
-	href_www = gnome_href_new ("", _("Go to webpage of the mud"));
+	wd.www = href_www = gnome_href_new ("", _("Go to webpage of the mud"));
 	gtk_widget_ref (href_www);
 	gtk_object_set_data_full (GTK_OBJECT (mudlist_window), "href_www", href_www, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (href_www);
@@ -459,33 +493,41 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	gtk_widget_show (scrolledwindow);
 	gtk_table_attach (GTK_TABLE (table), scrolledwindow, 1, 2, 8, 9, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_SHADOW_IN);
 
-	text_desc = gtk_text_new (NULL, NULL);
+	wd.description = text_desc = gtk_text_view_new();
 	gtk_widget_ref (text_desc);
 	gtk_object_set_data_full (GTK_OBJECT (mudlist_window), "text_desc", text_desc, (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_set_usize(text_desc, 225, 200);
+	gtk_widget_set_usize(text_desc, 350, 200);
 	gtk_widget_show (text_desc);
 	gtk_container_add (GTK_CONTAINER (scrolledwindow), text_desc);
-	gtk_text_set_word_wrap(GTK_TEXT(text_desc), TRUE);
-	
+
 	scrolledwindow_tree = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_set_usize(scrolledwindow_tree, 150, 200);
 	gtk_widget_ref(scrolledwindow_tree);
 	gtk_widget_show(scrolledwindow_tree);
 	gtk_table_attach (GTK_TABLE (table), scrolledwindow_tree, 0, 1, 0, 9, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow_tree), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	
-	mudtree = gtk_tree_new ();
+
+	mudtree_store = gtk_tree_store_new(2, G_TYPE_STRING, G_TYPE_LONG);
+	mudtree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(mudtree_store));
+	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(mudtree), FALSE);
+	g_object_unref(mudtree_store);
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(mudtree));
+	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+	g_signal_connect(selection, "changed", G_CALLBACK(mudlist_select_item_cb), NULL);
+
+	renderer = gtk_cell_renderer_text_new();
+	g_object_set(G_OBJECT(renderer), "foreground", "black", NULL);
+
+	tree_column = gtk_tree_view_column_new_with_attributes(NULL, renderer, "text", 0, NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(mudtree), tree_column);
+
 	gtk_widget_ref (mudtree);
 	gtk_object_set_data_full (GTK_OBJECT (mudlist_window), "mudtree", mudtree, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (mudtree);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolledwindow_tree), mudtree);
-	gtk_object_set_data(GTK_OBJECT(mudtree), "entry_name", entry_name); 
-	gtk_object_set_data(GTK_OBJECT(mudtree), "entry_codebase", entry_codebase);
-	gtk_object_set_data(GTK_OBJECT(mudtree), "href_www", href_www);
-	gtk_object_set_data(GTK_OBJECT(mudtree), "entry_telnet", entry_telnet);
-	gtk_object_set_data(GTK_OBJECT(mudtree), "text_desc", text_desc);
-	gtk_object_set_data(GTK_OBJECT(mudtree), "button_connect", button_connect);
 	
 	/*
 	 * Signals
@@ -504,7 +546,7 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 		gtk_signal_connect_object(GTK_OBJECT(button_connect), "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) mudlist_window);
 	}
 	
-	mudlist_parse(fp, mudtree);	
+	mudlist_parse(fp, GTK_TREE_STORE(mudtree_store));
 	gtk_widget_show(mudlist_window);
 
 	fclose(fp);

@@ -5,12 +5,12 @@
 
 static void init_plugin   (PLUGIN_OBJECT *, gint);
 
-PLUGIN_INFO amcl_plugin_info =
+PLUGIN_INFO gnomemud_plugin_info =
 {
     "Test Plugin",
     "Robin Ericsson",
-    "1.0",
-    "Small plugin just to show how the plugins where thought to work.",
+    "1.1",
+    "Small plugin just to show how the plugins were supposed to work.",
     init_plugin,
 };
 

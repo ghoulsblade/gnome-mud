@@ -7,7 +7,6 @@ INCLUDES = -DLOCALEDIR=\"$(localedir)\" \
 	   -DSYSCONFDIR=\""$(sysconfdir)"\" \
 	   -DDATADIR=\""$(datadir)"\" \
 	   -DLIBDIR=\""$(libdir)"\" \
-	   -DGTK_ENABLE_BROKEN=1 \
 	   $(GMUD_CFLAGS) $(GMUD_DEBUG)
 LDADD   = $(GMUD_LIBS) $(Z_LIBS)
 AM_CPPFLAGS = -DPKGDATADIR=\"$(pkgdatadir)\"

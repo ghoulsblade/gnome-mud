@@ -16,7 +16,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifdef __MODULE__
+//#ifdef __MODULE__
 #include "config.h"
 #include <gnome.h>
 #include <stdio.h>
@@ -96,4 +96,4 @@ gboolean plugin_register_data_outgoing (gint handle, gchar *function)
   return plugin_register_data (handle, function, PLUGIN_DATA_OUT);
 }
 
-#endif /* __MODULE__ */
+//#endif /* __MODULE__ */

@@ -1,3 +1,18 @@
+2003-06-30  Robin Ericsson  <lobbin@localhost.nu>
+
+	* plugins/text.plugin: Make it compile again.	
+
+	* src/Makefile.am: Remove GTK_ENABLE_BROKEN=1
+
+	* src/modules.c (plugin_clist_select_row_cb):
+	Changed from GtkText to GtkTextView. 
+	(do_plugin_information): Ditto.
+
+	* src/modules_api.c [__MODULE__]: Remove define.
+
+	* src/mudlist.c: Rewrote to use GtkTreeModel and
+	GtkTextView instead of GtkTree and GtkText.  
+
 2003-06-25  Jordi Mallach  <jordi@sindominio.net>
 
 	* BUGS: Add a pointer to bugzilla.
