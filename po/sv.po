@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME-MUD 0.10.0\n"
-"POT-Creation-Date: 2003-05-02 10:49+0200\n"
-"PO-Revision-Date: 2003-05-02 11:08+0200\n"
+"POT-Creation-Date: 2003-05-22 13:05+0200\n"
+"PO-Revision-Date: 2003-05-22 13:12+0200\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -829,14 +829,14 @@ msgid "AutoMapper"
 msgstr "_Kart Genererare"
 
 #: src/prefs.c:947
-msgid "Unusual deplacement commands:"
+msgid "Unusual movement commands:"
 msgstr "Ovanliga förflyttnings kommandon:"
 
 #: src/prefs.c:954
 msgid ""
-"If you use the automapper, you may want specifying here some unusual "
-"deplacement commands. When you use one of these, the automapper will create "
-"a path to an other map. Use a semicolon to separate the different commands."
+"If you use the automapper, you may want to specify here some unusual "
+"movement commands. When you use one of these, the automapper will create a "
+"path to an other map. Use a semicolon to separate the different commands."
 msgstr ""
 "Om du använder kartgenereraren, underlättar det om du listar ovanliga "
 "förflyttnings kommandon. När du använder dessa kommer kartgeneraren skapa en "
@@ -1037,8 +1037,8 @@ msgstr "Sista bokmärket för loggar"
 
 #: gnome-mud.schemas.in.h:20
 msgid ""
-"List of commands which will be treated as deplacement by the automapper. A "
-"semicolon is used between two commands"
+"List of commands which will be treated as movement commands by the "
+"automapper. A semicolon is used to separate each command."
 msgstr ""
 "Lista av kommandon som kommer att tolkas som ovanliga förfklyttningar av "
 "kartgenereraren. Ett semikolon avänds för att separera 2 kommandon."
@@ -1056,7 +1056,7 @@ msgstr ""
 "underkataloger relative till /apps/gnome-mud/connections."
 
 #: gnome-mud.schemas.in.h:23
-msgid "List of deplacement commands"
+msgid "List of movement commands"
 msgstr "Lista av ovanliga förflyttnings kommandon"
 
 #: gnome-mud.schemas.in.h:24
