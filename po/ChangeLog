@@ -1,5 +1,9 @@
 2003-07-10  Christian Rose  <menthos@menthos.com>
 
+	* .cvsignore: Added more entries.
+
+2003-07-10  Christian Rose  <menthos@menthos.com>
+
 	* POTFILES.in: Sorted.
 	* sv.po: Updated Swedish translation.
 
