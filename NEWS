@@ -1,6 +1,17 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
+GNOME-Mud 0.9.0 (UNRELEASED)
+
+- GNOME-Mud can now save mud logs.
+- Python scripting support (requires Python >= 2.0).
+- MudConnect lists support. You can download MudConnect.com's mud list
+  from http://www.mudconnect.com/zmud/mudlist.txt.
+- Mouse wheel and Page Up/Down support in the main window.
+- Font/Color support rewritten.
+- Fixed compilation on non-glibc systems.
+- Translation updates.
+
 GNOME-Mud 0.8.0 (08/11/2001)
 
 - Name changed to GNOME-Mud.
