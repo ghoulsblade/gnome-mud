@@ -1,3 +1,9 @@
+Fri Oct 19 18:00:18 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/prefs.c: fixed typos.
+
+	* src/init.c: fixed labels of some menu entries.
+
 Fri Oct 19 15:35:09 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* ROADMAP: Added some more entries.

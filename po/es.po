@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.8.0\n"
-"POT-Creation-Date: 2001-10-18 16:24+0200\n"
+"POT-Creation-Date: 2001-10-19 18:01+0200\n"
 "PO-Revision-Date: 2001-10-18 16:25+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -70,16 +70,16 @@ msgstr "window_data: tratando de acceder a una región de datos indefinida: %d"
 msgid "GNOME-Mud Configuration Center"
 msgstr "Centro de Configuración de GNOME-Mud"
 
-#: src/data.c:374 src/keybind.c:409 src/wizard.c:575
+#: src/data.c:374 src/keybind.c:409 src/wizard.c:577
 msgid "Add"
 msgstr "Añadir"
 
 #: src/data.c:379 src/keybind.c:416 src/profiles.c:799 src/profiles.c:1106
-#: src/wizard.c:577
+#: src/wizard.c:579
 msgid "Delete"
 msgstr "Borrar"
 
-#: src/data.c:383 src/keybind.c:420 src/profiles.c:1176 src/wizard.c:604
+#: src/data.c:383 src/keybind.c:420 src/profiles.c:1176 src/wizard.c:606
 msgid "Close"
 msgstr "Cerrar"
 
@@ -99,11 +99,11 @@ msgstr "Ok"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/color.c:332 src/wizard.c:576
+#: src/color.c:332 src/wizard.c:578
 msgid "Apply"
 msgstr "Aplicar"
 
-#: src/color.c:333 src/map.c:2674 src/wizard.c:603
+#: src/color.c:333 src/map.c:2674 src/wizard.c:605
 msgid "Save"
 msgstr "Salvar"
 
@@ -116,84 +116,84 @@ msgstr "Predeterminado"
 msgid "Can't load font... %s Using default.\n"
 msgstr "No se puede cargar la fuente... %s Usando predeterminada.\n"
 
-#: src/init.c:78
+#: src/init.c:79
 msgid "Quit?"
 msgstr "Salir?"
 
-#: src/init.c:84
+#: src/init.c:85
 msgid "Do you really want to quit?"
 msgstr "De verdad quieres salir?"
 
-#: src/init.c:197 src/init.c:433 src/init.c:443
+#: src/init.c:198 src/init.c:444 src/init.c:454
 msgid "Connect..."
 msgstr "Conectar..."
 
 #
-#: src/init.c:208 src/profiles.c:891
+#: src/init.c:209 src/profiles.c:891
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:215 src/profiles.c:911
+#: src/init.c:216 src/profiles.c:911
 msgid "Port:"
 msgstr "Puerto:"
 
-#: src/init.c:270
+#: src/init.c:271
 msgid "Robin Ericsson, main developer"
 msgstr "Robin Ericsson, desarrollador principal"
 
-#: src/init.c:271
+#: src/init.c:272
 msgid "David Zanetti, bugfixes"
 msgstr "David Zanetti, arreglos"
 
-#: src/init.c:272
+#: src/init.c:273
 msgid "Ben Gertzfield, creation of rcfiles for AMCL"
 msgstr "Ben Gertzfield, creación de ficheros rc para AMCL"
 
-#: src/init.c:273
+#: src/init.c:274
 msgid "Will Schenk, bugfixes"
 msgstr "Will Schenk, arreglos"
 
-#: src/init.c:274
+#: src/init.c:275
 msgid "desaster, bugfixes"
 msgstr "desaster, arreglos"
 
-#: src/init.c:275
+#: src/init.c:276
 msgid "Paul Cameron, compile fixes, automapper"
 msgstr "Paul Cameron, arreglos de compilación, automapeador"
 
-#: src/init.c:276
+#: src/init.c:277
 msgid "Robert Brady, color selection"
 msgstr "Robert Brady, selección de color"
 
-#: src/init.c:277
+#: src/init.c:278
 msgid "Bret Robideaux, action/trigger module"
 msgstr "Bret Robideaux, módulo de acciones/triggers"
 
-#: src/init.c:278
+#: src/init.c:279
 msgid "Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"
 msgstr ""
 "Maxim Kiselev, asignación de teclas, salvado de color, divisor de comandos, "
 "arreglos"
 
-#: src/init.c:279
+#: src/init.c:280
 msgid "Benjamin Curtis, recognition of TELNET codes and replies"
 msgstr "Benjamin Curtis, reconocimiento de códigos TELNET y respuestas"
 
 #. if your charset doesn't support o with dieresis (ö) just use o
-#: src/init.c:281
+#: src/init.c:282
 msgid "Jörgen Kosche, focus-bugs patches, de.po maintainer"
 msgstr "Jörgen Kosche, parches para foco de ventanas, mantenedor de de.po "
 
-#: src/init.c:282
+#: src/init.c:283
 msgid "Jeroen Ruigrok, various code cleanups and fixes"
 msgstr "Jeroen Ruigrok, limpieza de código y arreglos"
 
 #. if your charset doesn't support i with acute (í) just use i
-#: src/init.c:284
+#: src/init.c:285
 msgid "Jorge García, various code cleanups and fixes"
 msgstr "Jorge García, limpieza de código y arreglos"
 
-#: src/init.c:285
+#: src/init.c:286
 msgid ""
 "Jordi Mallach, official Debian package, i18n support, ca.po & es.po "
 "maintainer"
@@ -202,76 +202,76 @@ msgstr ""
 "po y es.po"
 
 #. if your charset doesn't support e with circumflex (è), just use e
-#: src/init.c:288
+#: src/init.c:289
 msgid "Staffan Thomèn and the creators of gEdit - module API"
 msgstr "Staffan Thomèn y los creadores de gEdit - API para módulos"
 
-#: src/init.c:298
+#: src/init.c:299
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
-#: src/init.c:299
+#: src/init.c:300
 msgid "(C) 1998-2001 Robin Ericsson"
 msgstr "(C) 1998-2001 Robin Ericsson"
 
-#: src/init.c:301
+#: src/init.c:302
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
 msgstr "Un cliente de MUD (Multi-User Dungeon) para las librerías GTK+/GNOME."
 
-#: src/init.c:314
+#: src/init.c:315
 msgid "GNOME-Mud homepage"
 msgstr "Página web de GNOME-Mud"
 
-#: src/init.c:429
+#: src/init.c:440
 msgid "Wizard..."
 msgstr "Asistente..."
 
-#: src/init.c:431
+#: src/init.c:442
 msgid "Profiles..."
 msgstr "Perfiles..."
 
-#: src/init.c:434 src/init.c:444
+#: src/init.c:445 src/init.c:455
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: src/init.c:436
+#: src/init.c:447
 msgid "Exit"
 msgstr "Salir"
 
-#: src/init.c:441
-msgid "Connection Wizard"
-msgstr "Asistente de Conexiones"
+#: src/init.c:452
+msgid "Connection Wizard..."
+msgstr "Asistente de Conexiones..."
 
-#: src/init.c:446
+#: src/init.c:457
 msgid "Close Window"
 msgstr "Cerrar Ventana"
 
-#: src/init.c:454
+#: src/init.c:465
 msgid "Plugin Information..."
 msgstr "Información sobre Conectores..."
 
-#: src/init.c:459
+#: src/init.c:470
 msgid "Colors..."
 msgstr "Colores..."
 
-#: src/init.c:461
-msgid "Auto Mapper"
+#: src/init.c:472
+msgid "Auto Mapper..."
 msgstr "Auto Mapeador..."
 
-#: src/init.c:463
+#: src/init.c:474
 msgid "Plugins"
 msgstr "Conectores"
 
-#: src/init.c:548
+#: src/init.c:559
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:591
+#: src/init.c:602
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versión %s (compilado %s, %s)\n"
 
-#: src/init.c:596
+#: src/init.c:607
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuído bajo los términos de la Licencia Pública General GNU.\n"
 
@@ -474,12 +474,12 @@ msgstr "*** No se puede conectar - no has especificado ningún servidor\n"
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** No se ha especificado un puerto - asumiendo puerto 23\n"
 
-#: src/net.c:186
+#: src/net.c:193
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Realizando conexión a %s, puerto %s\n"
 
-#: src/net.c:216
+#: src/net.c:223
 msgid "*** Connection established.\n"
 msgstr "*** Conexión establecida.\n"
 
@@ -522,8 +522,8 @@ msgstr "¿Guardar el texto introducido?"
 #: src/prefs.c:276
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
-"will be left in the entry box but seleceted. Turn this off to remove the "
-"text after it has been sent."
+"will be left in the entry box but selected. Turn this off to remove the text "
+"after it has been sent."
 msgstr ""
 "Con esta opción activada, el texto que introduzcas en la conexión se quedará "
 "en el campo de introducción de comandos, pero seleccionado. Desactiva la "
@@ -537,7 +537,7 @@ msgstr ""
 "quieres usar."
 
 #: src/prefs.c:302
-msgid "Apperence"
+msgid "Appearance"
 msgstr "Apariencia"
 
 #: src/prefs.c:318
@@ -614,7 +614,7 @@ msgstr " Información sobre el perfil "
 msgid "Select Profile"
 msgstr "Seleccionar fuente"
 
-#: src/profiles.c:1034 src/wizard.c:602
+#: src/profiles.c:1034 src/wizard.c:604
 msgid "Connect"
 msgstr "Conectar"
 
@@ -642,15 +642,15 @@ msgstr "Teclas"
 msgid "GNOME-Mud Popup Message"
 msgstr "Mensaje de GNOME-Mud"
 
-#: src/wizard.c:311
+#: src/wizard.c:313
 msgid "No selection made"
 msgstr "No hay ninguna selección"
 
-#: src/wizard.c:341 src/wizard.c:373
+#: src/wizard.c:343 src/wizard.c:375
 msgid "Your connection doesn't have a name."
 msgstr "Tu conexión no tiene nombre."
 
-#: src/wizard.c:347
+#: src/wizard.c:349
 msgid ""
 "At the moment, everything but the name can be changed.\n"
 "If you need to change the name of the connection, you'll have to recreate it."
@@ -658,30 +658,30 @@ msgstr ""
 "De momento se puede cambiar todo excepto el nombre.\n"
 "Si necesitas cambiar el nombre de la conexión, tendrás que recrearla."
 
-#: src/wizard.c:379
+#: src/wizard.c:381
 msgid "Can't add an existing connection."
 msgstr "No se puede añadir una conexión ya existente."
 
-#: src/wizard.c:439
+#: src/wizard.c:441
 msgid "Connections"
 msgstr "Conexiones"
 
-#: src/wizard.c:451
+#: src/wizard.c:453
 msgid "GNOME-Mud Connection Wizard"
 msgstr "Asistente de Conexiones de GNOME-Mud"
 
-#: src/wizard.c:496
+#: src/wizard.c:498
 msgid "Connection Name:"
 msgstr "Nombre de la conexión"
 
-#: src/wizard.c:504
+#: src/wizard.c:506
 msgid ""
 "This is the name of the connection which will be displayed in the connection "
 "list."
 msgstr ""
 "Este es el nombre de la conexión que aparecerá en la lista de conexiones."
 
-#: src/wizard.c:509
+#: src/wizard.c:511
 msgid ""
 "\n"
 "Host:"
@@ -689,11 +689,11 @@ msgstr ""
 "\n"
 "Servidor:"
 
-#: src/wizard.c:516
+#: src/wizard.c:518
 msgid "This is the host where the MUD you will connect to is located."
 msgstr "Este es el servidor donde se aloja el MUD al que te quieres conectar."
 
-#: src/wizard.c:521
+#: src/wizard.c:523
 msgid ""
 "\n"
 "Port:"
@@ -701,7 +701,7 @@ msgstr ""
 "\n"
 "Puerto:"
 
-#: src/wizard.c:528
+#: src/wizard.c:530
 msgid ""
 "This is the port on the host that the MUD is located on. The default port is "
 "23 (telnet)."
@@ -709,11 +709,11 @@ msgstr ""
 "Este es el puerto del servidor en el cual escucha el MUD. El puerto por "
 "defecto es el 23 (telnet)."
 
-#: src/wizard.c:533
+#: src/wizard.c:535
 msgid "Auto Login?"
 msgstr "¿Lógin automático?"
 
-#: src/wizard.c:539
+#: src/wizard.c:541
 msgid ""
 "Should GNOME-Mud login to this MUD automatically? Player Name and Password "
 "must be set to make this work."
@@ -721,7 +721,7 @@ msgstr ""
 "¿Debe GNOME-Mud conectar a este MUD automáticamente? Para que esto funcione, "
 "Nombre del Jugador y Password deben estar fijados."
 
-#: src/wizard.c:546
+#: src/wizard.c:548
 msgid ""
 "\n"
 "Player Name:"
@@ -729,12 +729,12 @@ msgstr ""
 "\n"
 "Nombre del Jugador:"
 
-#: src/wizard.c:553
+#: src/wizard.c:555
 msgid "This is the player you login to the MUD with. For use with AutoLogin."
 msgstr ""
 "Este es el jugador con el que te conectas al MUD. Utilizable con AutoLogin."
 
-#: src/wizard.c:558
+#: src/wizard.c:560
 msgid ""
 "\n"
 "Password:"
@@ -742,7 +742,7 @@ msgstr ""
 "\n"
 "Password:"
 
-#: src/wizard.c:566
+#: src/wizard.c:568
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr "Este es el password de tu jugador en el MUD. Utilizable con AutoLogin."

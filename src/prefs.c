@@ -275,7 +275,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
   gtk_tooltips_set_tip (tooltip, checkbutton_keep,
 			_("With this toggled on, the text you have entered "
 			  "and sent to the connection, will be left in the "
-			  "entry box but seleceted. Turn this off to remove "
+			  "entry box but selected. Turn this off to remove "
 			  "the text after it has been sent."),
 			NULL);
   gtk_signal_connect(GTK_OBJECT(checkbutton_keep), "toggled",
@@ -299,7 +299,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
 			NULL);
   gtk_signal_connect (GTK_OBJECT(fontpicker), "font-set", prefs_select_font_cb, (gpointer) prefs_window);
 
-  label1 = gtk_label_new (_("Apperence"));
+  label1 = gtk_label_new (_("Appearance"));
   gtk_widget_show (label1); 
   
   gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window),
