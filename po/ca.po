@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-09 13:39+0100\n"
-"PO-Revision-Date: 2004-01-09 13:40+0100\n"
+"POT-Creation-Date: 2004-01-09 21:01+0100\n"
+"PO-Revision-Date: 2004-01-09 14:47+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
-#: gnome-mud.desktop.in.h:1 src/init.c:265
+#: gnome-mud.desktop.in.h:1 src/init.c:264
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
@@ -346,7 +346,7 @@ msgstr "No s'ha pogut iniciar GConf: %s"
 msgid "Do you really want to quit?"
 msgstr "Esteu segur de voler sortir?"
 
-#: src/init.c:142 src/init.c:668
+#: src/init.c:142 src/init.c:667
 msgid "Connect..."
 msgstr "Connecta..."
 
@@ -364,142 +364,142 @@ msgstr "*** Error intern: no existeix la connexió.\n"
 
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:261
+#: src/init.c:260
 msgid "translator_credits"
 msgstr "Jordi Mallach <jordi@sindominio.net>"
 
-#: src/init.c:267
+#: src/init.c:266
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Un client MUD (Multi-User Dungeon) per al GNOME.\n"
 
-#: src/init.c:279
+#: src/init.c:278
 msgid "GNOME-Mud home page"
 msgstr "Pàgina principal del GNOME-Mud"
 
-#: src/init.c:618 src/init.c:648
+#: src/init.c:617 src/init.c:647
 #, c-format
 msgid "There was an error displaying help: %s"
 msgstr "S'ha produït un error en mostrar l'ajuda: %s"
 
-#: src/init.c:664
+#: src/init.c:663
 msgid "Wizard..."
 msgstr "Assistent..."
 
-#: src/init.c:664
+#: src/init.c:663
 msgid "Open the Connection Wizard"
 msgstr "Obre l'Assistent de connexions"
 
-#: src/init.c:666
+#: src/init.c:665
 msgid "Profiles..."
 msgstr "Perfils..."
 
-#: src/init.c:666
+#: src/init.c:665
 msgid "Manage user profiles"
 msgstr "Gestiona els perfils d'usuari"
 
-#: src/init.c:668
+#: src/init.c:667
 msgid "Connect to a mud"
 msgstr "Connecta a un mud"
 
-#: src/init.c:670
+#: src/init.c:669
 msgid "Disconnect"
 msgstr "Desconnecta"
 
-#: src/init.c:670
+#: src/init.c:669
 msgid "Disconnect from the mud"
 msgstr "Desconnecta del mud"
 
-#: src/init.c:672
+#: src/init.c:671
 msgid "Reconnect"
 msgstr "Reconnecta"
 
-#: src/init.c:672
+#: src/init.c:671
 msgid "Reconnect to the mud"
 msgstr "Reconnecta al mud"
 
-#: src/init.c:674 src/tray.c:109
+#: src/init.c:673
 msgid "Exit"
 msgstr "Surt"
 
-#: src/init.c:674
+#: src/init.c:673
 msgid "Quit GNOME-Mud"
 msgstr "Surt de GNOME-Mud"
 
-#: src/init.c:679
+#: src/init.c:678
 msgid "Connection _Wizard..."
 msgstr "_Assistent de connexions..."
 
-#: src/init.c:680
+#: src/init.c:679
 msgid "_MudList Listing..."
 msgstr "Llistes de la _MudList..."
 
-#: src/init.c:682
+#: src/init.c:681
 msgid "C_onnect..."
 msgstr "C_onnecta..."
 
-#: src/init.c:683
+#: src/init.c:682
 msgid "_Disconnect"
 msgstr "_Desconnecta"
 
-#: src/init.c:684
+#: src/init.c:683
 msgid "_Reconnect"
 msgstr "_Reconnecta"
 
-#: src/init.c:686
+#: src/init.c:685
 msgid "S_tart Logging..."
 msgstr "Come_nça un registre..."
 
-#: src/init.c:687
+#: src/init.c:686
 msgid "Sto_p Logging"
 msgstr "D_eixa de registrar"
 
-#: src/init.c:688
+#: src/init.c:687
 msgid "_Save Buffer..."
 msgstr "De_sa el búfer..."
 
-#: src/init.c:690
+#: src/init.c:689
 msgid "_Close Window"
 msgstr "_Tanca la finestra"
 
-#: src/init.c:698
+#: src/init.c:697
 msgid "_Plugin Information..."
 msgstr "_Informació sobre connectors..."
 
-#: src/init.c:704
+#: src/init.c:703
 msgid "Auto _Mapper..."
 msgstr "_Automapejador..."
 
-#: src/init.c:707
+#: src/init.c:706
 msgid "P_lugins"
 msgstr "_Connectors"
 
-#: src/init.c:714
+#: src/init.c:713
 msgid "User Manual"
 msgstr "Manual de l'usuari"
 
-#: src/init.c:715
+#: src/init.c:714
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Mostra el manual d'usuari del GNOME-Mud"
 
-#: src/init.c:719
+#: src/init.c:718
 msgid "Plugin API Manual"
 msgstr "Manual de l'API de connectors"
 
-#: src/init.c:720
+#: src/init.c:719
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "Mostra el manual de l'API de connectors de GNOME-Mud"
 
 #. Do we really need this now?
-#: src/init.c:778
+#: src/init.c:777
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:814
+#: src/init.c:813
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versió %s (compilat %s, %s)\n"
 
-#: src/init.c:816
+#: src/init.c:815
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït sota els termes de la Llicència Pública General GNU.\n"
 
@@ -1213,16 +1213,17 @@ msgid "Close the window"
 msgstr "Tanca la finestra"
 
 #: src/tray.c:104
-msgid "Show window"
-msgstr "Mostra la finestra"
+msgid "_Hide window"
+msgstr "_Amaga la finestra"
 
 #: src/tray.c:106
-msgid "Hide window"
-msgstr "Amaga la finestra"
+msgid "_Show window"
+msgstr "Mo_stra la finestra"
 
-#: src/tray.c:159
+#: src/tray.c:111
+msgid "_Quit"
+msgstr "_Surt"
+
+#: src/tray.c:161
 msgid "GNOME Mud"
 msgstr "GNOME Mud"
-
-#~ msgid "(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
-#~ msgstr "© 1998, 1999, 2000, 2001 2002, 2003 Robin Ericsson"
