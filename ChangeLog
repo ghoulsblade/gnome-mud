@@ -1,3 +1,10 @@
+Thu Oct 25 17:19:49 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* po/*.po: Updated
+
+	* src/map.c (get_direction_type): Changed gettext macro used to
+	fix segfault when not using synced translation.
+
 Thu Oct 25 15:04:56 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* ROADMAP: Added one entry, and changed another.

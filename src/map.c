@@ -1051,19 +1051,19 @@ static inline guint get_direction_type (char *text)
 {
     /* Can easily be optimised ... but why bother ? */
 
-         if (!strcasecmp(text, _("n")     )) return NORTH;
-    else if (!strcasecmp(text, _("ne")    )) return NORTHEAST;
-    else if (!strcasecmp(text, _("e")     )) return EAST;
-    else if (!strcasecmp(text, _("se")    )) return SOUTHEAST;
-    else if (!strcasecmp(text, _("s")     )) return SOUTH;
-    else if (!strcasecmp(text, _("sw")    )) return SOUTHWEST;
-    else if (!strcasecmp(text, _("w")     )) return WEST;
-    else if (!strcasecmp(text, _("nw")    )) return NORTHWEST;
-    else if (!strcasecmp(text, _("up")    )) return UP;
-    else if (!strcasecmp(text, _("down")  )) return DOWN;
-    else if (!strcasecmp(text, _("remove"))) return REMOVE;
-    else if (!strcasecmp(text, _("load")  )) return LOAD;
-    else if (!strcasecmp(text, _("save")  )) return SAVE;
+         if (!strcasecmp(text, _("N")     )) return NORTH;
+    else if (!strcasecmp(text, _("NE")    )) return NORTHEAST;
+    else if (!strcasecmp(text, _("E")     )) return EAST;
+    else if (!strcasecmp(text, _("SE")    )) return SOUTHEAST;
+    else if (!strcasecmp(text, _("S")     )) return SOUTH;
+    else if (!strcasecmp(text, _("SW")    )) return SOUTHWEST;
+    else if (!strcasecmp(text, _("W")     )) return WEST;
+    else if (!strcasecmp(text, _("NW")    )) return NORTHWEST;
+    else if (!strcasecmp(text, _("Up")    )) return UP;
+    else if (!strcasecmp(text, _("Down")  )) return DOWN;
+    else if (!strcasecmp(text, _("Remove"))) return REMOVE;
+    else if (!strcasecmp(text, _("Load")  )) return LOAD;
+    else if (!strcasecmp(text, _("Save")  )) return SAVE;
          g_error("get_direction_type: unknown direction string: %s\n", text);
 
     gtk_exit(1);

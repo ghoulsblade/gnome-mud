@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: amcl\n"
-"POT-Creation-Date: 2001-10-19 18:01+0200\n"
+"POT-Creation-Date: 2001-10-25 17:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Martin Quinson <mquinson@ens-lyon.fr>\n"
 "Language-Team: Debian French translators <debian-l10n-french@lists.debian."
@@ -49,12 +49,12 @@ msgstr "Alias"
 msgid "Replacement"
 msgstr "Remplacement"
 
-#: src/data.c:301 src/profiles.c:1140
+#: src/data.c:301 src/profiles.c:1146
 msgid "Triggers"
 msgstr "Déclencheurs"
 
 #. vars
-#: src/data.c:309 src/profiles.c:1132
+#: src/data.c:309 src/profiles.c:1138
 msgid "Variables"
 msgstr "Variables"
 
@@ -72,16 +72,16 @@ msgstr ""
 msgid "GNOME-Mud Configuration Center"
 msgstr ""
 
-#: src/data.c:374 src/keybind.c:409 src/wizard.c:577
+#: src/data.c:374 src/keybind.c:352 src/wizard.c:466
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/data.c:379 src/keybind.c:416 src/profiles.c:799 src/profiles.c:1106
-#: src/wizard.c:579
+#: src/data.c:379 src/keybind.c:359 src/profiles.c:805 src/profiles.c:1112
+#: src/wizard.c:468
 msgid "Delete"
 msgstr "Effacer"
 
-#: src/data.c:383 src/keybind.c:420 src/profiles.c:1176 src/wizard.c:606
+#: src/data.c:383 src/keybind.c:363 src/profiles.c:1182 src/wizard.c:495
 msgid "Close"
 msgstr "Fermer"
 
@@ -94,27 +94,27 @@ msgstr "Impossible d'allouer la couleur"
 msgid "GNOME-Mud Color Chooser"
 msgstr "Sélectionneur de couleurs AMCL"
 
-#: src/color.c:330 src/window.c:222
+#: src/color.c:331 src/window.c:222
 msgid "Ok"
 msgstr "Ok"
 
-#: src/color.c:331
+#: src/color.c:332
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/color.c:332 src/wizard.c:578
+#: src/color.c:333 src/wizard.c:467
 msgid "Apply"
 msgstr "Appliquer"
 
-#: src/color.c:333 src/map.c:2674 src/wizard.c:605
+#: src/color.c:334 src/map.c:1066 src/map.c:2674 src/wizard.c:494
 msgid "Save"
 msgstr "Sauver"
 
-#: src/color.c:334 src/profiles.c:622 src/profiles.c:988
+#: src/color.c:335 src/profiles.c:628 src/profiles.c:994
 msgid "Default"
 msgstr "Par défaut"
 
-#: src/color.c:420
+#: src/color.c:421
 #, c-format
 msgid "Can't load font... %s Using default.\n"
 msgstr ""
@@ -133,11 +133,11 @@ msgstr ""
 msgid "Connect..."
 msgstr "Connexion..."
 
-#: src/init.c:209 src/profiles.c:891
+#: src/init.c:209 src/profiles.c:897
 msgid "Host:"
 msgstr "Hôte :"
 
-#: src/init.c:216 src/profiles.c:911
+#: src/init.c:216 src/profiles.c:917
 msgid "Port:"
 msgstr "Port :"
 
@@ -281,91 +281,84 @@ msgstr ""
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribué sous les termes de la GNU General Public License.\n"
 
-#: src/keybind.c:199
+#: src/keybind.c:142
 msgid "Can't add an existing key."
 msgstr "Impossible d'ajouter une touche existante."
 
-#: src/keybind.c:219
+#: src/keybind.c:162
 msgid "Incomplete fields."
 msgstr "Champs incomplets."
 
-#: src/keybind.c:330
+#: src/keybind.c:273
 #, fuzzy
 msgid "GNOME-Mud Key Binding Center"
 msgstr "Centre des raccourcis claviers d'AMCL"
 
-#: src/keybind.c:355
+#: src/keybind.c:298
 msgid "Key"
 msgstr "Touche"
 
-#: src/keybind.c:359 src/keybind.c:372 src/keybind.c:390
+#: src/keybind.c:302 src/keybind.c:315 src/keybind.c:333
 msgid "Command"
 msgstr "Commande"
 
-#: src/keybind.c:368
+#: src/keybind.c:311
 msgid "Bind"
 msgstr "Lie"
 
-#: src/keybind.c:384 src/keybind.c:405
+#: src/keybind.c:327 src/keybind.c:348
 msgid "Capture"
 msgstr "Capture"
 
 #. Can easily be optimised ... but why bother ?
-#: src/map.c:1054
-msgid "n"
-msgstr ""
+#: src/map.c:1054 src/map.c:2678
+msgid "N"
+msgstr "N"
 
-#: src/map.c:1055
-msgid "ne"
-msgstr ""
+#: src/map.c:1055 src/map.c:2679
+msgid "NE"
+msgstr "NE"
 
-#: src/map.c:1056
-msgid "e"
-msgstr ""
+#: src/map.c:1056 src/map.c:2680
+msgid "E"
+msgstr "E"
 
-#: src/map.c:1057
-msgid "se"
-msgstr ""
+#: src/map.c:1057 src/map.c:2681
+msgid "SE"
+msgstr "SE"
 
-#: src/map.c:1058
-msgid "s"
-msgstr ""
+#: src/map.c:1058 src/map.c:2682
+msgid "S"
+msgstr "S"
 
-#: src/map.c:1059
-msgid "sw"
-msgstr ""
+#: src/map.c:1059 src/map.c:2683
+msgid "SW"
+msgstr "SO"
 
-#: src/map.c:1060
-msgid "w"
-msgstr ""
+#: src/map.c:1060 src/map.c:2684
+msgid "W"
+msgstr "O"
 
-#: src/map.c:1061
-msgid "nw"
-msgstr ""
+#: src/map.c:1061 src/map.c:2685
+msgid "NW"
+msgstr "NO"
 
-#: src/map.c:1062
-msgid "up"
-msgstr ""
+#: src/map.c:1062 src/map.c:2686
+msgid "Up"
+msgstr "Haut"
 
-#: src/map.c:1063
-#, fuzzy
-msgid "down"
+#: src/map.c:1063 src/map.c:2687
+msgid "Down"
 msgstr "Bas"
 
-#: src/map.c:1064
-#, fuzzy
-msgid "remove"
+#: src/map.c:1064 src/map.c:2675
+msgid "Remove"
 msgstr "Effacer"
 
-#: src/map.c:1065
-#, fuzzy
-msgid "load"
+#. Some buttons
+#: src/map.c:1065 src/map.c:2673
+msgid "Load"
 msgstr "Charger"
-
-#: src/map.c:1066
-#, fuzzy
-msgid "save"
-msgstr "Sauver"
 
 #. Set the title
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
@@ -374,56 +367,6 @@ msgstr "Sauver"
 #, fuzzy
 msgid "GNOME-Mud AutoMapper"
 msgstr "Cartographe automatique d'AMCL"
-
-#. Some buttons
-#: src/map.c:2673
-msgid "Load"
-msgstr "Charger"
-
-#: src/map.c:2675
-msgid "Remove"
-msgstr "Effacer"
-
-#. Create button directions
-#: src/map.c:2678
-msgid "N"
-msgstr "N"
-
-#: src/map.c:2679
-msgid "NE"
-msgstr "NE"
-
-#: src/map.c:2680
-msgid "E"
-msgstr "E"
-
-#: src/map.c:2681
-msgid "SE"
-msgstr "SE"
-
-#: src/map.c:2682
-msgid "S"
-msgstr "S"
-
-#: src/map.c:2683
-msgid "SW"
-msgstr "SO"
-
-#: src/map.c:2684
-msgid "W"
-msgstr "O"
-
-#: src/map.c:2685
-msgid "NW"
-msgstr "NO"
-
-#: src/map.c:2686
-msgid "Up"
-msgstr "Haut"
-
-#: src/map.c:2687
-msgid "Down"
-msgstr "Bas"
 
 #: src/modules.c:204
 msgid "Plugin Name:"
@@ -496,31 +439,21 @@ msgstr "*** Connexion à `%s', port %s\n"
 msgid "*** Connection established.\n"
 msgstr "*** Connexion établie.\n"
 
-#: src/prefs.c:59
+#: src/prefs.c:57
 #, c-format
 msgid "%s already exists and is not a directory!"
 msgstr "%s existe déjà, et ce n'est pas un répertoire !"
 
-#: src/prefs.c:69
+#: src/prefs.c:66
 #, c-format
 msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s n'existe pas, et ne peut PAS être crée: %s"
 
-#: src/prefs.c:81
-#, c-format
-msgid "%s can NOT be opened in write mode."
-msgstr "Impossible d'ouvrir %s en écriture."
-
-#: src/prefs.c:87
-#, c-format
-msgid "%s exists and can NOT be opened in read mode."
-msgstr "%s existe, et ne peut PAS être ouvert en lecture."
-
-#: src/prefs.c:259
+#: src/prefs.c:238
 msgid "Echo the text sent?"
 msgstr "Afficher le texte envoyé ?"
 
-#: src/prefs.c:264
+#: src/prefs.c:243
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
@@ -528,11 +461,11 @@ msgstr ""
 "Quand ce choix est coché, tout le texte que vous tapez sera affiché sur la "
 "connexion, de façon à ce que vous puissiez contrôler ce que vous envoyez."
 
-#: src/prefs.c:271
+#: src/prefs.c:250
 msgid "Keep the text entered?"
 msgstr "Garder le texte entré ?"
 
-#: src/prefs.c:276
+#: src/prefs.c:255
 #, fuzzy
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
@@ -543,23 +476,23 @@ msgstr ""
 "sera gardé dans la boîte de dialogue et sélectionné. Décochez le pour "
 "effacer le texte après son envoi."
 
-#: src/prefs.c:297
+#: src/prefs.c:276
 msgid ""
 "Use this button to open the font selector to choose what font you will use."
 msgstr ""
 "Utilisez ce bouton pour ouvrir le sélectionneur de police pour choisir celle "
 "que vous allez utiliser."
 
-#: src/prefs.c:302
+#: src/prefs.c:281
 msgid "Appearance"
 msgstr ""
 
-#: src/prefs.c:318
+#: src/prefs.c:297
 #, fuzzy
 msgid "Freeze/Thaw?"
 msgstr "Geler/Fondre"
 
-#: src/prefs.c:320
+#: src/prefs.c:299
 msgid ""
 "Using this, text will draw faster but it will not draw every character, only "
 "whole strings. This will probably make displays a lot faster if you are "
@@ -569,100 +502,100 @@ msgstr ""
 "sera pas affichée, seulement les phrases entières le seront. Cela accélérera "
 "sans doute beaucoup l'affichage si votre MUD utilise de nombreuses couleurs."
 
-#: src/prefs.c:336
+#: src/prefs.c:315
 #, fuzzy
 msgid "Command divide char:"
 msgstr "Caractère diviseur de commande"
 
-#: src/prefs.c:348
+#: src/prefs.c:327
 #, fuzzy
 msgid "Command history:"
 msgstr "Commande"
 
-#: src/prefs.c:361
+#: src/prefs.c:340
 msgid "Functionality"
 msgstr ""
 
-#: src/profiles.c:342
+#: src/profiles.c:343
 msgid "Name of new profile:"
 msgstr ""
 
-#: src/profiles.c:516
+#: src/profiles.c:520
 #, fuzzy
 msgid "GNOME-Mud: Profilelist"
 msgstr "Message Popup AMCL"
 
-#: src/profiles.c:816
+#: src/profiles.c:822
 #, fuzzy
 msgid "GNOME-Mud Connections"
 msgstr "Assistant de connexion AMCL"
 
-#: src/profiles.c:848
+#: src/profiles.c:854
 msgid "Mud"
 msgstr ""
 
-#: src/profiles.c:854
+#: src/profiles.c:860
 msgid "Character"
 msgstr ""
 
-#: src/profiles.c:867
+#: src/profiles.c:873
 #, fuzzy
 msgid " Mud Information "
 msgstr "Informations sur les greffons d'AMCL"
 
-#: src/profiles.c:883
+#: src/profiles.c:889
 msgid "Title:"
 msgstr ""
 
-#: src/profiles.c:927
+#: src/profiles.c:933
 msgid " Character Information "
 msgstr ""
 
-#: src/profiles.c:943
+#: src/profiles.c:949
 msgid "Character:"
 msgstr ""
 
-#: src/profiles.c:951
+#: src/profiles.c:957
 #, fuzzy
 msgid "Password:"
 msgstr ""
 "\n"
 "Mot de passe :"
 
-#: src/profiles.c:972
+#: src/profiles.c:978
 #, fuzzy
 msgid " Profile Information "
 msgstr "Informations sur les greffons d'AMCL"
 
-#: src/profiles.c:998
+#: src/profiles.c:1004
 #, fuzzy
 msgid "Select Profile"
 msgstr "Choisir une police"
 
-#: src/profiles.c:1034 src/wizard.c:604
+#: src/profiles.c:1040 src/wizard.c:493
 msgid "Connect"
 msgstr "Connecter"
 
-#: src/profiles.c:1073
+#: src/profiles.c:1079
 #, fuzzy
 msgid "Profiles"
 msgstr "Choisir une police"
 
-#: src/profiles.c:1083
+#: src/profiles.c:1089
 #, fuzzy
 msgid "GNOME-Mud Profiles"
 msgstr "Message Popup AMCL"
 
-#: src/profiles.c:1098
+#: src/profiles.c:1104
 msgid "New"
 msgstr ""
 
-#: src/profiles.c:1124
+#: src/profiles.c:1130
 #, fuzzy
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1158
+#: src/profiles.c:1164
 #, fuzzy
 msgid "Keybinds"
 msgstr "Touches..."
@@ -672,15 +605,15 @@ msgstr "Touches..."
 msgid "GNOME-Mud Popup Message"
 msgstr "Message Popup AMCL"
 
-#: src/wizard.c:313
+#: src/wizard.c:202
 msgid "No selection made"
 msgstr "Rien n'a été sélectionné"
 
-#: src/wizard.c:343 src/wizard.c:375
+#: src/wizard.c:232 src/wizard.c:264
 msgid "Your connection doesn't have a name."
 msgstr "Votre connexion n'a pas de nom"
 
-#: src/wizard.c:349
+#: src/wizard.c:238
 msgid ""
 "At the moment, everything but the name can be changed.\n"
 "If you need to change the name of the connection, you'll have to recreate it."
@@ -688,24 +621,24 @@ msgstr ""
 "Pour le moment, tout peut être changé sauf le nom.\n"
 "Si vous voulez changer le nom de la connexion, vous devez la recréer."
 
-#: src/wizard.c:381
+#: src/wizard.c:270
 msgid "Can't add an existing connection."
 msgstr "Impossible d'ajouter une connexion existante."
 
-#: src/wizard.c:441
+#: src/wizard.c:330
 msgid "Connections"
 msgstr "Connections"
 
-#: src/wizard.c:453
+#: src/wizard.c:342
 #, fuzzy
 msgid "GNOME-Mud Connection Wizard"
 msgstr "Assistant de connexion AMCL"
 
-#: src/wizard.c:498
+#: src/wizard.c:387
 msgid "Connection Name:"
 msgstr "Nom de la connexion :"
 
-#: src/wizard.c:506
+#: src/wizard.c:395
 #, fuzzy
 msgid ""
 "This is the name of the connection which will be displayed in the connection "
@@ -714,7 +647,7 @@ msgstr ""
 "Il s'agit du nom de la connexion tel qu'il sera affiché dans la liste des "
 "connexions."
 
-#: src/wizard.c:511
+#: src/wizard.c:400
 msgid ""
 "\n"
 "Host:"
@@ -722,13 +655,13 @@ msgstr ""
 "\n"
 "Hôte :"
 
-#: src/wizard.c:518
+#: src/wizard.c:407
 msgid "This is the host where the MUD you will connect to is located."
 msgstr ""
 "Il s'agit de l'hôte sur lequel se trouve le MUD auquel vous voulez vous "
 "connecter."
 
-#: src/wizard.c:523
+#: src/wizard.c:412
 msgid ""
 "\n"
 "Port:"
@@ -736,7 +669,7 @@ msgstr ""
 "\n"
 "Port:"
 
-#: src/wizard.c:530
+#: src/wizard.c:419
 msgid ""
 "This is the port on the host that the MUD is located on. The default port is "
 "23 (telnet)."
@@ -744,11 +677,11 @@ msgstr ""
 "Il s'agit du port de l'hôte sur lequel le MUD se trouve. Le port par défaut "
 "est 23 (telnet)."
 
-#: src/wizard.c:535
+#: src/wizard.c:424
 msgid "Auto Login?"
 msgstr "Connexion automatique ?"
 
-#: src/wizard.c:541
+#: src/wizard.c:430
 #, fuzzy
 msgid ""
 "Should GNOME-Mud login to this MUD automatically? Player Name and Password "
@@ -757,7 +690,7 @@ msgstr ""
 "AMCL doit-il se connecter automatiquement à ce MUD ? Le nom du joueur et le "
 "mot de passe doivent être établis pour que cela fonctionne"
 
-#: src/wizard.c:548
+#: src/wizard.c:437
 msgid ""
 "\n"
 "Player Name:"
@@ -765,13 +698,13 @@ msgstr ""
 "\n"
 "Nom de joueur :"
 
-#: src/wizard.c:555
+#: src/wizard.c:444
 msgid "This is the player you login to the MUD with. For use with AutoLogin."
 msgstr ""
 "Il s'agit du nom sous lequel vous voulez vous connecter. Pour la connexion "
 "automatique."
 
-#: src/wizard.c:560
+#: src/wizard.c:449
 msgid ""
 "\n"
 "Password:"
@@ -779,12 +712,34 @@ msgstr ""
 "\n"
 "Mot de passe :"
 
-#: src/wizard.c:568
+#: src/wizard.c:457
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr ""
 "Il s'agit du mot de passe de votre compte sur ce MUD. Pour la connexion "
 "automatique."
+
+#, fuzzy
+#~ msgid "down"
+#~ msgstr "Bas"
+
+#, fuzzy
+#~ msgid "remove"
+#~ msgstr "Effacer"
+
+#, fuzzy
+#~ msgid "load"
+#~ msgstr "Charger"
+
+#, fuzzy
+#~ msgid "save"
+#~ msgstr "Sauver"
+
+#~ msgid "%s can NOT be opened in write mode."
+#~ msgstr "Impossible d'ouvrir %s en écriture."
+
+#~ msgid "%s exists and can NOT be opened in read mode."
+#~ msgstr "%s existe, et ne peut PAS être ouvert en lecture."
 
 #, fuzzy
 #~ msgid "Connection Wizard2(tm)"
