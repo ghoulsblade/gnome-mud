@@ -365,7 +365,7 @@
 			<list_type>string</list_type>
 			<default>[n,nw,e,se,s,sw,w,nw,u,d,look]</default>
 			<locale name="C">
-				<short>Directionbindings</short>
+				<short>Directional keybindings</short>
 			</locale>
 		</schema>
 	</schemalist>
