@@ -89,10 +89,9 @@ struct system_data {
 	gchar     *LastLogDir;
 	gint       History;
 	GdkColor   Foreground;
-	GdkColor   BoldForeground;
 	GdkColor   Background;
 
-	GdkColor   Colors[16];
+	GdkColor   Colors[C_MAX];
 };
 
 struct wizard_data {
@@ -190,7 +189,6 @@ void  window_mudlist  ( GtkWidget *widget, gboolean wizard );
 
 /* prefs.c */
 void  load_prefs      ( void                               );
-void  save_prefs      ( void                               );
 void  window_prefs    ( GtkWidget *widget, gpointer data   );
 FILE *open_file       ( gchar *filename, gchar *mode       );
 

@@ -1,3 +1,28 @@
+Mon Mar 10 11:28:18 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* gnome-mud.schemas.in: Added key palette.
+
+	* src/gnome-mud.h [system_data]: Removed BoldForeground and
+	changed Colors vector from 16 to C_MAX.
+	(save_prefs): Removed prototype.
+
+	* src/init.c (create_connection_data): Added palette to
+	vte_terminal_set_colors().
+
+	* src/log.c (file_selection_cb_open): Removed call to save_prefs()
+	(window_menu_file_save_log_file_ok_cb): Same.
+
+	* src/prefs.c (prefs_load_color): Removed.
+	(prefs_save_color): Removed.
+	(prefs_color_changed): Removed check for boldforeground and
+	added palette to vte_terminal_set_colors()
+	(prefs_palette_changed): Added.
+	(load_prefs): Load palette.
+	(save_prefs): Removed.
+	(prefs_apply_cb): Removed.
+	(prefs_select_palette_cb): Added.
+	(prefs_set_color): Removed boldforeground stuff.
+
 Fri Mar  7 16:06:17 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* gnome-mud.schemas.in: Added keys terminal_type, mudlist_file,

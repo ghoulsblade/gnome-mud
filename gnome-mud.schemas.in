@@ -139,5 +139,21 @@
 			</locale>
 		</schema>
 
+		<schema>
+			<key>/schemas/apps/gnome-mud/palette</key>
+			<applyto>/apps/gnome-mud/palette</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>#000000:#AA0000:#00AA00:#AA5500:#0000AA:#AA00AA:#00AAAA:#AAAAAA:#555555:#FF5555:#55FF55:#FFFF55:#5555FF:#FF55FF:#55FFFF:#FFFFFF</default>
+			<locale name="C">
+				<short>Color palette</short>
+				<long>
+				 GNOME-Mud have a 16-color palette that connected
+				 muds can use. This is that palette, in the form
+				 of a color-separated list of color names. Color names
+				 should be in hex format e.g. "#FF00FF"
+				</long>
+			</locale>
+		</schema>
 	</schemalist>
 </gconfschemafile>

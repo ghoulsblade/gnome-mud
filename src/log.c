@@ -96,8 +96,8 @@ void file_selection_cb_open
 
   g_free(prefs.LastLogDir) ;
   prefs.LastLogDir = g_strdup(cd->log_filename) ;
-  save_prefs() ;
-
+// FIXME
+  
   cd->log = fopen(cd->log_filename, "a") ;
   if (!cd->log) {
     g_snprintf(buf, 255, _("*** Couldn't open %s.\n"), cd->log_filename) ;
@@ -194,8 +194,8 @@ static void window_menu_file_save_log_file_ok_cb
 
 	g_free(prefs.LastLogDir) ;
 	prefs.LastLogDir = g_strdup(filename);
-	save_prefs() ;
-
+// FIXME
+//
 	cd = connections[number];
 
 	if ((fp = fopen(filename, "w")) == NULL)

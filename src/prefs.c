@@ -87,44 +87,6 @@ static char *color_to_string(const GdkColor *c)
 	return s;
 }
 
-/*static void prefs_load_color(GdkColor *color, gchar *prefs, gchar *name, gchar *def)
-{
-	GdkColormap *cmap = gdk_colormap_get_system();
-
-	gchar *str  = g_strconcat("/gnome-mud/", prefs, "/", name, "=", def, NULL);
-	gchar *conf = gnome_config_get_string(str);
-	gint   red, green, blue;
-
-	if (sscanf(conf, "%d,%d,%d", &red, &green, &blue) == 3)
-	{
-		color->red   = red;
-		color->green = green;
-		color->blue  = blue;
-		
-		if (!gdk_colormap_alloc_color(cmap, color, TRUE, TRUE))
-		{
-			g_warning(_("Couldn't allocate colour"));
-		}
-	}
-	else
-	{
-		g_warning(_("Font %s Loading Error"), prefs);
-	}
-
-	g_free(str);
-}
-
-static void prefs_save_color(GdkColor *color, gchar *prefs, gchar *name)
-{
-	gchar key[1024];
-	gchar value[20];
-
-	g_snprintf(key, 1024, "/gnome-mud/%s/%s", prefs, name);
-	g_snprintf(value, 20, "%d,%d,%d", color->red, color->green, color->blue);
-
-	gnome_config_set_string(key, value);
-}*/
-
 void prefs_commdev_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	g_free(prefs.CommDev);
@@ -205,27 +167,46 @@ void prefs_color_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, 
 		{
 			prefs.Background = color;
 		}
-		else if (!g_strncasecmp(name, "boldforeground", sizeof("boldforeground")))
-		{
-			prefs.BoldForeground = color;
-		}
 
 		for (i = 0; i < MAX_CONNECTIONS; i++)
 		{
 			if (connections[i] != NULL)
 			{
-				vte_terminal_set_colors(VTE_TERMINAL(connections[i]->window), &prefs.Foreground, &prefs.Background, NULL, 0);
+				vte_terminal_set_colors(VTE_TERMINAL(connections[i]->window), &prefs.Foreground, &prefs.Background, prefs.Colors, C_MAX);
 			}
+		}
+	}
+}
+
+void prefs_palette_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	GdkColor *colors;
+	gint      n_colors, i;
+
+	gtk_color_selection_palette_from_string(gconf_value_get_string(gconf_entry_get_value(entry)), &colors, &n_colors);
+	if (n_colors < C_MAX)
+	{
+		g_printerr(_("Palette had %d entries instead of %d\n"), n_colors, C_MAX);
+	}
+	memcpy(prefs.Colors, colors, C_MAX * sizeof(GdkColor));
+	
+	for (i = 0; i < MAX_CONNECTIONS; i++)
+	{
+		if (connections[i] != NULL)
+		{
+			vte_terminal_set_colors(VTE_TERMINAL(connections[i]->window), &prefs.Foreground, &prefs.Background, prefs.Colors, C_MAX);
 		}
 	}
 }
 
 void load_prefs ( void )
 {
-	GdkColor color;
-	struct   stat file_stat;
-	gchar    dirname[256], buf[256];
-	gchar   *p;
+	GdkColor  color;
+	GdkColor *colors;
+	gint      n_colors;
+	struct    stat file_stat;
+	gchar     dirname[256], buf[256];
+	gchar    *p;
 	
 	/*
 	 * Check for ~/.gnome-mud
@@ -308,6 +289,19 @@ void load_prefs ( void )
 	}
 
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/background_color", prefs_color_changed, "background", NULL, NULL);
+
+	/* palette */
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/palette", NULL);
+
+	gtk_color_selection_palette_from_string(p, &colors, &n_colors);
+	if (n_colors < C_MAX)
+	{
+		g_printerr(_("Palette had %d entries instead of %d\n"), n_colors, C_MAX);
+	}
+	memcpy(prefs.Colors, colors, C_MAX * sizeof(GdkColor));
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/palette", prefs_palette_changed, NULL, NULL, NULL);
+	g_free(colors);
 	
 	/*
 	 * Get general parameters
@@ -318,20 +312,6 @@ void load_prefs ( void )
 
 	prefs.History     = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
 
-	*
-	 * Fore-/Background Colors
-	 *
-	prefs_load_color(&prefs.BoldForeground, "Preferences", "BoldForeground", "65535,65535,65535");
-	prefs_load_color(&prefs.Background,     "Preferences", "Background",     "0,0,0");
-
-	*
-	 * Other Colors
-	 *
-	for (i = 0; i < C_MAX; i++)
-	{
-		prefs_load_color(&prefs.Colors[i], "Preferences", c_structs[i].name, c_structs[i].def);
-	}
-	
 	*
 	 * Command history
 	 *
@@ -347,37 +327,6 @@ void load_prefs ( void )
 
 		EntryCurr = NULL;
 	}*/
-}
-
-void save_prefs ( void )
-{
-	/*extern CONNECTION_DATA *main_connection;
-	gint  i; 
-
-	gnome_config_set_bool  ("/gnome-mud/Preferences/EchoText",    prefs.EchoText);
-	gnome_config_set_bool  ("/gnome-mud/Preferences/KeepText",    prefs.KeepText);
-	gnome_config_set_bool  ("/gnome-mud/Preferences/AutoSave",    prefs.AutoSave);
-	gnome_config_set_bool  ("/gnome-mud/Preferences/DisableKeys", prefs.DisableKeys);
-	gnome_config_set_string("/gnome-mud/Preferences/CommDev",     prefs.CommDev);
-	gnome_config_set_string("/gnome-mud/Preferences/TerminalType", prefs.TerminalType);
-	gnome_config_set_string("/gnome-mud/Preferences/FontName",    prefs.FontName);
-	gnome_config_set_string("/gnome-mud/Preferences/MudListFile", prefs.MudListFile);
-	gnome_config_set_string("/gnome-mud/Preferences/LastLogDir",  prefs.LastLogDir);
-	gnome_config_set_int   ("/gnome-mud/Preferences/History",     prefs.History);
-
-	prefs_save_color(&prefs.Foreground,     "Preferences", "Foreground");
-	prefs_save_color(&prefs.BoldForeground, "Preferences", "BoldForeground");
-	prefs_save_color(&prefs.Background,     "Preferences", "Background");
-
-	for (i = 0; i < C_MAX; i++)
-	{
-		prefs_save_color(&prefs.Colors[i], "Preferences", c_structs[i].name);
-	}
-	
-	gnome_config_sync();
-
-	// FIXME, this should iterate all open connections
-	vte_terminal_set_font_from_string(VTE_TERMINAL(main_connection->window), prefs.FontName);*/
 }
 
 static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)
@@ -473,15 +422,20 @@ static void prefs_select_bg_color_cb(GnomeColorPicker *colorpicker, guint r, gui
 	}
 }
 
-
-/*static void prefs_apply_cb(GnomePropertyBox *propertybox, gint page, gpointer data)
+static void prefs_select_palette_cb(GnomeColorPicker *colorpicker, guint r, guint g, guint b, guint alpha, gpointer data)
 {
-  if (page == -1) {
-    prefs_copy(&prefs, &pre_prefs, TRUE);
-    
-    save_prefs();
-  }
-}*/
+	gint   i = GPOINTER_TO_INT(data);
+	gchar *s;
+	
+	prefs.Colors[i].red   = r;
+	prefs.Colors[i].green = g;
+	prefs.Colors[i].blue  = b;
+
+	s = gtk_color_selection_palette_to_string(prefs.Colors, C_MAX);
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/palette", s, NULL);
+
+
+}
 
 static void prefs_set_color(GtkWidget *color_picker, gint color)
 {
@@ -495,10 +449,8 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	GtkWidget *table_colorfont;
 	GtkWidget *label_palette;
 	GtkWidget *label_background;
-	GtkWidget *label_boldforeground;
 	GtkWidget *label_foreground;
 	GtkWidget *picker_foreground;
-	GtkWidget *picker_boldforeground;
 	GtkWidget *picker_background;
 	GtkWidget *picker_font;
 	GtkWidget *table2;
@@ -550,19 +502,6 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	gtk_table_attach (GTK_TABLE (table_colorfont), picker_background, 1, 2, 3, 4, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(picker_background), prefs.Background.red, prefs.Background.green, prefs.Background.blue, 0);
   
-	/* Bold foreground label and picker */
-
-	label_boldforeground = gtk_label_new (_("Bold foreground colour:"));
-	gtk_widget_show (label_boldforeground);
-	gtk_table_attach (GTK_TABLE (table_colorfont), label_boldforeground, 0, 1, 2, 3, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (label_boldforeground), 1, 0.5);
-	gtk_misc_set_padding (GTK_MISC (label_boldforeground), 8, 0);
-
-	picker_boldforeground = gnome_color_picker_new ();
-	gtk_widget_show (picker_boldforeground);
-	gtk_table_attach (GTK_TABLE (table_colorfont), picker_boldforeground, 1, 2, 2, 3, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER(picker_boldforeground), prefs.BoldForeground.red, prefs.BoldForeground.green, prefs.BoldForeground.blue, 0);
-
 	table2 = gtk_table_new (2, 8, FALSE);
 	gtk_widget_show (table2);
 	gtk_table_attach (GTK_TABLE (table_colorfont), table2, 1, 2, 4, 5, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
@@ -581,21 +520,15 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 			k = 1;
 		}
 
-		//gtk_signal_connect(GTK_OBJECT(picker),  "color-set",    GTK_SIGNAL_FUNC(prefs_select_color_cb), NULL);
+		gtk_signal_connect(GTK_OBJECT(picker),  "color-set", GTK_SIGNAL_FUNC(prefs_select_palette_cb), GINT_TO_POINTER(i));
 	}
 	
 	/*
 	 * Signals
 	 */
 	gtk_signal_connect(GTK_OBJECT(picker_font),       "font-set",   GTK_SIGNAL_FUNC(prefs_select_font_cb), (gpointer) prefs_window);
-
-	gtk_object_set_data(GTK_OBJECT(picker_foreground), "prefs_window", prefs_window);
-	gtk_object_set_data(GTK_OBJECT(picker_boldforeground), "prefs_window", prefs_window);
-	gtk_object_set_data(GTK_OBJECT(picker_background), "prefs_window", prefs_window);
-	
 	gtk_signal_connect(GTK_OBJECT(picker_foreground), "color-set",  GTK_SIGNAL_FUNC(prefs_select_fg_color_cb), NULL);
 	gtk_signal_connect(GTK_OBJECT(picker_background), "color-set",  GTK_SIGNAL_FUNC(prefs_select_bg_color_cb), NULL);
-	//gtk_signal_connect(GTK_OBJECT(picker_background), "color-set", GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Background);
 	
 	return table_colorfont;
 }
