@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-03 04:05+0100\n"
+"POT-Creation-Date: 2004-02-24 04:53+0100\n"
 "PO-Revision-Date: 2004-02-03 15:55+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: gnome-mud.desktop.in.h:1 src/init.c:265
+#: gnome-mud.desktop.in.h:1 src/init.c:270
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
@@ -123,26 +123,36 @@ msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
 "overridden by custom keybindings, or they can be disabled completely with "
 "this option."
-msgstr "Indien aangezet, zal GNOME-Mud een aantal standaard toetsbindingen aanbieden. Deze kunnen worden tenietgedaan door aangepaste toetsbindingen of ze kunnen volledig worden uitgezet met deze optie."
+msgstr ""
+"Indien aangezet, zal GNOME-Mud een aantal standaard toetsbindingen "
+"aanbieden. Deze kunnen worden tenietgedaan door aangepaste toetsbindingen of "
+"ze kunnen volledig worden uitgezet met deze optie."
 
 #: gnome-mud.schemas.in.h:18 src/prefs.c:782
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
-msgstr "Indien aangezet, zal alle ingetypte tekst worden geëchood in het console waardoor eenvoudiger te controleren is wat er wordt verzonden."
+msgstr ""
+"Indien aangezet, zal alle ingetypte tekst worden geëchood in het console "
+"waardoor eenvoudiger te controleren is wat er wordt verzonden."
 
 #: gnome-mud.schemas.in.h:19 src/prefs.c:793
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
 "after each text input."
-msgstr "Indien aangezet, wordt de tekst die naar de verbinding wordt verzonden, als een selectie in het invoerveld weergegeven. Anders zal de tekst in het invoerveld worden gewist na elke tekstinvoer."
+msgstr ""
+"Indien aangezet, wordt de tekst die naar de verbinding wordt verzonden, als "
+"een selectie in het invoerveld weergegeven. Anders zal de tekst in het "
+"invoerveld worden gewist na elke tekstinvoer."
 
 #: gnome-mud.schemas.in.h:20
 msgid ""
 "If enabled, whenever there's new output the terminal will be scrolled to the "
 "bottom."
-msgstr "Indien aangezet, zal het console bij elke nieuwe uitvoer, naar de onderkant schuiven."
+msgstr ""
+"Indien aangezet, zal het console bij elke nieuwe uitvoer, naar de onderkant "
+"schuiven."
 
 #: gnome-mud.schemas.in.h:21 src/profiles.c:1243
 msgid "Keybindings"
@@ -206,7 +216,9 @@ msgid ""
 "Number of scrollback lines to keep around. You can scroll back in the "
 "terminal by this number of lines; lines that don't fit in the scrollback are "
 "discarded."
-msgstr "Aantal gebufferde regels. U kunt dit aantal regels terugschuiven in het console; regels die niet meer in de buffer passen worden weggegooid."
+msgstr ""
+"Aantal gebufferde regels. U kunt dit aantal regels terugschuiven in het "
+"console; regels die niet meer in de buffer passen worden weggegooid."
 
 #: gnome-mud.schemas.in.h:33
 msgid "Tab location"
@@ -335,7 +347,7 @@ msgstr "Kon GConf niet initialiseren: %s"
 msgid "Do you really want to quit?"
 msgstr "Weet u zeker dat u wilt afsluiten?"
 
-#: src/init.c:143 src/init.c:668
+#: src/init.c:143 src/init.c:676
 msgid "Connect..."
 msgstr "Verbinden..."
 
@@ -351,146 +363,151 @@ msgstr "Poort:"
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Interne fout: niet zo'n verbinding.\n"
 
+#. GRUT modified this item
+#: src/init.c:256
+msgid "Artwork by:"
+msgstr "Kunstwerk van:"
+
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:261
+#: src/init.c:266
 msgid "translator_credits"
 msgstr ""
 "Tino Meinen <a.t.meinen@chello.nl>\n"
 "Vincent van Adrighem"
 
-#: src/init.c:267
+#: src/init.c:272
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Een Multi-User Dungeon (MUD) cliënt voor GNOME.\n"
 
-#: src/init.c:279
+#: src/init.c:284
 msgid "GNOME-Mud home page"
 msgstr "GNOME-Mud homepage"
 
-#: src/init.c:618 src/init.c:648
+#: src/init.c:626 src/init.c:656
 #, c-format
 msgid "There was an error displaying help: %s"
 msgstr "Er is een fout opgetreden bij de hulpweergave: %s"
 
-#: src/init.c:664
+#: src/init.c:672
 msgid "Wizard..."
 msgstr "Assistent..."
 
-#: src/init.c:664
+#: src/init.c:672
 msgid "Open the Connection Wizard"
 msgstr "De verbidingsassistent gebruiken"
 
-#: src/init.c:666
+#: src/init.c:674
 msgid "Profiles..."
 msgstr "Profielen..."
 
-#: src/init.c:666
+#: src/init.c:674
 msgid "Manage user profiles"
 msgstr "Gebruikersprofielen beheren"
 
-#: src/init.c:668
+#: src/init.c:676
 msgid "Connect to a mud"
 msgstr "Met een mud verbinden"
 
-#: src/init.c:670
+#: src/init.c:678
 msgid "Disconnect"
 msgstr "Verbinding verbreken"
 
-#: src/init.c:670
+#: src/init.c:678
 msgid "Disconnect from the mud"
 msgstr "Verbinding met de mud verbreken"
 
-#: src/init.c:672
+#: src/init.c:680
 msgid "Reconnect"
 msgstr "Opnieuw verbinden"
 
-#: src/init.c:672
+#: src/init.c:680
 msgid "Reconnect to the mud"
 msgstr "Opnieuw met de mud verbinden"
 
-#: src/init.c:674
+#: src/init.c:682
 msgid "Exit"
 msgstr "Afsluiten"
 
-#: src/init.c:674
+#: src/init.c:682
 msgid "Quit GNOME-Mud"
 msgstr "GNOME-Mud afsluiten"
 
-#: src/init.c:679
+#: src/init.c:687
 msgid "Connection _Wizard..."
 msgstr "_Verbindings-assistent..."
 
-#: src/init.c:680
+#: src/init.c:688
 msgid "_MudList Listing..."
 msgstr "_MudList opsomming..."
 
-#: src/init.c:682
+#: src/init.c:690
 msgid "C_onnect..."
 msgstr "Ver_binden..."
 
-#: src/init.c:683
+#: src/init.c:691
 msgid "_Disconnect"
 msgstr "Verbinding ver_breken"
 
-#: src/init.c:684
+#: src/init.c:692
 msgid "_Reconnect"
 msgstr "Opnieuw ve_rbinden"
 
-#: src/init.c:686
+#: src/init.c:694
 msgid "S_tart Logging..."
 msgstr "_Begin met loggen..."
 
-#: src/init.c:687
+#: src/init.c:695
 msgid "Sto_p Logging"
 msgstr "_Stoppen met loggen"
 
-#: src/init.c:688
+#: src/init.c:696
 msgid "_Save Buffer..."
 msgstr "Buffer op_slaan..."
 
-#: src/init.c:690
+#: src/init.c:698
 msgid "_Close Window"
 msgstr "Venster _sluiten"
 
-#: src/init.c:698
+#: src/init.c:706
 msgid "_Plugin Information..."
 msgstr "_Plugin-informatie..."
 
-#: src/init.c:704
+#: src/init.c:712
 msgid "Auto _Mapper..."
 msgstr "Auto_mapper..."
 
-#: src/init.c:707
+#: src/init.c:715
 msgid "P_lugins"
 msgstr "P_lugins"
 
-#: src/init.c:714
+#: src/init.c:722
 msgid "User Manual"
 msgstr "Gebruikshandleiding"
 
-#: src/init.c:715
+#: src/init.c:723
 msgid "Display the GNOME-Mud User Manual"
 msgstr "De GNOME-Mud gebruikshandleiding weergeven"
 
-#: src/init.c:719
+#: src/init.c:727
 msgid "Plugin API Manual"
 msgstr "Plugin API handleiding"
 
-#: src/init.c:720
+#: src/init.c:728
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "De GNOME-Mud Plugin API handleiding weergeven"
 
 #. Do we really need this now?
-#: src/init.c:776
+#: src/init.c:784
 msgid "Main"
 msgstr "Algemeen"
 
-#: src/init.c:812
+#: src/init.c:820
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versie %s (gecompileerd %s, %s)\n"
 
-#: src/init.c:814
+#: src/init.c:822
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Uitgegeven onder de voorwaarden van de GNU General Public Licence.\n"
 
@@ -899,6 +916,10 @@ msgstr "*** Probeer de %s poort %s...\n"
 msgid "*** Connection established.\n"
 msgstr "*** Verbinding gemaakt.\n"
 
+#: src/net.c:455
+msgid "Couldn't convert text input"
+msgstr ""
+
 #: src/prefs.c:253 src/prefs.c:411
 #, c-format
 msgid "Palette had %d entry instead of %d\n"
@@ -1079,7 +1100,9 @@ msgstr "S_chuiven bij uitvoer"
 msgid ""
 "If enabled, the terminal will scroll to the bottom if new output appears in "
 "the connection when the terminal was scrolled back."
-msgstr "Indien aangezet, zal de console naar de onderkant schuiven als er nieuwe uitvoer verschijnt wanneer het console is teruggeschoven."
+msgstr ""
+"Indien aangezet, zal de console naar de onderkant schuiven als er nieuwe "
+"uitvoer verschijnt wanneer het console is teruggeschoven."
 
 #: src/prefs.c:942
 msgid "AutoMapper"
@@ -1094,7 +1117,11 @@ msgid ""
 "If you use the automapper, you may want to specify here some unusual "
 "movement commands. When you use one of these, the automapper will create a "
 "path to an other map. Use a semicolon to separate the different commands."
-msgstr "Als u de automapper gebruikt, wilt u hier mogelijk enkele ongebruikelijke beweginsopdrachten specificeren. Indien u een van deze gebruikt zal de automapper een pad naar een andere map aanmaken. Gebruik een puntkomma om de verschillende opdrachten van elkaar te scheiden."
+msgstr ""
+"Als u de automapper gebruikt, wilt u hier mogelijk enkele ongebruikelijke "
+"beweginsopdrachten specificeren. Indien u een van deze gebruikt zal de "
+"automapper een pad naar een andere map aanmaken. Gebruik een puntkomma om de "
+"verschillende opdrachten van elkaar te scheiden."
 
 #: src/profiles.c:301
 msgid "New profile"
@@ -1226,3 +1253,4 @@ msgstr "A_fsluiten"
 #: src/tray.c:158
 msgid "GNOME Mud"
 msgstr "GNOME Mud"
+
