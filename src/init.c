@@ -324,6 +324,15 @@ static void text_entry_select_child_cb(GtkList *list, GtkWidget *widget, gpointe
   EntryCurr = g_list_nth(EntryHistory, gtk_list_child_position(list, widget));
 }
 
+static void text_entry_send_command (CONNECTION_DATA *cn, gchar *cmd, GtkEntry *txt)
+{
+       gchar buf[256] ;
+
+       g_snprintf(buf, 255, "%s\n", cmd) ;
+       connection_send(cn, buf) ;
+       gtk_signal_emit_stop_by_name (GTK_OBJECT(txt), "key_press_event");
+}
+
 static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gpointer data)
 {
 	KEYBIND_DATA	*scroll;
@@ -334,11 +343,81 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 	number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
 	cd = connections[number];
 
+	for (scroll = cd->profile->kd; scroll != NULL; scroll = scroll->next)
+	{
+		if ((scroll->state) == ((event->state) & 12) && (scroll->keyv) == (gdk_keyval_to_upper(event->keyval)))
+		{
+			text_entry_send_command(cd, scroll->data, text_entry);
+			return TRUE;
+		}		
+	}
+
 	if ( event->state & GDK_CONTROL_MASK ) { }
 	else
 	{
 		if (EntryCurr)
 		{
+			if (!prefs.DisableKeys)
+			{
+				switch ( event->keyval )
+				{
+					case GDK_KP_1:
+						text_entry_send_command(cd, "sw", text_entry);
+						return TRUE;
+						break;
+
+					case GDK_KP_2:
+						text_entry_send_command(cd, "s", text_entry);
+						return TRUE;
+						break;
+
+					case GDK_KP_3:
+						text_entry_send_command(cd, "se", text_entry);
+						return TRUE;
+						break;
+
+					case GDK_KP_4:
+						text_entry_send_command(cd, "w", text_entry);
+						return TRUE;
+						break;
+
+					case GDK_KP_5:
+						text_entry_send_command(cd, "look", text_entry);
+						return TRUE;
+						break;
+
+					case GDK_KP_6:
+						text_entry_send_command(cd, "e", text_entry);
+						return TRUE;
+						break;
+
+					case GDK_KP_7:
+						text_entry_send_command(cd, "nw", text_entry);
+						return TRUE;
+						break;
+
+					case GDK_KP_8:
+						text_entry_send_command(cd, "n", text_entry);
+						return TRUE;
+						break;
+
+					case GDK_KP_9:
+						text_entry_send_command(cd, "ne", text_entry);
+						return TRUE;
+						break;
+
+					case GDK_KP_Add:
+						text_entry_send_command(cd, "d", text_entry);
+						return TRUE;
+						break;
+
+					case GDK_KP_Subtract:
+						text_entry_send_command(cd, "u", text_entry);
+						return TRUE;
+						break;
+				}
+			}
+		
 			switch ( event->keyval )
 			{
 				case GDK_Page_Up:
@@ -398,17 +477,6 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 					break;
 			}
 		}
-	}
-
-	for (scroll = cd->profile->kd; scroll != NULL; scroll = scroll->next)
-	{
-		if ((scroll->state) == ((event->state) & 12) && (scroll->keyv) == (gdk_keyval_to_upper(event->keyval)))
-		{
-			connection_send(cd, scroll->data);
-			connection_send(cd, "\n");
-			gtk_signal_emit_stop_by_name(GTK_OBJECT(text_entry), "key_press_event");
-			return TRUE;
-		}		
 	}
 
 	return FALSE;
@@ -659,3 +727,5 @@ void init_window ()
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, buf, -1);
 #endif
 }
+
+

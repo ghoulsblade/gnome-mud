@@ -1,3 +1,18 @@
+Fri Feb  1 15:34:32 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+	
+	* Added patch from Vashti <vashti@jml.net> which adds support
+	for keypad keys for directions.
+
+	* CONTRIBUTERS: Added.
+	* src/gnome-mud.h (system_data): Added bool DisableKeys;
+	
+	* src/init.c (text_entry_send_command): Added.
+	(text_entry_key_press_cb): profilekeybinds can now override
+	system keybinds.
+
+	* src/prefs.c: Added prefs.DisableKeys to load/save, and to
+	prefs dialog.
+
 Fri Feb  1 14:08:27 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* NEWS: added some 0.9.0 notes.

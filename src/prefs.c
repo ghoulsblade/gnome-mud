@@ -140,6 +140,7 @@ void load_prefs ( void )
 	prefs.EchoText    = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
 	prefs.KeepText    = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
 	prefs.Freeze      = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
+	prefs.DisableKeys = gnome_config_get_bool  ("/gnome-mud/Preferences/DisableKeys=false");
 	prefs.CommDev     = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
 	prefs.FontName    = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
 	prefs.MudListFile = gnome_config_get_string("/gnome-mud/Preferences/MudListFile=");
@@ -189,6 +190,7 @@ void save_prefs ( void )
 	gnome_config_set_bool  ("/gnome-mud/Preferences/KeepText",    prefs.KeepText);
 	gnome_config_set_bool  ("/gnome-mud/Preferences/AutoSave",    prefs.AutoSave);
 	gnome_config_set_bool  ("/gnome-mud/Preferences/Freeze",      prefs.Freeze);
+	gnome_config_set_bool  ("/gnome-mud/Preferences/DisableKeys", prefs.DisableKeys);
 	gnome_config_set_string("/gnome-mud/Preferences/CommDev",     prefs.CommDev);
 	gnome_config_set_string("/gnome-mud/Preferences/FontName",    prefs.FontName);
 	gnome_config_set_string("/gnome-mud/Preferences/MudListFile", prefs.MudListFile);
@@ -219,6 +221,7 @@ static void copy_preferences(SYSTEM_DATA *target, SYSTEM_DATA *prefs, gboolean a
 	target->EchoText    = prefs->EchoText;
 	target->KeepText    = prefs->KeepText;
 	target->AutoSave    = prefs->AutoSave;
+	target->DisableKeys = prefs->DisableKeys;
 	target->Freeze      = prefs->Freeze;                g_free(target->FontName);
 	target->FontName    = g_strdup(prefs->FontName);    g_free(target->CommDev);
 	target->CommDev     = g_strdup(prefs->CommDev);     g_free(target->MudListFile);
@@ -265,6 +268,20 @@ static void prefs_checkbutton_freeze_cb (GtkWidget *widget, GnomePropertyBox *bo
     pre_prefs.Freeze = FALSE;
   
   gnome_property_box_changed(box);
+}
+
+static void prefs_checkbutton_disablekeys_cb(GtkWidget *widget, GnomePropertyBox *box)
+{
+	if (GTK_TOGGLE_BUTTON(widget)->active)
+	{
+		pre_prefs.DisableKeys = TRUE;
+	}
+	else
+	{
+		pre_prefs.DisableKeys = FALSE;
+	}
+
+	gnome_property_box_changed(box);
 }
 
 static void prefs_entry_history_cb(GtkWidget *widget, GnomePropertyBox *box)
@@ -381,7 +398,7 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	gtk_table_attach (GTK_TABLE (table_colorfont), picker_font, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gnome_font_picker_set_preview_text (GNOME_FONT_PICKER (picker_font), _("The quick brown fox jumps over the lazy dog"));
 	gnome_font_picker_set_mode (GNOME_FONT_PICKER (picker_font), GNOME_FONT_PICKER_MODE_FONT_INFO);
-	gnome_font_picker_fi_set_use_font_in_label (GNOME_FONT_PICKER (picker_font), TRUE, 14);
+	gnome_font_picker_fi_set_use_font_in_label (GNOME_FONT_PICKER (picker_font), TRUE, 0);
 	if (!g_strcasecmp(prefs.FontName, "fixed"))
 	{
 		gnome_font_picker_set_font_name(GNOME_FONT_PICKER(picker_font), "-misc-fixed-medium-r-semicondensed-*-*-120-*-*-c-*-iso8859-1");
@@ -462,7 +479,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
   
   GtkWidget *vbox2;
   GtkWidget *hbox1;
-  GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton_freeze;
+  GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton_freeze, *checkbutton;
   GtkWidget *label1, *label2;
   GtkWidget *entry_divider, *entry_history, *entry_mudlistfile;
   gchar      history[10];
@@ -528,6 +545,18 @@ void window_prefs (GtkWidget *widget, gpointer data)
   gtk_widget_show(checkbutton_freeze);
   gtk_signal_connect(GTK_OBJECT(checkbutton_freeze), "toggled",
 		     prefs_checkbutton_freeze_cb, (gpointer) prefs_window);
+
+  checkbutton = gtk_check_button_new_with_label(_("Disable Systemkeys?"));
+  gtk_tooltips_set_tip(tooltip, checkbutton,
+		  _("GNOME-Mud ships with a few built-in keybinds. "
+			"These keybinds can be overridden by own keybinds, "
+			"or they can be disabled by toggling this checkbox"),
+		  NULL);
+  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(checkbutton), prefs.DisableKeys);
+  gtk_box_pack_start(GTK_BOX(vbox2), checkbutton, FALSE, FALSE, 0);
+  GTK_WIDGET_UNSET_FLAGS(checkbutton, GTK_CAN_FOCUS);
+  gtk_widget_show(checkbutton);
+  gtk_signal_connect(GTK_OBJECT(checkbutton), "toggled", prefs_checkbutton_disablekeys_cb, (gpointer) prefs_window);
 
   hbox1 = gtk_hbox_new (FALSE, 0);
   gtk_widget_show (hbox1);

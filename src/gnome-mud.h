@@ -82,6 +82,7 @@ struct system_data {
 	bool       KeepText;
 	bool       AutoSave;
 	bool       Freeze;
+	bool       DisableKeys;
 	gchar     *FontName;
 	gchar     *CommDev;
 	gchar     *MudListFile;
