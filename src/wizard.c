@@ -19,6 +19,7 @@
 #include "config.h"
 
 #include <gtk/gtk.h>
+#include <libintl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
@@ -27,6 +28,7 @@
 
 #include "amcl.h"
 
+#define _(string) gettext(string)
 static char const rcsid[] =
     "$Id$";
 
@@ -312,7 +314,7 @@ void wizard_button_delete (GtkWidget *button, gpointer data)
     
     if ( wizard_selected_row < 0 )
     {
-        popup_window ("No selection made");
+        popup_window (_("No selection made"));
         return;
     }
     
@@ -342,15 +344,15 @@ void wizard_button_modify (GtkWidget *button, gpointer data)
 
     if ( texta[0] == NULL || texta[0][0] == '\0' )
     {
-        popup_window ( "Your connection doesn't have a name." );
+        popup_window (_("Your connection doesn't have a name."));
         return;
     }
 
     if ( (  w = wizard_get_wizard_data (texta[0]) ) == NULL )
     {
-        popup_window ( "As for the moment, everything but the name can be "
-                       "changed.\n\nIf you need to change the name of the "
-                       "connection, you have to use delete.");
+        popup_window (_("As for the moment, everything but the name can be "
+			"changed.\n\nIf you need to change the name of the "
+			"connection, you have to use delete."));
         return;
     }
 
@@ -374,13 +376,13 @@ void wizard_button_add (GtkWidget *button, gpointer data)
 
     if ( texta[0] == NULL || texta[0][0] == '\0' )
     {
-        popup_window ( "Your connection doesn't have a name." );
+        popup_window (_("Your connection doesn't have a name."));
         return;
     }
 
     if ( wizard_get_wizard_data (texta[0]) )
     {
-        popup_window ("Can't add an existing connection.");
+        popup_window (_("Can't add an existing connection."));
         return;
     }
 
@@ -440,7 +442,7 @@ void window_wizard (GtkWidget *widget, gpointer data)
     GtkWidget *separator;
     GtkTooltips *tooltip;
 
-    gchar *titles[1] = { "Connections" };
+    gchar *titles[1] = { _("Connections") };
     
     tooltip = gtk_tooltips_new ();
     gtk_tooltips_set_colors (tooltip, &color_yellow, &color_black);
@@ -448,7 +450,7 @@ void window_wizard (GtkWidget *widget, gpointer data)
     gtk_widget_set_sensitive (menu_main_wizard, FALSE);
     
     wizard_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (wizard_window), "Amcl Connection Wizard");
+    gtk_window_set_title (GTK_WINDOW (wizard_window), _("Amcl Connection Wizard"));
     gtk_signal_connect_object (GTK_OBJECT (wizard_window), "destroy",
                                GTK_SIGNAL_FUNC(wizard_close_window), NULL );
     gtk_widget_set_usize (wizard_window,450,380);
@@ -491,68 +493,70 @@ void window_wizard (GtkWidget *widget, gpointer data)
     gtk_container_add (GTK_CONTAINER (hbox), vbox);
     gtk_widget_show (vbox);
 
-    label = gtk_label_new ("Connection Name:");
+    label = gtk_label_new (_("Connection Name:"));
     gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
     gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
     gtk_widget_show (label);
 
     wizard_entry_name = gtk_entry_new ();
     gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_name, FALSE, FALSE, 0);
-    gtk_tooltips_set_tip (tooltip, wizard_entry_name, "This is what you will "
-                          "call the connection, and will also be used in when "
-                          "you chose a connection in the list to the left",
-                          NULL);
+    gtk_tooltips_set_tip (tooltip, wizard_entry_name,
+			_("This is what you will call the connection, and "
+			  "will also be used in when you choose a "
+			  "connection in the list on the left."),
+			  NULL);
     gtk_widget_show (wizard_entry_name);
 
-    label = gtk_label_new ("\nHost:");
+    label = gtk_label_new (_("\nHost:"));
     gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
     gtk_widget_show (label);
 
     wizard_entry_host = gtk_entry_new ();
     gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_host, FALSE, FALSE, 0);
-    gtk_tooltips_set_tip (tooltip, wizard_entry_host, "This is the host of "
-                          "where the mud you will connect to is located.",
-                          NULL);
+    gtk_tooltips_set_tip (tooltip, wizard_entry_host,
+			_("This is the host where the mud you will connect "
+			  "to is located."),
+			  NULL);
     gtk_widget_show (wizard_entry_host);
 
-    label = gtk_label_new ("\nPort:");
+    label = gtk_label_new (_("\nPort:"));
     gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
     gtk_widget_show (label);
 
     wizard_entry_port = gtk_entry_new ();
     gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_port, FALSE, FALSE, 0);
-    gtk_tooltips_set_tip (tooltip, wizard_entry_port, "This is the port of "
-                          "the host that the mud is located on.\n"
-                          "Default set to: 23",
-                          NULL);
+    gtk_tooltips_set_tip (tooltip, wizard_entry_port,
+			_("This is the port of the host that the mud is "
+			  "located on. The default port is 23 (telnet)."),
+			  NULL);
     gtk_widget_show (wizard_entry_port);
 
-    wizard_check_autologin = gtk_check_button_new_with_label ("Auto Login?");
+    wizard_check_autologin = gtk_check_button_new_with_label (_("Auto Login?"));
     gtk_signal_connect (GTK_OBJECT (wizard_check_autologin), "toggled",
                         GTK_SIGNAL_FUNC (wizard_check_callback),
                         wizard_check_autologin);
     gtk_box_pack_start (GTK_BOX (vbox), wizard_check_autologin, FALSE, FALSE, 0);
     gtk_tooltips_set_tip (tooltip, wizard_check_autologin,
-                          "Should AMCL login to this mud automatically?\n"
-                          "For this to work, Player Name and Password must "
-                          "be set.",
-                          NULL);
+			_("Should AMCL login to this mud automatically? "
+			  "For this to work, Player Name and Password must "
+			  "be set."),
+			  NULL);
     GTK_WIDGET_UNSET_FLAGS (wizard_check_autologin, GTK_CAN_FOCUS);
     gtk_widget_show (wizard_check_autologin);
     
-    label = gtk_label_new ("\nPlayer Name:");
+    label = gtk_label_new (_("\nPlayer Name:"));
     gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
     gtk_widget_show (label);
 
     wizard_entry_player = gtk_entry_new ();
     gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_player, FALSE, FALSE, 0);
     gtk_tooltips_set_tip (tooltip, wizard_entry_player,
-                          "This is the player you login to the mud with, this "
-                          "only works if AutoLogin is set.",
-                          NULL);
+			_("This is the player you login to the mud with, this "
+			  "only works if AutoLogin is set."),
+			  NULL);
     gtk_widget_show (wizard_entry_player);
 
-    label = gtk_label_new ("\nPassword:");
+    label = gtk_label_new (_("\nPassword:"));
     gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
     gtk_widget_show (label);
 
@@ -560,17 +564,17 @@ void window_wizard (GtkWidget *widget, gpointer data)
     gtk_entry_set_visibility (GTK_ENTRY (wizard_entry_password), FALSE);
     gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_password, FALSE, FALSE, 0);
     gtk_tooltips_set_tip (tooltip, wizard_entry_password,
-                          "Use this together with PlayerName and AutoLogin.",
-                          NULL);
+			_("Use this together with PlayerName and AutoLogin."),
+			  NULL);
     gtk_widget_show (wizard_entry_password);
 
     hbox2 = gtk_hbox_new (FALSE, 5);
     gtk_container_add (GTK_CONTAINER (vbox_base), hbox2);
     gtk_widget_show (hbox2);
 
-    button_add     = gtk_button_new_with_label ("  add   ");
-    button_update  = gtk_button_new_with_label ("  apply ");
-    button_delete  = gtk_button_new_with_label (" delete ");
+    button_add     = gtk_button_new_with_label (_("add"));
+    button_update  = gtk_button_new_with_label (_("apply"));
+    button_delete  = gtk_button_new_with_label (_("delete"));
     gtk_signal_connect (GTK_OBJECT (button_add), "clicked",
                                GTK_SIGNAL_FUNC (wizard_button_add),
                                (gpointer) clist);
@@ -595,9 +599,9 @@ void window_wizard (GtkWidget *widget, gpointer data)
     gtk_container_add (GTK_CONTAINER (vbox_base), hbox3);
     gtk_widget_show (hbox3);
 
-    button_connect = gtk_button_new_with_label (" connect ");
-    button_save    = gtk_button_new_with_label ("  save   ");
-    button_close   = gtk_button_new_with_label ("  close  ");
+    button_connect = gtk_button_new_with_label (_("connect"));
+    button_save    = gtk_button_new_with_label (_("save"));
+    button_close   = gtk_button_new_with_label (_("close"));
     gtk_signal_connect (GTK_OBJECT (button_connect), "clicked",
                         GTK_SIGNAL_FUNC (wizard_button_connect),
                         (gpointer) clist);

@@ -20,6 +20,9 @@ Jörgen Kosche                            - a couple of focus-problem patches and
                                            alot of bugtesting and emails ;)
 Jeroen Ruigrok <asmodai@wxs.nl>          - various code cleanups and fixes
 Jorge Garcia <Jorge.Garcia@uv.es>        - various code cleanups and fixes
+Jordi Mallach <jordi@debian.org>	 - official Debian package,
+					   internationalization support,
+					   es.po maintainer.
 
 ANSI code
 ---------

@@ -21,6 +21,7 @@
 #endif
 
 #include <gtk/gtk.h>
+#include <libintl.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -30,6 +31,8 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "amcl.h"
+
+#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -205,7 +208,7 @@ for(; i<bind_list_row_counter ; i++)
      gtk_clist_get_text(clist, i, 0, &text);
      if (strcmp(list[0],text) == 0)
          {
-          popup_window("Can't add an existing key.");
+          popup_window(_("Can't add an existing key."));
 	  return;
 	 }
     }
@@ -226,7 +229,7 @@ if (list[0][0] && list[1][0])
      
     }
     else
-	popup_window ("Incomplete fields.");
+	popup_window (_("Incomplete fields."));
 }
 
 
@@ -341,7 +344,7 @@ void window_keybind ()
   window_keybind = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_usize (window_keybind, 450, 320);
   gtk_container_set_border_width (GTK_CONTAINER (window_keybind), 5);
-  gtk_window_set_title (GTK_WINDOW (window_keybind), "Amcl Key Binding Center");
+  gtk_window_set_title (GTK_WINDOW (window_keybind), _("Amcl Key Binding Center"));
   gtk_window_set_position (GTK_WINDOW (window_keybind), GTK_WIN_POS_CENTER);
 
   vbox = gtk_vbox_new (FALSE, 0);
@@ -366,11 +369,11 @@ void window_keybind ()
   gtk_clist_set_column_width (GTK_CLIST (clist), 1, 80);
   gtk_clist_column_titles_show (GTK_CLIST (clist));
 
-  label1 = gtk_label_new ("Key");
+  label1 = gtk_label_new (_("Key"));
   gtk_widget_show (label1);
   gtk_clist_set_column_widget (GTK_CLIST (clist), 0, label1);
 
-  label2 = gtk_label_new ("Command");
+  label2 = gtk_label_new (_("Command"));
   gtk_widget_show (label2);
   gtk_clist_set_column_widget (GTK_CLIST (clist), 1, label2);
 
@@ -379,11 +382,11 @@ void window_keybind ()
   gtk_widget_show (hbox2);
   gtk_box_pack_start (GTK_BOX (vbox), hbox2, FALSE, TRUE, 0);
 
-  label3 = gtk_label_new ("Bind");
+  label3 = gtk_label_new (_("Bind"));
   gtk_widget_show (label3);
   gtk_box_pack_start (GTK_BOX (hbox2), label3, FALSE, TRUE, 0);
 
-  label4 = gtk_label_new ("Command");
+  label4 = gtk_label_new (_("Command"));
   gtk_widget_show (label4);
   gtk_box_pack_start (GTK_BOX (hbox2), label4, FALSE, TRUE, 0);
 
@@ -395,13 +398,13 @@ void window_keybind ()
   gtk_widget_show (capt_entry);
   gtk_box_pack_start (GTK_BOX (hbox), capt_entry, FALSE, TRUE, 5);
   GTK_WIDGET_UNSET_FLAGS (capt_entry, GTK_CAN_FOCUS);
-  gtk_tooltips_set_tip (tooltips, capt_entry, "Capture", NULL);
+  gtk_tooltips_set_tip (tooltips, capt_entry, _("Capture"), NULL);
   gtk_entry_set_editable (GTK_ENTRY (capt_entry), FALSE);
 
   comm_entry = gtk_entry_new ();
   gtk_widget_show (comm_entry);
   gtk_box_pack_start (GTK_BOX (hbox), comm_entry, TRUE, TRUE, 5);
-  gtk_tooltips_set_tip (tooltips, comm_entry, "Command", NULL);
+  gtk_tooltips_set_tip (tooltips, comm_entry, _("Command"), NULL);
 
   hseparator = gtk_hseparator_new ();
   gtk_widget_show (hseparator);
@@ -416,26 +419,26 @@ void window_keybind ()
   gtk_button_box_set_child_size (GTK_BUTTON_BOX (hbuttonbox), 85, 0);
   gtk_button_box_set_child_ipadding (GTK_BUTTON_BOX (hbuttonbox), 0, 0);
 
-  KB_button_capt = gtk_button_new_with_label ("Capture");
+  KB_button_capt = gtk_button_new_with_label (_("Capture"));
   gtk_widget_show (KB_button_capt);
   gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_capt);
 
-  KB_button_add = gtk_button_new_with_label ("Add");
+  KB_button_add = gtk_button_new_with_label (_("Add"));
   gtk_widget_ref (KB_button_add);
   gtk_object_set_data_full (GTK_OBJECT (window_keybind), "KB_button_add", KB_button_add,
                             (GtkDestroyNotify) gtk_widget_unref);
   gtk_widget_show (KB_button_add);
   gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_add);
 
-  KB_button_delete = gtk_button_new_with_label ("Delete");
+  KB_button_delete = gtk_button_new_with_label (_("Delete"));
   gtk_widget_show (KB_button_delete);
   gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_delete);
 
-  KB_button_save = gtk_button_new_with_label ("Save");
+  KB_button_save = gtk_button_new_with_label (_("Save"));
   gtk_widget_show (KB_button_save);
   gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_save);
 
-  KB_button_close = gtk_button_new_with_label ("Close");
+  KB_button_close = gtk_button_new_with_label (_("Close"));
   gtk_widget_show (KB_button_close);
   gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_close);
 

@@ -25,6 +25,7 @@
 
 #include <db.h>
 #include <errno.h>
+#include <libintl.h>
 #include <netdb.h>
 #include <stdlib.h>
 #include <string.h>
@@ -53,6 +54,8 @@
 
 #include "amcl.h"
 #include "modules.h"
+
+#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -179,7 +182,7 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
     mudcompress_delete(connection->mccp);
     connection->mccp = mudcompress_new();
     gdk_input_remove (connection->data_ready);
-    textfield_add (connection->window, "*** Connection closed.\n", MESSAGE_NORMAL);
+    textfield_add (connection->window, _("*** Connection closed.\n"), MESSAGE_NORMAL);
     connection->connected = FALSE;
     gtk_widget_set_sensitive ((GtkWidget*)menu_main_disconnect, FALSE);    
 }
@@ -192,19 +195,19 @@ static void open_connection (CONNECTION_DATA *connection)
 
     if ( !(strcmp (connection->host, "\0")) )
     {
-        sprintf (buf, "*** Can't connect - you didn't specify a host\n");
+        sprintf (buf, _("*** Can't connect - you didn't specify a host\n"));
         textfield_add (connection->window, buf, MESSAGE_ERR);
         return;
     }
 
     if ( !(strcmp(connection->port, "\0")) )
     {
-        sprintf (buf, "*** No port specified - assuming port 23\n");
+        sprintf (buf, _("*** No port specified - assuming port 23\n"));
         textfield_add (connection->window, buf, MESSAGE_NORMAL);
         port = "23\0";
     }
 
-    sprintf (buf, "*** Making connection to %s, port %s\n", connection->host, connection->port);
+    sprintf (buf, _("*** Making connection to %s, port %s\n"), connection->host, connection->port);
     textfield_add (connection->window, buf, MESSAGE_NORMAL);
 
     /* strerror(3) */
@@ -231,7 +234,7 @@ static void open_connection (CONNECTION_DATA *connection)
         return;
     }
 
-    textfield_add (connection->window, "*** Connection established.\n", MESSAGE_NORMAL);
+    textfield_add (connection->window, _("*** Connection established.\n"), MESSAGE_NORMAL);
 
     connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ,
 					   GTK_SIGNAL_FUNC(read_from_connection),

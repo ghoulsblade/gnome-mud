@@ -25,6 +25,7 @@
 
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
+#include <libintl.h>
 
 #include "amcl.h"
 
@@ -34,6 +35,8 @@
 #ifdef HAVE_ARPA_TELNET_H
 #include <arpa/telnet.h>
 #endif
+
+#define _(string) gettext(string)
 
 static char const rcsid[] =
 	"$Id$";
@@ -202,7 +205,7 @@ void popup_window (const gchar *message)
     gchar       buf[2048];
 
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (window), "Amcl Popup Message");
+    gtk_window_set_title (GTK_WINDOW (window), _("Amcl Popup Message"));
 
     box = gtk_vbox_new (FALSE, 5);
     gtk_container_border_width (GTK_CONTAINER (box), 5);
@@ -217,7 +220,7 @@ void popup_window (const gchar *message)
     gtk_box_pack_start (GTK_BOX (box), separator, TRUE, TRUE, 0);
     gtk_widget_show (separator);
     
-    button = gtk_button_new_with_label (" Ok ");
+    button = gtk_button_new_with_label (_(" Ok "));
     gtk_signal_connect (GTK_OBJECT (button), "clicked",
                         GTK_SIGNAL_FUNC (close_window), window);
     gtk_box_pack_start (GTK_BOX (box), button, TRUE, TRUE, 5);
@@ -274,7 +277,7 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
         break;
     case MESSAGE_ERR:
         gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_green,
-                         NULL, "AMCL Internal Error: ", 21);
+                         NULL, _("AMCL Internal Error: "), 21);
         gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_green,
                          NULL, message, strlen (message));
         break;

@@ -21,12 +21,15 @@
 
 #include <gtk/gtk.h>
 #include <ctype.h>
+#include <libintl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <pwd.h>
 
 #include "amcl.h"
+
+#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -188,31 +191,31 @@ static void alias_button_add_cb (GtkWidget *button, gpointer data)
 
     if ( text[0][0] == '\0' || text[1][0] == '\0' )
     {
-        popup_window ("Please complete the alias first.");
+        popup_window (_("Please complete the alias first."));
         return;
     }
     
     if (strstr(text[0], " "))
     {
-        popup_window ("I can't not make an alias of that.");
+        popup_window (_("I can't make an alias of that."));
         return;
     }
 
     if ( strlen (text[0]) > 15)
     {
-        popup_window ("Alias to big.");
+        popup_window (_("Alias to big."));
         return;
     }
     
     if ( strlen (text[1]) > 80)
     {
-        popup_window ("Replacement to big.");
+        popup_window (_("Replacement to big."));
         return;
     }
 
     if ( alias_get_alias_data (text[0], alias_list2) )
     {
-        popup_window ("Can't add an existing alias.");
+        popup_window (_("Can't add an existing alias."));
         return;
     }
 
@@ -233,7 +236,7 @@ static void alias_button_delete_cb (GtkWidget *button, gpointer data)
     
     if ( alias_selected_row == -1 )
     {
-        popup_window ("No selection made.");
+        popup_window (_("No selection made."));
         return;
     }
 
@@ -271,12 +274,12 @@ void window_alias (GtkWidget *widget, gpointer data)
     GtkWidget *alias_button_quit;
     GtkWidget *label;
     GtkWidget *separator;
-    gchar     *titles[2] = { "Alias", "Replacement" };
+    gchar     *titles[2] = { _("Alias"), _("Replacement") };
 
     gtk_widget_set_sensitive (menu_option_alias, FALSE);
 
     alias_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (alias_window), "Amcl Alias Center");
+    gtk_window_set_title (GTK_WINDOW (alias_window), _("Amcl Alias Center"));
     gtk_signal_connect_object (GTK_OBJECT (alias_window), "destroy",
                                GTK_SIGNAL_FUNC(alias_close_window), NULL );
     gtk_widget_set_usize (alias_window,450,320);
@@ -317,10 +320,10 @@ void window_alias (GtkWidget *widget, gpointer data)
     gtk_box_pack_start (GTK_BOX (vbox), hbox3, FALSE, FALSE, 0);
     gtk_widget_show (hbox3);
 
-    label = gtk_label_new ("Alias");
+    label = gtk_label_new (_("Alias"));
     gtk_box_pack_start (GTK_BOX (hbox3), label, FALSE, TRUE, 0);
     gtk_widget_show (label);
-    label = gtk_label_new ("Replacement");
+    label = gtk_label_new (_("Replacement"));
     gtk_box_pack_start (GTK_BOX (hbox3), label, FALSE, TRUE, 0);
     gtk_widget_show (label);
 
@@ -343,10 +346,10 @@ void window_alias (GtkWidget *widget, gpointer data)
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show (hbox);
 
-    alias_button_add    = gtk_button_new_with_label ("  add   ");
-    alias_button_quit   = gtk_button_new_with_label (" close  ");
-    alias_button_delete = gtk_button_new_with_label (" delete ");
-    alias_button_save   = gtk_button_new_with_label ("  save  ");
+    alias_button_add    = gtk_button_new_with_label (_("  add   "));
+    alias_button_quit   = gtk_button_new_with_label (_(" close  "));
+    alias_button_delete = gtk_button_new_with_label (_(" delete "));
+    alias_button_save   = gtk_button_new_with_label (_("  save  "));
     gtk_signal_connect (GTK_OBJECT (alias_button_add), "clicked",
                                GTK_SIGNAL_FUNC (alias_button_add_cb),
                                (gpointer) clist);

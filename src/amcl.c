@@ -18,12 +18,16 @@
 
 #include "config.h"
 
+#include <libintl.h>
+#include <locale.h>
 #include <pwd.h>
 #include <signal.h>
 
 #include <gtk/gtk.h>
 
 #include "amcl.h"
+
+#define LOCALEDIR "/usr/share/locale"
 
 static char const rcsid[] =
     "$Id$";
@@ -33,6 +37,10 @@ int main (gint argc, char *argv[])
 {
   char buf[500];
   struct sigaction act;
+
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
   
   memset(&act, 0, sizeof(act));
   
@@ -41,7 +49,7 @@ int main (gint argc, char *argv[])
   
   act.sa_handler = SIG_DFL;
   sigaction(SIGSEGV, &act, NULL);
-  
+
   load_aliases(); /* load aliases */
   load_actions(); /* load "on" actions */
   load_prefs  (); /* load preferences */

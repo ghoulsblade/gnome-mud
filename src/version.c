@@ -19,10 +19,13 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib.h>
+#include <libintl.h>
 #include <stdio.h>
 
 #include "amcl.h"
 #include "version.h"
+
+#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -30,7 +33,7 @@ static char const rcsid[] =
 
 char * get_version_info (char *buf)
 {
-    sprintf (buf, "Welcome to AMCL Version %s\nCompiled by %s on %s the %s at %s\nUsing %s and %s.\n\n",
+    sprintf (buf, _("Welcome to AMCL Version %s\nCompiled by %s on %s the %s at %s\nUsing %s and %s.\n\n"),
              PROG_VERSION,
              COMPILE_BY, COMPILE_HOST, COMPILE_DATE, COMPILE_TIME,
              CC_VERSION, GTK_VERSION);

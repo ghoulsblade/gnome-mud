@@ -21,6 +21,7 @@
 
 #include <gtk/gtk.h>
 #include <ctype.h>
+#include <libintl.h>
 #include <regex.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,6 +29,8 @@
 #include <pwd.h>
 
 #include "amcl.h"
+
+#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -225,25 +228,25 @@ void action_button_add_cb (GtkWidget *button, gpointer data)
 
     if ( text[0][0] == '\0' || text[1][0] == '\0' )
     {
-        popup_window ("Please complete the action first.");
+        popup_window (_("Please complete the action first."));
         return;
     }
 
     if ( strlen (text[0]) > 80)
     {
-        popup_window ("Trigger too big.");
+        popup_window (_("Trigger too big."));
         return;
     }
 
     if ( strlen (text[1]) > 80)
     {
-        popup_window ("Action too big.");
+        popup_window (_("Action too big."));
         return;
     }
 
     if ( action_get_action_data(text[0], action_list2) )
     {
-	popup_window ("Can't have two of the same trigger ... yet.");
+	popup_window (_("Can't have two of the same trigger ... yet."));
 	return;
     }
 
@@ -264,7 +267,7 @@ static void action_button_delete_cb (GtkWidget *button, gpointer data)
 
     if ( action_selected_row == -1 )
     {
-        popup_window ("No selection made.");
+        popup_window (_("No selection made."));
         return;
     }
 
@@ -302,12 +305,12 @@ void window_action (GtkWidget *widget, gpointer data)
     GtkWidget *action_button_quit;
     GtkWidget *label;
     GtkWidget *separator;
-    gchar     *titles[2] = { "Trigger", "Action" };
+    gchar     *titles[2] = { _("Trigger"), _("Action") };
 
     gtk_widget_set_sensitive (menu_option_action, FALSE);
 
     action_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (action_window), "Amcl Action Center");
+    gtk_window_set_title (GTK_WINDOW (action_window), _("Amcl Action Center"));
     gtk_signal_connect_object (GTK_OBJECT (action_window), "destroy",
                                GTK_SIGNAL_FUNC(action_close_window),
                                NULL);
@@ -349,10 +352,10 @@ void window_action (GtkWidget *widget, gpointer data)
     gtk_box_pack_start (GTK_BOX (vbox), hbox3, FALSE, FALSE, 0);
     gtk_widget_show (hbox3);
 
-    label = gtk_label_new ("Trigger");
+    label = gtk_label_new (_("Trigger"));
     gtk_box_pack_start (GTK_BOX (hbox3), label, FALSE, TRUE, 0);
     gtk_widget_show (label);
-    label = gtk_label_new ("Action");
+    label = gtk_label_new (_("Action"));
     gtk_box_pack_start (GTK_BOX (hbox3), label, FALSE, TRUE, 0);
     gtk_widget_show (label);
 
@@ -375,10 +378,10 @@ void window_action (GtkWidget *widget, gpointer data)
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show (hbox);
 
-    action_button_add    = gtk_button_new_with_label ("  add   ");
-    action_button_quit   = gtk_button_new_with_label (" close  ");
-    action_button_delete = gtk_button_new_with_label (" delete ");
-    action_button_save   = gtk_button_new_with_label ("  save  ");
+    action_button_add    = gtk_button_new_with_label (_("add"));
+    action_button_quit   = gtk_button_new_with_label (_("close"));
+    action_button_delete = gtk_button_new_with_label (_("delete"));
+    action_button_save   = gtk_button_new_with_label (_("save"));
     gtk_signal_connect (GTK_OBJECT (action_button_add), "clicked",
                                GTK_SIGNAL_FUNC (action_button_add_cb),
                                (gpointer) clist);

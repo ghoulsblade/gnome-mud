@@ -20,9 +20,12 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <glib.h>
+#include <libintl.h>
 #include <stdio.h>
 
 #include "amcl.h"
+
+#define _(string) gettext(string)
 
 static char const rcsid[] = 
 	"$Id$";
@@ -94,7 +97,7 @@ static void connect_window (GtkWidget *widget, gpointer data)
     GtkWidget *separator;
 
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (window),"Connect...");
+    gtk_window_set_title (GTK_WINDOW (window),_("Connect..."));
 
     vbox = gtk_vbox_new (FALSE, 5);
     gtk_container_border_width (GTK_CONTAINER (vbox), 5);
@@ -105,7 +108,7 @@ static void connect_window (GtkWidget *widget, gpointer data)
     gtk_container_add (GTK_CONTAINER (vbox), hbox);
     gtk_widget_show (hbox  );
 
-    label = gtk_label_new ("Host:");
+    label = gtk_label_new (_("Host:"));
     gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, FALSE, 5);
     gtk_widget_show (label);
 
@@ -117,7 +120,7 @@ static void connect_window (GtkWidget *widget, gpointer data)
     gtk_container_add (GTK_CONTAINER (vbox), hbox2);
     gtk_widget_show (hbox2);
 
-    label = gtk_label_new ("Port:");
+    label = gtk_label_new (_("Port:"));
     gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, FALSE, 5);
     gtk_widget_show (label);
 
@@ -133,8 +136,8 @@ static void connect_window (GtkWidget *widget, gpointer data)
     gtk_container_add (GTK_CONTAINER (vbox), hbox3);
     gtk_widget_show (hbox3);
     
-    button       = gtk_button_new_with_label (" connect ");
-    button_close = gtk_button_new_with_label ("  close  ");
+    button       = gtk_button_new_with_label (_("connect"));
+    button_close = gtk_button_new_with_label (_("close"));
     gtk_signal_connect (GTK_OBJECT (button), "clicked",
                         GTK_SIGNAL_FUNC (do_connection), NULL );
     gtk_signal_connect (GTK_OBJECT (button), "clicked",
@@ -164,25 +167,25 @@ static void about_window (GtkWidget *widget, gpointer data)
     GtkWidget *separator;
 
     a_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (a_window),"About");
+    gtk_window_set_title (GTK_WINDOW (a_window),_("About"));
 
     main_box = gtk_vbox_new (FALSE, 0);
     gtk_container_border_width (GTK_CONTAINER (main_box), 5);
     gtk_container_add (GTK_CONTAINER (a_window), main_box);
 
-    label = gtk_label_new ("AMCL version "VERSION"");
+    label = gtk_label_new (_("AMCL version "VERSION""));
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 5);
     gtk_widget_show (label);
 
-    label = gtk_label_new ("Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>");
+    label = gtk_label_new (_("Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"));
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 0);
     gtk_widget_show (label);
 
-    label = gtk_label_new ("   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    ");
+    label = gtk_label_new (_("   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "));
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 5);
     gtk_widget_show (label);
 
-    label = gtk_label_new ("Homepage: http://www.localhost.nu/apps/amcl/");
+    label = gtk_label_new (_("Homepage: http://www.localhost.nu/apps/amcl/"));
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 5);
     gtk_widget_show (label);
 
@@ -364,13 +367,13 @@ void init_window ()
     gtk_box_pack_start (GTK_BOX( box_main), menu_bar, FALSE, FALSE, 0);
 
     /* Main menu */
-    menu_main = gtk_menu_item_new_with_label ("Main");
+    menu_main = gtk_menu_item_new_with_label (_("Main"));
     gtk_menu_bar_append (GTK_MENU_BAR (menu_bar), menu_main);
 
     menu_main_menu = gtk_menu_new ();
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_main), menu_main_menu);
 
-    menu_main_wizard = gtk_menu_item_new_with_label ("Connection Wizard...");
+    menu_main_wizard = gtk_menu_item_new_with_label (_("Connection Wizard..."));
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_wizard);
     gtk_signal_connect_object (GTK_OBJECT (menu_main_wizard), "activate",
                                GTK_SIGNAL_FUNC (window_wizard), NULL);
@@ -379,12 +382,12 @@ void init_window ()
     gtk_menu_append (GTK_MENU (menu_main_menu), separator);
     gtk_widget_show (separator);
 
-    menu_main_connect = gtk_menu_item_new_with_label ("Connect...");
+    menu_main_connect = gtk_menu_item_new_with_label (_("Connect..."));
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_connect );
     gtk_signal_connect_object (GTK_OBJECT (menu_main_connect), "activate",
                                GTK_SIGNAL_FUNC (connect_window), NULL );
 
-    menu_main_disconnect = gtk_menu_item_new_with_label ("Disconnect");
+    menu_main_disconnect = gtk_menu_item_new_with_label (_("Disconnect"));
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_disconnect );
     gtk_signal_connect_object (GTK_OBJECT (menu_main_disconnect), "activate",
                                GTK_SIGNAL_FUNC (do_disconnect), NULL );
@@ -393,7 +396,7 @@ void init_window ()
     gtk_menu_append (GTK_MENU (menu_main_menu), separator);
     gtk_widget_show (separator);
 
-    menu_main_close = gtk_menu_item_new_with_label ("Close Window");
+    menu_main_close = gtk_menu_item_new_with_label (_("Close Window"));
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_close);
     gtk_signal_connect_object (GTK_OBJECT (menu_main_close), "activate",
 			       GTK_SIGNAL_FUNC (do_close), NULL);
@@ -402,30 +405,30 @@ void init_window ()
     gtk_menu_append (GTK_MENU (menu_main_menu), separator);
     gtk_widget_show (separator);
 
-    menu_main_quit = gtk_menu_item_new_with_label ("Quit");
+    menu_main_quit = gtk_menu_item_new_with_label (_("Quit"));
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_quit );
     gtk_signal_connect_object (GTK_OBJECT (menu_main_quit), "activate",
                                GTK_SIGNAL_FUNC (destroy), NULL );
 
     /* Options menu */
-    menu_option = gtk_menu_item_new_with_label ("Options");
+    menu_option = gtk_menu_item_new_with_label (_("Options"));
     gtk_menu_bar_append (GTK_MENU_BAR (menu_bar), menu_option);
 
     menu_option_menu = gtk_menu_new ();
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_option), menu_option_menu);
 
-    menu_option_alias = gtk_menu_item_new_with_label ("Alias...");
+    menu_option_alias = gtk_menu_item_new_with_label (_("Alias..."));
     gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_alias);
     gtk_signal_connect_object (GTK_OBJECT (menu_option_alias), "activate",
                                GTK_SIGNAL_FUNC (window_alias), NULL);
 
-    menu_option_prefs = gtk_menu_item_new_with_label ("Preferences...");
+    menu_option_prefs = gtk_menu_item_new_with_label (_("Preferences..."));
     gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_prefs);
     gtk_signal_connect_object (GTK_OBJECT (menu_option_prefs), "activate",
                                GTK_SIGNAL_FUNC (window_prefs), NULL);
 
 #ifndef WITHOUT_MAPPER
-    menu_option_mapper = gtk_menu_item_new_with_label ("Auto Mapper...");
+    menu_option_mapper = gtk_menu_item_new_with_label (_("Auto Mapper..."));
     gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_mapper);
     gtk_signal_connect (GTK_OBJECT (menu_option_mapper), "activate",
                         GTK_SIGNAL_FUNC (window_automap), NULL);
@@ -436,18 +439,18 @@ void init_window ()
     gtk_signal_connect (GTK_OBJECT (menu_option_colors), "activate",
                         GTK_SIGNAL_FUNC (window_color), NULL);
 
-    menu_option_action = gtk_menu_item_new_with_label ("Actions/Triggers...");
+    menu_option_action = gtk_menu_item_new_with_label (_("Actions/Triggers..."));
     gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_action);
     gtk_signal_connect (GTK_OBJECT (menu_option_action), "activate",
                         GTK_SIGNAL_FUNC (window_action), NULL);
 
-    menu_option_keys = gtk_menu_item_new_with_label ("Keys...");
+    menu_option_keys = gtk_menu_item_new_with_label (_("Keys..."));
     gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_keys);
     gtk_signal_connect (GTK_OBJECT (menu_option_keys), "activate",
                         GTK_SIGNAL_FUNC (window_keybind), NULL);
     
     /* Plugins menu */
-    menu_plugin = gtk_menu_item_new_with_label ("Plugins");
+    menu_plugin = gtk_menu_item_new_with_label (_("Plugins"));
     gtk_menu_bar_append (GTK_MENU_BAR (menu_bar), menu_plugin);
 
     menu_plugin_menu = gtk_menu_new ();
@@ -457,26 +460,26 @@ void init_window ()
     gtk_menu_append (GTK_MENU (menu_plugin_menu), separator);
     gtk_widget_show (separator);
 
-    menu_plugin_info = gtk_menu_item_new_with_label ("Plugin Information");
+    menu_plugin_info = gtk_menu_item_new_with_label (_("Plugin Information"));
     gtk_menu_append (GTK_MENU (menu_plugin_menu), menu_plugin_info);
     gtk_signal_connect (GTK_OBJECT (menu_plugin_info), "activate",
 			GTK_SIGNAL_FUNC (do_plugin_information), NULL);
 
     /* Help menu */
-    menu_help = gtk_menu_item_new_with_label ("Help");
+    menu_help = gtk_menu_item_new_with_label (_("Help"));
     gtk_menu_item_right_justify (GTK_MENU_ITEM (menu_help ));
     gtk_menu_bar_append (GTK_MENU_BAR (menu_bar), menu_help);
 
     menu_help_menu = gtk_menu_new ();
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_help), menu_help_menu);
 
-    menu_help_readme = gtk_menu_item_new_with_label ("Readme");
+    menu_help_readme = gtk_menu_item_new_with_label (_("Readme"));
     gtk_menu_append (GTK_MENU (menu_help_menu), menu_help_readme);
     gtk_signal_connect (GTK_OBJECT (menu_help_readme), "activate",
                         GTK_SIGNAL_FUNC (doc_dialog),
                         GINT_TO_POINTER (1));
 
-    menu_help_authors = gtk_menu_item_new_with_label ("Authors");
+    menu_help_authors = gtk_menu_item_new_with_label (_("Authors"));
     gtk_menu_append (GTK_MENU (menu_help_menu), menu_help_authors);
     gtk_signal_connect (GTK_OBJECT (menu_help_authors), "activate",
                         GTK_SIGNAL_FUNC (doc_dialog),
@@ -486,7 +489,7 @@ void init_window ()
     gtk_menu_append (GTK_MENU (menu_help_menu), separator);
     gtk_widget_show (separator);
     
-    menu_help_about = gtk_menu_item_new_with_label ("About...");
+    menu_help_about = gtk_menu_item_new_with_label (_("About..."));
     gtk_menu_append (GTK_MENU (menu_help_menu), menu_help_about );
     gtk_signal_connect_object (GTK_OBJECT (menu_help_about),"activate",
                                GTK_SIGNAL_FUNC (about_window), NULL);
@@ -540,7 +543,7 @@ void init_window ()
     gtk_widget_show (main_notebook);
 
     box_h_low = gtk_hbox_new (FALSE, 0);
-    label = gtk_label_new ("Main");
+    label = gtk_label_new (_("Main"));
     gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box_h_low, label);
 
     main_connection = g_malloc0( sizeof (CONNECTION_DATA));
@@ -609,7 +612,7 @@ void init_window ()
     get_version_info (buf);
     gtk_text_insert (GTK_TEXT (main_connection->window), NULL, 
                                &color_lightgrey, NULL, 
-    "Distributed under the terms of the GNU General Public License.\n", -1);
+    _("Distributed under the terms of the GNU General Public License.\n"), -1);
     gtk_text_insert (GTK_TEXT (main_connection->window), NULL, 
                                &color_lightgrey, NULL, buf, -1);
 }

@@ -29,6 +29,7 @@
 
 #include <gtk/gtk.h>
 #include <errno.h>
+#include <libintl.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -54,6 +55,8 @@
 
 #include "amcl.h"
 #include "modules.h"
+
+#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -173,7 +176,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_object_set_data (GTK_OBJECT (window1), "window1", window1);
   gtk_container_border_width (GTK_CONTAINER (window1), 7);
-  gtk_window_set_title (GTK_WINDOW (window1), "AMCL Plugin Information");
+  gtk_window_set_title (GTK_WINDOW (window1), _("AMCL Plugin Information"));
   gtk_window_set_policy (GTK_WINDOW (window1), TRUE, TRUE, FALSE);
   gtk_widget_set_usize (window1, 430, 275);
 
@@ -198,7 +201,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_widget_set_usize (vbox1, 150, -2);
   gtk_container_border_width (GTK_CONTAINER (vbox1), 7);
 
-  label1 = gtk_label_new ("Plugin Name:");
+  label1 = gtk_label_new (_("Plugin Name:"));
   gtk_object_set_data (GTK_OBJECT (window1), "label1", label1);
   gtk_widget_show (label1);
   gtk_box_pack_start (GTK_BOX (vbox1), label1, FALSE, TRUE, 0);
@@ -216,7 +219,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_widget_show (label6);
   gtk_box_pack_start (GTK_BOX (vbox1), label6, FALSE, TRUE, 0);
 
-  label3 = gtk_label_new ("Plugin Author:");
+  label3 = gtk_label_new (_("Plugin Author:"));
   gtk_object_set_data (GTK_OBJECT (window1), "label3", label3);
   gtk_widget_show (label3);
   gtk_box_pack_start (GTK_BOX (vbox1), label3, FALSE, TRUE, 0);
@@ -233,7 +236,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_widget_show (label7);
   gtk_box_pack_start (GTK_BOX (vbox1), label7, FALSE, TRUE, 0);
 
-  label4 = gtk_label_new ("Plugin Version:");
+  label4 = gtk_label_new (_("Plugin Version:"));
   gtk_object_set_data (GTK_OBJECT (window1), "label4", label4);
   gtk_widget_show (label4);
   gtk_box_pack_start (GTK_BOX (vbox1), label4, FALSE, TRUE, 0);
@@ -250,7 +253,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_widget_show (label8);
   gtk_box_pack_start (GTK_BOX (vbox1), label8, FALSE, TRUE, 0);
 
-  label5 = gtk_label_new ("Plugin Description:");
+  label5 = gtk_label_new (_("Plugin Description:"));
   gtk_object_set_data (GTK_OBJECT (window1), "label5", label5);
   gtk_widget_show (label5);
   gtk_box_pack_start (GTK_BOX (vbox1), label5, FALSE, TRUE, 0);
@@ -267,7 +270,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_widget_show (label9);
   gtk_box_pack_start (GTK_BOX (vbox1), label9, FALSE, TRUE, 0);
 
-  plugin_enable_check = gtk_check_button_new_with_label (" Is Plugin Enabled?");
+  plugin_enable_check = gtk_check_button_new_with_label (_(" Is Plugin Enabled?"));
   gtk_object_set_data (GTK_OBJECT (window1), "plugin_enable_check", plugin_enable_check);
   gtk_widget_show (plugin_enable_check);
   gtk_box_pack_start (GTK_BOX (vbox1), plugin_enable_check, FALSE, TRUE, 0);
@@ -354,12 +357,12 @@ PLUGIN_OBJECT *plugin_query (gchar *plugin_name, gchar *plugin_path)
     sprintf (filename, "%s%s", plugin_path, plugin_name);
     if ((new_plugin->handle = dlopen (filename, RTLD_LAZY)) == NULL)
     {
-        g_message ("Error getting plugin handle (%s): %s.", plugin_name, dlerror());
+        g_message (_("Error getting plugin handle (%s): %s."), plugin_name, dlerror());
         goto error;
     } else {
         if ((new_plugin->info = dlsym(new_plugin->handle,"amcl_plugin_info")) == NULL)
         {
-            g_message ("Error, %s not an AMCL module: %s.", plugin_name, dlerror());
+            g_message (_("Error, %s not an AMCL module: %s."), plugin_name, dlerror());
             goto error;
         }
         new_plugin->filename = g_strdup (filename);
@@ -378,7 +381,7 @@ void plugin_check_enable(PLUGIN_OBJECT *plugin)
 {
   gchar line[255];
   
-  g_message ("Checking whether plugin should be enabled by default...");
+  g_message (_("Checking whether plugin should be enabled by default..."));
   
   while ( fgets (line, 80, plugin_information) != NULL) {
     if (!strcmp(line, plugin->name)) {
@@ -391,8 +394,8 @@ void plugin_check_enable(PLUGIN_OBJECT *plugin)
 
 void plugin_register(PLUGIN_OBJECT *plugin)
 {
-    g_message ("Registering plugin `%s'.", plugin->name);
-    g_message ("Plug-in internal name is `%s'.", plugin->info->plugin_name);
+    g_message (_("Registering plugin `%s'."), plugin->name);
+    g_message (_("Plug-in internal name is `%s'."), plugin->info->plugin_name);
 
     plugin_check_enable(plugin);
 
@@ -400,7 +403,7 @@ void plugin_register(PLUGIN_OBJECT *plugin)
     
     if (plugin->info->init_function)
     {
-        g_message ("Running init-function...");
+        g_message (_("Running init-function..."));
         plugin->info->init_function(NULL, (gint) plugin->handle);
     }
 }

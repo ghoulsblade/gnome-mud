@@ -1,3 +1,22 @@
+Thu Jul 20 17:20 2000  Jordi Mallach  <jordi@debian.org>
+	* Added internationalization support.
+	  + Added gettext calls to all strings. Affects action.c, amcl.c,
+	    alias.c, color.c, init.c, keybind.c, map.c, modules.c,
+	    modules_api.c, net.c, prefs.c, version.c, window.c and wizard.c.
+	  + added libintl.h include in all the gettextized files.
+	  + src/amcl.c: added locale.h include and setlocale() and
+	    textdomain calls in main().
+	  + Added intl/ and po/ directories.
+	  + aclocal.m4: added needed macros by gettext.
+	  + acconfig.h: added NLS config options.
+	  + configure.in, Makefile.am, Makefile.in, src/Makefile.in: tweaked
+	    paths, added variables needed for po making and added ABOUT-NLS
+	    to the documentation.
+	* Corrected a selection of typos while browsing the code, specially
+	  in src/alias.c and src/wizard.c.
+	* Initial es.po. It's not complete, but only the automapper needs to
+	  be translated, the rest is finished.
+
 Mon Jul 17 16:04:20 2000  Robin Ericsson  <robin@noname4us.com>
 
 	* configure.in: added check for zlib, and if, enable MCCP.

@@ -19,12 +19,15 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <glib.h>
+#include <libintl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
 #include "amcl.h"
+
+#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -181,7 +184,7 @@ void load_color_to_c_structs (void)
     for (i = 0; i < C_MAX ; i++) {
       grab_color ( c_structs[i], text_color[i]);
       if (!gdk_color_alloc (cmap, c_structs[i]))
-	g_warning("Couldn't allocate color");
+	g_warning(_("Couldn't allocate color"));
     }
 }
 
@@ -290,7 +293,7 @@ void window_color (GtkWidget *a, gpointer d)
   
   gtk_widget_set_sensitive (menu_option_colors, FALSE);
   color_window = GTK_WIDGET (gtk_window_new (GTK_WINDOW_TOPLEVEL));
-  gtk_window_set_title (GTK_WINDOW (color_window), "Amcl Color Chooser");
+  gtk_window_set_title (GTK_WINDOW (color_window), _("Amcl Color Chooser"));
   gtk_signal_connect (GTK_OBJECT (color_window), "destroy",
 		      GTK_SIGNAL_FUNC (color_cancel_pressed),
 		      NULL);
@@ -326,12 +329,12 @@ void window_color (GtkWidget *a, gpointer d)
   
   gtk_widget_show (GTK_WIDGET (c_a1));
   gtk_widget_show (GTK_WIDGET (c_a2));
-  
-  c_ok     = GTK_BUTTON (gtk_button_new_with_label (" Ok "));
-  c_cancel = GTK_BUTTON (gtk_button_new_with_label (" Cancel "));
-  c_apply  = GTK_BUTTON (gtk_button_new_with_label (" Apply "));
-  c_save   = GTK_BUTTON (gtk_button_new_with_label (" Save "));
-  c_load   = GTK_BUTTON (gtk_button_new_with_label (" Default "));    
+
+  c_ok     = GTK_BUTTON (gtk_button_new_with_label (_(" Ok ")));
+  c_cancel = GTK_BUTTON (gtk_button_new_with_label (_(" Cancel ")));
+  c_apply  = GTK_BUTTON (gtk_button_new_with_label (_(" Apply ")));
+  c_save   = GTK_BUTTON (gtk_button_new_with_label (_(" Save ")));
+  c_load   = GTK_BUTTON (gtk_button_new_with_label (_(" Default ")));
   
   gtk_signal_connect (GTK_OBJECT (c_ok), "clicked",
 		      GTK_SIGNAL_FUNC (color_ok_pressed), 0);
@@ -447,7 +450,7 @@ void load_colors ( void )
 
     if ( ( font_normal = gdk_font_load (prefs.FontName) ) == NULL )
     {
-        g_warning ("Can't load font... %s Using default.\n", prefs.FontName);
+        g_warning (_("Can't load font... %s Using default.\n"), prefs.FontName);
         g_free ( prefs.FontName );
         prefs.FontName = g_strdup ("fixed");
 	save_prefs ();

@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <libintl.h>
 #include <math.h>
 #include <ctype.h>
 #include <sys/stat.h>
@@ -39,6 +40,8 @@
 #include <glib.h>
 #include <dmalloc.h>
 #endif
+
+#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -692,7 +695,8 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, AutoMap *automap)
                 {
                     automap->print_coord = FALSE;
                     
-                    g_print("Mouse is at (%d, %d)\n", rn->node->x, rn->node->y);
+                    g_print(_("Mouse is at (%d, %d)\n"),
+     				rn->node->x, rn->node->y);
 
                     return TRUE;
                 }
@@ -1068,7 +1072,7 @@ static inline void node_reposition (guint type, guint *x, guint *y)
     case WEST:      (*x)--;         return;
     case NORTHWEST: (*x)--; (*y)++; return;
     default:
-        g_warning("node_reposition: invalid type(%s) passed to this function\n",
+        g_warning(_("node_reposition: invalid type(%s) passed to this function\n"),
                   type == UP ? "up" : "down");
     }
 
@@ -1676,7 +1680,7 @@ void draw_map (AutoMap *automap)
 
         if (!count)
         {
-            g_error("draw_map: g_malloc0 error: %s\n", strerror(errno));
+            g_error(_("draw_map: g_malloc0 error: %s\n"), strerror(errno));
             gtk_exit(1);
         }
 
@@ -1698,7 +1702,7 @@ static void get_node (GHashTable *hash, MapNode *node, gint *n)
 
     if (!num)
     {
-        g_error("get_node: g_malloc error: %s\n", strerror(errno));
+        g_error(_("get_node: g_malloc error: %s\n"), strerror(errno));
         gtk_exit(1);
     }
 
@@ -1775,7 +1779,7 @@ static void save_maps (gchar *filename, AutoMap *automap)
 
     if (file == NULL)
     {
-        g_warning("save_maps: Can't open %s for writing: %s\n",
+        g_warning(_("save_maps: Can't open %s for writing: %s\n"),
                   filename, strerror(errno));
         return;
     }
@@ -1898,14 +1902,14 @@ static void file_sel_ok_cb (GtkWidget *widget, void *ptr[])
     {
         if (stat(filename, &filestat) != 0)
         {
-            g_warning("file_sel_ok_cb: stat() error: %s\n", strerror(errno));
+            g_warning(_("file_sel_ok_cb: stat() error: %s\n"), strerror(errno));
 
             return;
         }
 
         if (filestat.st_size == 0)
         {
-            g_warning("file_sel_ok_cb: file %s is zero bytes in length\n", filename);
+            g_warning(_("file_sel_ok_cb: file %s is zero bytes in length\n"), filename);
 
             return;
         }
@@ -1914,7 +1918,7 @@ static void file_sel_ok_cb (GtkWidget *widget, void *ptr[])
 
         if (! S_ISREG(filestat.st_mode))
         {
-            g_warning("file_sel_ok_cb: file %s is not a regular file\n", filename);
+            g_warning(_("file_sel_ok_cb: file %s is not a regular file\n"), filename);
 
             return;
         }
@@ -1930,7 +1934,7 @@ static void file_sel_ok_cb (GtkWidget *widget, void *ptr[])
         if (file == NULL)
         {
             char *action = type == LOAD ? "reading" : "writing";
-            g_warning("Can't open file %s for %s: %s\n",
+            g_warning(_("Can't open file %s for %s: %s\n"),
                       filename, action, strerror(errno));
             return;
         }
@@ -1992,7 +1996,7 @@ static void button_cb (GtkWidget *widget, AutoMap *automap)
 
         if (ptr == NULL)
         {
-            g_error("button_cb: g_malloc error: %s\n", strerror(errno));
+            g_error(_("button_cb: g_malloc error: %s\n"), strerror(errno));
             return;
         }
 
@@ -2094,7 +2098,7 @@ static void fill_node_path (SPVertex *cvertex, MapNode *dest,
 
             if (vertex == NULL)
             {
-                g_error("fill_node_path: g_malloc error: %s\n", strerror(errno));
+                g_error(_("fill_node_path: g_malloc error: %s\n"), strerror(errno));
                 gtk_exit(1);
             }
 
@@ -2133,7 +2137,7 @@ static void node_goto (AutoMap *automap, struct win_scale *ws, MapNode *dest)
 
     if (vertex == NULL)
     {
-        g_error("node_goto: g_malloc0 error: %s\n", strerror(errno));
+        g_error(_("node_goto: g_malloc0 error: %s\n"), strerror(errno));
         gtk_exit(1);
     }
 
@@ -2204,7 +2208,7 @@ static void node_goto (AutoMap *automap, struct win_scale *ws, MapNode *dest)
                 break;
 #if 0
             } else {
-                g_print("From (%d, %d): %d tried (%d, %d): %d\n",
+                g_print(_("From (%d, %d): %d tried (%d, %d): %d\n"),
                         vertex->node->x, vertex->node->y, vertex->label,
                         next->node->x, next->node->y, next->label);
 #endif
@@ -2213,8 +2217,8 @@ static void node_goto (AutoMap *automap, struct win_scale *ws, MapNode *dest)
 
         if (i == 10)
         {
-            g_print("Currently at (%d, %d)\n", vertex->node->x, vertex->node->y);
-            g_print("Hmm, no connections led to node\n");
+            g_print(_("Currently at (%d, %d)\n"), vertex->node->x, vertex->node->y);
+            g_print(_("Hmm, no connections led to node\n"));
             while(1);
         }
 
@@ -2246,13 +2250,13 @@ static void node_break (AutoMap *automap, guint type)
 
     if (!this)
     {
-        g_warning("node_break: no node existed in that direction\n");
+        g_warning(_("node_break: no node existed in that direction\n"));
         return;
     }
 
     if (type > 7)
     {
-        g_warning("node_break: will not break links to a node going up or down\n");
+        g_warning(_("node_break: will not break links to a node going up or down\n"));
         return;
     }
 
@@ -2347,7 +2351,7 @@ static void move_player (AutoMap *automap, guint type)
 
             if (next == NULL)
             {
-                g_error("main: g_malloc0 error: %s\n", strerror(errno));
+                g_error(_("main: g_malloc0 error: %s\n"), strerror(errno));
                 gtk_exit(1);
             }
 
@@ -2392,7 +2396,7 @@ static void move_player (AutoMap *automap, guint type)
                      * later
                      */
 
-                    g_warning("move_player: map does not support this move situation yet\n");
+                    g_warning(_("move_player: map does not support this move situation yet\n"));
                     return;
 
                 } else {
@@ -2543,7 +2547,7 @@ AutoMap *auto_map_new (void)
 
     if (automap == NULL)
     {
-        g_error("auto_map_new: g_malloc0 error: %s\n", strerror(errno));
+        g_error(_("auto_map_new: g_malloc0 error: %s\n"), strerror(errno));
         gtk_exit(1);
     }
 
@@ -2553,7 +2557,7 @@ AutoMap *auto_map_new (void)
     /* Set the title */
     /*g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));*/
     /*gtk_window_set_title(GTK_WINDOW(automap->window), name);*/
-    gtk_window_set_title (GTK_WINDOW(automap->window), "Amcl AutoMapper");
+    gtk_window_set_title (GTK_WINDOW(automap->window), _("Amcl AutoMapper"));
 
     /* Create the drawing window and allocate its colours */
     automap->draw_area = gtk_drawing_area_new();
@@ -2655,21 +2659,21 @@ AutoMap *auto_map_new (void)
     gtk_widget_show(table_draw);
 
     /* Some buttons */
-    load = gtk_button_new_with_label("Load");
-    save = gtk_button_new_with_label("Save");
-    remove = gtk_button_new_with_label("Remove");
+    load = gtk_button_new_with_label(_("Load"));
+    save = gtk_button_new_with_label(_("Save"));
+    remove = gtk_button_new_with_label(_("Remove"));
 
     /* Create button directions */
-    n  = gtk_button_new_with_label("N" );
-    ne = gtk_button_new_with_label("NE");
-    e  = gtk_button_new_with_label("E" );
-    se = gtk_button_new_with_label("SE");
-    s  = gtk_button_new_with_label("S" );
-    sw = gtk_button_new_with_label("SW");
-    w  = gtk_button_new_with_label("W" );
-    nw = gtk_button_new_with_label("NW");
-    up = gtk_button_new_with_label("Up");
-    down = gtk_button_new_with_label("Down");
+    n  = gtk_button_new_with_label(_("N" ));
+    ne = gtk_button_new_with_label(_("NE"));
+    e  = gtk_button_new_with_label(_("E" ));
+    se = gtk_button_new_with_label(_("SE"));
+    s  = gtk_button_new_with_label(_("S" ));
+    sw = gtk_button_new_with_label(_("SW"));
+    w  = gtk_button_new_with_label(_("W" ));
+    nw = gtk_button_new_with_label(_("NW"));
+    up = gtk_button_new_with_label(_("Up"));
+    down = gtk_button_new_with_label(_("Down"));
 
     table = gtk_table_new(3, 3, TRUE);
     gtk_table_attach_defaults(GTK_TABLE(table), n,  1, 2, 0, 1);
@@ -2757,16 +2761,16 @@ Map *map_new (void)
 
     if (map == NULL)
     {
-        g_error("map_new: g_malloc0 error: %s\n", strerror(errno));
+        g_error(_("map_new: g_malloc0 error: %s\n"), strerror(errno));
         gtk_exit(1);
     }
 
-    g_snprintf(name, 10, "AMCL Mapper - map%d", g_list_length(MapList));
+    g_snprintf(name, 10, _("AMCL Mapper - map%d"), g_list_length(MapList));
     map->name = g_strdup(name);
 
     if (map->name == NULL)
     {
-        g_error("map_new: g_malloc0 error: %s\n", strerror(errno));
+        g_error(_("map_new: g_malloc0 error: %s\n"), strerror(errno));
         gtk_exit(1);
     }
 
@@ -2812,7 +2816,7 @@ static void new_automap_with_node (void)
 
     if (node == NULL)
     {
-        g_error("main: g_malloc0 error: %s\n", strerror(errno));
+        g_error(_("main: g_malloc0 error: %s\n"), strerror(errno));
         gtk_exit(1);
     }
 
@@ -2873,7 +2877,7 @@ static void load_automap_from_file (gchar *filename, AutoMap *automap)
 
     if (file == NULL)
     {
-        g_warning("load_automap_from_file: Could not open %s for reading: %s\n",
+        g_warning(_("load_automap_from_file: Could not open %s for reading: %s\n"),
                   filename, strerror(errno));
         return;
     }
