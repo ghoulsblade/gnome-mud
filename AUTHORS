@@ -29,7 +29,8 @@ Martin Quinson                           - fr.po maintainer.
 Petter E. Stokke                         - Python scripting support.
 Vashti <vashti@jml.net>                  - telnet support patches and keypad
                                            bindings + several other patches
-										   and contributions.
+					   and contributions.
+Sjoerd Simons <sjoerd@beast.luon.net>	 - IPv6 support.
 
 ANSI code 
 -------- 

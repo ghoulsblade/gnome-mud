@@ -1,6 +1,13 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
+GNOME-Mud 0.10.0	(UNRELEASED)
+
+- GNOME2 port, at long last!
+- GNOME-Mud will now install the binary by default in $(prefix)/games.
+- Python modules are now searched in ~/.gnome-mud/plugins/.
+- We now have IPv6 support.
+
 GNOME-Mud 0.9.1	(02/07/2002)
 
 - Minor fixes.

@@ -63,14 +63,14 @@ static void print_error (CONNECTION_DATA *connection, const gchar *error) ;
 static void append_word_to_command (GString *string, gchar *word);
 
 /* Global Variables */
-extern bool             Keyflag;
-extern SYSTEM_DATA      prefs;
-extern CONNECTION_DATA *main_connection;
-extern CONNECTION_DATA *connections[15];
-extern GtkWidget       *main_notebook;
-extern GtkWidget       *menu_main_disconnect;
-extern GList 		   *EntryHistory;
-extern GList		   *EntryCurr;
+extern bool		Keyflag;
+extern SYSTEM_DATA	prefs;
+extern CONNECTION_DATA	*main_connection;
+extern CONNECTION_DATA	*connections[15];
+extern GtkWidget	*main_notebook;
+extern GtkWidget	*menu_main_disconnect;
+extern GList		*EntryHistory;
+extern GList		*EntryCurr;
 gchar *host = "", *port = "";
 
 /* Added by Bret Robideaux (fayd@alliences.org)
@@ -193,8 +193,8 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 void open_connection (CONNECTION_DATA *connection)
 {
     gchar buf[2048];
-    struct hostent *he;
-    struct sockaddr_in their_addr;
+    struct addrinfo req, *ans,*tmpaddr;
+    int ret;
 
     if ( (!connection->host) || (!strcmp (connection->host, "\0")) )
     {
@@ -228,31 +228,42 @@ void open_connection (CONNECTION_DATA *connection)
     textfield_add (connection, buf, MESSAGE_SYSTEM);
 
     /* strerror(3) */
-    if ( ( he = gethostbyname (connection->host) ) == NULL )
-    {
-	print_error(connection, hstrerror(h_errno)) ;
-        return;
+    req.ai_flags = 0;
+    req.ai_family = AF_UNSPEC;
+    req.ai_socktype = SOCK_STREAM;
+    req.ai_protocol =IPPROTO_TCP;
+
+    ret = getaddrinfo(connection->host,connection->port,&req,&ans);
+    if ( ret != 0) {
+     	print_error(connection, gai_strerror(ret)) ;
+      return;
     }
 
-    if ( ( connection->sockfd = socket (AF_INET, SOCK_STREAM, 0)) == -1 )
-    {
-	print_error(connection, strerror(errno)) ;
-        return;
+   tmpaddr = ans;
+
+
+   while (tmpaddr != NULL) {
+    char name[NI_MAXHOST],portname[NI_MAXSERV];
+    getnameinfo(tmpaddr->ai_addr, tmpaddr->ai_addrlen,
+        name,sizeof(name),portname,sizeof(portname),
+        NI_NUMERICHOST | NI_NUMERICSERV);
+
+    snprintf(buf,2047,_("*** Trying %s port %s...\n"),name,port);
+    textfield_add (connection, buf, MESSAGE_SYSTEM);
+  
+    connection->sockfd = 
+      socket(tmpaddr->ai_family,tmpaddr->ai_socktype,tmpaddr->ai_protocol);
+    if (connection->sockfd < 0) {
+      print_error(connection,strerror(errno));
+    } else if (ret=connect(connection->sockfd,
+          tmpaddr->ai_addr,tmpaddr->ai_addrlen) < 0) {
+      print_error(connection,strerror(errno));
     }
-
-    their_addr.sin_family = AF_INET;
-    their_addr.sin_port   = htons( atoi (connection->port));
-    their_addr.sin_addr   = *((struct in_addr *)he->h_addr);
-    bzero (&(their_addr.sin_zero), 8);
-
-    if (connect (connection->sockfd, (struct sockaddr *)&their_addr,
-                 sizeof (struct sockaddr)) == -1 )
-    {
-	print_error (connection, strerror(errno)) ;
-        return;
-    }
-
-    textfield_add (connection, _("*** Connection established.\n"), MESSAGE_SYSTEM);
+    else break;
+    tmpaddr = tmpaddr->ai_next;
+  } 
+  freeaddrinfo(ans);
+  textfield_add (connection, _("*** Connection established.\n"), MESSAGE_SYSTEM);
 
     connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ,
 					   GTK_SIGNAL_FUNC(read_from_connection),
@@ -265,7 +276,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	gchar  buf[3000];
 	gchar  *triggered_action;
 	gint   numbytes;
-	gint   i, len;
+	gint   len;
 	GList *t;
 	gchar *mccp_buffer = NULL;
 	gchar *mccp_data;

@@ -10,10 +10,11 @@ feel free to suggest features, contribute, or comment.
 0.10.0
 
 * GNOME 2.0
-* Use splitscreen feature from next version (1.4/2.0) of GTK
+* Use splitscreen feature from GTK 2.0
 * AutoReconnect
 * Get more speed in ANSI
 * Support for TELNET codes [PARTLY DONE]
+* IPv6 support [DONE]
 
 0.11.0
 
@@ -22,9 +23,8 @@ feel free to suggest features, contribute, or comment.
 * Other marker on tab to show if using MCCP or not
 * Rewrite connection wizard step 2
 	+ be able to ping host...
-* MSP, Mud Sound Protocol (Is there many muds using this?)
+* MSP, Mud Sound Protocol (are there many muds using this?)
 * SOCKS support
-* IPv6 support
 
 
 Long term future
@@ -35,4 +35,3 @@ Long term future
 * Customizable statusline
 * Tab completion, and separate history for each connection
 * Make it run on Windows
-
