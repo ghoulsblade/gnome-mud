@@ -100,13 +100,6 @@ fi
 
 AM_GNU_GETTEXT
 
-dnl Additional variables for version.h
-USER="`whoami`"
-HOST="`hostname`"
-GTKVER="GTK+ `gtk-config --version`"
-CCVER="`$CC -v 2>&1 | tail -1`"
-CODELINES="`cat $srcdir/src/*.c $srcdir/src/*.h | grep -c -e \"[[:alpha:]|[:punct:]]\"`"
-
 AC_SUBST(USER)
 AC_SUBST(HOST)
 AC_SUBST(GTKVER)

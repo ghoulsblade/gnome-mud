@@ -140,7 +140,7 @@ gchar *check_vars (GtkCList *list, gchar *str)
         if (**c == '%' && (r = check_data (list, ((*c)+1))))
         {
             g_free(*c);
-            *c = strdup(r);
+            *c = g_strdup(r);
         }
         c++;
     }

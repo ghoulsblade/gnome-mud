@@ -32,8 +32,8 @@ static char const rcsid[] =
 
 /* Local functions */
 static void	color_apply_pressed (void);
-//static void	color_cancel_pressed (void);
-//static void	color_ok_pressed (void);
+static void	color_cancel_pressed (GtkWidget *, GtkWidget *);
+static void	color_ok_pressed (GtkWidget *, GtkWidget *);
 static void	color_radio_clicked (GtkWidget *);
 static gushort	convert_color (guint);
 static void	copy_color_from_selector_to_array (void);
@@ -189,7 +189,7 @@ static void load_colors_default (void)
 {
     gint i;
     for (i = 0; i < C_MAX; i++)
-        text_color[i] = (char *) strdup(default_color[i]);
+        text_color[i] = (char *) g_strdup(default_color[i]);
     load_color_to_c_structs();
 
 }
@@ -385,7 +385,7 @@ void save_colors (void)
 
 	for (i = 0; i < C_MAX; i++)
 	{
-		snprintf(c_buf, 10, "#%s%x%s%x%s%x", (c_structs[i]->red / 256)   < 16 ? "0" : "", c_structs[i]->red / 256,
+		g_snprintf(c_buf, 10, "#%s%x%s%x%s%x", (c_structs[i]->red / 256)   < 16 ? "0" : "", c_structs[i]->red / 256,
 										   (c_structs[i]->green / 256) < 16 ? "0" : "", c_structs[i]->green / 256,
 										   (c_structs[i]->blue / 256)  < 16 ? "0" : "", c_structs[i]->blue / 256);
 	

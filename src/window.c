@@ -236,13 +236,17 @@ void grab_focus_cb (GtkWidget* widget, gpointer user_data)
 
 void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer data2)
 {
-  /* FIXME */
-  //if (connections[nb_int] && menu_main_disconnect)
-    //gtk_widget_set_sensitive (menu_main_disconnect, connections[nb_int]->connected);
-  //gtk_widget_set_sensitive (menu_main_close, !(nb_int == 0 && menu_main_close));
-  grab_focus_cb(NULL, NULL);
-  /* fix the focus-problem */
-  if (text_entry != NULL) gtk_widget_grab_focus(text_entry);
+	/* FIXME */
+	/*if (connections[nb_int] && menu_main_disconnect)
+	{
+		gtk_widget_set_sensitive (menu_main_disconnect, connections[nb_int]->connected);
+	}
+	gtk_widget_set_sensitive (menu_main_close, !(nb_int == 0 && menu_main_close));*/
+	
+	grab_focus_cb(NULL, NULL);
+
+	/* fix the focus-problem */
+	if (text_entry != NULL) gtk_widget_grab_focus(text_entry);
 }
 
 void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
@@ -268,8 +272,6 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
                          NULL, message, strlen (message));
         break;
     case MESSAGE_ERR:
-        //gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_green,
-        //                 NULL, _("GNOME-Mud Internal Error: "), 21);
         gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_green,
                          NULL, message, strlen (message));
         break;

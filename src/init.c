@@ -59,6 +59,10 @@ GList           *EntryHistory = NULL;
 GList           *EntryCurr    = NULL;
 bool             Keyflag      = TRUE;
 gboolean         KeyPress     = FALSE;
+  
+extern GList *ProfilesList;
+extern GList *ProfilesData;
+extern GList *Profiles;
 
 void close_window (GtkWidget *widget, gpointer data)
 {
@@ -67,9 +71,6 @@ void close_window (GtkWidget *widget, gpointer data)
 
 void destroy (GtkWidget *widget)
 {
-  extern GList *ProfilesList;
-  extern GList *ProfilesData;
-  extern GList *Profiles;
   GtkWidget *dialog;
   GtkWidget *label;
   gint retval;
@@ -488,7 +489,7 @@ void init_window ()
   char  buf[1024];
   
   font_fixed = gdk_font_load("fixed");
-  //accel_group = gtk_accel_group_new ();
+  /* accel_group = gtk_accel_group_new (); */
 
   window = gnome_app_new("gnome-mud", "GNOME Mud");
   gtk_widget_realize(window);

@@ -28,6 +28,8 @@ static char const rcsid[] =
 
 WIZARD_DATA2 *connections_find_by_profilename(gchar *name);
 gint 		  get_size(GtkCList *clist);
+gint		  g_list_compare_strings(gchar *a, gchar *b);
+
 GtkWidget *clist;
 GList	  *ProfilesList;
 GList	  *ProfilesData;
@@ -44,6 +46,7 @@ GtkWidget *label_info_prof;
 
 GtkWidget *main_clist;
 
+
 gint g_list_compare_strings(gchar *a, gchar *b)
 {
 	return g_strcasecmp((gchar *) a, (gchar *) b);
@@ -51,10 +54,10 @@ gint g_list_compare_strings(gchar *a, gchar *b)
 
 void load_profiles()
 {
-	// profiles
+	/*
+	 * Profiles
+	 */
 	{
-		extern GList *ProfilesList;
-		extern GList *ProfilesData;
 		gint nr, i;
 		gchar **profiles;
 		gnome_config_get_vector("/gnome-mud/Data/Profiles", &nr, &profiles);
@@ -180,11 +183,12 @@ void load_profiles()
 		}
 	}
 
-	// wizard
+	/*
+	 * Wizard
+	 */
 	{
 		WIZARD_DATA2 *wd;
 		
-		extern GList *Profiles;
 		gint i = 0;
 		gchar name[50];
 		gchar *value;
@@ -257,7 +261,9 @@ void profiledata_savekeys(gchar *profilename, KEYBIND_DATA *kd)
 {
 	KEYBIND_DATA *scroll;
 
-	// Ugly hardcoded value
+	/*
+	 * Ygly hardcoded value
+	 */
 	gchar const *vector_name[500];
 	gchar const *vector_value[500];
 	gchar *buf;
@@ -628,11 +634,15 @@ static void connections_button_info_apply_cb(GtkButton *button, GtkCList *clist)
 
 	if (strlen(name) < 1)
 	{
-		//no connection name
+		/*
+		 * No connection name
+		 */
 		return;
 	}
 	
-	// FIXME, need some more error checking here
+	/*
+	 * FIXME, need some more error checking here
+	 */
 	if (wd == NULL)
 	{
 		wd = g_malloc0(sizeof(WIZARD_DATA2));

@@ -22,7 +22,18 @@
 #include "config.h"
 #ifndef WITHOUT_MAPPER
 
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
+#include <sys/stat.h>
+
+#include <ctype.h>
+#include <errno.h>
+#include <libintl.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+/*#include <string.h>
 #include <errno.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -33,7 +44,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h>*/
 
 #if 0
 #define USE_DMALLOC
@@ -1680,7 +1691,7 @@ void draw_map (AutoMap *automap)
 
         if (!count)
         {
-            g_error("draw_map: g_malloc0 error: %s\n"), strerror(errno);
+            g_error("draw_map: g_malloc0 error: %s\n", strerror(errno));
             gtk_exit(1);
         }
 
@@ -1996,7 +2007,7 @@ static void button_cb (GtkWidget *widget, AutoMap *automap)
 
         if (ptr == NULL)
         {
-            g_error("button_cb: g_malloc error: %s\n"), strerror(errno);
+            g_error("button_cb: g_malloc error: %s\n", strerror(errno));
             return;
         }
 

@@ -35,7 +35,8 @@
 static char const rcsid[] =
     "$Id$";
 
-extern GdkFont   *font_normal;
+extern GdkFont  *font_normal;
+extern GList 	*EntryHistory;
 
 SYSTEM_DATA prefs;
 SYSTEM_DATA pre_prefs;
@@ -99,9 +100,10 @@ void load_prefs ( void )
 	prefs.FontName = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
 	prefs.History  = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
 
-	// command history
+	/*
+	 * Command history
+	 */
 	{
-		extern GList *EntryHistory;
 		gint  nr, i;
 		gchar **cmd_history;
 		gnome_config_get_vector("/gnome-mud/Data/CommandHistory", &nr, &cmd_history);
@@ -114,7 +116,9 @@ void load_prefs ( void )
 		}
 	}
 	
-	//load font
+	/*
+	 * Load font
+	 */
 	font_normal = gdk_font_load(prefs.FontName);
 }
 

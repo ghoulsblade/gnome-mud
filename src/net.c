@@ -71,6 +71,8 @@ extern CONNECTION_DATA *connections[15];
 extern GtkWidget       *main_notebook;
 extern GtkWidget       *menu_main_disconnect;
 extern GdkColor         color_black;
+extern GList 		   *EntryHistory;
+extern GList		   *EntryCurr;
 gchar *host = "", *port = "";
 
 /* Added by Bret Robideaux (fayd@alliences.org)
@@ -85,7 +87,7 @@ static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *conne
         if ((r = check_alias (connection->profile->alias, *a)))
         {
             g_free(*a);
-            *a = strdup(r);
+            *a = g_strdup(r);
         }
     }
     connection_send (connection, check_vars (connection->profile->variables, g_strjoinv (" ", a)));
@@ -185,7 +187,7 @@ static void open_connection (CONNECTION_DATA *connection)
     if ( ( he = gethostbyname (connection->host) ) == NULL )
     {
     	gchar buf2[2048];
-    	snprintf(buf2, 2048, "%s\n", hstrerror(h_errno));
+    	g_snprintf(buf2, 2048, "%s\n", hstrerror(h_errno));
     	textfield_add(connection->window, buf2, MESSAGE_ERR);
         return;
     }
@@ -302,8 +304,6 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 void send_to_connection (GtkWidget *text_entry, gpointer data)
 {
   CONNECTION_DATA *cd;
-  extern GList *EntryHistory;
-  extern GList *EntryCurr;
   gchar *entry_text;
 
   Keyflag = TRUE;

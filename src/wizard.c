@@ -32,6 +32,9 @@
 static char const rcsid[] =
     "$Id$";
 
+void free_wizard_data( WIZARD_DATA *w );
+WIZARD_DATA *wizard_get_wizard_data(gchar *text);
+
 extern SYSTEM_DATA  prefs;
 extern GtkWidget   *menu_main_wizard;
 extern GdkColor     color_yellow;

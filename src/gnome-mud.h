@@ -116,7 +116,6 @@ struct profile_data {
 
 /* data.c */
 void		 load_data (GtkCList *, gchar *);
-//void		 window_data (GtkWidget *, gint);
 void		 window_data(PROFILE_DATA *, gint);
 gchar		*check_actions (GtkCList *, gchar *);
 gchar		*check_alias (GtkCList *, gchar *);
@@ -184,9 +183,6 @@ void  free_connection_data (CONNECTION_DATA *c             );
 void  load_wizard        ( void                            );
 void  add_wizard_connect ( gchar **entry, bool al, WIZARD_DATA *w   );
 void  window_wizard      ( GtkWidget *widget,gpointer data );
-
-/* version.c */
-char * get_version_info (char *buf);
 
 #endif /* __GNOME_MUD_H__ */
 
