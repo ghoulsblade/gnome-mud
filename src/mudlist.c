@@ -29,6 +29,54 @@ static char const rcsid[] = "$Id$";
 
 extern SYSTEM_DATA prefs;
 
+struct _mudentry{
+	gchar     *name;
+	GList     *list;
+};
+
+typedef struct _mudentry mudentry;
+
+static void mudlist_tree_fill_subtree(gpointer item, gpointer tree)
+{
+	gtk_tree_append(GTK_TREE(tree), GTK_WIDGET(item));
+	gtk_widget_show(item);
+}
+
+static void mudlist_tree_fill(gpointer e, gpointer tree)
+{
+	mudentry *entry = (mudentry *) e;
+	GtkWidget *item;
+	GtkWidget *subtree;
+	
+	item = gtk_tree_item_new_with_label(entry->name);
+	gtk_tree_append(GTK_TREE(tree), item);
+
+	subtree = gtk_tree_new();
+	gtk_tree_item_set_subtree(GTK_TREE_ITEM(item), subtree);
+
+	g_list_foreach(entry->list, mudlist_tree_fill_subtree, subtree);
+	g_list_free(entry->list);
+	g_free(entry->name);
+	g_free(entry);
+	
+	gtk_widget_show_all(tree);
+}
+
+static gint mudlist_compare_char_struct(gconstpointer a, gconstpointer b)
+{
+	mudentry *e = (mudentry *) a;
+
+	return (g_strcasecmp(e->name, b));
+}
+
+static gint mudlist_compare_structs(gconstpointer a, gconstpointer b)
+{
+	mudentry *c = (mudentry *) a;
+	mudentry *d = (mudentry *) b;
+	
+	return g_strcasecmp(c->name, d->name);
+}
+
 static void mudlist_button_connect_cb(GtkWidget *button, GtkWidget *entry)
 {
 	gchar host[1024] = "";
@@ -135,12 +183,11 @@ static void mudlist_select_item_cb(GtkTreeItem *item, GtkTree *tree)
 
 static void mudlist_parse(FILE *fp, GtkWidget *tree)
 {
-	GHashTable *codehash;
+	//GHashTable *codehash;
+	GList      *codelist = NULL;
 	gchar       line[1024];
 	gchar      *name = NULL;
 	glong       floc = 0, floc_name = 0;
-	
-	codehash = g_hash_table_new(g_str_hash, g_str_equal);
 	
 	rewind(fp);
 	while(fgets(line, 1024, fp))
@@ -165,11 +212,12 @@ static void mudlist_parse(FILE *fp, GtkWidget *tree)
 		else if (!strncmp("Code Base   :", line, 13))
 		{
 			GtkWidget *itemm;
+			mudentry  *e = NULL;
+			GList	  *subtree = NULL;
 			gchar     *p = (line + 14);
 			gchar      code[2048] = "";
 			gchar     *c = code;
-			gchar	  f[1];
-			gpointer  *subtree;
+			gchar	   f[1];
 			
 			while(*p)
 			{
@@ -190,33 +238,37 @@ static void mudlist_parse(FILE *fp, GtkWidget *tree)
 				
 				*f = *p++;	
 			}
-		
-			subtree = g_hash_table_lookup(codehash, code);
+	
+			if (codelist != NULL)
+			{
+				subtree = g_list_find_custom(codelist, code, mudlist_compare_char_struct);
+			}
+			
 			if (subtree == NULL)
 			{
-				GtkWidget *item;
+				e = g_malloc0(sizeof(mudentry));
 
-				item    = gtk_tree_item_new_with_label(code);
-				subtree = (gpointer) gtk_tree_new();
+				e->name = g_strdup(code);
 
-				gtk_tree_append(GTK_TREE(tree), item);
-				gtk_widget_show(item);
-				gtk_tree_item_set_subtree(GTK_TREE_ITEM(item), GTK_WIDGET(subtree));
-				
-				g_hash_table_insert(codehash, g_strdup(code), subtree);
+				codelist = g_list_append(codelist, e);
 			}
-		
+			else
+			{
+				e = subtree->data;
+			}
+
 			itemm = gtk_tree_item_new_with_label(name);
 			gtk_object_set_data(GTK_OBJECT(itemm), "floc", (gpointer) floc_name);
 			gtk_signal_connect(GTK_OBJECT(itemm), "select", mudlist_select_item_cb, tree);
-			gtk_tree_append(GTK_TREE(subtree), itemm);
-			gtk_widget_show(itemm);
+			e->list = g_list_append(e->list, itemm);
 		}
 
 		floc = ftell(fp);
 	}
 
-	g_hash_table_destroy(codehash);
+	codelist = g_list_sort(codelist, mudlist_compare_structs);
+	g_list_foreach(codelist, mudlist_tree_fill, tree);
+	g_list_free(codelist);
 }
 
 void window_mudlist (void)

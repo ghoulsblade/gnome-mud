@@ -1,3 +1,11 @@
+Mon Jan 14 14:04:39 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mudlist.c (mudlist_tree_fill_subtree): Added.
+	(mudlist_tree_fill): Added.
+	(mudlist_compare_char_struct): Added.
+	(mudlist_comapre_structs): Added.
+	(mudlist_parse): HashTable removed, linked list added.
+
 Mon Jan 14 12:21:18 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/init.c (text_entry_key_press_cb): Added support for Page Up
