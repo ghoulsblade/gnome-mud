@@ -1,3 +1,16 @@
+2003-01-08  Jordi Mallach  <jordi@sindominio.net>
+
+	* Makefile.in.in: Removed, not needed in CVS anymore.
+	* Rules-quot: Likewise.
+	* boldquot.sed: Likewise.
+	* en@quot.header: Likewise.
+	* en@boldquot.header: Likewise.
+	* insert-header.sin: Likewise.
+	* quot.sed: Likewise.
+	* remove-potcdate.sin: Likewise.
+	* .cvsignore: added these files.
+	
+
 2002-07-06  Jordi Mallach  <jordi@sindominio.net>
 
 	* fr.po: French translation update by Martin Quinson.
