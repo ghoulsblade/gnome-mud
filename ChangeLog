@@ -1,3 +1,18 @@
+Tue Jun  3 15:54:46 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
+
+	* doc/gnome-mud-plugin-api/C/gnome-mud-plugin-api.xml: Change
+	inclusion of monitor.py from an ENTITY to a XInclude.
+	* doc/gnome-mud-manual/C/gnome-mud-manual-C.omf: Change section to
+	GNOME|Games so it works with Yelp.
+	* doc/gnome-mud-plugin-api/C/gnome-mud-plugin-api-C.omf: Change
+	section to GNOME|Development.
+	* doc/gnome-mud-plugin-api/C/Makefile.am: add monitor.py to entities.
+
+	* src/init.c, src/python.c: disable PyGTK stuff for now, as it's
+	broken according to Petter.
+
+	* ROADMAP: Updated.
+
 Mon Jun  2 17:41:35 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/gnome-mud-manual/C/gnome-mud-manual-C.omf: Fix DTD errors.

@@ -5,8 +5,8 @@
     <maintainer>Jordi Mallach</maintainer>
     <title>GNOME-Mud Plugin API</title>
     <date>2003-06-02</date>
-    <version identifier="1.0" date="2003-06-02" description="Updated for GNOME-Mud 0.10.0"/>
-    <subject category="Development"/>
+    <version identifier="1.0" date="2003-06-03" description="Updated for GNOME-Mud 0.10.0"/>
+    <subject category="GNOME|Development"/>
     <description>This document describes how to code plugins for GNOME-Mud, in Python and C.</description>
     <type>manual</type>
     <format mime="text/xml" dtd="-//OASIS//DTD DocBook XML V4.1.2//EN"/>

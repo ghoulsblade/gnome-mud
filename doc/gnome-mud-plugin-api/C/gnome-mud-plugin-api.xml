@@ -3,10 +3,10 @@
     "/usr/share/sgml/docbook/dtd/xml/4.1.2/docbookx.dtd" [
     <!ENTITY version "0.9.1">
     <!ENTITY date "June 2003">
-    <!ENTITY CODE SYSTEM "monitor.py">
 ]>
 
-<article id="index" lang="en">
+
+<article id="index" lang="en" xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <articleinfo>
    <title>GNOME-Mud Plugin API</title>
@@ -390,7 +390,9 @@
     health and mana periodically.
    </para>
    <para>
-    <programlisting>&CODE;</programlisting>
+    <programlisting>
+     <xi:include href="monitor.py" parse="text"/>
+    </programlisting>
    </para>
   </appendix>
   <appendix id="c-example">

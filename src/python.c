@@ -29,9 +29,11 @@
 #include <Python.h>
 #include <structmember.h>
 
+/* FIXME
 #ifdef USE_PYGTK
 #include <pygtk/pygtk.h>
 #endif
+*/
 
 #include "gnome-mud.h"
 
@@ -47,9 +49,11 @@ static PyObject *ConnectionError;
 extern CONNECTION_DATA *main_connection;
 extern CONNECTION_DATA *connections[MAX_CONNECTIONS];
 extern GtkWidget *main_notebook;
+/* FIXME
 #ifdef USE_PYGTK
 extern GtkWidget *box_user;
 #endif
+*/
 
 /* Interface to the CONNECTION_DATA structure */
 staticforward PyTypeObject pyConnection_ConnectionType;
@@ -259,6 +263,7 @@ static PyObject *pymud_version (PyObject *self, PyObject *args)
 	return Py_BuildValue("s",VERSION);
 }
 
+/* FIXME
 #ifdef USE_PYGTK
 static PyObject *pymud_pygtk_add_widget (PyObject *self, PyObject *args)
 {
@@ -275,6 +280,7 @@ static PyObject *pymud_pygtk_add_widget (PyObject *self, PyObject *args)
 	return Py_None;
 }
 #endif
+*/
 
 /* System functions */
 gchar *python_process_input(CONNECTION_DATA *connection, gchar *input)
@@ -376,9 +382,11 @@ static PyMethodDef GnomeMudMethods[] =
     {"version",                 pymud_version,                 METH_VARARGS},
     {"register_input_handler",  pymud_register_input_handler,  METH_VARARGS},
     {"register_output_handler", pymud_register_output_handler, METH_VARARGS},
+/* FIXME
 #ifdef USE_PYGTK
     {"add_user_widget",         pymud_pygtk_add_widget,        METH_VARARGS},
 #endif
+*/
     {NULL, NULL}
 };
 

@@ -41,9 +41,11 @@ CONNECTION_DATA *main_connection;
 CONNECTION_DATA *connections[MAX_CONNECTIONS];
 GtkWidget       *main_notebook;
 GtkWidget       *text_entry;
+/* FIXME
 #ifdef USE_PYGTK
 GtkWidget *box_user;
 #endif
+*/
 
 GtkWidget       *window;
 GList           *EntryHistory = NULL;
@@ -659,11 +661,13 @@ void main_window ()
 	gnome_app_set_contents(GNOME_APP(window), box_main);
 	gnome_app_create_menus(GNOME_APP(window), main_menu);
 	gnome_app_create_toolbar(GNOME_APP(window), toolbar_menu);
-  
+
+/* FIXME
 #ifdef USE_PYGTK
 	box_user = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (box_main), box_user, FALSE, FALSE, 0);
 #endif
+*/
   
 	box_main2 = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (box_main), box_main2, TRUE, TRUE, 5);

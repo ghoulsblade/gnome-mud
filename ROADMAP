@@ -10,6 +10,8 @@ feel free to suggest features, contribute, or comment.
 
 0.11.0
 
+* Complete GNOME2 (no BROKEN or DEPRECATED code)
+* Fix PyGTK support.
 * Rewrite net-releated code
 * Right-click menu for connection-tabs
 * Green/Red marker, so that you can see if tab is connected or not

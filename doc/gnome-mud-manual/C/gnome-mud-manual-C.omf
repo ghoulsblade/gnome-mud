@@ -5,8 +5,8 @@
     <maintainer>Jordi Mallach</maintainer>
     <title>GNOME-Mud Manual</title>
     <date>2003-06-02</date>
-    <version identifier="1.0" date="2003-06-02" description="Updated for GNOME-Mud 0.10.0"/>
-    <subject category="Games"/>
+    <version identifier="1.0" date="2003-06-03" description="Updated for GNOME-Mud 0.10.0"/>
+    <subject category="GNOME|Games"/>
     <description>This document describes all the features and dialogs present in the GNOME-Mud application, which is a MUD client for the GNOME Desktop.</description>
     <type>manual</type>
     <format mime="text/xml" dtd="-//OASIS//DTD DocBook XML V4.1.2//EN"/>
