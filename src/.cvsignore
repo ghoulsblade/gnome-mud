@@ -21,3 +21,5 @@ readme_doc.h
 authors_doc.h
 version.h
 plugins
+core
+amcl.core
