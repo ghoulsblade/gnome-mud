@@ -60,13 +60,13 @@ static void profile_gconf_sync_connection_list()
 	for (entry = g_list_first(Profiles); entry != NULL; entry = g_list_next(entry))
 	{
 		WIZARD_DATA2 *wd = (WIZARD_DATA2 *) entry->data;
-
+		
 		if (strlen(wd->playername) > 0)
 		{
 			gchar buf[1024];
 			
 			g_snprintf(buf, 1024, "%s-at-%s", wd->playername, wd->name);
-			list = g_slist_append(list, buf);
+			list = g_slist_append(list, g_strdup(buf));
 		}
 		else
 		{
@@ -75,6 +75,7 @@ static void profile_gconf_sync_connection_list()
 	}
 
 	gconf_client_set_list(gconf_client, "/apps/gnome-mud/connections/list", GCONF_VALUE_STRING, list, NULL);
+	g_slist_free(list);
 }
 
 static void profile_gconf_sync_wizard(WIZARD_DATA2 *wd)
