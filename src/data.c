@@ -183,7 +183,7 @@ static void save_data (GtkWidget *button_save, DDATA *data)
   } 
   
   if (fp) fclose (fp);
-  gtk_widget_set_sensitive (button_save, FALSE);
+  //gtk_widget_set_sensitive (button_save, FALSE);
 }
 
 void load_data (GtkCList *list, gchar *file_name)
@@ -269,7 +269,7 @@ static void data_button_add (GtkWidget *button, DDATA *data)
     gtk_clist_append (data->list, text);
 
     gtk_widget_set_sensitive (data->button_delete, TRUE);
-    gtk_widget_set_sensitive (data->button_save, TRUE);
+    //gtk_widget_set_sensitive (data->button_save, TRUE);
 }
 
 static void data_button_delete (GtkWidget *button, DDATA *data)
@@ -278,7 +278,7 @@ static void data_button_delete (GtkWidget *button, DDATA *data)
 
     gtk_clist_remove (data->list, data->row);
     gtk_widget_set_sensitive (data->button_delete, FALSE);
-    gtk_widget_set_sensitive (data->button_save, TRUE);
+    //gtk_widget_set_sensitive (data->button_save, TRUE);
 }
 
 static void data_button_close (GtkWidget *button, DDATA *data)
