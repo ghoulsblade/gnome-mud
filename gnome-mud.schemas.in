@@ -78,5 +78,66 @@
 				</long>
 			</locale>
 		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/terminal_type</key>
+			<applyto>/apps/gnome-mud/terminal_type</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>ansi</default>
+			<locale name="C">
+				<short>Terminal type</short>
+				<long>
+				 GNOME-Mud will attempt to transmit a terminal type
+				 (like ANSI or VT100) if the MUD requests one. This
+				 option sets the terminal type that will be sent.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/mudlist_file</key>
+			<applyto>/apps/gnome-mud/mudlist_file</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default></default>
+			<locale name="C">
+				<short>Mudlist file</short>
+				<long></long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/background_color</key>
+			<applyto>/apps/gnome-mud/background_color</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>#000000</default>
+			<locale name="C">
+				<short>Default color of the background</short>
+				<long>
+				 Default color of the background, as a color specification
+				 (can be HTML-style hex digits, or a color name such as
+				 "red").
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/foreground_color</key>
+			<applyto>/apps/gnome-mud/foreground_color</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>#FFFFDD</default>
+			<locale name="C">
+				<short>Default color of the text</short>
+				<long>
+				 Default color of the text, as a color specification
+				 (can be HTML-style hex digits, or a color name such 
+				 as "red").
+				</long>
+			</locale>
+		</schema>
+
 	</schemalist>
 </gconfschemafile>

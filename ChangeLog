@@ -1,3 +1,22 @@
+Fri Mar  7 16:06:17 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* gnome-mud.schemas.in: Added keys terminal_type, mudlist_file,
+	background_color, foreground_color.
+
+	* src/init.c (create_connection_data): Set right colors on the 
+	terminal. Fixes bug #577598.
+
+	* src/prefs.c (color_to_string): Added.
+	(prefs_terminal_type_changed): Added.
+	(prefs_mudlist_file_changed): Added.
+	(prefs_color_changed): Added.
+	(load_prefs): Added loading terminal_type, mudlist_file,
+	fore- and background color.
+	(prefs_entry_terminal_cb): Changed to gconf
+	(prefs_entry_mudlistfile_cb): Changed to gconf
+	(prefs_select_fg_color_cb): Renamed and changed to gconf
+	(prefs_select_bg_color_cb): Added.
+
 Wed Feb 26 13:18:03 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* gnome-mud.schemas.in: Added keys commdev, echo, keeptext and

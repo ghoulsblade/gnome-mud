@@ -69,6 +69,24 @@ const struct color_struct c_structs[C_MAX] =
 	{ "color_white",        "65535,65535,65535" }
 };
 
+static char *color_to_string(const GdkColor *c)
+{
+	char *s;
+	char *ptr;
+
+	s = g_strdup_printf("#%2X%2X%2X", c->red / 256, c->green / 256, c->blue / 256);
+
+	for (ptr = s; *ptr; ptr++)
+	{
+		if (*ptr == ' ')
+		{
+			*ptr = '0';
+		}
+	}
+
+	return s;
+}
+
 /*static void prefs_load_color(GdkColor *color, gchar *prefs, gchar *name, gchar *def)
 {
 	GdkColormap *cmap = gdk_colormap_get_system();
@@ -128,6 +146,28 @@ void prefs_system_keys_changed(GConfClient *client, guint cnxn_id, GConfEntry *e
 	prefs.DisableKeys = gconf_value_get_bool(gconf_entry_get_value(entry));
 }
 
+void prefs_terminal_type_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	gint i;
+	
+	g_free(prefs.TerminalType);
+	prefs.TerminalType = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));
+
+	for (i = 0; i < MAX_CONNECTIONS; i++)
+	{
+		if (connections[i] != NULL)
+		{
+			vte_terminal_set_emulation(VTE_TERMINAL(connections[i]->window), prefs.TerminalType);
+		}
+	}
+}
+
+void prefs_mudlist_file_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	g_free(prefs.MudListFile);
+	prefs.MudListFile = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));
+}
+
 void prefs_fontname_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	gint i;
@@ -148,11 +188,44 @@ void prefs_fontname_changed(GConfClient *client, guint cnxn_id, GConfEntry *entr
 	}
 }
 
+void prefs_color_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	GdkColor     color;
+	gint         i;
+	gchar       *name = (gchar *) data;
+	const gchar *p = gconf_value_get_string(gconf_entry_get_value(entry));
+
+	if (p && gdk_color_parse(p, &color))
+	{
+		if (!g_strncasecmp(name, "foreground", sizeof("foreground")))
+		{
+			prefs.Foreground = color;
+		}
+		else if (!g_strncasecmp(name, "background", sizeof("background")))
+		{
+			prefs.Background = color;
+		}
+		else if (!g_strncasecmp(name, "boldforeground", sizeof("boldforeground")))
+		{
+			prefs.BoldForeground = color;
+		}
+
+		for (i = 0; i < MAX_CONNECTIONS; i++)
+		{
+			if (connections[i] != NULL)
+			{
+				vte_terminal_set_colors(VTE_TERMINAL(connections[i]->window), &prefs.Foreground, &prefs.Background, NULL, 0);
+			}
+		}
+	}
+}
+
 void load_prefs ( void )
 {
-	struct stat file_stat;
-	gchar dirname[256], buf[256];
-	gchar *p;
+	GdkColor color;
+	struct   stat file_stat;
+	gchar    dirname[256], buf[256];
+	gchar   *p;
 	
 	/*
 	 * Check for ~/.gnome-mud
@@ -203,12 +276,42 @@ void load_prefs ( void )
 	prefs.DisableKeys = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/system_keys", NULL);
 
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/system_keys", prefs_system_keys_changed, NULL, NULL, NULL);
+
+	/* terminal type */
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/terminal_type", NULL);
+	prefs.TerminalType = g_strdup(p);
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/terminal_type", prefs_terminal_type_changed, NULL, NULL, NULL);
+
+	/* mudlist file */
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/mudlist_file", NULL);
+	prefs.MudListFile = g_strdup(p);
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/mudlist_file", prefs_mudlist_file_changed, NULL, NULL, NULL);
+
+	/* foreground color */
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/foreground_color", NULL);
+
+	if (p && gdk_color_parse(p, &color))
+	{
+		prefs.Foreground = color;
+	}
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/foreground_color", prefs_color_changed, "foreground", NULL, NULL);
+
+	/* background color */
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/background_color", NULL);
+
+	if (p && gdk_color_parse(p, &color))
+	{
+		prefs.Background = color;
+	}
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/background_color", prefs_color_changed, "background", NULL, NULL);
 	
 	/*
 	 * Get general parameters
 	 *
-	prefs.TerminalType = gnome_config_get_string("/gnome-mud/Preferences/TerminalType=ansi");
-	prefs.MudListFile  = gnome_config_get_string("/gnome-mud/Preferences/MudListFile=");
 
 	g_snprintf(buf, 255, "/gnome-mud/Preferences/LastLogDir=%s/", g_get_home_dir());
 	prefs.LastLogDir  = gnome_config_get_string(buf);
@@ -218,7 +321,6 @@ void load_prefs ( void )
 	*
 	 * Fore-/Background Colors
 	 *
-	prefs_load_color(&prefs.Foreground,     "Preferences", "Foreground",     "65535,65535,65535");
 	prefs_load_color(&prefs.BoldForeground, "Preferences", "BoldForeground", "65535,65535,65535");
 	prefs_load_color(&prefs.Background,     "Preferences", "Background",     "0,0,0");
 
@@ -278,51 +380,6 @@ void save_prefs ( void )
 	vte_terminal_set_font_from_string(VTE_TERMINAL(main_connection->window), prefs.FontName);*/
 }
 
-/*static void prefs_copy_color(GdkColor *a, GdkColor *b)
-{
-	a->red   = b->red;
-	a->green = b->green;
-	a->blue  = b->blue;
-}
-
-static void prefs_copy(SYSTEM_DATA *target, SYSTEM_DATA *prefs, gboolean alloc_col)
-{
-	gint i;
-	
-	target->EchoText     = prefs->EchoText;
-	target->KeepText     = prefs->KeepText;
-	target->AutoSave     = prefs->AutoSave;
-	target->DisableKeys  = prefs->DisableKeys;            g_free(target->FontName);
-	target->FontName     = g_strdup(prefs->FontName);     g_free(target->CommDev);
-	target->CommDev      = g_strdup(prefs->CommDev);      g_free(target->MudListFile);
-	target->MudListFile  = g_strdup(prefs->MudListFile);  g_free(target->TerminalType);
-	target->TerminalType = g_strdup(prefs->TerminalType); g_free(target->LastLogDir);
-	target->LastLogDir   = g_strdup(prefs->LastLogDir);
-	target->History      = prefs->History;
-
-	prefs_copy_color(&target->Foreground,     &prefs->Foreground);
-	prefs_copy_color(&target->BoldForeground, &prefs->BoldForeground);
-	prefs_copy_color(&target->Background,     &prefs->Background);
-
-	for (i = 0; i < C_MAX; i++)
-	{
-		prefs_copy_color(&target->Colors[i], &prefs->Colors[i]);
-	}
-	
-	if (alloc_col)
-	{
-		GdkColormap *cmap = gdk_colormap_get_system();
-
-		gdk_color_alloc(cmap, &target->Foreground);
-		gdk_color_alloc(cmap, &target->Background);
-
-		for (i = 0; i < C_MAX; i++)
-		{
-			gdk_color_alloc(cmap, &target->Colors[i]);
-		}
-	}
-}*/
-
 static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)
 {
 	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
@@ -339,14 +396,9 @@ static void prefs_checkbutton_disablekeys_cb(GtkWidget *widget, GnomePropertyBox
 
 static void prefs_entry_terminal_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
-	/*gchar *s;
+	const gchar *s = gtk_entry_get_text(GTK_ENTRY(widget));
 
-	s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
-	if (s)
-	{
-		pre_prefs.TerminalType = s;
-		gnome_property_box_changed (box);
-	}*/
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/terminal_type", s, NULL);
 }
 
 static void prefs_entry_history_cb(GtkWidget *widget, GnomePropertyBox *box)
@@ -363,14 +415,9 @@ static void prefs_entry_history_cb(GtkWidget *widget, GnomePropertyBox *box)
 
 static void prefs_entry_mudlistfile_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
-	/*gchar *s;
+	const gchar *s = gtk_entry_get_text(GTK_ENTRY(widget));
 
-	s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
-	if (s)
-	{
-		pre_prefs.MudListFile = s;
-		gnome_property_box_changed(box);
-	}*/
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/mudlist_file", s, NULL);
 }
 
 static void prefs_entry_divide_cb (GtkWidget *widget, GnomePropertyBox *box)
@@ -392,18 +439,40 @@ static void prefs_select_font_cb(GnomeFontPicker *fontpicker, gchar *font, gpoin
 	gconf_client_set_string(gconf_client, "/apps/gnome-mud/font", font, NULL);
 }
 
-static void prefs_select_color_cb(GnomeColorPicker *colorpicker, guint r, guint g, guint b, guint alpha, GdkColor *color)
+static void prefs_select_fg_color_cb(GnomeColorPicker *colorpicker, guint r, guint g, guint b, guint alpha, gpointer data)
 {
-	if (colorpicker != NULL)
+	GdkColor color;
+	
+	color.red = r;
+	color.blue = b;
+	color.green = g;
+
+	if (!gdk_color_equal(&color, &prefs.Foreground))
 	{
-		GnomePropertyBox *box = gtk_object_get_data(GTK_OBJECT(colorpicker), "prefs_window");
-		gnome_property_box_changed(box);
-		
-		color->red = r;
-		color->blue = b;
-		color->green = g;
+		gchar *s;
+
+		s = color_to_string(&color);
+		gconf_client_set_string(gconf_client, "/apps/gnome-mud/foreground_color", s, NULL);
 	}
 }
+
+static void prefs_select_bg_color_cb(GnomeColorPicker *colorpicker, guint r, guint g, guint b, guint alpha, gpointer data)
+{
+	GdkColor color;
+	
+	color.red = r;
+	color.blue = b;
+	color.green = g;
+
+	if (!gdk_color_equal(&color, &prefs.Background))
+	{
+		gchar *s;
+
+		s = color_to_string(&color);
+		gconf_client_set_string(gconf_client, "/apps/gnome-mud/background_color", s, NULL);
+	}
+}
+
 
 /*static void prefs_apply_cb(GnomePropertyBox *propertybox, gint page, gpointer data)
 {
@@ -512,8 +581,7 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 			k = 1;
 		}
 
-		gtk_object_set_data(GTK_OBJECT(picker), "prefs_window", prefs_window);
-		//gtk_signal_connect(GTK_OBJECT(picker),  "color-set",    GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Colors[i]);
+		//gtk_signal_connect(GTK_OBJECT(picker),  "color-set",    GTK_SIGNAL_FUNC(prefs_select_color_cb), NULL);
 	}
 	
 	/*
@@ -525,8 +593,8 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	gtk_object_set_data(GTK_OBJECT(picker_boldforeground), "prefs_window", prefs_window);
 	gtk_object_set_data(GTK_OBJECT(picker_background), "prefs_window", prefs_window);
 	
-	//gtk_signal_connect(GTK_OBJECT(picker_foreground), "color-set",  GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Foreground);
-	//gtk_signal_connect(GTK_OBJECT(picker_boldforeground), "color-set", GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.BoldForeground);
+	gtk_signal_connect(GTK_OBJECT(picker_foreground), "color-set",  GTK_SIGNAL_FUNC(prefs_select_fg_color_cb), NULL);
+	gtk_signal_connect(GTK_OBJECT(picker_background), "color-set",  GTK_SIGNAL_FUNC(prefs_select_bg_color_cb), NULL);
 	//gtk_signal_connect(GTK_OBJECT(picker_background), "color-set", GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Background);
 	
 	return table_colorfont;

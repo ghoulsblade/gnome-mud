@@ -568,6 +568,8 @@ CONNECTION_DATA *create_connection_data(gint notebook)
 	c->profile = profiledata_find("Default");
 	c->window = vte_terminal_new();
 
+	vte_terminal_set_colors(VTE_TERMINAL(c->window), &prefs.Foreground, &prefs.Background, NULL, 0);
+	
 	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(c->window), GTK_CAN_FOCUS);
 	gtk_widget_set_usize(c->window, 500, 300);
 
@@ -577,8 +579,6 @@ CONNECTION_DATA *create_connection_data(gint notebook)
 	c->vscrollbar = gtk_vscrollbar_new(NULL);
 	gtk_range_set_adjustment(GTK_RANGE(c->vscrollbar), VTE_TERMINAL(c->window)->adjustment);
 
-	
-	
 	return c;
 }
 
