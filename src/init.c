@@ -49,7 +49,6 @@ GtkWidget       *window;
 GList           *EntryHistory = NULL;
 GList           *EntryCurr    = NULL;
 gboolean         Keyflag      = TRUE;
-//gboolean		 KeyPress     = FALSE;
   
 extern GList *ProfilesList;
 extern GList *ProfilesData;
@@ -570,6 +569,7 @@ CONNECTION_DATA *create_connection_data(gint notebook)
 
 	vte_terminal_set_colors(VTE_TERMINAL(c->window), &prefs.Foreground, &prefs.Background, prefs.Colors, C_MAX);
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(c->window), prefs.Scrollback);
+	vte_terminal_set_scroll_on_output(VTE_TERMINAL(c->window), prefs.ScrollOnOutput);
 	
 	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(c->window), GTK_CAN_FOCUS);
 	gtk_widget_set_usize(c->window, 500, 300);
@@ -712,8 +712,6 @@ void main_window ()
 	GtkWidget *box_h_low;
 	char  buf[1024];
   
-	//font_fixed = gdk_font_load("fixed");
-
 	window = gnome_app_new("gnome-mud", "GNOME Mud");
 	gtk_widget_realize(window);
 	gtk_signal_connect(GTK_OBJECT(window), "delete_event", GTK_SIGNAL_FUNC(destroy), NULL);

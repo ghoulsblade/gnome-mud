@@ -90,6 +90,7 @@ struct system_data {
 	bool       KeepText;
 	bool       AutoSave;
 	bool       DisableKeys;
+	gboolean   ScrollOnOutput;
 	gchar     *FontName;
 	gchar     *CommDev;
 	gchar     *TerminalType;

@@ -124,149 +124,146 @@ GtkPositionType tab_location_by_gtk(const gchar *p)
 	return GTK_POS_BOTTOM;
 }
 
-static void prefs_commdev_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static void prefs_changed_tab_location()
 {
-	g_free(prefs.CommDev);
-	prefs.CommDev = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(main_notebook), tab_location_by_gtk(prefs.TabLocation));
 }
 
-static void prefs_echo_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static void prefs_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
-	prefs.EchoText = gconf_value_get_bool(gconf_entry_get_value(entry));
-}
-
-static void prefs_keeptext_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	prefs.KeepText = gconf_value_get_bool(gconf_entry_get_value(entry));
-}
-
-static void prefs_system_keys_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	prefs.DisableKeys = gconf_value_get_bool(gconf_entry_get_value(entry));
-}
-
-static void prefs_terminal_type_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	gint i;
+	gint      i, n_colors;
+	gchar    *key;
+	GdkColor  color, *colors;
 	
-	g_free(prefs.TerminalType);
-	prefs.TerminalType = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));
+	key = g_path_get_basename(gconf_entry_get_key(entry));
+	g_message("gaaah %s", key);
 
-	for (i = 0; i < MAX_CONNECTIONS; i++)
-	{
-		if (connections[i] != NULL)
-		{
-			vte_terminal_set_emulation(VTE_TERMINAL(connections[i]->window), prefs.TerminalType);
-		}
-	}
-}
-
-static void prefs_mudlist_file_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	g_free(prefs.MudListFile);
-	prefs.MudListFile = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));
-}
-
-static void prefs_fontname_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	gint i;
-
-	g_free(prefs.FontName);
-	prefs.FontName = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));
+#define vte_terminal_NULL(a, b)
+#define prefs_changed_NULL()
 	
-	for (i = 0; i < MAX_CONNECTIONS; i++)
-	{
-		if (connections[i] != NULL)
-		{
-			vte_terminal_set_font_from_string(VTE_TERMINAL(connections[i]->window), prefs.FontName);
-		}
-		else
-		{
-			break;
-		}
-	}
-}
+#define UPDATE_STRING(Entry, Variable, Loop, LoopFunction, Callback)                             \
+	}                                                                                            \
+	else if (strcmp(key, Entry) == 0)                                                            \
+	{                                                                                            \
+		g_free(prefs.Variable);                                                                  \
+		prefs.Variable = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));         \
+                                                                                                 \
+		if (Loop)                                                                                \
+		{                                                                                        \
+			for (i = 0; i < MAX_CONNECTIONS; i++)                                                \
+			{                                                                                    \
+				if (connections[i] != NULL)                                                      \
+				{                                                                                \
+					vte_terminal_##LoopFunction (VTE_TERMINAL(connections[i]->window), prefs.Variable); \
+				}                                                                                \
+			}                                                                                    \
+		}                                                                                        \
+		                                                                                         \
+		prefs_changed_##Callback ();
 
-static void prefs_color_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	GdkColor     color;
-	gint         i;
-	gchar       *name = (gchar *) data;
-	const gchar *p = gconf_value_get_string(gconf_entry_get_value(entry));
-
-	if (p && gdk_color_parse(p, &color))
-	{
-		if (!g_strncasecmp(name, "foreground", sizeof("foreground")))
-		{
-			prefs.Foreground = color;
-		}
-		else if (!g_strncasecmp(name, "background", sizeof("background")))
-		{
-			prefs.Background = color;
-		}
-
-		for (i = 0; i < MAX_CONNECTIONS; i++)
-		{
-			if (connections[i] != NULL)
-			{
-				vte_terminal_set_colors(VTE_TERMINAL(connections[i]->window), &prefs.Foreground, &prefs.Background, prefs.Colors, C_MAX);
-			}
-		}
-	}
-}
-
-static void prefs_palette_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	GdkColor *colors;
-	gint      n_colors, i;
-
-	gtk_color_selection_palette_from_string(gconf_value_get_string(gconf_entry_get_value(entry)), &colors, &n_colors);
-	if (n_colors < C_MAX)
-	{
-		g_printerr(_("Palette had %d entries instead of %d\n"), n_colors, C_MAX);
-	}
-	memcpy(prefs.Colors, colors, C_MAX * sizeof(GdkColor));
 	
-	for (i = 0; i < MAX_CONNECTIONS; i++)
-	{
-		if (connections[i] != NULL)
-		{
-			vte_terminal_set_colors(VTE_TERMINAL(connections[i]->window), &prefs.Foreground, &prefs.Background, prefs.Colors, C_MAX);
+#define UPDATE_BOOLEAN(Entry, Variable, Loop, LoopFunction, Callback)                            \
+	}                                                                                            \
+	else if (strcmp(key, Entry) == 0)                                                            \
+	{                                                                                            \
+		prefs.Variable = gconf_value_get_bool(gconf_entry_get_value(entry));                     \
+                                                                                                 \
+		if (Loop)                                                                                \
+		{                                                                                        \
+			for (i = 0; i < MAX_CONNECTIONS; i++)                                                \
+			{                                                                                    \
+				if (connections[i] != NULL)                                                      \
+				{                                                                                \
+					vte_terminal_##LoopFunction (VTE_TERMINAL(connections[i]->window), prefs.Variable); \
+				}                                                                                \
+			}                                                                                    \
 		}
-	}
-}
 
-static void prefs_tab_location_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	const gchar *p = gconf_value_get_string(gconf_entry_get_value(entry));
-
-	g_free(prefs.TabLocation);
-	prefs.TabLocation = g_strdup(p);
-	
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(main_notebook), tab_location_by_gtk(p));
-}
-
-static void prefs_logdir_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	const gchar *p = gconf_value_get_string(gconf_entry_get_value(entry));
-
-	g_free(prefs.LastLogDir);
-	prefs.LastLogDir = g_strdup(p);
-}
-
-static void prefs_scrollback_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-	gint i;
-	
-	prefs.Scrollback = gconf_value_get_int(gconf_entry_get_value(entry));
-
-	for (i = 0; i < MAX_CONNECTIONS; i++)
-	{
-		if (connections[i] != NULL)
-		{
-			vte_terminal_set_scrollback_lines(VTE_TERMINAL(connections[i]->window), prefs.Scrollback);
+#define UPDATE_INT(Entry, Variable, Loop, LoopFunction, Callback)                                \
+	}                                                                                            \
+	else if (strcmp(key, Entry) == 0)                                                            \
+	{                                                                                            \
+		prefs.Variable = gconf_value_get_int(gconf_entry_get_value(entry));                      \
+                                                                                                 \
+		if (Loop)                                                                                \
+		{                                                                                        \
+			for (i = 0; i < MAX_CONNECTIONS; i++)                                                \
+			{                                                                                    \
+				if (connections[i] != NULL)                                                      \
+				{                                                                                \
+					vte_terminal_##LoopFunction (VTE_TERMINAL(connections[i]->window), prefs.Variable); \
+				}                                                                                \
+			}                                                                                    \
 		}
+
+#define UPDATE_COLOR(Entry, Variable)                                                            \
+	}                                                                                            \
+	else if (strcmp(key, Entry) == 0)                                                            \
+	{                                                                                            \
+		const gchar *p = gconf_value_get_string(gconf_entry_get_value(entry));                   \
+			                                                                                     \
+		if (p && gdk_color_parse(p, &color))                                                     \
+		{                                                                                        \
+			prefs.Variable = color;                                                              \
+		                                                                                         \
+			for (i = 0; i < MAX_CONNECTIONS; i++)                                                \
+			{                                                                                    \
+				if (connections[i] != NULL)                                                      \
+				{                                                                                \
+					vte_terminal_set_colors(VTE_TERMINAL(connections[i]->window), &prefs.Foreground, &prefs.Background, prefs.Colors, C_MAX); \
+				}                                                                                \
+			}                                                                                    \
+		}
+
+#define UPDATE_PALETTE(Entry, Variable)                                                          \
+	}                                                                                            \
+	else if (strcmp(key, Entry) == 0)                                                            \
+	{                                                                                            \
+		gtk_color_selection_palette_from_string(gconf_value_get_string(gconf_entry_get_value(entry)), &colors, &n_colors); \
+		if (n_colors < C_MAX)                                                                    \
+		{                                                                                        \
+			g_printerr(_("Palette had %d entries instead of %d\n"), n_colors, C_MAX);            \
+		}                                                                                        \
+		memcpy(prefs.Variable, colors, C_MAX * sizeof(GdkColor));                                \
+	                                                                                             \
+		for (i = 0; i < MAX_CONNECTIONS; i++)                                                    \
+		{                                                                                        \
+			if (connections[i] != NULL)                                                          \
+			{                                                                                    \
+				vte_terminal_set_colors(VTE_TERMINAL(connections[i]->window), &prefs.Foreground, &prefs.Background, prefs.Colors, C_MAX); \
+			}                                                                                    \
+		}                                                                                        \
+		                                                                                         \
+		g_free(colors);
+
+	if (0)
+	{
+		;
+		UPDATE_STRING("font", 				FontName, 		TRUE, 	set_font_from_string,	NULL        );
+		UPDATE_STRING("commdev",			CommDev,		FALSE,	NULL,					NULL        );
+		UPDATE_BOOLEAN("echo",				EchoText,		FALSE,	NULL,					NULL        );
+		UPDATE_BOOLEAN("keeptext",			KeepText,		FALSE,	NULL,					NULL        );
+		UPDATE_BOOLEAN("system_keys",		DisableKeys,	FALSE,	NULL,					NULL        );
+		UPDATE_STRING("terminal_type",		TerminalType,	TRUE,	set_emulation,			NULL        );
+		UPDATE_STRING("mudlist_file",		MudListFile,	FALSE,	NULL,					NULL        );
+		UPDATE_COLOR("foreground_color",	Foreground											        );
+		UPDATE_COLOR("background_color",	Background											        );
+		UPDATE_BOOLEAN("scroll_on_output",	ScrollOnOutput,	TRUE,	set_scroll_on_output,	NULL        );
+		UPDATE_INT("scrollback_lines",		Scrollback,		TRUE,	set_scrollback_lines,	NULL        );
+		UPDATE_STRING("tab_location",		TabLocation,	FALSE,	NULL,					tab_location);
+		UPDATE_PALETTE("palette",			Colors                                                      );
+		UPDATE_STRING("last_log_dir",		LastLogDir,		FALSE,	NULL,					NULL        );
 	}
+
+#undef UPDATE_PALETTE
+#undef UPDATE_STRING
+#undef UPDATE_BOOLEAN
+#undef UPDATE_COLOR
+#undef UPDATE_INT
+#undef vte_terminal_NULL
+#undef prefs_changed_NULL
+
+	g_free(key);
 }
 
 void load_prefs ( void )
@@ -301,58 +298,38 @@ void load_prefs ( void )
 		}
 	}
 
-	/* font name */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/font", NULL);
-	prefs.FontName = g_strdup(p);
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/font", prefs_fontname_changed, NULL, NULL, NULL);
+#define	GCONF_GET_STRING(entry, variable)                                                  \
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/" #entry, NULL);            \
+	prefs.variable = g_strdup(p);
 
-	/* command divider */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/commdev", NULL);
-	prefs.CommDev = g_strdup(p);
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/commdev", prefs_commdev_changed, NULL, NULL, NULL);
+#define GCONF_GET_BOOLEAN(entry, variable)                                                 \
+	prefs.variable = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/" #entry, NULL);
 
-	/* echo text */
-	prefs.EchoText = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/echo", NULL);
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/echo", prefs_echo_changed, NULL, NULL, NULL);
-
-	/* keep text */
-	prefs.KeepText = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/keeptext", NULL);
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/keeptext", prefs_keeptext_changed, NULL, NULL, NULL);
-
-	/* disable keys */
-	prefs.DisableKeys = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/system_keys", NULL);
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/system_keys", prefs_system_keys_changed, NULL, NULL, NULL);
-
-	/* terminal type */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/terminal_type", NULL);
-	prefs.TerminalType = g_strdup(p);
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/terminal_type", prefs_terminal_type_changed, NULL, NULL, NULL);
-
-	/* mudlist file */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/mudlist_file", NULL);
-	prefs.MudListFile = g_strdup(p);
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/mudlist_file", prefs_mudlist_file_changed, NULL, NULL, NULL);
-
-	/* foreground color */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/foreground_color", NULL);
-
-	if (p && gdk_color_parse(p, &color))
-	{
-		prefs.Foreground = color;
+#define GCONF_GET_INT(entry, variable)                                                     \
+	prefs.variable = gconf_client_get_int(gconf_client, "/apps/gnome-mud/" #entry, NULL);
+	
+#define GCONF_GET_COLOR(entry, variable)                                                   \
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/" #entry, NULL);            \
+	if (p && gdk_color_parse(p, &color))                                                   \
+	{                                                                                      \
+		prefs.variable = color;                                                            \
 	}
 
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/foreground_color", prefs_color_changed, "foreground", NULL, NULL);
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud", prefs_gconf_changed, NULL, NULL, NULL);
 
-	/* background color */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/background_color", NULL);
-
-	if (p && gdk_color_parse(p, &color))
-	{
-		prefs.Background = color;
-	}
-
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/background_color", prefs_color_changed, "background", NULL, NULL);
-
+	GCONF_GET_STRING(font, 				FontName); 
+	GCONF_GET_STRING(commdev, 			CommDev);
+	GCONF_GET_BOOLEAN(echo,     		EchoText);
+	GCONF_GET_BOOLEAN(keeptext,			KeepText);
+	GCONF_GET_BOOLEAN(system_keys,		DisableKeys);
+	GCONF_GET_STRING(terminal_type,		TerminalType);
+	GCONF_GET_STRING(mudlist_file,		MudListFile);
+	GCONF_GET_COLOR(foreground_color,	Foreground);
+	GCONF_GET_COLOR(background_color,	Background);
+	GCONF_GET_BOOLEAN(scroll_on_output,	ScrollOnOutput);
+	GCONF_GET_INT(scrollback_lines,		Scrollback);
+	GCONF_GET_STRING(tab_location,		TabLocation);
+		
 	/* palette */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/palette", NULL);
 
@@ -362,14 +339,7 @@ void load_prefs ( void )
 		g_printerr(_("Palette had %d entries instead of %d\n"), n_colors, C_MAX);
 	}
 	memcpy(prefs.Colors, colors, C_MAX * sizeof(GdkColor));
-
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/palette", prefs_palette_changed, NULL, NULL, NULL);
 	g_free(colors);
-
-	/* tab location */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/tab_location", NULL);
-	prefs.TabLocation = g_strdup(p);
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/tab_location", prefs_tab_location_changed, NULL, NULL, NULL);
 
 	/* last log dir */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/last_log_dir", NULL);
@@ -383,13 +353,6 @@ void load_prefs ( void )
 		prefs.LastLogDir = g_strdup(p);
 	}
 
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/last_log_dir", prefs_logdir_changed, NULL, NULL, NULL);
-
-	/* scrollback lines */
-	prefs.Scrollback = gconf_client_get_int(gconf_client, "/apps/gnome-mud/scrollback_lines", NULL);
-	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/scrollback_lines", prefs_scrollback_changed, NULL, NULL, NULL);
-
-	
 	/*
 	 * Get general parameters
 	 *
@@ -410,6 +373,11 @@ void load_prefs ( void )
 
 		EntryCurr = NULL;
 	}*/
+
+#undef GCONF_GET_BOOLEAN
+#undef GCONF_GET_COLOR
+#undef GCONF_GET_INT
+#undef GCONF_GET_STRING
 }
 
 static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)
@@ -466,6 +434,13 @@ static void prefs_checkbox_echo_cb(GtkWidget *widget, GnomePropertyBox *box)
 	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/echo", value, NULL);
 }
 
+static void prefs_scroll_output_changed_cb(GtkWidget *widget, gpointer data)
+{
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
+
+	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/scroll_on_output", value, NULL);
+}
+
 static void prefs_select_font_cb(GnomeFontPicker *fontpicker, gchar *font, gpointer data)
 {
 	gconf_client_set_string(gconf_client, "/apps/gnome-mud/font", font, NULL);
@@ -516,8 +491,6 @@ static void prefs_select_palette_cb(GnomeColorPicker *colorpicker, guint r, guin
 
 	s = gtk_color_selection_palette_to_string(prefs.Colors, C_MAX);
 	gconf_client_set_string(gconf_client, "/apps/gnome-mud/palette", s, NULL);
-
-
 }
 
 static void prefs_set_color(GtkWidget *color_picker, gint color)
@@ -657,8 +630,6 @@ void window_prefs (GtkWidget *widget, gpointer data)
     return;
   }
 
-  //prefs_copy(&pre_prefs, &prefs, FALSE);
-  
   prefs_window = gnome_property_box_new();
   gtk_window_set_title(GTK_WINDOW(prefs_window), _("GNOME-Mud Preferences"));
   gtk_window_set_policy(GTK_WINDOW(prefs_window), FALSE, FALSE, FALSE);
@@ -840,11 +811,18 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	label1 = gtk_label_new(_("lines"));
 	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
 
+	hbox1 = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox2), hbox1, FALSE, FALSE, 5);
 	
-	gtk_widget_show_all(vbox2);
+	checkbutton = gtk_check_button_new_with_label(_("Scroll on output"));
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(checkbutton), prefs.ScrollOnOutput);
+	gtk_box_pack_start(GTK_BOX(hbox1), checkbutton, FALSE, FALSE, 10);
+	gtk_signal_connect(GTK_OBJECT(checkbutton), "toggled", GTK_SIGNAL_FUNC(prefs_scroll_output_changed_cb), NULL);
+
 	label2 = gtk_label_new(_("Apperence"));
 	gtk_widget_show(label2);
   
+	gtk_widget_show_all(vbox2);
 	gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window), vbox2, label2);
   
 	gtk_widget_show(prefs_window);

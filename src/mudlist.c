@@ -246,7 +246,6 @@ static void mudlist_select_item_cb(GtkTreeItem *item, GtkTree *tree)
 
 static void mudlist_parse(FILE *fp, GtkWidget *tree)
 {
-	//GHashTable *codehash;
 	GList      *codelist = NULL;
 	gchar       line[1024];
 	gchar      *name = NULL;

@@ -1,3 +1,18 @@
+Wed Mar 12 11:35:34 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* gnome-mud.schemas.in: Added key scroll_on_output.
+
+	* src/gnome-mud.h [system_data]: Added ScrollOutput.
+
+	* src/init.c (create_connection_data): Set scroll on output.
+
+	* src/prefs.c: Removed a lot of unused callbacks.
+	(prefs_changed_tab_location): Added.
+	(prefs_gconf_changed): Added which takes care.
+	(load_prefs): Changed to use macros.
+	(prefs_scroll_output_changed_cb): Added.
+	(window_prefs): Added scroll on output.
+
 Tue Mar 11 10:47:28 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* This commit fixed bug #569757.

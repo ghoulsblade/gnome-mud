@@ -197,5 +197,21 @@
 				</long>
 			</locale>
 		</schema>
+		
+		<schema>
+			<key>/schemas/apps/gnome-mud/scroll_on_output</key>
+			<applyto>/apps/gnome-mud/scroll_on_output</applyto>
+			<owner>gnome-mud</owner>
+			<type>bool</type>
+			<default>false</default>
+			<locale name="C">
+				<short>Whether to scroll to the bottom when there's new output</short>
+				<long>
+				 If true, whenever there's new output will scroll
+				 to the bottom.
+				</long>
+			</locale>
+		</schema>
+
 	</schemalist>
 </gconfschemafile>
