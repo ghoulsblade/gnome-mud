@@ -1,6 +1,6 @@
 # German Messages for the AMCL MUD Client.
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Jörgen Kosche <mnementh@gmx.de>, 2000
+# JÃ¶rgen Kosche <mnementh@gmx.de>, 2000
 # Robin Ericsson <robin@localhost.nu>, 2000
 #
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: src/gnome-mud.c:50
@@ -243,11 +243,11 @@ msgstr ""
 
 #: src/keybind.c:160
 msgid "Can't add an existing key."
-msgstr "Kann kein existierendes Makro hinzufügen."
+msgstr "Kann kein existierendes Makro hinzufÃ¼gen."
 
 #: src/keybind.c:187
 msgid "Incomplete fields."
-msgstr "Felder unvollständig."
+msgstr "Felder unvollstÃ¤ndig."
 
 #: src/keybind.c:310
 #, fuzzy
@@ -556,7 +556,7 @@ msgstr "Registriere Plugin `%s'."
 #: src/modules_api.c:51
 #, c-format
 msgid "Error register menu: %s"
-msgstr "Fehler bei der Registrierung eines Menüs: %s"
+msgstr "Fehler bei der Registrierung eines MenÃ¼s: %s"
 
 #: src/modules_api.c:71
 #, c-format
@@ -743,7 +743,7 @@ msgid ""
 msgstr ""
 "Wenn diese Option angeschaltet ist, dann wird der eingegebene Text in der "
 "Eingabezeile behalten, aber markiert.Um die Eingabezeile nach Absenden des "
-"Textes zu löschen, sollte man diese Option ausschalten."
+"Textes zu lÃ¶schen, sollte man diese Option ausschalten."
 
 #: src/prefs.c:792
 msgid "Disable _System Keys"
@@ -776,7 +776,7 @@ msgstr ""
 msgid "The number of entries to be saved in the command history."
 msgstr ""
 "Dieser Name kennzeichnet die Verbindung und wird auch genutzt, um in der "
-"linken Spalten ausgewählt zu werden."
+"linken Spalten ausgewÃ¤hlt zu werden."
 
 #: src/prefs.c:834
 msgid "Terminal type:"
@@ -876,7 +876,7 @@ msgstr "Standard"
 
 #: src/profiles.c:848 src/profiles.c:1188
 msgid "Delete"
-msgstr "Löschen"
+msgstr "LÃ¶schen"
 
 #: src/profiles.c:865
 #, fuzzy
@@ -1137,7 +1137,7 @@ msgid "Whether to scroll to the bottom when there's new output"
 msgstr ""
 
 #~ msgid "Add"
-#~ msgstr "Hinzufügen"
+#~ msgstr "HinzufÃ¼gen"
 
 #~ msgid "Quit?"
 #~ msgstr "Ende?"
@@ -1151,7 +1151,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Couldn't allocate colour"
-#~ msgstr "Konnte Farbe nicht auswählen"
+#~ msgstr "Konnte Farbe nicht auswÃ¤hlen"
 
 #~ msgid ""
 #~ "Using this, text will draw faster but it will not draw every character, "
@@ -1160,7 +1160,7 @@ msgstr ""
 #~ msgstr ""
 #~ "Wenn diese Option angeschaltet wird, dann wird der Text schneller "
 #~ "ausgegeben, aber es wird nicht mehr jedes Zeichen einzeln ausgegeben, "
-#~ "sondern komplette Strings.Das ist möglicherweise deutlich schneller, wenn "
+#~ "sondern komplette Strings.Das ist mÃ¶glicherweise deutlich schneller, wenn "
 #~ "das MUD viele unterschiedliche Farben benutzt."
 
 #, fuzzy
@@ -1168,7 +1168,7 @@ msgstr ""
 #~ msgstr "AMCL Farb-Zentrale"
 
 #~ msgid "Apply"
-#~ msgstr "Übernehmen"
+#~ msgstr "Ãœbernehmen"
 
 #~ msgid "Can't load font... %s Using default.\n"
 #~ msgstr "Kann Zeichensatz nicht laden... %s Benutze Standard.\n"
@@ -1176,7 +1176,7 @@ msgstr ""
 #~ msgid ""
 #~ "Use this button to open the font selector to choose what font you will "
 #~ "use."
-#~ msgstr "Benutze diesen Knopf, um den Schriftsatz via Dialog auszuwählen"
+#~ msgstr "Benutze diesen Knopf, um den Schriftsatz via Dialog auszuwÃ¤hlen"
 
 #~ msgid "No selection made"
 #~ msgstr "Keine Auswahl getroffen"
@@ -1189,11 +1189,11 @@ msgstr ""
 #~ "If you need to change the name of the connection, you'll have to recreate "
 #~ "it."
 #~ msgstr ""
-#~ "Im Moment kann alles außer dem Namen geändert werden.\n"
-#~ "Wenn der Name geändert werden soll, muss 'Löschen' benutzt werden."
+#~ "Im Moment kann alles auÃŸer dem Namen geÃ¤ndert werden.\n"
+#~ "Wenn der Name geÃ¤ndert werden soll, muss 'LÃ¶schen' benutzt werden."
 
 #~ msgid "Can't add an existing connection."
-#~ msgstr "Kann keine vorhandene Verbindung hinzufügen."
+#~ msgstr "Kann keine vorhandene Verbindung hinzufÃ¼gen."
 
 #~ msgid "Connection Name:"
 #~ msgstr "Verbindungsname:"
@@ -1267,10 +1267,10 @@ msgstr ""
 #~ msgstr "Speichern"
 
 #~ msgid "%s can NOT be opened in write mode."
-#~ msgstr "%s kann NICHT für Schreiben geöffnet werden."
+#~ msgstr "%s kann NICHT fÃ¼r Schreiben geÃ¶ffnet werden."
 
 #~ msgid "%s exists and can NOT be opened in read mode."
-#~ msgstr "%s existiert und kann NICHT für Lesen geöffnet werden."
+#~ msgstr "%s existiert und kann NICHT fÃ¼r Lesen geÃ¶ffnet werden."
 
 #, fuzzy
 #~ msgid "Connection Wizard2(tm)"
@@ -1312,7 +1312,7 @@ msgstr ""
 
 #~ msgid "Checking whether plugin should be enabled by default..."
 #~ msgstr ""
-#~ "Untersucht, ob das Plugin standardmäßig eingeschaltet werden soll..."
+#~ "Untersucht, ob das Plugin standardmÃ¤ÃŸig eingeschaltet werden soll..."
 
 #~ msgid "Plug-in internal name is `%s'."
 #~ msgstr "Interner name des Plugins ist `%s'."

@@ -12,7 +12,7 @@ msgstr ""
 "Language-Team: Debian French translators <debian-l10n-french@lists.debian."
 "org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bits\n"
 
 #: src/gnome-mud.c:50
@@ -22,7 +22,7 @@ msgstr ""
 
 #: src/data.c:245
 msgid "No void characters allowed."
-msgstr "Pas de caractères nuls autorisés."
+msgstr "Pas de caractÃ¨res nuls autorisÃ©s."
 
 #. actions
 #: src/data.c:249 src/data.c:343
@@ -32,7 +32,7 @@ msgstr "Actions"
 #: src/data.c:251
 #, c-format
 msgid "Character '%c' not allowed."
-msgstr "Caractère « %c » non autorisé."
+msgstr "CaractÃ¨re Â« %c Â» non autorisÃ©."
 
 #: src/data.c:258 src/data.c:265
 #, c-format
@@ -55,7 +55,7 @@ msgstr "Remplacement"
 
 #: src/data.c:344 src/profiles.c:1219 gnome-mud.schemas.in.h:32
 msgid "Triggers"
-msgstr "Déclencheurs"
+msgstr "DÃ©clencheurs"
 
 #. vars
 #: src/data.c:351 src/profiles.c:1212 gnome-mud.schemas.in.h:33
@@ -70,7 +70,7 @@ msgstr "Valeurs"
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
 msgstr ""
-"window_data : tentative d'accès à des données hors de l'intervalle défini : %"
+"window_data : tentative d'accÃ¨s Ã  des donnÃ©es hors de l'intervalle dÃ©fini : %"
 "d"
 
 #: src/data.c:371
@@ -80,7 +80,7 @@ msgstr "Centre de configuration de GNOME-Mud"
 
 #: src/init.c:80
 msgid "Do you really want to quit?"
-msgstr "Voulez vous réellement quitter ?"
+msgstr "Voulez vous rÃ©ellement quitter ?"
 
 #: src/init.c:127 src/init.c:577
 msgid "Connect..."
@@ -88,7 +88,7 @@ msgstr "Connexion..."
 
 #: src/init.c:139 src/profiles.c:942
 msgid "Host:"
-msgstr "Hôte :"
+msgstr "HÃ´te :"
 
 #: src/init.c:145 src/profiles.c:962
 msgid "Port:"
@@ -120,7 +120,7 @@ msgstr "(C) 1998-2002 Robin Ericsson"
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr ""
 "Un client pour les donjons multi-utilisateurs (Multi-User Dungeon - MUD) "
-"utilisant les bibliothèques GTK+/GNOME"
+"utilisant les bibliothÃ¨ques GTK+/GNOME"
 
 #: src/init.c:251
 #, fuzzy
@@ -137,7 +137,7 @@ msgstr "Profiles..."
 
 #: src/init.c:579
 msgid "Disconnect"
-msgstr "Déconnecter"
+msgstr "DÃ©connecter"
 
 #: src/init.c:581
 msgid "Reconnect"
@@ -161,7 +161,7 @@ msgstr "C_onnexion..."
 
 #: src/init.c:592
 msgid "_Disconnect"
-msgstr "_Déconnecter"
+msgstr "_DÃ©connecter"
 
 #: src/init.c:593
 msgid "_Reconnect"
@@ -181,7 +181,7 @@ msgstr "_Enregistrer le tampon..."
 
 #: src/init.c:599
 msgid "_Close Window"
-msgstr "_Fermer la fenêtre"
+msgstr "_Fermer la fenÃªtre"
 
 #: src/init.c:607
 msgid "_Plugin Information..."
@@ -220,12 +220,12 @@ msgstr "Principal"
 #: src/init.c:701
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
-msgstr "GNOME-Mud version %s (compilé %s, %s)\n"
+msgstr "GNOME-Mud version %s (compilÃ© %s, %s)\n"
 
 #: src/init.c:703
 #, fuzzy
 msgid "Distributed under the terms of the GNU General Public Licence.\n"
-msgstr "Distribué sous les termes de la GNU General Public License.\n"
+msgstr "DistribuÃ© sous les termes de la GNU General Public License.\n"
 
 #: src/init.c:705
 #, fuzzy, c-format
@@ -274,7 +274,7 @@ msgstr "Capture"
 #, fuzzy, c-format
 msgid "*** Already logging to %s. Close that log first.\n"
 msgstr ""
-"*** Il y a déjà un enregistrement vers %s. Veuillez fermer cet "
+"*** Il y a dÃ©jÃ  un enregistrement vers %s. Veuillez fermer cet "
 "enregistrement en premier.\n"
 
 #: src/log.c:63
@@ -284,7 +284,7 @@ msgstr "Ouvrir l'enregistrement"
 #: src/log.c:76
 #, fuzzy
 msgid "*** No log is open in this window to be closed.\n"
-msgstr "*** Aucun enregistrement n'est ouvert dans cette fenêtre à fermer.\n"
+msgstr "*** Aucun enregistrement n'est ouvert dans cette fenÃªtre Ã  fermer.\n"
 
 #: src/log.c:103
 #, c-format
@@ -299,15 +299,15 @@ msgstr "*** Enregistre dans %s.\n"
 #: src/log.c:176
 #, c-format
 msgid "*** Stopped logging to %s.\n"
-msgstr "*** Arrêter les enregistrements vers %s\n"
+msgstr "*** ArrÃªter les enregistrements vers %s\n"
 
 #: src/log.c:201
 msgid "*** Could not open file for writing.\n"
-msgstr "*** Impossible d'ouvrir le fichier pour écrire.\n"
+msgstr "*** Impossible d'ouvrir le fichier pour Ã©crire.\n"
 
 #: src/log.c:216
 msgid "Please select a log file..."
-msgstr "Veuillez sélectionner un fichier d'enregistrement..."
+msgstr "Veuillez sÃ©lectionner un fichier d'enregistrement..."
 
 #. Free the create_link_data structure
 #: src/map.c:567
@@ -539,7 +539,7 @@ msgstr "Description du greffon :"
 
 #: src/modules.c:261
 msgid "Is Plugin Enabled?"
-msgstr "Le greffon est il branché ?"
+msgstr "Le greffon est il branchÃ© ?"
 
 #: src/modules.c:420
 #, c-format
@@ -554,7 +554,7 @@ msgstr "Erreur, %s n'est pas un module GNOME-Mud : %s"
 #: src/modules.c:451
 #, c-format
 msgid "Registering plugin `%s' under the name `%s'."
-msgstr "Enregistrement du greffon « %s » sous le nom « %s »."
+msgstr "Enregistrement du greffon Â« %s Â» sous le nom Â« %s Â»."
 
 #: src/modules_api.c:51
 #, c-format
@@ -564,7 +564,7 @@ msgstr "Erreur lors de l'enregistrement du menu : %s"
 #: src/modules_api.c:71
 #, c-format
 msgid "Error register for data %s: %s"
-msgstr "Erreur lors de l'enregistrement des données %s : %s"
+msgstr "Erreur lors de l'enregistrement des donnÃ©es %s : %s"
 
 #: src/modules_api.c:79
 msgid "Error getting plugin from handle."
@@ -600,7 +600,7 @@ msgstr "Importer et fermer"
 
 #: src/mudlist.c:443
 msgid "Go to webpage of the mud"
-msgstr "Aller à la page web du mud"
+msgstr "Aller Ã  la page web du mud"
 
 #: src/mudlist.c:450
 msgid "Description :"
@@ -612,16 +612,16 @@ msgstr "*** Connexion close.\n"
 
 #: src/net.c:194
 msgid "*** Can't connect - you didn't specify a host.\n"
-msgstr "*** Connexion impossible - vous n'avez pas précisé d'hôte.\n"
+msgstr "*** Connexion impossible - vous n'avez pas prÃ©cisÃ© d'hÃ´te.\n"
 
 #: src/net.c:200
 msgid "*** No port specified - assuming port 23.\n"
-msgstr "*** Pas de port spécifié - utilisation du port 23.\n"
+msgstr "*** Pas de port spÃ©cifiÃ© - utilisation du port 23.\n"
 
 #: src/net.c:215
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
-msgstr "*** Connexion à « %s », port %s.\n"
+msgstr "*** Connexion Ã  Â« %s Â», port %s.\n"
 
 #: src/net.c:239
 #, fuzzy, c-format
@@ -630,7 +630,7 @@ msgstr "*** Enregistre dans %s.\n"
 
 #: src/net.c:266
 msgid "*** Connection established.\n"
-msgstr "*** Connexion établie.\n"
+msgstr "*** Connexion Ã©tablie.\n"
 
 #: src/prefs.c:252 src/prefs.c:405
 #, c-format
@@ -640,12 +640,12 @@ msgstr ""
 #: src/prefs.c:351
 #, c-format
 msgid "%s already exists and is not a directory!"
-msgstr "%s existe déjà, et ce n'est pas un répertoire !"
+msgstr "%s existe dÃ©jÃ , et ce n'est pas un rÃ©pertoire !"
 
 #: src/prefs.c:360
 #, c-format
 msgid "%s does not exist and can NOT be created: %s"
-msgstr "%s n'existe pas, et ne peut PAS être crée : %s"
+msgstr "%s n'existe pas, et ne peut PAS Ãªtre crÃ©e : %s"
 
 #: src/prefs.c:629
 msgid "Font:"
@@ -708,16 +708,16 @@ msgstr ""
 
 #: src/prefs.c:750
 msgid "GNOME-Mud Preferences"
-msgstr "Préférences GNOME-Mud"
+msgstr "PrÃ©fÃ©rences GNOME-Mud"
 
 #: src/prefs.c:764
 msgid "Functionality"
-msgstr "Fonctionnalité"
+msgstr "FonctionnalitÃ©"
 
 #: src/prefs.c:770
 #, fuzzy
 msgid "_Echo the text sent"
-msgstr "Afficher le texte envoyé ?"
+msgstr "Afficher le texte envoyÃ© ?"
 
 #: src/prefs.c:774 gnome-mud.schemas.in.h:15
 #, fuzzy
@@ -725,13 +725,13 @@ msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
 msgstr ""
-"Quand ce choix est coché, tout le texte que vous tapez sera affiché sur la "
-"connexion, de façon à ce que vous puissiez contrôler ce que vous envoyez."
+"Quand ce choix est cochÃ©, tout le texte que vous tapez sera affichÃ© sur la "
+"connexion, de faÃ§on Ã  ce que vous puissiez contrÃ´ler ce que vous envoyez."
 
 #: src/prefs.c:781
 #, fuzzy
 msgid "_Keep the text entered"
-msgstr "Garder le texte entré ?"
+msgstr "Garder le texte entrÃ© ?"
 
 #: src/prefs.c:785 gnome-mud.schemas.in.h:16
 #, fuzzy
@@ -740,14 +740,14 @@ msgid ""
 "selection in the entry box. Otherwise, the text entry box will be cleared "
 "after each text input."
 msgstr ""
-"Quand ce choix est coché, le texte que vous entrez et envoyez à la connexion "
-"sera gardé dans la boîte de dialogue et sélectionné. Décochez le pour "
-"effacer le texte après son envoi."
+"Quand ce choix est cochÃ©, le texte que vous entrez et envoyez Ã  la connexion "
+"sera gardÃ© dans la boÃ®te de dialogue et sÃ©lectionnÃ©. DÃ©cochez le pour "
+"effacer le texte aprÃ¨s son envoi."
 
 #: src/prefs.c:792
 #, fuzzy
 msgid "Disable _System Keys"
-msgstr "Désactiver les touches systèmes ?"
+msgstr "DÃ©sactiver les touches systÃ¨mes ?"
 
 #: src/prefs.c:796 gnome-mud.schemas.in.h:14
 #, fuzzy
@@ -756,14 +756,14 @@ msgid ""
 "overridden by custom keybinds, or they can be disabled completely with this "
 "option."
 msgstr ""
-"GNOME-Mud offre des raccourcis claviers par défaut. Ces réglages peuvent "
-"être remplacés par vos propres raccourcis, ou ils peuvent être désactivés en "
-"cochant cette boîte."
+"GNOME-Mud offre des raccourcis claviers par dÃ©faut. Ces rÃ©glages peuvent "
+"Ãªtre remplacÃ©s par vos propres raccourcis, ou ils peuvent Ãªtre dÃ©sactivÃ©s en "
+"cochant cette boÃ®te."
 
 #: src/prefs.c:805
 #, fuzzy
 msgid "Command division character:"
-msgstr "Caractère diviseur de commande :"
+msgstr "CaractÃ¨re diviseur de commande :"
 
 #: src/prefs.c:810
 msgid ""
@@ -790,7 +790,7 @@ msgid ""
 msgstr ""
 "GNOME-Mud essayera de transmettre un type de terminal (comme ANSI ou VT100) "
 "si le Mud en demande un. Cette option fixera le type de terminal qui sera "
-"envoyé."
+"envoyÃ©."
 
 #: src/prefs.c:849
 msgid "MudList file:"
@@ -877,7 +877,7 @@ msgstr "GNOME-Mud : Liste des Profiles"
 
 #: src/profiles.c:667 src/profiles.c:1039
 msgid "Default"
-msgstr "Par défaut"
+msgstr "Par dÃ©faut"
 
 #: src/profiles.c:848 src/profiles.c:1188
 msgid "Delete"
@@ -925,7 +925,7 @@ msgstr "Choisir un profile"
 
 #: src/profiles.c:1065
 msgid "Fetch from mudlist"
-msgstr "Télécharger depuis la liste des muds"
+msgstr "TÃ©lÃ©charger depuis la liste des muds"
 
 #: src/profiles.c:1117
 msgid "Connect"
@@ -970,7 +970,7 @@ msgstr "Variables"
 #: src/profiles.c:1219
 #, fuzzy
 msgid "Set triggers"
-msgstr "Déclencheurs"
+msgstr "DÃ©clencheurs"
 
 #: src/profiles.c:1236 gnome-mud.schemas.in.h:18
 msgid "Keybinds"
@@ -988,7 +988,7 @@ msgstr "Fermer"
 #: src/profiles.c:1253
 #, fuzzy
 msgid "Close the window"
-msgstr "_Fermer la fenêtre"
+msgstr "_Fermer la fenÃªtre"
 
 #: gnome-mud.desktop.in.h:2
 msgid "The GNOME MUD Client"
@@ -1012,7 +1012,7 @@ msgstr "Palette de couleurs :"
 #: gnome-mud.schemas.in.h:5
 #, fuzzy
 msgid "Command Divider"
-msgstr "Caractère diviseur de commande :"
+msgstr "CaractÃ¨re diviseur de commande :"
 
 #: gnome-mud.schemas.in.h:6
 msgid "Default colour of the background"
@@ -1175,22 +1175,22 @@ msgstr ""
 #~ "are playing MUDs with a lot of different colours."
 #~ msgstr ""
 #~ "En utilisant cela, le texte s'affichera plus vite, mais chaque lettre ne "
-#~ "sera pas affichée, seulement les phrases entières le seront. Cela "
-#~ "accélérera sans doute beaucoup l'affichage si votre MUD utilise de "
+#~ "sera pas affichÃ©e, seulement les phrases entiÃ¨res le seront. Cela "
+#~ "accÃ©lÃ©rera sans doute beaucoup l'affichage si votre MUD utilise de "
 #~ "nombreuses couleurs."
 
 #~ msgid "Robin Ericsson, main developer"
-#~ msgstr "Robin Ericsson, développeur principal"
+#~ msgstr "Robin Ericsson, dÃ©veloppeur principal"
 
 #~ msgid "Ben Gertzfield, creation of rcfiles for AMCL"
-#~ msgstr "Ben Gertzfield, création des fichiers rc pour AMCL"
+#~ msgstr "Ben Gertzfield, crÃ©ation des fichiers rc pour AMCL"
 
 #~ msgid "Paul Cameron, compile fixes, automapper"
 #~ msgstr ""
 #~ "Paul Cameron, corrections de la compilation, cartographe automatique"
 
 #~ msgid "Bret Robideaux, action/trigger module"
-#~ msgstr "Bret Robideaux, module action/déclancheur (trigger)"
+#~ msgstr "Bret Robideaux, module action/dÃ©clancheur (trigger)"
 
 #~ msgid "Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"
 #~ msgstr ""
@@ -1198,16 +1198,16 @@ msgstr ""
 #~ "couleurs, corrections de bogues"
 
 #~ msgid "Benjamin Curtis, recognition of TELNET codes and replies"
-#~ msgstr "Benjamin Curtis, reconnaissance des codes TELNET et réponses"
+#~ msgstr "Benjamin Curtis, reconnaissance des codes TELNET et rÃ©ponses"
 
 #~ msgid "Jorgen Kosche, focus-bugs patches, de.po maintainer"
-#~ msgstr "Jörgen Kosche, correction de bogues de focus, responsable de de.po"
+#~ msgstr "JÃ¶rgen Kosche, correction de bogues de focus, responsable de de.po"
 
 #~ msgid "Jeroen Ruigrok, various code cleanups and fixes"
 #~ msgstr "Jeroen Ruigrok, divers nettoyages de code et correctifs"
 
 #~ msgid "Jorge Garcia, various code cleanups and fixes"
-#~ msgstr "Jorge García, divers nettoyages de code et correctifs"
+#~ msgstr "Jorge GarcÃ­a, divers nettoyages de code et correctifs"
 
 #~ msgid ""
 #~ "Jordi Mallach, official Debian package, i18n support, ca.po & es.po "
@@ -1224,7 +1224,7 @@ msgstr ""
 
 #~ msgid "Vashti, default keypad bindings, telnet support patches"
 #~ msgstr ""
-#~ "Vashti, raccourcis claviers par défaut, correctifs pour le support telnet"
+#~ "Vashti, raccourcis claviers par dÃ©faut, correctifs pour le support telnet"
 
 #~ msgid "GNOME-Mud _manual"
 #~ msgstr "_Manuel de GNOME-Mud"
