@@ -223,7 +223,7 @@ void prefs_font_selected (GtkWidget *button, GtkFontSelectionDialog *fs)
 {
     gchar *temp;
 
-    temp = gtk_font_selection_get_font_name (GTK_FONT_SELECTION (fs->fontsel));
+    temp = gtk_font_selection_get_font_name (GTK_FONT_SELECTION(fs->fontsel));
 
     gtk_entry_set_text (GTK_ENTRY (entry_fontname), temp);
     g_free (prefs.FontName);
@@ -242,7 +242,7 @@ void prefs_select_font_callback (GtkWidget *button, gpointer data)
     gtk_font_selection_dialog_set_preview_text (GTK_FONT_SELECTION_DIALOG (fontw),
                                                 "How about this font?");
 
-    gtk_signal_connect_object (GTK_OBJECT (GTK_FONT_SELECTION_DIALOG (fontw)->ok_button),
+    gtk_signal_connect (GTK_OBJECT (GTK_FONT_SELECTION_DIALOG (fontw)->ok_button),
                                "clicked", (GtkSignalFunc) prefs_font_selected,
                                GTK_OBJECT (fontw));
     gtk_signal_connect_object (GTK_OBJECT (GTK_FONT_SELECTION_DIALOG (fontw)->ok_button),

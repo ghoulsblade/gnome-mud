@@ -29,12 +29,15 @@ typedef void      (*plugin_initfunc) (PLUGIN_OBJECT *,   gint   );
 typedef void      (*plugin_menufunc) (GtkWidget *,       gint   );
 typedef void      (*plugin_datafunc) (PLUGIN_OBJECT *, CONNECTION_DATA *, gchar *, gint);
 
+typedef enum { PLUGIN_DATA_IN, PLUGIN_DATA_OUT } PLUGIN_DATA_DIRECTION;
+
 /*
  * Structures
  */
 struct _plugin_data {
-  PLUGIN_OBJECT   *plugin;
-  plugin_datafunc  datafunc;
+  PLUGIN_OBJECT         *plugin;
+  plugin_datafunc        datafunc;
+  PLUGIN_DATA_DIRECTION  dir;
 };
 
 struct _plugin_info {
@@ -63,4 +66,4 @@ void           plugin_register (PLUGIN_OBJECT *plugin            );
 /*
  * Variables
  */
-extern GList *Plugin_datain_list;
+extern GList *Plugin_data_list;

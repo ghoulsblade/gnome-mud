@@ -1,3 +1,21 @@
+1999-08-17  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/modules.c (Plugin_datain_list): Name changed to Plugin_data_list
+	and is now responsible for both in and out data.
+
+	* src/modules.h (_plugin_data): Added enum PLUGIN_DATA_DIRECTION that
+	tell which way it is to be.
+
+	* src/modules_api.c (plugin_data_register_incoming/outging): Both call
+	plugin_data_register() now.
+
+	* src/net.c (read_from_connection): Plugin_datain_list changed name and
+	now checks the direction to be sure there are no problems.
+
+	* src/prefs.c: Fixed stupid font bug that probably appeared with
+	GTK+ 1.2.3. Changed one call from gtk_signal_connect_object() to
+	gtk_signal_connect() and the problem went away.
+
 1999-08-15  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/dialog.c: Use font "fixed" instead of no font at all, look a lot

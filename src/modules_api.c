@@ -56,28 +56,36 @@ gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
   return TRUE;
 }
 
-gboolean plugin_register_data_incoming (gint handle, gchar *function)
+gboolean plugin_register_data (gint handle, gchar *function, PLUGIN_DATA_DIRECTION dir)
 {
-  PLUGIN_DATA     * data;
-  plugin_datafunc   datafunc;
+  PLUGIN_DATA    * data;
+  plugin_datafunc  datafunc;
 
   if ((datafunc = (plugin_datafunc) dlsym ((void *) handle, function)) == NULL) {
-    g_message ("Error register data incoming: %s", dlerror());
+    g_message ("Error register for data %s: %s", dir == PLUGIN_DATA_IN ? "incoming" : "outgoing",
+	       dlerror());
     return FALSE;
   }
 
   data = g_new0(PLUGIN_DATA, 1);
 
   if ((data->plugin = plugin_get_plugin_object_by_handle(handle)) == NULL)
-      g_message("Error getting plugin from handle");
-      
+    g_message("Error getting plugin from handle.");
+
   data->datafunc = datafunc;
-  
-  Plugin_datain_list = g_list_append(Plugin_datain_list, (gpointer) data);
+  data->dir      = dir;
+
+  Plugin_data_list = g_list_append(Plugin_data_list, (gpointer) data);
+
   return TRUE;
+}
+
+gboolean plugin_register_data_incoming (gint handle, gchar *function)
+{
+  return plugin_register_data (handle, function, PLUGIN_DATA_IN);
 }
 
 gboolean plugin_register_data_outgoing (gint handle, gchar *function)
 {
-  return TRUE;
+  return plugin_register_data (handle, function, PLUGIN_DATA_OUT);
 }

@@ -289,13 +289,13 @@ void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCon
         return;
     }
 
-    for (t = g_list_first(Plugin_datain_list); t != NULL; t = t->next) {
+    for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next) {
       PLUGIN_DATA *pd;
       
       if (t->data != NULL) {
 	pd = (PLUGIN_DATA *) t->data;
 
-	if (pd->plugin && pd->plugin->enabeled) {
+	if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN)) {
 	  (* pd->datafunc) (pd->plugin, connection, buf, (gint) pd->plugin->handle);
 	}
       }

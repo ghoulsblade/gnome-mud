@@ -35,7 +35,7 @@ static char const rcsid[] =
     "$Id$";
 
 GList     *Plugin_list;
-GList     *Plugin_datain_list;
+GList     *Plugin_data_list;
 GtkWidget *plugin_name_entry;
 GtkWidget *plugin_author_entry;
 GtkWidget *plugin_version_entry;
