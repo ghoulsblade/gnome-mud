@@ -1,3 +1,8 @@
+Tue Jan 14 13:45:40 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/profiles.c (connections_button_press_cb): Now returns
+	false so button_press_event is propagated further to select row
+
 Mon Jan 13 14:06:44 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/profiles.c: Fixed apply button and re-added cancel button.

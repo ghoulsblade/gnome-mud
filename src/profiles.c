@@ -810,7 +810,7 @@ static void connections_unselect_row_cb(GtkCList *clist, gint row, gint column, 
 	connection_selected = -1;
 }
 
-static void connections_button_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+static gboolean connections_button_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	gint  row, col;
 	gchar *row_name = NULL;
@@ -850,6 +850,8 @@ static void connections_button_press_cb(GtkWidget *widget, GdkEventButton *event
 		default:
 			break;
 	}
+
+	return FALSE;
 }
 
 void window_profiles(void)
