@@ -199,7 +199,7 @@ static void profilelist_new_input_cb(gchar *string, gpointer data)
 		return;
 	}
 	
-	for (t = g_list_first(ProfilesList_tmp); t != NULL; t = t->next)
+	for (t = g_list_first(ProfilesList); t != NULL; t = t->next)
 	{
 		if (!g_strcasecmp(string, (gchar *) t->data))
 		{
@@ -208,13 +208,13 @@ static void profilelist_new_input_cb(gchar *string, gpointer data)
 	}
 	
 	text[0] = string;
-	gtk_clist_append(GTK_CLIST(clist), text);
-	ProfilesList_tmp = g_list_append(ProfilesList_tmp, g_strdup(string));
+	gtk_clist_append(GTK_CLIST(data), text);
+	ProfilesList = g_list_append(ProfilesList, g_strdup(string));
 }
 
 static void profilelist_new_cb(GtkWidget *widget, gpointer data)
 {
-	gnome_request_dialog(FALSE, _("Name of new profile:"), "", 50, profilelist_new_input_cb, NULL, NULL);
+	gnome_request_dialog(FALSE, _("Name of new profile:"), "", 50, profilelist_new_input_cb, data, NULL);
 }
 
 static void profilelist_delete_cb(GtkWidget *widget, gpointer data)
@@ -223,7 +223,7 @@ static void profilelist_delete_cb(GtkWidget *widget, gpointer data)
 	{
 		gchar *name;
 
-		gtk_clist_get_text(GTK_CLIST(clist), selected, 0, &name);
+		gtk_clist_get_text(GTK_CLIST(data), selected, 0, &name);
 
 		if (!g_strcasecmp(name, "Default"))
 		{
@@ -235,14 +235,14 @@ static void profilelist_delete_cb(GtkWidget *widget, gpointer data)
 		{
 			GList *remove;
 
-			remove = g_list_find_custom(ProfilesList_tmp, name, (GCompareFunc) g_list_compare_strings);
+			remove = g_list_find_custom(ProfilesList, name, (GCompareFunc) g_list_compare_strings);
 			if (remove != NULL)
 			{
-				ProfilesList_tmp = g_list_remove_link(ProfilesList_tmp, remove);
+				ProfilesList = g_list_remove_link(ProfilesList, remove);
 				g_list_free_1(remove);
 			}
 			
-			gtk_clist_remove(GTK_CLIST(clist), selected);
+			gtk_clist_remove(GTK_CLIST(data), selected);
 		}
 		else
 		{
@@ -341,9 +341,7 @@ static void profilelist_dialog (GtkWidget *label)
 	gtk_clist_set_shadow_type (GTK_CLIST (clist), GTK_SHADOW_ETCHED_IN);
 	ProfilesList_tmp = g_list_copy(ProfilesList);
 	g_list_foreach(ProfilesList_tmp, (GFunc) profilelist_clist_fill, (gpointer) clist);
-	gtk_signal_connect(GTK_OBJECT(clist), "select-row", GTK_SIGNAL_FUNC(profilelist_select_row_cb), NULL);
-	gtk_signal_connect(GTK_OBJECT(clist), "unselect-row", GTK_SIGNAL_FUNC(profilelist_unselect_row_cb), NULL);
-	
+
 	dialog_action_area = GNOME_DIALOG (dialog)->action_area;
 	gtk_object_set_data (GTK_OBJECT (dialog), "dialog_action_area", dialog_action_area);
 	gtk_widget_show (dialog_action_area);
@@ -372,7 +370,7 @@ static void profilelist_dialog (GtkWidget *label)
 	
 	gtk_widget_show(dialog);
 
-	gnome_popup_menu_attach(popup_menu, clist, NULL);
+	//gnome_popup_menu_attach(popup_menu, clist, NULL);
 }
 
 WIZARD_DATA2 *connections_find(gchar *name, gchar *character)
@@ -971,6 +969,15 @@ void window_profile_edit(void)
 	gtk_clist_column_title_passive(GTK_CLIST(profile_list), 0);
 
 	g_list_foreach(ProfilesList, (GFunc) profilelist_clist_fill, (gpointer) profile_list);
+
+	/*
+	 * Signals
+	 */
+	gtk_signal_connect(GTK_OBJECT(profile_list), "select-row",   GTK_SIGNAL_FUNC(profilelist_select_row_cb), NULL);
+	gtk_signal_connect(GTK_OBJECT(profile_list), "unselect-row", GTK_SIGNAL_FUNC(profilelist_unselect_row_cb), NULL);
+
+	gtk_signal_connect(GTK_OBJECT(button_new), "clicked", GTK_SIGNAL_FUNC(profilelist_new_cb), profile_list);
+	gtk_signal_connect(GTK_OBJECT(button_delete), "clicked", GTK_SIGNAL_FUNC(profilelist_delete_cb), profile_list);
 	
 	gtk_widget_show(profile_window);
 }
