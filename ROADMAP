@@ -15,6 +15,7 @@ feel free to suggest features, contribute, or comment.
 * Save logfiles of mud-traffic [DONE]
 * Copy/Paste from clipboard
 * Rewrite connection wizard... [MOSTLY DONE]
+	+ double click on entries to connect [DONE]
 	+ be able to ping host...
 	+ several characters per host
 * Rewrite font/color support

@@ -772,6 +772,48 @@ static void connections_unselect_row_cb(GtkCList *clist, gint row, gint column, 
 	connection_selected = -1;
 }
 
+static void connections_button_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	gint  row, col;
+	gchar *row_name = NULL;
+
+	switch (event->type)
+	{
+		case GDK_2BUTTON_PRESS:
+			gtk_clist_get_selection_info(GTK_CLIST(widget), event->x, event->y, &row, &col);
+			if (gtk_clist_get_text(GTK_CLIST(widget), row, col, &row_name))
+			{
+				WIZARD_DATA2 *wd;
+				CONNECTION_DATA *cd;
+
+				gchar *player = NULL;
+
+				gtk_clist_get_text(GTK_CLIST(widget), row, 1, &player);
+
+				wd = connections_find(row_name, player);
+				cd = make_connection(wd->hostname, wd->port, wd->profile);
+
+				if (cd && cd->connected)
+				{
+					if (strlen(wd->playername) > 0 && strlen(wd->password) > 0)
+					{
+						connection_send(cd, wd->playername);
+						connection_send(cd, "\n");
+						connection_send(cd, wd->password);
+						connection_send(cd, "\n");
+					}
+
+					gtk_widget_destroy((GtkWidget *) data);
+				}
+
+			}
+			break;
+
+		default:
+			break;
+	}
+}
+
 void window_profiles(void)
 {
 	static GtkWidget *dialog;
@@ -848,8 +890,10 @@ void window_profiles(void)
 	gtk_clist_set_column_width (GTK_CLIST (main_clist), 1, 80);
 	gtk_clist_column_titles_show (GTK_CLIST (main_clist));
 	g_list_foreach(Profiles, (GFunc) connections_clist_fill, main_clist);
-	gtk_signal_connect(GTK_OBJECT(main_clist), "select-row", GTK_SIGNAL_FUNC(connections_select_row_cb), NULL);
-	gtk_signal_connect(GTK_OBJECT(main_clist), "unselect-row", GTK_SIGNAL_FUNC(connections_unselect_row_cb), NULL);
+	
+	gtk_signal_connect(GTK_OBJECT(main_clist), "select-row", 			GTK_SIGNAL_FUNC(connections_select_row_cb), NULL);
+	gtk_signal_connect(GTK_OBJECT(main_clist), "unselect-row", 			GTK_SIGNAL_FUNC(connections_unselect_row_cb), NULL);
+	gtk_signal_connect(GTK_OBJECT(main_clist), "button_press_event", 	GTK_SIGNAL_FUNC(connections_button_press_cb), dialog);
 	
 	label1 = gtk_label_new (_("Mud"));
 	gtk_widget_ref (label1);
@@ -1196,14 +1240,15 @@ void window_profile_edit(void)
 	gtk_widget_set_usize(profile_list, 250, 180);
 	gtk_clist_column_titles_show(GTK_CLIST(profile_list));
 	gtk_clist_column_title_passive(GTK_CLIST(profile_list), 0);
+	gtk_object_set_data(GTK_OBJECT(profile_list), "main_window", profile_window);
 
 	g_list_foreach(ProfilesList, (GFunc) profilelist_clist_fill, (gpointer) profile_list);
 
 	/*
 	 * Signals
 	 */
-	gtk_signal_connect(GTK_OBJECT(profile_list), "select-row",   GTK_SIGNAL_FUNC(profilelist_select_row_cb), GINT_TO_POINTER(0));
-	gtk_signal_connect(GTK_OBJECT(profile_list), "unselect-row", GTK_SIGNAL_FUNC(profilelist_unselect_row_cb), GINT_TO_POINTER(0));
+	gtk_signal_connect(GTK_OBJECT(profile_list), "select-row",   		GTK_SIGNAL_FUNC(profilelist_select_row_cb), GINT_TO_POINTER(0));
+	gtk_signal_connect(GTK_OBJECT(profile_list), "unselect-row", 		GTK_SIGNAL_FUNC(profilelist_unselect_row_cb), GINT_TO_POINTER(0));
 
 	gtk_signal_connect(GTK_OBJECT(button_new),    "clicked", GTK_SIGNAL_FUNC(profilelist_new_cb), profile_list);
 	gtk_signal_connect(GTK_OBJECT(button_delete), "clicked", GTK_SIGNAL_FUNC(profilelist_delete_cb), profile_list);
