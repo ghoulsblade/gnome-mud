@@ -15,6 +15,8 @@ config.status
 config.guess
 config.sub
 configure
+depcomp
+install-sh
 intltool-extract
 intltool-extract.in
 intltool-merge
@@ -22,6 +24,7 @@ intltool-merge.in
 intltool-update
 intltool-update.in
 libtool
+missing
 stamp-h*
 stamp-h.in
 notes
@@ -30,3 +33,4 @@ gnome-mud-*.tar.gz
 mkinstalldirs
 gnome-mud.desktop
 gnome-mud.schemas
+
