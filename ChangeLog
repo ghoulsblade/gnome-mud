@@ -1,3 +1,7 @@
+Mon Jan 13 14:06:44 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/profiles.c: Fixed apply button and re-added cancel button.
+
 Mon Jan 13 13:33:34 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* ROADMAP: Rearranged.

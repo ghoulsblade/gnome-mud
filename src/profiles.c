@@ -714,6 +714,11 @@ static void connections_fields_clean(GtkWidget *widget)
 	gtk_label_set_text(GTK_LABEL(gtk_object_get_data(GTK_OBJECT(widget), "label_info_prof")), _("Default"));
 }
 
+static void connections_button_info_cancel_cb(GtkWidget *button, gpointer data)
+{
+	connections_fields_clean(button);
+}
+
 static void connections_button_info_fetch_cb(GtkWidget *button, gpointer data)
 {
 	connections_fields_clean(button);
@@ -870,6 +875,7 @@ void window_profiles(void)
 	GtkWidget *button_info_prof;
 	GtkWidget *table_buttons;
 	GtkWidget *button_info_apply;
+	GtkWidget *button_info_cancel;
 	GtkWidget *button_info_fetch;
 	GtkWidget *dialog_action_area;
 	GtkWidget *button_connect;
@@ -1100,7 +1106,7 @@ void window_profiles(void)
 	gtk_table_set_row_spacings (GTK_TABLE (table_buttons), 2);
 	gtk_table_set_col_spacings (GTK_TABLE (table_buttons), 3);
 
-	button_info_apply = gtk_image_new_from_stock ("gtk-apply", GTK_ICON_SIZE_LARGE_TOOLBAR);
+	button_info_apply = gtk_button_new_from_stock ("gtk-apply");
 	gtk_widget_ref (button_info_apply);
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "button_info_apply", button_info_apply, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (button_info_apply);
@@ -1114,6 +1120,21 @@ void window_profiles(void)
 	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_char_password", entry_info_char_password);
 	gtk_object_set_data(GTK_OBJECT(button_info_apply), "label_info_prof", label_info_prof);
 
+	button_info_cancel = gtk_button_new_from_stock("gtk-cancel");
+	gtk_widget_ref (button_info_cancel);
+	gtk_object_set_data_full (GTK_OBJECT (dialog), "button_info_cancel", button_info_cancel, (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (button_info_cancel);
+	gtk_table_attach (GTK_TABLE (table_buttons), button_info_cancel, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_signal_connect(GTK_OBJECT(button_info_cancel), "clicked", GTK_SIGNAL_FUNC(connections_button_info_cancel_cb), NULL);
+
+	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_mud_title", entry_info_mud_title);
+	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_mud_host",  entry_info_mud_host);
+	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_mud_port",  entry_info_mud_port);
+	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_char_character", entry_info_char_character);
+	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_char_password", entry_info_char_password);
+	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "label_info_prof", label_info_prof);
+
+	
 	button_info_fetch = gtk_button_new_with_label(_("Fetch from mudlist"));
 	gtk_widget_show(button_info_fetch);
 	gtk_table_attach(GTK_TABLE(table_buttons), button_info_fetch, 2, 3, 0, 1, GTK_FILL, GTK_EXPAND | GTK_FILL, 5, 0);
