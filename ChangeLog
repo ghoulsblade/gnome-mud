@@ -1,3 +1,15 @@
+Thu Oct  4 15:23:18 CEST 2001  Robin Ercisson  <lobbin@localhost.nu>
+
+	* src/.cvsignore, src/Makefile.am: changed gnomemud to gnome-mud.
+
+	* src/gnome-mud.h, src/net.c (make_connection): Now takes a third
+	argument which is the profile being used, and Default if not found.
+	
+	* src/init.c, src/wizard.c: Pass profilename "Default" to
+	make_connection()
+
+	* src/profiles.c: Pass profilename to make_connection().
+
 Thu Oct  4 13:56:33 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/data.c [own_data]: Removed some unused variables.
