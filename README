@@ -25,10 +25,9 @@ This program is under GPL. See file COPYING for details.
     if you have a platform not included here, send me a mail to report.
 
     - Linux (alpha, arm, hppa, ia32, ia64, m68k,
-    	     mips, powerpc, s390, sh, sparc)
+    	     mips mipsel, powerpc, s390, sh, sparc)
     - FreeBSD
     - OpenBSD
-    - Hurd 0.2 (ia32)
 
 
 3. Compiling.
@@ -38,7 +37,7 @@ This program is under GPL. See file COPYING for details.
     ./configure --help
     ./configure
     make
-    make install (optional, just copy it if you don't want to install)
+    make install
 
 
 4. Mailing-lists.
@@ -59,7 +58,7 @@ This program is under GPL. See file COPYING for details.
 
     Things that is in constant need of contrib is:
 
-    * translations, only a handfull languages are supported at this time
+    * translations, only a handful of languages are currently supported.
     * useful plugins
     * ... what would you like?
 

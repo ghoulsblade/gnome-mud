@@ -1,3 +1,7 @@
+Fri Mar  1 17:49:22 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* README: typo fixes, and misc corrections.
+
 Fri Mar  1 15:11:24 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/gnome-mud.h: added action_send_to_connection()
