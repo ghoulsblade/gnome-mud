@@ -213,6 +213,7 @@ AC_OUTPUT([
   doc/gnome-mud-manual/C/Makefile
   doc/gnome-mud-plugin-api/Makefile
   doc/gnome-mud-plugin-api/C/Makefile
+  doc/omf-install/Makefile
   src/Makefile
   plugins/Makefile
   po/Makefile.in

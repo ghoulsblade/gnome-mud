@@ -1,7 +1,9 @@
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.0//EN"[
-<!ENTITY version "0.9.1">
-<!ENTITY date "05/06/2002">
-<!ENTITY CODE SYSTEM "monitor.py">
+<?xml version="1.0"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1.2//EN"
+    "/usr/share/sgml/docbook/dtd/xml/4.1.2/docbookx.dtd" [
+    <!ENTITY version "0.9.1">
+    <!ENTITY date "June 2003">
+    <!ENTITY CODE SYSTEM "monitor.py">
 ]>
 
 <article id="index" lang="en">
@@ -76,7 +78,6 @@
      <ulink url="http://www.python.org" type="http">Python Web page</ulink>.
      The C interface will be described in later versions.
     </para>
-    <para>
   </sect1>
 
 
@@ -300,7 +301,7 @@
 	  method is called on a <classname>Connection</classname> object that
 	  is not actually connected to a socket (as determined by the
 	  <parameter>connected</parameter> member).
-	 <para>
+	 </para>
 	</listitem>
 	</varlistentry>
 	<varlistentry>

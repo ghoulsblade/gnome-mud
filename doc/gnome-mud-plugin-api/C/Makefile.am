@@ -4,5 +4,5 @@ lang = C
 omffile = gnome-mud-plugin-api-C.omf
 entities =
 sgml_ents =
-include $(top_srcdir)/doc/sgmldocs.make
+include $(top_srcdir)/doc/xmldocs.make
 dist-hook: app-dist-hook

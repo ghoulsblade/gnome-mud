@@ -27,8 +27,8 @@
     <type>
      manual
     </type>
-    <format mime="text/sgml"/>
-    <identifier url="gnome-mud-plugin-api.sgml"/>
+    <format mime="text/xml" dtd="-//OASIS//DTD DocBook XML V4.1.2//EN"/>
+    <identifier url="gnome-mud-plugin-api.xml"/>
     <language code="C"/>
   </resource>
 </omf>

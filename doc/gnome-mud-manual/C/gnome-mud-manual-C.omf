@@ -21,8 +21,8 @@
     <type>
      manual
     </type>
-    <format mime="text/sgml"/>
-    <identifier url="gnome-mud-manual.sgml"/>
+    <format mime="text/xml" dtd="-//OASIS//DTD DocBook XML V4.1.2//EN"/>
+    <identifier url="gnome-mud-manual.xml"/>
     <language code="C"/>
   </resource>
 </omf>

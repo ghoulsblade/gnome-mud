@@ -1,6 +1,8 @@
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.0//EN"[
-<!ENTITY version "0.9.0"> <!-- replace with application version -->
-<!ENTITY date "02/26/2002"> <!-- date the manual was last updated -->
+<?xml version="1.0"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1.2//EN"
+    "/usr/share/sgml/docbook/dtd/xml/4.1.2/docbookx.dtd" [
+    <!ENTITY version "0.9.1">
+    <!ENTITY date "June 2003">
 ]>
 
 
@@ -153,7 +155,7 @@
       </menuchoice>
       from the <guimenu>Main Menu</guimenu>, or type
       <command>gnome-mud</command> on the command line.
-  </para>
+    </para>
 
 <!-- gnome-mud isn't in any GNOME package... yet?
     <para>
@@ -188,7 +190,7 @@
       <para>
         Starting <application>GNOME-Mud</application> opens the
         <interface>Main window</interface>, shown in <xref
-        linkend="main-window">. The window is at first mostly empty, just
+        linkend="main-window"/>. The window is at first mostly empty, just
 	showing some information about the
 	<application>GNOME-Mud</application> build you're running.
 
@@ -196,8 +198,8 @@
 	  <title>GNOME-Mud Main Window</title>
 	  <screenshot>
 	    <screeninfo>GNOME-Mud Main Window</screeninfo>
-	    <graphic fileref="figures/main-window.png" format="png"
-	    srccredit="Jordi Mallach">
+	    <graphic fileref="figures/main-window.png" format="PNG"
+	    srccredit="Jordi Mallach"/>
 	  </screenshot>
 	</figure>
       </para>
@@ -226,8 +228,8 @@
 	   <title>GNOME-Mud Connection Wizard</title>
 	   <screenshot>
 	    <screeninfo>GNOME-Mud Connection Wizard</screeninfo>
-	    <graphic fileref="figures/connections-window.png" format="png"
-	    srccredit="Jordi Mallach">
+	    <graphic fileref="figures/connections-window.png" format="PNG"
+	    srccredit="Jordi Mallach"/>
 	   </screenshot>
 	  </figure>
 	  To create a connection, enter a descriptive title (normally the
@@ -293,8 +295,8 @@
 	  <title>GNOME-Mud MudList</title>
 	  <screenshot>
 	   <screeninfo>GNOME-Mud MudList</screeninfo>
-	   <graphic fileref="figures/mudlist-window.png" format="png"
-	   srccredit="Jordi Mallach">
+	   <graphic fileref="figures/mudlist-window.png" format="PNG"
+	   srccredit="Jordi Mallach"/>
 	  </screenshot>
 	 </figure>
 	</para>
@@ -328,6 +330,7 @@
 	 and close</guibutton> button will be replaced by <guibutton>Connect
 	 to the mud</guibutton>.
 	</para>
+      </sect3>
 
       <sect3 id="disconnecting">
         <title>Disconnecting from MUDs</title>
@@ -374,8 +377,8 @@
 	    <title>GNOME-Mud Profiles</title>
 	    <screenshot>
 	      <screeninfo>GNOME-Mud Profiles</screeninfo>
-	      <graphic fileref="figures/profiles-window.png" format="png"
-	      srccredit="Jordi Mallach">
+	      <graphic fileref="figures/profiles-window.png" format="PNG"
+	      srccredit="Jordi Mallach"/>
 	    </screenshot>
 	  </figure>
           <variablelist>
@@ -815,15 +818,15 @@
     <guimenuitem>Preferences...</guimenuitem>
    </menuchoice>.  This opens the
    <interface>Preferences</interface> dialog, shown in <xref
-   linkend="preferences-window">.
+   linkend="preferences-window"/>.
   </para>
 
   <figure id="preferences-window">
    <title>Preferences Dialog</title>
    <screenshot>
     <screeninfo>Preferences Dialog</screeninfo>
-    <graphic fileref="figures/preferences-window.png" format="png"
-     srccredit="Jordi Mallach">
+    <graphic fileref="figures/preferences-window.png" format="PNG"
+     srccredit="Jordi Mallach"/>
    </screenshot>
   </figure>
 
