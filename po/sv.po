@@ -2,11 +2,12 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Robin Ericsson <lobbin@localhost.nu>, 2000
 #
+#: src/modules.c:294
 msgid ""
 msgstr ""
-"Project-Id-Version: AMCL 0.8.0\n"
-"POT-Creation-Date: 2000-12-27 18:34+0100\n"
-"PO-Revision-Date: 2000-12-27 20:47+0100\n"
+"Project-Id-Version: GNOME-MUD 0.8.0\n"
+"POT-Creation-Date: 2001-01-14 22:46+0100\n"
+"PO-Revision-Date: 2001-01-14 22:47+0100\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -65,8 +66,8 @@ msgid "window_data: trying to access to undefined data range: %d"
 msgstr "window_data: försöker få access till undefinerat data område: %d"
 
 #: src/data.c:340
-msgid "AMCL Configuration Center"
-msgstr "AMCL Inställnings Center"
+msgid "GNOME-Mud Configuration Center"
+msgstr "GNOME-Mud Inställnings Center"
 
 #: src/data.c:385 src/keybind.c:420 src/wizard.c:572
 msgid "Add"
@@ -90,8 +91,8 @@ msgid "Couldn't allocate color"
 msgstr "Kunde inte allokera färg"
 
 #: src/color.c:296
-msgid "AMCL Color Chooser"
-msgstr "AMCL Färg Väljare"
+msgid "GNOME-Mud Color Chooser"
+msgstr "GNOME-Mud Färg Väljare"
 
 #: src/color.c:333 src/window.c:222
 msgid "Ok"
@@ -114,101 +115,95 @@ msgstr "Standard"
 msgid "Can't load font... %s Using default.\n"
 msgstr "Kan inte ladda font... %s. Använder standard.\n"
 
-#: src/init.c:85
+#: src/init.c:75
 msgid "Quit?"
 msgstr "Avsluta?"
 
-#: src/init.c:91
+#: src/init.c:81
 msgid "Do you really want to quit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/init.c:133 src/init.c:326 src/init.c:336
+#: src/init.c:123 src/init.c:317 src/init.c:327
 msgid "Connect..."
 msgstr "Anslut..."
 
-#: src/init.c:144
+#: src/init.c:134
 msgid "Host:"
 msgstr "Adress"
 
-#: src/init.c:151
+#: src/init.c:141
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:209
+#: src/init.c:202
 msgid "Gnome-Mud"
 msgstr "Gnome-Mud"
 
-#: src/init.c:212
-msgid ""
-"Homepage: http://amcl.sourceforge.net \n"
-" \n"
-"Send bug reports to: amcl-devel@lists.sourceforge.net"
-msgstr ""
-"Hemsida: http://amcl.sourceforge.net \n"
-" \n"
-"Skicka bugrapporter till: amcl-devel@lists.sourceforge.net"
+#: src/init.c:205
+msgid "Send bug reports to: amcl-devel@lists.sourceforge.net"
+msgstr "Skicka bugrapporter till: amcl-devel@lists.sourceforge.net"
 
-#: src/init.c:324
+#: src/init.c:315
 msgid "Wizard..."
 msgstr "Wizard..."
 
-#: src/init.c:327 src/init.c:337
+#: src/init.c:318 src/init.c:328
 msgid "Disconnect"
 msgstr "Koppla ifrån"
 
-#: src/init.c:329
+#: src/init.c:320
 msgid "Exit"
 msgstr "Avsluta"
 
-#: src/init.c:334
+#: src/init.c:325
 msgid "Connection Wizard..."
 msgstr "Anslutnings Wizard..."
 
-#: src/init.c:339
+#: src/init.c:330
 msgid "Close Window"
 msgstr "Stäng fönster"
 
-#: src/init.c:347
+#: src/init.c:338
 msgid "Plugin Information..."
 msgstr "Plugin Information..."
 
-#: src/init.c:352
+#: src/init.c:346
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:353
+#: src/init.c:347
 msgid "Variables..."
 msgstr "Variabler..."
 
-#: src/init.c:354
+#: src/init.c:348
 msgid "Actions/Triggers..."
 msgstr "Actions/Triggers..."
 
-#: src/init.c:355
+#: src/init.c:349
 msgid "Keybinds..."
 msgstr "Tangenter..."
 
-#: src/init.c:357
+#: src/init.c:351
 msgid "Auto Mapper"
 msgstr "Kart Genererare..."
 
-#: src/init.c:359
+#: src/init.c:353
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:366
+#: src/init.c:360
 msgid "README"
 msgstr "LÄSMIG"
 
-#: src/init.c:367
+#: src/init.c:361
 msgid "AUTHORS"
 msgstr "Inblandade"
 
-#: src/init.c:453
+#: src/init.c:447
 msgid "Main"
 msgstr "Arkiv"
 
-#: src/init.c:502
+#: src/init.c:494
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuerad under GNU General Public License.\n"
 
@@ -221,8 +216,8 @@ msgid "Incomplete fields."
 msgstr "Inkompletta fält."
 
 #: src/keybind.c:342
-msgid "AMCL Key Binding Center"
-msgstr "AMCL Snabbtangent Center"
+msgid "GNOME-Mud Key Binding Center"
+msgstr "GNOME-Mud Snabbtangent Center"
 
 #: src/keybind.c:366
 msgid "Key"
@@ -344,8 +339,8 @@ msgstr "auto_map_new: g_malloc0 fel: %s\n"
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
 #. gtk_window_set_title(GTK_WINDOW(automap->window), name);
 #: src/map.c:2560
-msgid "AMCL AutoMapper"
-msgstr "AMCL KartGenererare"
+msgid "GNOME-Mud AutoMapper"
+msgstr "GNOME-Mud KartGenererare"
 
 #. Some buttons
 #: src/map.c:2662
@@ -404,77 +399,60 @@ msgstr "map_new: g_malloc0 fel: %s\n"
 
 #: src/map.c:2768
 #, c-format
-msgid "AMCL Mapper - map%d"
-msgstr "AMCL KartGenererare - karta%d"
+msgid "GNOME-Mud Mapper - map%d"
+msgstr "GNOME-Mud KartGenererare - karta%d"
 
 #: src/map.c:2880
 #, c-format
 msgid "load_automap_from_file: Could not open %s for reading: %s\n"
 msgstr "load_automap_from_file: Kunde inte öppna %s för läsning: %s\n"
 
-#: src/modules.c:183
-msgid "AMCL Plugin Information"
-msgstr "AMCL Plugin Information"
-
-#: src/modules.c:210
+#: src/modules.c:204
 msgid "Plugin Name:"
 msgstr "Plugin Namn:"
 
-#: src/modules.c:228
+#: src/modules.c:224
 msgid "Plugin Author:"
 msgstr "Plugin Skapare:"
 
-#: src/modules.c:245
+#: src/modules.c:234
 msgid "Plugin Version:"
 msgstr "Plugin Version:"
 
-#: src/modules.c:262
+#: src/modules.c:244
 msgid "Plugin Description:"
 msgstr "Plugin Beskrivning:"
 
-#: src/modules.c:279
-msgid " Is Plugin Enabled?"
-msgstr " Används Pluginet?"
+#: src/modules.c:254
+msgid "Is Plugin Enabled?"
+msgstr "Används Pluginet?"
 
-#: src/modules.c:366
+#: src/modules.c:407
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
 msgstr "Fel i plugin handle (%s): %s."
 
-#: src/modules.c:371
-#, c-format
-msgid "Error, %s not an AMCL module: %s."
-msgstr "Fel, %s är ingen AMCL modul: %s."
-
-#: src/modules.c:390
-msgid "Checking whether plugin should be enabled by default..."
-msgstr "Kolla om pluginet skall vara igång från start..."
-
-#: src/modules.c:403
-#, c-format
-msgid "Registering plugin `%s'."
-msgstr "Registrerar plugig `%s'."
-
-#: src/modules.c:404
-#, c-format
-msgid "Plug-in internal name is `%s'."
-msgstr "Plug-in internt namn är `%s'."
-
 #: src/modules.c:412
-msgid "Running init-function..."
-msgstr "Kör init-funktion..."
+#, c-format
+msgid "Error, %s not an GNOME-Mud module: %s."
+msgstr "Fel, %s är ingen GNOME-Mud modul: %s."
 
-#: src/modules_api.c:58
+#: src/modules.c:438
+#, c-format
+msgid "Registering plugin `%s' under the name `%s'."
+msgstr "Registrerar plugin `%s' under namnet `%s'."
+
+#: src/modules_api.c:54
 #, c-format
 msgid "Error register menu: %s"
 msgstr "Fel i registrering av meny: %s"
 
-#: src/modules_api.c:78
+#: src/modules_api.c:74
 #, c-format
 msgid "Error register for data %s: %s"
 msgstr "Fel i registrering av data %s: %s"
 
-#: src/modules_api.c:86
+#: src/modules_api.c:82
 msgid "Error getting plugin from handle."
 msgstr "Fel i att ta reda på plugin handle."
 
@@ -590,23 +568,23 @@ msgstr "Funktionalitet"
 #: src/version.c:36
 #, c-format
 msgid ""
-"Welcome to AMCL Version %s\n"
+"Welcome to GNOME-Mud Version %s\n"
 "Compiled by %s on %s the %s at %s\n"
 "Using %s and %s.\n"
 "\n"
 msgstr ""
-"Välkommen till AMCL Version %s\n"
+"Välkommen till GNOME-Mud Version %s\n"
 "Kompilerad av %s på %s den %s kl. %s\n"
 "tillsammans med %s och %s.\n"
 "\n"
 
 #: src/window.c:207
-msgid "AMCL Popup Message"
-msgstr "AMCL Popup Meddelande"
+msgid "GNOME-Mud Popup Message"
+msgstr "GNOME-Mud Popup Meddelande"
 
 #: src/window.c:272
-msgid "AMCL Internal Error: "
-msgstr "AMCL Internt Fel: "
+msgid "GNOME-Mud Internal Error: "
+msgstr "GNOME-Mud Internt Fel: "
 
 #: src/wizard.c:308
 msgid "No selection made"
@@ -633,8 +611,8 @@ msgid "Connections"
 msgstr "Anslutningar"
 
 #: src/wizard.c:448
-msgid "AMCL Connection Wizard"
-msgstr "AMCL Anslutnings Wizard"
+msgid "GNOME-Mud Connection Wizard"
+msgstr "GNOME-Mud Anslutnings Wizard"
 
 #: src/wizard.c:493
 msgid "Connection Name:"
@@ -680,10 +658,10 @@ msgstr "Auto Login?"
 
 #: src/wizard.c:536
 msgid ""
-"Should AMCL login to this MUD automatically? Player Name and Password must "
-"be set to make this work."
+"Should GNOME-Mud login to this MUD automatically? Player Name and Password "
+"must be set to make this work."
 msgstr ""
-"Ska AMCL automatiskt logga in på MUD? Spelar namn och lösenord måste\n"
+"Ska GNOME-Mud automatiskt logga in på MUD? Spelar namn och lösenord måste\n"
 "vara sätt för att detta ska funka."
 
 #: src/wizard.c:543

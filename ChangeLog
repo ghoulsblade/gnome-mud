@@ -1,3 +1,10 @@
+Sun Jan 14 22:50:09 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/*: Renamed amcl.h to gnome-mud.h, and tried to change
+	AMCL into GNOME-Mud where I could.
+
+	* po/*.po: make update-po
+
 Thu Jan  1 17:08:21 2001  Jordi Mallach  <jordi@sindominio.net>
 	* amcl.1, gnome-mud.1, Makefile.am: renamed the fake manpage
 	and added the real one to the distribution.

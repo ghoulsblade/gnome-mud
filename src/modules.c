@@ -1,5 +1,5 @@
-/* AMCL - A simple Mud CLient
- * Copyright (C) 1999-2000 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1999-2001 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@
 # endif
 #endif
 
-#include "amcl.h"
+#include "gnome-mud.h"
 #include "modules.h"
 
 static char const rcsid[] =
@@ -291,7 +291,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_clist_set_column_width (GTK_CLIST (clist1), 0, 80);
   gtk_clist_column_titles_hide (GTK_CLIST (clist1));
 
-  label5 = gtk_label_new (_("label5"));
+  label5 = gtk_label_new (_(""));
   gtk_widget_ref (label5);
   gtk_object_set_data_full (GTK_OBJECT (dialog1), "label5", label5,
                             (GtkDestroyNotify) gtk_widget_unref);
@@ -407,9 +407,9 @@ PLUGIN_OBJECT *plugin_query (gchar *plugin_name, gchar *plugin_path)
         g_message (_("Error getting plugin handle (%s): %s."), plugin_name, dlerror());
         goto error;
     } else {
-        if ((new_plugin->info = dlsym(new_plugin->handle,"amcl_plugin_info")) == NULL)
+        if ((new_plugin->info = dlsym(new_plugin->handle,"gnomemud_plugin_info")) == NULL)
         {
-            g_message (_("Error, %s not an AMCL module: %s."), plugin_name, dlerror());
+            g_message (_("Error, %s not an GNOME-Mud module: %s."), plugin_name, dlerror());
             goto error;
         }
         new_plugin->filename = g_strdup (filename);

@@ -1,5 +1,5 @@
-/* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2001 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "amcl.h"
+#include "gnome-mud.h"
 
 static char const rcsid[] =
     "$Id$";
@@ -337,7 +337,7 @@ void window_data (GtkWidget *menu, gint z)
     data->textname  = gtk_entry_new ();
     data->textvalue = gtk_entry_new ();
   
-    gtk_window_set_title (GTK_WINDOW (data->window), _("AMCL Configuration Center"));
+    gtk_window_set_title (GTK_WINDOW (data->window), _("GNOME-Mud Configuration Center"));
     gtk_widget_set_usize (data->window,450,320);
     gtk_widget_set_sensitive (menu, FALSE);
 

@@ -1,5 +1,5 @@
-/* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2001 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include <libintl.h>
 #include <stdio.h>
 
-#include "amcl.h"
+#include "gnome-mud.h"
 #include "version.h"
 
 #define _(string) gettext(string)
@@ -33,7 +33,7 @@ static char const rcsid[] =
 
 char * get_version_info (char *buf)
 {
-    sprintf (buf, _("Welcome to AMCL Version %s\nCompiled by %s on %s the %s at %s\nUsing %s and %s.\n\n"),
+    sprintf (buf, _("Welcome to GNOME-Mud Version %s\nCompiled by %s on %s the %s at %s\nUsing %s and %s.\n\n"),
              PROG_VERSION,
              COMPILE_BY, COMPILE_HOST, COMPILE_DATE, COMPILE_TIME,
              CC_VERSION, GTK_VERSION);

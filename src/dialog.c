@@ -1,5 +1,5 @@
-/* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2001 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "amcl.h"
+#include "gnome-mud.h"
 #include "readme_doc.h"
 #include "authors_doc.h"
 
@@ -40,7 +40,7 @@ void doc_dialog (GtkWidget *widget, gint index)
     GtkWidget *doc_button;
     char doc_title[80];
 
-    strcpy (doc_title, " AMCL - ");
+    strcpy (doc_title, " GNOME-Mud - ");
 
     doc_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_widget_set_usize (GTK_WIDGET (doc_window), 600, 500);

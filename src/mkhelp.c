@@ -36,7 +36,7 @@ main (int argc, char *argv[])
   int compt = 0;
 
   printf ("%s [Dump a text file to a C string] \n", VERSION);
-  printf ("Modified by Robin Ericsson <lobbin@localhost.nu> for the AMCL project.\n");
+  printf ("Modified by Robin Ericsson <lobbin@localhost.nu> for the GNOME-Mud project.\n");
   if (argc < 3)
     {
       printf ("USAGE :  mkhelp <document_name> <header_name>\n");

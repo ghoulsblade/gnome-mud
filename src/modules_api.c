@@ -1,5 +1,5 @@
-/* AMCL - A simple Mud CLient
- * Copyright (C) 1999-2000 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1999-2001 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #include <libintl.h>
 #include <stdio.h>
 
-#include "amcl.h"
+#include "gnome-mud.h"
 #include "modules.h"
 
 /* FIXME */

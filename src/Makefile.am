@@ -1,13 +1,13 @@
-CFLAGS	      += $(DEBUG_FLAGS)
-INCLUDES       = $(GNOME_INCLUDEDIR)
-EXTRA_DIST     = amcl.c
-bin_PROGRAMS   = amcl
-amcl_SOURCES   = data.c color.c init.c keybind.c map.c \
-		 net.c prefs.c window.c wizard.c dialog.c version.c \
-                 modules.c modules_api.c modules.h modules_api.h amcl.h \
-		 readme_doc.h authors_doc.h telnet.c mccpDecompress.c \
-		 mccpDecompress.h
-amcl_LDADD     = amcl.o $(GNOME_LIBDIR) $(GNOMEUI_LIBS)
+CFLAGS	         += $(DEBUG_FLAGS)
+INCLUDES          = $(GNOME_INCLUDEDIR)
+EXTRA_DIST        = amcl.c
+bin_PROGRAMS   	  = gnomemud
+gnomemud_SOURCES  = data.c color.c init.c keybind.c map.c \
+		    net.c prefs.c window.c wizard.c dialog.c version.c \
+                    modules.c modules_api.c modules.h modules_api.h amcl.h \
+		    readme_doc.h authors_doc.h telnet.c mccpDecompress.c \
+		    mccpDecompress.h
+gnomemud_LDADD    = amcl.o $(GNOME_LIBDIR) $(GNOMEUI_LIBS)
 
 amcl.o: amcl.c
 	$(COMPILE) -DPKGDATADIR=\"$(pkgdatadir)\" -c $(top_srcdir)/src/amcl.c

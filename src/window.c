@@ -1,5 +1,5 @@
-/* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2001 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,14 +27,14 @@
 #include <gtk/gtk.h>
 #include <libintl.h>
 
-#include "amcl.h"
-
 #ifdef HAVE_TELNET_H
 #include <telnet.h>
 #endif
 #ifdef HAVE_ARPA_TELNET_H
 #include <arpa/telnet.h>
 #endif
+
+#include "gnome-mud.h"
 
 #define _(string) gettext(string)
 
@@ -204,7 +204,7 @@ void popup_window (const gchar *message)
     gchar       buf[2048];
 
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (window), _("AMCL Popup Message"));
+    gtk_window_set_title (GTK_WINDOW (window), _("GNOME-Mud Popup Message"));
 
     box = gtk_vbox_new (FALSE, 5);
     gtk_container_border_width (GTK_CONTAINER (box), 5);
@@ -269,7 +269,7 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
         break;
     case MESSAGE_ERR:
         gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_green,
-                         NULL, _("AMCL Internal Error: "), 21);
+                         NULL, _("GNOME-Mud Internal Error: "), 21);
         gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_green,
                          NULL, message, strlen (message));
         break;

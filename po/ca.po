@@ -2,11 +2,12 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Jordi Mallach <jordi@sindominio.net>, 2000
 #
+#: src/modules.c:294
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2000-12-27 18:34+0100\n"
+"POT-Creation-Date: 2001-01-14 22:46+0100\n"
 "PO-Revision-Date: 2000-09-28 17:35+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -67,7 +68,7 @@ msgstr "window_data: tractan de accedir a una regió de dades indefinida: %d"
 
 #: src/data.c:340
 #, fuzzy
-msgid "AMCL Configuration Center"
+msgid "GNOME-Mud Configuration Center"
 msgstr "Centre de Alias de AMCL"
 
 #: src/data.c:385 src/keybind.c:420 src/wizard.c:572
@@ -92,7 +93,8 @@ msgid "Couldn't allocate color"
 msgstr "No s'ha pogut fixar el color"
 
 #: src/color.c:296
-msgid "AMCL Color Chooser"
+#, fuzzy
+msgid "GNOME-Mud Color Chooser"
 msgstr "Sel·leccionador de Colors de AMCL"
 
 #: src/color.c:333 src/window.c:222
@@ -116,104 +118,101 @@ msgstr "Predeterminats"
 msgid "Can't load font... %s Using default.\n"
 msgstr "No es pot carregar la font... %s Utilitzant predeterminada.\n"
 
-#: src/init.c:85
+#: src/init.c:75
 #, fuzzy
 msgid "Quit?"
 msgstr "Sortir"
 
-#: src/init.c:91
+#: src/init.c:81
 msgid "Do you really want to quit?"
 msgstr ""
 
-#: src/init.c:133 src/init.c:326 src/init.c:336
+#: src/init.c:123 src/init.c:317 src/init.c:327
 msgid "Connect..."
 msgstr "Conectar..."
 
-#: src/init.c:144
+#: src/init.c:134
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:151
+#: src/init.c:141
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:209
+#: src/init.c:202
 msgid "Gnome-Mud"
 msgstr ""
 
-#: src/init.c:212
-msgid ""
-"Homepage: http://amcl.sourceforge.net \n"
-" \n"
-"Send bug reports to: amcl-devel@lists.sourceforge.net"
+#: src/init.c:205
+msgid "Send bug reports to: amcl-devel@lists.sourceforge.net"
 msgstr ""
 
-#: src/init.c:324
+#: src/init.c:315
 #, fuzzy
 msgid "Wizard..."
 msgstr "Variables..."
 
-#: src/init.c:327 src/init.c:337
+#: src/init.c:318 src/init.c:328
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: src/init.c:329
+#: src/init.c:320
 msgid "Exit"
 msgstr ""
 
-#: src/init.c:334
+#: src/init.c:325
 msgid "Connection Wizard..."
 msgstr "Asistent de Conexions..."
 
-#: src/init.c:339
+#: src/init.c:330
 msgid "Close Window"
 msgstr "Tancar finestra"
 
-#: src/init.c:347
+#: src/init.c:338
 #, fuzzy
 msgid "Plugin Information..."
 msgstr "Informació sobre Conectors"
 
-#: src/init.c:352
+#: src/init.c:346
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:353
+#: src/init.c:347
 #, fuzzy
 msgid "Variables..."
 msgstr "Variables"
 
-#: src/init.c:354
+#: src/init.c:348
 msgid "Actions/Triggers..."
 msgstr "Accions/Triggers"
 
-#: src/init.c:355
+#: src/init.c:349
 #, fuzzy
 msgid "Keybinds..."
 msgstr "Tecles..."
 
-#: src/init.c:357
+#: src/init.c:351
 #, fuzzy
 msgid "Auto Mapper"
 msgstr "Auto Mapeador"
 
-#: src/init.c:359
+#: src/init.c:353
 msgid "Plugins"
 msgstr "Conectors"
 
-#: src/init.c:366
+#: src/init.c:360
 msgid "README"
 msgstr ""
 
-#: src/init.c:367
+#: src/init.c:361
 msgid "AUTHORS"
 msgstr ""
 
-#: src/init.c:453
+#: src/init.c:447
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:502
+#: src/init.c:494
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït baix els termins de la Llicencia Pública General GNU.\n"
 
@@ -226,7 +225,8 @@ msgid "Incomplete fields."
 msgstr "Camps incomplets."
 
 #: src/keybind.c:342
-msgid "AMCL Key Binding Center"
+#, fuzzy
+msgid "GNOME-Mud Key Binding Center"
 msgstr "Centre de Asignació de Tecles de AMCL"
 
 #: src/keybind.c:366
@@ -349,7 +349,8 @@ msgstr ""
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
 #. gtk_window_set_title(GTK_WINDOW(automap->window), name);
 #: src/map.c:2560
-msgid "AMCL AutoMapper"
+#, fuzzy
+msgid "GNOME-Mud AutoMapper"
 msgstr "Auto Mapeador de AMCL"
 
 #. Some buttons
@@ -409,7 +410,7 @@ msgstr ""
 
 #: src/map.c:2768
 #, c-format
-msgid "AMCL Mapper - map%d"
+msgid "GNOME-Mud Mapper - map%d"
 msgstr ""
 
 #: src/map.c:2880
@@ -417,69 +418,53 @@ msgstr ""
 msgid "load_automap_from_file: Could not open %s for reading: %s\n"
 msgstr ""
 
-#: src/modules.c:183
-msgid "AMCL Plugin Information"
-msgstr "Informació de Conectors de AMCL"
-
-#: src/modules.c:210
+#: src/modules.c:204
 msgid "Plugin Name:"
 msgstr "Nom del Conector:"
 
-#: src/modules.c:228
+#: src/modules.c:224
 msgid "Plugin Author:"
 msgstr "Autor del Conector:"
 
-#: src/modules.c:245
+#: src/modules.c:234
 msgid "Plugin Version:"
 msgstr "Versió del Conector:"
 
-#: src/modules.c:262
+#: src/modules.c:244
 msgid "Plugin Description:"
 msgstr "Descripció del Conector:"
 
-#: src/modules.c:279
-msgid " Is Plugin Enabled?"
+#: src/modules.c:254
+#, fuzzy
+msgid "Is Plugin Enabled?"
 msgstr " Està el conector actiu?"
 
-#: src/modules.c:366
+#: src/modules.c:407
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
 msgstr "Error en el manejament del conector (%s): %s."
 
-#: src/modules.c:371
-#, c-format
-msgid "Error, %s not an AMCL module: %s."
+#: src/modules.c:412
+#, fuzzy, c-format
+msgid "Error, %s not an GNOME-Mud module: %s."
 msgstr "Error, %s no es un conector de AMCL: %s."
 
-#: src/modules.c:390
-msgid "Checking whether plugin should be enabled by default..."
-msgstr "Comprobant si el conector deuría ser activat per defecte..."
-
-#: src/modules.c:403
-#, c-format
-msgid "Registering plugin `%s'."
+#: src/modules.c:438
+#, fuzzy, c-format
+msgid "Registering plugin `%s' under the name `%s'."
 msgstr "Registrant el conector `%s'."
 
-#: src/modules.c:404
-#, c-format
-msgid "Plug-in internal name is `%s'."
-msgstr "El nom intern del conector és `%s'."
-
-#: src/modules.c:412
-msgid "Running init-function..."
-msgstr "Executant funció d'iniciació..."
-
-#: src/modules_api.c:58
+#: src/modules_api.c:54
 #, c-format
 msgid "Error register menu: %s"
 msgstr "Error de registre de menú: %s"
 
-#: src/modules_api.c:78
+#: src/modules_api.c:74
 #, c-format
 msgid "Error register for data %s: %s"
 msgstr "Error de registre de dades %s: %s"
 
-#: src/modules_api.c:86
+#: src/modules_api.c:82
 msgid "Error getting plugin from handle."
 msgstr "Error de manejament del conector."
 
@@ -591,9 +576,9 @@ msgid "Functionality"
 msgstr ""
 
 #: src/version.c:36
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Welcome to AMCL Version %s\n"
+"Welcome to GNOME-Mud Version %s\n"
 "Compiled by %s on %s the %s at %s\n"
 "Using %s and %s.\n"
 "\n"
@@ -603,11 +588,13 @@ msgstr ""
 "Utilitzant %s i %s.\n"
 
 #: src/window.c:207
-msgid "AMCL Popup Message"
+#, fuzzy
+msgid "GNOME-Mud Popup Message"
 msgstr "Missatge de AMCL"
 
 #: src/window.c:272
-msgid "AMCL Internal Error: "
+#, fuzzy
+msgid "GNOME-Mud Internal Error: "
 msgstr "Error intern de AMCL"
 
 #: src/wizard.c:308
@@ -635,7 +622,8 @@ msgid "Connections"
 msgstr "Conexions"
 
 #: src/wizard.c:448
-msgid "AMCL Connection Wizard"
+#, fuzzy
+msgid "GNOME-Mud Connection Wizard"
 msgstr "Asistent de Conexions de AMCL"
 
 #: src/wizard.c:493
@@ -682,9 +670,10 @@ msgid "Auto Login?"
 msgstr "Login automàtic?"
 
 #: src/wizard.c:536
+#, fuzzy
 msgid ""
-"Should AMCL login to this MUD automatically? Player Name and Password must "
-"be set to make this work."
+"Should GNOME-Mud login to this MUD automatically? Player Name and Password "
+"must be set to make this work."
 msgstr ""
 "Deu AMCL conectar a aquest MUD automàticament? Per que açò funcione, cal que "
 "Nom del Jugador i Password estiguen fixats."
@@ -720,6 +709,18 @@ msgstr ""
 #: src/wizard.c:599
 msgid "Connect"
 msgstr "Conectar"
+
+#~ msgid "AMCL Plugin Information"
+#~ msgstr "Informació de Conectors de AMCL"
+
+#~ msgid "Checking whether plugin should be enabled by default..."
+#~ msgstr "Comprobant si el conector deuría ser activat per defecte..."
+
+#~ msgid "Plug-in internal name is `%s'."
+#~ msgstr "El nom intern del conector és `%s'."
+
+#~ msgid "Running init-function..."
+#~ msgstr "Executant funció d'iniciació..."
 
 #~ msgid "About"
 #~ msgstr "A propòsit de"

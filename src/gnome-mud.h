@@ -1,5 +1,5 @@
-/* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2001 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef __AMCL_H__
-#define __AMCL_H__
+#ifndef __GNOME_MUD_H__
+#define __GNOME_MUD_H__
 
 #include "mccpDecompress.h"
 #include <stdio.h>
@@ -161,5 +161,5 @@ void  window_wizard      ( GtkWidget *widget,gpointer data );
 /* version.c */
 char * get_version_info (char *buf);
 
-#endif /* __AMCL_H__ */
+#endif /* __GNOME_MUD_H__ */
 

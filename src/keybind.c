@@ -1,5 +1,5 @@
-/* AMCL - A simple Mud CLient
- * Copyright (C) 1999 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1999-2001 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "amcl.h"
+#include "gnome-mud.h"
 
 #define _(string) gettext(string)
 
@@ -339,7 +339,7 @@ void window_keybind ()
   window_key_bind = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_usize (window_key_bind, 450, 320);
   gtk_container_set_border_width (GTK_CONTAINER (window_key_bind), 5);
-  gtk_window_set_title (GTK_WINDOW (window_key_bind), _("AMCL Key Binding Center"));
+  gtk_window_set_title (GTK_WINDOW (window_key_bind), _("GNOME-Mud Key Binding Center"));
   gtk_window_set_position (GTK_WINDOW (window_key_bind), GTK_WIN_POS_CENTER);
   vbox = gtk_vbox_new (FALSE, 0);
   gtk_widget_ref (vbox);

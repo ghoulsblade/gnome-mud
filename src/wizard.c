@@ -1,5 +1,5 @@
-/* AMCL - A simple Mud CLient
- * Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2001 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <pwd.h>
 
-#include "amcl.h"
+#include "gnome-mud.h"
 
 #define _(string) gettext(string)
 static char const rcsid[] =
@@ -445,7 +445,7 @@ void window_wizard (GtkWidget *widget, gpointer data)
   gtk_tooltips_set_colors (tooltip, &color_yellow, &color_black);
   
   wizard_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (wizard_window), _("AMCL Connection Wizard"));
+  gtk_window_set_title (GTK_WINDOW (wizard_window), _("GNOME-Mud Connection Wizard"));
   gtk_signal_connect(GTK_OBJECT (wizard_window), "destroy",
 		     GTK_SIGNAL_FUNC(wizard_close_window), NULL );
   gtk_signal_connect(GTK_OBJECT(wizard_window), "destroy",
@@ -533,7 +533,7 @@ void window_wizard (GtkWidget *widget, gpointer data)
 		      wizard_check_autologin);
   gtk_box_pack_start (GTK_BOX (vbox), wizard_check_autologin, FALSE, FALSE, 0);
   gtk_tooltips_set_tip (tooltip, wizard_check_autologin,
-			_("Should AMCL login to this MUD automatically? "
+			_("Should GNOME-Mud login to this MUD automatically? "
 			  "Player Name and Password must be set to make "
 			  "this work."),
 			NULL);

@@ -1,5 +1,5 @@
-/* AMCL - A simple Mud CLient
- * Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2001 Robin Ericsson <lobbin@localhost.nu>
  *
  * map.c is written by Paul Cameron <thrase@progsoc.uts.edu.au> with
  * modifications by Robin Ericsson to make it work with AMCL.
@@ -2557,7 +2557,7 @@ AutoMap *auto_map_new (void)
     /* Set the title */
     /*g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));*/
     /*gtk_window_set_title(GTK_WINDOW(automap->window), name);*/
-    gtk_window_set_title (GTK_WINDOW(automap->window), _("AMCL AutoMapper"));
+    gtk_window_set_title (GTK_WINDOW(automap->window), _("GNOME-Mud AutoMapper"));
 
     /* Create the drawing window and allocate its colours */
     automap->draw_area = gtk_drawing_area_new();
@@ -2765,7 +2765,7 @@ Map *map_new (void)
         gtk_exit(1);
     }
 
-    g_snprintf(name, 10, _("AMCL Mapper - map%d"), g_list_length(MapList));
+    g_snprintf(name, 10, _("GNOME-Mud Mapper - map%d"), g_list_length(MapList));
     map->name = g_strdup(name);
 
     if (map->name == NULL)
