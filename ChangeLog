@@ -1,3 +1,14 @@
+Thu Jan  9 00:13:41 CET 2003  Jordi Mallach  <jordi@sindominio.net>
+
+	* Makefile.am (EXTRA_DIST): add intltool files.
+	(Applications_in_files): added by intltool-prepare.
+	(Applications_DATA): modified by intltool-prepare.
+	* configure.ac (AC_PROG_INTLTOOL): added intltool support.
+	* gnome-mud.desktop: replaced...
+	* gnome-mud.desktop.in: ... by this.
+	* .cvsignore: update ignorable files.
+	
+
 Wed Jan  8 21:52:12 CET 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: add AM_GLIB_GNU_GETTEXT, so gnome-autogen behaves.

@@ -15,6 +15,12 @@ config.status
 config.guess
 config.sub
 configure
+intltool-extract
+intltool-extract.in
+intltool-merge
+intltool-merge.in
+intltool-update
+intltool-update.in
 libtool
 stamp-h*
 stamp-h.in
@@ -22,3 +28,4 @@ notes
 gnome-mud.lsm
 gnome-mud-*.tar.gz
 mkinstalldirs
+gnome-mud.desktop

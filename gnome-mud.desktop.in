@@ -1,0 +1,7 @@
+[Desktop Entry]
+_Name=GNOME-Mud
+_Comment=The GNOME MUD Client
+Exec=gnome-mud
+Icon=gnome-gmush.png
+Terminal=0
+Type=Application
