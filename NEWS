@@ -1,7 +1,12 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
-GNOME-Mud 0.10.0 (UNRELEASED)
+GNOME-Mud 0.10.1 (10/06/2003)
+
+- Fix segfaults when using PageUp and PageDown on the terminal window.
+- Fix rare segfault in connections without associated profiles.
+
+GNOME-Mud 0.10.0 (05/06/2003)
 
 - GNOME2 port, at long last!
 - GNOME-Mud will now install the binary by default in $(prefix)/games.

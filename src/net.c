@@ -353,9 +353,15 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	/* Added by Bret Robideaux (fayd@alliances.org)
 	 * OK, this seems like a good place to handle checking for action triggers
 	 */
-	if ((triggered_action = check_actions (connection->profile->triggers, mccp_data)))
-		action_send_to_connection (triggered_action, connection);
-   
+	if ( connection->profile && connection->profile->triggers )
+	{
+		triggered_action = check_actions (connection->profile->triggers, mccp_data);
+		if (triggered_action)
+		{
+			action_send_to_connection (triggered_action, connection);
+		}
+	}
+
 	g_free(mccp_data);
 	g_free(mccp_buffer);
 #ifdef ENABLE_MCCP

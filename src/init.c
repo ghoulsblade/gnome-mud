@@ -402,9 +402,8 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 			case GDK_Page_Up:
 				{
 					GtkAdjustment *a;
-
-					a = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(cd->vscrollbar));
 				
+					a = vte_terminal_get_adjustment(VTE_TERMINAL(cd->window));
 					gtk_adjustment_set_value(a, a->value - (a->page_increment/2));
 				}
 				break;
@@ -413,8 +412,7 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 				{
 					GtkAdjustment *a;
 
-					a = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(cd->vscrollbar));
-
+					a = vte_terminal_get_adjustment(VTE_TERMINAL(cd->window));
 					gtk_adjustment_set_value(a, a->value + (a->page_increment/2));
 				}
 				break;
