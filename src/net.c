@@ -211,7 +211,7 @@ static void open_connection (CONNECTION_DATA *connection)
 
 static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCondition condition)
 {
-  gchar  buf[2048];
+  gchar  buf[3000];
   gchar  *triggered_action;
   gint   numbytes;
   gchar *m;

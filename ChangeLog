@@ -1,3 +1,9 @@
+Sun Aug 12 20:52:41 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/net.c (read_from_connection): Changed buf from 2048 to 3000.
+
+	* src/window.c (textfield_add): Removed some old commented code.
+	
 Mon Jul  9 15:34:24 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* config.sub, config.guess: updated to latest versions to fix
