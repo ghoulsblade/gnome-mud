@@ -1,3 +1,8 @@
+Thu Sep  7 01:11:58 CEST 2000 Jordi Mallach <jordi@debian.org>
+	* plugins/test.plugin/Makefile: stupid fix in libgtk and libglib
+	  calls so the test plugin can compile again. Jorge spotted this,
+	  really.
+
 Thu Aug 31 23:34:30 CEST 2000 Jorge Garcia <jorge.garcia@uv.es>
 
 	* Added Vars. (generic 'data' functions to work with alias, actions 
