@@ -3,12 +3,12 @@
 # Jordi Mallach <jordi@debian.org>, 2000, 2001.
 # $Id$
 #
-#: src/modules.c:294
+#: src/modules.c:298
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.8.0\n"
-"POT-Creation-Date: 2001-10-25 17:17+0200\n"
-"PO-Revision-Date: 2001-10-18 16:25+0200\n"
+"POT-Creation-Date: 2001-10-29 02:27+0100\n"
+"PO-Revision-Date: 2001-10-29 12:12+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -360,37 +360,37 @@ msgstr "Cargar"
 msgid "GNOME-Mud AutoMapper"
 msgstr "Auto Mapeador de GNOME-Mud"
 
-#: src/modules.c:204
+#: src/modules.c:208
 msgid "Plugin Name:"
 msgstr "Nombre del Conector:"
 
-#: src/modules.c:224
+#: src/modules.c:228
 msgid "Plugin Author:"
 msgstr "Autor del Conector:"
 
-#: src/modules.c:234
+#: src/modules.c:238
 msgid "Plugin Version:"
 msgstr "Versión del Conector:"
 
-#: src/modules.c:244
+#: src/modules.c:248
 msgid "Plugin Description:"
 msgstr "Descripción del Conector:"
 
-#: src/modules.c:254
+#: src/modules.c:258
 msgid "Is Plugin Enabled?"
 msgstr "¿Está el conector activo?"
 
-#: src/modules.c:407
+#: src/modules.c:411
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
 msgstr "Error en el manejo del conector (%s): %s."
 
-#: src/modules.c:412
+#: src/modules.c:416
 #, c-format
 msgid "Error, %s not an GNOME-Mud module: %s."
 msgstr "Error, %s no es un módulo de GNOME-Mud: %s."
 
-#: src/modules.c:438
+#: src/modules.c:442
 #, c-format
 msgid "Registering plugin `%s' under the name `%s'."
 msgstr "Registrando el conector `%s' bajo el nombre `%s'."
@@ -683,71 +683,3 @@ msgstr ""
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr "Este es el password de tu jugador en el MUD. Utilizable con AutoLogin."
-
-#~ msgid "n"
-#~ msgstr "n"
-
-#~ msgid "ne"
-#~ msgstr "ne"
-
-#~ msgid "e"
-#~ msgstr "e"
-
-#~ msgid "se"
-#~ msgstr "se"
-
-#~ msgid "s"
-#~ msgstr "s"
-
-#~ msgid "sw"
-#~ msgstr "so"
-
-#~ msgid "w"
-#~ msgstr "o"
-
-#~ msgid "nw"
-#~ msgstr "no"
-
-#~ msgid "up"
-#~ msgstr "arriba"
-
-#~ msgid "down"
-#~ msgstr "abajo"
-
-#~ msgid "remove"
-#~ msgstr "quitar"
-
-#~ msgid "load"
-#~ msgstr "cargar"
-
-#~ msgid "save"
-#~ msgstr "salvar"
-
-#~ msgid "%s can NOT be opened in write mode."
-#~ msgstr "NO se puede abrir %s en modo escritura."
-
-#~ msgid "%s exists and can NOT be opened in read mode."
-#~ msgstr "%s existe y NO se puede abrir en modo lectura."
-
-#~ msgid "Keybinds..."
-#~ msgstr "Teclas..."
-
-#~ msgid "README"
-#~ msgstr "LEEME"
-
-#~ msgid "AUTHORS"
-#~ msgstr "AUTORES"
-
-#~ msgid ""
-#~ "Welcome to GNOME-Mud Version %s\n"
-#~ "Compiled by %s on %s the %s at %s\n"
-#~ "Using %s and %s.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Bienvenido a GNOME-Mud Versión %s\n"
-#~ "Compilado por %s en %s el %s a las %s\n"
-#~ "Usando %s y %s.\n"
-#~ "\n"
-
-#~ msgid "GNOME-Mud Mapper - map%d"
-#~ msgstr "Mapeador de GNOME-Mud - mapa %d"

@@ -3,12 +3,12 @@
 # Jordi Mallach <jordi@sindominio.net>, 2000, 2001.
 # $Id$
 #
-#: src/modules.c:294
+#: src/modules.c:298
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2001-10-25 17:17+0200\n"
-"PO-Revision-Date: 2001-10-18 16:25+0200\n"
+"POT-Creation-Date: 2001-10-29 02:27+0100\n"
+"PO-Revision-Date: 2001-10-29 12:12+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,7 @@ msgstr "GNOME-Mud versió %s (compilat %s, %s)\n"
 
 #: src/init.c:607
 msgid "Distributed under the terms of the GNU General Public License.\n"
-msgstr "Distribuït sota els termes de la Llicencia Pública General GNU.\n"
+msgstr "Distribuït sota els termes de la Llicència Pública General GNU.\n"
 
 #: src/keybind.c:142
 msgid "Can't add an existing key."
@@ -361,37 +361,37 @@ msgstr "Carregar"
 msgid "GNOME-Mud AutoMapper"
 msgstr "Automapejador de GNOME-Mud"
 
-#: src/modules.c:204
+#: src/modules.c:208
 msgid "Plugin Name:"
 msgstr "Nom del Connector:"
 
-#: src/modules.c:224
+#: src/modules.c:228
 msgid "Plugin Author:"
 msgstr "Autor del Connector:"
 
-#: src/modules.c:234
+#: src/modules.c:238
 msgid "Plugin Version:"
 msgstr "Versió del Connector:"
 
-#: src/modules.c:244
+#: src/modules.c:248
 msgid "Plugin Description:"
 msgstr "Descripció del Connector:"
 
-#: src/modules.c:254
+#: src/modules.c:258
 msgid "Is Plugin Enabled?"
 msgstr "Està el connector actiu?"
 
-#: src/modules.c:407
+#: src/modules.c:411
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
 msgstr "Error en el manejament del connector (%s): %s."
 
-#: src/modules.c:412
+#: src/modules.c:416
 #, c-format
 msgid "Error, %s not an GNOME-Mud module: %s."
 msgstr "Error, %s no és un connector de GNOME-Mud: %s."
 
-#: src/modules.c:438
+#: src/modules.c:442
 #, c-format
 msgid "Registering plugin `%s' under the name `%s'."
 msgstr "Registrant el connector \"%s\" amb el nom \"%s\"."
@@ -463,7 +463,7 @@ msgid ""
 "will be left in the entry box but selected. Turn this off to remove the text "
 "after it has been sent."
 msgstr ""
-"Amb aquesta opció activada, el texte que introdueiu en la conexió es quedarà "
+"Amb aquesta opció activada, el texte que introduiu en la conexió es quedarà "
 "en el camp de introducció de comandes, pero seleccionat. Desactiveu l'opció "
 "per a esborrar el texte una vegada s'haja enviat."
 
@@ -687,48 +687,3 @@ msgid ""
 msgstr ""
 "Aquest és el password del vostre jugador al MUD. Utilitzable amb "
 "l'autentificació automàtica."
-
-#~ msgid "n"
-#~ msgstr "n"
-
-#~ msgid "ne"
-#~ msgstr "ne"
-
-#~ msgid "e"
-#~ msgstr "e"
-
-#~ msgid "se"
-#~ msgstr "se"
-
-#~ msgid "s"
-#~ msgstr "s"
-
-#~ msgid "sw"
-#~ msgstr "so"
-
-#~ msgid "w"
-#~ msgstr "o"
-
-#~ msgid "nw"
-#~ msgstr "no"
-
-#~ msgid "up"
-#~ msgstr "dalt"
-
-#~ msgid "down"
-#~ msgstr "baix"
-
-#~ msgid "remove"
-#~ msgstr "llevar"
-
-#~ msgid "load"
-#~ msgstr "carregar"
-
-#~ msgid "save"
-#~ msgstr "salvar"
-
-#~ msgid "%s can NOT be opened in write mode."
-#~ msgstr "NO es pot obrir %s en mode escriptura."
-
-#~ msgid "%s exists and can NOT be opened in read mode."
-#~ msgstr "%s existeix i NO es pot obrir en modo lectura."
