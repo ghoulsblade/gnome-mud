@@ -558,7 +558,6 @@ static void window_menu_file_disconnect (GtkWidget *widget, gpointer data)
   }
 }
 
-/* FIXME: display error message if document is missing */
 static void window_menu_help_manual_activate_cb(GtkMenuItem *menuitem)
 {
        GError *err;
@@ -589,7 +588,6 @@ static void window_menu_help_manual_activate_cb(GtkMenuItem *menuitem)
        }
 }
 
-/* FIXME: display error message if document is missing */
 static void window_menu_plugin_api_manual_activate_cb(GtkMenuItem *menuitem)
 {
        GError *err;

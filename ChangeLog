@@ -1,3 +1,9 @@
+2003-06-05  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c: Remove fixed FIXMEs.
+
+	* BUGS: Add a few known issues.
+
 2003-06-05  Abigail Brady  <morwen@evilmagic.org>
 
 	* src/map.c, net.c, prefs.c, map-link.c: Backport to C90, which has
