@@ -5,7 +5,7 @@ srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
 PKG_NAME="gnome-mud"
-REQUIRED_AUTOMAKE_VERSION=1.6
+REQUIRED_AUTOMAKE_VERSION=1.7
 
 (test -f $srcdir/configure.ac) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"

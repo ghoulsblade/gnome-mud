@@ -29,12 +29,12 @@
 #endif
 
 #include "gnome-mud.h"
+#include "mud-window.h"
 
 static char const rcsid[] =
     "$Id$";
 
-GConfClient *gconf_client;
-
+/*
 gboolean gconf_sanity_check_string (GConfClient *client, const gchar* key)
 {
   gchar *string;
@@ -72,12 +72,12 @@ gboolean gconf_sanity_check_string (GConfClient *client, const gchar* key)
   g_free (string);
   return TRUE;
 }
-
+*/
 int main (gint argc, char *argv[])
 {
-	GnomeProgram *program;
-	GError *err = NULL;
-	gchar buf[500];
+	GConfClient  *gconf_client;
+	GError       *err = NULL;
+	//gchar         buf[500];
 	
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
@@ -91,7 +91,7 @@ int main (gint argc, char *argv[])
 		return 1;
 	}
 
-	program = gnome_program_init (PACKAGE, VERSION,
+	gnome_program_init (PACKAGE, VERSION,
 				      LIBGNOMEUI_MODULE,
 				      argc, argv,
 				      GNOME_PROGRAM_STANDARD_PROPERTIES,
@@ -101,36 +101,38 @@ int main (gint argc, char *argv[])
 	
 	/* Start a GConf client */
 	gconf_client = gconf_client_get_default();
-	if (!gconf_sanity_check_string (gconf_client, "/apps/gnome-mud/functionality/terminal_type")) {
+	/*if (!gconf_sanity_check_string (gconf_client, "/apps/gnome-mud/functionality/terminal_type")) {
 		return 1;
-	}
+	}*/
 	gconf_client_add_dir(gconf_client, "/apps/gnome-mud", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 
 	gnome_window_icon_set_default_from_file (PIXMAPSDIR "/gnome-mud.png");
 
-	load_prefs   (); /* load preferences */
-	load_profiles(); /* load connections and profiles */
-	main_window  ();
- 
+	//load_prefs   (); /* load preferences */
+	//load_profiles(); /* load connections and profiles */
+	//main_window  ();
+
+	mud_window_new();
+	
 #ifdef USE_PYTHON
-	Py_SetProgramName(argv[0]);
-	Py_Initialize();
-	PySys_SetArgv(argc, argv);
-	python_init();
+	//Py_SetProgramName(argv[0]);
+	//Py_Initialize();
+	//PySys_SetArgv(argc, argv);
+	//python_init();
 #endif
 
-	g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
-	init_modules(buf);
-	init_modules(PKGDATADIR);
+	//g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
+	//init_modules(buf);
+	//init_modules(PKGDATADIR);
   
 	gtk_main();
 	gnome_config_sync();
 
 #ifdef USE_PYTHON
-	python_end();
-	Py_Finalize();
+	//python_end();
+	//Py_Finalize();
 #endif
-	gdk_exit (0);
+	//gdk_exit (0);
 
 	return 0;
 }

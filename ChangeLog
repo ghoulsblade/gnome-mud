@@ -1,3 +1,18 @@
+2004-02-18  Robin Ericsson  <lobbin@localhost.nu>
+
+	* First commit on glade-branch.
+
+	* autogen.sh: Changed required automake to 1.7
+	* configure.ac: Tipped version, added libglade and changed version of
+	libgnome, libgnomeui and vte.
+
+	* src/Makefile.am: Added GLADEDIR define, also removed a lot of 
+	sourcefiles to be compiled, these will have to added later.
+
+	* src/gnome-mud.c: Remove globals, and code not used for the moment.
+
+	* Also added three GObjects, MudWindow, MudConnectio, MudConnectioView.
+
 2004-02-12  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/gnome-mud.c (main): Set the default application window using
