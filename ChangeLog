@@ -1,3 +1,11 @@
+Mon Feb  4 10:31:36 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Changed a little.
+
+	* src/net.c (make_connection): Added MCCP #ifdef's
+	(disconnect): Ditto
+	(road_from_connection): Removed unused variable.
+
 Mon Feb  4 09:50:38 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c (about_window): added Vashti.

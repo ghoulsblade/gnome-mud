@@ -13,7 +13,7 @@ feel free to suggest features, contribute, or comment.
 * Import of Mud Connectfiles [DONE]
 * Save logfiles of mud-traffic [DONE]
 * Copy/Paste from clipboard
-* Rewrite connection wizard... [MOSTLY DONE]
+* Rewrite connection wizard step 1 [DONE]
 	+ double click on entries to connect [DONE]
 	+ be able to ping host...
 	+ several characters per host
@@ -22,7 +22,7 @@ feel free to suggest features, contribute, or comment.
 * Make better use for gtk_object_(get|set)_data [DONE]
 * Cleanup of .c-files, better names on functions, etc...
 * Fix error when closing wizardwindow after using profilewindow [DONE]
-* Scriptingsupport (python) [AS GOOD AS DONE]
+* Scriptingsupport (python) [DONE]
 * Page Up, Page Down and Mousewheel support [DONE]
 * Fix Segfault in delete keybind
 
@@ -36,6 +36,9 @@ feel free to suggest features, contribute, or comment.
 
 0.11.0
 
+* Rewrite connection wizard step 2 [DONE]
+	+ be able to ping host...
+	+ several characters per host
 * MSP, Mud Sound Protocol (Is there many muds using this?)
 * SOCKS support
 * IPv6 support

@@ -163,7 +163,9 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
     gtk_notebook_next_page (GTK_NOTEBOOK (main_notebook));
     connection->notebook = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
     connections[connection->notebook] = connection;
-    connection->mccp = mudcompress_new();
+#ifdef ENABLE_MCCP
+	connection->mccp = mudcompress_new();
+#endif /* ENABLE_MCCP */
 	connection->foreground = &prefs.Foreground;
 	connection->background = &prefs.Background;
   }
@@ -176,8 +178,10 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 {
     close (connection->sockfd);
+#ifdef ENABLE_MCCP
     mudcompress_delete(connection->mccp);
     connection->mccp = mudcompress_new();
+#endif /* ENABLE_MCCP */
     gdk_input_remove (connection->data_ready);
     textfield_add (connection, _("*** Connection closed.\n"), MESSAGE_NORMAL);
     connection->connected = FALSE;
@@ -256,7 +260,6 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	gchar  buf[3000];
 	gchar  *triggered_action;
 	gint   numbytes;
-	gchar *m;
 	gint   i, len;
 	GList *t;
 	gchar *mccp_buffer = NULL;
