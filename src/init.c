@@ -250,6 +250,11 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
 		"Jordi Mallach <jordi@sindominio.net>",
 		"Petter E. Stokke <gibreel@project23.no>",
 		"Rachael Munns <vashti@dream.org.uk>",
+		"Adam Luchjenbroers <adam@luchjenbroers.com>",
+		"Nuno Sousa <nunofgs@punkass.com>",
+		"",
+		_("Artwork by:"),
+		"Daniel Taylor <dantaylor@web.de>",
 		NULL};
 	const char *documenters[] = {
 		"Jordi Mallach <jordi@sindominio.net>",
@@ -260,10 +265,10 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
 	   * Paul Translator <paul@translator.org>         */
 	const char *translator_credits = _("translator_credits");
 
-	logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gnome-gmush.png", NULL);
+	logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gnome-mud.png", NULL);
   
 	about = gnome_about_new (_("GNOME-Mud"), VERSION,
-				 "\xc2\xa9 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson",
+				 "\xc2\xa9 1998-2004 Robin Ericsson",
 				 _("A Multi-User Dungeon (MUD) client for GNOME.\n"),
 				 authors,
 				 documenters,

@@ -1,7 +1,10 @@
 imagedir = $(datadir)/pixmaps/gnome-mud
-
 image_DATA =			\
-	connection-offline.png \
-	connection-online.png
+	connection-offline.png	\
+	connection-online.png	\
+	gnome-mud-tray-icon.png
 
-EXTRA_DIST = $(image_DATA)
+pixmapdir = $(datadir)/pixmaps
+pixmap_DATA = gnome-mud.png
+
+EXTRA_DIST = $(image_DATA) $(pixmap_DATA)

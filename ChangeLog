@@ -1,3 +1,21 @@
+2004-02-11  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/pixmaps/gnome-mud.png, src/pixmaps/gnome-mud-tray-icon.png,
+	src/svg/gnome-mud.svg: New gnome-mud icon, courtesy of Daniel Taylor,
+	thanks!
+	* src/pixmaps/Makefile.am: Add new icons, and install gnome-mud.png in
+	the general pixmapsdir.
+	* src/tray.c (tray_update_icon): Use the new tray icon.
+	* src/init.c (window_menu_help_about): Use new app icon.
+
+	* src/python.c: Placate silly warning.
+
+	* src/init.c (window_menu_help_about): Add Adam, Nuno and Daniel to
+	the credits dialog.
+
+	* configure.ac: Fix AM_INIT_AUTOMAKE.
+	* autogen.sh: Require automake >= 1.6.
+
 2004-01-27  Robin Ericsson  <lobbin@localhost.nu>
 
 	* ROADMAP: Removed some entries we've fixed. Whohoo!! :)

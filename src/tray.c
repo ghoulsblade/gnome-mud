@@ -119,14 +119,14 @@ void tray_update_icon(enum tray_status icon)
 
         switch (icon) {
                 case offline:
-                        icon_name = PIXMAPSDIR "/gnome-gmush.png";
+                        icon_name = GMPIXMAPSDIR "/gnome-mud-tray-icon.png";
                         break;
                 case offline_connecting:
                 case online_connecting:
-                        icon_name = PIXMAPSDIR "/gnome-gmush.png";
+                        icon_name = GMPIXMAPSDIR "/gnome-mud-tray-icon.png";
                         break;
                 case online:
-                        icon_name = PIXMAPSDIR "/gnome-gmush.png";
+                        icon_name = GMPIXMAPSDIR "/gnome-mud-tray-icon.png";
                         break;
         }
 

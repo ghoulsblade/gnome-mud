@@ -132,12 +132,12 @@ static int *pyConnection_equals(pyConnection_ConnectionObject *self, PyObject *a
   gint      cid2;
   
   if (!PyArg_ParseTuple(args, "O", &conn2))
-    return 0; /* False /
+    return 0; // False /
     
   if (conn2->ob_type == &pyConnection_ConnectionType) {
     //conn2->m->connection->conn_id = 0;
   } else
-    return 0; /* False /  
+    return 0; // False /  
 }*/
 
 static PyObject *pyConnection_isFocus(pyConnection_ConnectionObject *self) {
