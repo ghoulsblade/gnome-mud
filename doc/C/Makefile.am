@@ -1,7 +1,7 @@
 
 SGML_FILES = gnome-mud.sgml
 
-EXTRA_DIST = $(SGML_FILES)
+EXTRA_DIST = $(SGML_FILES) topic.dat
 
 figs =	preferences-window.png	\
 	main-window.png		\
