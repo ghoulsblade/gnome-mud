@@ -1,3 +1,7 @@
+Fri Mar 15 08:07:44 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Updated version of 0.9.0 releases.
+
 Mon Mar 11 07:56:18 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/net.c (read_from_connection): Fixed formatting errors.
