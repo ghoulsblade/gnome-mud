@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
-"POT-Creation-Date: 2003-07-10 22:37+0200\n"
-"PO-Revision-Date: 2003-07-10 22:38+0200\n"
+"POT-Creation-Date: 2003-07-11 11:24+0200\n"
+"PO-Revision-Date: 2003-07-11 11:25+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr ""
 "Ett tecken som används för att dela kommandon i strängar som exempelvis \"w;"
 "w;w;l\", som kommer att skickas till mudden som fyra separata kommandon."
 
-#: gnome-mud.schemas.in.h:3 src/profiles.c:1202
+#: gnome-mud.schemas.in.h:3 src/profiles.c:1203
 msgid "Aliases"
 msgstr "Alias"
 
@@ -137,7 +137,7 @@ msgstr ""
 "Om detta är aktiverat kommer terminalfönstret att rullas till nedersta läget "
 "närhelst det finns ny utdata."
 
-#: gnome-mud.schemas.in.h:18 src/profiles.c:1233
+#: gnome-mud.schemas.in.h:18 src/profiles.c:1234
 msgid "Keybindings"
 msgstr "Snabbtangenter"
 
@@ -215,12 +215,12 @@ msgstr ""
 "Placeringen av anslutningsflikarna. Giltiga alternativ är \"left\", \"right"
 "\", \"top\" och \"bottom\"."
 
-#: gnome-mud.schemas.in.h:32 src/data.c:344 src/profiles.c:1216
+#: gnome-mud.schemas.in.h:32 src/data.c:344 src/profiles.c:1217
 msgid "Triggers"
 msgstr "Triggrar"
 
 #. vars
-#: gnome-mud.schemas.in.h:33 src/data.c:351 src/profiles.c:1209
+#: gnome-mud.schemas.in.h:33 src/data.c:351 src/profiles.c:1210
 msgid "Variables"
 msgstr "Variabler"
 
@@ -279,8 +279,8 @@ msgstr "Värden"
 
 #: src/data.c:359
 #, c-format
-msgid "window_data: trying to access to undefined data range: %d"
-msgstr "window_data: försöker komma åt odefinerat dataområde: %d"
+msgid "%s: trying to access to undefined data range: %d"
+msgstr "%s: försöker komma åt odefinerat dataområde: %d"
 
 #: src/data.c:371
 msgid "GNOME-Mud Configuration Center"
@@ -299,11 +299,11 @@ msgstr "Vill du verkligen avsluta?"
 msgid "Connect..."
 msgstr "Anslut..."
 
-#: src/init.c:154 src/profiles.c:940
+#: src/init.c:154 src/profiles.c:941
 msgid "Host:"
 msgstr "Värd:"
 
-#: src/init.c:160 src/profiles.c:960
+#: src/init.c:160 src/profiles.c:961
 msgid "Port:"
 msgstr "Port:"
 
@@ -319,11 +319,6 @@ msgstr ""
 "Christian Rose\n"
 "Robin Ericsson\n"
 "Skicka synpunkter på översättningen till sv@li.org"
-
-#. latin1 translators can use the copyright symbol here, see man latin1(7)
-#: src/init.c:250
-msgid "(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
-msgstr "© 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
 
 #: src/init.c:251
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
@@ -342,21 +337,45 @@ msgstr "Ett fel inträffade vid visning av hjälp: %s"
 msgid "Wizard..."
 msgstr "Guide..."
 
+#: src/init.c:637
+msgid "Open the Connection Wizard"
+msgstr "Öppna anslutningsguiden"
+
 #: src/init.c:639
 msgid "Profiles..."
 msgstr "Profiler..."
+
+#: src/init.c:639
+msgid "Manage user profiles"
+msgstr "Hantera användarprofiler"
+
+#: src/init.c:641
+msgid "Connect to a mud"
+msgstr "Anslut till en mud"
 
 #: src/init.c:643
 msgid "Disconnect"
 msgstr "Koppla från"
 
+#: src/init.c:643
+msgid "Disconnect from the mud"
+msgstr "Koppla från mudden"
+
 #: src/init.c:645
 msgid "Reconnect"
 msgstr "Återanslut"
 
+#: src/init.c:645
+msgid "Reconnect to the mud"
+msgstr "Återanslut till mudden"
+
 #: src/init.c:647
 msgid "Exit"
 msgstr "Avsluta"
+
+#: src/init.c:647
+msgid "Quit GNOME-Mud"
+msgstr "Avsluta GNOME-Mud"
 
 #: src/init.c:652
 msgid "Connection _Wizard..."
@@ -432,8 +451,8 @@ msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud version %s (kompilerad %s, %s)\n"
 
 #: src/init.c:769
-msgid "Distributed under the terms of the GNU General Public Licence.\n"
-msgstr "Distribuerad under villkoren i GNU General Public Licence.\n"
+msgid "Distributed under the terms of the GNU General Public License.\n"
+msgstr "Distribuerad under villkoren i GNU General Public License.\n"
 
 #: src/init.c:771
 #, c-format
@@ -526,7 +545,7 @@ msgid "A link already exists here!"
 msgstr "En länk finns redan här!"
 
 #. Create the hint label
-#: src/map.c:656 src/map.c:3539 src/map.c:3542
+#: src/map.c:656 src/map.c:3548 src/map.c:3551
 msgid "Ready"
 msgstr "Klar"
 
@@ -542,41 +561,42 @@ msgstr "Kan inte skapa en nod här"
 msgid "New Map"
 msgstr "Ny karta"
 
-#: src/map.c:900
+#. Translator: "path" means "line of travel", ie "road"
+#: src/map.c:901
 msgid "Creating a path"
 msgstr "Skapar en stig"
 
 #. The radio button (new map)
-#: src/map.c:908
+#: src/map.c:909
 msgid "Path lead to a new map"
 msgstr "Stigen leder till en ny karta"
 
-#: src/map.c:915
+#: src/map.c:916
 msgid "New map"
 msgstr "Ny karta"
 
 #. The radio button (default)
-#: src/map.c:932
+#: src/map.c:933
 msgid "Path follows an already existing path:"
 msgstr "Stigen följer en redan befintlig stig:"
 
-#: src/map.c:951
+#: src/map.c:952
 msgid "Create"
 msgstr "Skapa"
 
-#: src/map.c:1114
+#: src/map.c:1115
 msgid "Enter in a path"
 msgstr "Följ en stig"
 
-#: src/map.c:1121
+#: src/map.c:1122
 msgid "Create a new path:"
 msgstr "Skapa en ny stig:"
 
-#: src/map.c:1138
+#: src/map.c:1139
 msgid "Enter in existing path:"
 msgstr "Följ befintlig stig:"
 
-#: src/map.c:1189
+#: src/map.c:1190
 msgid ""
 "This node has already 8 links. Destroy one of these before trying to create "
 "a new one"
@@ -585,28 +605,28 @@ msgstr ""
 "ny"
 
 #. Change the automap state
-#: src/map.c:1196
+#: src/map.c:1197
 msgid "Enter to finish, Esc to quit"
 msgstr "Retur för att slutföra, Esc för att avsluta"
 
-#: src/map.c:1197
+#: src/map.c:1198
 msgid "Use move buttons to build the link."
 msgstr "Använd flyttknappar för att bygga länken."
 
-#: src/map.c:1375
+#: src/map.c:1376
 msgid "Zoom In"
 msgstr "Zooma in"
 
-#: src/map.c:1376
+#: src/map.c:1377
 msgid "Zoom Out"
 msgstr "Zooma ut"
 
-#: src/map.c:1377
+#: src/map.c:1378
 msgid "Configure Automap"
 msgstr "Konfigurera kartgenererare"
 
 #. Teleport here
-#: src/map.c:1417
+#: src/map.c:1418
 msgid "Teleport here"
 msgstr "Teleportera hit"
 
@@ -616,103 +636,111 @@ msgstr "Teleportera hit"
 #. 			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
 #. 			gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
 #. Create new link
-#: src/map.c:1427
+#: src/map.c:1428
 msgid "Create new link"
 msgstr "Skapa ny länk"
 
-#: src/map.c:1434
+#: src/map.c:1435
 msgid "Enter"
 msgstr "Gå in i"
 
 #. Can easily be optimised ... but why bother ?
-#: src/map.c:1734 src/map.c:3567
+#. Translator: "N" means "North" here
+#: src/map.c:1736 src/map.c:3576
 msgid "N"
 msgstr "N"
 
-#: src/map.c:1735 src/map.c:3568
+#. Translator: "NE" means "Northeast" here
+#: src/map.c:1738 src/map.c:3577
 msgid "NE"
 msgstr "NÖ"
 
-#: src/map.c:1736 src/map.c:3569
+#. Translator: "E" means "East" here
+#: src/map.c:1740 src/map.c:3578
 msgid "E"
 msgstr "Ö"
 
-#: src/map.c:1737 src/map.c:3570
+#. Translator: "SE" means "Southeast" here
+#: src/map.c:1742 src/map.c:3579
 msgid "SE"
 msgstr "SÖ"
 
-#: src/map.c:1738 src/map.c:3571
+#. Translator: "S" means "South" here
+#: src/map.c:1744 src/map.c:3580
 msgid "S"
 msgstr "S"
 
-#: src/map.c:1739 src/map.c:3572
+#. Translator: "SW" means "Southwest" here
+#: src/map.c:1746 src/map.c:3581
 msgid "SW"
 msgstr "SV"
 
-#: src/map.c:1740 src/map.c:3573
+#. Translator: "W" means "West" here
+#: src/map.c:1748 src/map.c:3582
 msgid "W"
 msgstr "V"
 
-#: src/map.c:1741 src/map.c:3574
+#. Translator: "NW" means "Northwest" here
+#: src/map.c:1750 src/map.c:3583
 msgid "NW"
 msgstr "NV"
 
-#: src/map.c:1742 src/map.c:3575
+#: src/map.c:1751 src/map.c:3584
 msgid "Up"
 msgstr "Upp"
 
-#: src/map.c:1743 src/map.c:3576
+#: src/map.c:1752 src/map.c:3585
 msgid "Down"
 msgstr "Ned"
 
-#: src/map.c:1744 src/map.c:3564
+#: src/map.c:1753 src/map.c:3573
 msgid "Remove"
 msgstr "Ta bort"
 
 #. Some buttons
-#: src/map.c:1745 src/map.c:3562
+#: src/map.c:1754 src/map.c:3571
 msgid "Load"
 msgstr "Läs in"
 
-#: src/map.c:1746 src/map.c:3563
+#: src/map.c:1755 src/map.c:3572
 msgid "Save"
 msgstr "Spara"
 
-#: src/map.c:2793
+#: src/map.c:2802
 msgid "Load map"
 msgstr "Läs in karta"
 
-#: src/map.c:2793
+#: src/map.c:2802
 msgid "Save map"
 msgstr "Spara karta"
 
-#: src/map.c:3042
+#: src/map.c:3051
 msgid "No link existed in that direction"
 msgstr "Det fanns ingen länk i den riktningen"
 
-#: src/map.c:3048
+#: src/map.c:3057
 msgid "Cannot break links to a node going up or down"
 msgstr "Kan inte ta sönder länkar till en nod som går upp eller ner"
 
 #. It would seem this node already has a connection to here, That's
 #. * possible so we need to inform the user that his move is illegal.
 #.
-#: src/map.c:3157
+#: src/map.c:3166
 msgid "Destination node has already a connection here"
 msgstr "Målnoden har redan en anslutning här"
 
-#: src/map.c:3306
+#: src/map.c:3315
 msgid "Can't create a link to another floor!"
 msgstr "Kan inte skapa en länk till en annan våning!"
 
-#: src/map.c:3312
+#: src/map.c:3321
 msgid "There is already a link here!"
 msgstr "Det finns redan en länk här!"
 
 #. Set the title
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
 #. gtk_window_set_title(GTK_WINDOW(automap->window), name);
-#: src/map.c:3447
+#: src/map.c:3456
 msgid "GNOME-Mud AutoMapper"
 msgstr "GNOME-Mud-kartgenererare"
 
@@ -737,8 +765,8 @@ msgid "Plugin Description:"
 msgstr "Beskrivning av insticksmodul:"
 
 #: src/modules.c:263
-msgid "Is Plugin Enabled?"
-msgstr "Är insticksmodulen aktiverad?"
+msgid "Enable plugin"
+msgstr "Aktivera insticksmodul"
 
 #: src/modules.c:419
 #, c-format
@@ -778,15 +806,15 @@ msgid "GNOME-Mud MudList"
 msgstr "GNOME-Mud-MudList"
 
 #: src/mudlist.c:420
-msgid "Mud Name :"
+msgid "Mud name:"
 msgstr "Mud-namn:"
 
 #: src/mudlist.c:434
-msgid "Codebase :"
+msgid "Codebase:"
 msgstr "Kodbas:"
 
 #: src/mudlist.c:448
-msgid "Telnet Address :"
+msgid "Telnet address:"
 msgstr "Telnet-adress:"
 
 #: src/mudlist.c:464
@@ -802,7 +830,7 @@ msgid "Go to webpage of the mud"
 msgstr "Gå till hemsida för mud"
 
 #: src/mudlist.c:483
-msgid "Description :"
+msgid "Description:"
 msgstr "Beskrivning:"
 
 #: src/net.c:182
@@ -1038,11 +1066,11 @@ msgstr "Namn på ny profil:"
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: Profillista"
 
-#: src/profiles.c:666 src/profiles.c:1037
+#: src/profiles.c:666 src/profiles.c:1038
 msgid "Default"
 msgstr "Standard"
 
-#: src/profiles.c:847 src/profiles.c:1185
+#: src/profiles.c:847 src/profiles.c:1186
 msgid "Delete"
 msgstr "Ta bort"
 
@@ -1054,89 +1082,117 @@ msgstr "GNOME-Mud-anslutningar"
 msgid "Mud"
 msgstr "Mud"
 
-#: src/profiles.c:903
+#. Translators: this is the name of your player
+#: src/profiles.c:904
 msgid "Character"
 msgstr "Karaktär"
 
-#: src/profiles.c:916
-msgid " Mud Information "
+#: src/profiles.c:917
+msgid "Mud information"
 msgstr "Mud-information"
 
-#: src/profiles.c:932
+#: src/profiles.c:933
 msgid "Title:"
 msgstr "Titel:"
 
-#: src/profiles.c:976
-msgid " Character Information "
+#: src/profiles.c:977
+msgid "Character information"
 msgstr "Karaktärinformation"
 
-#: src/profiles.c:992
+#: src/profiles.c:993
 msgid "Character:"
 msgstr "Karaktär:"
 
-#: src/profiles.c:1000
+#: src/profiles.c:1001
 msgid "Password:"
 msgstr "Lösenord:"
 
-#: src/profiles.c:1021
-msgid " Profile Information "
+#: src/profiles.c:1022
+msgid "Profile information"
 msgstr "Profilinformation"
 
-#: src/profiles.c:1047
+#: src/profiles.c:1048
 msgid "Select Profile"
 msgstr "Välj Profil"
 
-#: src/profiles.c:1063
+#: src/profiles.c:1064
 msgid "Fetch from mudlist"
 msgstr "Hämta från mudlista"
 
-#: src/profiles.c:1115
+#: src/profiles.c:1116
 msgid "Connect"
 msgstr "Anslut"
 
-#: src/profiles.c:1154
+#: src/profiles.c:1155
 msgid "Profiles"
 msgstr "Profiler"
 
-#: src/profiles.c:1163
+#: src/profiles.c:1164
 msgid "GNOME-Mud Profiles"
 msgstr "GNOME-Mud-profiler"
 
-#: src/profiles.c:1177
+#: src/profiles.c:1178
 msgid "New"
 msgstr "Ny"
 
-#: src/profiles.c:1178
+#: src/profiles.c:1179
 msgid "Create a new profile"
 msgstr "Skapa en ny profil"
 
-#: src/profiles.c:1185
+#: src/profiles.c:1186
 msgid "Delete a profile"
 msgstr "Ta bort en profil"
 
-#: src/profiles.c:1202
+#: src/profiles.c:1203
 msgid "Set aliases"
 msgstr "Ställ in alias"
 
-#: src/profiles.c:1209
+#: src/profiles.c:1210
 msgid "Set variables"
 msgstr "Ställ in variabler"
 
-#: src/profiles.c:1216
+#: src/profiles.c:1217
 msgid "Set triggers"
 msgstr "Ställ in triggers"
 
-#: src/profiles.c:1233
+#: src/profiles.c:1234
 msgid "Set keybindings"
 msgstr "Ställ in snabbtangenter"
 
-#: src/profiles.c:1250
+#: src/profiles.c:1251
 msgid "Close"
 msgstr "Stäng"
 
-#: src/profiles.c:1250
+#: src/profiles.c:1251
 msgid "Close the window"
 msgstr "Stäng fönstret"
+
+#~ msgid "(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
+#~ msgstr "© 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
+
+#~ msgid "Is Plugin Enabled?"
+#~ msgstr "Är insticksmodulen aktiverad?"
+
+#~ msgid "Mud Name :"
+#~ msgstr "Mud-namn:"
+
+#~ msgid "Codebase :"
+#~ msgstr "Kodbas:"
+
+#~ msgid "Telnet Address :"
+#~ msgstr "Telnet-adress:"
+
+#~ msgid "Description :"
+#~ msgstr "Beskrivning:"
+
+#~ msgid " Mud Information "
+#~ msgstr "Mud-information"
+
+#~ msgid " Character Information "
+#~ msgstr "Karaktärinformation"
+
+#~ msgid " Profile Information "
+#~ msgstr "Profilinformation"
 
 #~ msgid "Colour palette"
 #~ msgstr "Färgpalett"
@@ -1162,18 +1218,6 @@ msgstr "Stäng fönstret"
 #~ msgid "Color and Font"
 #~ msgstr "Färg och typsnitt"
 
-#~ msgid "Mud Name:"
-#~ msgstr "Mud-namn:"
-
-#~ msgid "Codebase:"
-#~ msgstr "Kodbas:"
-
-#~ msgid "Telnet Address:"
-#~ msgstr "Telnet-adress:"
-
-#~ msgid "Description:"
-#~ msgstr "Beskrivning:"
-
 #~ msgid "Colour and Font"
 #~ msgstr "Färg och typsnitt"
 
@@ -1183,25 +1227,16 @@ msgstr "Stäng fönstret"
 #~ msgid " Mud Information"
 #~ msgstr "Mud-information"
 
-#~ msgid "Mud Information"
-#~ msgstr "Mud-information"
-
 #~ msgid " Character Information"
 #~ msgstr "Karaktärinformation"
 
 #~ msgid "Character Information "
 #~ msgstr "Karaktärinformation"
 
-#~ msgid "Character Information"
-#~ msgstr "Karaktärinformation"
-
 #~ msgid " Profile Information"
 #~ msgstr "Profilinformation"
 
 #~ msgid "Profile Information "
-#~ msgstr "Profilinformation"
-
-#~ msgid "Profile Information"
 #~ msgstr "Profilinformation"
 
 #~ msgid "Create a path"
