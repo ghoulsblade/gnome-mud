@@ -9,9 +9,21 @@ GNOME-Mud 0.10.5  (xx/xx/xxxx)
 - Add a notification area icon to hide/show main window and to notify
   new incoming data [Nuno Sousa]
 - Fixed PyGTK support [Adam Luchjenbroers]
-- Fixed old-standing bug when exiting gnome-mud using the window manager
+- Fixed longstanding bug when exiting gnome-mud using the window manager
   close button [Robin]
 - Added a HP/mana monitor python plugin [Adam Luchjenbroers]
+- Enhances for the python plugin API [Adam Luchjenbroers]
+- New application icon [Daniel Taylor]
+- Workaround inability to configure the MUD charset by sending the text in
+  the user's locale charset [Juliano Ravasi Ferraz]
+- Updated translations:
+  + ca [Jordi Mallach]
+  + cs [Miloslav Trmac]
+  + es [Francisco Javier F. Serrador]
+  + hr [Robert Sedak]
+  + nl [Vincent van Adrighem]
+  + pt [Duarte Loreto]
+  + sr [Danilo Šegan]
 
 GNOME-Mud 0.10.4a (02/01/2004)
 
