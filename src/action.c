@@ -39,9 +39,17 @@ gint         action_selected_row    = -1;
 gint         action_selected_column = -1;
 
 /* internal function */
-static void next_token (gchar *token, gchar *line);
-static int  match_line (gchar *trigger, gchar *incoming);
-
+static void		 action_button_add (GtkWidget *button, gpointer data);
+static void		 action_button_delete (GtkWidget *button,
+					       gpointer data);
+static void		 action_close_window (void);
+static ACTION_DATA	*action_get_action_data (gchar *text);
+static void		 action_selection_made (GtkWidget *clist, gint row,
+						gint column,
+						GdkEventButton *event,
+						gpointer data);
+static void		 next_token (gchar *token, gchar *line);
+static int		 match_line (gchar *trigger, gchar *incoming);
 
 
 void save_actions (GtkWidget *button, gpointer data)
@@ -50,10 +58,6 @@ void save_actions (GtkWidget *button, gpointer data)
     ACTION_DATA *a;
     gchar filename[256] = "";
     FILE *fp;
-    bool done = FALSE;
-    gchar buf[256];
-    gchar *trigger, *action;
-    gint  row = 0;
 
     g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
     
@@ -138,7 +142,7 @@ void load_actions ( void )
     fclose (fp);
 }
 
-ACTION_DATA *action_get_action_data (gchar *text)
+static ACTION_DATA *action_get_action_data (gchar *text)
 {
     GList       *tmp;
     ACTION_DATA *a;
@@ -255,8 +259,8 @@ int match_line (gchar *trigger, gchar *incoming)
     return found;
 }
 
-void action_selection_made (GtkWidget *clist, gint row, gint column,
-                            GdkEventButton *event, gpointer data)
+static void action_selection_made (GtkWidget *clist, gint row, gint column,
+				   GdkEventButton *event, gpointer data)
 {
     gchar *text;
 
@@ -277,7 +281,6 @@ void action_selection_made (GtkWidget *clist, gint row, gint column,
 void action_button_add (GtkWidget *button, gpointer data)
 {
     gchar *text[2];
-    gint   i;
     GList       *tmp;
     ACTION_DATA *action;
 
@@ -326,7 +329,7 @@ void action_button_add (GtkWidget *button, gpointer data)
     return;
 }
 
-void action_button_delete (GtkWidget *button, gpointer data)
+static void action_button_delete (GtkWidget *button, gpointer data)
 {
     ACTION_DATA *action;
     gchar *word;
@@ -349,7 +352,7 @@ void action_button_delete (GtkWidget *button, gpointer data)
     return;
 }
 
-void action_close_window ()
+static void action_close_window (void)
 {
     if ( prefs.AutoSave )
         save_actions (NULL, NULL);

@@ -41,16 +41,28 @@ gint        alias_selected_row    = -1;
 gint        alias_selected_column = -1;
 GList *alias_list2;
 
+static void		 alias_button_delete_cb (GtkWidget *button,
+						 gpointer data);
+static void		 alias_clist_append (ALIAS_DATA *a, GtkCList *clist);
+static void		 alias_close_window (void);
+static ALIAS_DATA	*alias_get_alias_data (gchar *text);
+static void		 alias_selection_made (GtkWidget *clist, gint row,
+					       gint column,
+					       GdkEventButton *event,
+					       gpointer data);
+static void		 alias_unselection_made (GtkWidget *clist, gint row,
+						 gint column,
+						 GdkEventButton *event,
+						 gpointer data);
+
+void	alias_button_add (GtkWidget *button, gpointer data);
+
 void save_aliases (GtkWidget *button, gpointer data)
 {
     GList *tmp;
     ALIAS_DATA *a;
     gchar filename[256] = "";
     FILE *fp;
-    bool done = FALSE;
-    gchar buf[256];
-    gchar *alias, *replace;
-    gint  row = 0;
 
     g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
     
@@ -120,7 +132,7 @@ void load_aliases ( void )
     fclose (fp);
 }
 
-ALIAS_DATA *alias_get_alias_data (gchar *text)
+static ALIAS_DATA *alias_get_alias_data (gchar *text)
 {
     GList       *tmp;
     ALIAS_DATA  *a;
@@ -197,7 +209,7 @@ void alias_button_add (GtkWidget *button, gpointer data)
         gtk_clist_select_row (GTK_CLIST (data), 0, 0);
 }
 
-void alias_button_delete_cb (GtkWidget *button, gpointer data)
+static void alias_button_delete_cb (GtkWidget *button, gpointer data)
 {
     ALIAS_DATA *alias;
     gchar *word;
@@ -228,7 +240,7 @@ void alias_button_delete_cb (GtkWidget *button, gpointer data)
 }
 
 
-void alias_close_window ()
+static void alias_close_window (void)
 {
     if ( prefs.AutoSave )
         save_aliases (NULL, NULL);
@@ -237,7 +249,7 @@ void alias_close_window ()
     gtk_widget_destroy (alias_window);
 }
 
-void alias_clist_append (ALIAS_DATA *a, GtkCList *clist)
+static void alias_clist_append (ALIAS_DATA *a, GtkCList *clist)
 {
     if ( a )
     {
@@ -250,7 +262,7 @@ void alias_clist_append (ALIAS_DATA *a, GtkCList *clist)
     }
 }
 
-void alias_selection_made (GtkWidget *clist, gint row, gint column,
+static void alias_selection_made (GtkWidget *clist, gint row, gint column,
                            GdkEventButton *event, gpointer data)
 {
     gchar *text;
@@ -271,7 +283,7 @@ void alias_selection_made (GtkWidget *clist, gint row, gint column,
     return;
 }
 
-void alias_unselection_made (GtkWidget *clist, gint row, gint column,
+static void alias_unselection_made (GtkWidget *clist, gint row, gint column,
                               GdkEventButton *event, gpointer data)
 {
     alias_selected_row    = -1;

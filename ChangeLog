@@ -1,3 +1,22 @@
+Tue Jun 27 08:39:13 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
+
+	* src/action.c: Proper prototyping, removal of unused variables
+	and proper lining up of the internal functions.
+
+Mon Jun 26 21:34:53 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
+
+	* AUTHORS: Fix small typo.
+
+	* BUGS: Document small bug about Main > disconnect not being
+	updated.
+
+	* TODO: Add MCCP support request.
+
+	* configure.in: Allow for more compiler warnings.
+
+	* src/alias.c: proper prototyping and removal of unused
+	variables.
+
 Mon Apr  3 20:42:55 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Fixed bugs:

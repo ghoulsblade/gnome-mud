@@ -1,2 +1,7 @@
 BUGS - hopefully none :)
 ========================
+
+When leaving a MUD and the connection gets closed, the Main menu doesn't
+update the disconnect option appropriately.
+
+

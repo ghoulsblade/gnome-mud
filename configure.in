@@ -17,6 +17,17 @@ if test x$enable_mapper != xyes ; then
   fi
 fi
 
+dnl Check whether user wants simple warnings or advanced warnings
+AC_ARG_ENABLE(warnings, [  --enable-warnings       enable more compilation warning checks [default=no]], enable_warnings="yes", enable_warnings="no")
+
+if test "x$enable_warnings" = "xyes"; then
+  CFLAGS="$CFLAGS -O -pipe -Wall -Wundef -Wredundant-decls      \
+      -Wnested-externs -Wstrict-prototypes -Wmissing-prototypes \
+      -Wpointer-arith -Winline -Wcast-qual -ansi"
+else
+  CFLAGS="$CFLAGS -O -pipe -Wall"
+fi
+AC_SUBST(CFLAGS)
 
 dnl Checks for programs.
 AC_PROG_CC
