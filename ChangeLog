@@ -1,3 +1,31 @@
+1999-09-24  Robin Ericsson  <lobbin@localhost.nu>
+
+	* README: Added info about that is compiles under FreeBSD 3.3-STABLE.
+	
+	* src/Makefile.am: amcl.o is now compiled by it self so $(pkgdatadir)
+	can be added to compilation. Also misc.c was added.
+
+	* src/action.c: All getenv("HOME") replaced with uid_info->pw_dir.
+
+	* src/alias.c: ditto
+
+	* src/precs.c: ditto
+
+	* src/wizard.c: ditto
+
+	* src/amcl.c (main): init_uid() now called. init_modules uses the
+	correct PKGDATADIR from configure.
+
+	* src/amcl.h: extern struct passwd *uid_info added in misc.c.
+
+	* src/misc.c: Added.
+
+	* src/modules.c (init_modules): g_warning when not finding the right
+	directory was changed to g_message().
+
+	* src/mkhelp.c (main): char c; changed to int c; so I can compile under
+	MkLinux PPC.
+
 1999-08-17  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/modules.c (Plugin_datain_list): Name changed to Plugin_data_list
