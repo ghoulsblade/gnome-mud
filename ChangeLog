@@ -1,3 +1,7 @@
+Tue Jul 30 10:59:36 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* po/Makevars: set Copyright holder to Robin.
+
 Sat Jul  6 02:07:31 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/python.c (python_init): changed search path of python modules
