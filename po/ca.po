@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-17 15:41+0100\n"
-"PO-Revision-Date: 2003-12-17 16:03+0100\n"
+"POT-Creation-Date: 2003-12-18 13:14+0100\n"
+"PO-Revision-Date: 2003-12-18 13:15+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -76,9 +76,8 @@ msgstr ""
 
 #: gnome-mud.schemas.in.h:10
 msgid ""
-"File where the mud list will be read from to to be used in the MudList "
-"dialog."
-msgstr "El fitxer d'on es llig la llista de muds per a que s'utilitze al diàleg «Llista de Muds»."
+"File where the mud list will be read from to be used in the MudList dialog."
+msgstr "El fitxer d'on es llig la llista de muds per a que s'utilitze al diàleg «Llista de muds»."
 
 #: gnome-mud.schemas.in.h:11
 msgid "Font"
@@ -113,7 +112,8 @@ msgstr "Quantes entrades s'han de mantindre a la història d'ordres."
 
 #: gnome-mud.schemas.in.h:16
 msgid "How often in seconds gnome-mud should flush logfiles."
-msgstr "Cada quants segons hauria de buidar el terminal als fitxers de registres."
+msgstr ""
+"Cada quants segons hauria de buidar el terminal als fitxers de registres."
 
 #: gnome-mud.schemas.in.h:17 src/prefs.c:804
 msgid ""
