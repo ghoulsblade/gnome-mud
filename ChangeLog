@@ -1,3 +1,26 @@
+1999-08-15  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/dialog.c: Use font "fixed" instead of no font at all, look a lot
+	better that way.
+
+	* src/init.c: Load font "fixed" into font_fixed.
+
+	* src/modules.c (plugin_get_plugin_object_by_handle): Should be pretty
+	clear.
+	(plugin_get_plugin_object): renamed to plugin_get_plugin_object_by_name.
+	(plugin_enable_check_cb): Take care of enable/disable the plugin.
+
+	* src/modules.h (_plugin_data): Added to be used when register for data
+	in or out going.
+
+	* src/modules_api.c (plugin_register_data_incoming): Check which plugin
+	and add that plugin and function to a linked list.
+
+	* src/modules_api.h: Added a bunch of extern.
+
+	* src/net.c (read_from_connection): Now checks if any plugin is registred
+	for recieving incoming data and if so, run the associated function.
+
 1999-08-10  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/modules.c (plugin_get_plugin_object): Get object from linked

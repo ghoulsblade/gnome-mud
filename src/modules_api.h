@@ -17,15 +17,17 @@
  */
 
 #ifdef __MODULE__
-#include "modules.h"
 #include "amcl.h"
+#include "modules.h"
 
 /*
  * Runnable functions from inside the module.
  */
-extern void     plugin_popup_message       (gchar *message                       );
-extern void     plugin_add_connection_text (CONNECTION_DATA *c, gchar *t, gint ct);
-extern gboolean plugin_register_menu       (gint h, gchar *name, gchar *function );
+extern void     plugin_popup_message          (gchar *message                       );
+extern void     plugin_add_connection_text    (CONNECTION_DATA *c, gchar *t, gint ct);
+extern gboolean plugin_register_menu          (gint h, gchar *name, gchar *function );
+extern gboolean plugin_register_data_incoming (gint h, gchar *function              );
+extern gboolean plugin_register_data_outgoing (gint h, gchar *function              );
 
 
 #endif /* __MODULE__ */

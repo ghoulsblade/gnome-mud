@@ -55,6 +55,7 @@
 #endif
 
 #include "amcl.h"
+#include "modules.h"
 
 static char const rcsid[] =
     "$Id$";
@@ -69,7 +70,6 @@ extern GList *alias_list2;
 
 const  gchar	echo_off_str	[] = { IAC, WILL, TELOPT_ECHO, '\0' };
 const  gchar	echo_on_str	[] = { IAC, WONT, TELOPT_ECHO, '\0' };
-const  gchar 	go_ahead_str	[] = { IAC, GA, '\0' };
 
 /* mudFTP, www.abandoned.org/drylock/ */
 static void str_replace (char *buf, const char *s, const char *repl)
@@ -263,9 +263,10 @@ void open_connection (CONNECTION_DATA *connection)
 
 void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCondition condition)
 {
-    gchar buf[4096];
-    gchar triggered_action[85];
-    gint  numbytes;
+    gchar  buf[4096];
+    gchar  triggered_action[85];
+    gint   numbytes;
+    GList *t;
     
     if ( (numbytes = recv (connection->sockfd, buf, 2048, 0) ) == - 1 )
     {
@@ -288,6 +289,18 @@ void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCon
         return;
     }
 
+    for (t = g_list_first(Plugin_datain_list); t != NULL; t = t->next) {
+      PLUGIN_DATA *pd;
+      
+      if (t->data != NULL) {
+	pd = (PLUGIN_DATA *) t->data;
+
+	if (pd->plugin && pd->plugin->enabeled) {
+	  (* pd->datafunc) (pd->plugin, connection, buf, (gint) pd->plugin->handle);
+	}
+      }
+    }
+    
     str_replace (buf, "\r", "");
 
     textfield_add (connection->window, buf, MESSAGE_ANSI);

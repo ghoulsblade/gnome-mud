@@ -79,6 +79,7 @@ GdkColor color_grey;
 GdkColor color_lightgrey;
 
 GdkFont  *font_normal;
+GdkFont  *font_fixed;
 
 GList *EntryHistory = NULL;
 
@@ -218,6 +219,8 @@ void init_colors ()
         prefs.FontName = g_strdup ("fixed");
         save_prefs ();
     }
+
+    font_fixed = gdk_font_load("fixed");
 }
 
 void close_window (GtkWidget *widget, gpointer data)

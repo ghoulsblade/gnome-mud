@@ -198,6 +198,7 @@ extern GdkColor *foreground;
 extern GdkColor *background;
 
 extern GdkFont  *font_normal;
+extern GdkFont  *font_fixed;
 extern GdkFont  *font_bold;
 
 

@@ -86,12 +86,12 @@ void doc_dialog (GtkWidget *widget, gint index)
     switch ((int)index)
     {
     case 1:
-        gtk_text_insert (GTK_TEXT (doc_text), NULL, NULL, NULL, README_STRING, -1);
+        gtk_text_insert (GTK_TEXT (doc_text), font_fixed, NULL, NULL, README_STRING, -1);
         strcat (doc_title, "README");
         break;
 
     case 2:
-        gtk_text_insert (GTK_TEXT (doc_text), NULL, NULL, NULL, AUTHORS_STRING, -1);
+        gtk_text_insert (GTK_TEXT (doc_text), font_fixed, NULL, NULL, AUTHORS_STRING, -1);
         strcat (doc_title, "AUTHORS");
         break;
 

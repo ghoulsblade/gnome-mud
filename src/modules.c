@@ -35,13 +35,33 @@ static char const rcsid[] =
     "$Id$";
 
 GList     *Plugin_list;
+GList     *Plugin_datain_list;
 GtkWidget *plugin_name_entry;
 GtkWidget *plugin_author_entry;
 GtkWidget *plugin_version_entry;
 GtkWidget *plugin_desc_entry;
 GtkWidget *plugin_enable_check;
+gint       plugin_selected_row;
 
-PLUGIN_OBJECT *plugin_get_plugin_object (gchar *name)
+PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
+{
+  PLUGIN_OBJECT *p;
+  GList         *t;
+
+  for (t = g_list_first(Plugin_list); t != NULL; t = t->next) {
+      
+    if (t->data != NULL) {
+      p = (PLUGIN_OBJECT *) t->data;
+
+      if ((int) p->handle == handle)
+	return p;
+    }
+  }
+
+  return NULL;
+}
+
+PLUGIN_OBJECT *plugin_get_plugin_object_by_name (gchar *name)
 {
   PLUGIN_OBJECT *p;
   GList         *t;
@@ -58,15 +78,33 @@ PLUGIN_OBJECT *plugin_get_plugin_object (gchar *name)
   return NULL;
 }
 
+void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
+{
+  PLUGIN_OBJECT *p;
+  gchar *text;
+  
+  gtk_clist_get_text ((GtkCList *) data, plugin_selected_row, 0, &text);
+
+  p = plugin_get_plugin_object_by_name (text);
+
+  if (p != NULL) {
+    if (GTK_TOGGLE_BUTTON (widget)->active) {
+      p->enabeled = TRUE;
+    } else {
+      p->enabeled = FALSE;
+    }
+  }
+}
+
 void plugin_clist_select_row_cb (GtkWidget *w, gint r, gint c, GdkEventButton *e, gpointer data)
 {
   PLUGIN_OBJECT *p;
   gchar *text;
 
+  plugin_selected_row = r;
   gtk_clist_get_text ((GtkCList *) data, r, 0, &text);
 
-  p = plugin_get_plugin_object (text);
-  g_message("Row selected");
+  p = plugin_get_plugin_object_by_name (text);
 
   if (p != NULL) {
     gtk_entry_set_text (GTK_ENTRY (plugin_name_entry),    p->info->plugin_name);
@@ -204,6 +242,8 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_widget_show (plugin_enable_check);
   gtk_box_pack_start (GTK_BOX (vbox1), plugin_enable_check, FALSE, TRUE, 0);
   GTK_WIDGET_UNSET_FLAGS (plugin_enable_check, GTK_CAN_FOCUS);
+  gtk_signal_connect(GTK_OBJECT(plugin_enable_check), "toggled",
+		     GTK_SIGNAL_FUNC(plugin_enable_check_cb), (gpointer) clist1);
 
   g_list_foreach (Plugin_list, (GFunc) plugin_clist_append, clist1);
   gtk_clist_select_row (GTK_CLIST (clist1), 0, 0);
@@ -288,12 +328,13 @@ void plugin_register(PLUGIN_OBJECT *plugin)
 {
     g_message ("Registering plugin `%s'.", plugin->name);
     g_message ("Plug-in internal name is `%s'.", plugin->info->plugin_name);
+
+    Plugin_list = g_list_append(Plugin_list, (gpointer) plugin);
+    
     if (plugin->info->init_function)
     {
         g_message ("Running init-function...");
         plugin->info->init_function(NULL, (gint) plugin->handle);
     }
-
-    Plugin_list = g_list_append(Plugin_list, (gpointer) plugin);
 }
 #endif

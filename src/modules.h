@@ -23,13 +23,20 @@
  */
 typedef struct _plugin_object PLUGIN_OBJECT;
 typedef struct _plugin_info   PLUGIN_INFO;
+typedef struct _plugin_data   PLUGIN_DATA;
 
-typedef void      (*plugin_initfunc) (PLUGIN_OBJECT *, gint);
-typedef void      (*plugin_menufunc) (GtkWidget *,     gint);
+typedef void      (*plugin_initfunc) (PLUGIN_OBJECT *,   gint   );
+typedef void      (*plugin_menufunc) (GtkWidget *,       gint   );
+typedef void      (*plugin_datafunc) (PLUGIN_OBJECT *, CONNECTION_DATA *, gchar *, gint);
 
 /*
  * Structures
  */
+struct _plugin_data {
+  PLUGIN_OBJECT   *plugin;
+  plugin_datafunc  datafunc;
+};
+
 struct _plugin_info {
   gchar            *plugin_name;
   gchar            *plugin_author;
@@ -49,5 +56,11 @@ struct _plugin_object {
 /*
  * Functions
  */
+PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle   );
 PLUGIN_OBJECT *plugin_query    (gchar *plugin_name, gchar *pp    );
 void           plugin_register (PLUGIN_OBJECT *plugin            );
+
+/*
+ * Variables
+ */
+extern GList *Plugin_datain_list;

@@ -20,6 +20,7 @@
 #include <gtk/gtk.h>
 
 #include "amcl.h"
+#include "modules.h"
 
 static char const rcsid[] = "$Id$";
 
@@ -41,7 +42,7 @@ gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
   GtkSignalFunc  sig_function;
   GtkWidget     *menu_place;
 
-  if ((sig_function = (GtkSignalFunc) dlsym (handle, function)) == NULL) {
+  if ((sig_function = (GtkSignalFunc) dlsym ((void *) handle, function)) == NULL) {
     g_message ("Error register menu: %s", dlerror());
     return FALSE;
   }
@@ -52,5 +53,31 @@ gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
   gtk_signal_connect (GTK_OBJECT (menu_place), "activate",
 		      sig_function, NULL);
   
+  return TRUE;
+}
+
+gboolean plugin_register_data_incoming (gint handle, gchar *function)
+{
+  PLUGIN_DATA     * data;
+  plugin_datafunc   datafunc;
+
+  if ((datafunc = (plugin_datafunc) dlsym ((void *) handle, function)) == NULL) {
+    g_message ("Error register data incoming: %s", dlerror());
+    return FALSE;
+  }
+
+  data = g_new0(PLUGIN_DATA, 1);
+
+  if ((data->plugin = plugin_get_plugin_object_by_handle(handle)) == NULL)
+      g_message("Error getting plugin from handle");
+      
+  data->datafunc = datafunc;
+  
+  Plugin_datain_list = g_list_append(Plugin_datain_list, (gpointer) data);
+  return TRUE;
+}
+
+gboolean plugin_register_data_outgoing (gint handle, gchar *function)
+{
   return TRUE;
 }
