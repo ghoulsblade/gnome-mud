@@ -33,18 +33,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/*#include <string.h>
-#include <errno.h>
-#include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
-#include <libintl.h>
-#include <math.h>
-#include <ctype.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>*/
 
 #if 0
 #define USE_DMALLOC

@@ -93,33 +93,42 @@ if test "$python" = yes; then
 	if test "_$pythonpath" = _ ; then
 		python=no
 	else
-		AC_MSG_CHECKING(for Python compile flags)
+		AC_MSG_CHECKING([for Python version >= 2.x])
 		PY_PREFIX=`$pythonpath -c 'import sys ; print sys.prefix'`
 		PY_EXEC_PREFIX=`$pythonpath -c 'import sys ; print sys.exec_prefix'`
 		changequote(<<, >>)dnl
 		PY_VERSION=`$pythonpath -c 'import sys ; print sys.version[0:3]'`
 		PY_MAJOR=`$pythonpath -c 'import sys ; print sys.version[0:2]'`
 		changequote([, ])dnl
-		if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
-			PY_LIBS="-lpython$PY_VERSION"
-			PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
-			PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
-			AC_DEFINE(USE_PYTHON)
-			AC_MSG_RESULT([ok, Python $PY_VERSION])
-			AC_CHECK_LIB(pthread, pthread_create, )
-			if test "$PY_MAJOR" = "2."; then
+		if test "$PY_MAJOR" = "1."; then
+			python=no
+			AC_MSG_RESULT([no, atlest Python 2.x is needed])
+		else 
+			AC_MSG_RESULT([yes, Python $PY_VERSION])
+			AC_MSG_CHECKING(for Python compile flags)
+			
+			if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
+				PY_LIBS="-lpython$PY_VERSION"
+				PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
+				PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
+				AC_DEFINE(USE_PYTHON)
+				AC_MSG_RESULT([ok])
+				AC_CHECK_LIB(pthread, pthread_create, )
+				dnl needed for freebsd
+				AC_CHECK_LIB(c_r, pthread_create, )
 				dnl needed for python 2.x
 				AC_CHECK_LIB(util, openpty, )
 				AC_CHECK_LIB(db, dbopen, )
+				CFLAGS="$CFLAGS $PY_CFLAGS"
+				CPPFLAGS="$CPPFLAGS $PY_CFLAGS"
+				LIBS="$LIBS $PY_LIB_LOC $PY_LIBS"
+				
+				dnl PyGTK
+				AC_CHECK_HEADER(pygtk/pygtk.h,AC_DEFINE(USE_PYGTK))
+			else
+				python=no
+				AC_MSG_RESULT([Can't find Python.h])
 			fi
-			CFLAGS="$CFLAGS $PY_CFLAGS"
-			CPPFLAGS="$CPPFLAGS $PY_CFLAGS"
-			LIBS="$LIBS $PY_LIB_LOC $PY_LIBS"
-			dnl PyGTK
-			AC_CHECK_HEADER(pygtk/pygtk.h,AC_DEFINE(USE_PYGTK))
-		else
-			python=no
-			AC_MSG_RESULT([Can't find Python.h])
 		fi
 	fi
 fi

@@ -1,3 +1,21 @@
+Thu Jan 17 15:46:39 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Moved things around :)
+
+	* config.h.in, configure.in: Made a few fixes for python
+	detection.
+
+	* src/Makefile.am: Removed wizard.c
+
+	* src/init.c (free_connection_data): Moved from wizard.c
+
+	* src/keybind.c: Global variables removed.
+
+	* src/map.c: Commented #includes reomved.
+
+	* src/modules.c: Global variables removed.
+	* src/profiles.c: Ditto.
+
 Wed Jan 16 08:23:38 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/profiles (profilelist_cleanup): Added.

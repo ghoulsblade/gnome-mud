@@ -50,12 +50,6 @@ static void	on_clist_unselect_row (GtkCList *, gint, gint, GdkEvent *,
     
 extern SYSTEM_DATA  prefs;
 
-GtkWidget *capt_entry;
-GtkWidget *comm_entry;
-GtkWidget *KB_button_delete;
-GtkWidget *main_clist;
-
-
 KEYBIND_DATA *KB_head = NULL;
 
 gint KB_state;
@@ -119,13 +113,18 @@ if ((state&12)!=0)
 
 static void on_KB_button_capt_clicked (GtkButton *button, gpointer user_data)
 {
- gtk_entry_set_text(GTK_ENTRY(capt_entry),"");
- GTK_WIDGET_SET_FLAGS (capt_entry, GTK_CAN_FOCUS);
- gtk_widget_grab_focus(GTK_WIDGET(capt_entry));
+	GtkWidget *capt_entry = gtk_object_get_data(GTK_OBJECT(button), "capt_entry");
+	
+	gtk_entry_set_text(GTK_ENTRY(capt_entry),"");
+	GTK_WIDGET_SET_FLAGS (capt_entry, GTK_CAN_FOCUS);
+	gtk_widget_grab_focus(GTK_WIDGET(capt_entry));
 }
 
 static void on_KB_button_add_clicked (GtkButton *button, PROFILE_DATA *pd)
 {
+	GtkWidget *capt_entry = gtk_object_get_data(GTK_OBJECT(button), "capt_entry");
+	GtkWidget *comm_entry = gtk_object_get_data(GTK_OBJECT(button), "comm_entry");
+	GtkWidget *main_clist = gtk_object_get_data(GTK_OBJECT(button), "clist");
 	gchar *list[2];
 	gint i = 0;
 
@@ -180,7 +179,7 @@ static void on_KB_button_delete_clicked (GtkButton *button, gpointer clist)
 	}
         else
     	{
-    	 for(i=1;i<bind_list_selected_row;i++,tmp = tmp->next);
+    	 for(i=1;i<bind_list_selected_row;i++, tmp = tmp->next);
     	 tmp2 = tmp->next;
     	 tmp->next = tmp2->next;
 	 g_free(tmp2->data);
@@ -192,7 +191,10 @@ static void on_KB_button_delete_clicked (GtkButton *button, gpointer clist)
 
 static void on_clist_select_row (GtkCList *clist, gint row, gint column, GdkEvent *event, PROFILE_DATA *pd)
 {
-    gchar *text;
+  	GtkWidget *capt_entry = gtk_object_get_data(GTK_OBJECT(clist), "capt_entry");
+	GtkWidget *comm_entry = gtk_object_get_data(GTK_OBJECT(clist), "comm_entry");
+    GtkWidget *KB_button_delete = gtk_object_get_data(GTK_OBJECT(clist), "KB_button_delete");
+	gchar *text;
     gint i = 0;
     KEYBIND_DATA *scroll = pd->kd;
 
@@ -214,6 +216,8 @@ static void on_clist_select_row (GtkCList *clist, gint row, gint column, GdkEven
 static void on_clist_unselect_row (GtkCList *clist, gint row, gint column,
 				   GdkEvent *event, gpointer user_data)
 {
+	GtkWidget *KB_button_delete = gtk_object_get_data(GTK_OBJECT(clist), "KB_button_delete");
+	
     bind_list_selected_row=-1;
     gtk_widget_set_sensitive ( KB_button_delete, FALSE);
 
@@ -258,6 +262,9 @@ void window_keybind (PROFILE_DATA *pd)
   GtkWidget *KB_button_add;
   GtkWidget *KB_button_close;
   GtkTooltips *tooltips;
+  GtkWidget *capt_entry;
+  GtkWidget *comm_entry;
+  GtkWidget *KB_button_delete;
 
   if (window_key_bind != NULL) {
     gdk_window_raise(window_key_bind->window);
@@ -293,7 +300,6 @@ void window_keybind (PROFILE_DATA *pd)
   gtk_clist_set_column_width (GTK_CLIST (clist), 0, 104);
   gtk_clist_set_column_width (GTK_CLIST (clist), 1, 80);
   gtk_clist_column_titles_show (GTK_CLIST (clist));
-  main_clist = clist;
 
   label1 = gtk_label_new (_("Key"));
   gtk_widget_show (label1);
@@ -364,6 +370,17 @@ void window_keybind (PROFILE_DATA *pd)
   gtk_widget_show (KB_button_close);
   gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_close);
 
+  gtk_object_set_data(GTK_OBJECT(clist), "capt_entry", capt_entry);
+  gtk_object_set_data(GTK_OBJECT(KB_button_capt), "capt_entry", capt_entry);
+  gtk_object_set_data(GTK_OBJECT(KB_button_add), "capt_entry", capt_entry);
+  
+  gtk_object_set_data(GTK_OBJECT(clist), "comm_entry", comm_entry);
+  gtk_object_set_data(GTK_OBJECT(KB_button_add), "comm_entry", comm_entry);
+  
+  gtk_object_set_data(GTK_OBJECT(clist), "KB_button_delete", KB_button_delete);
+
+  gtk_object_set_data(GTK_OBJECT(KB_button_add), "clist", clist);
+  
   gtk_signal_connect(GTK_OBJECT(window_key_bind), "destroy", gtk_widget_destroyed, &window_key_bind);
   gtk_signal_connect (GTK_OBJECT (clist), "select_row", GTK_SIGNAL_FUNC (on_clist_select_row), pd);
   gtk_signal_connect (GTK_OBJECT (clist), "unselect_row", GTK_SIGNAL_FUNC (on_clist_unselect_row), NULL);

@@ -202,6 +202,9 @@
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H
 
+/* Define if you have the c_r library (-lc_r).  */
+#undef HAVE_LIBC_R
+
 /* Define if you have the db library (-ldb).  */
 #undef HAVE_LIBDB
 

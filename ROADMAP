@@ -9,7 +9,6 @@ feel free to suggest features, contribute, or comment.
 
 0.9.0
 
-* AutoReconnect
 * Nested alias [AS GOOD AS DONE]
 * Import of Mud Connectfiles [DONE]
 * Save logfiles of mud-traffic [DONE]
@@ -20,21 +19,27 @@ feel free to suggest features, contribute, or comment.
 	+ several characters per host
 * Rewrite font/color support
 * Right-click menu for connection-tabs
-* Make better use for gtk_object_(get|set)_data
+* Make better use for gtk_object_(get|set)_data [DONE]
 * Cleanup of .c-files, better names on functions, etc...
 * Fix error when closing wizardwindow after using profilewindow [DONE]
 * Scriptingsupport (python) [AS GOOD AS DONE]
 * Page Up, Page Down and Mousewheel support [DONE]
+* Fix Segfault in delete keybind
 
 0.10.0
 
+* GNOME 2.0
 * Use splitscreen feature from next version (1.4/2.0) of GTK
+* AutoReconnect
 * Get more speed in ANSI
 * Support for TELNET codes [PARTLY DONE]
+
+0.11.0
+
 * MSP, Mud Sound Protocol (Is there many muds using this?)
 * SOCKS support
 * IPv6 support
-* GNOME 2.0
+
 
 Unplanned
 

@@ -61,12 +61,7 @@ static char const rcsid[] =
 
 GList     *Plugin_list;
 GList     *Plugin_data_list;
-GtkWidget *plugin_name_entry;
-GtkWidget *plugin_author_entry;
-GtkWidget *plugin_version_entry;
-GtkWidget *plugin_desc_text;
-GtkWidget *plugin_enable_check;
-gint       plugin_selected_row;
+int       plugin_selected_row;
 gint       amount;
 
 PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
@@ -142,13 +137,15 @@ static void plugin_clist_select_row_cb (GtkWidget *clist, gint r, gint c, GdkEve
   p = plugin_get_plugin_object_by_name (text);
 
   if (p != NULL) {
-    gtk_entry_set_text (GTK_ENTRY (plugin_name_entry),    p->info->plugin_name);
-    gtk_entry_set_text (GTK_ENTRY (plugin_author_entry),  p->info->plugin_author);
-    gtk_entry_set_text (GTK_ENTRY (plugin_version_entry), p->info->plugin_version);
-    gtk_text_set_point(GTK_TEXT(plugin_desc_text), 0);
+    GtkWidget *plugin_desc_text = gtk_object_get_data(GTK_OBJECT(clist), "plugin_desc_text");
+	  
+    gtk_entry_set_text (GTK_ENTRY (gtk_object_get_data(GTK_OBJECT(clist), "plugin_name_entry")),    p->info->plugin_name);
+    gtk_entry_set_text (GTK_ENTRY (gtk_object_get_data(GTK_OBJECT(clist), "plugin_author_entry")),  p->info->plugin_author);
+    gtk_entry_set_text (GTK_ENTRY (gtk_object_get_data(GTK_OBJECT(clist), "plugin_version_entry")), p->info->plugin_version);
+    gtk_text_set_point(GTK_TEXT(gtk_object_get_data(GTK_OBJECT(clist), "plugin_desc_text")), 0);
     gtk_text_forward_delete(GTK_TEXT(plugin_desc_text), gtk_text_get_length(GTK_TEXT(plugin_desc_text)));
     gtk_text_insert(GTK_TEXT(plugin_desc_text), NULL, NULL, NULL, p->info->plugin_descr, strlen(p->info->plugin_descr));
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(plugin_enable_check), p->enabeled);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtk_object_get_data(GTK_OBJECT(clist), "plugin_enable_check")), p->enabeled);
   }
 }
 
@@ -180,7 +177,12 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   GtkWidget *scrolledwindow2;
   GtkWidget *dialog_action_area1;
   GtkWidget *button1;
-
+  GtkWidget *plugin_name_entry;
+  GtkWidget *plugin_author_entry;
+  GtkWidget *plugin_version_entry;
+  GtkWidget *plugin_desc_text;
+  GtkWidget *plugin_enable_check;
+  
   if (dialog1 != NULL) {
     gdk_window_raise(dialog1->window);
     gdk_window_show(dialog1->window);
@@ -356,6 +358,12 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
 
   g_list_foreach (Plugin_list, (GFunc) plugin_clist_append, clist1);
   gtk_clist_select_row (GTK_CLIST (clist1), 0, 0);
+ 
+  gtk_object_set_data(GTK_OBJECT(clist1), "plugin_name_entry",    plugin_name_entry);
+  gtk_object_set_data(GTK_OBJECT(clist1), "plugin_author_entry",  plugin_author_entry);
+  gtk_object_set_data(GTK_OBJECT(clist1), "plugin_version_entry", plugin_version_entry);
+  gtk_object_set_data(GTK_OBJECT(clist1), "plugin_desc_text",     plugin_desc_text);
+  gtk_object_set_data(GTK_OBJECT(clist1), "plugin_enable_check",  plugin_enable_check);  
 
   gtk_widget_show(dialog1);
 }

@@ -423,6 +423,17 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 	return FALSE;
 }
 
+void free_connection_data (CONNECTION_DATA *c)
+{
+#ifdef ENABLE_MCCP
+	mudcompress_delete(c->mccp);
+	gtk_timeout_remove(c->mccp_timer);
+#endif
+	g_free (c->host);
+	g_free (c->port);
+	g_free (c);
+}
+
 static void do_close (GtkWidget *widget, gpointer data)
 {
 	CONNECTION_DATA *cd;
