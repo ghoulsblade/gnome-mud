@@ -1,14 +1,62 @@
+Mon Jul  1 12:29:15 CEST 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* po/sv.po: updated.
+
+Tue Jun 25 14:31:25 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/prefs (window_prefs): i18nized a string.
+	* po/{ca,es}.po: updated.
+	* po/fr.po: French update by Martin Quinson.
+
+Mon Jun 24 16:46:24 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* NEWS: added items for 0.9.1.
+
+Mon Jun 24 13:00:05 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c: added mnemonics to all menu items.
+	(window_menu_help_about): removed iso-8859-1 characters from C
+	strings.
+	* src/modules.c (do_plugin_information): removed gettext call to
+	an empty string.
+	* po/{ca,es}.po: Updated.
+
+Sun Jun 23 13:33:21 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* gnome-mud.desktop: fixed "Type" so it works under GNOME 2.
+
+Tue May  7 17:52:18 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* doc/gnome-mud-plugin-api/C/gnome-mud-plugin-api.sgml: removed
+	markup from <title>s, and a typo.
+
+Tue May  7 16:40:47 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* doc/gnome-mud-manual/C/gnome-mud-manual-C.omf: updated
+	manual filename.
+	* doc/gnome-mud-plugin-api/C/gnome-mud-plugin-api-C.omf: ooops...
+	add a propper description, not just a copy from g-m-manual.
+
+Tue May  7 16:04:59 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* Completely revamped doc/.
+	* doc/C: moved to doc/gnome-mud-manual/C/.
+	* doc/python: rewritten in DocBook, moved to
+	doc/gnome-mud-plugin-api/C.
+	* configure.in: changes for new layout.
+	* config.h.in: removed.
+
 Fri Mar 15 19:39:52 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/C/Makefile.am: oops, fixed typo in previous commit.
 
-Fri Mar 15 16:29:02 CET 2002  Jordi Mallach   <jordi@sindominio.net>
+Fri Mar 15 16:29:02 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/C/Makefile.am: added missing screenshots to figs list.
 
-Fri Mar 15 08:07:44 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+Fri Mar 15 08:04:40 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
-	* Updated version of 0.9.0 releases.
+	* gnome-mud.lsm, configure.in, NEWS: Updated version.
 
 Mon Mar 11 07:56:18 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 

@@ -298,7 +298,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_clist_set_column_width (GTK_CLIST (clist1), 0, 80);
   gtk_clist_column_titles_hide (GTK_CLIST (clist1));
 
-  label5 = gtk_label_new (_(""));
+  label5 = gtk_label_new ("");
   gtk_widget_ref (label5);
   gtk_object_set_data_full (GTK_OBJECT (dialog1), "label5", label5,
                             (GtkDestroyNotify) gtk_widget_unref);

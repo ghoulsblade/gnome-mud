@@ -2,9 +2,15 @@
 <omf>
   <resource>
     <title>
-     GNOME-Mud Manual
+     GNOME-Mud Plugin API
     </title>
     <creator>
+     <person>
+      <firstName>Petter</firstName>
+      <otherName>E.</otherName>
+      <lastName>Stokke</otherName>
+      <email>gibreel@project23.no</email>
+     </person>
      <person>
       <firstName>Jordi</firstName>
       <lastName>Mallach</lastName>
@@ -12,17 +18,17 @@
      </person>
     </creator>
     <subject>
-      <category>Games</category>
+      <category>Development</category>
     </subject>
     <description>
-      This document describes all the features and dialogs present in the
-      GNOME-Mud application, which is a MUD client for the GNOME Desktop.
+      This document describes how to code plugins for GNOME-Mud, in Python
+      and C.
     </description>
     <type>
      manual
     </type>
     <format mime="text/sgml"/>
-    <identifier url="gnome-mud.sgml"/>
+    <identifier url="gnome-mud-plugin-api.sgml"/>
     <language code="C"/>
   </resource>
 </omf>

@@ -12,4 +12,4 @@ Comment[sv]=GNOMEs MUD Klient
 Exec=gnome-mud
 Icon=gnome-gmush.png
 Terminal=0
-Type=Games
+Type=Application
