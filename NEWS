@@ -1,7 +1,7 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
-GNOME-Mud 0.10.2 (Unreleased)
+GNOME-Mud 0.10.2 (09/07/2003)
 
 - Fix i18n initialization. [Jordi]
 - Fix a few segfaults. [Jordi, Robin]
@@ -9,7 +9,7 @@ GNOME-Mud 0.10.2 (Unreleased)
   (Bug #116337) [Abi]
 - Partially fix NAWS implementation. [Abi]
 - Port some remaining GTK 1.2 BROKEN widgets to GTK2. [Robin]
-- Translation updates (ca, mk, tr) [Jordi, stojmir, Saim Onur Zaim]
+- Translation updates (ca, mk, nl, tr) [Jordi, stojmir, Saim Onur Zaim]
 - Fix annoying "can't press enter" in connection dialog [Robin]
 - Will now only display "confirm quit" dialog when there are connections
   open [Robin]

@@ -1,3 +1,11 @@
+2003-07-09  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Release 0.10.2
+
+	* NEWS: Added date for 0.10.2.
+
+	* configure.ac: Dumped to 0.10.2.
+
 2003-07-04  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/init.c (destroy): Only display dialog when we have open
