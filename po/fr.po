@@ -522,7 +522,7 @@ msgstr "*** Connexion à `%s', port %s\n"
 
 #: src/net.c:206
 msgid "*** Connection established.\n"
-msgstr "*** Connexion établie"
+msgstr "*** Connexion établie.\n"
 
 #: src/prefs.c:72
 #, c-format

@@ -1,3 +1,6 @@
+Thu Mar  8 04:18:57 CET 2001  Jordi Mallach  <jordi@sindominio.net>
+	* po/fr.po: added missing "\n".
+
 Tue Feb 20 04:10:49 CET 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.in, po/fr.po: added French translation from Martin
