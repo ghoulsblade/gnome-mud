@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.8.99\n"
 "POT-Creation-Date: 2002-02-26 19:41+0100\n"
-"PO-Revision-Date: 2002-02-26 20:17+0100\n"
+"PO-Revision-Date: 2002-02-27 14:01+0100\n"
 "Last-Translator: Martin Quinson <martin.quinson@ens-lyon.fr>\n"
 "Language-Team: Debian French translators <debian-l10n-french@lists.debian."
 "org>\n"
@@ -167,7 +167,8 @@ msgstr "Petter E. Stokke, Aide pour les scripts en Python"
 
 #: src/init.c:314
 msgid "Vashti, default keypad bindings, telnet support patches"
-msgstr "Vashti, racourcis claviers par défaut, correctifs pour le support telnet"
+msgstr ""
+"Vashti, racourcis claviers par défaut, correctifs pour le support telnet"
 
 #: src/init.c:324
 msgid "GNOME-Mud"
@@ -271,7 +272,10 @@ msgid ""
 "\n"
 "Python version %s\n"
 "\n"
-msgstr "\nVersion de Python %s\n\n"
+msgstr ""
+"\n"
+"Version de Python %s\n"
+"\n"
 
 #: src/keybind.c:126
 msgid "Can't add an existing key."
@@ -304,7 +308,9 @@ msgstr "Capture"
 #: src/log.c:55
 #, c-format
 msgid "*** Already logging to %s. Close that log first.\n"
-msgstr "*** Il y a déjà un enregistrement vers %s. Veuillez fermer cet enregistrement en premier.\n"
+msgstr ""
+"*** Il y a déjà un enregistrement vers %s. Veuillez fermer cet "
+"enregistrement en premier.\n"
 
 #: src/log.c:61
 msgid "Open log"
@@ -465,7 +471,7 @@ msgstr "Nom de Mud :"
 
 #: src/mudlist.c:400
 msgid "Codebase :"
-msgstr ""
+msgstr "Code de base :"
 
 #: src/mudlist.c:414
 msgid "Telnet Address :"
@@ -533,7 +539,7 @@ msgstr "Police :"
 
 #: src/prefs.c:424
 msgid "The quick brown fox jumps over the lazy dog"
-msgstr ""
+msgstr "Une souris verte, qui courait dans l'herbe..."
 
 #: src/prefs.c:436
 msgid "Color palette:"
@@ -604,7 +610,10 @@ msgstr "Désactiver les touches systèmes ?"
 msgid ""
 "GNOME-Mud ships with a few built-in keybinds. These keybinds can be "
 "overridden by own keybinds, or they can be disabled by toggling this checkbox"
-msgstr "GNOME-Mud offre des racourcis claviers par défaut. Ces réglages peuvent être remplacés par vos propres racourcis, ou ils peuvent être désactivés en cochant cette boîte."
+msgstr ""
+"GNOME-Mud offre des racourcis claviers par défaut. Ces réglages peuvent être "
+"remplacés par vos propres racourcis, ou ils peuvent être désactivés en "
+"cochant cette boîte."
 
 #: src/prefs.c:607
 msgid "Command divide char:"
@@ -622,7 +631,10 @@ msgstr "Type de terminal :"
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
-msgstr "GNOME-Mud essayera de transmettre un type de terminal (comme ANSI ou VT100) si le Mud en demande un. Cette option fixera le type de terminal qui sera envoyé."
+msgstr ""
+"GNOME-Mud essayera de transmettre un type de terminal (comme ANSI ou VT100) "
+"si le Mud en demande un. Cette option fixera le type de terminal qui sera "
+"envoyé."
 
 #: src/prefs.c:660
 msgid "MudList file:"
