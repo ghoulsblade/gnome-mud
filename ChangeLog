@@ -1,3 +1,14 @@
+Wed Jul  3 17:20:32 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* Upgraded to gettext 0.11.2.
+
+	* Makefile.am (SUBDIRS): Added macros.
+	(SUBDIRS): Removed intl.
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): Added config.rpath.
+	* configure.in (AC_OUTPUT): Added macros/Makefile.
+	(AC_OUTPUT): Removed intl/Makefile.
+
 Wed Jul  3 14:51:16 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* Makefile.am: removed man_MANS, trimmed down EXTRA_DIST.

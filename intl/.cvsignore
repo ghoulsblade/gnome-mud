@@ -1,6 +1,0 @@
-*.lo
-*.la
-.deps
-.libs
-Makefile
-po2tbl.sed

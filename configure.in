@@ -162,7 +162,7 @@ if test "x$have_zlib" = "xyes" && test "x$enable_mccp" = "xyes"; then
   AC_DEFINE(ENABLE_MCCP)
 fi
 
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT([external])
 
 AC_SUBST(USER)
 AC_SUBST(HOST)
@@ -173,15 +173,15 @@ AC_SUBST(CODELINES)
 AC_OUTPUT([
   Makefile
   gnome-mud.lsm
-  src/Makefile
-  plugins/Makefile
-  intl/Makefile
-  po/Makefile.in
   doc/Makefile
   doc/gnome-mud-manual/Makefile
   doc/gnome-mud-manual/C/Makefile
   doc/gnome-mud-plugin-api/Makefile
   doc/gnome-mud-plugin-api/C/Makefile
+  macros/Makefile
+  src/Makefile
+  plugins/Makefile
+  po/Makefile.in
   ])
 
 if test "x$enable_warnings" = "xyes"; then
