@@ -207,7 +207,7 @@ msgstr "Sortir"
 
 #: src/init.c:590
 msgid "Connection Wizard..."
-msgstr "Assistent de Conexions..."
+msgstr "Assistent de Connexions..."
 
 #: src/init.c:591
 msgid "MudList Listing..."
@@ -489,7 +489,7 @@ msgstr "Descripció :"
 
 #: src/net.c:190
 msgid "*** Connection closed.\n"
-msgstr "*** Conexió tancada.\n"
+msgstr "*** Connexió tancada.\n"
 
 #: src/net.c:203
 msgid "*** Can't connect - you didn't specify a host.\n"
@@ -502,11 +502,11 @@ msgstr "*** No s'ha especificat cap port - asumint port 23.\n"
 #: src/net.c:227
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
-msgstr "*** Realitzant conexió a %s, port %s.\n"
+msgstr "*** Realitzant connexió a %s, port %s.\n"
 
 #: src/net.c:256
 msgid "*** Connection established.\n"
-msgstr "*** Conexió establida.\n"
+msgstr "*** Connexió establida.\n"
 
 #: src/prefs.c:85
 msgid "Couldn't allocate color"
@@ -578,7 +578,7 @@ msgid ""
 "will be left in the entry box but selected. Turn this off to remove the text "
 "after it has been sent."
 msgstr ""
-"Amb aquesta opció activada, el texte que introduiu en la conexió es quedarà "
+"Amb aquesta opció activada, el texte que introduiu en la connexió es quedarà "
 "en el camp de introducció de comandes, pero seleccionat. Desactiveu l'opció "
 "per a esborrar el texte una vegada s'haja enviat."
 
