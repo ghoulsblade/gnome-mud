@@ -63,10 +63,7 @@ static char const rcsid[] =
 /*
  * Global Variables
  */
-gint  sockfd;
-bool  connected;
 bool  echo;
-gint  input_monitor;
 gchar *host, *port;
 extern GList *alias_list2;
 
@@ -152,11 +149,12 @@ static void action_send_to_connection (gchar *entry_text)
     if ( !sent )
         sent = temp_entry;
 
-    if ( connected )
-    {
+    //if ( connected )
+    //{
         /* error checking here */
-        send (sockfd, sent, strlen (sent), 0);
-    }
+      /* FIXME */
+      //send (sockfd, sent, strlen (sent), 0);
+    //}
 
     if ( sent != temp_entry )
         g_free (sent);
@@ -169,105 +167,124 @@ static void action_send_to_connection (gchar *entry_text)
 
 void make_connection (GtkWidget *widget, gpointer data)
 {
-    g_free (host);
-    g_free (port);
+  CONNECTION_DATA *connection;
+  GtkWidget       *label;
 
-    host = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_host)));
-    port = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_port)));
+  if (main_connection->connected) {
+    connection = g_malloc0( sizeof (CONNECTION_DATA));
+    connection->window = gtk_text_new (NULL, NULL);
+    gtk_widget_show (connection->window);
+  } else {
+    connection = main_connection;
+  }
 
-    open_connection (host, port);
+  g_free (host);
+  g_free (port);
+  host = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_host)));
+  port = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_port)));
+
+  g_free(connection->host);
+  g_free(connection->port);
+  connection->host = g_strdup(host);
+  connection->port = g_strdup(port);
+
+  if (main_connection != connection) {
+    label = gtk_label_new(connection->host);
+    gtk_notebook_append_page (GTK_NOTEBOOK (main_notebook), connection->window, label);
+    gtk_widget_realize (connection->window);
+    gdk_window_set_background (GTK_TEXT (connection->window)->text_area, &color_black); 
+    gtk_notebook_next_page (GTK_NOTEBOOK (main_notebook));
+    connection->notebook = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
+    g_message("NoteBook DEBUG: Current notebook page is: %d.", connection->notebook);
+    Connections = g_list_append (Connections, (gpointer) connection);
+  }
+  
+  open_connection (connection);
 }
 
-void disconnect (GtkWidget *widget, gpointer data)
+void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 {
-    close (sockfd);
-    gdk_input_remove (input_monitor);
+    close (connection->sockfd);
+    gdk_input_remove (connection->data_ready);
     /* FIXME */
-    textfield_add (main_connection->window, "*** Connection closed.\n", MESSAGE_NORMAL);
-    connected = FALSE;
-    
-    gtk_widget_set_sensitive (menu_main_connect, TRUE);
-    gtk_widget_set_sensitive (menu_main_disconnect, FALSE);
-    gtk_window_set_title (GTK_WINDOW (window), "AMCL "VERSION"");
+    textfield_add (connection->window, "*** Connection closed.\n", MESSAGE_NORMAL);
+    connection->connected = FALSE;
 }
 
-void open_connection (const gchar *host, const gchar *port)
+void open_connection (CONNECTION_DATA *connection)
 {
     gchar buf[2048];
     struct hostent *he;
     struct sockaddr_in their_addr;
 
-    if ( !(strcmp (host, "\0")) )
+    if ( !(strcmp (connection->host, "\0")) )
     {
         sprintf (buf, "*** Can't connect - you didn't specify a host\n");
         /* FIXME */
-        textfield_add (main_connection->window, buf, MESSAGE_ERR);
+        textfield_add (connection->window, buf, MESSAGE_ERR);
         return;
     }
 
-    if ( !(strcmp(port, "\0")) )
+    if ( !(strcmp(connection->port, "\0")) )
     {
         sprintf (buf, "*** No port specified - assuming port 23\n");
         /* FIXME */
-        textfield_add (main_connection->window, buf, MESSAGE_NORMAL);
+        textfield_add (connection->window, buf, MESSAGE_NORMAL);
         port = "23\0";
     }
 
-    sprintf (buf, "*** Making connection to %s, port %s\n", host, port);
+    sprintf (buf, "*** Making connection to %s, port %s\n", connection->host, connection->port);
     /* FIXME */
-    textfield_add (main_connection->window, buf, MESSAGE_NORMAL);
+    textfield_add (connection->window, buf, MESSAGE_NORMAL);
 
 
     /* strerror(3) */
-    if ( ( he = gethostbyname (host) ) == NULL )
+    if ( ( he = gethostbyname (connection->host) ) == NULL )
     {
         return;
     }
 
-    if ( ( sockfd = socket (AF_INET, SOCK_STREAM, 0)) == -1 )
+    if ( ( connection->sockfd = socket (AF_INET, SOCK_STREAM, 0)) == -1 )
     {
         /* FIXME */
-        textfield_add (main_connection->window, strerror(errno), MESSAGE_ERR);
+        textfield_add (connection->window, strerror(errno), MESSAGE_ERR);
         return;
     }
 
     their_addr.sin_family = AF_INET;
-    their_addr.sin_port   = htons( atoi (port));
+    their_addr.sin_port   = htons( atoi (connection->port));
     their_addr.sin_addr   = *((struct in_addr *)he->h_addr);
     bzero (&(their_addr.sin_zero), 8);
 
-    if (connect (sockfd, (struct sockaddr *)&their_addr,
+    if (connect (connection->sockfd, (struct sockaddr *)&their_addr,
                  sizeof (struct sockaddr)) == -1 )
     {
         /* FIXME */
-        textfield_add (main_connection->window, strerror(errno), MESSAGE_ERR);
+        textfield_add (connection->window, strerror(errno), MESSAGE_ERR);
         return;
     }
 
     /* FIXME */
-    textfield_add (main_connection->window, "*** Connection established.\n", MESSAGE_NORMAL);
+    textfield_add (connection->window, "*** Connection established.\n", MESSAGE_NORMAL);
 
-    input_monitor = gdk_input_add (sockfd, GDK_INPUT_READ,
-                                   read_from_connection,
-                                   NULL );
-    connected = TRUE;
-    echo = TRUE;
+    connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ,
+					   read_from_connection,
+					   (gpointer) connection);
+    connection->connected = TRUE;
 
-    gtk_widget_set_sensitive (menu_main_connect, FALSE);
     gtk_widget_set_sensitive (menu_main_disconnect, TRUE);
 }
 
-void read_from_connection (gpointer data, gint source, GdkInputCondition condition)
+void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCondition condition)
 {
     gchar buf[4096];
     gchar triggered_action[85];
     gint  numbytes;
     
-    if ( (numbytes = recv (sockfd, buf, 2048, 0) ) == - 1 )
+    if ( (numbytes = recv (connection->sockfd, buf, 2048, 0) ) == - 1 )
     {
-        /* FIXME */
-        textfield_add (main_connection->window, strerror( errno), MESSAGE_ERR);
-        disconnect ( NULL, NULL);
+        textfield_add (connection->window, strerror( errno), MESSAGE_ERR);
+        disconnect (NULL, connection);
         return;
     }
 
@@ -281,26 +298,13 @@ void read_from_connection (gpointer data, gint source, GdkInputCondition conditi
      */
     if ( numbytes == 0 )
     {
-        disconnect (NULL, NULL);
+        disconnect (NULL, connection);
         return;
-    }
-
-    if ( strstr (buf, echo_off_str ) )
-    {
-        echo = FALSE;
-        str_replace (buf, echo_off_str, "");
-    }
-
-    if ( strstr (buf, echo_on_str ) )
-    {
-        echo = TRUE;
-        str_replace (buf, echo_on_str, "");
     }
 
     str_replace (buf, "\r", "");
 
-    /* FIXME */
-    textfield_add (main_connection->window, buf, MESSAGE_ANSI);
+    textfield_add (connection->window, buf, MESSAGE_ANSI);
 
     /* Added by Bret Robideaux (fayd@alliances.org)
      * OK, this seems like a good place to handle checking for action triggers
@@ -370,11 +374,12 @@ void send_to_connection (GtkWidget *widget, gpointer data)
     if( !sent )
       sent = temp_entry;
 
-    if ( connected )
-    {
+    //if ( connected )
+    //{
         /* error checking here */
-        send (sockfd, sent, strlen (sent), 0);
-    }
+      /* FIXME */
+      //send (sockfd, sent, strlen (sent), 0);
+    //}
 
     if ( echo && prefs.EchoText)
     {
@@ -397,5 +402,6 @@ void send_to_connection (GtkWidget *widget, gpointer data)
 
 void connection_send (gchar *message)
 {
-    send (sockfd, message, strlen (message), 0);
+  /* FIXME */
+  //send (sockfd, message, strlen (message), 0);
 }

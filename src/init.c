@@ -23,8 +23,7 @@
 
 #include "amcl.h"
 
-static char const rcsid[] =
-    "$Id$";
+static char const rcsid[] = "$Id$";
 
 /*
  * Local Functions
@@ -42,7 +41,6 @@ void    about_window   (GtkWidget *widget, gpointer data);
  */
 CONNECTION_DATA *main_connection;
 GtkWidget *main_notebook;
-GtkWidget *text_field;
 GtkWidget *text_entry;
 GtkWidget *entry_host;
 GtkWidget *entry_port;
@@ -50,6 +48,7 @@ GtkWidget *menu_plugin_menu;
 GtkWidget *menu_main_wizard;
 GtkWidget *menu_main_connect;
 GtkWidget *menu_main_disconnect;
+GtkWidget *menu_main_close;
 GtkWidget *menu_option_prefs;
 GtkWidget *menu_option_alias;
 GtkWidget *menu_option_mapper;
@@ -80,6 +79,7 @@ GdkColor color_lightgrey;
 GdkFont  *font_normal;
 
 GList *EntryHistory = NULL;
+GList *Connections = NULL;
 
 /* from bezerk */
 gushort convert_color (guint c)
@@ -210,8 +210,6 @@ void init_colors ()
         g_warning("couldn't allocate color");
     }
 
-    /*if ( !prefs.FontName )
-        prefs.FontName = g_strdup ("fixed");*/
     if ( ( font_normal = gdk_font_load (prefs.FontName) ) == NULL )
     {
         g_warning ("Can't load font... %s Using default.\n", prefs.FontName);
@@ -240,13 +238,6 @@ void connect_window (GtkWidget *widget, gpointer data)
     GtkWidget *button;
     GtkWidget *button_close;
     GtkWidget *separator;
-
-    if ( connected )
-    {
-        /* FIXME */
-        textfield_add (main_connection->window, "\n*** Already connected!\n", MESSAGE_ERR);
-        return;
-    }
 
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title (GTK_WINDOW (window),"Connect...");
@@ -424,6 +415,38 @@ int text_entry_key_press_cb (GtkEntry *entry, GdkEventKey *event, gpointer data)
     return FALSE;
 }
 
+void do_close (GtkWidget *widget, gpointer data)
+{
+}
+
+void do_disconnect (GtkWidget *widget, gpointer data)
+{
+  CONNECTION_DATA *cd;
+  GList *list;
+  gint number;
+
+  number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
+  g_message ("Connection number is: %d.", number);
+
+  /* for (list == Connections; list != NULL; list = list->next) { */
+/*     if (list->data) { */
+/*       cd = (CONNECTION_DATA *) data; */
+      
+/*       if (cd->notebook = number) { */
+/* 	disconnect (NULL, cd); */
+/* 	break; */
+/*       } */
+/*     } */
+/*   } */
+
+  disconnect (NULL, main_connection);  
+  cd = main_connection;
+
+  if (!cd->connected)
+    gtk_widget_set_sensitive (menu_main_disconnect, FALSE);
+
+}
+
 void init_window ()
 {
     GtkWidget *label;
@@ -474,7 +497,6 @@ void init_window ()
     gtk_menu_append (GTK_MENU (menu_main_menu), separator);
     gtk_widget_show (separator);
 
-
     menu_main_connect = gtk_menu_item_new_with_label ("Connect...");
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_connect );
     gtk_signal_connect_object (GTK_OBJECT (menu_main_connect), "activate",
@@ -483,7 +505,18 @@ void init_window ()
     menu_main_disconnect = gtk_menu_item_new_with_label ("Disconnect");
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_disconnect );
     gtk_signal_connect_object (GTK_OBJECT (menu_main_disconnect), "activate",
-                               GTK_SIGNAL_FUNC (disconnect), NULL );
+                               GTK_SIGNAL_FUNC (do_disconnect), NULL );
+
+    separator = gtk_menu_item_new ();
+    gtk_menu_append (GTK_MENU (menu_main_menu), separator);
+    gtk_widget_show (separator);
+
+    menu_main_close = gtk_menu_item_new_with_label ("Close Window");
+    gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_close);
+    gtk_signal_connect_object (GTK_OBJECT (menu_main_close), "close",
+			       GTK_SIGNAL_FUNC (do_close), NULL);
+    gtk_widget_show (menu_main_close);
+    gtk_widget_set_sensitive (menu_main_close, FALSE);
 
     separator = gtk_menu_item_new ();
     gtk_menu_append (GTK_MENU (menu_main_menu), separator);
@@ -573,21 +606,21 @@ void init_window ()
 
     main_notebook = gtk_notebook_new();
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK (main_notebook), GTK_POS_BOTTOM);
-/*    gtk_signal_connect (GTK_OBJECT (main_notebook), "switch-page",
-                        GTK_SIGNAL_FUNC (switch_page_cb), NULL);*/
+    gtk_signal_connect (GTK_OBJECT (main_notebook), "switch-page",
+                        GTK_SIGNAL_FUNC (switch_page_cb), NULL);
     gtk_box_pack_start (GTK_BOX (box_h_low), main_notebook, TRUE, TRUE, 0);
     gtk_widget_show (main_notebook);
 
     main_connection = g_malloc0( sizeof (CONNECTION_DATA));
+    main_connection->notebook = 0;
     main_connection->window = gtk_text_new (NULL, NULL);
     gtk_widget_set_usize (main_connection->window, 500, 320);
     gtk_widget_show (main_connection->window);
     
-    /*text_field = gtk_text_new (NULL, NULL);
-    gtk_widget_set_usize (text_field,500,320);*/
+    Connections = g_list_append(Connections, (gpointer) main_connection);
+    
     foreground = &color_white;
     background = &color_black;
-    //gtk_widget_show (text_field);
 
     label = gtk_label_new ("Main");
     gtk_notebook_append_page (GTK_NOTEBOOK (main_notebook), main_connection->window, label);

@@ -21,13 +21,17 @@
 
 #include "amcl.h"
 
+static char const rcsid[] = "$Id$";
+
 void plugin_popup_message (gchar *message)
 {
-    popup_window (message);
+  popup_window (message);
 }
 
 void plugin_add_connection_text(CONNECTION_DATA *connection, gchar *message, gint color)
 {
-    /* FIXME */
+  if (connection == NULL || connection->window == NULL)
     textfield_add (main_connection->window, message, color);
+  else
+    textfield_add (connection->window, message, color);
 }

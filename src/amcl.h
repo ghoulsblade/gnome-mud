@@ -42,11 +42,13 @@ typedef        gint            bool;
  * Structures
  */
 struct connection_data {
-    gchar      *host;
-    gchar      *port;
-    gint        data_ready;
-    gint        connected;
-    GtkWidget  *window;
+  gchar      *host;
+  gchar      *port;
+  gint        data_ready;
+  gint        sockfd;
+  gint        connected;
+  gint        notebook;
+  GtkWidget  *window;
 };
 
 struct alias_data {
@@ -120,14 +122,14 @@ void  window_automap  ( GtkWidget *widget, gpointer data   );
 int   init_modules    ( char *path                         );
 
 /* net.c */
-void  make_connection ( GtkWidget *widget, gpointer data   );
-void  disconnect      ( GtkWidget *widget, gpointer data   );
-void  open_connection ( const gchar *host,const gchar *port);
-void  read_from_connection (gpointer data,
+void  make_connection ( GtkWidget *widget, gpointer data    );
+void  disconnect      ( GtkWidget *widget, CONNECTION_DATA *);
+void  open_connection ( CONNECTION_DATA *connection         );
+void  read_from_connection (CONNECTION_DATA *connection,
                             gint source,
-                            GdkInputCondition condition    );
-void  send_to_connection (GtkWidget *widget, gpointer data );
-void  connection_send ( gchar *message                     );
+                            GdkInputCondition condition     );
+void  send_to_connection (GtkWidget *widget, gpointer data  );
+void  connection_send ( gchar *message                      );
 
 /* prefs.c */
 void  load_prefs      ( void                               );
@@ -135,9 +137,10 @@ void  window_prefs    ( GtkWidget *widget, gpointer data   );
 int   check_amcl_dir  ( gchar *dirname                     );
 
 /* window.c */
-void  window_alias    ( GtkWidget *widget, gpointer data            );
+void  window_alias    ( GtkWidget *widget, gpointer data             );
 void  popup_window    ( const gchar *message                         );
-void  textfield_add   ( GtkWidget *w, gchar *message, gint colortype );
+void  switch_page_cb  ( GtkNotebook *, gpointer, guint, gpointer     );
+void  textfield_add   ( GtkWidget *widget, gchar *me, gint colortype );
 
 /* wizard.c */
 void  load_wizard        ( void                            );
@@ -153,8 +156,9 @@ void  window_wizard      ( GtkWidget *widget,gpointer data );
 
 /* init.c */
 extern CONNECTION_DATA *main_connection;
+extern GList *Connections;
 
-extern GtkWidget *text_field;
+extern GtkWidget *main_notebook;
 extern GtkWidget *text_entry;
 extern GtkWidget *entry_host;
 extern GtkWidget *entry_port;
@@ -193,8 +197,6 @@ extern GdkFont  *font_bold;
 
 
 /* net.c */
-extern gint      sockfd;
-extern bool      connected;
 extern bool      echo;
 extern gchar     *host;
 extern gchar     *port;

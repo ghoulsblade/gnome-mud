@@ -1,3 +1,26 @@
+1999-07-24  Robin Ericsson  <lobbin@localhost.nu>
+
+	* amcl.h (connection_data): Added notebook and sockfd entry.
+	(open_connection): Changed fron gchar *host, gchar *port to
+	CONNECTION_DATA *connection.
+
+	* init.c (do_close/do_disconnect): New functions.
+	(init_window): Added "Close Window" to the menu, added callback
+	for the notebook.
+
+	* modules_api.c (plugin_add_connection_text): Text sent without
+	wanting to a specific connection now goes to main.
+
+	* net.c (make_connection): Added support for multiple connections.
+	(disconnect): ditto
+	(open_connection): ditto
+	(read_from_connection): ditto
+
+	* window.c (switch_page_cb): Added function.
+
+	* wizard.c (wizard_button_connect): Support for multiple connections
+	needed alot of changed. Not ready yet.
+
 Fri Jul 23 18:37:33 CEST 1999  Robin Ericsson  <lobbin@localhost.nu>
 
 	* autogen.sh: changed automake; to automake --gnu --include-deps;

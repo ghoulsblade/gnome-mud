@@ -33,8 +33,7 @@
 #include <arpa/telnet.h>
 #endif
 
-static char const rcsid[] =
-    "$Id$";
+static char const rcsid[] = "$Id$";
 
 
 /*
@@ -205,6 +204,11 @@ void popup_window (const gchar *message)
     
     gtk_widget_show (box   );
     gtk_widget_show (window);
+}
+
+void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer data2)
+{
+  g_message ("NoteBook DEBUG: guint = %d", nb_int);
 }
 
 void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)

@@ -283,36 +283,35 @@ void wizard_unselection_made (GtkWidget *clist, gint row, gint column,
 
 void wizard_button_connect (GtkWidget *button, gpointer data)
 {
-    WIZARD_DATA *w;
-    gchar *word;
-
-    if ( wizard_selected_row < 0 )
+  CONNECTION_DATA *cd;
+  WIZARD_DATA *w;
+  gchar *word;
+  
+  if ( wizard_selected_row < 0 )
     {
-        popup_window ("No selection made");
-        return;
+      popup_window ("No selection made");
+      return;
     }
-
-    gtk_clist_get_text ((GtkCList *) data, wizard_selected_row, 0, &word);
-
-    w = wizard_get_wizard_data(word);
-
-    open_connection (w->hostname, w->port);
-
-    if ( connected )
+  
+  gtk_clist_get_text ((GtkCList *) data, wizard_selected_row, 0, &word);
+  
+  w = wizard_get_wizard_data(word);
+  
+  //  cd = make_connection (w->hostname, w->port);
+  
+  if ( cd && cd->connected )
     {
-        gchar buf[256];
-        
-        if (  w->autologin && w->playername && w->password )
+      gchar buf[256];
+      
+      if (  w->autologin && w->playername && w->password )
         {
-            connection_send (w->playername);
-            connection_send ("\n");
-            connection_send (w->password);
-            connection_send ("\n");
+	  connection_send (w->playername);
+	  connection_send ("\n");
+	  connection_send (w->password);
+	  connection_send ("\n");
         }
-
-        wizard_close_window ();
-        sprintf (buf, "AMCL %s: Connected to %s...", VERSION, w->name);
-        gtk_window_set_title (GTK_WINDOW (window), buf);
+      
+      wizard_close_window ();
     }
 }
 
