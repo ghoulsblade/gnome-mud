@@ -1,7 +1,11 @@
+Thu Oct 18 16:28:52 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/wizard.c: fixed typos (conection -> connection).
+	* po/{ca,es,sv}.po: fixed the generated fuzzy's.
+
 Thu Oct 18 15:38:25 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* NEWS, ROADMAP: doc updates.
-
 
 Thu Oct 18 14:38:10 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 

@@ -501,8 +501,8 @@ void window_wizard (GtkWidget *widget, gpointer data)
   wizard_entry_name = gtk_entry_new ();
   gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_name, FALSE, FALSE, 0);
   gtk_tooltips_set_tip (tooltip, wizard_entry_name,
-			_("This is the name of the conection which will be "
-			  "displayed in the conection list."),
+			_("This is the name of the connection which will be "
+			  "displayed in the connection list."),
 			NULL);
   gtk_widget_show (wizard_entry_name);
   
