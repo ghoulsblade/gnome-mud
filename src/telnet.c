@@ -79,13 +79,9 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 	from = to =(unsigned char *) buf;
 	fromlen = strlen(buf);
 
-	printf("Here.\n");
-
 	for(i = 0; i < fromlen; i++)
 	{
 	  	unsigned char data = from[i];
-
-	  	printf("State is %i, data is %i\n", connection->telnet_state, data);
 
 		switch(connection->telnet_state)
 		{
