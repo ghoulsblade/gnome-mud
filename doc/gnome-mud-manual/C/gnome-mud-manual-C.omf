@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no"?>
+<omf>
+  <resource>
+    <title>
+     GNOME-Mud Manual
+    </title>
+    <creator>
+     <person>
+      <firstName>Jordi</firstName>
+      <lastName>Mallach</lastName>
+      <email>jordi@sindominio.net</email>
+     </person>
+    </creator>
+    <subject>
+      <category>Games</category>
+    </subject>
+    <description>
+      This document describes all the features and dialogs present in the
+      GNOME-Mud application, which is a MUD client for the GNOME Desktop.
+    </description>
+    <type>
+     manual
+    </type>
+    <format mime="text/sgml"/>
+    <identifier url="gnome-mud.sgml"/>
+    <language code="C"/>
+  </resource>
+</omf>

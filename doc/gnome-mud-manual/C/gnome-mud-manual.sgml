@@ -1,0 +1,1057 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.0//EN"[
+<!ENTITY version "0.9.0"> <!-- replace with application version -->
+<!ENTITY date "02/26/2002"> <!-- date the manual was last updated -->
+]>
+
+
+<!--
+      (Do not remove this comment block.)
+  Maintained by the GNOME Documentation Project
+  http://developer.gnome.org/projects/gdp
+  Template version: 1.0.4
+  Template last modified April 20, 2001
+-->
+
+
+<!-- =============Document Header ============================= -->
+
+<article id="index" lang="en">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+
+  <articleinfo>
+    <title>GNOME-Mud Manual</title>
+    <authorgroup>
+      <author>
+        <firstname>Jordi</firstname><surname>Mallach</surname>
+      </author>
+    </authorgroup>
+    <copyright>
+      <year>2001</year>
+      <year>2002</year>
+      <holder>Jordi Mallach</holder>
+    </copyright>
+
+  <!-- translators: uncomment this:
+
+  <copyright>
+   <year>2000</year>
+   <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+  </copyright>
+
+   -->
+
+  <!-- do not put authorname in the header except in copyright - use
+  section "authors" below -->
+
+  <!-- Use this legal notice for online documents which depend on -->
+  <!-- core GNOME packages.                                       -->
+  <legalnotice id="legalnotice">
+   <para>
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the <ulink type="help"
+    url="gnome-help:fdl"><citetitle>GNU Free Documentation
+    License</citetitle></ulink>, Version 1.1 or any later version
+    published by the Free Software Foundation with no Invariant Sections,
+    no Front-Cover Texts, and no Back-Cover Texts.  A copy of the license
+    can be found <ulink type="help" url="gnome-help:fdl">here</ulink>.
+   </para>
+   <para>
+    Many of the names used by companies to distinguish their products and
+    services are claimed as trademarks. Where those names appear in any
+    GNOME documentation, and those trademarks are made aware to the members
+    of the GNOME Documentation Project, the names have been printed in caps
+    or initial caps.
+   </para>
+  </legalnotice>
+
+  <!-- Use this legal notice for documents which are placed on  -->
+  <!-- the web, shipped in any way other than online documents  -->
+  <!-- (eg. PS, PDF, or RTF), or which do not depend on the     -->
+  <!-- core GNOME distribution.                                 -->
+  <!--                                                          -->
+  <!-- If you use this version, you must place the following    -->
+  <!-- line in the document declaration at the top of your      -->
+  <!-- document:                                                -->
+  <!--   <!ENTITY FDL SYSTEM "fdl.sgml">                        -->
+  <!-- and the following line at the bottom of your document    -->
+  <!-- after the last </sect1>.                                 -->
+  <!--   &FDL;                                                  -->
+  <!--
+  <legalnotice id="legalnotice">
+   <para>
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the <link linkend="fdl"><citetitle>GNU
+    Free Documentation License</citetitle></link>, Version 1.1 or any later
+    version published by the Free Software Foundation with no Invariant
+    Sections, no Front-Cover Texts, and no Back-Cover Texts.  A copy of the
+    license can be found in <xref linkend="fdl">.
+   </para>
+   <para>
+    Many of the names used by companies to distinguish their products and
+    services are claimed as trademarks. Where those names appear in any
+    GNOME documentation, and those trademarks are made aware to the members
+    of the GNOME Documentation Project, the names have been printed in caps
+    or initial caps.
+   </para>
+  </legalnotice>
+  -->
+
+
+    <releaseinfo>
+       This manual describes version &version; of GNOME-Mud. It was
+       last updated on &date;.
+    </releaseinfo>
+
+  </articleinfo>
+
+ <!-- ============= Document Body ============================= -->
+
+ <!-- ============= Introduction ============================== -->
+  <sect1 id="intro">
+    <title>Introduction</title>
+
+    <para>
+     <application>GNOME-Mud</application> is an specialized telnet
+     client to play Multi-User Dungeons, or MUDs.
+    </para>
+    <para>
+     Multi-User Dungeons are imaginary worlds and realms that exist on
+     the Internet, where people connect and can perform a variety of
+     actions. A MUD can be thought of a chat forum with a space
+     dimension, as the users can move around and interact with other
+     users and the artifacts they find in each location. In a typical
+     mud, players can communicate and fight each other, use magic, trade,
+     travel to new zones, resolve quizzes (also called quests), and become
+     part of communities like guilds, orders, etc. The environment also
+     varies between MUDs, but the most common are ambiented in fantasy
+     worlds, similar to those described by Tolkien's `Lord of the Rings'
+     or Dungeons and Dragons. Classic MUDs are text-based, and can be
+     accessed through a simple `telnet' connection; the user inputs orders
+     to the MUD server, and the server replies with the result of the action.
+    </para>
+    <para>
+    There are hundreds of MUDs available on the Internet, but there are some
+    sites that classify them and provide with detailed MUD lists, often
+    provided by the MUD maintainers.
+    <ulink url="http://www.mudconnect.com/" type="http">MudConnect.com</ulink>
+    is one of them, and GNOME-Mud has native support for their mudlist format.
+    </para>
+    <para>
+     <application>GNOME-Mud</application> provides the user with a series
+     of functionality that makes mudding somewhat easier. Most notably, the
+     ability to define `triggers', `aliases' and `character profiles', or
+     the MUD lists support help making usual tasks like connecting to
+     different MUDs and typing common names or commands more effective
+     and fast.
+    </para>
+    <para>
+      To run <application>GNOME-Mud</application>, select
+      <menuchoice>
+	<guisubmenu>Games</guisubmenu>
+	<guimenuitem>GNOME-Mud</guimenuitem>
+      </menuchoice>
+      from the <guimenu>Main Menu</guimenu>, or type
+      <command>gnome-mud</command> on the command line.
+  </para>
+
+<!-- gnome-mud isn't in any GNOME package... yet?
+    <para>
+      <application>GNOME-Mud</application> is included in the
+      <filename>GNOME-PACKAGE</filename> package, which is part of the
+      GNOME desktop environment. This document describes version
+      &version; of <application>GNOME-Mud</application>.
+    </para>
+ -->
+  </sect1>
+
+
+ <!-- ================ Usage ================================ -->
+ <!-- This section should describe basic usage of the application. -->
+
+  <sect1 id="usage">
+    <title>Using GNOME-Mud</title>
+    <para>
+      <application>GNOME-Mud</application> can be used to play any kind
+      of telnet-based MUDs, and should make mudding easier, both for
+      players and coders. It can connect to various MUDs on the same
+      application window, and load different settings depending on the
+      character you're logging in. <application>GNOME-Mud</application>'s
+      goal is to provide a similar client to
+      <ulink url="http://www.zuggsoft.com/zmud/zmudinfo.htm" type="http">
+      zMUD</ulink>, a very mature MUD client for the Windows platform.
+    </para>
+
+    <!-- ========= Basic Usage =========================== -->
+    <sect2 id="mainwin">
+      <title>Basic usage</title>
+      <para>
+        Starting <application>GNOME-Mud</application> opens the
+        <interface>Main window</interface>, shown in <xref
+        linkend="main-window">. The window is at first mostly empty, just
+	showing some information about the
+	<application>GNOME-Mud</application> build you're running.
+
+        <figure id="main-window">
+	  <title>GNOME-Mud Main Window</title>
+	  <screenshot>
+	    <screeninfo>GNOME-Mud Main Window</screeninfo>
+	    <graphic fileref="figures/main-window.png" format="png"
+	    srccredit="Jordi Mallach">
+	  </screenshot>
+	</figure>
+      </para>
+
+
+ <!-- For this app, one could put "proving" or "edit" (probably even
+      both of them) as sect2's separate from the main window
+      section. Since they were both so closely involved with the main
+      window, I decided to have them as sect3's instead. Judgment
+      call. -->
+
+      <sect3 id="connecting">
+	<title>Connecting to a MUD</title>
+	<para>
+          To connect to a MUD, select
+          <menuchoice>
+	    <guisubmenu>File</guisubmenu>
+	    <guimenuitem>Connection Wizard...</guimenuitem>
+	  </menuchoice>,
+          which will bring up the
+	  <interface>GNOME-Mud Connections</interface> dialog box.
+	  The <interface>Connection Wizard</interface> allows you to
+	  create different connections so you can store a list of
+	  "personalities".
+	  <figure id="connections-window">
+	   <title>GNOME-Mud Connection Wizard</title>
+	   <screenshot>
+	    <screeninfo>GNOME-Mud Connection Wizard</screeninfo>
+	    <graphic fileref="figures/connections-window.png" format="png"
+	    srccredit="Jordi Mallach">
+	   </screenshot>
+	  </figure>
+	  To create a connection, enter a descriptive title (normally the
+	  MUD's full name) in the <guilabel>Title</guilabel> field and fill
+	  in the MUD's information in the <guilabel>Host</guilabel> and
+	  <guilabel>Port</guilabel> fields (leaving <guilabel>Port</guilabel>
+	  blank will make it default to port 23). You can also import those
+	  fields very easily using the <link linkend="mudlist">
+	  <interface>GNOME-Mud MudList</interface></link> and selecting a MUD
+	  from there. Enter the character information in the
+	  <guilabel>Character</guilabel> and <guilabel>Password</guilabel>
+	  (password is only required if you want to autolog into the MUD).
+	  If you want to bind the connection to a set of aliases, triggers,
+	  variables keybinds, click on <guibutton>Select Profile</guibutton>
+	  and select the desired one from the list. See the section on
+	  <link linkend="profiles"><interface>Profiles</interface></link>
+	  for more information on them. Once you have filled all the fields,
+	  press <guibutton>Apply</guibutton> to accept the values of the new
+	  profile or to update them, in case a profile with the same
+	  <guilabel>title</guilabel> already existed, or <guibutton>Cancel
+	  </guibutton> to discard them. When a connection is
+	  created, it will show up in the left column of the dialog, showing
+	  the MUD title and  character name. Select the desired connection
+	  and press <guibutton>Connect</guibutton> to start the connection.
+	  <guibutton>Close</guibutton> will close the <interface>Connection
+	  Wizard</interface>.
+        </para>
+	<para>
+	  Alternatively, you can quickly connect to a MUD, bypassing the
+	  connection wizard selecting
+	  <menuchoice>
+	    <guisubmenu>File</guisubmenu>
+	    <guimenuitem>Connect...</guimenuitem>
+	  </menuchoice>,
+	  which will bring up the <interface>Quick Connect</interface> dialog.
+	  Just fill in the <guilabel>Host</guilabel> and <guilabel>Port
+	  </guilabel> fields and press <guibutton>OK</guibutton> to connect
+	  to the desired MUD.
+	</para>
+	<para>
+	  If you open various connections simultaneously, <application>
+	  GNOME-Mud</application> will place them inside <interface>connection
+	  tabs</interface>, which will appear below the connection screen.
+	  To close a tab after disconnecting from a MUD, select
+	  <menuchoice>
+	    <guisubmenu>File</guisubmenu>
+	    <guimenuitem>Close Window</guimenuitem>
+	  </menuchoice>
+	  and the tab will disappear.
+	</para>
+      </sect3>
+
+      <sect3 id="mudlist">
+        <title>MudList support</title>
+	<para>
+	 <application>GNOME-Mud</application> can read
+	 <ulink url="http://www.mudconnect.com/" type="http">
+	 MudConnect.com</ulink>'s MUD list, which is an extensive list of
+	 MUDs, with information about their codebase, host, port and including
+	 a description. There are two ways to use the <interface>GNOME-Mud
+	 MudList</interface>.
+	 <figure id="mudlist-window">
+	  <title>GNOME-Mud MudList</title>
+	  <screenshot>
+	   <screeninfo>GNOME-Mud MudList</screeninfo>
+	   <graphic fileref="figures/mudlist-window.png" format="png"
+	   srccredit="Jordi Mallach">
+	  </screenshot>
+	 </figure>
+	</para>
+	<para>
+	 The most common way is probably by opening it
+	 from the <link linkend="connecting"><interface>Connection Wizard
+	 </interface></link>. This will open the <interface>GNOME-Mud Mudlist
+	 </interface> in "import mode". You will find a list of MUDs at the
+	 left column of the dialog, ordered by codebase. If you expand a
+	 codebase, you'll get a list of the MUDs in that section. Click on
+	 a MUD to see the information displayed in the right side of the
+	 <interface>MudList</interface>.<guilabel>Mud Name</guilabel> is the
+	 full name of the MUD, <guilabel>Telnet Address</guilabel> is the host
+	 and port where it is located and <guilabel>Codebase</guilabel>
+	 describes what type of MUD it is. <guilabel>Description</guilabel>
+	 shows a more or less description of the selected MUD.
+	 In "import mode", there will be a <guibutton>Import and close
+	 </guibutton> button, which will fetch the MUD info and fill it into
+	 a new connection in the <interface>Connection Wizard</interface>.
+	 There's also a <guibutton>Go to webpage of the MUD</guibutton> button,
+	 which will point a web browser to the webpage defined in the mud list.
+	</para>
+	<para>
+	 Another way of using the MudList is exactly the opposite. Select
+	 <menuchoice>
+	   <guisubmenu>File</guisubmenu>
+	   <guimenuitem>MudList Listing...</guimenuitem>
+	 </menuchoice>
+	 and you'll get the same dialog as if opened from the
+	 <interface>Connection Wizard</interface>, only the <guibutton>Import
+	 and close</guibutton> button will be replaced by <guibutton>Connect
+	 to the mud</guibutton>.
+	</para>
+
+      <sect3 id="disconnecting">
+        <title>Disconnecting from MUDs</title>
+	<para>
+	  To disconnect from a MUD, you should try to use your MUD's logout
+	  command. Normally this command is <command>quit</command> or
+	  <command>rent</command>, but it can vary across MUD flavours.
+	  <application>GNOME-Mud</application> can "hard-disconnect" from a
+	  mud, using
+	  <menuchoice>
+	    <guisubmenu>File</guisubmenu>
+	    <guimenuitem>Disconnect</guimenuitem>
+	  </menuchoice>,
+	  or just quitting from <application>GNOME-Mud</application>.
+	</para>
+	<warning>
+	  <title>Warning on hard-disconnects</title>
+	  <para>
+	  It is very desirable that you disconnect from MUDs using the MUD's
+	  own logout procedures. Some MUDs have retarded quit commands to
+	  avoid people escaping from death during fights, so you need to wait
+	  some seconds or minutes since you send the quit command till you
+	  actually quit. If you hard-disconnect using <application>
+	  GNOME-Mud</application>'s <interface>Disconnect</interface>, you
+	  may stay in the MUD for a while, idling and uncontrolled, while
+	  the MUD locks you in or it realizes you have lost your connection.
+	  This could be dangerous, as other players could take advantage
+	  of your idling to kill you or steal your possessions, for example.
+	  </para>
+	</warning>
+      </sect3>
+
+      <sect3 id="profiles">
+	<title>Editing Profiles</title>
+	<para>
+	  Normally, each character class has different commands and abilities
+	  which require different configurations for the mudding session.
+	  Using <interface>Profiles</interface>, you can customize different
+	  features of <application>GNOME-Mud</application> to suit the
+	  current character's needs.
+	  To edit them, select <guibutton>Profiles</guibutton> from the
+	  toolbar, and a dialog with a list of customizable items will appear.
+	  <figure id="profiles-window">
+	    <title>GNOME-Mud Profiles</title>
+	    <screenshot>
+	      <screeninfo>GNOME-Mud Profiles</screeninfo>
+	      <graphic fileref="figures/profiles-window.png" format="png"
+	      srccredit="Jordi Mallach">
+	    </screenshot>
+	  </figure>
+          <variablelist>
+            <varlistentry>
+              <term>New</term>
+              <listitem>
+		<para>
+		  Brings up the <interface>New Profile</interface>
+		  dialog. Enter the name of the new profile and it will be
+		  created with empty values.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Delete</term>
+	      <listitem>
+		<para>
+		  Deletes the selected profile. The "Default" profile can't be
+		  deleted.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Aliases</term>
+	      <listitem>
+		<para>
+		  Aliases are similar to UNIX shell aliases. Pressing on the
+		  button will open an alias editor. On the top of the dialog,
+		  there is a list of defined aliases, and beneath it there are
+		  two fields to insert new values. To create a new alias,
+		  insert an shortcut in the <guilabel>Alias</guilabel> field,
+		  and the desired expanded command in the <guilabel>
+		  Replacement </guilabel> field. Clicking on <guibutton>
+		  Add</guibutton> will add or modify the edited alias and
+		  add it to the alias list. For example, filling in
+		  <guilabel>Alias</guilabel> with "wd" and <guilabel>
+		  Replacement</guilabel> with "who drow" will make
+		  <application>GNOME-Mud</application> send the "who drow"
+		  command to the MUD when the user issues a "wd" command in
+		  the input line. You can get rid of unwanted aliases by
+		  selecting it and clicking on <guibutton>Delete</guibutton>.
+		  Exit the alias editor with the <guibutton>Close</guibutton>
+		  button.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Variables</term>
+	      <listitem>
+		<para>
+		  Variables are useful to replace things within <interface>
+		  Triggers</interface> or <interface>Variables</interface>.
+		  For example, if you have defined a trigger with a nick in
+		  it, you can use a variable instead of specifying the nick,
+		  so you just need to change the variable value to apply the
+		  trigger to another nick.
+		</para>
+		<warning>
+		  <para>
+		    This feature is very limited at the moment and should be
+		    extended in future <application>GNOME-Mud</application>
+		    releases.
+		  </para>
+	        </warning>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Triggers</term>
+	      <listitem>
+		<para>
+		  Triggers are a very useful feature. When you define an
+		  <guilabel>Action</guilabel> and bind a <guilabel>Trigger
+		  </guilabel> to it, <application>GNOME-Mud</application> will
+		  execute the trigger when it detects that the action has
+		  occured. For example, setting <guilabel>Action</guilabel>
+		  to "You are being attacked" and <guilabel>Trigger</guilabel>
+		  to "<command>flee</command>", you will try to escape as soon
+		  as you get hit by an enemy. Please note that some MUDs
+		  consider any kind of automation as <emphasis>cheating
+		  </emphasis>, so ask the MUD staff about this before using it.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Keybinds</term>
+	      <listitem>
+		<para>
+		  Keybinds perform commands when you activate a key sequence
+		  or combination. You need to insert a keybind in the
+		  <guilabel>Bind</guilabel> field and the command to be sent
+		  in <guilabel>Command</guilabel>. You can insert binds more
+		  easily using the <guibutton>Capture</guibutton>. When
+		  pressed, it will capture the next key combination that you
+		  press on the keyboard and insert it in the <guilabel>Bind
+		  </guilabel> field.
+		  Keybinds are useful for many things, for example, "speed
+		  walking". If you bind "Up" to the "north" command, you will
+		  be able to walk north just pressing the "Up Arrow" key.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Close</term>
+	      <listitem>
+		<para>
+		  This closes the Profiles editor.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
+	  Use the <link linkend="connecting"><interface>Connection Wizard
+	  </interface></link> to bind a profile to a connection.
+	</para>
+      </sect3>
+
+      <sect3 id="mapping">
+        <title>The GNOME-Mud Auto Mapper</title>
+	<para>
+	  <application>GNOME-Mud</application> has a an internal application
+	  which can be used to draw maps of dungeons, roads or other zones of
+	  a MUD. It consists of a simple dialog of the eight cardinal
+	  directions (<guibutton>N</guibutton>, <guibutton>NE</guibutton>,
+	  <guibutton>E</guibutton>, <guibutton>SE</guibutton>,
+	  <guibutton>S</guibutton>, <guibutton>SW</guibutton>,
+	  <guibutton>W</guibutton> and <guibutton>NW</guibutton>),
+	  <guibutton>Up</guibutton> and <guibutton>Down</guibutton>.
+	  Using them (or the numeric keypad) will draw a simple map in the
+	  drawing screen at the left. You can save maps using <guibutton>
+	  Save</guibutton> and typing a filename, and load previously saved
+	  maps using the <guibutton>Load</guibutton>.
+	</para>
+      </sect3>
+
+
+  <!-- If there are other functions performed from the main window,
+       they belong here.   -->
+
+    </sect2>
+
+    <!-- =========================================================
+      Additional Sect2's should describe additional windows, such as
+      larger dialog boxes, or functionality that differs significantly
+      from the most immediate functions of the application. Make the
+      structure logical.
+      =============================================================  -->
+
+
+    <sect2 id="toolbar">
+      <title>Toolbar</title>
+      <para>
+        The toolbar provides access to several commonly used routines.
+        <variablelist>
+	  <varlistentry>
+	    <term>Wizard...</term>
+	    <listitem>
+	      <para>
+                Brings up the <link linkend="connecting"><interface>
+		Connection Wizard</interface></link> dialog.
+              </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Profiles</term>
+	    <listitem>
+	      <para>
+                 Opens the <link linkend="profiles"><interface>Profiles Editor
+		 </interface></link> dialog.
+               </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Connect...</term>
+	    <listitem>
+	      <para>
+	         Opens the <interface>Quick Connect</interface> dialog. Use
+		 this to open a MUD connection bypassing the Connection
+		 Wizard.
+               </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Disconnect</term>
+	    <listitem>
+	      <para>
+	        Disconnects from the current connection. See the
+		<link linkend="disconnecting">Disconnecting from MUDs</link>
+		for more information about this.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Reconnect</term>
+	    <listitem>
+	      <para>
+	        Reconnects to the current connection. If you loose the link
+		to the MUD, you can hit this to get reconnected again. If
+		the connection was open, it will close the current connection
+		and start a new one.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Exit</term>
+	    <listitem>
+	      <para>
+	        Exits from <application>GNOME-Mud</application>.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+       </para>
+    </sect2>
+    <!-- ========= Menus =========================== -->
+
+    <sect2 id="menubar">
+
+       <!-- Describing the menubar ensures comprehensive feature
+       coverage. Nest itemizedlists inside variablelists so that each
+       menu is easily located by indexing software. Proper indentation
+       makes it easier! -->
+
+      <title>Menus</title>
+      <para>
+	The menu bar, located at the top of the <interface>Main
+	Window</interface>, contains the following menus:
+      </para>
+      <variablelist>
+	<varlistentry>
+	  <term><guimenu>File</guimenu></term>
+	  <listitem>
+	    <para>
+	      This menu contains:
+	      <itemizedlist>
+		<listitem>
+		  <para>
+	            <menuchoice>
+		      <guimenuitem>Connection Wizard...</guimenuitem>
+		    </menuchoice>
+	            &mdash; This starts the <link linkend="connecting">
+		    <interface>Connection Wizard</interface></link> dialog,
+		    which can be used to select to which MUD should
+		    <application>GNOME-Mud</application> connect.
+	          </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>MudList Listing...</guimenuitem>
+		    </menuchoice>
+		    &mdash; This opens the <link linkend="mudlist">
+		    <interface>MudList</interface> dialog</link>, which can
+		    be used to browse a list of MUDs and connect to them or
+		    add them to your MUD connections.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+	            <menuchoice>
+		      <guimenuitem>Connect...</guimenuitem>
+		    </menuchoice>
+	            &mdash; This opens the <interface>Quick Connect
+		    </interface> dialog. Use this to open a MUD connection
+		    bypassing the Connection Wizard.
+	          </para>
+		</listitem>
+		<listitem>
+		  <para>
+	            <menuchoice>
+		      <guimenuitem>Disconnect</guimenuitem>
+		    </menuchoice>
+	            &mdash; This disconnects you from the current connection.
+		    See <link linkend="disconnecting">Disconnecting from MUDs
+		    </link> for more info about this.
+	          </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>Reconnect</guimenuitem>
+		    </menuchoice>
+		    &mdash; This will reconnect you to the current connection.
+		    If you loose the link to the MUD, you can hit this to get
+		    reconnected again. If the connection was open, it will
+		    close the current connection and start a new one.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>Start Logging...</guimenuitem>
+		    </menuchoice>
+		    &mdash; This will enable the recording of the currently
+		    selected connection. It will write all the output of a
+		    mudding session into the selected file.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>Stop Logging</guimenuitem>
+		    </menuchoice>
+		    &mdash; This stops the recording of a connection, if it
+		    had been previously started.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>Save Buffer...</guimenuitem>
+		    </menuchoice>
+		    &mdash; This permits you to save your current connection
+		    buffer into a file. Useful to keep deathlogs or questlogs.
+		    It will just take a 'snapshot' of past messages, writing
+		    it into the selected file. For real time logging, see
+		    'Start/Stop Logging'.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>Close Window</guimenuitem>
+		    </menuchoice>
+		    &mdash; This closes a connection tab, even if the
+		    connection is still open.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+	            <menuchoice>
+		      <shortcut>
+			<keycombo><keycap>Ctrl</keycap><keycap>Q</keycap></keycombo>
+		      </shortcut>
+		      <guimenuitem>Exit</guimenuitem>
+		    </menuchoice>
+	            &mdash; This quits the application.
+	          </para>
+		</listitem>
+	      </itemizedlist>
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><guimenu>Settings</guimenu></term>
+	  <listitem>
+	    <para>
+	      This menu contains:
+	   <itemizedlist>
+		<listitem>
+		  <para>
+	            <menuchoice>
+		      <guimenuitem>Auto Mapper...</guimenuitem>
+		    </menuchoice>
+	            &mdash; This opens the Auto Mapper feature (see the
+		    <link linkend="mapping">GNOME-Mud Auto Mapper</link>
+		    section for more information.
+	          </para>
+		</listitem>
+		<listitem>
+		  <para>
+	            <menuchoice>
+		      <guimenuitem>Plugins</guimenuitem>
+		    </menuchoice>
+	            &mdash; This opens a submenu with the list of available
+		    plugins for <application>GNOME-Mud</application> and the
+		    <interface>Plugin Information</interface>, which shows
+		    information about them. Currently, <application>GNOME-Mud
+		    </application> does not ship with any plugin, but
+		    creating your own should be pretty easy. An example of
+		    an useful plugin could be a graphical Health Points/Mana
+		    monitor.
+	          </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+	             <guimenuitem>Preferences&hellip;</guimenuitem>
+		    </menuchoice>
+	            &mdash; This opens the <link linkend="prefs">
+		    <interface>Preferences</interface></link>
+	            dialog, which is used configure different aspects of
+		    <application>GNOME-Mud</application>.
+	          </para>
+		</listitem>
+	      </itemizedlist>
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><guimenu>Help</guimenu></term>
+	  <listitem>
+	    <para>
+	      This menu contains:
+	       <itemizedlist>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>Manual</guimenuitem>
+		    </menuchoice>
+		    &mdash; This opens the <application>GNOME Help
+    	            Browser</application> and displays this manual.
+	          </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>About</guimenuitem>
+		    </menuchoice>
+		    &mdash; This opens the <interface>About</interface>
+		    dialog which shows basic information about
+    	            <application>GNOME-Mud</application>, such as
+    	            the author's name, the application version number,
+		    the names of several contributors to the project
+    	            and a link to<application>GNOME-Mud</application>'s
+		    Homepage.
+	          </para>
+		</listitem>
+	      </itemizedlist>
+            </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </sect2>
+  </sect1>
+
+
+
+ <!-- ============= Customization ============================= -->
+
+ <sect1 id="prefs">
+  <title>Customization</title>
+  <para>
+   To change the application settings, select
+   <menuchoice>
+    <guimenu>Settings</guimenu>
+    <guimenuitem>Preferences...</guimenuitem>
+   </menuchoice>.  This opens the
+   <interface>Preferences</interface> dialog, shown in <xref
+   linkend="preferences-window">.
+  </para>
+
+  <figure id="preferences-window">
+   <title>Preferences Dialog</title>
+   <screenshot>
+    <screeninfo>Preferences Dialog</screeninfo>
+    <graphic fileref="figures/preferences-window.png" format="png"
+     srccredit="Jordi Mallach">
+   </screenshot>
+  </figure>
+
+  <para>
+    The properties in the <guilabel>Functionality</guilabel> tab are:
+      <variablelist>
+	<varlistentry>
+	  <term> <guilabel>Echo the text sent?</guilabel></term>
+	  <listitem>
+	    <para>
+	      If this is set, all the text you type and enter will be
+	      echoed on the connection so you can control what you are
+	      sending.
+            </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Keep the text entered?</term>
+	  <listitem>
+	    <para>
+	      If this is set, the text you have entered and sent to the
+	      connection, will be left in the entry box but selected. Turn
+	      this off to remove the text after it has been sent.
+            </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Freeze/Thaw?</term>
+	  <listitem>
+	    <para>
+	      If set, text will draw faster but it will not draw every
+	      character, only whole strings. This will probably make displays
+	      a lot faster if you are playing MUDs with a lot of different
+	      colours.
+            </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Disable system keys</term>
+	  <listitem>
+	    <para>
+	      If set, <application>GNOME-Mud</application> will provide with
+	      some default keybinds, like for example direction aliases in
+	      the numeric keypad. These can always be overriden by user
+	      keybindings, or can be totally disabled from here.
+            </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Command divide char</term>
+	  <listitem>
+	    <para>
+	      Insert the character you want to use to separate multi-command
+	      orders entered in the command line. For example, if set to ";",
+	      entering "north ; east" in the command line  will execute two
+	      independent commands "north", "east".
+            </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Command history</term>
+	  <listitem>
+	    <para>
+	      This is the number of commands that <application>GNOME-Mud
+	      </application> will store in it's command history.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </para>
+
+    <para>
+      The properties in the <guilabel>Colors and Fonts</guilabel> tab are:
+      <variablelist>
+	<varlistentry>
+	  <term>Font</term>
+	  <listitem>
+	    <para>
+	     Click here to open a font selection window to select the desired
+	     font to be used in the connection window.
+            </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Foreground color</term>
+	  <listitem>
+	    <para>
+	     This will open a color chooser dialog that you can use to select
+	     the font color you want to use.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Bold foreground color</term>
+	  <listitem>
+	    <para>
+	     This will open a color chooser dialog that you can use to select
+	     the bold font color you want to use.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Background color</term>
+	  <listitem>
+	    <para>
+	     This will open the same dialog as before, but will select the
+	     foreground color of your font.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Color Palette</term>
+	  <listitem>
+	    <para>
+	      This is a series of buttons which lets you define your own
+	      colors for ANSI. Each color represents one ANSI color which
+	      you can redefine.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </para>
+
+  <para>
+    After you have made all the changes you want, click on
+    <guibutton>OK</guibutton> to apply the changes and close the
+    <interface>Preferences</interface> dialog. To cancel the changes
+    and return to previous values, click the
+    <guibutton>Close</guibutton> button.
+  </para>
+
+ </sect1>
+
+
+ <!-- ============= Various Sections ============================= -->
+
+ <!-- Here you should add, if necessary, several more sect1's,
+ describing other windows (besides the main one), file formats,
+ preferences dialogs,  etc. as appropriate. Try not to make any of
+ these sections too long. -->
+
+
+ <!-- ============= Bugs ================================== -->
+ <!-- This section should describe known bugs and limitations of
+      the program if there are any - please be frank and list all
+      problems you know of. -->
+ <sect1 id="bugs">
+  <title>Known Bugs and Limitations</title>
+  <para>
+   Command history search won't show the last command when you press
+   the up-arrow key, but the command before the last.
+  </para>
+  <para>
+   The mapping support is still limited and must be used manually (you can't
+   map as you walk through the MUD).
+  </para>
+  <para>
+   And of course, there are no plugins available yet!
+  </para>
+ </sect1>
+
+
+<!-- ============= Authors ================================ -->
+
+ <sect1 id="authors">
+  <title>Authors</title>
+  <para>
+   <application>GNOME-Mud</application> was written by Robin Ericsson
+   (<email>lobbin@localhost.nu</email>). To find more information about
+   <application>GNOME-Mud</application>, please visit the <ulink
+   url="http://amcl.sourceforge.net/" type="http">GNOME-Mud Web
+   page</ulink>.  This manual was written by Jordi Mallach
+   (<email>jordi@sindominio.net</email>).
+  </para>
+  <para>
+   If you have some comments or suggestions regarding this
+   application, need help, or want to report a bug, plese contact us!
+   Instructions for doing so are given in <ulink type="help"
+   url="gnome-help:gnome-feedback"><citetitle>Reporting GNOME bugs and other
+   feedback</citetitle></ulink> document, which you can find in the
+   <guilabel>Help</guilabel> tab of
+   <application>Nautilus</application> file manager.
+  </para>
+
+  <!-- For translations: uncomment this:
+
+  <para>
+   Latin translation was done by ME
+   (<email>MYNAME@MYADDRESS</email>). Please send all  comments  and
+   suggestions regarding this translation to SOMEWHERE.
+  </para>
+
+  -->
+
+ </sect1>
+
+
+ <!-- ============= Application License ============================= -->
+
+ <sect1 id="license">
+  <title>License</title>
+  <para>
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the  <ulink type="help" url="gnome-help:gpl">
+    <citetitle>GNU General Public License</citetitle></ulink> as
+   published by the Free Software Foundation;
+   either version 2 of the License, or (at your option) any later
+   version.
+  </para>
+  <para>
+   This program is distributed in the hope that it will be useful, but
+   WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   <citetitle>GNU General Public License</citetitle> for more details.
+  </para>
+  <para>
+   A copy of the <citetitle>GNU General Public License</citetitle> is
+   included as an appendix to the <citetitle>GNOME Users
+   Guide</citetitle>.  You may also obtain a copy of the
+   <citetitle>GNU General Public License</citetitle> from the Free
+   Software Foundation by visiting <ulink type="http"
+   url="http://www.fsf.org">their Web site</ulink> or by writing to
+   <address>
+    Free Software Foundation, Inc.
+    <street>59 Temple Place</street> - Suite 330
+    <city>Boston</city>, <state>MA</state> <postcode>02111-1307</postcode>
+    <country>USA</country>
+   </address>
+  </para>
+ </sect1>
+</article>
