@@ -634,17 +634,17 @@ static void window_menu_plugin_api_manual_activate_cb(GtkMenuItem *menuitem)
 }
 
 static GnomeUIInfo toolbar_menu[] = {
-  GNOMEUIINFO_ITEM_STOCK(N_("Wizard..."), _("Open the Connection Wizard"), window_profiles,   GNOME_STOCK_PIXMAP_NEW),
+  GNOMEUIINFO_ITEM_STOCK(N_("Wizard..."), N_("Open the Connection Wizard"), window_profiles,   GNOME_STOCK_PIXMAP_NEW),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Profiles..."), _("Manage user profiles"), window_profile_edit, GNOME_STOCK_PIXMAP_PREFERENCES),
+  GNOMEUIINFO_ITEM_STOCK(N_("Profiles..."), N_("Manage user profiles"), window_profile_edit, GNOME_STOCK_PIXMAP_PREFERENCES),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), _("Connect to a mud"), window_menu_file_connect, GNOME_STOCK_PIXMAP_OPEN),
+  GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), N_("Connect to a mud"), window_menu_file_connect, GNOME_STOCK_PIXMAP_OPEN),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), _("Disconnect from the mud"), window_menu_file_disconnect,  GNOME_STOCK_PIXMAP_CLOSE),
+  GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), N_("Disconnect from the mud"), window_menu_file_disconnect,  GNOME_STOCK_PIXMAP_CLOSE),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Reconnect"), _("Reconnect to the mud"), window_menu_file_reconnect, GNOME_STOCK_PIXMAP_REFRESH),
+  GNOMEUIINFO_ITEM_STOCK(N_("Reconnect"), N_("Reconnect to the mud"), window_menu_file_reconnect, GNOME_STOCK_PIXMAP_REFRESH),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Exit"), "Quit GNOME-Mud", destroy, GNOME_STOCK_PIXMAP_EXIT),
+  GNOMEUIINFO_ITEM_STOCK(N_("Exit"), N_("Quit GNOME-Mud"), destroy, GNOME_STOCK_PIXMAP_EXIT),
   GNOMEUIINFO_END
 };
 

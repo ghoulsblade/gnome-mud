@@ -1,5 +1,9 @@
 2003-07-11  Jordi Mallach  <jordi@sindominio.net>
 
+	* src/init.c [toolbar_menu]: Oops, use N_(), not _().
+
+2003-07-11  Jordi Mallach  <jordi@sindominio.net>
+
 	* src/data (window_data): Don't include the function name in the
 	warning message. Fixes bug #117099.
 
