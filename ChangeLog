@@ -1,3 +1,7 @@
+2005-03-04  Robin Ericsson  <lobbin@localhost.nu>
+
+	* po/POTFILES.in: Added src/directions.c and ui/directions.glade.
+
 2005-03-03  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Makefile.am: Added ui subdir.

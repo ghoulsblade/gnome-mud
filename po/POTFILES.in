@@ -3,6 +3,7 @@
 gnome-mud.desktop.in
 gnome-mud.schemas.in
 src/data.c
+src/directions.c
 src/eggtrayicon.c
 src/gnome-mud.c
 src/init.c
@@ -18,3 +19,4 @@ src/profiles.c
 src/python.c
 src/tray.c
 src/window.c
+ui/directions.glade
