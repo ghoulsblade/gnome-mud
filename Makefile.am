@@ -5,7 +5,7 @@ schema_in_files = gnome-mud.schemas.in
 schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
-Applicationsdir = $(datadir)/gnome/apps/Games
+Applicationsdir = $(datadir)/applications
 Applications_in_files = gnome-mud.desktop.in
 Applications_DATA = $(Applications_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@

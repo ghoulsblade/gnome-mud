@@ -13,7 +13,7 @@ AC_PREREQ(2.52)
 AM_PATH_GTK_2_0(2.0.0,,exit 1)
 
 AC_DEFINE(GETTEXT_PACKAGE, "gnome-mud", [Gettext domain name])
-GETTEXT_PACKAGE="gnome-mud"
+GETTEXT_PACKAGE=gnome-mud
 AC_SUBST(GETTEXT_PACKAGE)
 AC_PROG_INTLTOOL([0.23])
 ALL_LINGUAS="es sv de ca fr"

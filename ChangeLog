@@ -1,3 +1,10 @@
+Wed Apr  9 14:22:59 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
+
+	* Makefile.am: Install desktop file in the freedesktop compliant
+	directory.
+
+	* configure.ac: Unquoted GETTEXT_PACKAGE.
+
 Mon Apr  7 15:59:36 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* configure.ac: Changed gtetrinet to gnome-mud :)
