@@ -219,6 +219,9 @@ void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer 
     gtk_widget_set_sensitive (menu_main_close, FALSE);
   else
     gtk_widget_set_sensitive (menu_main_close, TRUE);
+
+  /* fix the focus-problem */
+  if (text_entry != NULL) gtk_widget_grab_focus(text_entry);
 }
 
 void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)

@@ -51,11 +51,12 @@ int main (gint argc, char *argv[])
   if (check_amcl_dir(filename) != 0)
     return;
 
-  load_aliases();
-  load_actions();
-  load_prefs  ();
-  load_wizard ();
-  load_colors ();
+  load_aliases(); /* load aliases */
+  load_actions(); /* load "on" actions */
+  load_prefs  (); /* load preferences */
+  load_wizard (); /* load connections */
+  load_colors (); /* load colors */
+  load_keys   (); /* load key bindings */
   init_window ();
   
   g_snprintf(buf, 500, "%s/.amcl/plugins/", uid_info->pw_dir);

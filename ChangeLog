@@ -1,3 +1,12 @@
+Tue Mar 28 22:11:36 2000  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Fixed bugs:
+	[103542]: Key-bindings are now loaded.
+
+	* src/amcl.c: See above.
+
+	* src/window.c: Fix for focus-problem.
+
 Fri Mar 24 22:07:10 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Fixed bugs:
