@@ -74,21 +74,34 @@ void destroy (GtkWidget *widget)
 {
 	GtkWidget *dialog;
 	gint i, retval;
+	gboolean connected = FALSE;
 
-	dialog = gtk_message_dialog_new(GTK_WINDOW(window),
-				GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_QUESTION,
-				GTK_BUTTONS_YES_NO,
-				_("Do you really want to quit?"));
-
-	g_signal_connect(G_OBJECT(dialog), "delete-event", G_CALLBACK(dialog_close_cb), NULL);
-
-	retval = gtk_dialog_run(GTK_DIALOG(dialog));
-
-	if (retval == GTK_RESPONSE_NO || retval == GTK_RESPONSE_DELETE_EVENT)
+	for (i = (MAX_CONNECTIONS - 1) ; i > -1; i--)
 	{
-		gtk_widget_destroy(dialog);
-		return;
+		if (connections[i] && connections[i]->connected)
+		{
+			connected = TRUE;
+			break;
+		}
+	}
+	
+	if (connected)
+	{
+		dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+					GTK_DIALOG_DESTROY_WITH_PARENT,
+					GTK_MESSAGE_QUESTION,
+					GTK_BUTTONS_YES_NO,
+					_("Do you really want to quit?"));
+
+		g_signal_connect(G_OBJECT(dialog), "delete-event", G_CALLBACK(dialog_close_cb), NULL);
+
+		retval = gtk_dialog_run(GTK_DIALOG(dialog));
+
+		if (retval == GTK_RESPONSE_NO || retval == GTK_RESPONSE_DELETE_EVENT)
+		{
+			gtk_widget_destroy(dialog);
+			return;
+		}
 	}
 
 	/* Close all windows except main */
@@ -153,12 +166,14 @@ static void window_menu_file_connect (GtkWidget *widget, gpointer data)
 
 	entry_host = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(entry_host), host);
+	gtk_entry_set_activates_default(GTK_ENTRY(entry_host), TRUE);
 	gtk_table_attach(GTK_TABLE(table), entry_host, 1, 2, 0, 1,
 					(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 					(GtkAttachOptions) (0), 0, 0);
 
 	entry_port = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(entry_port), port);
+	gtk_entry_set_activates_default(GTK_ENTRY(entry_port), TRUE);
 	gtk_table_attach(GTK_TABLE(table), entry_port, 1, 2, 1, 2,
 					(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 					(GtkAttachOptions) (0), 0, 0);

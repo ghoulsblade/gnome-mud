@@ -1,3 +1,10 @@
+2003-07-04  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/init.c (destroy): Only display dialog when we have open
+	connections.
+	(window_menu_file_connect): Pressing enter now works on
+	connect dialog.
+
 2003-07-02  Abigail Brady  <morwen@evilmagic.org>
 
 	* src/telnet.c: Fix bug with dealing with SB.

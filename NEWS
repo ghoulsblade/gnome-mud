@@ -10,6 +10,9 @@ GNOME-Mud 0.10.2 (Unreleased)
 - Partially fix NAWS implementation. [Abi]
 - Port some remaining GTK 1.2 BROKEN widgets to GTK2. [Robin]
 - Translation updates (ca, mk, tr) [Jordi, stojmir, Saim Onur Zaim]
+- Fix annoying "can't press enter" in connection dialog [Robin]
+- Will now only display "confirm quit" dialog when there are connections
+  open [Robin]
 
 GNOME-Mud 0.10.1 (10/06/2003)
 
