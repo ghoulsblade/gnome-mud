@@ -1,3 +1,8 @@
+2004-01-09  Jordi Mallach  <jordi@sindominio.net>
+
+	* POTFILES.in: Added new files.
+	* ca.po: Updated Catalan translation.
+
 2004-01-04  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: Updated spanish translation.

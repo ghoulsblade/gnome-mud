@@ -3,6 +3,7 @@
 gnome-mud.desktop.in
 gnome-mud.schemas.in
 src/data.c
+src/eggtrayicon.c
 src/gnome-mud.c
 src/init.c
 src/keybind.c
@@ -15,4 +16,5 @@ src/net.c
 src/prefs.c
 src/profiles.c
 src/python.c
+src/tray.c
 src/window.c
