@@ -149,7 +149,6 @@ static void cons_escm (void)
             break;
 
         case 37:
-            foreground = &color_white;
             if ( BOLD )
                 foreground = &color_white;
             else
@@ -230,28 +229,20 @@ void popup_window (const gchar *message)
     gtk_widget_show (window);
 }
 
+void grab_focus_cb (GtkWidget* widget, gpointer user_data)
+{
+    if (text_entry != NULL) gtk_widget_grab_focus(text_entry);
+}
+
 void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer data2)
 {
-  if (connections[nb_int] && menu_main_disconnect) {
-    if (connections[nb_int]->connected)
-      gtk_widget_set_sensitive (menu_main_disconnect, TRUE);
-    else
-      gtk_widget_set_sensitive (menu_main_disconnect, FALSE);
-  }
-
-  if (nb_int == 0 && menu_main_close)
-    gtk_widget_set_sensitive (menu_main_close, FALSE);
-  else
-    gtk_widget_set_sensitive (menu_main_close, TRUE);
-
+  if (connections[nb_int] && menu_main_disconnect)
+      gtk_widget_set_sensitive (menu_main_disconnect, connections[nb_int]->connected);
+  gtk_widget_set_sensitive (menu_main_close, !(nb_int == 0 && menu_main_close));
+  grab_focus_cb(NULL, NULL);
   /* fix the focus-problem */
   if (text_entry != NULL) gtk_widget_grab_focus(text_entry);
 }
-
-void grab_focus_cb (GtkWidget* widget, gpointer user_data)
-{
-	if (text_entry != NULL) gtk_widget_grab_focus(text_entry);
-} /* grab_focus */
 
 void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
 {

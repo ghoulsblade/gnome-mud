@@ -2,9 +2,8 @@
 # Copyright (C) 1995 Free Software Foundation, Inc.
 
 # Package source files
-src/action.c
 src/amcl.c
-src/alias.c
+src/data.c
 src/color.c
 src/init.c
 src/keybind.c

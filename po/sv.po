@@ -1,100 +1,91 @@
 # Swedish Translation for the AMCL MUD Client.
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# Copyright (C) 2000 Free Software Foundation, Inc.
 # Robin Ericsson <lobbin@localhost.nu>, 2000
 #
-#: src/init.c:174
+#: src/init.c:172
 msgid ""
 msgstr ""
 "Project-Id-Version: AMCL 0.8.0\n"
-"POT-Creation-Date: 2000-08-11 18:44+0200\n"
-"PO-Revision-Date: 2000-08-02 09:20+0200\n"
+"POT-Creation-Date: 2000-09-06 09:17+0200\n"
+"PO-Revision-Date: 2000-09-06 10:23+0200\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
-#: src/action.c:231
-msgid "Please complete the action first."
-msgstr "Action är inte komplett."
+#: src/data.c:227
+msgid "No void characters allowed."
+msgstr "Inga tomma tecken tillåtna"
 
-#: src/action.c:237
-msgid "Trigger too big."
-msgstr "Trigger är för stor."
+#. actions
+#: src/data.c:231 src/data.c:316
+msgid "Actions"
+msgstr "Actions"
 
-#: src/action.c:243
-msgid "Action too big."
-msgstr "Action är för stor."
+#: src/data.c:233
+#, c-format
+msgid "Character '%c' not allowed."
+msgstr "Tecken '%c' är inte tillåtet"
 
-#: src/action.c:249
-msgid "Can't have two actions for the same trigger... yet."
-msgstr "Kan inte ha två action för samma trigger... än."
+#: src/data.c:240 src/data.c:247
+#, c-format
+msgid "%s too big."
+msgstr "%s är för stort."
 
-#: src/action.c:270 src/alias.c:239
-msgid "No selection made."
-msgstr "Du har inte valt någon."
+#: src/data.c:254
+#, c-format
+msgid "Can't duplicate %s."
+msgstr "Kan inte duplicera %s."
 
-#: src/action.c:308 src/action.c:355
-msgid "Trigger"
-msgstr "Trigger"
-
-#: src/action.c:308 src/action.c:358
-msgid "Action"
-msgstr "Action"
-
-#: src/action.c:313
-msgid "AMCL Action Center"
-msgstr "AMCL Action Center"
-
-#: src/action.c:381 src/alias.c:349 src/keybind.c:419 src/wizard.c:570
-msgid "Add"
-msgstr "Lägg till"
-
-#: src/action.c:382 src/alias.c:350 src/init.c:138 src/keybind.c:434
-#: src/prefs.c:423 src/wizard.c:599
-msgid "Close"
-msgstr "Stäng"
-
-#: src/action.c:383 src/alias.c:351 src/keybind.c:426 src/wizard.c:572
-msgid "Delete"
-msgstr "Ta bort"
-
-#: src/action.c:384 src/alias.c:352 src/color.c:336 src/keybind.c:430
-#: src/map.c:2663 src/prefs.c:422 src/wizard.c:598
-msgid "Save"
-msgstr "Spara"
-
-#: src/alias.c:194
-msgid "Please complete the alias first."
-msgstr "Du måste fylla i båda fälten"
-
-#: src/alias.c:200
-msgid "I can't make an alias of that."
-msgstr "Jag kan inte göra ett alias av det."
-
-#: src/alias.c:206
-msgid "Alias to big."
-msgstr "Alias för stort."
-
-#: src/alias.c:212
-msgid "Replacement to big."
-msgstr "Ersättning för stor."
-
-#: src/alias.c:218
-msgid "Can't add an existing alias."
-msgstr "Kan inte lägga till ett existerande alias."
-
-#: src/alias.c:277 src/alias.c:323
+#. alias
+#: src/data.c:309
 msgid "Alias"
 msgstr "Alias"
 
-#: src/alias.c:277 src/alias.c:326
+#: src/data.c:310
 msgid "Replacement"
 msgstr "Ersättning"
 
-#: src/alias.c:282
+#: src/data.c:317
+msgid "Triggers"
+msgstr "Triggers"
+
+#. vars
+#: src/data.c:323
+msgid "Variables"
+msgstr "Variabler"
+
+#: src/data.c:324
+msgid "Values"
+msgstr "Värden"
+
+#: src/data.c:330
+#, c-format
+msgid "window_data: trying to access to undefined data range: %d"
+msgstr "window_data: försöker få access till undefinerat data område: %d"
+
+#: src/data.c:341
 msgid "AMCL Alias Center"
 msgstr "AMCL Alias Center"
+
+#: src/data.c:386 src/keybind.c:419 src/wizard.c:570
+msgid "Add"
+msgstr "Lägg till"
+
+#: src/data.c:391 src/keybind.c:426 src/wizard.c:572
+msgid "Delete"
+msgstr "Ta bort"
+
+#: src/color.c:336 src/data.c:395 src/keybind.c:430 src/map.c:2663
+#: src/prefs.c:422 src/wizard.c:598
+msgid "Save"
+msgstr "Spara"
+
+#: src/data.c:399 src/init.c:136 src/keybind.c:434 src/prefs.c:423
+#: src/wizard.c:599
+msgid "Close"
+msgstr "Stäng"
 
 #: src/color.c:187
 msgid "Couldn't allocate color"
@@ -104,12 +95,11 @@ msgstr "Kunde inte allokera färg"
 msgid "AMCL Color Chooser"
 msgstr "AMCL Färg Väljare"
 
-#: src/color.c:333 src/window.c:223
+#: src/color.c:333 src/window.c:222
 msgid "Ok"
 msgstr "Ok"
 
 #: src/color.c:334
-#, fuzzy
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -126,56 +116,56 @@ msgstr "Standard"
 msgid "Can't load font... %s Using default.\n"
 msgstr "Kan inte ladda font... %s. Använder standard.\n"
 
-#: src/init.c:98 src/init.c:383
+#: src/init.c:96 src/init.c:387
 msgid "Connect..."
 msgstr "Anslut..."
 
-#: src/init.c:109
+#: src/init.c:107
 msgid "Host:"
 msgstr "Adress"
 
-#: src/init.c:121
+#: src/init.c:119
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:137 src/wizard.c:597
+#: src/init.c:135 src/wizard.c:597
 msgid "Connect"
 msgstr "Anslut"
 
-#: src/init.c:168
+#: src/init.c:166
 msgid "About"
 msgstr "Om"
 
-#: src/init.c:174
+#: src/init.c:172
 msgid "AMCL version "
 msgstr "AMCL version "
 
-#: src/init.c:178
+#: src/init.c:176
 msgid "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
 msgstr "Copyright @ 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
 
-#: src/init.c:182
+#: src/init.c:180
 msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
 msgstr "   Licensierad under GNU GENERAL PUBLIC LICENSE (GPL)  "
 
-#: src/init.c:186
+#: src/init.c:184
 msgid "Homepage: http://www.localhost.nu/apps/amcl/"
 msgstr "Hemsida: http://www.localhost.nu/apps/amcl/"
 
 #. Main menu
-#: src/init.c:368 src/init.c:544
+#: src/init.c:374 src/init.c:545
 msgid "Main"
 msgstr "Arkiv"
 
-#: src/init.c:374
+#: src/init.c:380
 msgid "Connection Wizard..."
 msgstr "Anslutnings Wizard..."
 
-#: src/init.c:388
+#: src/init.c:392
 msgid "Disconnect"
 msgstr "Koppla ifrån"
 
-#: src/init.c:397
+#: src/init.c:399
 msgid "Close Window"
 msgstr "Stäng fönster"
 
@@ -193,48 +183,56 @@ msgid "Alias..."
 msgstr "Alias..."
 
 #: src/init.c:423
+msgid "Vars..."
+msgstr "Variabler..."
+
+#: src/init.c:428
 msgid "Preferences..."
 msgstr "Inställningar..."
 
-#: src/init.c:429
+#: src/init.c:434
 msgid "Auto Mapper..."
 msgstr "Kart Genererare..."
 
 #: src/init.c:440
+msgid "Colors..."
+msgstr "Färger..."
+
+#: src/init.c:445
 msgid "Actions/Triggers..."
 msgstr "Actions/Triggers..."
 
-#: src/init.c:445
+#: src/init.c:450
 msgid "Keys..."
 msgstr "Tangenter..."
 
 #. Plugins menu
-#: src/init.c:451
+#: src/init.c:456
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:461
+#: src/init.c:464
 msgid "Plugin Information"
 msgstr "Plugin Information"
 
 #. Help menu
-#: src/init.c:467
+#: src/init.c:470
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/init.c:474
+#: src/init.c:477
 msgid "Readme"
 msgstr "Läsmig.txt"
 
-#: src/init.c:480
+#: src/init.c:483
 msgid "Authors"
 msgstr "Inblandande"
 
-#: src/init.c:490
+#: src/init.c:491
 msgid "About..."
 msgstr "Om..."
 
-#: src/init.c:613
+#: src/init.c:588
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuerad under GNU General Public License.\n"
 
@@ -504,24 +502,24 @@ msgstr "Fel i registrering av data %s: %s"
 msgid "Error getting plugin from handle."
 msgstr "Fel i att ta reda på plugin handle."
 
-#: src/net.c:165
+#: src/net.c:153
 msgid "*** Connection closed.\n"
 msgstr "*** Anslutning avslutad.\n"
 
-#: src/net.c:178
+#: src/net.c:166
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** Kan inte ansluta - du angav ingen adress\n"
 
-#: src/net.c:185
+#: src/net.c:173
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** Ingen port - antar port 23\n"
 
-#: src/net.c:190
+#: src/net.c:178
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Försöker ansluta till %s, port %s\n"
 
-#: src/net.c:217
+#: src/net.c:205
 msgid "*** Connection established.\n"
 msgstr "*** Anslutning etablerad.\n"
 
@@ -643,11 +641,11 @@ msgstr ""
 "tillsammans med %s och %s.\n"
 "\n"
 
-#: src/window.c:208
+#: src/window.c:207
 msgid "AMCL Popup Message"
 msgstr "AMCL Popup Meddelande"
 
-#: src/window.c:280
+#: src/window.c:271
 msgid "AMCL Internal Error: "
 msgstr "AMCL Internt Fel: "
 

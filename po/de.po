@@ -2,11 +2,11 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Jörgen Kosche <mnementh@gmx.de>, 2000
 #
-#: src/init.c:174
+#: src/init.c:172
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2000-08-11 18:44+0200\n"
+"POT-Creation-Date: 2000-09-06 09:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Jörgen Kosche <mnementh@gmx.de>\n"
 "Language-Team: de <de@li.org>\n"
@@ -14,87 +14,80 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: src/action.c:231
-msgid "Please complete the action first."
-msgstr "Bitte zuerst die Aktion vervollständigen."
+#: src/data.c:227
+msgid "No void characters allowed."
+msgstr ""
 
-#: src/action.c:237
-msgid "Trigger too big."
-msgstr "Trigger zu gross."
-
-#: src/action.c:243
-msgid "Action too big."
-msgstr "Aktion zu gross."
-
-#: src/action.c:249
-msgid "Can't have two actions for the same trigger... yet."
-msgstr "Kann nicht zweimal dieselbe Aktion haben ... bis jetzt."
-
-#: src/action.c:270 src/alias.c:239
-msgid "No selection made."
-msgstr "Keine Auswahl aktiv."
-
-#: src/action.c:308 src/action.c:355
-msgid "Trigger"
-msgstr "Trigger"
-
-#: src/action.c:308 src/action.c:358
-msgid "Action"
+#. actions
+#: src/data.c:231 src/data.c:316
+#, fuzzy
+msgid "Actions"
 msgstr "Aktion"
 
-#: src/action.c:313
-msgid "AMCL Action Center"
-msgstr "AMCL Aktionszentrale"
+#: src/data.c:233
+#, c-format
+msgid "Character '%c' not allowed."
+msgstr ""
 
-#: src/action.c:381 src/alias.c:349 src/keybind.c:419 src/wizard.c:570
-msgid "Add"
-msgstr "Hinzufügen"
-
-#: src/action.c:382 src/alias.c:350 src/init.c:138 src/keybind.c:434
-#: src/prefs.c:423 src/wizard.c:599
-msgid "Close"
-msgstr "Schliessen"
-
-#: src/action.c:383 src/alias.c:351 src/keybind.c:426 src/wizard.c:572
-msgid "Delete"
-msgstr "Löschen"
-
-#: src/action.c:384 src/alias.c:352 src/color.c:336 src/keybind.c:430
-#: src/map.c:2663 src/prefs.c:422 src/wizard.c:598
-msgid "Save"
-msgstr "Speichern"
-
-#: src/alias.c:194
-msgid "Please complete the alias first."
-msgstr "Bitte zuerst das Alias vervollständigen."
-
-#: src/alias.c:200
-msgid "I can't make an alias of that."
-msgstr "Ich kann kein Alias davon machen."
-
-#: src/alias.c:206
-msgid "Alias to big."
+#: src/data.c:240 src/data.c:247
+#, fuzzy, c-format
+msgid "%s too big."
 msgstr "Alias zu gross."
 
-#: src/alias.c:212
-msgid "Replacement to big."
-msgstr "Ersetzung zu gross."
+#: src/data.c:254
+#, c-format
+msgid "Can't duplicate %s."
+msgstr ""
 
-#: src/alias.c:218
-msgid "Can't add an existing alias."
-msgstr "Kann kein existierendes Alias hinzufügen."
-
-#: src/alias.c:277 src/alias.c:323
+#. alias
+#: src/data.c:309
 msgid "Alias"
 msgstr "Alias"
 
-#: src/alias.c:277 src/alias.c:326
+#: src/data.c:310
 msgid "Replacement"
 msgstr "Ersetzung"
 
-#: src/alias.c:282
+#: src/data.c:317
+#, fuzzy
+msgid "Triggers"
+msgstr "Trigger"
+
+#. vars
+#: src/data.c:323
+msgid "Variables"
+msgstr ""
+
+#: src/data.c:324
+msgid "Values"
+msgstr ""
+
+#: src/data.c:330
+#, c-format
+msgid "window_data: trying to access to undefined data range: %d"
+msgstr ""
+
+#: src/data.c:341
 msgid "AMCL Alias Center"
 msgstr "AMCL Alias-Zentrale"
+
+#: src/data.c:386 src/keybind.c:419 src/wizard.c:570
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: src/data.c:391 src/keybind.c:426 src/wizard.c:572
+msgid "Delete"
+msgstr "Löschen"
+
+#: src/color.c:336 src/data.c:395 src/keybind.c:430 src/map.c:2663
+#: src/prefs.c:422 src/wizard.c:598
+msgid "Save"
+msgstr "Speichern"
+
+#: src/data.c:399 src/init.c:136 src/keybind.c:434 src/prefs.c:423
+#: src/wizard.c:599
+msgid "Close"
+msgstr "Schliessen"
 
 #: src/color.c:187
 msgid "Couldn't allocate color"
@@ -104,7 +97,7 @@ msgstr "Konnte Farbe nicht auswählen"
 msgid "AMCL Color Chooser"
 msgstr "AMCL Farb-Zentrale"
 
-#: src/color.c:333 src/window.c:223
+#: src/color.c:333 src/window.c:222
 #, fuzzy
 msgid "Ok"
 msgstr "OK"
@@ -128,56 +121,56 @@ msgstr "Standard"
 msgid "Can't load font... %s Using default.\n"
 msgstr "Kann Zeichensatz nicht laden... %s Benutze Standard.\n"
 
-#: src/init.c:98 src/init.c:383
+#: src/init.c:96 src/init.c:387
 msgid "Connect..."
 msgstr "Verbinde..."
 
-#: src/init.c:109
+#: src/init.c:107
 msgid "Host:"
 msgstr "Rechner:"
 
-#: src/init.c:121
+#: src/init.c:119
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:137 src/wizard.c:597
+#: src/init.c:135 src/wizard.c:597
 msgid "Connect"
 msgstr "Verbinden"
 
-#: src/init.c:168
+#: src/init.c:166
 msgid "About"
 msgstr "Über"
 
-#: src/init.c:174
+#: src/init.c:172
 msgid "AMCL version "
 msgstr "AMCL Version"
 
-#: src/init.c:178
+#: src/init.c:176
 msgid "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
 msgstr "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
 
-#: src/init.c:182
+#: src/init.c:180
 msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
 msgstr "Lizensiert unter der GNU GENERAL PUBLIC LICENSE (GPL)"
 
-#: src/init.c:186
+#: src/init.c:184
 msgid "Homepage: http://www.localhost.nu/apps/amcl/"
 msgstr "Homepage: http://www.localhost.nu/apps/amcl/"
 
 #. Main menu
-#: src/init.c:368 src/init.c:544
+#: src/init.c:374 src/init.c:545
 msgid "Main"
 msgstr "Allgemein"
 
-#: src/init.c:374
+#: src/init.c:380
 msgid "Connection Wizard..."
 msgstr "Verbindungsassistent"
 
-#: src/init.c:388
+#: src/init.c:392
 msgid "Disconnect"
 msgstr "Verbindung unterbrechen"
 
-#: src/init.c:397
+#: src/init.c:399
 msgid "Close Window"
 msgstr "Schliesse Fenster"
 
@@ -195,48 +188,57 @@ msgid "Alias..."
 msgstr "Alias..."
 
 #: src/init.c:423
+#, fuzzy
+msgid "Vars..."
+msgstr "Alias..."
+
+#: src/init.c:428
 msgid "Preferences..."
 msgstr "Voreinstellungen..."
 
-#: src/init.c:429
+#: src/init.c:434
 msgid "Auto Mapper..."
 msgstr "Karte..."
 
 #: src/init.c:440
+msgid "Colors..."
+msgstr ""
+
+#: src/init.c:445
 msgid "Actions/Triggers..."
 msgstr "Aktionen/Trigger..."
 
-#: src/init.c:445
+#: src/init.c:450
 msgid "Keys..."
 msgstr "Makros..."
 
 #. Plugins menu
-#: src/init.c:451
+#: src/init.c:456
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:461
+#: src/init.c:464
 msgid "Plugin Information"
 msgstr "Plugin Information"
 
 #. Help menu
-#: src/init.c:467
+#: src/init.c:470
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/init.c:474
+#: src/init.c:477
 msgid "Readme"
 msgstr "Readme"
 
-#: src/init.c:480
+#: src/init.c:483
 msgid "Authors"
 msgstr "Autoren"
 
-#: src/init.c:490
+#: src/init.c:491
 msgid "About..."
 msgstr "Über..."
 
-#: src/init.c:613
+#: src/init.c:588
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Verteilt unter den Bedingungen der GNU General Public License.\n"
 
@@ -506,24 +508,24 @@ msgstr ""
 msgid "Error getting plugin from handle."
 msgstr ""
 
-#: src/net.c:165
+#: src/net.c:153
 msgid "*** Connection closed.\n"
 msgstr "*** Verbindung geschlossen\n"
 
-#: src/net.c:178
+#: src/net.c:166
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** Kann keine verbindung aufbauen - kein Rechner angegeben.\n"
 
-#: src/net.c:185
+#: src/net.c:173
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** Kein Port angegeben - benutze Port 23\n"
 
-#: src/net.c:190
+#: src/net.c:178
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Erstelle Verbindung zu %s, port %s\n"
 
-#: src/net.c:217
+#: src/net.c:205
 msgid "*** Connection established.\n"
 msgstr "*** Verbindung aufgebaut.\n"
 
@@ -641,11 +643,11 @@ msgstr ""
 "Kompiliert von %s auf %s am %s um %s\n"
 "unter Benutzung von %s und %s.\n"
 
-#: src/window.c:208
+#: src/window.c:207
 msgid "AMCL Popup Message"
 msgstr "AMCL Benachrichtigung"
 
-#: src/window.c:280
+#: src/window.c:271
 msgid "AMCL Internal Error: "
 msgstr "AMCL Interner Fehler: "
 
@@ -755,6 +757,36 @@ msgstr ""
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr ""
+
+#~ msgid "Please complete the action first."
+#~ msgstr "Bitte zuerst die Aktion vervollständigen."
+
+#~ msgid "Trigger too big."
+#~ msgstr "Trigger zu gross."
+
+#~ msgid "Action too big."
+#~ msgstr "Aktion zu gross."
+
+#~ msgid "Can't have two actions for the same trigger... yet."
+#~ msgstr "Kann nicht zweimal dieselbe Aktion haben ... bis jetzt."
+
+#~ msgid "No selection made."
+#~ msgstr "Keine Auswahl aktiv."
+
+#~ msgid "AMCL Action Center"
+#~ msgstr "AMCL Aktionszentrale"
+
+#~ msgid "Please complete the alias first."
+#~ msgstr "Bitte zuerst das Alias vervollständigen."
+
+#~ msgid "I can't make an alias of that."
+#~ msgstr "Ich kann kein Alias davon machen."
+
+#~ msgid "Replacement to big."
+#~ msgstr "Ersetzung zu gross."
+
+#~ msgid "Can't add an existing alias."
+#~ msgstr "Kann kein existierendes Alias hinzufügen."
 
 #~ msgid " Ok "
 #~ msgstr "OK"

@@ -72,9 +72,9 @@ extern SYSTEM_DATA      prefs;
 extern CONNECTION_DATA *main_connection;
 extern CONNECTION_DATA *connections[15];
 extern GtkWidget       *main_notebook;
-extern GtkWidget       *menu_main_connect;
 extern GtkWidget       *menu_main_disconnect;
 extern GdkColor         color_black;
+extern GtkCList        *lists[3];
 gchar *host, *port;
 
 /* Added by Bret Robideaux (fayd@alliences.org)
@@ -82,32 +82,20 @@ gchar *host, *port;
  * messing up the players command line or adding to his history. */
 static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 {
-  gchar *temp_entry;
-  gchar *word;
-  gchar *foo;
-  gchar *sent=0;
-  gchar alias[16];
-  
-  temp_entry = g_malloc0 (strlen (entry_text) + 2);
-  word       = g_malloc0 (strlen (entry_text) + 2);
-  foo        = g_malloc0 (strlen (entry_text) + 2);
-  strcat (temp_entry, entry_text);
-  strcat (temp_entry, "\n");
-  sscanf (temp_entry, "%s %[^\n]", word, foo);
-  if (check_aliases(word, alias))
-    {
-      sent = g_malloc0 (strlen (alias) + strlen (foo) + 3);
-      sprintf (sent, "%s %s\n", alias, foo);
-    }
-  
-  if (!sent) sent = temp_entry;
-  connection_send(connection, sent);
-  
-  g_free (temp_entry);
-  g_free (word);
-  g_free (foo);
-}
+    gchar **a = g_strsplit (entry_text," ", 2), *r;
 
+    if (*a)
+    {
+        if ((r = check_alias (lists[0], *a)))
+        {
+            g_free(*a);
+            *a = strdup(r);
+        }
+    }
+    connection_send (connection, check_vars (lists[2], g_strjoinv (" ", a)));
+    connection_send (connection, "\n");
+    g_strfreev(a);
+}
 
 CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
 {
@@ -227,7 +215,7 @@ static void open_connection (CONNECTION_DATA *connection)
 static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCondition condition)
 {
   gchar  buf[2048];
-  gchar  triggered_action[85];
+  gchar  *triggered_action;
   gint   numbytes;
   gchar *m;
   gint   i, len;
@@ -291,9 +279,9 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
     /* Added by Bret Robideaux (fayd@alliances.org)
      * OK, this seems like a good place to handle checking for action triggers
      */
-    if ( check_actions (mccp_buffer, triggered_action) ) {
-      action_send_to_connection (triggered_action, connection);
-    }
+    if ((triggered_action = check_actions (lists[1], mccp_buffer)))
+        action_send_to_connection (triggered_action, connection);
+    
     
 #ifdef ENABLE_MCCP
     g_free(mccp_buffer);

@@ -20,7 +20,7 @@
 #define __AMCL_H__
 
 #include "mccpDecompress.h"
-
+#include <stdio.h>
 /*
  * Different type of message, so I'll know what color to use.
  */
@@ -39,8 +39,6 @@
  * Typedefs
  */
 typedef struct connection_data CONNECTION_DATA;
-typedef struct alias_data      ALIAS_DATA;
-typedef struct action_data     ACTION_DATA;
 typedef struct wizard_data     WIZARD_DATA;
 typedef struct system_data     SYSTEM_DATA;
 typedef struct keybind_data    KEYBIND_DATA;
@@ -61,18 +59,6 @@ struct connection_data {
   gboolean    echo;
   GtkWidget  *window;
   GtkWidget  *vscrollbar;
-};
-
-struct alias_data {
-    ALIAS_DATA *next;
-    gchar      *alias;
-    gchar      *replace;
-};
-
-struct action_data {
-    ACTION_DATA *next;
-    gchar       *trigger;
-    gchar       *action;
 };
 
 struct system_data {
@@ -106,26 +92,23 @@ struct keybind_data {
  * Function declares
  */
 
-/* action.c */
-void              load_actions (void);
-int               check_actions (gchar *, gchar *);
-void              window_action (GtkWidget *, gpointer);
-
-/* alias.c */
-void              load_aliases (void);
-int               check_aliases (gchar *, gchar *);
-void              window_alias  (GtkWidget *, gpointer);
+/* data.c */
+void		 load_data (GtkCList *, gchar *);
+void		 window_data (GtkWidget *, gint);
+gchar		*check_actions (GtkCList *, gchar *);
+gchar		*check_alias (GtkCList *, gchar *);
+gchar		*check_vars (GtkCList *, gchar *);
 
 /* net.c */
-CONNECTION_DATA  *make_connection (gchar *, gchar *);
-void              disconnect (GtkWidget *, CONNECTION_DATA *);
-void              send_to_connection (GtkWidget *, gpointer);
-void              connection_send (CONNECTION_DATA *, gchar *);
+CONNECTION_DATA	*make_connection (gchar *, gchar *);
+void		 disconnect (GtkWidget *, CONNECTION_DATA *);
+void		 send_to_connection (GtkWidget *, gpointer);
+void		 connection_send (CONNECTION_DATA *, gchar *);
 
 /* init.c */
-void              init_window (void);
-void              destroy (GtkWidget *);
-void              close_window (GtkWidget *, gpointer);
+void		 init_window (void);
+void		 destroy (GtkWidget *);
+void		 close_window (GtkWidget *, gpointer);
 
 /* color.c */
 void  create_color_box( void                               );

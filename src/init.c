@@ -53,7 +53,6 @@ CONNECTION_DATA *main_connection;
 CONNECTION_DATA *connections[15];
 GtkWidget *main_notebook;
 GtkWidget *text_entry;
-GtkWidget *view_history;
 GtkWidget *entry_host;
 GtkWidget *entry_port;
 GtkWidget *menu_plugin_menu;
@@ -64,12 +63,11 @@ GtkWidget *menu_main_close;
 GtkWidget *menu_option_prefs;
 GtkWidget *menu_option_mapper;
 GtkWidget *menu_option_keys;
-GtkWidget *menu_option_action;
-GtkWidget *menu_option_alias;
 GtkWidget *menu_option_colors;
 GtkWidget *window;
 GdkFont  *font_normal;
 GdkFont  *font_fixed;
+GtkCList *lists[3];
 GList *EntryHistory = NULL;
 GList *EntryCurr    = NULL;
 bool   Keyflag      = TRUE;
@@ -342,7 +340,9 @@ void init_window ()
     GtkWidget *menu_help_about;
     GtkWidget *menu_help_readme;
     GtkWidget *menu_help_authors;
-    GtkWidget *separator;
+    GtkWidget *menu_option_action;
+    GtkWidget *menu_option_alias;
+    GtkWidget *menu_option_vars;
     GtkAccelGroup *menu_main_accels;
     GtkAccelGroup *menu_options_accels;
     GtkAccelGroup *menu_plugins_accels;
@@ -351,6 +351,12 @@ void init_window ()
 
     font_fixed = gdk_font_load("fixed");
     accel_group = gtk_accel_group_new ();
+    lists[0]   = (GtkCList *)gtk_clist_new(2);
+    lists[1]   = (GtkCList *)gtk_clist_new(2);
+    lists[2]   = (GtkCList *)gtk_clist_new(2);
+    load_data (GTK_CLIST(lists[0]), "aliases");
+    load_data (GTK_CLIST(lists[1]), "actions");
+    load_data (GTK_CLIST(lists[2]), "vars");
 
     /* init widgets */
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -376,9 +382,7 @@ void init_window ()
     gtk_signal_connect_object (GTK_OBJECT (menu_main_wizard), "activate",
                                GTK_SIGNAL_FUNC (window_wizard), NULL);
 
-    separator = gtk_menu_item_new ();
-    gtk_menu_append (GTK_MENU (menu_main_menu), separator);
-    gtk_widget_show (separator);
+    gtk_menu_append (GTK_MENU (menu_main_menu), gtk_menu_item_new ());
 
     menu_main_connect = gtk_menu_item_new_with_label (_("Connect..."));
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_connect );
@@ -390,18 +394,14 @@ void init_window ()
     gtk_signal_connect_object (GTK_OBJECT (menu_main_disconnect), "activate",
                                GTK_SIGNAL_FUNC (do_disconnect), NULL );
 
-    separator = gtk_menu_item_new ();
-    gtk_menu_append (GTK_MENU (menu_main_menu), separator);
-    gtk_widget_show (separator);
+    gtk_menu_append (GTK_MENU (menu_main_menu), gtk_menu_item_new ());
 
     menu_main_close = gtk_menu_item_new_with_label (_("Close Window"));
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_close);
     gtk_signal_connect_object (GTK_OBJECT (menu_main_close), "activate",
 			       GTK_SIGNAL_FUNC (do_close), NULL);
 
-    separator = gtk_menu_item_new ();
-    gtk_menu_append (GTK_MENU (menu_main_menu), separator);
-    gtk_widget_show (separator);
+    gtk_menu_append (GTK_MENU (menu_main_menu), gtk_menu_item_new ());
 
     menu_main_quit = gtk_menu_item_new_with_label (_("Quit"));
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_quit );
@@ -417,8 +417,13 @@ void init_window ()
 
     menu_option_alias = gtk_menu_item_new_with_label (_("Alias..."));
     gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_alias);
-    gtk_signal_connect_object (GTK_OBJECT (menu_option_alias), "activate",
-                               GTK_SIGNAL_FUNC (window_alias), NULL);
+    gtk_signal_connect (GTK_OBJECT (menu_option_alias), "activate",
+                        GTK_SIGNAL_FUNC (window_data), GINT_TO_POINTER(0));
+
+    menu_option_vars = gtk_menu_item_new_with_label (_("Vars..."));
+    gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_vars);
+    gtk_signal_connect (GTK_OBJECT (menu_option_vars), "activate",
+                        GTK_SIGNAL_FUNC (window_data), GINT_TO_POINTER(2));
 
     menu_option_prefs = gtk_menu_item_new_with_label (_("Preferences..."));
     gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_prefs);
@@ -432,7 +437,7 @@ void init_window ()
                         GTK_SIGNAL_FUNC (window_automap), NULL);
 #endif
 
-    menu_option_colors = gtk_menu_item_new_with_label ("Colors...");
+    menu_option_colors = gtk_menu_item_new_with_label (_("Colors..."));
     gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_colors);
     gtk_signal_connect (GTK_OBJECT (menu_option_colors), "activate",
                         GTK_SIGNAL_FUNC (window_color), NULL);
@@ -440,7 +445,7 @@ void init_window ()
     menu_option_action = gtk_menu_item_new_with_label (_("Actions/Triggers..."));
     gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_action);
     gtk_signal_connect (GTK_OBJECT (menu_option_action), "activate",
-                        GTK_SIGNAL_FUNC (window_action), NULL);
+                        GTK_SIGNAL_FUNC (window_data), GINT_TO_POINTER(1));
 
     menu_option_keys = gtk_menu_item_new_with_label (_("Keys..."));
     gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_keys);
@@ -454,9 +459,7 @@ void init_window ()
     menu_plugin_menu = gtk_menu_new ();
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_plugin), menu_plugin_menu);
     
-    separator = gtk_menu_item_new ();
-    gtk_menu_append (GTK_MENU (menu_plugin_menu), separator);
-    gtk_widget_show (separator);
+    gtk_menu_append (GTK_MENU (menu_plugin_menu), gtk_menu_item_new ());
 
     menu_plugin_info = gtk_menu_item_new_with_label (_("Plugin Information"));
     gtk_menu_append (GTK_MENU (menu_plugin_menu), menu_plugin_info);
@@ -483,9 +486,7 @@ void init_window ()
                         GTK_SIGNAL_FUNC (doc_dialog),
                         GINT_TO_POINTER (2));
 
-    separator = gtk_menu_item_new ();
-    gtk_menu_append (GTK_MENU (menu_help_menu), separator);
-    gtk_widget_show (separator);
+    gtk_menu_append (GTK_MENU (menu_help_menu), gtk_menu_item_new ());
     
     menu_help_about = gtk_menu_item_new_with_label (_("About..."));
     gtk_menu_append (GTK_MENU (menu_help_menu), menu_help_about );
@@ -494,7 +495,6 @@ void init_window ()
 
 
     gtk_widget_set_sensitive ((GtkWidget*)menu_main_disconnect, FALSE);
-    gtk_widget_show (menu_bar);
 
     /* Accels menu - we have to redefine if they are not good enought */
     menu_main_accels    = gtk_menu_ensure_uline_accel_group 
@@ -515,6 +515,8 @@ void init_window ()
                                 GDK_Q, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
     gtk_widget_add_accelerator (menu_option_alias,    "activate", accel_group,
                                 GDK_A, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
+    gtk_widget_add_accelerator (menu_option_vars,    "activate", accel_group,
+                                GDK_V, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
     gtk_widget_add_accelerator (menu_option_prefs,    "activate", accel_group, 
                                 GDK_P, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE);
     gtk_widget_add_accelerator (menu_option_mapper,   "activate", accel_group, 
@@ -538,7 +540,6 @@ void init_window ()
     gtk_signal_connect (GTK_OBJECT (main_notebook), "switch-page",
                         GTK_SIGNAL_FUNC (switch_page_cb), NULL);
     gtk_box_pack_start (GTK_BOX (box_main2), main_notebook, TRUE, TRUE, 5);
-    gtk_widget_show (main_notebook);
 
     box_h_low = gtk_hbox_new (FALSE, 0);
     label = gtk_label_new (_("Main"));
@@ -553,7 +554,6 @@ void init_window ()
                        TRUE, 0);
     gtk_signal_connect (GTK_OBJECT (main_connection->window), "focus-in-event",
     			GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
-    gtk_widget_show (main_connection->window);
     connections[0] = main_connection;
     
     foreground = &color_white;
@@ -563,7 +563,6 @@ void init_window ()
                                   (GTK_TEXT(main_connection->window)->vadj);
     gtk_box_pack_start (GTK_BOX (box_h_low), main_connection->vscrollbar, 
                         FALSE, FALSE, 0);
-    gtk_widget_show(main_connection->vscrollbar);
 
 
     box_main3 = gtk_hbox_new (FALSE, 0);
@@ -576,32 +575,8 @@ void init_window ()
     gtk_signal_connect (GTK_OBJECT(text_entry), "key_press_event",
                         GTK_SIGNAL_FUNC (text_entry_key_press_cb), NULL);
     gtk_widget_grab_focus (text_entry);
-    gtk_widget_show (text_entry);
-    gtk_widget_show(box_main3);
-    /* show them */
-    gtk_widget_show (box_h_low           );
-    gtk_widget_show (box_main2           );
-    gtk_widget_show (menu_help_readme    );
-    gtk_widget_show (menu_help_authors   );
-    gtk_widget_show (menu_help_about     );
-    gtk_widget_show (menu_main_wizard    );
-    gtk_widget_show (menu_main_disconnect);
-    gtk_widget_show (menu_main_connect   );
-    gtk_widget_show (menu_main_close     );
-    gtk_widget_show (menu_main_quit      );
-    gtk_widget_show (menu_option_alias   );
-    gtk_widget_show (menu_option_prefs   );
-    gtk_widget_show (menu_option_mapper  );
-    gtk_widget_show (menu_option_colors  );
-    gtk_widget_show (menu_option_action  );
-    gtk_widget_show (menu_option_keys    );
-    gtk_widget_show (menu_plugin_info    );
-    gtk_widget_show (menu_plugin         );
-    gtk_widget_show (menu_option         );
-    gtk_widget_show (menu_help           );
-    gtk_widget_show (menu_main           );
-    gtk_widget_show (box_main            );
-    gtk_widget_show (window              );
+
+    gtk_widget_show_all (window);
 
     gtk_widget_realize (main_connection->window);
     gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, 

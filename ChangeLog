@@ -1,3 +1,19 @@
+Thu Aug 31 23:34:30 CEST 2000 Jorge Garcia <jorge.garcia@uv.es>
+
+	* Added Vars. (generic 'data' functions to work with alias, actions 
+                       and vars):
+	  + src/data.c: created (absorving code of alias.c and action.c)
+		- src/Makefile.am (+data.c -alias.c -action.c)
+		- src/amcl.h: deleted all alias and action structs
+		- src/init.c: some modifications (alias and action -> data)
+	  + src/amcl.c: moved load_alias and load_actions to init.c (load_data)
+	  + src/net.c: [action_send_to_connection] more 'gtktized' and
+                       needed modifications to allow vars.c     
+	* src/init.c:
+	  + converted some global variables to local
+	  + removed all gtk_widget_show(...) and added gtk_widget_show_all(...)
+	* src/amcl.h: added <stdio.h> to allow compilation of plugins
+
 Fri Aug 11 18:32:14 2000  Jordi Mallach  <jordi@debian.org>
 	* src/color.c, src/window.c: fix button labels that remained
 	  unchanged, woops (updated *.po's manually, sorry for

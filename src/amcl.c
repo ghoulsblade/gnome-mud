@@ -50,8 +50,6 @@ int main (gint argc, char *argv[])
   act.sa_handler = SIG_DFL;
   sigaction(SIGSEGV, &act, NULL);
 
-  load_aliases(); /* load aliases */
-  load_actions(); /* load "on" actions */
   load_prefs  (); /* load preferences */
   load_wizard (); /* load connections */
   load_colors (); /* load colors */
