@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-05 11:38+0100\n"
-"PO-Revision-Date: 2005-03-05 13:30+0100\n"
+"POT-Creation-Date: 2005-03-11 04:04+0100\n"
+"PO-Revision-Date: 2005-03-11 15:32+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -75,8 +75,8 @@ msgstr ""
 "Implicitní barva textu jako určení barvy (mohou to být šestnáctkové číslice "
 "ve stylu HTML nebo název barvy, např. \"red\")."
 
-#: gnome-mud.schemas.in.h:10
-msgid "Directionbindings"
+#: gnome-mud.schemas.in.h:10 ui/directions.glade.h:2
+msgid "Directional keybindings"
 msgstr "Klávesové zkratky směru"
 
 #: gnome-mud.schemas.in.h:11
@@ -731,7 +731,7 @@ msgstr "SZ"
 msgid "Up"
 msgstr "Nahoru"
 
-#: src/map.c:1754 src/map.c:3588 ui/directions.glade.h:2
+#: src/map.c:1754 src/map.c:3588 ui/directions.glade.h:3
 msgid "Down"
 msgstr "Dolů"
 
@@ -1241,13 +1241,9 @@ msgstr "GNOME Mud"
 msgid "*"
 msgstr "*"
 
-#: ui/directions.glade.h:3
+#: ui/directions.glade.h:4
 msgid "East"
 msgstr "Východ"
-
-#: ui/directions.glade.h:4
-msgid "Gnome-mud"
-msgstr "Gnome-mud"
 
 #: ui/directions.glade.h:5
 msgid "Look"
