@@ -1,3 +1,14 @@
+Wed Jun  4 19:53:54 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
+
+	* doc/gnome-mud-manual/C/topic.dat: Removed.
+	* doc/gnome-mud-plugin-api/C/topic.dat: Removed.
+	* doc/xmldocs.make: change docdir to install the manuals into
+	$(datadir)/gnome/help/$(PACKAGE)/$(lang), so gnome_help_display finds
+	the documentation.
+
+	* src/Makefile.am: Switch to a more common layout without a special
+	target for gnome-mud.o.
+
 Wed Jun  4 19:00:20 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/Makefile.am: Pass a few needed variables at compile time.

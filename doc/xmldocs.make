@@ -32,7 +32,7 @@
 #   dist-hook: app-dist-hook
 #
 
-docdir = $(datadir)/gnome/help/$(docname)/$(lang)
+docdir = $(datadir)/gnome/help/$(PACKAGE)/$(lang)
 
 xml_files = $(entities) $(docname).xml
 
