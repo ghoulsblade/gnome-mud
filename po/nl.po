@@ -1,16 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# FIRST AUTHOR <adrighem@gnome.org>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-11 14:47+0100\n"
+"POT-Creation-Date: 2003-12-04 03:52+0100\n"
 "PO-Revision-Date: 2003-07-07 16:42+0100\n"
-"Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"Last-Translator: Vincent van Adrighem <adrighem@gnome.org>\n"
+"Language-Team: Dutch <adrighem@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -277,7 +277,7 @@ msgid "*** Internal error: no such connection.\n"
 msgstr ""
 
 #. Translators: translate as your names & emails
-#. * Paul Translator <paul@translator.org>
+#. * Paul Translator <adrighem@gnome.org>
 #: src/init.c:244
 msgid "translator_credits"
 msgstr "Vincent van Adrighem"
@@ -804,12 +804,12 @@ msgstr ""
 msgid "*** Making connection to %s, port %s.\n"
 msgstr ""
 
-#: src/net.c:239
+#: src/net.c:240
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr ""
 
-#: src/net.c:266
+#: src/net.c:267
 msgid "*** Connection established.\n"
 msgstr ""
 
