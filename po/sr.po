@@ -1,0 +1,1166 @@
+# Serbian translation of gnome-mud
+# Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003.
+#
+# This file is distributed under the same license as the gnome-mud package.
+#
+# Maintainer: Данило Шеган <dsegan@gmx.net>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-mud\n"
+"POT-Creation-Date: 2003-09-01 17:06+0200\n"
+"PO-Revision-Date: 2003-09-01 17:06+0200\n"
+"Last-Translator: Данило Шеган <dsegan@gmx.net>\n"
+"Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
+"Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: gnome-mud.desktop.in.h:1 src/init.c:248
+msgid "GNOME-Mud"
+msgstr "Гном-MUD"
+
+#: gnome-mud.desktop.in.h:2
+msgid "The GNOME MUD Client"
+msgstr "Гномов клијент за MUD"
+
+#: gnome-mud.schemas.in.h:1
+msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
+msgstr "Име фонта за Панго. Примери су „Sans 12“ или „Monospace Bold 14“."
+
+#: gnome-mud.schemas.in.h:2
+msgid ""
+"A character that is used to split commands in a string like \"w;w;w;l\", "
+"which will be sent to the MUD as 4 separate commands."
+msgstr ""
+"Знак који се користи за дељење наредби у ниску налик на „w;w;w;l“, која ће "
+"бити послата MUD-у као 4 посебне наредбе."
+
+#: gnome-mud.schemas.in.h:3 src/profiles.c:1220
+msgid "Aliases"
+msgstr "Надимци"
+
+#: gnome-mud.schemas.in.h:4
+msgid "Color palette"
+msgstr "Палета боја"
+
+#: gnome-mud.schemas.in.h:5
+msgid "Command Divider"
+msgstr "Разделник наредби"
+
+#: gnome-mud.schemas.in.h:6
+msgid "Default color of the background"
+msgstr "Подразумевана боја позадине"
+
+#: gnome-mud.schemas.in.h:7
+msgid ""
+"Default color of the background, as a color specification (can be HTML-style "
+"hex digits, or a color name such as \"red\")."
+msgstr ""
+"Подразумевана боја позадине, као навод боје (може бити дата као HTML боја "
+"помоћу хексадекадних цифара, или име боје на енглеском језику као што је "
+"„red“ за црвену)."
+
+#: gnome-mud.schemas.in.h:8
+msgid "Default color of the text"
+msgstr "Подразумевана боја текста"
+
+#: gnome-mud.schemas.in.h:9
+msgid ""
+"Default color of the text, as a color specification (can be HTML-style hex "
+"digits, or a color name such as \"red\")."
+msgstr ""
+"Подразумевана боја текста, као навод боје (може бити дата као HTML боја "
+"помоћу хексадекадних цифара, или име боје на енглеском језику као што је "
+"„red“ за црвену)."
+
+#: gnome-mud.schemas.in.h:10
+msgid "Font"
+msgstr "Фонт"
+
+#: gnome-mud.schemas.in.h:11
+msgid ""
+"GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in "
+"the form of a colon-separated list of color names. Color names should be in "
+"hex format e.g. \"#FF00FF\"."
+msgstr ""
+"Гном-MUD има 16-бојну палету коју могу да користе програми MUD-ови. Она се "
+"мора унети у облику списка боја раздвојених двотачком. Имена боја треба да "
+"буду у хексадекадном запису, нпр. „#FF00FF“"
+
+#: gnome-mud.schemas.in.h:12 src/prefs.c:845
+msgid ""
+"GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
+"the MUD requests one. This option sets the terminal type that will be sent."
+msgstr ""
+"Гном-MUD ће покушати да пошаље врсту терминала (нпр. ANSI или VT100) уколико "
+"MUD то захтева. Ова опција поставља врсту терминала која ће бити послата."
+
+# bug: meny -> many
+#: gnome-mud.schemas.in.h:13
+msgid "How meny entries to keep in the command history"
+msgstr "Колико уноса да држи у историјату наредби"
+
+#: gnome-mud.schemas.in.h:14 src/prefs.c:799
+msgid ""
+"If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
+"overridden by custom keybindings, or they can be disabled completely with "
+"this option."
+msgstr ""
+"Ако је укључено, Гном-MUD ће понудити неколико уграђених пречица са "
+"тастатуре. Њих је могуће превазићи подешавањем пречица по избору или се могу "
+"потпуно искључити помоћу ове опције."
+
+#: gnome-mud.schemas.in.h:15 src/prefs.c:777
+msgid ""
+"If enabled, all the text typed in will be echoed in the terminal, making it "
+"easier to control what is sent."
+msgstr ""
+"Ако је укључено, сав унети текст ће се исписивати у терминал, тиме "
+"олакшавајући проверу онога што је послато."
+
+#: gnome-mud.schemas.in.h:16 src/prefs.c:788
+msgid ""
+"If enabled, the text that is sent to the connection will be left as a "
+"selection in the entry box. Otherwise, the text entry box will be cleared "
+"after each text input."
+msgstr ""
+"Ако је укључено, текст који је послат преко везе ће остати изабран у пољу за "
+"унос. Иначе, поље за унос ће се очистити после сваког слања."
+
+#: gnome-mud.schemas.in.h:17
+msgid ""
+"If enabled, whenever there's new output the terminal will be scrolled to the "
+"bottom."
+msgstr ""
+"Ако је укључено, када год има новог излаза, терминал ће вас пребацити на "
+"крај."
+
+#: gnome-mud.schemas.in.h:18 src/profiles.c:1251
+msgid "Keybindings"
+msgstr "Везивања тастера"
+
+#: gnome-mud.schemas.in.h:19
+msgid "Last log directory"
+msgstr "Директоријум последњег дневника"
+
+#: gnome-mud.schemas.in.h:20
+msgid ""
+"List of commands which will be treated as movement commands by the "
+"automapper. A semicolon is used to separate each command."
+msgstr ""
+"Списак наредби које ће се сматрати наредбама кретања у самомапирању. Наредбе "
+"се раздвајају тачка-зарезом."
+
+#: gnome-mud.schemas.in.h:21
+msgid "List of connections"
+msgstr "Списак успостављених веза"
+
+#: gnome-mud.schemas.in.h:22
+msgid ""
+"List of connections known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/connections."
+msgstr ""
+"Списак веза познатих Гном-MUD-у. Списак садржи ниске које означавају "
+"поддиректоријуме у односу на /apps/gnome-mud/connections."
+
+#: gnome-mud.schemas.in.h:23
+msgid "List of movement commands"
+msgstr "Списак наредби кретања"
+
+#: gnome-mud.schemas.in.h:24
+msgid "List of profiles"
+msgstr "Списак скупова подешавања"
+
+#: gnome-mud.schemas.in.h:25
+msgid ""
+"List of profiles known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/profiles."
+msgstr ""
+"Списак скупова подешавања који су присутни за Гном-MUD. Списак садржи ниске "
+"које именују поддиректоријуме у /apps/gnome-mud/profiles."
+
+#: gnome-mud.schemas.in.h:26
+msgid "Mudlist file"
+msgstr "Mudlist датотека"
+
+#: gnome-mud.schemas.in.h:27
+msgid "Number of lines to keep in scrollback"
+msgstr "Број линија које се памте"
+
+#: gnome-mud.schemas.in.h:28
+msgid ""
+"Number of scrollback lines to keep around. You can scroll back in the "
+"terminal by this number of lines; lines that don't fit in the scrollback are "
+"discarded."
+msgstr ""
+"Број линија које се памте. Можете ићи уназад у терминалу за овај број "
+"линија; линије које нису стале се занемарују."
+
+#: gnome-mud.schemas.in.h:29
+msgid "Tab location"
+msgstr "Распоред језичака"
+
+#: gnome-mud.schemas.in.h:30
+msgid "Terminal type"
+msgstr "Врста терминала"
+
+#: gnome-mud.schemas.in.h:31
+msgid ""
+"The location of the connection tabs. Valid options are \"left\", \"right\", "
+"\"top\" and \"bottom\"."
+msgstr ""
+"Распоред језичака за везе. Дозвољене могућности су „left“, „right“, „top“ и "
+"„bottom“."
+
+#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1234
+msgid "Triggers"
+msgstr "Окидачи"
+
+#. vars
+#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1227
+msgid "Variables"
+msgstr "Променљиве"
+
+#: gnome-mud.schemas.in.h:34
+msgid "Whether to echo sent text to the connection"
+msgstr "Да ли да исписује текст који се шаље преко везе"
+
+#: gnome-mud.schemas.in.h:35
+msgid "Whether to enable or disable the system keys"
+msgstr "Да ли да укључи системске тастере"
+
+#: gnome-mud.schemas.in.h:36
+msgid "Whether to keep text sent to the connection"
+msgstr "Да ли да чува текст који се шаље преко везе"
+
+#: gnome-mud.schemas.in.h:37
+msgid "Whether to scroll to the bottom when there's new output"
+msgstr "Да ли да помери на дно када има новог излаза"
+
+#: src/data.c:247
+msgid "No void characters allowed."
+msgstr "Празни знаци нису дозвољени."
+
+#. actions
+#: src/data.c:251 src/data.c:345
+msgid "Actions"
+msgstr "Радње"
+
+#: src/data.c:253
+#, c-format
+msgid "Character '%c' not allowed."
+msgstr "Знак „%c“ није дозвољен."
+
+#: src/data.c:260 src/data.c:267
+#, c-format
+msgid "%s too big."
+msgstr "%s је превелико."
+
+#: src/data.c:274
+#, c-format
+msgid "Can't duplicate %s."
+msgstr "Не могу да дуплирам %s."
+
+#. alias
+#: src/data.c:337
+msgid "Alias"
+msgstr "Надимак"
+
+#: src/data.c:338
+msgid "Replacement"
+msgstr "Замена"
+
+#: src/data.c:354
+msgid "Values"
+msgstr "Вредности"
+
+#: src/data.c:361
+#, c-format
+msgid "%s: trying to access to undefined data range: %d"
+msgstr "%s: покушава да приступи недефинисаном опсегу података: %d"
+
+#: src/data.c:373
+msgid "GNOME-Mud Configuration Center"
+msgstr "Центар за подешавање Гном-MUD-а"
+
+#: src/gnome-mud.c:51
+#, c-format
+msgid "Failed to init GConf: %s"
+msgstr "Нисам успео да покренем ГКонфа: %s"
+
+#: src/init.c:94
+msgid "Do you really want to quit?"
+msgstr "Да ли заиста желите да изађете?"
+
+#: src/init.c:142 src/init.c:640
+msgid "Connect..."
+msgstr "Повежи се..."
+
+#: src/init.c:154 src/profiles.c:958
+msgid "Host:"
+msgstr "Сервер:"
+
+#: src/init.c:160 src/profiles.c:978
+msgid "Port:"
+msgstr "Порт:"
+
+#: src/init.c:210
+msgid "*** Internal error: no such connection.\n"
+msgstr "*** Унутрашња грешка: нема такве везе.\n"
+
+#. Translators: translate as your names & emails
+#. * Paul Translator <paul@translator.org>
+#: src/init.c:244
+msgid "translator_credits"
+msgstr ""
+"Данило Шеган <dsegan@gmx.net>\n"
+"\n"
+"Prevod.org — превод на српски језик."
+
+#: src/init.c:250
+msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
+msgstr "Гном програм за вишекорисничке тамнице (MUD).\n"
+
+# Домаћа страница?
+#: src/init.c:262
+msgid "GNOME-Mud home page"
+msgstr "Почетна страница за Гном-MUD"
+
+#: src/init.c:590 src/init.c:620
+#, c-format
+msgid "There was an error displaying help: %s"
+msgstr "Дошло је до грешке при приказивању помоћи: %s"
+
+# зашто лепо не користити „виле“ уместо „чаробњака“ ;-)
+#: src/init.c:636
+msgid "Wizard..."
+msgstr "Вила..."
+
+#: src/init.c:636
+msgid "Open the Connection Wizard"
+msgstr "Позови у помоћ вилу за успостављање веза"
+
+#: src/init.c:638
+msgid "Profiles..."
+msgstr "Скупови подешавања..."
+
+#: src/init.c:638
+msgid "Manage user profiles"
+msgstr "Управљај скуповима подешавања корисника"
+
+#: src/init.c:640
+msgid "Connect to a mud"
+msgstr "Повежи се са MUD-ом"
+
+#: src/init.c:642
+msgid "Disconnect"
+msgstr "Прекини везу"
+
+#: src/init.c:642
+msgid "Disconnect from the mud"
+msgstr "Прекида везу са MUD-ом"
+
+#: src/init.c:644
+msgid "Reconnect"
+msgstr "Поново се повежи"
+
+#: src/init.c:644
+msgid "Reconnect to the mud"
+msgstr "Поново се повежи са MUD-ом"
+
+#: src/init.c:646
+msgid "Exit"
+msgstr "Изађи"
+
+#: src/init.c:646
+msgid "Quit GNOME-Mud"
+msgstr "Изађи из Гном-MUD-а"
+
+#: src/init.c:651
+msgid "Connection _Wizard..."
+msgstr "_Вила за повезивање..."
+
+#: src/init.c:652
+msgid "_MudList Listing..."
+msgstr "_Испис mudlist-а..."
+
+#: src/init.c:654
+msgid "C_onnect..."
+msgstr "_Повежи се..."
+
+#: src/init.c:655
+msgid "_Disconnect"
+msgstr "П_рекини везу"
+
+#: src/init.c:656
+msgid "_Reconnect"
+msgstr "Повежи _се поново"
+
+#: src/init.c:658
+msgid "S_tart Logging..."
+msgstr "_Започни праћење..."
+
+#: src/init.c:659
+msgid "Sto_p Logging"
+msgstr "З_аустави праћење..."
+
+#: src/init.c:660
+msgid "_Save Buffer..."
+msgstr "_Сачувај бафер..."
+
+#: src/init.c:662
+msgid "_Close Window"
+msgstr "_Затвори прозор"
+
+#: src/init.c:670
+msgid "_Plugin Information..."
+msgstr "_Подаци о додатку"
+
+#: src/init.c:676
+msgid "Auto _Mapper..."
+msgstr "Само_мапирање.."
+
+#: src/init.c:679
+msgid "P_lugins"
+msgstr "_Додаци"
+
+#: src/init.c:686
+msgid "User Manual"
+msgstr "Упутство"
+
+#: src/init.c:687
+msgid "Display the GNOME-Mud User Manual"
+msgstr "Прикажи упутство за Гном-MUD"
+
+#: src/init.c:691
+msgid "Plugin API Manual"
+msgstr "Упутство за API за додатке"
+
+#: src/init.c:692
+msgid "Display the GNOME-Mud Plugin API Manual"
+msgstr "Прикажи упутство за Гном-MUD API за додатке"
+
+#: src/init.c:743
+msgid "Main"
+msgstr "Главно"
+
+#: src/init.c:766
+#, c-format
+msgid "GNOME-Mud version %s (compiled %s, %s)\n"
+msgstr "Гном-MUD издање %s (изграђена %s, %s)\n"
+
+#: src/init.c:768
+msgid "Distributed under the terms of the GNU General Public License.\n"
+msgstr "Објављено под Гнуовом Општом јавном лиценцом (GPL).\n"
+
+#: src/keybind.c:149
+msgid "You must use capture first!"
+msgstr "Морате прво изабрати тастере!"
+
+# несигурно
+#: src/keybind.c:162
+msgid "Can't add an existing key."
+msgstr "Не могу да додам постојећи тастер."
+
+#: src/keybind.c:189
+msgid "Incomplete fields."
+msgstr "Непотпуна поља."
+
+#: src/keybind.c:311
+msgid "GNOME-Mud Keybinding Center"
+msgstr "Центар за избор пречица за Гном-MUD"
+
+#: src/keybind.c:328
+msgid "Key"
+msgstr "Тастер"
+
+#: src/keybind.c:331 src/keybind.c:348 src/keybind.c:366
+msgid "Command"
+msgstr "Наредба"
+
+#: src/keybind.c:344
+msgid "Bind"
+msgstr "Привежи"
+
+#: src/keybind.c:360 src/keybind.c:381
+msgid "Capture"
+msgstr "Изабери"
+
+#: src/log.c:57
+#, c-format
+msgid "*** Already logging to %s. Close that log first.\n"
+msgstr "*** Већ бележи у дневник %s. Прво затворите тај дневник.\n"
+
+#: src/log.c:63
+msgid "Open log"
+msgstr "Отвори дневник"
+
+#: src/log.c:76
+msgid "*** No log to be closed is open in this window.\n"
+msgstr ""
+"*** Ниједан дневник није отворен о овом прозору који је могуће затворити.\n"
+
+#: src/log.c:103
+#, c-format
+msgid "*** Couldn't open %s.\n"
+msgstr "*** Не могу да отворим %s.\n"
+
+#: src/log.c:115
+#, c-format
+msgid "*** Logging to %s.\n"
+msgstr "*** Бележи у %s.\n"
+
+#: src/log.c:176
+#, c-format
+msgid "*** Stopped logging to %s.\n"
+msgstr "*** Заустави бележење у %s.\n"
+
+#: src/log.c:201
+msgid "*** Could not open file for writing.\n"
+msgstr "*** Не могу да отворим датотеку за писање.\n"
+
+#: src/log.c:216
+msgid "Please select a log file..."
+msgstr "Изаберите датотеку дневника..."
+
+#. Free the create_link_data structure
+#: src/map.c:567
+msgid "Ready."
+msgstr "Спреман."
+
+#: src/map.c:568
+msgid "Canceled."
+msgstr "Отказано."
+
+#: src/map.c:604
+msgid "A link already exists here!"
+msgstr "Веза већ постоји овде!"
+
+#. Create the hint label
+#: src/map.c:656 src/map.c:3548 src/map.c:3551
+msgid "Ready"
+msgstr "Спреман"
+
+#: src/map.c:657
+msgid "Link created"
+msgstr "Веза је створена"
+
+#: src/map.c:661
+msgid "Can't create a node here"
+msgstr "Не може овде да направи чвор"
+
+#: src/map.c:892
+msgid "New Map"
+msgstr "Нова мапа"
+
+#. Translator: "path" means "line of travel", ie "road"
+#: src/map.c:901
+msgid "Creating a path"
+msgstr "Стварам путању"
+
+#. The radio button (new map)
+#: src/map.c:909
+msgid "Path lead to a new map"
+msgstr "Путања води на нову мапу"
+
+#: src/map.c:916
+msgid "New map"
+msgstr "Нова мапа"
+
+#. The radio button (default)
+#: src/map.c:933
+msgid "Path follows an already existing path:"
+msgstr "Путања прати већ постојећу путању:"
+
+#: src/map.c:952
+msgid "Create"
+msgstr "Створи"
+
+# bug: enter in a path, or enter a path?
+#: src/map.c:1115
+msgid "Enter in a path"
+msgstr "Унесите у путању"
+
+#: src/map.c:1122
+msgid "Create a new path:"
+msgstr "Направи нову путању:"
+
+#: src/map.c:1139
+msgid "Enter in existing path:"
+msgstr "Унеси у постојећу путању:"
+
+#: src/map.c:1190
+msgid ""
+"This node has already 8 links. Destroy one of these before trying to create "
+"a new one"
+msgstr ""
+"Овај чвор већ има 8 веза. Уништите једну од ових пре него што додате нову"
+
+#. Change the automap state
+#: src/map.c:1197
+msgid "Enter to finish, Esc to quit"
+msgstr "Ентер да окончате, Esc да изађете"
+
+#: src/map.c:1198
+msgid "Use move buttons to build the link."
+msgstr "Користите дугмад за померање за изградњу везе."
+
+#: src/map.c:1376
+msgid "Zoom In"
+msgstr "Увећај"
+
+#: src/map.c:1377
+msgid "Zoom Out"
+msgstr "Умањи"
+
+#: src/map.c:1378
+msgid "Configure Automap"
+msgstr "Подеси самомапирање"
+
+#. Teleport here
+#: src/map.c:1418
+msgid "Teleport here"
+msgstr "Телепортуј се овде"
+
+#.
+#. 			/* Set node properties */
+#. 	  		properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#. 			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#. 			gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#. Create new link
+#: src/map.c:1428
+msgid "Create new link"
+msgstr "Направи нову везу"
+
+# bug: is this a verb "enter" or a key "Enter"?
+#: src/map.c:1435
+msgid "Enter"
+msgstr "Ентер"
+
+#. Can easily be optimised ... but why bother ?
+#. Translator: "N" means "North" here
+#: src/map.c:1736 src/map.c:3576
+msgid "N"
+msgstr "С"
+
+#. Translator: "NE" means "Northeast" here
+#: src/map.c:1738 src/map.c:3577
+msgid "NE"
+msgstr "СИ"
+
+#. Translator: "E" means "East" here
+#: src/map.c:1740 src/map.c:3578
+msgid "E"
+msgstr "И"
+
+#. Translator: "SE" means "Southeast" here
+#: src/map.c:1742 src/map.c:3579
+msgid "SE"
+msgstr "СИ"
+
+#. Translator: "S" means "South" here
+#: src/map.c:1744 src/map.c:3580
+msgid "S"
+msgstr "Ј"
+
+#. Translator: "SW" means "Southwest" here
+#: src/map.c:1746 src/map.c:3581
+msgid "SW"
+msgstr "ЈЗ"
+
+#. Translator: "W" means "West" here
+#: src/map.c:1748 src/map.c:3582
+msgid "W"
+msgstr "З"
+
+#. Translator: "NW" means "Northwest" here
+#: src/map.c:1750 src/map.c:3583
+msgid "NW"
+msgstr "СЗ"
+
+#: src/map.c:1751 src/map.c:3584
+msgid "Up"
+msgstr "Горе:"
+
+#: src/map.c:1752 src/map.c:3585
+msgid "Down"
+msgstr "Доле"
+
+#: src/map.c:1753 src/map.c:3573
+msgid "Remove"
+msgstr "Уклони"
+
+#. Some buttons
+#: src/map.c:1754 src/map.c:3571
+msgid "Load"
+msgstr "Учитај"
+
+#: src/map.c:1755 src/map.c:3572
+msgid "Save"
+msgstr "Сачувај"
+
+#: src/map.c:2802
+msgid "Load map"
+msgstr "Учитај мапу"
+
+#: src/map.c:2802
+msgid "Save map"
+msgstr "Сачувај мапу"
+
+#: src/map.c:3051
+msgid "No link existed in that direction"
+msgstr "Не постоји веза у том смеру"
+
+#: src/map.c:3057
+msgid "Cannot break links to a node going up or down"
+msgstr "Не може да прекине везу ка чвору које иду горе или доле"
+
+#. It would seem this node already has a connection to here, That's
+#. * possible so we need to inform the user that his move is illegal.
+#.
+#: src/map.c:3166
+msgid "Destination node has already a connection here"
+msgstr "Одредишни чвор је већ повезан овде"
+
+#: src/map.c:3315
+msgid "Can't create a link to another floor!"
+msgstr "Не може да направи везу са другим спратом!"
+
+#: src/map.c:3321
+msgid "There is already a link here!"
+msgstr "Овде већ постоји веза!"
+
+#. Set the title
+#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
+#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
+#: src/map.c:3456
+msgid "GNOME-Mud AutoMapper"
+msgstr "Гном-MUD самомапирање"
+
+#: src/modules.c:197
+msgid "Plugin Information"
+msgstr "Подаци о додатку"
+
+#: src/modules.c:213
+msgid "Plugin Name:"
+msgstr "Име додатка:"
+
+#: src/modules.c:233
+msgid "Plugin Author:"
+msgstr "Аутор додатка:"
+
+#: src/modules.c:243
+msgid "Plugin Version:"
+msgstr "Издање додатка:"
+
+#: src/modules.c:253
+msgid "Plugin Description:"
+msgstr "Опис додатка:"
+
+#: src/modules.c:263
+msgid "Enable plugin"
+msgstr "Укључи додатак"
+
+#: src/modules.c:419
+#, c-format
+msgid "Error getting plugin handle (%s): %s."
+msgstr "Грешка при добављању ручке додатке (%s): %s."
+
+#: src/modules.c:424
+#, c-format
+msgid "Error, %s not an GNOME-Mud module: %s."
+msgstr "Грешка, %s не представља модуо за Гном-MUD: %s."
+
+#: src/modules.c:450
+#, c-format
+msgid "Registering plugin `%s' under the name `%s'."
+msgstr "Пријава додатка „%s“ под именом „%s“."
+
+#: src/modules_api.c:51
+#, c-format
+msgid "Error register menu: %s"
+msgstr "Грешка при пријави менија: %s"
+
+# bug: error registering for data? faulty data register? which one is it?
+#: src/modules_api.c:71
+#, c-format
+msgid "Error register for data %s: %s"
+msgstr "Грешка при пријави за податке %s: %s"
+
+#: src/modules_api.c:79
+msgid "Error getting plugin from handle."
+msgstr "Грешка при добављању додатка помоћу ручке."
+
+#: src/mudlist.c:404
+msgid "Could not open MudList file for reading"
+msgstr "Нисам могао да прочитам датотеку са MudList-ом"
+
+#: src/mudlist.c:410
+msgid "GNOME-Mud MudList"
+msgstr "Гном-MUD MudList"
+
+#: src/mudlist.c:420
+msgid "Mud name:"
+msgstr "MUD име:"
+
+#: src/mudlist.c:434
+msgid "Codebase:"
+msgstr "Основа кода:"
+
+#: src/mudlist.c:448
+msgid "Telnet address:"
+msgstr "Телнет адреса:"
+
+#: src/mudlist.c:464
+msgid "Connect to the mud"
+msgstr "Повежи се на MUD"
+
+#: src/mudlist.c:468
+msgid "Import and close"
+msgstr "Увези и затвори"
+
+#: src/mudlist.c:476
+msgid "Go to webpage of the mud"
+msgstr "Иди на веб страницу MUD-а"
+
+#: src/mudlist.c:483
+msgid "Description:"
+msgstr "Опис:"
+
+#: src/net.c:182
+msgid "*** Connection closed.\n"
+msgstr "*** Веза је прекинута.\n"
+
+#: src/net.c:194
+msgid "*** Can't connect - you didn't specify a host.\n"
+msgstr "*** Не може да се повеже — нисте навели сервер.\n"
+
+#: src/net.c:200
+msgid "*** No port specified - assuming port 23.\n"
+msgstr "*** Порт није наведен — подразумева порт број 23.\n"
+
+#: src/net.c:215
+#, c-format
+msgid "*** Making connection to %s, port %s.\n"
+msgstr "*** Успоставља везу са %s, преко порта број %s.\n"
+
+#: src/net.c:239
+#, c-format
+msgid "*** Trying %s port %s...\n"
+msgstr "*** Испробава %s преко порта број %s...\n"
+
+#: src/net.c:266
+msgid "*** Connection established.\n"
+msgstr "*** Веза је успостављена.\n"
+
+# bug: plural-forms
+#: src/prefs.c:253 src/prefs.c:409
+#, c-format
+msgid "Palette had %d entries instead of %d\n"
+msgstr "Палета има %d ставки уместо %d\n"
+
+#: src/prefs.c:353
+#, c-format
+msgid "%s already exists and is not a directory!"
+msgstr "%s већ постоји, а није директоријум!"
+
+#: src/prefs.c:362
+#, c-format
+msgid "%s does not exist and can NOT be created: %s"
+msgstr "%s не постоји и не могу да га направим: %s"
+
+#: src/prefs.c:633
+msgid "Font:"
+msgstr "Фонт:"
+
+#: src/prefs.c:641
+msgid "Main font that is used on all open connections."
+msgstr "Главни фонт који се користи у свим успостављеним везама."
+
+# Овде нам треба кратка реченица која укључује сва слова из азбуке!
+#: src/prefs.c:644
+msgid "The quick brown fox jumps over the lazy dog"
+msgstr "Брза смеђа лисица скаче преко лењог пса."
+
+#: src/prefs.c:648
+msgid "Color palette:"
+msgstr "Палета боја:"
+
+#: src/prefs.c:654
+msgid "Background color:"
+msgstr "Боја позадине:"
+
+#: src/prefs.c:660
+msgid "Foreground color:"
+msgstr "Боја текста:"
+
+#: src/prefs.c:668
+msgid ""
+"Default foreground color used when the connection doesn't request the use of "
+"a specific color."
+msgstr ""
+"Подразумевана боја која се користи када веза не захтева изричито употребу "
+"неке боје."
+
+#: src/prefs.c:677
+msgid ""
+"Default background color used when the connection doesn't request the use of "
+"a specific color."
+msgstr ""
+"Подразумевана боја позадине која се користи када веза не захтева изричито "
+"употребу неке боје."
+
+#: src/prefs.c:693
+msgid "Change the color of a specific color that the MUD requests to use."
+msgstr "Измените боју изричите боје коју захтева MUD."
+
+#: src/prefs.c:735
+msgid "on top"
+msgstr "на врху"
+
+#: src/prefs.c:735
+msgid "on the right"
+msgstr "десно"
+
+#: src/prefs.c:735
+msgid "at the bottom"
+msgstr "у дну"
+
+#: src/prefs.c:735
+msgid "on the left"
+msgstr "лево"
+
+#: src/prefs.c:753
+msgid "GNOME-Mud Preferences"
+msgstr "Поставке за Гном-MUD"
+
+#: src/prefs.c:767
+msgid "Functionality"
+msgstr "Могућности"
+
+#: src/prefs.c:773
+msgid "_Echo the text sent"
+msgstr "_Испиши послати текст"
+
+#: src/prefs.c:784
+msgid "_Keep the text entered"
+msgstr "_Чувај унети текст"
+
+#: src/prefs.c:795
+msgid "Disable _System Keys"
+msgstr "Искључи _системске тастере"
+
+#: src/prefs.c:809
+msgid "Command division character:"
+msgstr "Знак за дељење наредби:"
+
+#: src/prefs.c:814
+msgid ""
+"The character used to divide commands sent to the mud. For example, \";\", "
+"will let the string \"w;look\" be sent to the mud as 2 separate commands."
+msgstr ""
+"Знак којим се деле наредбе које се шаљу MUD-у. На пример, „;“ ће омогућити "
+"да се ниска „з;гледај“ пошаље MUD-у као две засебне наредбе."
+
+#: src/prefs.c:824
+msgid "Command history:"
+msgstr "Историјат наредби:"
+
+#: src/prefs.c:830
+msgid "The number of entries to be saved in the command history."
+msgstr "Број ставки које се чувају у историјату наредби."
+
+#: src/prefs.c:838
+msgid "Terminal type:"
+msgstr "Врста терминала:"
+
+#: src/prefs.c:853
+msgid "MudList file:"
+msgstr "MudList датотека:"
+
+#: src/prefs.c:856
+msgid "Select a MudList File..."
+msgstr "Изаберите MudList датотеку..."
+
+#: src/prefs.c:858
+msgid "Mudlist file to be used for the mudlist functionality."
+msgstr "Mudlist датотека која се користи за mudlist могућности."
+
+#: src/prefs.c:867
+msgid "Color and Fonts"
+msgstr "Боје и фонтови"
+
+#: src/prefs.c:875
+msgid "Appearance"
+msgstr "Изглед"
+
+#: src/prefs.c:884
+msgid "Tabs are located:"
+msgstr "Језичци се налазе:"
+
+#: src/prefs.c:897
+msgid ""
+"This setting defines where to place the connection tabs that are used to "
+"change active connection."
+msgstr ""
+"Ово подешавање одређује где се смештају језичци за везе који се користе за "
+"измену активне везе."
+
+#: src/prefs.c:908
+msgid "Scrollback:"
+msgstr "Запамти:"
+
+#: src/prefs.c:914
+msgid "Number of lines to save in the scrollback."
+msgstr "Број линија које се памте."
+
+#: src/prefs.c:918
+msgid "lines"
+msgstr "редова"
+
+#: src/prefs.c:924
+msgid "S_croll on output"
+msgstr "По_мерај при излазу"
+
+#: src/prefs.c:926
+msgid ""
+"If enabled, the terminal will scroll to the bottom if new output appears in "
+"the connection when the terminal was scrolled back."
+msgstr ""
+"Уколико је укључено, терминал ће се пребацивати на крај уколико се појави "
+"нови излаз преко везе."
+
+#: src/prefs.c:937
+msgid "AutoMapper"
+msgstr "Самомапирање"
+
+#: src/prefs.c:951
+msgid "Unusual movement commands:"
+msgstr "Необичне наредбе кретања:"
+
+#: src/prefs.c:958
+msgid ""
+"If you use the automapper, you may want to specify here some unusual "
+"movement commands. When you use one of these, the automapper will create a "
+"path to an other map. Use a semicolon to separate the different commands."
+msgstr ""
+"Уколико користите самомапирање, овде можете навести неке необичне наредбе "
+"кретања. Када користите неку од њих, самомапирање ће направити путању до "
+"друге мапе. Користите тачка-зарез за раздвајање више наредби."
+
+#: src/profiles.c:300
+msgid "New profile"
+msgstr "Нови скуп подешавања"
+
+#: src/profiles.c:303
+msgid "Name of new profile:"
+msgstr "Име новог скупа подешавања:"
+
+#: src/profiles.c:513
+msgid "GNOME-Mud: Profilelist"
+msgstr "Гном-MUD: Списак скупа подешавања"
+
+#: src/profiles.c:683 src/profiles.c:1055
+msgid "Default"
+msgstr "Подразумевано"
+
+#: src/profiles.c:864 src/profiles.c:1203
+msgid "Delete"
+msgstr "Обриши"
+
+#: src/profiles.c:880
+msgid "GNOME-Mud Connections"
+msgstr "Гном-MUD везе"
+
+#: src/profiles.c:914
+msgid "Mud"
+msgstr "MUD"
+
+#. Translators: this is the name of your player
+#: src/profiles.c:921
+msgid "Character"
+msgstr "Лик"
+
+#: src/profiles.c:934
+msgid "Mud information"
+msgstr "Подаци о MUD-у"
+
+#: src/profiles.c:950
+msgid "Title:"
+msgstr "Наслов:"
+
+#: src/profiles.c:994
+msgid "Character information"
+msgstr "Подаци о лику"
+
+#: src/profiles.c:1010
+msgid "Character:"
+msgstr "Лик:"
+
+#: src/profiles.c:1018
+msgid "Password:"
+msgstr "Лозинка:"
+
+#: src/profiles.c:1039
+msgid "Profile information"
+msgstr "Подаци о скупу подешавања"
+
+#: src/profiles.c:1065
+msgid "Select Profile"
+msgstr "Изаберите скуп подешавања"
+
+#: src/profiles.c:1081
+msgid "Fetch from mudlist"
+msgstr "Преузми из mudlist-а"
+
+#: src/profiles.c:1133
+msgid "Connect"
+msgstr "Повежи се"
+
+#: src/profiles.c:1172
+msgid "Profiles"
+msgstr "Скуп подешавања"
+
+#: src/profiles.c:1181
+msgid "GNOME-Mud Profiles"
+msgstr "Скупови Гном-MUD подешавања"
+
+#: src/profiles.c:1195
+msgid "New"
+msgstr "Нови"
+
+#: src/profiles.c:1196
+msgid "Create a new profile"
+msgstr "Направи нови скуп подешавања"
+
+#: src/profiles.c:1203
+msgid "Delete a profile"
+msgstr "Обриши скуп подешавања"
+
+#: src/profiles.c:1220
+msgid "Set aliases"
+msgstr "Постави надимке"
+
+#: src/profiles.c:1227
+msgid "Set variables"
+msgstr "Постави променљиве"
+
+#: src/profiles.c:1234
+msgid "Set triggers"
+msgstr "Постави догађаје"
+
+#: src/profiles.c:1251
+msgid "Set keybindings"
+msgstr "Постави пречице"
+
+#: src/profiles.c:1268
+msgid "Close"
+msgstr "Затвори"
+
+#: src/profiles.c:1268
+msgid "Close the window"
+msgstr "Затвори прозор"

@@ -1,3 +1,7 @@
+2003-09-01  Danilo Šegan  <dsegan@gmx.net>
+
+	* configure.ac: Added "sr" and "sr@Latn" to ALL_LINGUAS.
+
 2003-09-01  Metin Amiroff  <metin@karegen.com>
 
 	configure.ac: Added "az" in ALL_LINGUAS.
@@ -2269,7 +2273,7 @@ Mon Apr  3 20:42:55 2000  Robin Ericsson  <lobbin@localhost.nu>
 	* Fixed bugs:
 	[103619]: Resizing AMCL-Window will not resize the textarea
 
-	* AUTHORS: Added J�rgen Kosche for his focus-patches.
+	* AUTHORS: Added Jörgen Kosche for his focus-patches.
 
 	* README: Added some more OSes and GTK versions.
 
