@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-11 01:59+0200\n"
-"PO-Revision-Date: 2003-07-11 01:03+0200\n"
+"POT-Creation-Date: 2003-07-11 03:23+0200\n"
+"PO-Revision-Date: 2003-07-11 03:27+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -278,9 +278,8 @@ msgstr "Valors"
 
 #: src/data.c:359
 #, c-format
-msgid "window_data: trying to access to undefined data range: %d"
-msgstr ""
-"window_data: s'està tractant d'accedir a una regió de dades indefinida: %d"
+msgid "%s: trying to access to undefined data range: %d"
+msgstr "%s: s'està tractant d'accedir a una regió de dades indefinida: %d"
 
 #: src/data.c:371
 msgid "GNOME-Mud Configuration Center"
@@ -334,17 +333,37 @@ msgstr "S'ha produït un error en mostrar l'ajuda: %s"
 msgid "Wizard..."
 msgstr "Assistent..."
 
+#: src/init.c:637
+msgid "Open the Connection Wizard"
+msgstr "Obre l'Assistent de connexions"
+
 #: src/init.c:639
 msgid "Profiles..."
 msgstr "Perfils..."
+
+#: src/init.c:639
+msgid "Manage user profiles"
+msgstr "Gestiona els perfils d'usuari"
+
+#: src/init.c:641
+msgid "Connect to a mud"
+msgstr "Connecta a un mud"
 
 #: src/init.c:643
 msgid "Disconnect"
 msgstr "Desconnecta"
 
+#: src/init.c:643
+msgid "Disconnect from the mud"
+msgstr "Desconnecta del mud"
+
 #: src/init.c:645
 msgid "Reconnect"
 msgstr "Reconnecta"
+
+#: src/init.c:645
+msgid "Reconnect to the mud"
+msgstr "Reconnecta al mud"
 
 #: src/init.c:647
 msgid "Exit"
@@ -738,8 +757,8 @@ msgid "Plugin Description:"
 msgstr "Descripció del connector:"
 
 #: src/modules.c:263
-msgid "Is Plugin Enabled?"
-msgstr "Està el connector actiu?"
+msgid "Enable plugin"
+msgstr "Habilita el connector"
 
 #: src/modules.c:419
 #, c-format
