@@ -1,0 +1,748 @@
+# Swedish Translation for the AMCL MUD Client.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# Robin Ericsson <lobbin@localhost.nu>, 2000
+#
+#: src/init.c:174
+msgid ""
+msgstr ""
+"Project-Id-Version: AMCL 0.8.0\n"
+"POT-Creation-Date: 2000-08-02 09:01+0200\n"
+"PO-Revision-Date: 2000-08-02 09:20+0200\n"
+"Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
+"Language-Team: Swedish <sv@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+
+#: src/action.c:231
+msgid "Please complete the action first."
+msgstr "Action är inte komplett."
+
+#: src/action.c:237
+msgid "Trigger too big."
+msgstr "Trigger är för stor."
+
+#: src/action.c:243
+msgid "Action too big."
+msgstr "Action är för stor."
+
+#: src/action.c:249
+msgid "Can't have two actions for the same trigger... yet."
+msgstr "Kan inte ha två action för samma trigger... än."
+
+#: src/action.c:270 src/alias.c:239
+msgid "No selection made."
+msgstr "Du har inte valt någon."
+
+#: src/action.c:308 src/action.c:355
+msgid "Trigger"
+msgstr "Trigger"
+
+#: src/action.c:308 src/action.c:358
+msgid "Action"
+msgstr "Action"
+
+#: src/action.c:313
+msgid "AMCL Action Center"
+msgstr "AMCL Action Center"
+
+#: src/action.c:381 src/alias.c:349 src/keybind.c:419 src/wizard.c:570
+msgid "Add"
+msgstr "Lägg till"
+
+#: src/action.c:382 src/alias.c:350 src/init.c:138 src/keybind.c:434
+#: src/prefs.c:423 src/wizard.c:599
+msgid "Close"
+msgstr "Stäng"
+
+#: src/action.c:383 src/alias.c:351 src/keybind.c:426 src/wizard.c:572
+msgid "Delete"
+msgstr "Ta bort"
+
+#: src/action.c:384 src/alias.c:352 src/keybind.c:430 src/map.c:2663
+#: src/prefs.c:422 src/wizard.c:598
+msgid "Save"
+msgstr "Spara"
+
+#: src/alias.c:194
+msgid "Please complete the alias first."
+msgstr "Du måste fylla i båda fälten"
+
+#: src/alias.c:200
+msgid "I can't make an alias of that."
+msgstr "Jag kan inte göra ett alias av det."
+
+#: src/alias.c:206
+msgid "Alias to big."
+msgstr "Alias för stort."
+
+#: src/alias.c:212
+msgid "Replacement to big."
+msgstr "Ersättning för stor."
+
+#: src/alias.c:218
+msgid "Can't add an existing alias."
+msgstr "Kan inte lägga till ett existerande alias."
+
+#: src/alias.c:277 src/alias.c:323
+msgid "Alias"
+msgstr "Alias"
+
+#: src/alias.c:277 src/alias.c:326
+msgid "Replacement"
+msgstr "Ersättning"
+
+#: src/alias.c:282
+msgid "AMCL Alias Center"
+msgstr "AMCL Alias Center"
+
+#: src/color.c:187
+msgid "Couldn't allocate color"
+msgstr "Kunde inte allokera färg"
+
+#: src/color.c:296
+msgid "AMCL Color Chooser"
+msgstr "AMCL Färg Väljare"
+
+#: src/color.c:333 src/window.c:223
+msgid " Ok "
+msgstr " Ok "
+
+#: src/color.c:334
+msgid " Cancel "
+msgstr " Avbryt "
+
+#: src/color.c:335
+msgid " Apply "
+msgstr " Verkställ "
+
+#: src/color.c:336
+msgid " Save "
+msgstr " Spara "
+
+#: src/color.c:337
+msgid " Default "
+msgstr " Standard "
+
+#: src/color.c:453
+#, c-format
+msgid "Can't load font... %s Using default.\n"
+msgstr "Kan inte ladda font... %s. Använder standard.\n"
+
+#: src/init.c:98 src/init.c:383
+msgid "Connect..."
+msgstr "Anslut..."
+
+#: src/init.c:109
+msgid "Host:"
+msgstr "Adress"
+
+#: src/init.c:121
+msgid "Port:"
+msgstr "Port:"
+
+#: src/init.c:137 src/wizard.c:597
+msgid "Connect"
+msgstr "Anslut"
+
+#: src/init.c:168
+msgid "About"
+msgstr "Om"
+
+#: src/init.c:174
+msgid "AMCL version "
+msgstr "AMCL version "
+
+#: src/init.c:178
+msgid "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
+msgstr "Copyright @ 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
+
+#: src/init.c:182
+msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
+msgstr "   Licensierad under GNU GENERAL PUBLIC LICENSE (GPL)  "
+
+#: src/init.c:186
+msgid "Homepage: http://www.localhost.nu/apps/amcl/"
+msgstr "Hemsida: http://www.localhost.nu/apps/amcl/"
+
+#. Main menu
+#: src/init.c:368 src/init.c:544
+msgid "Main"
+msgstr "Arkiv"
+
+#: src/init.c:374
+msgid "Connection Wizard..."
+msgstr "Anslutnings Wizard..."
+
+#: src/init.c:388
+msgid "Disconnect"
+msgstr "Koppla ifrån"
+
+#: src/init.c:397
+msgid "Close Window"
+msgstr "Stäng fönster"
+
+#: src/init.c:406
+msgid "Quit"
+msgstr "Avsluta"
+
+#. Options menu
+#: src/init.c:412
+msgid "Options"
+msgstr "Alternativ"
+
+#: src/init.c:418
+msgid "Alias..."
+msgstr "Alias..."
+
+#: src/init.c:423
+msgid "Preferences..."
+msgstr "Inställningar..."
+
+#: src/init.c:429
+msgid "Auto Mapper..."
+msgstr "Kart Genererare..."
+
+#: src/init.c:440
+msgid "Actions/Triggers..."
+msgstr "Actions/Triggers..."
+
+#: src/init.c:445
+msgid "Keys..."
+msgstr "Tangenter..."
+
+#. Plugins menu
+#: src/init.c:451
+msgid "Plugins"
+msgstr "Plugins"
+
+#: src/init.c:461
+msgid "Plugin Information"
+msgstr "Plugin Information"
+
+#. Help menu
+#: src/init.c:467
+msgid "Help"
+msgstr "Hjälp"
+
+#: src/init.c:474
+msgid "Readme"
+msgstr "Läsmig.txt"
+
+#: src/init.c:480
+msgid "Authors"
+msgstr "Inblandande"
+
+#: src/init.c:490
+msgid "About..."
+msgstr "Om..."
+
+#: src/init.c:613
+msgid "Distributed under the terms of the GNU General Public License.\n"
+msgstr "Distribuerad under GNU General Public License.\n"
+
+#: src/keybind.c:210
+msgid "Can't add an existing key."
+msgstr "Kan inte lägga till en existerande snabbtangent."
+
+#: src/keybind.c:231
+msgid "Incomplete fields."
+msgstr "Inkompletta fält."
+
+#: src/keybind.c:340
+msgid "AMCL Key Binding Center"
+msgstr "AMCL Snabbtangent Center"
+
+#: src/keybind.c:365
+msgid "Key"
+msgstr "Tangent"
+
+#: src/keybind.c:369 src/keybind.c:382 src/keybind.c:400
+msgid "Command"
+msgstr "Kommando"
+
+#: src/keybind.c:378
+msgid "Bind"
+msgstr "Bind"
+
+#: src/keybind.c:394 src/keybind.c:415
+msgid "Capture"
+msgstr "Fånga"
+
+#: src/map.c:698
+#, c-format
+msgid "Mouse is at (%d, %d)\n"
+msgstr "Musen är vid (%d,%d)\n"
+
+#: src/map.c:1075
+#, c-format
+msgid "node_reposition: invalid type(%s) passed to this function\n"
+msgstr "node_reposistion: invalid type(%s) passwd to this function\n"
+
+#: src/map.c:1683
+#, c-format
+msgid "draw_map: g_malloc0 error: %s\n"
+msgstr "draw_map: g_malloc0 fel: %s\n"
+
+#: src/map.c:1705
+#, c-format
+msgid "get_node: g_malloc error: %s\n"
+msgstr "get_node: g_malloc fel: %s\n"
+
+#: src/map.c:1782
+#, c-format
+msgid "save_maps: Can't open %s for writing: %s\n"
+msgstr "save_maps: Kan inte öppna %s för att skriva: %s\n"
+
+#: src/map.c:1905
+#, c-format
+msgid "file_sel_ok_cb: stat() error: %s\n"
+msgstr "file_sel_ok_cb: stat() fel: %s\n"
+
+#: src/map.c:1912
+#, c-format
+msgid "file_sel_ok_cb: file %s is zero bytes in length\n"
+msgstr "file_sel_ok_cb: filen %s is 0 bytes stor\n"
+
+#: src/map.c:1921
+#, c-format
+msgid "file_sel_ok_cb: file %s is not a regular file\n"
+msgstr "file_sel_ok_cb: filen %s är inte normal fil\n"
+
+#: src/map.c:1937
+#, c-format
+msgid "Can't open file %s for %s: %s\n"
+msgstr "Kan inte öppna fil %s för %s: %s\n"
+
+#: src/map.c:1999
+#, c-format
+msgid "button_cb: g_malloc error: %s\n"
+msgstr "button_cb: g_malloc fel: %s\n"
+
+#: src/map.c:2101
+#, c-format
+msgid "fill_node_path: g_malloc error: %s\n"
+msgstr "fill_node_path: g_malloc fel: %s\n"
+
+#: src/map.c:2140
+#, c-format
+msgid "node_goto: g_malloc0 error: %s\n"
+msgstr "note_goto: g_malloc0 fel: %s\n"
+
+#: src/map.c:2211
+#, c-format
+msgid "From (%d, %d): %d tried (%d, %d): %d\n"
+msgstr "Från (%d,%d): %d försökte (%d, %d): %d\n"
+
+#: src/map.c:2220
+#, c-format
+msgid "Currently at (%d, %d)\n"
+msgstr "Just nu på (%d,%d)\n"
+
+#: src/map.c:2221
+msgid "Hmm, no connections led to node\n"
+msgstr "Hmm, ingen anslutning fram till nod\n"
+
+#: src/map.c:2253
+msgid "node_break: no node existed in that direction\n"
+msgstr "node_break: ingen nod i den riktningen\n"
+
+#: src/map.c:2259
+msgid "node_break: will not break links to a node going up or down\n"
+msgstr "node_break: bryter inte länken till en nod upp eller ner\n"
+
+#: src/map.c:2354 src/map.c:2819
+#, c-format
+msgid "main: g_malloc0 error: %s\n"
+msgstr "main: g_malloc0 fel: %s\n"
+
+#. It would seem this node already has a connection to here, and
+#. * it's not from us. Probably is possible, will see. Deal with it
+#. * later
+#.
+#: src/map.c:2399
+msgid "move_player: map does not support this move situation yet\n"
+msgstr "move_player: kartan stödjer inte denna typen av flytt än\n"
+
+#: src/map.c:2550
+#, c-format
+msgid "auto_map_new: g_malloc0 error: %s\n"
+msgstr "auto_map_new: g_malloc0 fel: %s\n"
+
+#. Set the title
+#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
+#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
+#: src/map.c:2560
+msgid "AMCL AutoMapper"
+msgstr "AMCL KartGenererare"
+
+#. Some buttons
+#: src/map.c:2662
+msgid "Load"
+msgstr "Ladda"
+
+#: src/map.c:2664
+msgid "Remove"
+msgstr "Ta bort"
+
+#. Create button directions
+#: src/map.c:2667
+msgid "N"
+msgstr "N"
+
+#: src/map.c:2668
+msgid "NE"
+msgstr "NÖ"
+
+#: src/map.c:2669
+msgid "E"
+msgstr "Ö"
+
+#: src/map.c:2670
+msgid "SE"
+msgstr "SÖ"
+
+#: src/map.c:2671
+msgid "S"
+msgstr "S"
+
+#: src/map.c:2672
+msgid "SW"
+msgstr "SV"
+
+#: src/map.c:2673
+msgid "W"
+msgstr "V"
+
+#: src/map.c:2674
+msgid "NW"
+msgstr "NV"
+
+#: src/map.c:2675
+msgid "Up"
+msgstr "Upp"
+
+#: src/map.c:2676
+msgid "Down"
+msgstr "Ner"
+
+#: src/map.c:2764 src/map.c:2773
+#, c-format
+msgid "map_new: g_malloc0 error: %s\n"
+msgstr "map_new: g_malloc0 fel: %s\n"
+
+#: src/map.c:2768
+#, c-format
+msgid "AMCL Mapper - map%d"
+msgstr "AMCL KartGenererare - karta%d"
+
+#: src/map.c:2880
+#, c-format
+msgid "load_automap_from_file: Could not open %s for reading: %s\n"
+msgstr "load_automap_from_file: Kunde inte öppna %s för läsning: %s\n"
+
+#: src/modules.c:177
+msgid "AMCL Plugin Information"
+msgstr "AMCL Plugin Information"
+
+#: src/modules.c:202
+msgid "Plugin Name:"
+msgstr "Plugin Namn:"
+
+#: src/modules.c:220
+msgid "Plugin Author:"
+msgstr "Plugin Skapare:"
+
+#: src/modules.c:237
+msgid "Plugin Version:"
+msgstr "Plugin Version:"
+
+#: src/modules.c:254
+msgid "Plugin Description:"
+msgstr "Plugin Beskrivning:"
+
+#: src/modules.c:271
+msgid " Is Plugin Enabled?"
+msgstr " Används Pluginet?"
+
+#: src/modules.c:358
+#, c-format
+msgid "Error getting plugin handle (%s): %s."
+msgstr "Fel i plugin handle (%s): %s."
+
+#: src/modules.c:363
+#, c-format
+msgid "Error, %s not an AMCL module: %s."
+msgstr "Fel, %s är ingen AMCL modul: %s."
+
+#: src/modules.c:382
+msgid "Checking whether plugin should be enabled by default..."
+msgstr "Kolla om pluginet skall vara igång från start..."
+
+#: src/modules.c:395
+#, c-format
+msgid "Registering plugin `%s'."
+msgstr "Registrerar plugig `%s'."
+
+#: src/modules.c:396
+#, c-format
+msgid "Plug-in internal name is `%s'."
+msgstr "Plug-in internt namn är `%s'."
+
+#: src/modules.c:404
+msgid "Running init-function..."
+msgstr "Kör init-funktion..."
+
+#: src/modules_api.c:53
+#, c-format
+msgid "Error register menu: %s"
+msgstr "Fel i registrering av meny: %s"
+
+#: src/modules_api.c:72
+#, c-format
+msgid "Error register for data %s: %s"
+msgstr "Fel i registrering av data %s: %s"
+
+#: src/modules_api.c:80
+msgid "Error getting plugin from handle."
+msgstr "Fel i att ta reda på plugin handle."
+
+#: src/net.c:165
+msgid "*** Connection closed.\n"
+msgstr "*** Anslutning avslutad.\n"
+
+#: src/net.c:178
+msgid "*** Can't connect - you didn't specify a host\n"
+msgstr "*** Kan inte ansluta - du angav ingen adress\n"
+
+#: src/net.c:185
+msgid "*** No port specified - assuming port 23\n"
+msgstr "*** Ingen port - antar port 23\n"
+
+#: src/net.c:190
+#, c-format
+msgid "*** Making connection to %s, port %s\n"
+msgstr "*** Försöker ansluta till %s, port %s\n"
+
+#: src/net.c:217
+msgid "*** Connection established.\n"
+msgstr "*** Anslutning etablerad.\n"
+
+#: src/prefs.c:72
+#, c-format
+msgid "%s already exists and is not a directory!"
+msgstr "%s finns redan, och är inte en katalog!"
+
+#: src/prefs.c:82
+#, c-format
+msgid "%s does not exist and can NOT be created: %s"
+msgstr "%s finns inte, och kan INTE skapas: %s"
+
+#: src/prefs.c:94
+#, c-format
+msgid "%s can NOT be opened in write mode."
+msgstr "%s can INTE öppnas för att kunna skrivas."
+
+#: src/prefs.c:100
+#, c-format
+msgid "%s exists and can NOT be opened in read mode."
+msgstr "%s finns, och kan INTE öppnas i läs läge."
+
+#: src/prefs.c:305
+msgid "AMCL - Preferences"
+msgstr "AMCL Inställningar"
+
+#: src/prefs.c:316
+msgid "Echo the text sent?"
+msgstr "Skriva ut sänd data?"
+
+#: src/prefs.c:321
+msgid ""
+"With this toggled on, all the text you type and enter will be echoed on the "
+"connection so you can control what you are sending."
+msgstr ""
+"Men denna påslagen, kommer att text du skriver och skickar att skrivas ut så \n"
+"du kan se vad du skickar."
+
+#: src/prefs.c:329
+msgid "Keep the text entered?"
+msgstr "Spara inskriven text?"
+
+#: src/prefs.c:335
+msgid ""
+"With this toggled on, the text you have entered and sent to the connection, "
+"will be left in the entry box but seleceted. Turn this off to remove the "
+"text after it has been sent."
+msgstr ""
+"Med denna påslagen kommer texten du matade in att stanna kvar i inmatningsfältet\n"
+"efter du har skickat det till anslutningen. Stäng av denna för att ta bort texten \n"
+"efter den har blivit skickad."
+
+#: src/prefs.c:344
+msgid "AutoSave?"
+msgstr "AutoSpara?"
+
+#: src/prefs.c:349
+msgid ""
+"With this toggled on, Preferences, Connection Wizard and Aliases will be "
+"saved automatically."
+msgstr "Med denna påslagen så blir inställningarna sparade automatiskt."
+
+#: src/prefs.c:356
+msgid "Freeze/Thaw"
+msgstr "Freeze/Thaw"
+
+#: src/prefs.c:361
+msgid ""
+"Using this, text will draw faster but it will not draw every character, only "
+"whole strings. This will probably make displays a lot faster if you are "
+"playing MUDs with a lot of different colours."
+msgstr ""
+"Med denna inställning kommer texten att rita upp snabbare, men den kommer inte\n"
+"att rita bokstav för bokstav, utan bara hela rader. Detta kan snabba upp en\n"
+"MUD med mycket färger."
+
+#: src/prefs.c:374
+msgid "   Command divide char"
+msgstr "  Kommando uppdelnings tecken"
+
+#: src/prefs.c:394
+msgid ""
+"This is the font that AMCL is using to print the text from the MUD. If the "
+"font is unavailable when you start AMCL, the default font \"fixed.\" will be "
+"used."
+msgstr ""
+"Detta är fonten AMCL använder för att skriva ut text. Om fonten inte är \n"
+"tillgänglig när du startar AMCL kommer standard fonten \\\"fixed\\\" att användas\n"
+"istället."
+
+#: src/prefs.c:401
+msgid "Select font"
+msgstr "Välj font"
+
+#: src/prefs.c:407
+msgid ""
+"Use this button to open the font selector to choose what font you will use."
+msgstr ""
+"Använda denna knappen för att ta dig till font väljaren för att snabbt och lätt\n"
+"välja en användbar font."
+
+#: src/version.c:36
+#, c-format
+msgid ""
+"Welcome to AMCL Version %s\n"
+"Compiled by %s on %s the %s at %s\n"
+"Using %s and %s.\n"
+"\n"
+msgstr ""
+"Välkommen till AMCL Version %s\n"
+"Kompilerad av %s på %s den %s kl. %s\n"
+"tillsammans med %s och %s.\n"
+"\n"
+
+#: src/window.c:208
+msgid "AMCL Popup Message"
+msgstr "AMCL Popup Meddelande"
+
+#: src/window.c:280
+msgid "AMCL Internal Error: "
+msgstr "AMCL Internt Fel: "
+
+#: src/wizard.c:312
+msgid "No selection made"
+msgstr "Ingenting valt"
+
+#: src/wizard.c:342 src/wizard.c:374
+msgid "Your connection doesn't have a name."
+msgstr "Din anslutning har inget namn."
+
+#: src/wizard.c:348
+msgid ""
+"At the moment, everything but the name can be changed.\n"
+"If you need to change the name of the connection, you'll have to recreate it."
+msgstr ""
+"Förtillfället kan allt ändras utom namnet. Om namnet behöver bytas måste\n"
+"den gamla först tas bort och sedan skapa en ny."
+
+#: src/wizard.c:380
+msgid "Can't add an existing connection."
+msgstr "Kan inte lägga till en existerande anslutning."
+
+#: src/wizard.c:440
+msgid "Connections"
+msgstr "Anslutningar"
+
+#: src/wizard.c:448
+msgid "AMCL Connection Wizard"
+msgstr "AMCL Anslutnings Wizard"
+
+#: src/wizard.c:491
+msgid "Connection Name:"
+msgstr "Anslutningens Namn:"
+
+#: src/wizard.c:499
+msgid ""
+"This is the name of the conection which will be displayed in the conection "
+"list."
+msgstr "Detta namnet är det som kommer att användas för att ge ett unikt namn."
+
+#: src/wizard.c:504
+msgid ""
+"\n"
+"Host:"
+msgstr "\nAdress:"
+
+#: src/wizard.c:511
+msgid "This is the host where the MUD you will connect to is located."
+msgstr "Detta är datorn där MUDen du vill ansluta till ligger."
+
+#: src/wizard.c:516
+msgid ""
+"\n"
+"Port:"
+msgstr "\nPort:"
+
+#: src/wizard.c:523
+msgid ""
+"This is the port on the host that the MUD is located on. The default port is "
+"23 (telnet)."
+msgstr ""
+"Detta är den port som MUDen lyssnar på.\n"
+"Sätter man inte denna är default port 23 (telnet)"
+
+#: src/wizard.c:528
+msgid "Auto Login?"
+msgstr "Auto Login?"
+
+#: src/wizard.c:534
+msgid ""
+"Should AMCL login to this MUD automatically? Player Name and Password must "
+"be set to make this work."
+msgstr ""
+"Ska AMCL automatiskt logga in på MUD? Spelar namn och lösenord måste\n"
+"vara sätt för att detta ska funka."
+
+#: src/wizard.c:541
+msgid ""
+"\n"
+"Player Name:"
+msgstr "\nSpelar Namn:"
+
+#: src/wizard.c:548
+msgid "This is the player you login to the MUD with. For use with AutoLogin."
+msgstr "Detta är spelaren du vill logga in på MUDen som. Att användas med AutoLogin."
+
+#: src/wizard.c:553
+msgid ""
+"\n"
+"Password:"
+msgstr "\nLösenord:"
+
+#: src/wizard.c:561
+msgid ""
+"This is your player account's password in the MUD. For use with AutoLogin."
+msgstr "Detta är spelarens lösenord. Att användas med AutoLogin."
+
+#: src/wizard.c:571
+msgid "Apply"
+msgstr "Verkställ"

@@ -1,3 +1,7 @@
+Wed Aug  2 15:59:36 2000  Robin Ericsson  <robin@noname4us.com>
+
+	* Initial sv.po, most of the things is translated.
+
 Tue Jul 25 16:04 2000  Jordi Mallach  <jordi@debian.org>
 	* Cosmetic fixes: unify button labels, MUD and AMCL nomeclature.
 	* Reformat or delete redundant comments in the sources. We've had an
