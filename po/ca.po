@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.0\n"
 "POT-Creation-Date: 2003-06-04 19:08+0200\n"
-"PO-Revision-Date: 2003-06-04 19:09+0200\n"
+"PO-Revision-Date: 2003-06-13 20:56+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "Accions"
 #: src/data.c:251
 #, c-format
 msgid "Character '%c' not allowed."
-msgstr "El caràcter '%c' no és permés."
+msgstr "El caràcter «%c» no és permés."
 
 #: src/data.c:258 src/data.c:265
 #, c-format
@@ -145,7 +145,7 @@ msgstr "Surt"
 
 #: src/init.c:639
 msgid "Connection _Wizard..."
-msgstr "_Assistent de Connexions..."
+msgstr "_Assistent de connexions..."
 
 #: src/init.c:640
 msgid "_MudList Listing..."
@@ -165,11 +165,11 @@ msgstr "_Reconnecta"
 
 #: src/init.c:646
 msgid "S_tart Logging..."
-msgstr "Come_nça un log..."
+msgstr "Come_nça un registre..."
 
 #: src/init.c:647
 msgid "Sto_p Logging"
-msgstr "D_eixa de fer log"
+msgstr "D_eixa de registrar"
 
 #: src/init.c:648
 msgid "_Save Buffer..."
@@ -177,11 +177,11 @@ msgstr "De_sa el búfer..."
 
 #: src/init.c:650
 msgid "_Close Window"
-msgstr "_Tanca finestra"
+msgstr "_Tanca la finestra"
 
 #: src/init.c:658
 msgid "_Plugin Information..."
-msgstr "_Informació sobre Connectors..."
+msgstr "_Informació sobre connectors..."
 
 #: src/init.c:664
 msgid "Auto _Mapper..."
@@ -264,7 +264,7 @@ msgstr "Captura"
 #: src/log.c:57
 #, c-format
 msgid "*** Already logging to %s. Close that log first.\n"
-msgstr "*** Ja s'està fent log en %s. Tanqueu aquest log primer.\n"
+msgstr "*** Ja s'està registrant a %s. Tanqueu aquest registre primer.\n"
 
 #: src/log.c:63
 msgid "Open log"
@@ -272,7 +272,7 @@ msgstr "Obre log"
 
 #: src/log.c:76
 msgid "*** No log is open in this window to be closed.\n"
-msgstr "*** No hi ha cap log obert en aquesta finestra per a tancar.\n"
+msgstr "*** No hi ha cap registre obert a aquesta finestra per a tancar.\n"
 
 #: src/log.c:103
 #, c-format
@@ -282,12 +282,12 @@ msgstr "*** No s'ha pogut obrir %s.\n"
 #: src/log.c:115
 #, c-format
 msgid "*** Logging to %s.\n"
-msgstr "*** S'està desant el log en %s.\n"
+msgstr "*** S'està desant el registre a %s.\n"
 
 #: src/log.c:176
 #, c-format
 msgid "*** Stopped logging to %s.\n"
-msgstr "*** S'ha parat de fer log en %s.\n"
+msgstr "*** S'ha parat de registrar a %s.\n"
 
 #: src/log.c:201
 msgid "*** Could not open file for writing.\n"
@@ -295,7 +295,7 @@ msgstr "*** No s'ha pogut obrir el fitxer per escriptura.\n"
 
 #: src/log.c:216
 msgid "Please select a log file..."
-msgstr "Si us plau sel·leccioneu un fitxer de log..."
+msgstr "Si us plau sel·leccioneu un fitxer de registre..."
 
 #. Free the create_link_data structure
 #: src/map.c:567
@@ -507,19 +507,19 @@ msgstr "Informació sobre el connector"
 
 #: src/modules.c:211
 msgid "Plugin Name:"
-msgstr "Nom del Connector:"
+msgstr "Nom del connector:"
 
 #: src/modules.c:231
 msgid "Plugin Author:"
-msgstr "Autor del Connector:"
+msgstr "Autor del connector:"
 
 #: src/modules.c:241
 msgid "Plugin Version:"
-msgstr "Versió del Connector:"
+msgstr "Versió del connector:"
 
 #: src/modules.c:251
 msgid "Plugin Description:"
-msgstr "Descripció del Connector:"
+msgstr "Descripció del connector:"
 
 #: src/modules.c:261
 msgid "Is Plugin Enabled?"
@@ -528,7 +528,7 @@ msgstr "Està el connector actiu?"
 #: src/modules.c:420
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
-msgstr "Error en el manejament del connector (%s): %s."
+msgstr "S'ha produït un error en obtindre la nansa del connector (%s): %s."
 
 #: src/modules.c:425
 #, c-format
@@ -538,7 +538,7 @@ msgstr "Error, %s no és un connector del GNOME-Mud: %s."
 #: src/modules.c:451
 #, c-format
 msgid "Registering plugin `%s' under the name `%s'."
-msgstr "Registrant el connector \"%s\" amb el nom \"%s\"."
+msgstr "S'està registrant el connector «%s» amb el nom «%s»."
 
 #: src/modules_api.c:51
 #, c-format
@@ -552,7 +552,7 @@ msgstr "Error de registre de dades %s: %s"
 
 #: src/modules_api.c:79
 msgid "Error getting plugin from handle."
-msgstr "Error de manejament del connector."
+msgstr "S'ha produït un error en obtindre el connector des de la nansa."
 
 #: src/mudlist.c:372
 msgid "Could not open MudList file for reading"
@@ -564,11 +564,11 @@ msgstr "Llista de muds del GNOME-Mud"
 
 #: src/mudlist.c:388
 msgid "Mud Name :"
-msgstr "Nom del Mud:"
+msgstr "Nom del mud:"
 
 #: src/mudlist.c:402
 msgid "Codebase :"
-msgstr "Base del codi:"
+msgstr "Base basat en:"
 
 #: src/mudlist.c:416
 msgid "Telnet Address :"
@@ -614,7 +614,7 @@ msgstr "*** S'està provant de connectar a %s, port %s...\n"
 
 #: src/net.c:266
 msgid "*** Connection established.\n"
-msgstr "*** Connexió establida.\n"
+msgstr "*** Connexió establerta.\n"
 
 #: src/prefs.c:252 src/prefs.c:405
 #, c-format
@@ -727,7 +727,7 @@ msgstr ""
 
 #: src/prefs.c:792
 msgid "Disable _System Keys"
-msgstr "Deshabilita les tecles del _sistema"
+msgstr "Inhabilita les tecles del _sistema"
 
 #: src/prefs.c:796 gnome-mud.schemas.in.h:14
 msgid ""
