@@ -1,3 +1,7 @@
+Wed Jan  8 21:52:12 CET 2003  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.ac: add AM_GLIB_GNU_GETTEXT, so gnome-autogen behaves.
+
 Wed Jan  8 21:05:24 CET 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* autogen.sh: use gnome-autogen.sh.

@@ -14,6 +14,7 @@ AM_PATH_GTK_2_0(2.0.0,,exit 1)
 
 ALL_LINGUAS="es sv de ca fr"
 AM_GNU_GETTEXT_VERSION(0.11.5)
+AM_GLIB_GNU_GETTEXT
 
 dnl pkg-config dep checks
 LIBGNOME_REQUIRED=2.0.0
@@ -38,9 +39,6 @@ AC_CHECK_HEADERS(fcntl.h unistd.h malloc.h termios.h termio.h limits.h getopt.h 
 dnl Release date on LSM format (date +%d%b%y).
 LSMDATE="02Jul02"
 AC_SUBST(LSMDATE)
-
-dnl Pick up the GNOME macros
-dnl AM_ACLOCAL_INCLUDE(macros)
 
 AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])
 
@@ -192,8 +190,6 @@ if test "x$HAVE_ZLIB" = xyes; then
 	fi
 fi
 AC_SUBST(Z_LIBS)
-
-AM_GNU_GETTEXT([external])
 
 AC_OUTPUT([
   Makefile
