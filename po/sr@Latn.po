@@ -1,5 +1,5 @@
 # Serbian translation of gnome-mud
-# Courtesy of Prevod.org team (http://www.prevod.org/) -- 2003.
+# Courtesy of Prevod.org team (http://prevod.org/) -- 2003, 2004.
 #
 # This file is distributed under the same license as the gnome-mud package.
 #
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-10 03:34+0100\n"
-"PO-Revision-Date: 2004-01-10 03:35+0100\n"
+"POT-Creation-Date: 2004-02-20 09:25+0100\n"
+"PO-Revision-Date: 2004-02-20 09:26+0100\n"
 "Last-Translator: Danilo Šegan <dsegan@gmx.net>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: gnome-mud.desktop.in.h:1 src/init.c:264
+#: gnome-mud.desktop.in.h:1 src/init.c:270
 msgid "GNOME-Mud"
 msgstr "Gnom-MUD"
 
@@ -339,169 +339,173 @@ msgstr ""
 msgid "Failed to init GConf: %s"
 msgstr "Nisam uspeo da pokrenem GKonfa: %s"
 
-#: src/init.c:94
+#: src/init.c:93
 msgid "Do you really want to quit?"
 msgstr "Da li zaista želite da izađete?"
 
-#: src/init.c:142 src/init.c:667
+#: src/init.c:143 src/init.c:673
 msgid "Connect..."
 msgstr "Poveži se..."
 
-#: src/init.c:154 src/profiles.c:950
+#: src/init.c:155 src/profiles.c:950
 msgid "Host:"
 msgstr "Server:"
 
-#: src/init.c:160 src/profiles.c:970
+#: src/init.c:161 src/profiles.c:970
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:214
+#: src/init.c:215
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Unutrašnja greška: nema takve veze.\n"
 
+#: src/init.c:256
+msgid "Artwork by:"
+msgstr "Slike izradio:"
+
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:260
+#: src/init.c:266
 msgid "translator_credits"
 msgstr ""
 "Danilo Šegan <dsegan@gmx.net>\n"
 "\n"
 "Prevod.org — prevod na srpski jezik."
 
-#: src/init.c:266
+#: src/init.c:272
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Gnom program za višekorisničke tamnice (MUD).\n"
 
 # Domaća stranica?
-#: src/init.c:278
+#: src/init.c:284
 msgid "GNOME-Mud home page"
 msgstr "Početna stranica za Gnom-MUD"
 
-#: src/init.c:617 src/init.c:647
+#: src/init.c:623 src/init.c:653
 #, c-format
 msgid "There was an error displaying help: %s"
 msgstr "Došlo je do greške pri prikazivanju pomoći: %s"
 
 # zašto lepo ne koristiti „vile“ umesto „čarobnjaka“ ;-)
-#: src/init.c:663
+#: src/init.c:669
 msgid "Wizard..."
 msgstr "Vila..."
 
-#: src/init.c:663
+#: src/init.c:669
 msgid "Open the Connection Wizard"
 msgstr "Pozovi u pomoć vilu za uspostavljanje veza"
 
-#: src/init.c:665
+#: src/init.c:671
 msgid "Profiles..."
 msgstr "Skupovi podešavanja..."
 
-#: src/init.c:665
+#: src/init.c:671
 msgid "Manage user profiles"
 msgstr "Upravljaj skupovima podešavanja korisnika"
 
-#: src/init.c:667
+#: src/init.c:673
 msgid "Connect to a mud"
 msgstr "Poveži se sa MUD-om"
 
-#: src/init.c:669
+#: src/init.c:675
 msgid "Disconnect"
 msgstr "Prekini vezu"
 
-#: src/init.c:669
+#: src/init.c:675
 msgid "Disconnect from the mud"
 msgstr "Prekida vezu sa MUD-om"
 
-#: src/init.c:671
+#: src/init.c:677
 msgid "Reconnect"
 msgstr "Ponovo se poveži"
 
-#: src/init.c:671
+#: src/init.c:677
 msgid "Reconnect to the mud"
 msgstr "Ponovo se poveži sa MUD-om"
 
-#: src/init.c:673
+#: src/init.c:679
 msgid "Exit"
 msgstr "Izađi"
 
-#: src/init.c:673
+#: src/init.c:679
 msgid "Quit GNOME-Mud"
 msgstr "Izađi iz Gnom-MUD-a"
 
-#: src/init.c:678
+#: src/init.c:684
 msgid "Connection _Wizard..."
 msgstr "_Vila za povezivanje..."
 
-#: src/init.c:679
+#: src/init.c:685
 msgid "_MudList Listing..."
 msgstr "_Ispis mudlist-a..."
 
-#: src/init.c:681
+#: src/init.c:687
 msgid "C_onnect..."
 msgstr "_Poveži se..."
 
-#: src/init.c:682
+#: src/init.c:688
 msgid "_Disconnect"
 msgstr "P_rekini vezu"
 
-#: src/init.c:683
+#: src/init.c:689
 msgid "_Reconnect"
 msgstr "Poveži _se ponovo"
 
-#: src/init.c:685
+#: src/init.c:691
 msgid "S_tart Logging..."
 msgstr "_Započni praćenje..."
 
-#: src/init.c:686
+#: src/init.c:692
 msgid "Sto_p Logging"
 msgstr "Z_austavi praćenje..."
 
-#: src/init.c:687
+#: src/init.c:693
 msgid "_Save Buffer..."
 msgstr "_Sačuvaj bafer..."
 
-#: src/init.c:689
+#: src/init.c:695
 msgid "_Close Window"
 msgstr "_Zatvori prozor"
 
-#: src/init.c:697
+#: src/init.c:703
 msgid "_Plugin Information..."
 msgstr "_Podaci o dodatku"
 
-#: src/init.c:703
+#: src/init.c:709
 msgid "Auto _Mapper..."
 msgstr "Samo_mapiranje.."
 
-#: src/init.c:706
+#: src/init.c:712
 msgid "P_lugins"
 msgstr "_Dodaci"
 
-#: src/init.c:713
+#: src/init.c:719
 msgid "User Manual"
 msgstr "Uputstvo"
 
-#: src/init.c:714
+#: src/init.c:720
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Prikaži uputstvo za Gnom-MUD"
 
-#: src/init.c:718
+#: src/init.c:724
 msgid "Plugin API Manual"
 msgstr "Uputstvo za API za dodatke"
 
-#: src/init.c:719
+#: src/init.c:725
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "Prikaži uputstvo za Gnom-MUD API za dodatke"
 
 #. Do we really need this now?
-#: src/init.c:777
+#: src/init.c:781
 msgid "Main"
 msgstr "Glavno"
 
-#: src/init.c:813
+#: src/init.c:817
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "Gnom-MUD izdanje %s (izgrađena %s, %s)\n"
 
-#: src/init.c:815
+#: src/init.c:819
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Objavljeno pod Gnuovom Opštom javnom licencom (GPL).\n"
 
@@ -877,31 +881,35 @@ msgstr "Idi na veb stranicu MUD-a"
 msgid "Description:"
 msgstr "Opis:"
 
-#: src/net.c:218
+#: src/net.c:221
 msgid "*** Connection closed.\n"
 msgstr "*** Veza je prekinuta.\n"
 
-#: src/net.c:240
+#: src/net.c:243
 msgid "*** Can't connect - you didn't specify a host.\n"
 msgstr "*** Ne može da se poveže — niste naveli server.\n"
 
-#: src/net.c:246
+#: src/net.c:249
 msgid "*** No port specified - assuming port 23.\n"
 msgstr "*** Port nije naveden — podrazumeva port broj 23.\n"
 
-#: src/net.c:261
+#: src/net.c:264
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** Uspostavlja vezu sa %s, preko porta broj %s.\n"
 
-#: src/net.c:286
+#: src/net.c:289
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr "*** Isprobava %s preko porta broj %s...\n"
 
-#: src/net.c:313
+#: src/net.c:316
 msgid "*** Connection established.\n"
 msgstr "*** Veza je uspostavljena.\n"
+
+#: src/net.c:455
+msgid "Couldn't convert text input"
+msgstr "Ne mogu da pretvorim uneti tekst"
 
 #: src/prefs.c:253 src/prefs.c:411
 #, c-format
@@ -1213,18 +1221,18 @@ msgstr "Zatvori"
 msgid "Close the window"
 msgstr "Zatvori prozor"
 
-#: src/tray.c:104
+#: src/tray.c:101
 msgid "_Hide window"
 msgstr "_Sakrij prozor"
 
-#: src/tray.c:106
+#: src/tray.c:103
 msgid "_Show window"
 msgstr "_Prikaži prozor"
 
-#: src/tray.c:111
+#: src/tray.c:108
 msgid "_Quit"
 msgstr "_Izlaz"
 
-#: src/tray.c:161
+#: src/tray.c:158
 msgid "GNOME Mud"
 msgstr "Gnom MUD"
