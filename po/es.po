@@ -1,24 +1,27 @@
+# translation of es.po to Spanish
 # translation of gnome-mud.HEAD.es.po to Spanish
 # Spanish Messages for the GNOME-Mud Client.
-# Copyright (C) 2000, 2001, 2002,2003 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002,2003, 2004 Free Software Foundation, Inc.
 # $Id$
 # Jordi Mallach <jordi@debian.org>, 2000, 2001, 2002.
-# Francisco Javier F. Serrador <serrador@arrakis.es>, 2003
+# Francisco Javier F. Serrador <serrador@arrakis.es>, 2003.
+# Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mud.HEAD.es\n"
+"Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-04 03:25+0100\n"
-"PO-Revision-Date: 2004-01-04 03:30+0100\n"
-"Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
+"POT-Creation-Date: 2004-01-24 21:40+0100\n"
+"PO-Revision-Date: 2004-01-24 21:49+0100\n"
+"Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n == 1)\n"
+"X-Generator: KBabel 1.0.2\n"
 
-#: gnome-mud.desktop.in.h:1 src/init.c:248
+#: gnome-mud.desktop.in.h:1 src/init.c:265
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
@@ -28,8 +31,7 @@ msgstr "El cliente de MUD de GNOME"
 
 #: gnome-mud.schemas.in.h:1
 msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
-msgstr ""
-"Un nombre de tipografía Pango. Por ejemplo «Sans 12» o «Monospace Bold 14»."
+msgstr "Un nombre de tipografía Pango. Por ejemplo «Sans 12» o «Monospace Bold 14»."
 
 #: gnome-mud.schemas.in.h:2
 msgid ""
@@ -76,8 +78,7 @@ msgstr ""
 "estilo HTML, dígitos hex, o un nombre de color como «red»)"
 
 #: gnome-mud.schemas.in.h:10
-msgid ""
-"File where the mud list will be read from to be used in the MudList dialog."
+msgid "File where the mud list will be read from to be used in the MudList dialog."
 msgstr "Archivo donde la lista de mud será leída para usarse en el diálogo MudList."
 
 #: gnome-mud.schemas.in.h:11
@@ -307,6 +308,14 @@ msgstr "%s: tratando de acceder a un rango de datos indefinido: %d"
 msgid "GNOME-Mud Configuration Center"
 msgstr "Centro de Configuración de GNOME-Mud"
 
+#: src/eggtrayicon.c:118
+msgid "Orientation"
+msgstr "Orientación"
+
+#: src/eggtrayicon.c:119
+msgid "The orientation of the tray."
+msgstr "La orientación de la bandeja."
+
 #: src/gnome-mud.c:51
 #, c-format
 msgid "There was an error accessing GConf: %s"
@@ -314,177 +323,182 @@ msgstr "Hubo un error al acceder a GConf: %s"
 
 #: src/gnome-mud.c:64
 msgid "The default configuration values could not be retrieved correctly."
-msgstr "Los valores de configuración predeterminados no pudieron ser extraídos correctamente."
+msgstr ""
+"Los valores de configuración predeterminados no pudieron ser extraídos "
+"correctamente."
 
 #: src/gnome-mud.c:65
 msgid ""
 "Please check your GConf configuration, specifically that the schemas have "
 "been installed correctly."
-msgstr "Compruebe su configuración GConf, especificamente que los esquemas se hayan instalado correctamente."
+msgstr ""
+"Compruebe su configuración GConf, especificamente que los esquemas se hayan "
+"instalado correctamente."
 
 #: src/gnome-mud.c:89
 #, c-format
 msgid "Failed to init GConf: %s"
 msgstr "Fallo a inicializar GConf: %s"
 
-#: src/init.c:94
+#: src/init.c:93
 msgid "Do you really want to quit?"
 msgstr "¿De verdad quieres salir?"
 
-#: src/init.c:142 src/init.c:644
+#: src/init.c:143 src/init.c:668
 msgid "Connect..."
 msgstr "Conectar..."
 
 #
-#: src/init.c:154 src/profiles.c:950
+#: src/init.c:155 src/profiles.c:950
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:160 src/profiles.c:970
+#: src/init.c:161 src/profiles.c:970
 msgid "Port:"
 msgstr "Puerto:"
 
-#: src/init.c:210
+#: src/init.c:215
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Error interno: no existe esa conexión.\n"
 
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:244
+#: src/init.c:261
 msgid "translator_credits"
 msgstr "Francisco Javier F. Serrador <serrador@arrakis.es>"
 
-#: src/init.c:250
+#: src/init.c:267
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Un cliente de MUD (Multi-User Dungeon) para GNOME.\n"
 
-#: src/init.c:262
+#: src/init.c:279
 msgid "GNOME-Mud home page"
 msgstr "Página web de GNOME-Mud"
 
-#: src/init.c:594 src/init.c:624
+#: src/init.c:618 src/init.c:648
 #, c-format
 msgid "There was an error displaying help: %s"
 msgstr "Hubo un error mostrando la ayuda: %s"
 
-#: src/init.c:640
+#: src/init.c:664
 msgid "Wizard..."
 msgstr "Asistente..."
 
-#: src/init.c:640
+#: src/init.c:664
 msgid "Open the Connection Wizard"
 msgstr "Abrir el asistente de conexiones..."
 
-#: src/init.c:642
+#: src/init.c:666
 msgid "Profiles..."
 msgstr "Perfiles..."
 
-#: src/init.c:642
+#: src/init.c:666
 msgid "Manage user profiles"
 msgstr "Administrar perfiles de usuario"
 
-#: src/init.c:644
+#: src/init.c:668
 msgid "Connect to a mud"
 msgstr "Conectar a un mud"
 
-#: src/init.c:646
+#: src/init.c:670
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: src/init.c:646
+#: src/init.c:670
 msgid "Disconnect from the mud"
 msgstr "Conectar del mud"
 
-#: src/init.c:648
+#: src/init.c:672
 msgid "Reconnect"
 msgstr "Conectar"
 
-#: src/init.c:648
+#: src/init.c:672
 msgid "Reconnect to the mud"
 msgstr "Reconectar al mud"
 
-#: src/init.c:650
+#: src/init.c:674
 msgid "Exit"
 msgstr "Salir"
 
-#: src/init.c:650
+#: src/init.c:674
 msgid "Quit GNOME-Mud"
 msgstr "Salir de GNOME-Mud"
 
-#: src/init.c:655
+#: src/init.c:679
 msgid "Connection _Wizard..."
 msgstr "_Asistente de Conexiones..."
 
-#: src/init.c:656
+#: src/init.c:680
 msgid "_MudList Listing..."
 msgstr "Listas de _MudList..."
 
-#: src/init.c:658
+#: src/init.c:682
 msgid "C_onnect..."
 msgstr "_Conectar..."
 
-#: src/init.c:659
+#: src/init.c:683
 msgid "_Disconnect"
 msgstr "_Desconectar"
 
-#: src/init.c:660
+#: src/init.c:684
 msgid "_Reconnect"
 msgstr "_Reconectar"
 
-#: src/init.c:662
+#: src/init.c:686
 msgid "S_tart Logging..."
-msgstr "E_mpezar un log..."
+msgstr "_Registrar en bitácora..."
 
-#: src/init.c:663
+#: src/init.c:687
 msgid "Sto_p Logging"
-msgstr "De_jar de hacer log"
+msgstr "_Detener registro de bitácora"
 
-#: src/init.c:664
+#: src/init.c:688
 msgid "_Save Buffer..."
 msgstr "_Guardar búfer..."
 
-#: src/init.c:666
+#: src/init.c:690
 msgid "_Close Window"
-msgstr "_Cerrar Ventana"
+msgstr "_Cerrar ventana"
 
-#: src/init.c:674
+#: src/init.c:698
 msgid "_Plugin Information..."
-msgstr "_Información sobre Conectores..."
+msgstr "_Información sobre complementos..."
 
-#: src/init.c:680
+#: src/init.c:704
 msgid "Auto _Mapper..."
 msgstr "Auto _mapeador..."
 
-#: src/init.c:683
+#: src/init.c:707
 msgid "P_lugins"
-msgstr "_Conectores"
+msgstr "_Complementos"
 
-#: src/init.c:690
+#: src/init.c:714
 msgid "User Manual"
 msgstr "Manual de usuario"
 
-#: src/init.c:691
+#: src/init.c:715
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Mostrar el manual de GNOME-Mud"
 
-#: src/init.c:695
+#: src/init.c:719
 msgid "Plugin API Manual"
 msgstr "Manual del API de extensiones"
 
-#: src/init.c:696
+#: src/init.c:720
 msgid "Display the GNOME-Mud Plugin API Manual"
-msgstr "Mostrar el manual del API de extensiones de GNOME-Mud"
+msgstr "Mostrar el manual del API de complementos de GNOME-Mud"
 
-#: src/init.c:747
+#. Do we really need this now?
+#: src/init.c:776
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:770
+#: src/init.c:812
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versión %s (compilado %s, %s)\n"
 
-#: src/init.c:772
+#: src/init.c:814
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuido bajo los términos de la Licencia Pública General GNU.\n"
 
@@ -527,7 +541,7 @@ msgstr "*** Ya se está registrando en %s. Cierre ese registro primero.\n"
 
 #: src/log.c:63
 msgid "Open log"
-msgstr "Abrir log"
+msgstr "Abrir bitácora"
 
 #: src/log.c:76
 msgid "*** No log to be closed is open in this window.\n"
@@ -541,7 +555,7 @@ msgstr "*** No se ha podido abrir %s.\n"
 #: src/log.c:115
 #, c-format
 msgid "*** Logging to %s.\n"
-msgstr "*** Haciendo log en %s.\n"
+msgstr "*** Registrando bitácora en %s.\n"
 
 #: src/log.c:176
 #, c-format
@@ -656,10 +670,10 @@ msgid "Teleport here"
 msgstr "Teleportarse aquí"
 
 #.
-#. 			/* Set node properties */
-#. 	  		properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
-#. 			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
-#. 			gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#. /* Set node properties */
+#. properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#. gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#. gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
 #. Create new link
 #: src/map.c:1428
 msgid "Create new link"
@@ -672,6 +686,7 @@ msgstr "Entrar"
 
 #. Can easily be optimised ... but why bother ?
 #. Translator: "N" means "North" here
+#. Create button directions
 #: src/map.c:1736 src/map.c:3576
 msgid "N"
 msgstr "N"
@@ -792,12 +807,12 @@ msgstr "Descripción del Conector:"
 
 #: src/modules.c:263
 msgid "Enable plugin"
-msgstr "Activar extensión"
+msgstr "Activar complemento"
 
 #: src/modules.c:419
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
-msgstr "Error en el manejo del conector (%s): %s."
+msgstr "Error en el manejo del complemento (%s): %s."
 
 #: src/modules.c:424
 #, c-format
@@ -807,19 +822,19 @@ msgstr "Error, %s no es un módulo de GNOME-Mud: %s."
 #: src/modules.c:450
 #, c-format
 msgid "Registering plugin `%s' under the name `%s'."
-msgstr "Registrando el conector `%s' bajo el nombre `%s'."
+msgstr "Registrando el complemento «%s» bajo el nombre «%s»."
 
-#: src/modules_api.c:51
+#: src/modules_api.c:66
 #, c-format
 msgid "Error while registering the menu: %s"
 msgstr "Error al registrar el menú: %s"
 
-#: src/modules_api.c:71
+#: src/modules_api.c:86
 #, c-format
 msgid "Error while registering data %s: %s"
 msgstr "Error al registrar datos %s: %s"
 
-#: src/modules_api.c:79
+#: src/modules_api.c:94
 msgid "Error while getting plugin from handle."
 msgstr "Error al obtener el complemento del manejador."
 
@@ -859,29 +874,29 @@ msgstr "Ir a la página web del mud"
 msgid "Description:"
 msgstr "Descripción:"
 
-#: src/net.c:192
+#: src/net.c:218
 msgid "*** Connection closed.\n"
 msgstr "*** Conexión cerrada.\n"
 
-#: src/net.c:204
+#: src/net.c:240
 msgid "*** Can't connect - you didn't specify a host.\n"
 msgstr "*** No se puede conectar - no has especificado ningún servidor.\n"
 
-#: src/net.c:210
+#: src/net.c:246
 msgid "*** No port specified - assuming port 23.\n"
 msgstr "*** No se ha especificado un puerto - asumiendo puerto 23.\n"
 
-#: src/net.c:225
+#: src/net.c:261
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** Realizando conexión a %s, puerto %s.\n"
 
-#: src/net.c:250
+#: src/net.c:286
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr "*** Intentando %s puerto %s...\n"
 
-#: src/net.c:277
+#: src/net.c:313
 msgid "*** Connection established.\n"
 msgstr "*** Conexión establecida.\n"
 
@@ -1012,11 +1027,11 @@ msgstr "Archivo de MudList:"
 
 #: src/prefs.c:861
 msgid "Select a MudList File..."
-msgstr "Seleccione un archivo de MudList"
+msgstr "Seleccione un archivo MudList..."
 
 #: src/prefs.c:863
 msgid "Mudlist file to be used for the mudlist functionality."
-msgstr "Archivo mudlist para usar por la funcionalidad mudlist."
+msgstr "Archivo lista de mud para usar por la funcionalidad lista de mud."
 
 #: src/prefs.c:872
 msgid "Color and Fonts"
@@ -1087,7 +1102,7 @@ msgstr "Nuevo perfil"
 
 #: src/profiles.c:304
 msgid "Name of new profile:"
-msgstr "Nombre del nuevo perfil:"
+msgstr "Nombre del perfil nuevo:"
 
 #: src/profiles.c:506
 msgid "GNOME-Mud: Profilelist"
@@ -1132,7 +1147,7 @@ msgstr "Personaje:"
 
 #: src/profiles.c:1010
 msgid "Password:"
-msgstr "Password:"
+msgstr "Contraseña:"
 
 #: src/profiles.c:1031
 msgid "Profile information"
@@ -1140,11 +1155,11 @@ msgstr "Información sobre el perfil"
 
 #: src/profiles.c:1057
 msgid "Select Profile"
-msgstr "Seleccionar fuente"
+msgstr "Seleccionar perfil"
 
 #: src/profiles.c:1073
 msgid "Fetch from mudlist"
-msgstr "Importar de mudlist"
+msgstr "Obtener de lista de mud"
 
 #: src/profiles.c:1125
 msgid "Connect"
@@ -1156,7 +1171,7 @@ msgstr "Perfiles"
 
 #: src/profiles.c:1173
 msgid "GNOME-Mud Profiles"
-msgstr "Perfil de GNOME-Mud"
+msgstr "Perfiles de GNOME-Mud"
 
 #: src/profiles.c:1187
 msgid "New"
@@ -1184,7 +1199,7 @@ msgstr "Establecer disparadores"
 
 #: src/profiles.c:1243
 msgid "Set keybindings"
-msgstr "Establecer teclas rápidas"
+msgstr "Establecer combinaciones de teclas"
 
 #: src/profiles.c:1260
 msgid "Close"
@@ -1192,4 +1207,21 @@ msgstr "Cerrar"
 
 #: src/profiles.c:1260
 msgid "Close the window"
-msgstr "Cerrar ventana"
+msgstr "Cierra la ventana"
+
+#: src/tray.c:101
+msgid "_Hide window"
+msgstr "_Ocultar ventana"
+
+#: src/tray.c:103
+msgid "_Show window"
+msgstr "_Mostrar ventana"
+
+#: src/tray.c:108
+msgid "_Quit"
+msgstr "_Salir"
+
+#: src/tray.c:158
+msgid "GNOME Mud"
+msgstr "Gnome Mud"
+
