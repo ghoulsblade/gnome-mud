@@ -171,7 +171,7 @@
 			<applyto>/apps/gnome-mud/functionality/terminal_type</applyto>
 			<owner>gnome-mud</owner>
 			<type>string</type>
-			<default>ansi</default>
+			<default>xterm</default>
 			<locale name="C">
 				<short>Terminal type</short>
 				<long>

@@ -542,9 +542,9 @@ mud_preferences_new (GConfClient *client)
 		gconf_client_notify_add(client, "/apps/gnome-mud", 
 								mud_preferences_gconf_changed, 
 								prefs, NULL, NULL);
+	
+		mud_preferences_load_profiles(prefs);
 	}
-
-	mud_preferences_load_profiles(prefs);
 	
 	return prefs;
 }

@@ -1,3 +1,33 @@
+2004-07-01  Robin Ericsson  <lobbin@localhost.nu>
+
+	* gnome-mud.schemas.in [terminal_type]: Changed default to xterm.
+
+	* src/mud-connection-view.c [_MudConnectionViewPrivate]: Added
+	popup_menu, prefs, profile, signal and signal_profile_changed.
+	(append_stock_menuitem): Added.
+	(append_menuitem): Added.
+	(popup_mnu_detach): Added.
+	(choose_profile_callback): Added.
+	(mud_connection_view_init): Listen to signal of changed preferences.
+	(mud_connection_view_reread_profile): Added.
+	(mud_connection_view_set_terminal_colors): Added.
+	(mud_connection_view_set_terminal_scrollback): Added.
+	(mud_connection_view_set_terminal_scrolloutput): Added.
+	(mud_connection_view_set_terminal_font): Added.
+	(mud_connection_view_set_terminal_type): Added.
+	(mud_connection_view_prefs_changed_cb): Added.
+	(mud_connection_view_button_press_event): Added.
+	(mud_connection_view_popup): Added.
+	(mud_connection_view_set_profile): Added.
+
+	* src/mud-prefereces-window.c [_MudPreferencesWindowPrivate]: Added
+	signal.
+	(mud_preferences_window_finalize): Disconnect signal handler.
+	(mud_preferences_window_new): Save signal handler.
+
+	* src/mud-preferences.c (mud_preferences_new): Only load profiles
+	when we create the singleton.
+
 2004-06-29  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mud-preferences-window.c (mud_preferences_window_set_preferences):

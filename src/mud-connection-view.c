@@ -4,9 +4,12 @@
 
 #include <glib-object.h>
 #include <glib/gi18n.h>
+#include <gtk/gtkmenu.h>
 #include <vte/vte.h>
 
 #include "mud-connection-view.h"
+#include "mud-preferences.h"
+#include "mud-profile.h"
 
 static char const rcsid[] = "$Id: ";
 
@@ -15,11 +18,28 @@ struct _MudConnectionViewPrivate
 	GtkWidget *terminal;
 	GtkWidget *scrollbar;
 	GtkWidget *box;
+	GtkWidget *popup_menu;
+
+	MudPreferences *prefs;
+	MudProfile *profile;
+
+	gulong signal;
+	gulong signal_profile_changed;
 };
 
-static void mud_connection_view_init       (MudConnectionView *connection_view);
-static void mud_connection_view_class_init (MudConnectionViewClass *klass);
-static void mud_connection_view_finalize   (GObject *object);
+static void mud_connection_view_init                     (MudConnectionView *connection_view);
+static void mud_connection_view_class_init               (MudConnectionViewClass *klass);
+static void mud_connection_view_finalize                 (GObject *object);
+static void mud_connection_view_set_terminal_colors      (MudConnectionView *view);
+static void mud_connection_view_set_terminal_scrollback  (MudConnectionView *view);
+static void mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view);
+static void mud_connection_view_set_terminal_font        (MudConnectionView *view);
+static void mud_connection_view_set_terminal_type        (MudConnectionView *view);
+static void mud_connection_view_prefs_changed_cb         (MudPreferences *prefs, MudPreferenceMask *mask, MudConnectionView *view);
+static gboolean mud_connection_view_button_press_event   (GtkWidget *widget, GdkEventButton *event, MudConnectionView *view);
+static void mud_connection_view_popup                    (MudConnectionView *view, GdkEventButton *event);
+static void mud_connection_view_set_profile              (MudConnectionView *view, MudProfile *profile);
+static void mud_connection_view_reread_profile           (MudConnectionView *view);
 
 GType
 mud_connection_view_get_type (void)
@@ -47,6 +67,93 @@ mud_connection_view_get_type (void)
 	}
 
 	return object_type;
+}
+
+static GtkWidget*
+append_stock_menuitem(GtkWidget *menu, const gchar *text, GCallback callback, gpointer data)
+{
+	GtkWidget *menu_item;
+	GtkWidget *image;
+	GConfClient *client;
+	GError *error;
+	gboolean use_image;
+	
+	menu_item = gtk_image_menu_item_new_from_stock(text, NULL);
+	image = gtk_image_menu_item_get_image(GTK_IMAGE_MENU_ITEM(menu_item));
+
+	client = gconf_client_get_default();
+	error = NULL;
+
+	use_image = gconf_client_get_bool(client,
+									  "/desktop/gnome/interface/menus_have_icons",
+									  &error);
+	if (error)
+	{
+		g_printerr(_("There was an error loading config value for whether to use image in menus. (%s)\n"),
+				   error->message);
+		g_error_free(error);
+	}
+	else
+	{
+		if (use_image)
+			gtk_widget_show(image);
+		else
+			gtk_widget_hide(image);
+	}
+
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
+
+	if (callback)
+		g_signal_connect(G_OBJECT(menu_item),
+						 "activate",
+						 callback, data);
+
+	return menu_item;
+}
+
+static GtkWidget*
+append_menuitem(GtkWidget *menu, const gchar *text, GCallback callback, gpointer data)
+{
+	GtkWidget *menu_item;
+
+	menu_item = gtk_menu_item_new_with_mnemonic(text);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
+
+	if (callback)
+		g_signal_connect(G_OBJECT(menu_item), "activate", callback, data);
+
+	return menu_item;
+}
+
+static void
+popup_menu_detach(GtkWidget *widget, GtkMenu *menu)
+{
+	MudConnectionView *view;
+
+	view = g_object_get_data(G_OBJECT(widget), "connection-view");
+	view->priv->popup_menu = NULL;
+}
+
+static void
+choose_profile_callback(GtkWidget *menu_item, MudConnectionView *view)
+{
+	MudProfile *profile;
+
+	if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item)))
+		return;
+
+	profile = g_object_get_data(G_OBJECT(menu_item), "profile");
+
+	g_assert(profile);
+
+	g_print ("Switching profile from '%s' to '%s'\n",
+           view->priv->profile ?
+           view->priv->profile->name : "none",
+           profile ? profile->name : "none");
+
+
+	mud_connection_view_set_profile(view, profile);
+	mud_connection_view_reread_profile(view);
 }
 
 static void
@@ -166,11 +273,24 @@ mud_connection_view_init (MudConnectionView *connection_view)
 {
 	GtkWidget *box;
 	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
+	connection_view->priv->prefs = mud_preferences_new(NULL);
 
+	connection_view->priv->signal = 
+		g_signal_connect(G_OBJECT(connection_view->priv->prefs),
+						 "changed",
+						 G_CALLBACK(mud_connection_view_prefs_changed_cb),
+						 connection_view);
+	
 	box = gtk_hbox_new(FALSE, 0);
 	
 	connection_view->priv->terminal = vte_terminal_new();
 	gtk_box_pack_start(GTK_BOX(box), connection_view->priv->terminal, TRUE, TRUE, 0);
+	g_signal_connect(G_OBJECT(connection_view->priv->terminal),
+					 "button_press_event",
+					 G_CALLBACK(mud_connection_view_button_press_event),
+					 connection_view);
+	g_object_set_data(G_OBJECT(connection_view->priv->terminal),
+					  "connection-view", connection_view);
 
 	connection_view->priv->scrollbar = gtk_vscrollbar_new(NULL);
 	gtk_range_set_adjustment(GTK_RANGE(connection_view->priv->scrollbar), VTE_TERMINAL(connection_view->priv->terminal)->adjustment);
@@ -180,6 +300,18 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	g_object_set_data(G_OBJECT(box), "connection-view", connection_view);
 	
 	connection_view->priv->box = box;
+
+	mud_connection_view_reread_profile(connection_view);
+}
+
+static void
+mud_connection_view_reread_profile(MudConnectionView *view)
+{
+	mud_connection_view_set_terminal_colors(view);
+	mud_connection_view_set_terminal_scrollback(view);
+	mud_connection_view_set_terminal_scrolloutput(view);
+	mud_connection_view_set_terminal_font(view);
+	mud_connection_view_set_terminal_type(view);
 }
 
 static void
@@ -298,6 +430,170 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
 	g_free(text);
 }
 
+static void
+mud_connection_view_set_terminal_colors(MudConnectionView *view)
+{
+	vte_terminal_set_colors(VTE_TERMINAL(view->priv->terminal),
+							&view->priv->prefs->preferences.Foreground,
+							&view->priv->prefs->preferences.Background,
+							view->priv->prefs->preferences.Colors, C_MAX);
+}
+
+static void
+mud_connection_view_set_terminal_scrollback(MudConnectionView *view)
+{
+	vte_terminal_set_scrollback_lines(VTE_TERMINAL(view->priv->terminal),
+									  view->priv->prefs->preferences.Scrollback);
+}
+
+static void
+mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view)
+{
+	vte_terminal_set_scroll_on_output(VTE_TERMINAL(view->priv->terminal),
+									  view->priv->prefs->preferences.ScrollOnOutput);
+}
+
+static void
+mud_connection_view_set_terminal_font(MudConnectionView *view)
+{
+	vte_terminal_set_font_from_string(VTE_TERMINAL(view->priv->terminal),
+									  view->priv->prefs->preferences.FontName);
+}
+
+static void
+mud_connection_view_set_terminal_type(MudConnectionView *view)
+{
+	vte_terminal_set_emulation(VTE_TERMINAL(view->priv->terminal),
+							   view->priv->prefs->preferences.TerminalType);
+}
+
+static void
+mud_connection_view_prefs_changed_cb(MudPreferences *prefs, MudPreferenceMask *mask, MudConnectionView *view)
+{
+	if (mask->ScrollOnOutput)
+		mud_connection_view_set_terminal_scrolloutput(view);
+	if (mask->TerminalType)
+		mud_connection_view_set_terminal_type(view);
+	if (mask->Scrollback)
+		mud_connection_view_set_terminal_scrollback(view);
+	if (mask->FontName)
+		mud_connection_view_set_terminal_font(view);
+	if (mask->Foreground || mask->Background || mask->Colors)
+		mud_connection_view_set_terminal_colors(view);
+}
+
+static gboolean
+mud_connection_view_button_press_event(GtkWidget *widget, GdkEventButton *event, MudConnectionView *view)
+{
+	if ((event->button == 3) &&
+		!(event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)))
+	{
+		mud_connection_view_popup(view, event);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
+{
+	GtkWidget *im_menu;
+	GtkWidget *menu_item;
+	GtkWidget *profile_menu;
+	const GList *profiles;
+	const GList *profile;
+	GSList *group;
+	
+	if (view->priv->popup_menu)
+		gtk_widget_destroy(view->priv->popup_menu);
+
+	g_assert(view->priv->popup_menu == NULL);
+
+	view->priv->popup_menu = gtk_menu_new();
+	gtk_menu_attach_to_widget(GTK_MENU(view->priv->popup_menu),
+							  view->priv->terminal,
+							  popup_menu_detach);
+
+	append_menuitem(view->priv->popup_menu,
+					_("Close tab or window, whatever :)"),
+					NULL,
+					view);
+
+	menu_item = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
+
+	append_stock_menuitem(view->priv->popup_menu,
+						  GTK_STOCK_COPY,
+						  NULL,
+						  view);
+	append_stock_menuitem(view->priv->popup_menu,
+						  GTK_STOCK_PASTE,
+						  NULL,
+						  view);
+
+	menu_item = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
+	
+	profile_menu = gtk_menu_new();
+	menu_item = gtk_menu_item_new_with_mnemonic(_("Change P_rofile"));
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), profile_menu);
+	gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
+
+	group = NULL;
+	profiles = mud_preferences_get_profiles(view->priv->prefs);
+	profile = profiles;
+	while (profile != NULL)
+	{
+		MudProfile *prof;
+
+		prof = profile->data;
+
+		/* Profiles can go away while the menu is up. */
+		g_object_ref(G_OBJECT(prof));
+
+		menu_item = gtk_radio_menu_item_new_with_label(group,
+													   prof->name);
+		group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(menu_item));
+		gtk_menu_shell_append(GTK_MENU_SHELL(profile_menu), menu_item);
+
+		if (prof == view->priv->profile)
+			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), TRUE);
+		
+		g_signal_connect(G_OBJECT(menu_item),
+						 "toggled",
+						 G_CALLBACK(choose_profile_callback),
+						 view);
+		g_object_set_data_full(G_OBJECT(menu_item),
+							   "profile",
+							   prof,
+							   (GDestroyNotify) g_object_unref);
+		profile = profile->next;
+	}
+	
+	append_menuitem(view->priv->popup_menu,
+					_("Edit Current Profile..."),
+					NULL,
+					view);
+
+	menu_item = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
+	
+	im_menu = gtk_menu_new();
+	menu_item = gtk_menu_item_new_with_mnemonic(_("_Input Methods"));
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), im_menu);
+	vte_terminal_im_append_menuitems(VTE_TERMINAL(view->priv->terminal),
+									 GTK_MENU_SHELL(im_menu));
+	gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
+
+	gtk_widget_show_all(view->priv->popup_menu);
+	gtk_menu_popup(GTK_MENU(view->priv->popup_menu),
+				   NULL, NULL,
+				   NULL, NULL,
+				   event ? event->button : 0,
+				   event ? event->time : gtk_get_current_event_time());
+}
+
 MudConnectionView*
 mud_connection_view_new (const gchar *hostname, const gint port)
 {
@@ -322,6 +618,27 @@ mud_connection_view_new (const gchar *hostname, const gint port)
 	gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
 	
 	return view;
+}
+
+static void
+mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profile)
+{
+	if (profile == view->priv->profile)
+		return;
+
+	if (profile)
+	{
+		g_object_ref(G_OBJECT(profile));
+		//view->priv->signal_profile_changed =
+	}
+
+	if (view->priv->profile)
+	{
+		g_object_unref(G_OBJECT(view->priv->profile));
+	}
+
+	view->priv->profile = profile;
+	mud_connection_view_reread_profile(view);
 }
 
 GtkWidget *

@@ -47,6 +47,8 @@ struct _MudPreferencesWindowPrivate
 	GtkWidget *cp_foreground;
 	GtkWidget *cp_background;
 	GtkWidget *colors[C_MAX];
+
+	gulong signal;
 };
 
 enum
@@ -199,6 +201,8 @@ mud_preferences_window_finalize (GObject *object)
 	GObjectClass *parent_class;
 
 	preferences = MUD_PREFERENCES_WINDOW(object);
+	g_signal_handler_disconnect(preferences->priv->prefs,
+								preferences->priv->signal);
 
 	g_free(preferences->priv);
 
@@ -616,10 +620,10 @@ mud_preferences_window_new (MudPreferences *preferences)
 	prefs = g_object_new(MUD_TYPE_PREFERENCES_WINDOW, NULL);
 	prefs->priv->prefs = preferences;
 
-	g_signal_connect(G_OBJECT(preferences),
-					 "changed",
-					 G_CALLBACK(mud_preferences_window_changed_cb),
-					 prefs);
+	prefs->priv->signal = g_signal_connect(G_OBJECT(preferences),
+							"changed",
+							G_CALLBACK(mud_preferences_window_changed_cb),
+							prefs);
 
 	mud_preferences_window_fill_profiles(prefs);
 
