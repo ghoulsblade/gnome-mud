@@ -665,7 +665,7 @@ void init_window ()
   
 #ifdef USE_PYGTK
   box_user = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start (GTK_BOX (box_main), box_user, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (box_main), box_user, FALSE, FALSE, 0);
 #endif
   
   box_main2 = gtk_hbox_new (FALSE, 0);

@@ -1,3 +1,8 @@
+Fri Feb  1 17:35:44 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c: patch from Petter Stokke to fix a bug in the
+	python stuff.
+
 Fri Feb  1 15:34:32 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 	
 	* Added patch from Vashti <vashti@jml.net> which adds support
