@@ -335,10 +335,7 @@ static void profilelist_new_cb(GtkWidget *widget, gpointer data)
 	GtkWidget *label;
 	GtkWidget *entry;
 	gint       retval;
-	/*GtkWidget *dialog = gnome_request_dialog(FALSE, _("Name of new profile:"), "", 50, profilelist_new_input_cb, data, GTK_WINDOW(window));
-
-	gtk_signal_connect_object(GTK_OBJECT(window), "destroy", gtk_widget_destroy, (gpointer) dialog);
-	gtk_signal_connect(GTK_OBJECT(dialog), "destroy", gtk_widget_destroyed, &dialog);*/
+	
 	GtkWidget *dialog = gnome_dialog_new(N_("New profile"), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gnome_dialog_set_parent(GNOME_DIALOG(dialog), GTK_WINDOW(window));
 
@@ -1335,7 +1332,7 @@ void window_profile_edit(void)
 	gtk_signal_connect(GTK_OBJECT(button_keybinds),  "clicked", GTK_SIGNAL_FUNC(profilelist_keybinds_cb), profile_list);
 
 	gtk_signal_connect_object(GTK_OBJECT(button_close), "clicked", gtk_widget_destroy, (gpointer) profile_window);
-	//gtk_signal_connect(GTK_OBJECT(profile_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &profile_window);
+	gtk_signal_connect(GTK_OBJECT(profile_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &profile_window);
 	
 	gtk_widget_show(profile_window);
 }
