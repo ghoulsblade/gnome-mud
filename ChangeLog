@@ -1,3 +1,8 @@
+Mon Jun  2 17:41:35 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
+
+	* doc/gnome-mud-manual/C/gnome-mud-manual-C.omf: Fix DTD errors.
+	* doc/gnome-mud-plugin-api/C/gnome-mud-plugin-api-C.omf: Likewise.
+
 Mon Jun  2 17:08:47 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/gnome-mud-manual/C/gnome-mud-manual.sgml: Rename to .xml.

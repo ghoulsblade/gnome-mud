@@ -1,34 +1,18 @@
 <?xml version="1.0" standalone="no"?>
 <omf>
   <resource>
-    <title>
-     GNOME-Mud Plugin API
-    </title>
-    <creator>
-     <person>
-      <firstName>Petter</firstName>
-      <otherName>E.</otherName>
-      <lastName>Stokke</lastName>
-      <email>gibreel@project23.no</email>
-     </person>
-     <person>
-      <firstName>Jordi</firstName>
-      <lastName>Mallach</lastName>
-      <email>jordi@sindominio.net</email>
-     </person>
-    </creator>
-    <subject>
-      <category>Development</category>
-    </subject>
-    <description>
-      This document describes how to code plugins for GNOME-Mud, in Python
-      and C.
-    </description>
-    <type>
-     manual
-    </type>
+    <creator>Petter E. Stokke</creator>
+    <maintainer>Jordi Mallach</maintainer>
+    <title>GNOME-Mud Plugin API</title>
+    <date>2003-06-02</date>
+    <version identifier="1.0" date="2003-06-02" description="Updated for GNOME-Mud 0.10.0"/>
+    <subject category="Development"/>
+    <description>This document describes how to code plugins for GNOME-Mud, in Python and C.</description>
+    <type>manual</type>
     <format mime="text/xml" dtd="-//OASIS//DTD DocBook XML V4.1.2//EN"/>
     <identifier url="gnome-mud-plugin-api.xml"/>
     <language code="C"/>
+    <relation seriesid="03ace03c-9510-11d7-8878-ca4ddf1759a6"/>
+    <rights type="GNU FDL" license.version="1.1" holder="Robin Ericsson"/>
   </resource>
 </omf>
