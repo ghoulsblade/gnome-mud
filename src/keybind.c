@@ -369,15 +369,15 @@ void window_keybind (PROFILE_DATA *pd)
 
   gtk_object_set_data(GTK_OBJECT(KB_button_delete), "profile", pd);
   
-  gtk_signal_connect(GTK_OBJECT(window_key_bind), "destroy", gtk_widget_destroyed, &window_key_bind);
+  gtk_signal_connect (GTK_OBJECT(window_key_bind), "destroy", GTK_SIGNAL_FUNC (gtk_widget_destroyed), &window_key_bind);
   gtk_signal_connect (GTK_OBJECT (clist), "select_row", GTK_SIGNAL_FUNC (keybind_clist_select_row_cb), pd);
   gtk_signal_connect (GTK_OBJECT (clist), "unselect_row", GTK_SIGNAL_FUNC (keybind_clist_unselect_row_cb), NULL);
   gtk_signal_connect (GTK_OBJECT (capt_entry), "key_press_event", GTK_SIGNAL_FUNC (keybind_capture_entry_keypress_event), comm_entry);
   gtk_signal_connect (GTK_OBJECT (KB_button_capt), "clicked", GTK_SIGNAL_FUNC (keybind_button_capture_clicked_cb), NULL);
   gtk_signal_connect (GTK_OBJECT (KB_button_add), "clicked", GTK_SIGNAL_FUNC (keybind_button_add_clicked_cb), pd);
   gtk_signal_connect (GTK_OBJECT (KB_button_delete), "clicked", GTK_SIGNAL_FUNC (keybind_button_delete_clicked_cb), GTK_OBJECT(clist));
-  gtk_signal_connect_object(GTK_OBJECT (KB_button_close), "clicked", gtk_widget_destroy, GTK_OBJECT (window_key_bind));
-  gtk_signal_connect(GTK_OBJECT (KB_button_close), "clicked", gtk_widget_destroyed, &window_key_bind);
+  gtk_signal_connect_object(GTK_OBJECT (KB_button_close), "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy), GTK_OBJECT (window_key_bind));
+  gtk_signal_connect(GTK_OBJECT (KB_button_close), "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroyed), &window_key_bind);
 
   gtk_object_set_data (GTK_OBJECT (window_key_bind), "tooltips", tooltips);
   

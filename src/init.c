@@ -289,29 +289,24 @@ static void window_menu_file_reconnect (GtkWidget *widget, gpointer data)
 
 static void window_menu_help_about (GtkWidget *widget, gpointer data)
 {
-  static GtkWidget *about;
-  GtkWidget *vbox;
+  static GtkWidget *about = NULL;
   GtkWidget *hbox;
-  GtkWidget *hrefbox;
+  GdkPixbuf *logo;
 
-  const gchar *authors[] = {
-	_("Robin Ericsson, main developer"),
-	_("Ben Gertzfield, creation of rcfiles for AMCL"),
-	_("Paul Cameron, compile fixes, automapper"),
-	_("Bret Robideaux, action/trigger module"),
-	_("Maxim Kiselev, keybindings, coloursaving, command-divider, bugfixes"),
-	_("Benjamin Curtis, recognition of TELNET codes and replies"),
-	/* if your charset supports it, use o with dieresis (ö) in Jorgen's o */
-	_("Jorgen Kosche, focus-bugs patches, de.po maintainer"),
-	_("Jeroen Ruigrok, various code cleanups and fixes"),
-	/* if your charset supports it, use i with acute (í) in García's i */
-	_("Jorge Garcia, various code cleanups and fixes"),
-	_("Jordi Mallach, official Debian package, i18n support, "
-		  "ca.po & es.po maintainer"),
-	_("Martin Quinson, fr.po maintainer"),
-	_("Petter E. Stokke, Python scripting support"),
-	_("Vashti, default keypad bindings, telnet support patches"),
-	NULL};
+  const char *authors[] = {
+	  N_("Robin Ericsson <lobbin@localhost.nu>"),
+	  N_("Jordi Mallach <jordi@sindominio.net>"),
+	  N_("Petter E. Stokke <gibreel@project23.no>"),
+	  N_("Rachael Munns <vashti@dream.org.uk>"),
+	  NULL};
+  const char *documenters[] = {
+	  N_("Jordi Mallach <jordi@sindominio.net>"),
+	  N_("Petter E. Stokke <gibreel@project23.no>"),
+	  NULL};
+
+  /* Translators: translate as your names & emails
+   * Paul Translator <paul@translator.org>         */
+  const char *translator_credits = _("translator_credits");
 
  
   if (about != NULL) {    
@@ -319,28 +314,30 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
     gdk_window_show (about->window);
     return;
   }
+
+  logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gnome-gmush.png", NULL);
   
   about = gnome_about_new (_("GNOME-Mud"), VERSION,
 			   /* latin1 translators can use the copyright symbol here, see man latin1(7) */
 			   _("(C) 1998-2002 Robin Ericsson"),
-			   (const char **)authors,
-			   _("A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."),
-/*			   _("Send bug reports to: amcl-devel@lists.sourceforge.net"), */
-			   NULL);
-  gtk_signal_connect (GTK_OBJECT (about), "destroy", GTK_SIGNAL_FUNC
-		      (gtk_widget_destroyed), &about);
-  gnome_dialog_set_parent (GNOME_DIALOG (about), GTK_WINDOW (window));
+			   _("A Multi-User Dungeon (MUD) client for GNOME.\n"),
+			   authors,
+			   documenters,
+			   strcmp (translator_credits, "translator_credits") 
+			   	!= 0 ? translator_credits : NULL,
+			   logo);
+
+  if (logo != NULL)
+	  g_object_unref (logo);
   
-  vbox = GNOME_DIALOG(about)->vbox;
-
   hbox = gtk_hbox_new(TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-  gtk_widget_show(hbox);
+  gtk_box_pack_start (GTK_BOX (hbox),
+		  gnome_href_new ("http://amcl.sourceforge.net/",
+		  _("GNOME-Mud home page")),
+		  FALSE, FALSE, 0);
 
-  hrefbox = gnome_href_new("http://amcl.sourceforge.net/", _("GNOME-Mud homepage"));
-  gtk_box_pack_start(GTK_BOX(hbox), hrefbox, FALSE, FALSE, 0);
-  GTK_WIDGET_UNSET_FLAGS(hrefbox, GTK_CAN_FOCUS);
-  gtk_widget_show(hrefbox);
+  gtk_box_pack_start(GTK_BOX (GTK_DIALOG (about)->vbox), hbox, TRUE, TRUE, 0);
+  gtk_widget_show(hbox);
 
   gtk_widget_show (about);
 }
@@ -611,16 +608,6 @@ static void window_menu_file_disconnect (GtkWidget *widget, gpointer data)
   }
 }
 
-static void window_menu_help_manual_activate_cb(GtkMenuItem *menuitem)
-{
-	gnome_help_goto(NULL, "ghelp:gnome-mud-manual");
-}
-
-static void window_menu_plugin_api_manual_activate_cb(GtkMenuItem *menuitem)
-{
-	gnome_help_goto(NULL, "ghelp:gnome-mud-plugin-api");
-}
-
 static GnomeUIInfo toolbar_menu[] = {
   GNOMEUIINFO_ITEM_STOCK(N_("Wizard..."), NULL, window_profiles,   GNOME_STOCK_PIXMAP_NEW),
   GNOMEUIINFO_SEPARATOR,
@@ -670,14 +657,8 @@ static GnomeUIInfo settings_menu[] = {
 };
 
 static GnomeUIInfo help_menu[] = {
-	{ GNOME_APP_UI_ITEM, N_("GNOME-Mud _manual"), N_("Open the GNOME-Mud manual"), 
-		window_menu_help_manual_activate_cb, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BOOK_BLUE, 0, 0, NULL 
-	},
-	{ GNOME_APP_UI_ITEM, N_("GNOME-Mud _plugin API"), N_("Open the GNOME-Mud plugin API manual"),
-		window_menu_plugin_api_manual_activate_cb, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BOOK_BLUE, 0, 0, NULL
-	},
+	GNOMEUIINFO_HELP("gnome-mud-manual"),
+	GNOMEUIINFO_HELP("gnome-mud-plugin-api"),
 	GNOMEUIINFO_MENU_ABOUT_ITEM(window_menu_help_about, NULL),
 	GNOMEUIINFO_END
 };
@@ -761,7 +742,7 @@ void main_window ()
   gtk_widget_show_all (window);
   
   gtk_widget_realize (main_connection->window);
-  gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &prefs.Background);
+/*  gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &prefs.Background);*/
  
   g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\n"), VERSION, __TIME__, __DATE__);
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, buf, -1);

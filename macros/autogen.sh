@@ -3,55 +3,78 @@
 
 DIE=0
 
-if [ -n "$GNOME2_PATH" ]; then
-	ACLOCAL_FLAGS="-I $GNOME2_PATH/share/aclocal $ACLOCAL_FLAGS"
-	PATH="$GNOME2_PATH/bin:$PATH"
+if [ -n "$GNOME2_DIR" ]; then
+	ACLOCAL_FLAGS="-I $GNOME2_DIR/share/aclocal $ACLOCAL_FLAGS"
+	LD_LIBRARY_PATH="$GNOME2_DIR/lib:$LD_LIBRARY_PATH"
+	PATH="$GNOME2_DIR/bin:$PATH"
 	export PATH
+	export LD_LIBRARY_PATH
 fi
 
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {
   echo
-  echo "**Error**: You must have \`autoconf' installed to compile Gnome."
+  echo "**Error**: You must have \`autoconf' installed to compile $PKG_NAME."
   echo "Download the appropriate package for your distribution,"
   echo "or get the source tarball at ftp://ftp.gnu.org/pub/gnu/"
   DIE=1
 }
 
+(grep "^AC_PROG_INTLTOOL" $srcdir/configure.in >/dev/null) && {
+  (intltoolize --version) < /dev/null > /dev/null 2>&1 || {
+    echo
+    echo "**Error**: You must have \`intltoolize' installed to compile $PKG_NAME."
+    echo "Get ftp://ftp.gnome.org/pub/GNOME/stable/sources/intltool/intltool-0.10.tar.gz"
+    echo "(or a newer version if it is available)"
+    DIE=1
+  }
+}
+
+(grep "^AM_PROG_XML_I18N_TOOLS" $srcdir/configure.in >/dev/null) && {
+  (xml-i18n-toolize --version) < /dev/null > /dev/null 2>&1 || {
+    echo
+    echo "**Error**: You must have \`xml-i18n-toolize' installed to compile $PKG_NAME."
+    echo "Get ftp://ftp.gnome.org/pub/GNOME/stable/sources/xml-i18n-tools/xml-i18n-tools-0.9.tar.gz"
+    echo "(or a newer version of xml-i18n-tools or intltool if it is available)"
+    DIE=1
+  }
+}
+
 (grep "^AM_PROG_LIBTOOL" $srcdir/configure.in >/dev/null) && {
   (libtool --version) < /dev/null > /dev/null 2>&1 || {
     echo
-    echo "**Error**: You must have \`libtool' installed to compile Gnome."
+    echo "**Error**: You must have \`libtool' installed to compile $PKG_NAME."
     echo "Get ftp://ftp.gnu.org/pub/gnu/libtool-1.2d.tar.gz"
     echo "(or a newer version if it is available)"
     DIE=1
   }
 }
 
-grep "^AM_GNU_GETTEXT" $srcdir/configure.in >/dev/null && {
-  grep "sed.*POTFILES" $srcdir/configure.in >/dev/null || \
-  (gettext --version) < /dev/null > /dev/null 2>&1 || {
-    echo
-    echo "**Error**: You must have \`gettext' installed to compile Gnome."
-    echo "Get ftp://alpha.gnu.org/gnu/gettext-0.10.35.tar.gz"
-    echo "(or a newer version if it is available)"
-    DIE=1
-  }
-}
 
-grep "^AM_GNOME_GETTEXT" $srcdir/configure.in >/dev/null && {
-  grep "sed.*POTFILES" $srcdir/configure.in >/dev/null || \
-  (gettext --version) < /dev/null > /dev/null 2>&1 || {
-    echo
-    echo "**Error**: You must have \`gettext' installed to compile Gnome."
-    echo "Get ftp://alpha.gnu.org/gnu/gettext-0.10.35.tar.gz"
-    echo "(or a newer version if it is available)"
-    DIE=1
-  }
-}
+if grep "^AM_[A-Z0-9_]\{1,\}_GETTEXT" $srcdir/configure.in >/dev/null; then
+  if grep "sed.*POTFILES" $srcdir/configure.in >/dev/null; then
+    GETTEXTIZE=""
+  else
+    if grep "^AM_GLIB_GNU_GETTEXT" configure.in >/dev/null; then
+      GETTEXTIZE="glib-gettextize"
+      GETTEXTIZE_URL="ftp://ftp.gtk.org/pub/gtk/v1.3/glib-1.3.11.tar.gz"
+    else
+      GETTEXTIZE="gettextize"
+      GETTEXTIZE_URL="ftp://alpha.gnu.org/gnu/gettext-0.10.35.tar.gz"
+    fi
+
+    if ! $GETTEXTIZE --version < /dev/null > /dev/null 2>&1; then
+      echo
+      echo "**Error**: You must have \`$GETTEXTIZE' installed to compile $PKG_NAME."
+      echo "Get $GETTEXTIZE_URL"
+      echo "(or a newer version if it is available)"
+      DIE=1
+    fi
+  fi
+fi
 
 (automake --version) < /dev/null > /dev/null 2>&1 || {
   echo
-  echo "**Error**: You must have \`automake' installed to compile Gnome."
+  echo "**Error**: You must have \`automake' installed to compile $PKG_NAME."
   echo "Get ftp://ftp.gnu.org/pub/gnu/automake-1.3.tar.gz"
   echo "(or a newer version if it is available)"
   DIE=1
@@ -92,51 +115,25 @@ do
     echo skipping $dr -- flagged as no auto-gen
   else
     echo processing $dr
-    macrodirs=`sed -n -e 's,AM_ACLOCAL_INCLUDE(\(.*\)),\1,gp' < $coin`
     ( cd $dr
-      macrosdir=`find . -name macros -print`
-      for i in $macrodirs; do
-	if test -f $i/gnome-gettext.m4; then
-	  DELETEFILES="$DELETEFILES $i/gnome-gettext.m4"
-	fi
-      done
 
-      echo "deletefiles is $DELETEFILES"
       aclocalinclude="$ACLOCAL_FLAGS"
-      for k in $aclocalinclude; do
-  	if test -d $k; then
-	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1" ]; then
-	    rm -f $DELETEFILES
-	  fi
-        fi
-      done
-      for k in $macrodirs; do
-  	if test -d $k; then
-          aclocalinclude="$aclocalinclude -I $k"
-	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1" ]; then
-	    rm -f $DELETEFILES
-	  fi
-        fi
-      done
-      if grep "^AM_GNU_GETTEXT" configure.in >/dev/null; then
-	if grep "sed.*POTFILES" configure.in >/dev/null; then
-	  : do nothing -- we still have an old unmodified configure.in
-	else
-	  echo "Creating $dr/aclocal.m4 ..."
-	  test -r $dr/aclocal.m4 || touch $dr/aclocal.m4
-	  echo "Running gettextize...  Ignore non-fatal messages."
-	  echo "no" | gettextize --force --copy
-	  echo "Making $dr/aclocal.m4 writable ..."
-	  test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
-        fi
-      fi
-      if grep "^AM_GNOME_GETTEXT" configure.in >/dev/null; then
+
+      if test "$GETTEXTIZE"; then
 	echo "Creating $dr/aclocal.m4 ..."
 	test -r $dr/aclocal.m4 || touch $dr/aclocal.m4
-	echo "Running gettextize...  Ignore non-fatal messages."
-	echo "no" | gettextize --force --copy
+	echo "Running $GETTEXTIZE...  Ignore non-fatal messages."
+	echo "no" | $GETTEXTIZE --force --copy
 	echo "Making $dr/aclocal.m4 writable ..."
 	test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
+      fi
+      if grep "^AC_PROG_INTLTOOL" configure.in >/dev/null; then
+        echo "Running intltoolize..."
+	intltoolize --copy --force --automake
+      fi
+      if grep "^AM_PROG_XML_I18N_TOOLS" configure.in >/dev/null; then
+        echo "Running xml-i18n-toolize..."
+	xml-i18n-toolize --copy --force --automake
       fi
       if grep "^AM_PROG_LIBTOOL" configure.in >/dev/null; then
 	if test -z "$NO_LIBTOOLIZE" ; then 

@@ -2524,7 +2524,7 @@ static gint enter_notify_event (GtkWidget *widget, GdkEventCrossing *event,
      * X server all repeated key events are disabled too, and I can't enable
      * them by calling gdk_key_repeat_restore in a different application.
      */
-    gdk_key_repeat_disable();
+    /*gdk_key_repeat_disable();*/
 
     return TRUE;
 }
@@ -2532,7 +2532,7 @@ static gint enter_notify_event (GtkWidget *widget, GdkEventCrossing *event,
 static gint leave_notify_event (GtkWidget *widget, GdkEventCrossing *event,
                          	AutoMap *automap)
 {
-    gdk_key_repeat_restore();
+    /*gdk_key_repeat_restore();*/
     return TRUE;
 }
 

@@ -325,7 +325,7 @@ static void mudlist_parse(FILE *fp, GtkWidget *tree)
 
 			itemm = gtk_tree_item_new_with_label(name);
 			gtk_object_set_data(GTK_OBJECT(itemm), "floc", (gpointer) floc_name);
-			gtk_signal_connect(GTK_OBJECT(itemm), "select", mudlist_select_item_cb, tree);
+			gtk_signal_connect(GTK_OBJECT(itemm), "select", GTK_SIGNAL_FUNC(mudlist_select_item_cb), tree);
 			e->list = g_list_append(e->list, itemm);
 		}
 

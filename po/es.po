@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.9.1\n"
-"POT-Creation-Date: 2002-06-25 14:25+0200\n"
+"POT-Creation-Date: 2002-11-12 12:54+0100\n"
 "PO-Revision-Date: 2002-06-25 14:28+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -18,7 +18,6 @@ msgstr ""
 msgid "No void characters allowed."
 msgstr "No se permiten carácteres vacíos."
 
-#. actions
 #: src/data.c:199 src/data.c:299
 msgid "Actions"
 msgstr "Acciones"
@@ -38,7 +37,6 @@ msgstr "%s demasiado grande."
 msgid "Can't duplicate %s."
 msgstr "No se puede duplicar %s."
 
-#. alias
 #: src/data.c:290
 msgid "Alias"
 msgstr "Alias"
@@ -47,12 +45,11 @@ msgstr "Alias"
 msgid "Replacement"
 msgstr "Sustitución"
 
-#: src/data.c:300 src/profiles.c:1262
+#: src/data.c:300 src/profiles.c:1266
 msgid "Triggers"
 msgstr "Triggers"
 
-#. vars
-#: src/data.c:308 src/profiles.c:1254
+#: src/data.c:308 src/profiles.c:1258
 msgid "Variables"
 msgstr "Variables"
 
@@ -66,18 +63,19 @@ msgid "window_data: trying to access to undefined data range: %d"
 msgstr "window_data: tratando de acceder a una región de datos indefinida: %d"
 
 #: src/data.c:329
-msgid "GNOME-Mud Configuration Center"
+#, fuzzy
+msgid "GNOME-Mud Configuration Centre"
 msgstr "Centro de Configuración de GNOME-Mud"
 
 #: src/data.c:373 src/keybind.c:344
 msgid "Add"
 msgstr "Añadir"
 
-#: src/data.c:378 src/keybind.c:351 src/profiles.c:887 src/profiles.c:1228
+#: src/data.c:378 src/keybind.c:351 src/profiles.c:887 src/profiles.c:1232
 msgid "Delete"
 msgstr "Borrar"
 
-#: src/data.c:382 src/keybind.c:355 src/profiles.c:1298
+#: src/data.c:382 src/keybind.c:355 src/profiles.c:1302
 msgid "Close"
 msgstr "Cerrar"
 
@@ -89,7 +87,7 @@ msgstr "Salir?"
 msgid "Do you really want to quit?"
 msgstr "De verdad quieres salir?"
 
-#: src/init.c:203 src/init.c:624
+#: src/init.c:203 src/init.c:616
 msgid "Connect..."
 msgstr "Conectar..."
 
@@ -106,173 +104,127 @@ msgstr "Puerto:"
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Error interno: no existe esa conexión.\n"
 
-#: src/init.c:298
-msgid "Robin Ericsson, main developer"
-msgstr "Robin Ericsson, desarrollador principal"
+#: src/init.c:296
+msgid "Robin Ericsson <lobbin@localhost.nu>"
+msgstr ""
+
+#: src/init.c:297 src/init.c:302
+msgid "Jordi Mallach <jordi@sindominio.net>"
+msgstr ""
+
+#: src/init.c:298 src/init.c:303
+msgid "Petter E. Stokke <gibreel@project23.no>"
+msgstr ""
 
 #: src/init.c:299
-msgid "Ben Gertzfield, creation of rcfiles for AMCL"
-msgstr "Ben Gertzfield, creación de ficheros rc para AMCL"
-
-#: src/init.c:300
-msgid "Paul Cameron, compile fixes, automapper"
-msgstr "Paul Cameron, arreglos de compilación, automapeador"
-
-#: src/init.c:301
-msgid "Bret Robideaux, action/trigger module"
-msgstr "Bret Robideaux, módulo de acciones/triggers"
-
-#: src/init.c:302
-msgid "Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"
+msgid "Rachael Munns <vashti@dream.org.uk>"
 msgstr ""
-"Maxim Kiselev, asignación de teclas, salvado de color, divisor de comandos, "
-"arreglos"
 
-#: src/init.c:303
-msgid "Benjamin Curtis, recognition of TELNET codes and replies"
-msgstr "Benjamin Curtis, reconocimiento de códigos y respuestas TELNET"
-
-#. if your charset supports it, use o with dieresis (ö) in Jorgen's o
-#: src/init.c:305
-msgid "Jorgen Kosche, focus-bugs patches, de.po maintainer"
-msgstr "Jörgen Kosche, parches para foco de ventanas, mantenedor de de.po "
-
-#: src/init.c:306
-msgid "Jeroen Ruigrok, various code cleanups and fixes"
-msgstr "Jeroen Ruigrok, limpieza de código y arreglos"
-
-#. if your charset supports it, use i with acute (í) in García's i
 #: src/init.c:308
-msgid "Jorge Garcia, various code cleanups and fixes"
-msgstr "Jorge García, limpieza de código y arreglos"
-
-#: src/init.c:309
-msgid ""
-"Jordi Mallach, official Debian package, i18n support, ca.po & es.po "
-"maintainer"
+msgid "translator_credits"
 msgstr ""
-"Jordi Mallach, paquete oficial de Debian, soporte de i18n, mantenedor de ca."
-"po y es.po"
 
-#: src/init.c:311
-msgid "Martin Quinson, fr.po maintainer"
-msgstr "Martin Quinson, mantenedor de fr.po"
-
-#: src/init.c:312
-msgid "Petter E. Stokke, Python scripting support"
-msgstr "Petter E. Stokke, soporte para scripting en Python"
-
-#: src/init.c:313
-msgid "Vashti, default keypad bindings, telnet support patches"
-msgstr "Vashti, configuración del teclado numérico numérico, soporte de telnet"
-
-#: src/init.c:323
+#: src/init.c:319
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
-#. latin1 translators can use the copyright symbol here, see man latin1(7)
-#: src/init.c:325
+#: src/init.c:321
 msgid "(C) 1998-2002 Robin Ericsson"
 msgstr "© 1998-2002 Robin Ericsson"
 
-#: src/init.c:327
-msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
+#: src/init.c:322
+#, fuzzy
+msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Un cliente de MUD (Multi-User Dungeon) para las librerías GTK+/GNOME."
 
-#: src/init.c:340
-msgid "GNOME-Mud homepage"
+#: src/init.c:335
+#, fuzzy
+msgid "GNOME-Mud home page"
 msgstr "Página web de GNOME-Mud"
 
-#: src/init.c:620
+#: src/init.c:612
 msgid "Wizard..."
 msgstr "Asistente..."
 
-#: src/init.c:622
+#: src/init.c:614
 msgid "Profiles..."
 msgstr "Perfiles..."
 
-#: src/init.c:626
+#: src/init.c:618
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: src/init.c:628
+#: src/init.c:620
 msgid "Reconnect"
 msgstr "Conectar"
 
-#: src/init.c:630
+#: src/init.c:622
 msgid "Exit"
 msgstr "Salir"
 
-#: src/init.c:635
+#: src/init.c:627
 msgid "Connection _Wizard..."
 msgstr "_Asistente de Conexiones..."
 
-#: src/init.c:636
+#: src/init.c:628
 msgid "_MudList Listing..."
 msgstr "Listas de _MudList..."
 
-#: src/init.c:638
+#: src/init.c:630
 msgid "C_onnect..."
 msgstr "_Conectar..."
 
-#: src/init.c:639
+#: src/init.c:631
 msgid "_Disconnect"
 msgstr "_Desconectar"
 
-#: src/init.c:640
+#: src/init.c:632
 msgid "_Reconnect"
 msgstr "_Reconectar"
 
-#: src/init.c:642
+#: src/init.c:634
 msgid "S_tart Logging..."
 msgstr "E_mpezar un log..."
 
-#: src/init.c:643
+#: src/init.c:635
 msgid "Sto_p Logging"
 msgstr "De_jar de hacer log"
 
-#: src/init.c:644
+#: src/init.c:636
 msgid "_Save Buffer..."
 msgstr "_Guardar búfer..."
 
-#: src/init.c:646
+#: src/init.c:638
 msgid "_Close Window"
 msgstr "_Cerrar Ventana"
 
-#: src/init.c:654
+#: src/init.c:646
 msgid "_Plugin Information..."
 msgstr "_Información sobre Conectores..."
 
-#: src/init.c:659
+#: src/init.c:651
 msgid "Auto _Mapper..."
 msgstr "Auto _Mapeador..."
 
-#: src/init.c:661
+#: src/init.c:653
 msgid "P_lugins"
 msgstr "_Conectores"
 
-#: src/init.c:668
-msgid "GNOME-Mud _manual"
-msgstr "_Manual de GNOME-Mud"
-
-#: src/init.c:668
-msgid "Open the GNOME-Mud manual"
-msgstr "Abrir el manual de GNOME-Mud"
-
-#: src/init.c:719
+#: src/init.c:709
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:757
+#: src/init.c:747
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versión %s (compilado %s, %s)\n"
 
-#: src/init.c:760
-msgid "Distributed under the terms of the GNU General Public License.\n"
+#: src/init.c:750
+#, fuzzy
+msgid "Distributed under the terms of the GNU General Public Licence.\n"
 msgstr "Distribuído bajo los términos de la Licencia Pública General GNU.\n"
 
-#: src/init.c:762
+#: src/init.c:752
 #, c-format
 msgid ""
 "\n"
@@ -292,7 +244,8 @@ msgid "Incomplete fields."
 msgstr "Campos incompletos."
 
 #: src/keybind.c:266
-msgid "GNOME-Mud Key Binding Center"
+#, fuzzy
+msgid "GNOME-Mud Key Binding Centre"
 msgstr "Centro de Asignación de Teclas de GNOME-Mud"
 
 #: src/keybind.c:290
@@ -347,7 +300,6 @@ msgstr "*** No se ha podido abrir el fichero para escritura.\n"
 msgid "Please select a log file..."
 msgstr "Por favor, selecciona un fichero de log..."
 
-#. Can easily be optimised ... but why bother ?
 #: src/map.c:1042 src/map.c:2666
 msgid "N"
 msgstr "N"
@@ -392,7 +344,6 @@ msgstr "Abajo"
 msgid "Remove"
 msgstr "Quitar"
 
-#. Some buttons
 #: src/map.c:1053 src/map.c:2661
 msgid "Load"
 msgstr "Cargar"
@@ -401,9 +352,6 @@ msgstr "Cargar"
 msgid "Save"
 msgstr "Salvar"
 
-#. Set the title
-#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
-#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
 #: src/map.c:2559
 msgid "GNOME-Mud AutoMapper"
 msgstr "Auto Mapeador de GNOME-Mud"
@@ -514,12 +462,18 @@ msgstr "*** No se ha especificado un puerto - asumiendo puerto 23.\n"
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** Realizando conexión a %s, puerto %s.\n"
 
-#: src/net.c:255
+#: src/net.c:251
+#, fuzzy, c-format
+msgid "*** Trying %s port %s...\n"
+msgstr "*** Haciendo log en %s.\n"
+
+#: src/net.c:266
 msgid "*** Connection established.\n"
 msgstr "*** Conexión establecida.\n"
 
 #: src/prefs.c:86
-msgid "Couldn't allocate color"
+#, fuzzy
+msgid "Couldn't allocate colour"
 msgstr "No se pudo fijar el color"
 
 #: src/prefs.c:91
@@ -546,20 +500,23 @@ msgid "The quick brown fox jumps over the lazy dog"
 msgstr "Tres tristes tigres tomaban trigo en un trigal"
 
 #: src/prefs.c:437
-msgid "Color palette:"
+#, fuzzy
+msgid "Colour palette:"
 msgstr "Paleta de colores:"
 
 #: src/prefs.c:443
-msgid "Background color:"
+#, fuzzy
+msgid "Background colour:"
 msgstr "Color de fondo:"
 
 #: src/prefs.c:449
-msgid "Foreground color:"
+#, fuzzy
+msgid "Foreground colour:"
 msgstr "Color de la fuente:"
 
-#. Bold foreground label and picker
 #: src/prefs.c:467
-msgid "Bold foreground color:"
+#, fuzzy
+msgid "Bold foreground colour:"
 msgstr "Color de fondo fuerte:"
 
 #: src/prefs.c:541
@@ -652,7 +609,8 @@ msgid "Functionality"
 msgstr "Funcionalidades"
 
 #: src/prefs.c:684
-msgid "Color and Fonts"
+#, fuzzy
+msgid "Colour and Fonts"
 msgstr "Colores y fuentes"
 
 #: src/profiles.c:339
@@ -727,25 +685,112 @@ msgstr "Perfiles"
 msgid "GNOME-Mud Profiles"
 msgstr "Perfil de GNOME-Mud"
 
-#: src/profiles.c:1220
+#: src/profiles.c:1222
 msgid "New"
 msgstr "Nuevo"
 
-#: src/profiles.c:1246
+#: src/profiles.c:1223
+#, fuzzy
+msgid "Create a new profile"
+msgstr "Nombre del nuevo perfil:"
+
+#: src/profiles.c:1232
+#, fuzzy
+msgid "Delete a profile"
+msgstr "Seleccionar fuente"
+
+#: src/profiles.c:1250
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1280
+#: src/profiles.c:1250
+#, fuzzy
+msgid "Set aliases"
+msgstr "Alias"
+
+#: src/profiles.c:1258
+#, fuzzy
+msgid "Set variables"
+msgstr "Variables"
+
+#: src/profiles.c:1266
+#, fuzzy
+msgid "Set triggers"
+msgstr "Triggers"
+
+#: src/profiles.c:1284
 msgid "Keybinds"
 msgstr "Teclas"
 
-#: src/window.c:150
+#: src/profiles.c:1284
+#, fuzzy
+msgid "Set keybinds"
+msgstr "Teclas"
+
+#: src/profiles.c:1302
+#, fuzzy
+msgid "Close the window"
+msgstr "_Cerrar Ventana"
+
+#: src/window.c:141
 msgid "GNOME-Mud Popup Message"
 msgstr "Mensaje de GNOME-Mud"
 
-#: src/window.c:165
+#: src/window.c:156
 msgid "Ok"
 msgstr "Ok"
+
+#~ msgid "Robin Ericsson, main developer"
+#~ msgstr "Robin Ericsson, desarrollador principal"
+
+#~ msgid "Ben Gertzfield, creation of rcfiles for AMCL"
+#~ msgstr "Ben Gertzfield, creación de ficheros rc para AMCL"
+
+#~ msgid "Paul Cameron, compile fixes, automapper"
+#~ msgstr "Paul Cameron, arreglos de compilación, automapeador"
+
+#~ msgid "Bret Robideaux, action/trigger module"
+#~ msgstr "Bret Robideaux, módulo de acciones/triggers"
+
+#~ msgid "Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"
+#~ msgstr ""
+#~ "Maxim Kiselev, asignación de teclas, salvado de color, divisor de "
+#~ "comandos, arreglos"
+
+#~ msgid "Benjamin Curtis, recognition of TELNET codes and replies"
+#~ msgstr "Benjamin Curtis, reconocimiento de códigos y respuestas TELNET"
+
+#~ msgid "Jorgen Kosche, focus-bugs patches, de.po maintainer"
+#~ msgstr "Jörgen Kosche, parches para foco de ventanas, mantenedor de de.po "
+
+#~ msgid "Jeroen Ruigrok, various code cleanups and fixes"
+#~ msgstr "Jeroen Ruigrok, limpieza de código y arreglos"
+
+#~ msgid "Jorge Garcia, various code cleanups and fixes"
+#~ msgstr "Jorge García, limpieza de código y arreglos"
+
+#~ msgid ""
+#~ "Jordi Mallach, official Debian package, i18n support, ca.po & es.po "
+#~ "maintainer"
+#~ msgstr ""
+#~ "Jordi Mallach, paquete oficial de Debian, soporte de i18n, mantenedor de "
+#~ "ca.po y es.po"
+
+#~ msgid "Martin Quinson, fr.po maintainer"
+#~ msgstr "Martin Quinson, mantenedor de fr.po"
+
+#~ msgid "Petter E. Stokke, Python scripting support"
+#~ msgstr "Petter E. Stokke, soporte para scripting en Python"
+
+#~ msgid "Vashti, default keypad bindings, telnet support patches"
+#~ msgstr ""
+#~ "Vashti, configuración del teclado numérico numérico, soporte de telnet"
+
+#~ msgid "GNOME-Mud _manual"
+#~ msgstr "_Manual de GNOME-Mud"
+
+#~ msgid "Open the GNOME-Mud manual"
+#~ msgstr "Abrir el manual de GNOME-Mud"
 
 #~ msgid "David Zanetti, bugfixes"
 #~ msgstr "David Zanetti, arreglos"

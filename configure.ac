@@ -1,14 +1,30 @@
 dnl Process this file with 
 dnl aclocal; automake; autoconf to produce a configure script.
 
-AC_INIT
-AC_CONFIG_SRCDIR([src/gnome-mud.c])
+
+AC_INIT([gnome-mud],[0.9.90],[amcl-devel@lists.sourceforge.net])
+AC_CONFIG_SRCDIR(src/gnome-mud.c)
+AC_CANONICAL_TARGET([])
+AM_INIT_AUTOMAKE([AC_PACKAGE_NAME], [AC_PACKAGE_VERSION])
+AM_CONFIG_HEADER(config.h)
+
 AC_PREREQ(2.52)
-AM_INIT_AUTOMAKE(gnome-mud, 0.9.99.0)
-AM_CONFIG_HEADER(config.h:config.h.in)
+
+AM_PATH_GTK_2_0(2.0.0,,exit 1)
 
 ALL_LINGUAS="es sv de ca fr"
 AM_GNU_GETTEXT_VERSION(0.11.5)
+
+dnl pkg-config dep checks
+LIBGNOME_REQUIRED=2.0.0
+LIBGNOMEUI_REQUIRED=2.0.0
+
+dnl libgnome, libgnomeui needed for all utils
+PKG_CHECK_MODULES(GMUD, libgnome-2.0 >= $LIBGNOME_REQUIRED
+			libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED)
+AC_SUBST(GMUD_CFLAGS)
+AC_SUBST(GMUD_LIBS)
+
 
 dnl Checks for programs.
 AC_PROG_CC
@@ -24,7 +40,7 @@ LSMDATE="02Jul02"
 AC_SUBST(LSMDATE)
 
 dnl Pick up the GNOME macros
-AM_ACLOCAL_INCLUDE(macros)
+dnl AM_ACLOCAL_INCLUDE(macros)
 
 AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])
 
@@ -59,8 +75,6 @@ AC_ARG_WITH(python,
 [  --without-python        disable use of python scripting],
         python=$withval, python=python)
 
-dnl Init GNOME
-GNOME_INIT
 dnl Checks for programs.
 AC_ISC_POSIX
 dnl AC_PROG_CC
@@ -68,8 +82,6 @@ AM_PROG_CC_STDC
 AC_PROG_LN_S
 AC_PROG_INSTALL
 
-GNOME_COMPILE_WARNINGS
-GNOME_X_CHECKS
 AC_CHECK_LIB(socket,socket)
 AC_CHECK_LIB(nsl,connect)
 
@@ -191,7 +203,6 @@ AC_OUTPUT([
   doc/gnome-mud-manual/C/Makefile
   doc/gnome-mud-plugin-api/Makefile
   doc/gnome-mud-plugin-api/C/Makefile
-  macros/Makefile
   src/Makefile
   plugins/Makefile
   po/Makefile.in

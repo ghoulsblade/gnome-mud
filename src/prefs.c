@@ -494,21 +494,21 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 		}
 
 		gtk_object_set_data(GTK_OBJECT(picker), "prefs_window", prefs_window);
-		gtk_signal_connect(GTK_OBJECT(picker),  "color-set",    prefs_select_color_cb, (gpointer) &pre_prefs.Colors[i]);
+		gtk_signal_connect(GTK_OBJECT(picker),  "color-set",    GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Colors[i]);
 	}
 	
 	/*
 	 * Signals
 	 */
-	gtk_signal_connect(GTK_OBJECT(picker_font),       "font-set",   prefs_select_font_cb, (gpointer) prefs_window);
+	gtk_signal_connect(GTK_OBJECT(picker_font),       "font-set",   GTK_SIGNAL_FUNC(prefs_select_font_cb), (gpointer) prefs_window);
 
 	gtk_object_set_data(GTK_OBJECT(picker_foreground), "prefs_window", prefs_window);
 	gtk_object_set_data(GTK_OBJECT(picker_boldforeground), "prefs_window", prefs_window);
 	gtk_object_set_data(GTK_OBJECT(picker_background), "prefs_window", prefs_window);
 	
-	gtk_signal_connect(GTK_OBJECT(picker_foreground), "color-set",  prefs_select_color_cb, (gpointer) &pre_prefs.Foreground);
-	gtk_signal_connect(GTK_OBJECT(picker_boldforeground), "color-set", prefs_select_color_cb, (gpointer) &pre_prefs.BoldForeground);
-	gtk_signal_connect(GTK_OBJECT(picker_background), "color-set",  prefs_select_color_cb, (gpointer) &pre_prefs.Background);
+	gtk_signal_connect(GTK_OBJECT(picker_foreground), "color-set",  GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Foreground);
+	gtk_signal_connect(GTK_OBJECT(picker_boldforeground), "color-set", GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.BoldForeground);
+	gtk_signal_connect(GTK_OBJECT(picker_background), "color-set", GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Background);
 	
 	return table_colorfont;
 }
@@ -561,7 +561,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
 			  "enter will be echoed on the connection so you can "
 			  "control what you are sending."),
 			NULL);
-  gtk_signal_connect(GTK_OBJECT(checkbutton_echo), "toggled", prefs_checkbox_echo_cb, (gpointer) prefs_window);
+  gtk_signal_connect(GTK_OBJECT(checkbutton_echo), "toggled", GTK_SIGNAL_FUNC(prefs_checkbox_echo_cb), (gpointer) prefs_window);
 
   checkbutton_keep = gtk_check_button_new_with_label (_("Keep the text entered?"));
   gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_keep), prefs.KeepText);
@@ -573,7 +573,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
 			  "entry box but selected. Turn this off to remove "
 			  "the text after it has been sent."),
 			NULL);
-  gtk_signal_connect(GTK_OBJECT(checkbutton_keep), "toggled", prefs_checkbox_keep_cb, (gpointer) prefs_window);
+  gtk_signal_connect(GTK_OBJECT(checkbutton_keep), "toggled", GTK_SIGNAL_FUNC(prefs_checkbox_keep_cb), (gpointer) prefs_window);
  
   checkbutton_freeze = gtk_check_button_new_with_label (_("Freeze/Thaw?"));
   gtk_tooltips_set_tip (tooltip, checkbutton_freeze,
@@ -587,7 +587,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
   GTK_WIDGET_UNSET_FLAGS (checkbutton_freeze, GTK_CAN_FOCUS);
   gtk_widget_show(checkbutton_freeze);
   gtk_signal_connect(GTK_OBJECT(checkbutton_freeze), "toggled",
-		     prefs_checkbutton_freeze_cb, (gpointer) prefs_window);
+		     GTK_SIGNAL_FUNC(prefs_checkbutton_freeze_cb), (gpointer) prefs_window);
 
   checkbutton = gtk_check_button_new_with_label(_("Disable Systemkeys?"));
   gtk_tooltips_set_tip(tooltip, checkbutton,
@@ -599,7 +599,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
   gtk_box_pack_start(GTK_BOX(vbox2), checkbutton, FALSE, FALSE, 0);
   GTK_WIDGET_UNSET_FLAGS(checkbutton, GTK_CAN_FOCUS);
   gtk_widget_show(checkbutton);
-  gtk_signal_connect(GTK_OBJECT(checkbutton), "toggled", prefs_checkbutton_disablekeys_cb, (gpointer) prefs_window);
+  gtk_signal_connect(GTK_OBJECT(checkbutton), "toggled", GTK_SIGNAL_FUNC(prefs_checkbutton_disablekeys_cb), (gpointer) prefs_window);
 
   hbox1 = gtk_hbox_new (FALSE, 0);
   gtk_widget_show (hbox1);

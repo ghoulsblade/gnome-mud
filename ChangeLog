@@ -1,3 +1,17 @@
+Wed Jan  8 09:34:47 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Makefile.am: No need for macros subdir
+
+	* ROADMAP: Added a new entries
+
+	* configure.ac: Moved to autoconf 2.5 and GNOME2
+
+	* macros/*: GNOME2 changes.
+
+	* po/*.po: Updated.
+
+	* src/*.c: GNOME2 changes.
+	
 Tue Nov 12 11:32:48 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/profiles.c: apply dos2unix to remove CRLF strings. Have been

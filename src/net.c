@@ -161,7 +161,7 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
    	gtk_container_add(GTK_CONTAINER(connection->vscrollbar), connection->window);
 	
     gtk_widget_realize (connection->window);
-    gdk_window_set_background (GTK_TEXT (connection->window)->text_area, &prefs.Background); 
+    /*gdk_window_set_background (GTK_TEXT (connection->window)->text_area, &prefs.Background);*/
     gtk_notebook_next_page (GTK_NOTEBOOK (main_notebook));
     connection->notebook = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
     connections[connection->notebook] = connection;
@@ -255,11 +255,11 @@ void open_connection (CONNECTION_DATA *connection)
       socket(tmpaddr->ai_family,tmpaddr->ai_socktype,tmpaddr->ai_protocol);
     if (connection->sockfd < 0) {
       print_error(connection,strerror(errno));
-    } else if (ret=connect(connection->sockfd,
-          tmpaddr->ai_addr,tmpaddr->ai_addrlen) < 0) {
+    } else if ((ret=connect(connection->sockfd, tmpaddr->ai_addr,tmpaddr->ai_addrlen)) < 0) {
       print_error(connection,strerror(errno));
-    }
-    else break;
+    } else {
+	  break;
+	}
     tmpaddr = tmpaddr->ai_next;
   } 
   freeaddrinfo(ans);

@@ -353,9 +353,9 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
                       GTK_SIGNAL_FUNC (plugin_clist_select_row_cb),
                       NULL);
   gtk_signal_connect_object(GTK_OBJECT(button1), "clicked",
-			    gtk_widget_destroy, GTK_OBJECT(dialog1));
+			    GTK_SIGNAL_FUNC(gtk_widget_destroy), GTK_OBJECT(dialog1));
   gtk_signal_connect (GTK_OBJECT(dialog1), "destroy",
-		      gtk_widget_destroyed, &dialog1);
+		      GTK_SIGNAL_FUNC(gtk_widget_destroyed), &dialog1);
 
   g_list_foreach (Plugin_list, (GFunc) plugin_clist_append, clist1);
   gtk_clist_select_row (GTK_CLIST (clist1), 0, 0);

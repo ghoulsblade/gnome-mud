@@ -591,10 +591,10 @@ static void profilelist_dialog (GtkWidget *label)
 	gtk_signal_connect(GTK_OBJECT(clist), "unselect-row", GTK_SIGNAL_FUNC(profilelist_unselect_row_cb), GINT_TO_POINTER(1));
 
 	gtk_signal_connect(GTK_OBJECT(button_ok), "clicked", GTK_SIGNAL_FUNC(profilelist_button_ok_cb), (gpointer) label);
-	gtk_signal_connect_object(GTK_OBJECT(button_ok), "clicked", gtk_widget_destroy, (gpointer) dialog);
-	gtk_signal_connect_object(GTK_OBJECT(button_cancel), "clicked", gtk_widget_destroy, (gpointer) dialog);
+	gtk_signal_connect_object(GTK_OBJECT(button_ok), "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) dialog);
+	gtk_signal_connect_object(GTK_OBJECT(button_cancel), "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) dialog);
 
-	gtk_signal_connect(GTK_OBJECT(label->parent->parent), "destroy", profilelist_cleanup, (gpointer) dialog);
+	gtk_signal_connect(GTK_OBJECT(label->parent->parent), "destroy", GTK_SIGNAL_FUNC(profilelist_cleanup), (gpointer) dialog);
 	gtk_signal_connect(GTK_OBJECT(dialog), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &dialog);
 	
 	gtk_widget_show(dialog);
@@ -1101,7 +1101,7 @@ void window_profiles(void)
 	gtk_table_set_row_spacings (GTK_TABLE (table_buttons), 2);
 	gtk_table_set_col_spacings (GTK_TABLE (table_buttons), 3);
 
-	button_info_apply = gnome_stock_button (GNOME_STOCK_BUTTON_APPLY);
+	button_info_apply = gtk_image_new_from_stock ("gtk-apply", GTK_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_widget_ref (button_info_apply);
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "button_info_apply", button_info_apply, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (button_info_apply);
@@ -1115,7 +1115,7 @@ void window_profiles(void)
 	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_char_password", entry_info_char_password);
 	gtk_object_set_data(GTK_OBJECT(button_info_apply), "label_info_prof", label_info_prof);
 
-	button_info_cancel = gnome_stock_button (GNOME_STOCK_BUTTON_CANCEL);
+	/*button_info_cancel = gnome_stock_button (GNOME_STOCK_BUTTON_CANCEL);
 	gtk_widget_ref (button_info_cancel);
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "button_info_cancel", button_info_cancel, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (button_info_cancel);
@@ -1127,7 +1127,7 @@ void window_profiles(void)
 	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_mud_port",  entry_info_mud_port);
 	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_char_character", entry_info_char_character);
 	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_char_password", entry_info_char_password);
-	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "label_info_prof", label_info_prof);
+	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "label_info_prof", label_info_prof);*/
 
 	button_info_fetch = gtk_button_new_with_label(_("Fetch from mudlist"));
 	gtk_widget_show(button_info_fetch);
@@ -1161,7 +1161,7 @@ void window_profiles(void)
 	gtk_widget_show (button_cancel);
 	GTK_WIDGET_SET_FLAGS (button_cancel, GTK_CAN_DEFAULT);
   
-	gtk_signal_connect_object(GTK_OBJECT(button_cancel), "clicked", gtk_widget_destroy, (gpointer) dialog);
+	gtk_signal_connect_object(GTK_OBJECT(button_cancel), "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) dialog);
 	gtk_signal_connect(GTK_OBJECT(dialog), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &dialog);
 
 	gtk_object_set_data(GTK_OBJECT(main_clist), "entry_info_mud_title", entry_info_mud_title);
@@ -1178,7 +1178,7 @@ void window_profiles(void)
 
 void window_profile_edit(void)
 {
-	static GtkWidget *profile_window;
+	static GtkWidget *profile_window = NULL;
 	GtkWidget *vbox;
 	GtkWidget *toolbar;
 	GtkWidget *tmp_toolbar_icon;
@@ -1208,25 +1208,28 @@ void window_profile_edit(void)
 	gtk_widget_show(vbox);
 	gtk_container_add(GTK_CONTAINER(profile_window), vbox);
 
-	toolbar = gtk_toolbar_new(GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_BOTH);
-	gtk_toolbar_set_button_relief(GTK_TOOLBAR(toolbar), GTK_RELIEF_NONE);
+	toolbar = gtk_toolbar_new ();
+	/*gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), "both");*/
+/*	gtk_toolbar_set_button_relief(GTK_TOOLBAR(toolbar), GTK_RELIEF_NONE);*/
 	gtk_widget_show(toolbar);
 	gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 0);
 	
 	/*
 	 * Button new
 	 */
-	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_NEW);
-	button_new = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("New"), NULL, NULL,
-										    tmp_toolbar_icon, NULL, NULL);
+	tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-new",
+			GTK_ICON_SIZE_LARGE_TOOLBAR);
+	button_new = gtk_toolbar_append_item (GTK_TOOLBAR(toolbar), _("New"),
+			_("Create a new profile"), NULL, tmp_toolbar_icon, NULL,NULL);
 	gtk_widget_show(button_new);
 
 	/*
 	 * Button delete
 	 */
-	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_TRASH);
-	button_delete = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Delete"), NULL, NULL,
-											   tmp_toolbar_icon, NULL, NULL);
+	tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-new",
+			GTK_ICON_SIZE_LARGE_TOOLBAR);
+	
+	button_delete = gtk_toolbar_append_item (GTK_TOOLBAR(toolbar), _("Delete"), _("Delete a profile"), NULL, tmp_toolbar_icon, NULL, NULL);
 	gtk_widget_show(button_delete);
 
 	/*
@@ -1242,25 +1245,25 @@ void window_profile_edit(void)
 	/*
 	 * Button alias
 	 */
-	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_PREFERENCES);
-	button_alias = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Aliases"), NULL, NULL,
-											  tmp_toolbar_icon, NULL, NULL);
+	tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-prefs",
+			GTK_ICON_SIZE_LARGE_TOOLBAR);
+	button_alias = gtk_toolbar_append_item (GTK_TOOLBAR(toolbar), _("Aliases"), _("Set aliases"), NULL, tmp_toolbar_icon, NULL, NULL);
 	gtk_widget_show(button_alias);
 
 	/*
 	 * Button variables
 	 */
-	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_SPELLCHECK);
-	button_variables = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Variables"), NULL, NULL,
-												  tmp_toolbar_icon, NULL, NULL);
+	tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-spell",
+			GTK_ICON_SIZE_LARGE_TOOLBAR);
+	button_variables = gtk_toolbar_append_item (GTK_TOOLBAR(toolbar), _("Variables"), _("Set variables"), NULL, tmp_toolbar_icon, NULL, NULL);
 	gtk_widget_show(button_variables);
 
 	/*
 	 * Button triggers
 	 */
-	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_INDEX);
-	button_triggers = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Triggers"), NULL, NULL,
-												 tmp_toolbar_icon, NULL, NULL);
+	tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-index",
+			GTK_ICON_SIZE_LARGE_TOOLBAR);
+	button_triggers = gtk_toolbar_append_item (GTK_TOOLBAR(toolbar), _("Triggers"), _("Set triggers"), NULL, tmp_toolbar_icon, NULL, NULL);
 	gtk_widget_show(button_triggers);
 
 	/*
@@ -1276,9 +1279,9 @@ void window_profile_edit(void)
 	/*
 	 * Button keybinds
 	 */
-	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_MIDI);
-	button_keybinds = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Keybinds"), NULL, NULL,
-												 tmp_toolbar_icon, NULL, NULL);
+	tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-midi",
+			GTK_ICON_SIZE_LARGE_TOOLBAR);
+	button_alias = gtk_toolbar_append_item (GTK_TOOLBAR(toolbar), _("Keybinds"), _("Set keybinds"), NULL, tmp_toolbar_icon, NULL, NULL);
 	gtk_widget_show(button_keybinds);
 
 	/*
@@ -1294,9 +1297,9 @@ void window_profile_edit(void)
 	/*
 	 *
 	 */
-	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_CLOSE);
-	button_close = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Close"), NULL, NULL,
-											  tmp_toolbar_icon, NULL, NULL);
+	tmp_toolbar_icon = gtk_image_new_from_stock("gtk-close",
+			GTK_ICON_SIZE_LARGE_TOOLBAR);
+	button_close = gtk_toolbar_append_item(GTK_TOOLBAR(toolbar), _("Close"), _("Close the window"), NULL, tmp_toolbar_icon, NULL, NULL);
 	gtk_widget_show(button_close);
 	/*
 	 * CList
@@ -1331,7 +1334,7 @@ void window_profile_edit(void)
 
 	gtk_signal_connect(GTK_OBJECT(button_keybinds),  "clicked", GTK_SIGNAL_FUNC(profilelist_keybinds_cb), profile_list);
 
-	gtk_signal_connect_object(GTK_OBJECT(button_close), "clicked", gtk_widget_destroy, (gpointer) profile_window);
+	gtk_signal_connect_object(GTK_OBJECT(button_close), "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) profile_window);
 	gtk_signal_connect(GTK_OBJECT(profile_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &profile_window);
 	
 	gtk_widget_show(profile_window);

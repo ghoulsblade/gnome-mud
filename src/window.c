@@ -25,6 +25,7 @@
 
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
+#include <gtk/gtktree.h>
 #include <libintl.h>
 
 #ifdef HAVE_TELNET_H

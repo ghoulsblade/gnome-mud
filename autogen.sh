@@ -36,7 +36,8 @@ do
   echo processing $dir
   (cd $dir; \
   aclocalinclude="$ACLOCAL_FLAGS" && \
-  aclocal -I macros $aclocalinclude && \
+#  aclocal -I macros $aclocalinclude && \
+  aclocal && \
   autoheader &&  automake --add-missing &&
   autoconf)
 done
