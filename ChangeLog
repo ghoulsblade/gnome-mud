@@ -1,3 +1,17 @@
+Wed Apr  2 15:23:34 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Fixed #623355.
+
+	* gnome-mud.schemas.in: Added key connection_list.
+
+	* src/gnome-mud.h [wizard_data]: Removed.
+
+	* src/profilce.c (connection_send_data): secret added.
+	(connection_send_secret): Added.
+	(profile_gconf_sync_connection_list): Added.
+	(profile_gconf_sync_wizard): Added.
+	(profile_load_keybinds): Load connections.
+
 Wed Apr  2 10:23:57 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/data.c (window_data): Changed to stock buttons. 

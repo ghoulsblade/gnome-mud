@@ -241,6 +241,23 @@
 			</locale>
 		</schema>
 
+		<schema>
+			<key>/schemas/apps/gnome-mud/connection_list</key>
+			<applyto>/apps/gnome-mud/connection_list</applyto>
+			<owner>gnome-mud</owner>
+			<type>list</type>
+			<list_type>string</list_type>
+			<default>[]</default>
+			<locale name="C">
+				<short>List of connections</short>
+				<long>
+				 List of connections known to gnome-mud. The list contains
+				 strings name subdirectories relative to
+				 /apps/gnome-mud/connections.
+				</long>
+			</locale>
+		</schema>
+
 		<!-- Profile specific -->
 		<schema>
 			<key>/schemas/apps/gnome-mud/profiles/Default/aliases</key>

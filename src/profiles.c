@@ -52,6 +52,60 @@ static void profile_gconf_sync_list()
 	gconf_client_set_list(gconf_client, "/apps/gnome-mud/profile_list", GCONF_VALUE_STRING, list, NULL);
 }
 
+static void profile_gconf_sync_connection_list()
+{
+	GList *entry;
+	GSList *list = NULL;
+
+	for (entry = g_list_first(Profiles); entry != NULL; entry = g_list_next(entry))
+	{
+		WIZARD_DATA2 *wd = (WIZARD_DATA2 *) entry->data;
+
+		if (strlen(wd->playername) > 0)
+		{
+			gchar buf[1024];
+			
+			g_snprintf(buf, 1024, "%s-at-%s", wd->playername, wd->name);
+			list = g_slist_append(list, buf);
+		}
+		else
+		{
+			list = g_slist_append(list, wd->name);
+		}
+	}
+
+	gconf_client_set_list(gconf_client, "/apps/gnome-mud/connection_list", GCONF_VALUE_STRING, list, NULL);
+}
+
+static void profile_gconf_sync_wizard(WIZARD_DATA2 *wd)
+{
+	gchar buf[1024] = "";
+	gchar *bufn;
+
+	if (strlen(wd->playername) > 0)
+	{
+		bufn = g_strdup_printf("%s-at-%s", wd->playername, wd->name);
+	}
+	else
+	{
+		bufn = g_strdup(wd->name);
+	}
+
+#define SYNC(Name, Value) \
+	g_snprintf(buf, 1024, "/apps/gnome-mud/connections/%s/%s", bufn, Name); \
+	gconf_client_set_string(gconf_client, buf, Value, NULL);
+
+	SYNC("name", wd->name);
+	SYNC("hostname", wd->hostname);
+	SYNC("port", wd->port);
+	SYNC("playername", wd->playername);
+	SYNC("password", wd->password);
+	SYNC("profile", wd->profile);
+#undef SYNC
+
+	g_free(bufn);
+}
+
 static KEYBIND_DATA *profile_load_keybinds(gchar *profile_name)
 {
 	KEYBIND_DATA *k = NULL;
@@ -114,7 +168,7 @@ void load_profiles()
 	/*
 	 * Profiles
 	 */
-	GSList *profiles;
+	GSList *profiles, *connections;
 	GSList *entry;
 		
 	profiles = gconf_client_get_list(gconf_client, "/apps/gnome-mud/profile_list", GCONF_VALUE_STRING, NULL);
@@ -136,47 +190,28 @@ void load_profiles()
 	/*
 	 * Wizard
 	 */
-/*	{
-		WIZARD_DATA2 *wd;
+	connections = gconf_client_get_list(gconf_client, "/apps/gnome-mud/connection_list", GCONF_VALUE_STRING, NULL);
+
+#define LOAD(Name, Value) \
+		g_snprintf(buf, 1024, "/apps/gnome-mud/connections/%s/%s", (gchar *) entry->data, Name); \
+		Value = g_strdup(gconf_client_get_string(gconf_client, buf, NULL));
+
+	for (entry = connections; entry != NULL; entry = g_slist_next(entry))
+	{
+		WIZARD_DATA2 *wd = g_malloc0(sizeof(WIZARD_DATA2));
+		gchar buf[1024];
+	
+		LOAD("name", wd->name);
+		LOAD("hostname", wd->hostname);
+		LOAD("port", wd->port);
+		LOAD("playername", wd->playername);
+		LOAD("password", wd->password);
+		LOAD("profile", wd->profile);
 		
-		gint i = 0;
-		gchar name[50];
-		gchar *value;
+		Profiles = g_list_append(Profiles, (gpointer) wd);
+	}
 
-		while(1)
-		{
-			g_snprintf(name, 50, "/gnome-mud/Connection%d/Name=", i);
-			value = gnome_config_get_string(name);
-
-			if (strlen(value) < 1)
-			{
-				break;
-			}
-			
-			wd = g_malloc0(sizeof(WIZARD_DATA2));
-			
-			wd->name = value;
-			
-			g_snprintf(name, 50, "/gnome-mud/Connection%d/Host=", i);
-			wd->hostname = gnome_config_get_string(name);
-			
-			g_snprintf(name, 50, "/gnome-mud/Connection%d/Port=", i);
-			wd->port = gnome_config_get_string(name);
-			
-			g_snprintf(name, 50, "/gnome-mud/Connection%d/Char=", i);
-			wd->playername = gnome_config_get_string(name);
-			
-			g_snprintf(name, 50, "/gnome-mud/Connection%d/Pass=", i);
-			wd->password = gnome_config_private_get_string(name);
-			
-			g_snprintf(name, 50, "/gnome-mud/Connection%d/Profile=", i);
-			wd->profile = gnome_config_get_string(name);
-
-			Profiles = g_list_append(Profiles, (gpointer) wd);
-
-			i++;
-		}
-	}*/
+#undef LOAD
 }
 
 PROFILE_DATA *profiledata_find(gchar *profile)
@@ -616,6 +651,9 @@ static void connections_button_info_apply_cb(GtkButton *button, GtkCList *clist)
 		g_free(text[0]);
 		g_free(text[1]);
 	}
+
+	profile_gconf_sync_wizard(wd);
+	profile_gconf_sync_connection_list();
 }
 
 static void connections_fields_clean(GtkWidget *widget)
@@ -662,7 +700,7 @@ static void connections_button_connect_cb(GtkButton *button, gpointer data)
 			{
 				connection_send(cd, wd->playername);
 				connection_send(cd, "\n");
-				connection_send(cd, wd->password);
+				connection_send_secret(cd, wd->password);
 				connection_send(cd, "\n");
 			}
 
@@ -684,6 +722,7 @@ static void connections_delete_menu_cb(GtkButton *button, gpointer data)
 		Profiles = g_list_remove(Profiles, (gpointer) wd);
 
 		gtk_clist_remove(GTK_CLIST(main_clist), connection_selected);
+		profile_gconf_sync_connection_list();
 	}
 }
 
@@ -752,7 +791,7 @@ static gboolean connections_button_press_cb(GtkWidget *widget, GdkEventButton *e
 					{
 						connection_send(cd, wd->playername);
 						connection_send(cd, "\n");
-						connection_send(cd, wd->password);
+						connection_send_secret(cd, wd->password);
 						connection_send(cd, "\n");
 					}
 

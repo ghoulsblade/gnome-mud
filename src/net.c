@@ -229,7 +229,7 @@ void open_connection (CONNECTION_DATA *connection)
  		
 		getnameinfo(tmpaddr->ai_addr, tmpaddr->ai_addrlen, name,sizeof(name),portname,sizeof(portname), NI_NUMERICHOST | NI_NUMERICSERV);
 
-		snprintf(buf,2047,_("*** Trying %s port %s...\n"),name,port);
+		snprintf(buf,2047,_("*** Trying %s port %s...\n"),name, connection->port);
 		textfield_add (connection, buf, MESSAGE_SYSTEM);
   
 		connection->sockfd = socket(tmpaddr->ai_family,tmpaddr->ai_socktype,tmpaddr->ai_protocol);
@@ -365,7 +365,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 #endif  
 }
 
-void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo)
+void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo, gboolean secret)
 {
     gint i;
     gchar *sent;
@@ -373,6 +373,10 @@ void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo
     if (connection->connected)
     {
 		sent = g_strdup (message);
+
+#ifdef USE_PYTHON
+	    sent = python_process_output(connection, sent);
+#endif
 
 		for(i=0;sent[i]!=0;i++)
 		{
@@ -383,30 +387,32 @@ void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo
 		}
 
 		if (prefs.EchoText && echo)
-			textfield_add (connection, sent, MESSAGE_SENT);
+		{
+			if (secret)
+			{
+				gchar *buf = g_strnfill(strlen(sent), '*');
+				textfield_add(connection, buf, MESSAGE_SENT);
+				g_free(buf);
+			}
+			else
+			{
+				textfield_add(connection, sent, MESSAGE_SENT);
+			}
+		}
 
 		send (connection->sockfd, sent, strlen (sent), 0);
 		g_free(sent);
 	}
 }
 
+void connection_send_secret(CONNECTION_DATA *connection, gchar *message)
+{
+	connection_send_data(connection, message, 1, TRUE);
+}
+
 void connection_send (CONNECTION_DATA *connection, gchar *message)
 {
-	gchar *sent = g_strdup(message);
-	gint i;
-
-	for(i=0;sent[i]!=0;i++)
-	{
-		if(sent[i] == prefs.CommDev[0])
-		{
-	    	sent[i] = '\n';
-		}
-    }
-#ifdef USE_PYTHON
-    sent = python_process_output(connection, sent);
-#endif
-    connection_send_data(connection, sent, 1);
-    g_free(sent);
+    connection_send_data(connection, message, 1, FALSE);
 }
 
 /* connection_send_telnet_control:

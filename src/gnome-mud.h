@@ -56,7 +56,6 @@
  * Typedefs
  */
 typedef struct connection_data CONNECTION_DATA;
-typedef struct wizard_data     WIZARD_DATA;
 typedef struct wizard_data2    WIZARD_DATA2;
 typedef struct system_data     SYSTEM_DATA;
 typedef struct keybind_data    KEYBIND_DATA;
@@ -105,17 +104,6 @@ struct system_data {
 	GdkColor   Colors[C_MAX];
 };
 
-struct wizard_data {
-    WIZARD_DATA *next;
-    gchar      *name;
-    gchar      *hostname;
-    gchar      *port;
-    gchar      *cstring;
-    gchar      *playername;
-    gchar      *password;
-    bool       autologin;
-};
-
 struct wizard_data2 {
 	gchar   *name;
 	gchar   *hostname;
@@ -159,7 +147,8 @@ void		 action_send_to_connection(gchar *, CONNECTION_DATA *);
 void		 disconnect (GtkWidget *, CONNECTION_DATA *);
 void		 send_to_connection (GtkWidget *, gpointer);
 void		 connection_send (CONNECTION_DATA *, gchar *);
-void		 connection_send_data (CONNECTION_DATA *, gchar *, int);
+void		 connection_send_secret (CONNECTION_DATA *, gchar *);
+void		 connection_send_data (CONNECTION_DATA *, gchar *, int, gboolean);
 void		 connection_send_telnet_control (CONNECTION_DATA *, int len, ...);
 void		 open_connection (CONNECTION_DATA *);
 
@@ -231,6 +220,5 @@ void  terminal_feed   ( GtkWidget *, gchar *data                     );
 /* wizard.c */
 CONNECTION_DATA *create_connection_data ( gint notebook );
 void  free_connection_data (CONNECTION_DATA *c             );
-void  add_wizard_connect ( gchar **entry, bool al, WIZARD_DATA *w   );
 
 #endif /* __GNOME_H__ */

@@ -69,7 +69,7 @@ static gboolean dialog_close_cb(GtkWidget *widget, GdkEvent *event, gpointer dat
 
 void destroy (GtkWidget *widget)
 {
-	GtkWidget *dialog, *label;
+	GtkWidget *dialog;
 	gint i, retval;
 
 	dialog = gtk_message_dialog_new(GTK_WINDOW(window),
@@ -277,7 +277,7 @@ static void text_entry_activate (GtkWidget *text_entry, gpointer data)
 
 	if (entry_text[0] == '\0') 
 	{
-		connection_send_data(cd, "\n", 1);
+		connection_send(cd, "\n");
 		EntryCurr = NULL;
 		return;
 	}

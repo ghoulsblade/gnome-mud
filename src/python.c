@@ -102,7 +102,7 @@ static PyObject *pyConnection_send(pyConnection_ConnectionObject *self, PyObject
 		PyErr_Format(ConnectionError, "not connected to a socket");
 		return NULL;
 	}
-	connection_send_data(self->connection, data, echo);
+	connection_send_data(self->connection, data, echo, FALSE);
 
 	Py_INCREF(Py_None);
     
