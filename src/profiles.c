@@ -781,7 +781,7 @@ static gboolean connections_button_press_cb(GtkWidget *widget, GdkEventButton *e
 	{
 		case GDK_2BUTTON_PRESS:
 			gtk_clist_get_selection_info(GTK_CLIST(widget), event->x, event->y, &row, &col);
-			if (gtk_clist_get_text(GTK_CLIST(widget), row, col, &row_name))
+			if (gtk_clist_get_text(GTK_CLIST(widget), row, 0, &row_name))
 			{
 				WIZARD_DATA2 *wd;
 				CONNECTION_DATA *cd;

@@ -78,11 +78,11 @@ static gchar check_str (gchar *str)
 static gint find_data (GList *list, gchar *text)
 {
 	GList *entry;
-    gint i = 0;
+	gint i = 0;
 
 	for (entry = g_list_first(list); entry != NULL; entry = g_list_next(entry), i++)
 	{
-		if (!g_ascii_strncasecmp(((gchar **) entry->data)[0], text, strlen(text)))
+		if (!g_ascii_strncasecmp(((gchar **) entry->data)[0], text, strlen(((gchar **) entry->data)[0])))
 		{
 			return i;
 		}

@@ -22,6 +22,7 @@
 
 #include <gconf/gconf-client.h>
 #include <gnome.h>
+#include <vte/vte.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -202,8 +203,7 @@ static void window_menu_file_save_log_file_ok_cb
 		return;
 	}
 
-	// FIXME, can't read this... (segfault)
-	textdata = gtk_editable_get_chars(GTK_EDITABLE(cd->window), 0, -1);	
+	textdata = vte_terminal_get_text (VTE_TERMINAL (cd->window), NULL, NULL, NULL);
 	fputs(textdata, fp);
 	g_free(textdata);
 

@@ -1,6 +1,18 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
+GNOME-Mud 0.10.4 (xx/xx/xxxx)
+
+- Fix a connect error on FreeBSD [Sjoerd Simons]
+- Fix yet another Connection Wizard segfault [Dani Carbonell]
+- Fix a segfault when saving the terminal buffer [Dani Carbonell]
+- Handle input starting with space gracefully [Robin]
+- New translations:
+  + hr [Boris Tudan]
+- Updated translations:
+  + ca [Jordi Mallach]
+  + nl [Vincent van Adrighem]
+
 GNOME-Mud 0.10.3 (11/11/2003)
 
 - Wizard and profilenames are now escape and can contain "space" and
