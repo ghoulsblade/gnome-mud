@@ -6,9 +6,7 @@ Things in TODO that are not done :)
 - An icon or something to use with GNOME and WM:s
 - AutoReconnect
 - Nested alias
-- Mud specific settings, alias, triggers, etc...
-- Variables in alias and triggers..
-- Use GTK+ unstables splitscreen feature
+- Use GTK+ unstable's splitscreen feature
 
 - Other things you would like. Just mail me, lobbin@localhost.nu.
 
@@ -17,5 +15,9 @@ Things that are under development
 =================================
 - Automapper
 - Multiple Connections (zMud like)
+- Mud specific settings, alias, triggers, etc...
+- Variables in alias and triggers..
 - Plug-in API
-- Gnomization
+- Gnomization:
+  + conversion of mkhelp documents to GNOME-Help
+  + conversion of Connection Wizard to GNOME's Druid widget.

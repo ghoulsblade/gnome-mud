@@ -1,3 +1,7 @@
+Tue Dec 26 10:37:32 2000  Jordi Mallach  <jordi@sindominio.net>
+	* TODO: added some GNOME specific items.
+	* Moved some items to "Under Development".
+
 Tue Dec 26 15:42:34 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* po/ca.po, de.po, es.po, sv: make update-po,
