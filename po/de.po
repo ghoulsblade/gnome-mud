@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2001-01-14 22:46+0100\n"
+"POT-Creation-Date: 2001-06-09 18:15+0200\n"
 "PO-Revision-Date: 2000-12-27 14:26+0100\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: de <de@li.org>\n"
@@ -19,71 +19,71 @@ msgstr ""
 msgid "No void characters allowed."
 msgstr ""
 
-#. actions
-#: src/data.c:230 src/data.c:315
+#. if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
+#: src/data.c:231 src/data.c:316
 msgid "Actions"
 msgstr "Aktion"
 
-#: src/data.c:232
+#: src/data.c:233
 #, c-format
 msgid "Character '%c' not allowed."
 msgstr ""
 
-#: src/data.c:239 src/data.c:246
+#: src/data.c:240 src/data.c:247
 #, c-format
 msgid "%s too big."
 msgstr "%s zu gross."
 
-#: src/data.c:253
+#: src/data.c:254
 #, c-format
 msgid "Can't duplicate %s."
 msgstr ""
 
 #. alias
-#: src/data.c:308
+#: src/data.c:309
 msgid "Alias"
 msgstr "Alias"
 
-#: src/data.c:309
+#: src/data.c:310
 msgid "Replacement"
 msgstr "Ersetzung"
 
-#: src/data.c:316
+#: src/data.c:317
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:322
+#: src/data.c:323
 msgid "Variables"
 msgstr ""
 
-#: src/data.c:323
+#: src/data.c:324
 msgid "Values"
 msgstr ""
 
-#: src/data.c:329
+#: src/data.c:330
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
 msgstr ""
 
-#: src/data.c:340
+#: src/data.c:341
 msgid "GNOME-Mud Configuration Center"
 msgstr ""
 
-#: src/data.c:385 src/keybind.c:420 src/wizard.c:572
+#: src/data.c:386 src/keybind.c:420 src/wizard.c:572
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: src/data.c:390 src/keybind.c:427 src/wizard.c:574
+#: src/data.c:391 src/keybind.c:427 src/wizard.c:574
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/color.c:336 src/data.c:394 src/keybind.c:431 src/map.c:2663
+#: src/color.c:336 src/data.c:395 src/keybind.c:431 src/map.c:2663
 #: src/wizard.c:600
 msgid "Save"
 msgstr "Speichern"
 
-#: src/data.c:398 src/keybind.c:435 src/wizard.c:601
+#: src/data.c:399 src/keybind.c:435 src/wizard.c:601
 msgid "Close"
 msgstr "Schliessen"
 
@@ -125,7 +125,7 @@ msgstr "Ende?"
 msgid "Do you really want to quit?"
 msgstr ""
 
-#: src/init.c:123 src/init.c:317 src/init.c:327
+#: src/init.c:123 src/init.c:317 src/init.c:328
 msgid "Connect..."
 msgstr "Verbinde..."
 
@@ -149,7 +149,7 @@ msgstr ""
 msgid "Wizard..."
 msgstr ""
 
-#: src/init.c:318 src/init.c:328
+#: src/init.c:318 src/init.c:329
 msgid "Disconnect"
 msgstr "Verbindung unterbrechen"
 
@@ -161,51 +161,56 @@ msgstr ""
 msgid "Connection Wizard..."
 msgstr "Verbindungsassistent"
 
-#: src/init.c:330
+#: src/init.c:326
+#, fuzzy
+msgid "Connection Wizard2(tm)"
+msgstr "Verbindungsassistent"
+
+#: src/init.c:331
 msgid "Close Window"
 msgstr "Schliesse Fenster"
 
-#: src/init.c:338
+#: src/init.c:339
 msgid "Plugin Information..."
 msgstr "Plugin Information..."
 
-#: src/init.c:346
+#: src/init.c:347
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:347
+#: src/init.c:348
 msgid "Variables..."
 msgstr ""
 
-#: src/init.c:348
+#: src/init.c:349
 msgid "Actions/Triggers..."
 msgstr "Aktionen/Trigger..."
 
-#: src/init.c:349
+#: src/init.c:350
 msgid "Keybinds..."
 msgstr "Makros..."
 
-#: src/init.c:351
+#: src/init.c:352
 msgid "Auto Mapper"
 msgstr "Karte..."
 
-#: src/init.c:353
+#: src/init.c:354
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:360
+#: src/init.c:361
 msgid "README"
 msgstr ""
 
-#: src/init.c:361
+#: src/init.c:362
 msgid "AUTHORS"
 msgstr ""
 
-#: src/init.c:447
+#: src/init.c:448
 msgid "Main"
 msgstr "Allgemein"
 
-#: src/init.c:494
+#: src/init.c:495
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Verteilt unter den Bedingungen der GNU General Public License.\n"
 
@@ -461,24 +466,24 @@ msgstr ""
 msgid "Error getting plugin from handle."
 msgstr ""
 
-#: src/net.c:154
+#: src/net.c:152
 msgid "*** Connection closed.\n"
 msgstr "*** Verbindung geschlossen\n"
 
-#: src/net.c:166
+#: src/net.c:164
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** Kann keine verbindung aufbauen - kein Rechner angegeben.\n"
 
-#: src/net.c:173
+#: src/net.c:171
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** Kein Port angegeben - benutze Port 23\n"
 
-#: src/net.c:178
+#: src/net.c:176
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Erstelle Verbindung zu %s, port %s\n"
 
-#: src/net.c:205
+#: src/net.c:206
 msgid "*** Connection established.\n"
 msgstr "*** Verbindung aufgebaut.\n"
 
@@ -580,11 +585,6 @@ msgstr ""
 #, fuzzy
 msgid "GNOME-Mud Popup Message"
 msgstr "AMCL Benachrichtigung"
-
-#: src/window.c:272
-#, fuzzy
-msgid "GNOME-Mud Internal Error: "
-msgstr "AMCL Interner Fehler: "
 
 #: src/wizard.c:308
 msgid "No selection made"
@@ -698,6 +698,10 @@ msgstr ""
 #: src/wizard.c:599
 msgid "Connect"
 msgstr "Verbinden"
+
+#, fuzzy
+#~ msgid "GNOME-Mud Internal Error: "
+#~ msgstr "AMCL Interner Fehler: "
 
 #~ msgid "AMCL Plugin Information"
 #~ msgstr "AMCL Plugin-Informationen"

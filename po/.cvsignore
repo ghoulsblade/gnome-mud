@@ -4,6 +4,7 @@
 .libs
 *.gmo
 cat-id*
+messages
 stamp-cat*
 *.pot
 POTFILES
