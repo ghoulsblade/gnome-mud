@@ -1,5 +1,7 @@
 figs =	\
+	figures connections-window.png	\
 	figures/main-window.png		\
+	figures/mudlist-window.png	\
 	figures/preferences-window.png	\
 	figures/profiles-window.png
 docname = gnome-mud
