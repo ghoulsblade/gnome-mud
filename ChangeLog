@@ -1,3 +1,15 @@
+2004-06-21  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-connection-view (mud_connection_view_disconnect):
+	Added asserts.
+	(mud_connection_view_reconnect): Ditto.
+
+	* src/mud-window.c (mud_window_disconnect_cb): Added some NULL
+	checks on the current view.
+	(mud_window_reconnect_cb): Ditto.
+	(mud_window_textentry_activate): Ditto.
+	(mud_window_init): Sett priv->current_view till NULL implicit.
+
 2004-06-18  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mud-preferences-window.c [_MudPreferencesWindowPrivate]:

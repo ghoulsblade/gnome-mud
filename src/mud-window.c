@@ -87,13 +87,15 @@ mud_window_remove_connection_view(MudWindow *window, gint nr)
 static void
 mud_window_disconnect_cb(GtkWidget *widget, MudWindow *window)
 {
-	mud_connection_view_disconnect(MUD_CONNECTION_VIEW(window->priv->current_view));
+	if (window->priv->current_view != NULL)
+		mud_connection_view_disconnect(MUD_CONNECTION_VIEW(window->priv->current_view));
 }
 
 static void
 mud_window_reconnect_cb(GtkWidget *widget, MudWindow *window)
 {
-	mud_connection_view_reconnect(MUD_CONNECTION_VIEW(window->priv->current_view));
+	if (window->priv->current_view != NULL)
+		mud_connection_view_reconnect(MUD_CONNECTION_VIEW(window->priv->current_view));
 }
 
 static void
@@ -123,7 +125,8 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 static void
 mud_window_textentry_activate(GtkWidget *widget, MudWindow *window)
 {
-	mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), gtk_entry_get_text(GTK_ENTRY(widget)));
+	if (window->priv->current_view)
+		mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), gtk_entry_get_text(GTK_ENTRY(widget)));
 }
 
 static void
@@ -258,6 +261,7 @@ mud_window_init (MudWindow *window)
 	g_signal_connect(window->priv->textentry, "key_press_event", G_CALLBACK(mud_window_textentry_keypress), window);
 	g_signal_connect(window->priv->textentry, "activate", G_CALLBACK(mud_window_textentry_activate), window);
 
+	window->priv->current_view = NULL;
 	window->priv->nr_of_tabs = 0;
 	window->priv->blank_label = glade_xml_get_widget(glade, "startup_label");
 	g_object_ref(window->priv->blank_label);

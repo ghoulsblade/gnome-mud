@@ -273,12 +273,16 @@ mud_connection_view_error_cb(GNetworkConnection *cxn, GError *error, gpointer us
 void
 mud_connection_view_disconnect(MudConnectionView *view)
 {
+	g_assert(view != NULL);
+	
 	gnetwork_connection_close(GNETWORK_CONNECTION(view->connection));
 }
 
 void
 mud_connection_view_reconnect(MudConnectionView *view)
 {
+	g_assert(view != NULL);
+	
 	gnetwork_connection_close(GNETWORK_CONNECTION(view->connection));
 	gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
 }
