@@ -19,6 +19,7 @@ GNOME-Mud 0.9.0 (UNRELEASED)
 - Fixed the MCCP segfault, hopefully.
 - Nested alias now works, with a maximum depth of 5.
 - Reconnect option on menu.
+- User manual updates.
 - Translation updates (ca, es, fr, sv).
 
 GNOME-Mud 0.8.0 (08/11/2001)
