@@ -234,10 +234,11 @@ static void data_selection_made(GtkTreeSelection *selection, DDATA *data)
 static void data_button_add (GtkWidget *button, DDATA *data)
 {
 	GtkTreeIter iter;
-    gchar buf[256], *text[2], a;
+    gchar buf[256], *text[3], a;
   
     text[0] = g_strdup( gtk_entry_get_text (GTK_ENTRY (data->textname)) );
     text[1] = g_strdup( gtk_entry_get_text (GTK_ENTRY (data->textvalue)) );
+    text[2] = NULL;
 
     if (text[0][0] == '\0' || text[1][0] == '\0')
     {

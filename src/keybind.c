@@ -151,15 +151,17 @@ static void keybind_button_add_clicked_cb (GtkButton *button, PROFILE_DATA *pd)
 	list[0] = g_strdup( gtk_entry_get_text(GTK_ENTRY(capt_entry)) );
 	list[1] = g_strdup( gtk_entry_get_text(GTK_ENTRY(comm_entry)) );
 
-	for (k = pd->kd; k != NULL; k++)
+	for (k = pd->kd; k != NULL; k = k->next)
 	{
 		gchar *buf = keybind_key_to_string(k->state, k->keyv);
 		
 		if (!g_strncasecmp(list[0], buf, strlen(list[0])))
 		{
 			popup_window(_("Can't add an existing key."));
+		    	g_free (buf);
 			goto free;
 		}
+		g_free (buf);
 	}
 
 	if (list[0][0] && list[1][0])

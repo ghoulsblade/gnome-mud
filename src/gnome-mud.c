@@ -52,11 +52,12 @@ int main (gint argc, char *argv[])
 		return 1;
 	}
 
+	gnome_init("gnome-mud", VERSION, argc, argv);  
+	
 	/* Start a GConf client */
 	gconf_client = gconf_client_get_default();
 	gconf_client_add_dir(gconf_client, "/apps/gnome-mud", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	
-	gnome_init("gnome-mud", VERSION, argc, argv);  
   
 	load_prefs   (); /* load preferences */
 	load_profiles(); /* load connections and profiles */

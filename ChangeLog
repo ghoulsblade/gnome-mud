@@ -1,3 +1,21 @@
+Mon Apr  7 15:59:36 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* configure.ac: Changed gtetrinet to gnome-mud :)
+
+Fri Apr  4 19:19:37 IST 2003  Naba Kumar   <naba@gnome.org>
+
+	* src/keybinding.c(keybind_button_add_clicked_cb): Fixed a memory leak.
+	Fixed a crash bug due to inappropriate looping of KEYBIND_DATA list
+	in a for loop (crash occurs when we try to add the second keybinding).
+	
+	* src/gnome-mud.h(main): Calls gnome_init() before
+	gconf_client_get_default() (and fixes a crash bug).
+	
+	* src/data.c(data_button_add): Fixed a crash bug (which occurs
+	when we try to add the second trigger definition). The argument
+	to the strdupv() should be a NULL terminated -- added third item
+	in list[] and set it to NULL.
+	
 Sat Apr  5 00:14:55 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: Define and substitute GETTEXT_PACKAGE.
@@ -2483,4 +2501,3 @@ Sun Sep 20 15:20:01 1998  Robin Ericsson  <lobbin@lobbin.ml.org>
 Sat Sep 19 16:14:22 1998  Robin Ericsson  <lobbin@lobbin.ml.org>
 
 	* Started using CVS.
-
