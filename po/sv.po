@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
-"POT-Creation-Date: 2003-07-10 01:32+0200\n"
-"PO-Revision-Date: 2003-07-10 01:33+0200\n"
+"POT-Creation-Date: 2003-07-10 22:37+0200\n"
+"PO-Revision-Date: 2003-07-10 22:38+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgid "Aliases"
 msgstr "Alias"
 
 #: gnome-mud.schemas.in.h:4
-msgid "Colour palette"
+msgid "Color palette"
 msgstr "Färgpalett"
 
 #: gnome-mud.schemas.in.h:5
@@ -51,25 +51,25 @@ msgid "Command Divider"
 msgstr "Kommandoskiljetecken"
 
 #: gnome-mud.schemas.in.h:6
-msgid "Default colour of the background"
+msgid "Default color of the background"
 msgstr "Standardfärg på bakgrunden"
 
 #: gnome-mud.schemas.in.h:7
 msgid ""
-"Default colour of the background, as a colour specification (can be HTML-"
-"style hex digits, or a colour name such as \"red\")."
+"Default color of the background, as a color specification (can be HTML-style "
+"hex digits, or a color name such as \"red\")."
 msgstr ""
 "Standardfärg på bakgrunden, som en färgspecifikation (kan vara hexadecimala "
 "siffror i HTML-stil, eller ett färgnamn som exempelvis \"red\")."
 
 #: gnome-mud.schemas.in.h:8
-msgid "Default colour of the text"
+msgid "Default color of the text"
 msgstr "Standardfärg på texten"
 
 #: gnome-mud.schemas.in.h:9
 msgid ""
-"Default colour of the text, as a colour specification (can be HTML-style hex "
-"digits, or a colour name such as \"red\")."
+"Default color of the text, as a color specification (can be HTML-style hex "
+"digits, or a color name such as \"red\")."
 msgstr ""
 "Standardfärg på texten, som en färgspecifikation (kan vara hexadecimala "
 "siffror i HTML-stil, eller ett färgnamn som exempelvis \"red\")."
@@ -80,15 +80,15 @@ msgstr "Typsnitt"
 
 #: gnome-mud.schemas.in.h:11
 msgid ""
-"GNOME-Mud has a 16-colour palette that MUDs can use. It must be specified in "
-"the form of a colon-separated list of colour names. Colour names should be "
-"in hex format e.g. \"#FF00FF\"."
+"GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in "
+"the form of a colon-separated list of color names. Color names should be in "
+"hex format e.g. \"#FF00FF\"."
 msgstr ""
 "GNOME-Mud har en palett med 16 färger som muddar kan använda. Den måste "
 "anges i formen av en kolonseparerad lista med färgnamn. Färgnamn måste vara "
 "i hexadecimalt format, exempelvis \"#FF00FF\"."
 
-#: gnome-mud.schemas.in.h:12 src/prefs.c:844
+#: gnome-mud.schemas.in.h:12 src/prefs.c:845
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
@@ -103,9 +103,9 @@ msgstr "Hur många poster att behålla i kommandohistoriken"
 
 #: gnome-mud.schemas.in.h:14 src/prefs.c:799
 msgid ""
-"If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
-"overridden by custom keybinds, or they can be disabled completely with this "
-"option."
+"If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
+"overridden by custom keybindings, or they can be disabled completely with "
+"this option."
 msgstr ""
 "Om detta är aktiverat kommer GNOME-Mud att erbjuda några inbyggda "
 "snabbtangenter. De kan åsidosättas med anpassade snabbtangenter eller helt "
@@ -138,12 +138,12 @@ msgstr ""
 "närhelst det finns ny utdata."
 
 #: gnome-mud.schemas.in.h:18 src/profiles.c:1233
-msgid "Keybinds"
+msgid "Keybindings"
 msgstr "Snabbtangenter"
 
 #: gnome-mud.schemas.in.h:19
-msgid "Last log dir"
-msgstr "Senasta loggkatalog"
+msgid "Last log directory"
+msgstr "Senaste loggkatalog"
 
 #: gnome-mud.schemas.in.h:20
 msgid ""
@@ -283,7 +283,7 @@ msgid "window_data: trying to access to undefined data range: %d"
 msgstr "window_data: försöker komma åt odefinerat dataområde: %d"
 
 #: src/data.c:371
-msgid "GNOME-Mud Configuration Centre"
+msgid "GNOME-Mud Configuration Center"
 msgstr "Konfigurationscenter för GNOME-Mud"
 
 #: src/gnome-mud.c:51
@@ -457,7 +457,7 @@ msgid "Incomplete fields."
 msgstr "Ofullständiga fält."
 
 #: src/keybind.c:309
-msgid "GNOME-Mud Key Binding Centre"
+msgid "GNOME-Mud Keybinding Center"
 msgstr "Snabbtangentscenter för GNOME-Mud"
 
 #: src/keybind.c:326
@@ -486,8 +486,8 @@ msgid "Open log"
 msgstr "Öppna logg"
 
 #: src/log.c:76
-msgid "*** No log is open in this window to be closed.\n"
-msgstr "*** Ingen loggfil är öppen i detta fönster så att det kan stängas.\n"
+msgid "*** No log to be closed is open in this window.\n"
+msgstr "*** Ingen loggfil att stänga är öppen i detta fönster.\n"
 
 #: src/log.c:103
 #, c-format
@@ -557,8 +557,8 @@ msgstr "Ny karta"
 
 #. The radio button (default)
 #: src/map.c:932
-msgid "Path follow already existing path:"
-msgstr "Stigen använder redan befintlig stig:"
+msgid "Path follows an already existing path:"
+msgstr "Stigen följer en redan befintlig stig:"
 
 #: src/map.c:951
 msgid "Create"
@@ -859,35 +859,35 @@ msgid "The quick brown fox jumps over the lazy dog"
 msgstr "Flygande bäckasiner söka strax hwila på mjuka tuvor"
 
 #: src/prefs.c:648
-msgid "Colour palette:"
+msgid "Color palette:"
 msgstr "Färgpalett:"
 
 #: src/prefs.c:654
-msgid "Background colour:"
+msgid "Background color:"
 msgstr "Backgrundsfärg:"
 
 #: src/prefs.c:660
-msgid "Foreground colour:"
+msgid "Foreground color:"
 msgstr "Förgrundsfärg:"
 
 #: src/prefs.c:668
 msgid ""
-"Default foreground colour used when the connection doesn't request the use "
-"of a specific colour."
+"Default foreground color used when the connection doesn't request the use of "
+"a specific color."
 msgstr ""
 "Standardförgrundsfärg som används när anslutningen inte begär användning av "
 "en specifik färg."
 
 #: src/prefs.c:677
 msgid ""
-"Default background colour used when the connection doesn't request the use "
-"of a specific colour."
+"Default background color used when the connection doesn't request the use of "
+"a specific color."
 msgstr ""
 "Standardbakgrundsfärg som används när anslutningen inte begär användning av "
 "en specifik färg."
 
 #: src/prefs.c:693
-msgid "Change the colour of a specific colour that the MUD requests to use."
+msgid "Change the color of a specific color that the MUD requests to use."
 msgstr "Ändra färgen för en specifik färg som mudden begär ska användas."
 
 #: src/prefs.c:735
@@ -926,11 +926,11 @@ msgstr "_Behåll inmatad text"
 msgid "Disable _System Keys"
 msgstr "Inaktivera _systemtangenter"
 
-#: src/prefs.c:808
+#: src/prefs.c:809
 msgid "Command division character:"
 msgstr "Kommandoskiljetecken:"
 
-#: src/prefs.c:813
+#: src/prefs.c:814
 msgid ""
 "The character used to divide commands sent to the mud. For example, \";\", "
 "will let the string \"w;look\" be sent to the mud as 2 separate commands."
@@ -939,68 +939,67 @@ msgstr ""
 "Exempelvis kommer \";\" att låta strängen \"w;look\" skickas till mudden som "
 "två separata kommandon."
 
-#: src/prefs.c:823
+#: src/prefs.c:824
 msgid "Command history:"
 msgstr "Kommandohistorik:"
 
-#: src/prefs.c:829
+#: src/prefs.c:830
 msgid "The number of entries to be saved in the command history."
 msgstr "Antalet poster att spara i kommandohistoriken."
 
-#: src/prefs.c:837
+#: src/prefs.c:838
 msgid "Terminal type:"
 msgstr "Terminaltyp:"
 
-#: src/prefs.c:852
+#: src/prefs.c:853
 msgid "MudList file:"
 msgstr "MudList-fil:"
 
-#: src/prefs.c:855
+#: src/prefs.c:856
 msgid "Select a MudList File..."
 msgstr "Välj en MudList-fil..."
 
-#: src/prefs.c:857
+#: src/prefs.c:858
 msgid "Mudlist file to be used for the mudlist functionality."
 msgstr "MudList-fil att använda för mudlist-funktionaliteten."
 
-#: src/prefs.c:866
-msgid "Colour and Fonts"
+#: src/prefs.c:867
+msgid "Color and Fonts"
 msgstr "Färg och typsnitt"
 
-#: src/prefs.c:874
+#: src/prefs.c:875
 msgid "Appearance"
 msgstr "Utseende"
 
-#: src/prefs.c:883
+#: src/prefs.c:884
 msgid "Tabs are located:"
 msgstr "Flikar är placerade:"
 
-# Mycket trasigt originalmeddelande
-#: src/prefs.c:896
+#: src/prefs.c:897
 msgid ""
-"This settings defines where to place the connection tabs that are used the "
+"This setting defines where to place the connection tabs that are used to "
 "change active connection."
 msgstr ""
-"Denna inställningar anger var anslutningsflikarna som används ändringen "
-"aktiv anslutning."
+"Denna inställning anger var anslutningsflikarna som används för att ändra "
+"aktiv anslutning ska placeras."
 
-#: src/prefs.c:907
+#: src/prefs.c:908
 msgid "Scrollback:"
 msgstr "Rullningshistorik:"
 
-#: src/prefs.c:913
+#: src/prefs.c:914
 msgid "Number of lines to save in the scrollback."
 msgstr "Antal rader att spara i rullningshistoriken."
 
-#: src/prefs.c:917
+#: src/prefs.c:918
 msgid "lines"
 msgstr "rader"
 
-#: src/prefs.c:923
+#: src/prefs.c:924
 msgid "S_croll on output"
 msgstr "_Rulla vid utdata"
 
-#: src/prefs.c:925
+#: src/prefs.c:926
 msgid ""
 "If enabled, the terminal will scroll to the bottom if new output appears in "
 "the connection when the terminal was scrolled back."
@@ -1008,15 +1007,15 @@ msgstr ""
 "Om detta är aktiverat kommer terminalen att rulla till nedersta läget om ny "
 "utdata visas i anslutningen när terminalfönstret rullades tillbaka."
 
-#: src/prefs.c:936
+#: src/prefs.c:937
 msgid "AutoMapper"
 msgstr "Kartgenererare"
 
-#: src/prefs.c:950
+#: src/prefs.c:951
 msgid "Unusual movement commands:"
 msgstr "Kommandon för ovanliga förflyttningar:"
 
-#: src/prefs.c:957
+#: src/prefs.c:958
 msgid ""
 "If you use the automapper, you may want to specify here some unusual "
 "movement commands. When you use one of these, the automapper will create a "
@@ -1128,7 +1127,7 @@ msgid "Set triggers"
 msgstr "Ställ in triggers"
 
 #: src/profiles.c:1233
-msgid "Set keybinds"
+msgid "Set keybindings"
 msgstr "Ställ in snabbtangenter"
 
 #: src/profiles.c:1250
@@ -1139,11 +1138,26 @@ msgstr "Stäng"
 msgid "Close the window"
 msgstr "Stäng fönstret"
 
-#~ msgid "Color palette:"
+#~ msgid "Colour palette"
+#~ msgstr "Färgpalett"
+
+#~ msgid "Keybinds"
+#~ msgstr "Snabbtangenter"
+
+#~ msgid "GNOME-Mud Configuration Centre"
+#~ msgstr "Konfigurationscenter för GNOME-Mud"
+
+#~ msgid "GNOME-Mud Key Binding Centre"
+#~ msgstr "Snabbtangentscenter för GNOME-Mud"
+
+#~ msgid "Colour palette:"
 #~ msgstr "Färgpalett:"
 
-#~ msgid "Color and Fonts"
+#~ msgid "Colour and Fonts"
 #~ msgstr "Färg och typsnitt"
+
+#~ msgid "Set keybinds"
+#~ msgstr "Ställ in snabbtangenter"
 
 #~ msgid "Color and Font"
 #~ msgstr "Färg och typsnitt"
@@ -1190,18 +1204,6 @@ msgstr "Stäng fönstret"
 #~ msgid "Profile Information"
 #~ msgstr "Profilinformation"
 
-#~ msgid "Keybindings"
-#~ msgstr "Snabbtangenter"
-
-#~ msgid "Set keybindings"
-#~ msgstr "Ställ in snabbtangenter"
-
-#~ msgid "GNOME-Mud Configuration Center"
-#~ msgstr "Konfigurationscenter för GNOME-Mud"
-
-#~ msgid "GNOME-Mud Key Binding Center"
-#~ msgstr "Snabbtangentscenter för GNOME-Mud"
-
 #~ msgid "Create a path"
 #~ msgstr "Skapa en stig"
 
@@ -1222,9 +1224,6 @@ msgstr "Stäng fönstret"
 
 #~ msgid "Rachael Munns <vashti@dream.org.uk>"
 #~ msgstr "Rachael Munns <vashti@dream.org.uk>"
-
-#~ msgid "Color palette"
-#~ msgstr "Färgpalett"
 
 #~ msgid "Add"
 #~ msgstr "Lägg till"
