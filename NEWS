@@ -1,21 +1,23 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
-GNOME-Mud 0.10.4 (xx/xx/xxxx)
+GNOME-Mud 0.10.4 (22/12/2003)
 
-- Fix so plugins can use outgoing data [Quim Rovira]
 - Fix a connect error on FreeBSD [Sjoerd Simons]
 - Fix yet another Connection Wizard segfault [Dani Carbonell]
 - Fix a segfault when saving the terminal buffer [Dani Carbonell]
 - Expand alias just if it's the first word in the input and don't
   do alias nesting [Robin]
 - Check for badly installed schemas [Jordi]
-- Flush logs more often [Robin]
+- Flush logs more often (Bug #116525) [Robin]
+- Fix so plugins can use outgoing data [Quim Rovira]
 - New translations:
   + hr [Boris Tudan]
 - Updated translations:
   + ca [Jordi Mallach]
+  + cs [Miloslav Trmac]
   + nl [Vincent van Adrighem]
+  + sr [Danilo Šegan]
   + sv [Christian Rose]
 
 GNOME-Mud 0.10.3 (11/11/2003)
@@ -30,7 +32,7 @@ GNOME-Mud 0.10.3 (11/11/2003)
   + nl [Vincent van Adrighem]
   + pl [Artur Flinta]
   + pt [Duarte Loreto]
-  + sr [Danilo �| egan]
+  + sr [Danilo Šegan]
 - Translation updates:
   + ca [Jordi Mallach]
   + de [Christian Neumair]
