@@ -209,6 +209,7 @@ AC_SUBST(Z_LIBS)
 AC_OUTPUT([
   Makefile
   gnome-mud.lsm
+  gnome-mud.spec
   doc/Makefile
   doc/gnome-mud-manual/Makefile
   doc/gnome-mud-manual/C/Makefile

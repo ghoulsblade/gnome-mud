@@ -1,0 +1,70 @@
+%define	name	gnome-mud
+%define	ver	@VERSION@
+%define	RELEASE	1
+%define	rel %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
+
+Summary:	A simple Mud client for GNOME
+Name:		%name
+Version:	%ver
+Release:	%rel
+License:	GPL
+Group:		Applications/Internet
+Source:		http://ftp.gnome.org/pub/gnome/sources/%{name}/0.10/%{name}-%{ver}.tar.gz
+URL:		http://amcl.sourceforge.net/
+BuildRoot:	%{_tmppath}/%{name}-%{ver}-root
+Docdir:		%{_prefix}/doc
+
+Requires:	vte >= 0.10.26
+Requires:	libgnome >= 2.0.0
+Requires:	libgnomeui >= 2.0.0
+BuildRequires:	vte-devel >= 0.10.26
+BuildRequires:	libgnome-devel >= 2.0.0
+BuildRequires:	libgnomeui >= 2.0.0
+BuildRequires:  scrollkeeper >= @SCROLLKEEPER_BUILD_REQUIRED@
+
+%description
+GNOME-MUD is a simple MUD client for GNOME. It supports scripting in Python and C, and tabbed mudding.
+
+%prep
+%setup -q
+#%patch0 -p 1
+
+%build
+%configure --prefix=%{rpm_prefix} --enable-mccp
+make
+
+%install
+export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1;
+%makeinstall
+unset GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL
+#mv %{buildroot}/usr/games %{buildroot}/usr/bin
+
+%clean
+rm -rf %{buildroot}
+
+%preun
+export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+gconftool-2 --makefile-uninstall-rule %{_sysconfdir}/gconf/schemas/gnome-mud.schemas > /dev/null
+
+%post 
+scrollkeeper-update -p /var/scrollkeeper
+export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/gnome-mud.schemas > /dev/null
+
+%postun 
+scrollkeeper-update -p /var/scrollkeeper
+
+%files
+%defattr(-,root,root)
+%doc AUTHORS COPYING ChangeLog INSTALL
+%doc NEWS README THANKS ROADMAP help
+
+%{rpm_prefix}
+
+
+%changelog
+* Wed Feb 16 2005 Jordi Mallach
+- Fixups and simplifications for autogeneration.
+
+* Wed Jan 12 2005 Adam Luchjenbroers 
+- Initial RPM release.

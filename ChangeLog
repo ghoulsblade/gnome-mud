@@ -1,4 +1,10 @@
-2004-11-24   Amanpreet Singh Alam <amanlinux@netscape.net>
+2005-02-16  Jordi Mallach  <jordi@sindominio.net>
+
+	* Makefile.am (EXTRA_DIST): Add gnome-mud.spec.
+	* configure.ac (AC_OUTPUT): Add gnome-mud.spec.
+	* gnome-mud.spec.in: Add RPM spec file from Adam Luchjenbroers.
+
+2004-11-24  Amanpreet Singh Alam <amanlinux@netscape.net>
 
 	* configure.ac: Add pa to ALL_LINGUAS
 
