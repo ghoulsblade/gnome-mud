@@ -1,3 +1,12 @@
+Mon Jun 24 13:00:05 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c: added mnemonics to all menu items.
+	(window_menu_help_about): removed iso-8859-1 characters from C
+	strings.
+	* src/modules.c (do_plugin_information): removed gettext call to
+	an empty string.
+	* po/{ca,es}.po: Updated.
+
 Sun Jun 23 13:33:21 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* gnome-mud.desktop: fixed "Type" so it works under GNOME 2.

@@ -301,15 +301,14 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
 	_("Bret Robideaux, action/trigger module"),
 	_("Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"),
 	_("Benjamin Curtis, recognition of TELNET codes and replies"),
-	/* if your charset doesn't support o with dieresis (ö) just use o */
-	_("Jörgen Kosche, focus-bugs patches, de.po maintainer"),
+	/* if your charset supports it, use o with dieresis (ö) in Jorgen's o */
+	_("Jorgen Kosche, focus-bugs patches, de.po maintainer"),
 	_("Jeroen Ruigrok, various code cleanups and fixes"),
-	/* if your charset doesn't support i with acute (í) just use i */
-	_("Jorge García, various code cleanups and fixes"),
+	/* if your charset supports it, use i with acute (í) in García's i */
+	_("Jorge Garcia, various code cleanups and fixes"),
 	_("Jordi Mallach, official Debian package, i18n support, "
 		  "ca.po & es.po maintainer"),
 	_("Martin Quinson, fr.po maintainer"),
-	/* if your charset doesn't support e with circumflex (è), just use e */
 	_("Petter E. Stokke, Python scripting support"),
 	_("Vashti, default keypad bindings, telnet support patches"),
 	NULL};
@@ -633,18 +632,18 @@ static GnomeUIInfo toolbar_menu[] = {
 };
 
 static GnomeUIInfo file_menu[] = {
-  GNOMEUIINFO_MENU_NEW_ITEM(N_("Connection Wizard..."), NULL, window_profiles, NULL),
-  GNOMEUIINFO_MENU_NEW_ITEM(N_("MudList Listing..."), NULL, window_mudlist, NULL),
+  GNOMEUIINFO_MENU_NEW_ITEM(N_("Connection _Wizard..."), NULL, window_profiles, NULL),
+  GNOMEUIINFO_MENU_NEW_ITEM(N_("_MudList Listing..."), NULL, window_mudlist, NULL),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, window_menu_file_connect, GNOME_STOCK_MENU_OPEN),
-  GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, window_menu_file_disconnect, GNOME_STOCK_MENU_CLOSE),
-  GNOMEUIINFO_ITEM_STOCK(N_("Reconnect"), NULL, window_menu_file_reconnect, GNOME_STOCK_MENU_REFRESH),
+  GNOMEUIINFO_ITEM_STOCK(N_("C_onnect..."), NULL, window_menu_file_connect, GNOME_STOCK_MENU_OPEN),
+  GNOMEUIINFO_ITEM_STOCK(N_("_Disconnect"), NULL, window_menu_file_disconnect, GNOME_STOCK_MENU_CLOSE),
+  GNOMEUIINFO_ITEM_STOCK(N_("_Reconnect"), NULL, window_menu_file_reconnect, GNOME_STOCK_MENU_REFRESH),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Start Logging..."), NULL, window_menu_file_start_logging_cb, GNOME_STOCK_MENU_NEW),
-  GNOMEUIINFO_ITEM_STOCK(N_("Stop Logging"), NULL, window_menu_file_stop_logging_cb, GNOME_STOCK_MENU_CLOSE),
-  GNOMEUIINFO_ITEM_STOCK(N_("Save Buffer..."), NULL, window_menu_file_save_buffer_cb, GNOME_STOCK_MENU_SAVE),
+  GNOMEUIINFO_ITEM_STOCK(N_("S_tart Logging..."), NULL, window_menu_file_start_logging_cb, GNOME_STOCK_MENU_NEW),
+  GNOMEUIINFO_ITEM_STOCK(N_("Sto_p Logging"), NULL, window_menu_file_stop_logging_cb, GNOME_STOCK_MENU_CLOSE),
+  GNOMEUIINFO_ITEM_STOCK(N_("_Save Buffer..."), NULL, window_menu_file_save_buffer_cb, GNOME_STOCK_MENU_SAVE),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Close Window"), NULL, window_menu_file_close, GNOME_STOCK_MENU_BLANK),
+  GNOMEUIINFO_ITEM_STOCK(N_("_Close Window"), NULL, window_menu_file_close, GNOME_STOCK_MENU_BLANK),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_MENU_EXIT_ITEM(destroy, NULL),
   GNOMEUIINFO_END
@@ -652,21 +651,21 @@ static GnomeUIInfo file_menu[] = {
 
 static GnomeUIInfo plugin_menu[] = {
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Plugin Information..."), NULL, do_plugin_information, GNOME_STOCK_MENU_PROP),
+  GNOMEUIINFO_ITEM_STOCK(N_("_Plugin Information..."), NULL, do_plugin_information, GNOME_STOCK_MENU_PROP),
   GNOMEUIINFO_END
 };
 
 static GnomeUIInfo settings_menu[] = {
-  GNOMEUIINFO_ITEM_STOCK(N_("Auto Mapper..."), NULL, window_automap, GNOME_STOCK_MENU_BLANK),
+  GNOMEUIINFO_ITEM_STOCK(N_("Auto _Mapper..."), NULL, window_automap, GNOME_STOCK_MENU_BLANK),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_SUBTREE(N_("Plugins"), plugin_menu),
+  GNOMEUIINFO_SUBTREE(N_("P_lugins"), plugin_menu),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_MENU_PREFERENCES_ITEM(window_prefs, NULL),
   GNOMEUIINFO_END
 };
 
 static GnomeUIInfo help_menu[] = {
-	{ GNOME_APP_UI_ITEM, N_("GNOME-Mud manual"), N_("Open the GNOME-Mud manual"), 
+	{ GNOME_APP_UI_ITEM, N_("GNOME-Mud _manual"), N_("Open the GNOME-Mud manual"), 
 		window_menu_help_manual_activate_cb, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BOOK_BLUE, 0, 0, NULL 
 	},
