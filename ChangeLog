@@ -1,3 +1,8 @@
+Tue May  7 17:52:18 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* doc/gnome-mud-plugin-api/C/gnome-mud-plugin-api.sgml: removed
+	markup from <title>s, and a typo.
+
 Tue May  7 16:40:47 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/gnome-mud-manual/C/gnome-mud-manual-C.omf: updated

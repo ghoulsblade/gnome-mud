@@ -98,7 +98,7 @@
     </para>
    </sect2>
    <sect2 id="python-gnomemud-module">
-     <title><classname>GnomeMud</classname> module</title>
+     <title>GnomeMud module</title>
      <para>
       The <classname>GnomeMud</classname> module provides access to the
       <application>GNOME-Mud</application> scripting API. Normally, a script
@@ -241,7 +241,7 @@
      </variablelist>
      
      <sect3 id="python-connection-class">
-       <title><classname>Connection</classname> class</title>
+       <title>Connection class</title>
        <para>
         <classname>Connection</classname> is an interface class for a
 	<application>GNOME-Mud</application> connection, meaning a socket
@@ -261,7 +261,7 @@
 	  instances of this class are created by
 	  <application>GNOME-Mud</application> and passed to the callback
 	  functions as needed, or accessed through the
-	  <classname>GnomeMud</classname>} module's
+	  <classname>GnomeMud</classname> module's
 	  <function>connection()</function> function.
 	 </para>
 	</listitem>
