@@ -1,3 +1,17 @@
+Fri Feb 21 12:27:34 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/gnome-mud.h: Cleanup	
+
+	* src/init.c (create_connection_data): Created
+	(main_window): Cleanup
+
+	* src/net.c (make_connection): Added vte for new tabs
+
+	* src/prefs.c: prefs.Freeze removed.
+
+	* src/window.c: Lot of old ANSI-code removed, this is handled
+	by vte now
+
 Tue Feb 18 15:22:32 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/init.c: Fixed bug #539661
