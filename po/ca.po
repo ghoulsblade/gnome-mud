@@ -7,13 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-02 20:00+0200\n"
-"PO-Revision-Date: 2003-09-02 20:00+0200\n"
+"POT-Creation-Date: 2003-09-02 20:07+0200\n"
+"PO-Revision-Date: 2003-09-02 20:09+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n!=1;\n"
 
 #: gnome-mud.desktop.in.h:1 src/init.c:248
 msgid "GNOME-Mud"
@@ -21,7 +22,7 @@ msgstr "GNOME-Mud"
 
 #: gnome-mud.desktop.in.h:2
 msgid "The GNOME MUD Client"
-msgstr "El client de MUD del GNOME"
+msgstr "Client de MUD del GNOME"
 
 #: gnome-mud.schemas.in.h:1
 msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
@@ -88,7 +89,7 @@ msgstr ""
 "punts. Els noms dels colors han d'estar en format hexadecimal, com per "
 "exemple «#FF00FF»."
 
-#: gnome-mud.schemas.in.h:12 src/prefs.c:845
+#: gnome-mud.schemas.in.h:12 src/prefs.c:848
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
@@ -100,7 +101,7 @@ msgstr ""
 msgid "How many entries to keep in the command history"
 msgstr "Quantes entrades s'han de mantindre a la història d'ordres"
 
-#: gnome-mud.schemas.in.h:14 src/prefs.c:799
+#: gnome-mud.schemas.in.h:14 src/prefs.c:802
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
 "overridden by custom keybindings, or they can be disabled completely with "
@@ -110,7 +111,7 @@ msgstr ""
 "Aquestes assignacions es poden reemplaçar amb les vostres assignacions "
 "personalitzades, o poden ser deshabilitades per complet amb aquesta opció."
 
-#: gnome-mud.schemas.in.h:15 src/prefs.c:777
+#: gnome-mud.schemas.in.h:15 src/prefs.c:780
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
@@ -118,7 +119,7 @@ msgstr ""
 "Si s'habilita, tot el text que s'envii es mostrarà en la terminal, fent més "
 "fàcil el control del que s'està enviant."
 
-#: gnome-mud.schemas.in.h:16 src/prefs.c:788
+#: gnome-mud.schemas.in.h:16 src/prefs.c:791
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
@@ -849,8 +850,10 @@ msgstr "*** Connexió establerta.\n"
 
 #: src/prefs.c:253 src/prefs.c:409
 #, c-format
-msgid "Palette had %d entries instead of %d\n"
-msgstr "La paleta tenia %d entrades en comptes de %d\n"
+msgid "Palette had %d entry instead of %d\n"
+msgid_plural "Palette had %d entries instead of %d\n"
+msgstr[0] "La paleta tenia %d entrada en comptes de %d\n"
+msgstr[1] "La paleta tenia %d entrades en comptes de %d\n"
 
 #: src/prefs.c:353
 #, c-format
@@ -862,32 +865,32 @@ msgstr "%s ja existeix i no és un directori!"
 msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s no existeix i NO es pot crear: %s"
 
-#: src/prefs.c:633
+#: src/prefs.c:636
 msgid "Font:"
 msgstr "Tipus de lletra:"
 
-#: src/prefs.c:641
+#: src/prefs.c:644
 msgid "Main font that is used on all open connections."
 msgstr ""
 "Tipus de lletra principal que s'utilitza a totes les connexions obertes."
 
-#: src/prefs.c:644
+#: src/prefs.c:647
 msgid "The quick brown fox jumps over the lazy dog"
 msgstr "A la taula i al llit, al primer crit"
 
-#: src/prefs.c:648
+#: src/prefs.c:651
 msgid "Color palette:"
 msgstr "Paleta de colors:"
 
-#: src/prefs.c:654
+#: src/prefs.c:657
 msgid "Background color:"
 msgstr "Color de fons:"
 
-#: src/prefs.c:660
+#: src/prefs.c:663
 msgid "Foreground color:"
 msgstr "Color del text:"
 
-#: src/prefs.c:668
+#: src/prefs.c:671
 msgid ""
 "Default foreground color used when the connection doesn't request the use of "
 "a specific color."
@@ -895,7 +898,7 @@ msgstr ""
 "El color del text predeterminat utilitzat quan la connexió no especifica "
 "l'ús d'un altre color."
 
-#: src/prefs.c:677
+#: src/prefs.c:680
 msgid ""
 "Default background color used when the connection doesn't request the use of "
 "a specific color."
@@ -903,51 +906,51 @@ msgstr ""
 "El color de fons predeterminat utilitzat quan la connexió no especifica l'ús "
 "d'un altre color."
 
-#: src/prefs.c:693
+#: src/prefs.c:696
 msgid "Change the color of a specific color that the MUD requests to use."
 msgstr "Canvia el color d'un color específic que el MUD demane utilitzar."
 
-#: src/prefs.c:735
+#: src/prefs.c:738
 msgid "on top"
 msgstr "amunt"
 
-#: src/prefs.c:735
+#: src/prefs.c:738
 msgid "on the right"
 msgstr "a la dreta"
 
-#: src/prefs.c:735
+#: src/prefs.c:738
 msgid "at the bottom"
 msgstr "avall"
 
-#: src/prefs.c:735
+#: src/prefs.c:738
 msgid "on the left"
 msgstr "a l'esquerra"
 
-#: src/prefs.c:753
+#: src/prefs.c:756
 msgid "GNOME-Mud Preferences"
 msgstr "Preferències del GNOME-Mud"
 
-#: src/prefs.c:767
+#: src/prefs.c:770
 msgid "Functionality"
 msgstr "Funcionalitats"
 
-#: src/prefs.c:773
+#: src/prefs.c:776
 msgid "_Echo the text sent"
 msgstr "_Mostra el text enviat"
 
-#: src/prefs.c:784
+#: src/prefs.c:787
 msgid "_Keep the text entered"
 msgstr "_Mantin el text introduït"
 
-#: src/prefs.c:795
+#: src/prefs.c:798
 msgid "Disable _System Keys"
 msgstr "Inhabilita les tecles del _sistema"
 
-#: src/prefs.c:809
+#: src/prefs.c:812
 msgid "Command division character:"
 msgstr "Caràcter de divisió d'ordres:"
 
-#: src/prefs.c:814
+#: src/prefs.c:817
 msgid ""
 "The character used to divide commands sent to the mud. For example, \";\", "
 "will let the string \"w;look\" be sent to the mud as 2 separate commands."
@@ -956,44 +959,44 @@ msgstr ""
 "exemple, «;» farà que la cadena «w;look» s'envie al MUD com dos ordres "
 "separades."
 
-#: src/prefs.c:824
+#: src/prefs.c:827
 msgid "Command history:"
 msgstr "Historia d'ordres:"
 
-#: src/prefs.c:830
+#: src/prefs.c:833
 msgid "The number of entries to be saved in the command history."
 msgstr "El nom de la connexió que apareixerà a la llista de connexions."
 
-#: src/prefs.c:838
+#: src/prefs.c:841
 msgid "Terminal type:"
 msgstr "Tipus de terminal:"
 
-#: src/prefs.c:853
+#: src/prefs.c:856
 msgid "MudList file:"
 msgstr "Fitxer amb la MudList:"
 
-#: src/prefs.c:856
+#: src/prefs.c:859
 msgid "Select a MudList File..."
 msgstr "Seleccioneu un fitxer de MudList..."
 
-#: src/prefs.c:858
+#: src/prefs.c:861
 msgid "Mudlist file to be used for the mudlist functionality."
 msgstr ""
 "El fitxer de MudList que utilitzarà per a la funcionalitat de llistat de MUD."
 
-#: src/prefs.c:867
+#: src/prefs.c:870
 msgid "Color and Fonts"
 msgstr "Colors i fonts"
 
-#: src/prefs.c:875
+#: src/prefs.c:878
 msgid "Appearance"
 msgstr "Apariència"
 
-#: src/prefs.c:884
+#: src/prefs.c:887
 msgid "Tabs are located:"
 msgstr "Les pestanyes es troben:"
 
-#: src/prefs.c:897
+#: src/prefs.c:900
 msgid ""
 "This setting defines where to place the connection tabs that are used to "
 "change active connection."
@@ -1001,23 +1004,23 @@ msgstr ""
 "Aquesta configuració estableix on apareixen les pestanyes de connexions que "
 "s'utilitzen per a canviar la connexió activa."
 
-#: src/prefs.c:908
+#: src/prefs.c:911
 msgid "Scrollback:"
 msgstr "Desplaçament:"
 
-#: src/prefs.c:914
+#: src/prefs.c:917
 msgid "Number of lines to save in the scrollback."
 msgstr "Número de línies a desar en el desplaçament."
 
-#: src/prefs.c:918
+#: src/prefs.c:921
 msgid "lines"
 msgstr "línies"
 
-#: src/prefs.c:924
+#: src/prefs.c:927
 msgid "S_croll on output"
 msgstr "_Desplaça en sortida"
 
-#: src/prefs.c:926
+#: src/prefs.c:929
 msgid ""
 "If enabled, the terminal will scroll to the bottom if new output appears in "
 "the connection when the terminal was scrolled back."
@@ -1025,15 +1028,15 @@ msgstr ""
 "Si s'habilita, el terminal es desplaçarà avall si apareix text nou en la "
 "connexió quan el terminal estava desplaçat cap enrere."
 
-#: src/prefs.c:937
+#: src/prefs.c:940
 msgid "AutoMapper"
 msgstr "Automapejador"
 
-#: src/prefs.c:951
+#: src/prefs.c:954
 msgid "Unusual movement commands:"
 msgstr "Llista d'ordres de moviment inusuals:"
 
-#: src/prefs.c:958
+#: src/prefs.c:961
 msgid ""
 "If you use the automapper, you may want to specify here some unusual "
 "movement commands. When you use one of these, the automapper will create a "
