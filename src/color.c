@@ -32,8 +32,8 @@ static char const rcsid[] =
 
 /* Local functions */
 static void	color_apply_pressed (void);
-static void	color_cancel_pressed (void);
-static void	color_ok_pressed (void);
+//static void	color_cancel_pressed (void);
+//static void	color_ok_pressed (void);
 static void	color_radio_clicked (GtkWidget *);
 static gushort	convert_color (guint);
 static void	copy_color_from_selector_to_array (void);
@@ -47,7 +47,6 @@ static void	update_gdk_colors (void);
 #define C_MAX 16
 
 extern SYSTEM_DATA  prefs;
-extern GtkWidget   *menu_option_colors;
 extern GdkFont     *font_normal;
 
 GdkColor color_white;
@@ -243,18 +242,20 @@ void color_apply_pressed (void)
     update_gdk_colors ();
 }
  
-void color_cancel_pressed (void)
+void color_cancel_pressed (GtkWidget *button, GtkWidget *menu)
 {
-    gtk_widget_set_sensitive (menu_option_colors, TRUE);
+    gtk_widget_set_sensitive (menu, TRUE);
     gtk_widget_destroy (color_window);
 }
  
-void color_ok_pressed (void)
+void color_ok_pressed (GtkWidget *button, GtkWidget *menu)
 {
     color_apply_pressed();
+	
     if ( prefs.AutoSave ) 
       save_colors();
-    color_cancel_pressed();
+	
+    color_cancel_pressed(button, menu);
 }
 
 void color_radio_clicked (GtkWidget *what)
@@ -289,12 +290,10 @@ void window_color (GtkWidget *a, gpointer d)
     colors[i][2] = ((double) c_structs[i]->blue)  / 65535;
   }
   
-  gtk_widget_set_sensitive (menu_option_colors, FALSE);
+  gtk_widget_set_sensitive (a, FALSE);
   color_window = GTK_WIDGET (gtk_window_new (GTK_WINDOW_TOPLEVEL));
   gtk_window_set_title (GTK_WINDOW (color_window), _("GNOME-Mud Color Chooser"));
-  gtk_signal_connect (GTK_OBJECT (color_window), "destroy",
-		      GTK_SIGNAL_FUNC (color_cancel_pressed),
-		      NULL);
+  gtk_signal_connect (GTK_OBJECT (color_window), "destroy", GTK_SIGNAL_FUNC (color_cancel_pressed), NULL);
   
   color_widget = gtk_color_selection_new ();
   c_box        = GTK_BOX (gtk_vbox_new (FALSE, 5));
@@ -334,16 +333,11 @@ void window_color (GtkWidget *a, gpointer d)
   c_save   = GTK_BUTTON (gtk_button_new_with_label (_("Save")));
   c_load   = GTK_BUTTON (gtk_button_new_with_label (_("Default")));
   
-  gtk_signal_connect (GTK_OBJECT (c_ok), "clicked",
-		      GTK_SIGNAL_FUNC (color_ok_pressed), 0);
-  gtk_signal_connect (GTK_OBJECT (c_cancel), "clicked",
-		      GTK_SIGNAL_FUNC (color_cancel_pressed), 0);
-  gtk_signal_connect (GTK_OBJECT (c_apply), "clicked",
-		      GTK_SIGNAL_FUNC (color_apply_pressed), 0);
-  gtk_signal_connect (GTK_OBJECT (c_save), "clicked",
-		      GTK_SIGNAL_FUNC (save_colors), 0);
-  gtk_signal_connect (GTK_OBJECT (c_load), "clicked",
-		      GTK_SIGNAL_FUNC (on_load_pressed), 0);
+  gtk_signal_connect (GTK_OBJECT (c_ok), "clicked", GTK_SIGNAL_FUNC (color_ok_pressed), (gpointer) a);
+  gtk_signal_connect (GTK_OBJECT (c_cancel), "clicked", GTK_SIGNAL_FUNC (color_cancel_pressed), (gpointer) a);
+  gtk_signal_connect (GTK_OBJECT (c_apply), "clicked", GTK_SIGNAL_FUNC (color_apply_pressed), 0);
+  gtk_signal_connect (GTK_OBJECT (c_save), "clicked", GTK_SIGNAL_FUNC (save_colors), 0);
+  gtk_signal_connect (GTK_OBJECT (c_load), "clicked", GTK_SIGNAL_FUNC (on_load_pressed), 0);
   
   gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_ok));
   gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_cancel));

@@ -12,6 +12,7 @@ src/modules.c
 src/modules_api.c
 src/net.c
 src/prefs.c
+src/profiles.c
 src/version.c
 src/window.c
 src/wizard.c

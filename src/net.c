@@ -25,7 +25,6 @@
 
 #include <netinet/in.h>
 
-/* #include <db.h> */
 #include <errno.h>
 #include <libintl.h>
 #include <netdb.h>
@@ -72,7 +71,6 @@ extern CONNECTION_DATA *connections[15];
 extern GtkWidget       *main_notebook;
 extern GtkWidget       *menu_main_disconnect;
 extern GdkColor         color_black;
-extern GtkCList        *lists[3];
 gchar *host = "", *port = "";
 
 /* Added by Bret Robideaux (fayd@alliences.org)
@@ -84,13 +82,13 @@ static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *conne
 
     if (*a)
     {
-        if ((r = check_alias (lists[0], *a)))
+        if ((r = check_alias (connection->profile->alias, *a)))
         {
             g_free(*a);
             *a = strdup(r);
         }
     }
-    connection_send (connection, check_vars (lists[2], g_strjoinv (" ", a)));
+    connection_send (connection, check_vars (connection->profile->variables, g_strjoinv (" ", a)));
     connection_send (connection, "\n");
     g_strfreev(a);
 }
@@ -278,7 +276,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
     /* Added by Bret Robideaux (fayd@alliances.org)
      * OK, this seems like a good place to handle checking for action triggers
      */
-    if ((triggered_action = check_actions (lists[1], mccp_buffer)))
+    if ((triggered_action = check_actions (connection->profile->triggers, mccp_buffer)))
         action_send_to_connection (triggered_action, connection);
     
     

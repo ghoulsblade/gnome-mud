@@ -31,19 +31,30 @@
 static char const rcsid[] =
     "$Id$";
 
-struct own_data{
-	GtkCList  *list;
-        GtkWidget *menu, *button_save, *button_delete, 
-                  *textname, *textvalue, *window;
-        gchar     *title_name, *title_value, *file_name;
-	gint      tam_name, tam_value, row, z;
-      };
+struct own_data {
+	GtkCList		*list;
+	GtkWidget		*menu, 
+			 		*button_save, 
+					*button_delete,  
+					*textname,
+					*textvalue,
+					*window;
+    gchar    	 	*title_name,
+					*title_value,
+					*file_name;
+	gint      		 tam_name, 
+					 tam_value, 
+					 row, 
+					 z;
+	PROFILE_DATA	*pd;
+};
+
 typedef struct own_data DDATA;
 
 extern SYSTEM_DATA  prefs;
-extern GtkCList    *lists[3];
+
 /* Local functions */
-static gint	 get_size (GtkCList *);
+gint	 get_size (GtkCList *);
 static gint	 find_data (GtkCList *, gchar *);
 static void	 data_button_add (GtkWidget *, DDATA *);
 static void	 data_button_delete (GtkWidget *, DDATA *);
@@ -69,7 +80,7 @@ static gchar check_str (gchar *str)
     return 0;
 }
 
-static gint get_size (GtkCList *clist)
+gint get_size (GtkCList *clist)
 {
     gint i;
     gchar *a[2] = { "", "" };
@@ -284,12 +295,31 @@ static void data_button_close (GtkWidget *button, DDATA *data)
     if (prefs.AutoSave) 
         save_data (NULL, data);
 
-    lists[data->z] = (GtkCList *)gtk_clist_new(2);
+	switch (data->z)
+	{
+		case 0: 
+			data->pd->alias = (GtkCList *) gtk_clist_new(2);
+			break;
+
+		case 1:
+			data->pd->triggers = (GtkCList *) gtk_clist_new(2);
+			break;
+
+		case 2:
+			data->pd->variables = (GtkCList *) gtk_clist_new(2);
+			break;
+	}
+	
     for (i = 0; i < get_size(data->list); i++)
     {
         gtk_clist_get_text (data->list, i, 0, &aux[0]);
         gtk_clist_get_text (data->list, i, 1, &aux[1]);
-        gtk_clist_append(lists[data->z], aux);
+		switch (data->z)
+		{
+			case 0: gtk_clist_append(data->pd->alias, aux);		break;
+			case 1: gtk_clist_append(data->pd->triggers, aux);	break;
+			case 2: gtk_clist_append(data->pd->variables, aux);	break;
+		}
     }
 
     gtk_widget_set_sensitive (data->menu, TRUE);
@@ -300,41 +330,55 @@ static void data_button_close (GtkWidget *button, DDATA *data)
 
 void window_data (GtkWidget *menu, gint z)
 {
+	extern CONNECTION_DATA *connections[15];
+	extern GtkWidget       *main_notebook;
+	
+	CONNECTION_DATA *cd;
     GtkWidget *vbox, *a, *b;
     DDATA     *data = g_new0(DDATA, 1);
 
+	cd = connections[gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook))];
+
     switch(z)
     {
-	case(0): /* alias */
-	   data->title_name  = strdup(_("Alias"));
-	   data->title_value = strdup(_("Replacement"));
-	   data->tam_name    = 15;
-	   data->tam_value   = 80;
-           data->file_name   = "aliases";
-	break;
-	case(1): /* actions */
-	   data->title_name  = strdup(_("Actions"));
-	   data->title_value = strdup(_("Triggers"));
-	   data->tam_name    = 80;
-	   data->tam_value   = 80;
-           data->file_name   = "actions";
-	break;
-	case(2): /* vars */
-	   data->title_name  = strdup(_("Variables"));
-	   data->title_value = strdup(_("Values"));
-	   data->tam_name    = 20;
-	   data->tam_value   = 50;
-           data->file_name   = "vars";
-	break;
-	default:
-	   g_warning(_("window_data: trying to access to undefined data range: %d"), z);
-	return;
+		case(0): /* alias */
+		   	data->title_name  = g_strdup(_("Alias"));
+		   	data->title_value = g_strdup(_("Replacement"));
+		   	data->tam_name    = 15;
+		   	data->tam_value   = 80;
+           	data->file_name   = "aliases";
+			data->list		  = cd->profile->alias;
+			break;
+			
+		case(1): /* actions */
+		   	data->title_name  = g_strdup(_("Actions"));
+	   		data->title_value = g_strdup(_("Triggers"));
+	   		data->tam_name    = 80;
+	   		data->tam_value   = 80;
+           	data->file_name   = "actions";
+			data->list		  = cd->profile->triggers;
+			break;
+			
+		case(2): /* vars */
+	   		data->title_name  = g_strdup(_("Variables"));
+	   		data->title_value = g_strdup(_("Values"));
+	   		data->tam_name    = 20;
+	   		data->tam_value   = 50;
+           	data->file_name   = "vars";
+			data->list		  = cd->profile->variables;
+			break;
+			
+		default:
+	   		g_warning(_("window_data: trying to access to undefined data range: %d"), z);
+			return;
     }
+	
     data->z      = z;
     data->row    = -1;
     data->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     data->menu   = menu;
-    data->list   = lists[z];
+	data->pd	 = cd->profile;
+	
     data->textname  = gtk_entry_new ();
     data->textvalue = gtk_entry_new ();
   
@@ -392,10 +436,6 @@ void window_data (GtkWidget *menu, gint z)
     gtk_box_pack_start (GTK_BOX (a), data->button_delete, TRUE, TRUE, 15);
     gtk_widget_set_sensitive (data->button_delete, FALSE);
 
-    data->button_save   = gtk_button_new_with_label (_("Save"));
-    gtk_box_pack_start (GTK_BOX (a), data->button_save, TRUE, TRUE, 15);
-    gtk_widget_set_sensitive (data->button_save, FALSE);
-
     b = gtk_button_new_with_label (_("Close"));
     gtk_signal_connect (GTK_OBJECT (b), "clicked",
                         GTK_SIGNAL_FUNC (data_button_close), data);
@@ -407,8 +447,6 @@ void window_data (GtkWidget *menu, gint z)
                         GTK_SIGNAL_FUNC (data_unselection_made), data);
     gtk_signal_connect (GTK_OBJECT (data->button_delete), "clicked",
                         GTK_SIGNAL_FUNC (data_button_delete), data);
-    gtk_signal_connect (GTK_OBJECT (data->button_save), "clicked",
-                        GTK_SIGNAL_FUNC (save_data), data);
     gtk_signal_connect (GTK_OBJECT (data->window), "destroy",
                         GTK_SIGNAL_FUNC(data_button_close), data);
     gtk_widget_show_all(data->window);

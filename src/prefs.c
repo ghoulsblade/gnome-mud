@@ -92,50 +92,54 @@ FILE *open_file (gchar *filename, gchar *mode)
 
 void load_prefs ( void )
 {
-  prefs.EchoText = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
-  prefs.KeepText = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
-  prefs.Freeze   = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
-  prefs.CommDev  = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
-  prefs.FontName = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
-  prefs.History  = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
+	prefs.EchoText = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
+	prefs.KeepText = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
+	prefs.Freeze   = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
+	prefs.CommDev  = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
+	prefs.FontName = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
+	prefs.History  = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
 
-  {
-    extern GList *EntryHistory;
-    gint  nr, i;
-    gchar **cmd_history;
-    gnome_config_get_vector("/gnome-mud/Data/CommandHistory", &nr, &cmd_history);
+	// command history
+	{
+		extern GList *EntryHistory;
+		gint  nr, i;
+		gchar **cmd_history;
+		gnome_config_get_vector("/gnome-mud/Data/CommandHistory", &nr, &cmd_history);
 
-    EntryHistory = g_list_append(EntryHistory, "");
+		EntryHistory = g_list_append(EntryHistory, "");
 
-    for (i = 0; i < nr; i++) {
-      EntryHistory = g_list_append(EntryHistory, (gpointer) cmd_history[i]);
-    }
-  }
-
-  font_normal = gdk_font_load(prefs.FontName);
+		for (i = 0; i < nr; i++)
+		{
+			EntryHistory = g_list_append(EntryHistory, (gpointer) cmd_history[i]);
+		}
+	}
+	
+	//load font
+	font_normal = gdk_font_load(prefs.FontName);
 }
 
 void save_prefs ( void )
 {
-  gnome_config_set_bool  ("/gnome-mud/Preferences/EchoText", prefs.EchoText);
-  gnome_config_set_bool  ("/gnome-mud/Preferences/KeepText", prefs.KeepText);
-  gnome_config_set_bool  ("/gnome-mud/Preferences/AutoSave", prefs.AutoSave);
-  gnome_config_set_bool  ("/gnome-mud/Preferences/Freeze",   prefs.Freeze);
-  gnome_config_set_string("/gnome-mud/Preferences/CommDev",  prefs.CommDev);
-  gnome_config_set_string("/gnome-mud/Preferences/FontName", prefs.FontName);
-  gnome_config_set_int   ("/gnome-mud/Preferences/History",  prefs.History);
-  gnome_config_sync();
+	gnome_config_set_bool  ("/gnome-mud/Preferences/EchoText", prefs.EchoText);
+	gnome_config_set_bool  ("/gnome-mud/Preferences/KeepText", prefs.KeepText);
+	gnome_config_set_bool  ("/gnome-mud/Preferences/AutoSave", prefs.AutoSave);
+	gnome_config_set_bool  ("/gnome-mud/Preferences/Freeze",   prefs.Freeze);
+	gnome_config_set_string("/gnome-mud/Preferences/CommDev",  prefs.CommDev);
+	gnome_config_set_string("/gnome-mud/Preferences/FontName", prefs.FontName);
+	gnome_config_set_int   ("/gnome-mud/Preferences/History",  prefs.History);
+	
+	gnome_config_sync();
 }
 
 static void copy_preferences(SYSTEM_DATA *target, SYSTEM_DATA *prefs)
 {
-  target->EchoText = prefs->EchoText;
-  target->KeepText = prefs->KeepText;
-  target->AutoSave = prefs->AutoSave;
-  target->Freeze   = prefs->Freeze;             g_free(target->FontName);
-  target->FontName = g_strdup(prefs->FontName); g_free(target->CommDev);
-  target->CommDev  = g_strdup(prefs->CommDev);
-  target->History  = prefs->History;
+	target->EchoText = prefs->EchoText;
+	target->KeepText = prefs->KeepText;
+	target->AutoSave = prefs->AutoSave;
+	target->Freeze   = prefs->Freeze;             g_free(target->FontName);
+	target->FontName = g_strdup(prefs->FontName); g_free(target->CommDev);
+	target->CommDev  = g_strdup(prefs->CommDev);
+	target->History  = prefs->History;
 }
 
 static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)

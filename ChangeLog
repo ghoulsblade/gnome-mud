@@ -1,3 +1,28 @@
+Tue Jun 19 22:58:29 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* po/POTFILES.in, *.po: Added profiles.c to the list, and updated 
+	.po files.
+
+	* src/color.c: Small fixes, removed some GTK warnings.
+
+	* src/config.h.in: New update
+
+	* src/gnome-mud.c: Removed load_wizard(), and added load_profiles()
+
+	* src/gnome-mud.h [struct wizard_data2]: added.
+	[struct profile_data]: added.
+
+	* src/init.c (destroy): Added saving for profiles and connections.
+	(init_window): Added profiles, and remove old data*
+	
+	* src/data.c (data_button_close): Changed to new profiles.
+	(window_data): Changed to new profiles.
+
+	* src/net.c: Changed old lists[*] to use the new profile-lists.
+
+	* src/profiles.c: Complely new and working connection and profile
+	list functions.
+
 Sat Jun  9 18:17:24 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/Makefile.am: added LOCALEDIR to INCLUDES, so the

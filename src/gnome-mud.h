@@ -40,25 +40,28 @@
  */
 typedef struct connection_data CONNECTION_DATA;
 typedef struct wizard_data     WIZARD_DATA;
+typedef	struct wizard_data2	   WIZARD_DATA2;
 typedef struct system_data     SYSTEM_DATA;
 typedef struct keybind_data    KEYBIND_DATA;
+typedef	struct profile_data	   PROFILE_DATA;
 typedef        gint            bool;
 
 /*
  * Structures
  */
 struct connection_data {
-  mc_state   *mccp;
-  gint        mccp_timer;
-  gchar      *host;
-  gchar      *port;
-  gint        data_ready;
-  gint        sockfd;
-  gint        connected;
-  gint        notebook;
-  gboolean    echo;
-  GtkWidget  *window;
-  GtkWidget  *vscrollbar;
+	PROFILE_DATA	*profile;
+	mc_state		*mccp;
+	gint			 mccp_timer;
+	gchar			*host;
+	gchar			*port;
+	gint			 data_ready;
+	gint			 sockfd;
+	gint			 connected;
+	gint			 notebook;
+	gboolean		 echo;
+	GtkWidget		*window;
+	GtkWidget		*vscrollbar;
 };
 
 struct system_data {
@@ -82,11 +85,28 @@ struct wizard_data {
     bool       autologin;
 };
 
+struct wizard_data2 {
+	gchar	*name;
+	gchar	*hostname;
+	gchar	*port;
+	gchar	*playername;
+	gchar	*password;
+	gchar	*profile;
+};
+
 struct keybind_data {
     gint	 state;
     gint	 keyv;
     gchar	 *data;
     KEYBIND_DATA *next;
+};
+
+struct profile_data {
+	gchar 		*name;
+	GtkCList	*alias;
+	GtkCList	*variables;
+	GtkCList	*triggers;
+	GtkCList	*keys;
 };
 
 /*
@@ -144,7 +164,10 @@ void  window_prefs    ( GtkWidget *widget, gpointer data   );
 FILE *open_file       ( gchar *filename, gchar *mode       );
 
 /* profiles */
-void  window_profiles ( void							   );
+void		  load_profiles   (	void							   );
+PROFILE_DATA *profiledata_find( gchar *							   );
+void  		  profiledata_save( gchar *, GtkCList *, gchar *	   );
+void  		  window_profiles ( void							   );
 
 /* telnet.c */
 char *pre_process     ( char *buf, CONNECTION_DATA *connection       );

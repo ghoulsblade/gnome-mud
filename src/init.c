@@ -31,7 +31,7 @@ static char const rcsid[] =
 static void	about_window   (GtkWidget *, gpointer);
 static void	connect_window (GtkWidget *, gpointer);
 static void	do_close       (GtkWidget *, gpointer);
-static void     do_disconnect  (GtkWidget *, gpointer);
+static void do_disconnect  (GtkWidget *, gpointer);
 
 extern gchar        *host;
 extern gchar        *port;
@@ -55,7 +55,6 @@ GtkWidget       *menu_option_colors;
 GtkWidget       *window;
 GdkFont         *font_normal;
 GdkFont         *font_fixed;
-GtkCList        *lists[3];
 GList           *EntryHistory = NULL;
 GList           *EntryCurr    = NULL;
 bool             Keyflag      = TRUE;
@@ -68,6 +67,9 @@ void close_window (GtkWidget *widget, gpointer data)
 
 void destroy (GtkWidget *widget)
 {
+  extern GList *ProfilesList;
+  extern GList *ProfilesData;
+  extern GList *Profiles;
   GtkWidget *dialog;
   GtkWidget *label;
   gint retval;
@@ -84,27 +86,97 @@ void destroy (GtkWidget *widget)
 
   retval = gnome_dialog_run(GNOME_DIALOG(dialog));
 
-  switch (retval) {
-  case 1:
-    gnome_dialog_close(GNOME_DIALOG(dialog));
-    return;
+  switch (retval)
+  {
+  	case 1:
+    	gnome_dialog_close(GNOME_DIALOG(dialog));
+    	return;
   }  
 
-  if (EntryHistory != NULL) {
+  if (EntryHistory != NULL)
+  {
     GList *t;
     gint   i;
     gchar const *tt[g_list_length(EntryHistory)];
     
-    for (t = g_list_first(EntryHistory), i = 0; t != NULL; t = t->next) {
+    for (t = g_list_first(EntryHistory), i = 0; t != NULL; t = t->next)
+	{
       gchar *tmp = (gchar *) t->data;
 
-      if (tmp[0] != '\0') {
-	tt[i] = (gchar *) t->data;
-	i++;
+      if (tmp[0] != '\0')
+	  {
+		tt[i] = (gchar *) t->data;
+		i++;
       }
     }
     
     gnome_config_set_vector("/gnome-mud/Data/CommandHistory", i, tt);
+  }
+ 
+  if (ProfilesList != NULL)
+  {
+	  GList *t;
+	  gint   i;
+	  gchar const *prof[g_list_length(ProfilesList)];
+
+	  for (t = g_list_first(ProfilesList), i = 0; t != NULL; t = t->next, i++)
+	  {
+		  prof[i] = (gchar *) t->data;
+	  }
+
+	  gnome_config_set_vector("/gnome-mud/Data/Profiles", i, prof);
+  }
+
+  if (ProfilesData != NULL)
+  {
+	  GList *t;
+
+	  for (t = g_list_first(ProfilesData); t != NULL; t = t->next)
+	  {
+		  PROFILE_DATA *pd = (PROFILE_DATA *) t->data;
+		  
+		  profiledata_save(pd->name, pd->alias, "Alias");
+		  profiledata_save(pd->name, pd->variables, "Variables");
+		  profiledata_save(pd->name, pd->triggers, "Triggers");
+	  }
+  }
+
+  if (Profiles != NULL)
+  {
+	  GList *t;
+	  gint 	 i;
+	  gchar name[50];
+
+	  for (t = g_list_first(Profiles), i = 0; t != NULL; t = t->next, i++)
+	  {
+		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Name", i);
+		  gnome_config_set_string(name, ((WIZARD_DATA2 *) t->data)->name);
+		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Host", i);
+		  gnome_config_set_string(name, ((WIZARD_DATA2 *) t->data)->hostname);
+		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Port", i);
+		  gnome_config_set_string(name, ((WIZARD_DATA2 *) t->data)->port);
+		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Char", i);
+		  gnome_config_set_string(name, ((WIZARD_DATA2 *) t->data)->playername);
+		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Pass", i);
+		  gnome_config_private_set_string(name, ((WIZARD_DATA2 *) t->data)->password);
+		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Profile", i);
+		  gnome_config_set_string(name, ((WIZARD_DATA2 *) t->data)->profile);
+	  }
+
+	  while(1)
+	  {
+		  g_snprintf(name, 50, "/gnome-mud/Connection%d", i);
+		  if (gnome_config_has_section(name))
+		  {
+			  gnome_config_clean_section(name);
+		  }
+		  else
+		  {
+			  break;
+		  }
+
+		  i++;
+	  }
   }
   
   gtk_main_quit ();
@@ -162,25 +234,26 @@ static void connect_window (GtkWidget *widget, gpointer data)
 
   retval = gnome_dialog_run(GNOME_DIALOG(dialog));
 
-  switch (retval) {
-  case 0:
-    if (strlen(host) > 0)
-      g_free(host); 
+  switch (retval)
+  {
+  	case 0:
+    	if (strlen(host) > 0)
+      		g_free(host); 
 
-    if (strlen(port) > 0)
-      g_free(port);
+    	if (strlen(port) > 0)
+     		g_free(port);
 
-    host = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry_host)));
-    port = g_strdup(gtk_entry_get_text((GtkEntry *) entry_port));
+    	host = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry_host)));
+    	port = g_strdup(gtk_entry_get_text((GtkEntry *) entry_port));
     
-    make_connection(host, port);
+    	make_connection(host, port);
 
-    gnome_dialog_close(GNOME_DIALOG(dialog));
-    break;
+    	gnome_dialog_close(GNOME_DIALOG(dialog));
+    	break;
 
-  case 1:
-    gnome_dialog_close(GNOME_DIALOG(dialog));
-    break;
+  	case 1:
+    	gnome_dialog_close(GNOME_DIALOG(dialog));
+    	break;
   }
 }
 
@@ -199,8 +272,8 @@ static void about_window (GtkWidget *widget, gpointer data)
     return;
   }
   
-  about = gnome_about_new (_("Gnome-Mud"), VERSION,
-			   "(C) 1998-2000 Robin Ericsson",
+  about = gnome_about_new (_("GNOME-Mud"), VERSION,
+			   "(C) 1998-2001 Robin Ericsson",
 			   (const char **)authors,
 			   _("Send bug reports to: amcl-devel@lists.sourceforge.net"),
 			   NULL);
@@ -214,7 +287,7 @@ static void about_window (GtkWidget *widget, gpointer data)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
   gtk_widget_show(hbox);
 
-  hrefbox = gnome_href_new("http://amcl.sourceforge.net/", "Gnome-Mud homepage");
+  hrefbox = gnome_href_new("http://amcl.sourceforge.net/", "GNOME-Mud homepage");
   gtk_box_pack_start(GTK_BOX(hbox), hrefbox, FALSE, FALSE, 0);
   GTK_WIDGET_UNSET_FLAGS(hrefbox, GTK_CAN_FOCUS);
   gtk_widget_show(hrefbox);
@@ -312,7 +385,7 @@ static void do_disconnect (GtkWidget *widget, gpointer data)
 }
 
 static GnomeUIInfo toolbar_menu[] = {
-  GNOMEUIINFO_ITEM_STOCK(N_("Wizard..."), NULL, window_wizard,   GNOME_STOCK_PIXMAP_NEW),
+  GNOMEUIINFO_ITEM_STOCK(N_("Wizard..."), NULL, window_profiles,   GNOME_STOCK_PIXMAP_NEW),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, connect_window, GNOME_STOCK_PIXMAP_OPEN),
   GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, do_disconnect,  GNOME_STOCK_PIXMAP_CLOSE),
@@ -322,7 +395,6 @@ static GnomeUIInfo toolbar_menu[] = {
 };
 
 static GnomeUIInfo file_menu[] = {
-  GNOMEUIINFO_MENU_NEW_ITEM(N_("Connection Wizard..."), NULL, window_wizard, NULL),
   GNOMEUIINFO_MENU_NEW_ITEM(N_("Connection Wizard2(tm)"), NULL, window_profiles, NULL),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, connect_window, GNOME_STOCK_MENU_OPEN),
@@ -385,12 +457,6 @@ void init_window ()
   
   font_fixed = gdk_font_load("fixed");
   //accel_group = gtk_accel_group_new ();
-  lists[0]   = (GtkCList *)gtk_clist_new(2);
-  lists[1]   = (GtkCList *)gtk_clist_new(2);
-  lists[2]   = (GtkCList *)gtk_clist_new(2);
-  load_data (GTK_CLIST(lists[0]), "aliases");
-  load_data (GTK_CLIST(lists[1]), "actions");
-  load_data (GTK_CLIST(lists[2]), "vars");
 
   window = gnome_app_new("gnome-mud", "GNOME Mud");
   gtk_widget_realize(window);
@@ -452,6 +518,7 @@ void init_window ()
   main_connection = g_malloc0( sizeof (CONNECTION_DATA));
   main_connection->mccp = mudcompress_new();
   main_connection->notebook = 0;
+  main_connection->profile = profiledata_find("Default");
   main_connection->window = gtk_text_new (NULL, NULL);
   GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_connection->window), GTK_CAN_FOCUS);
   gtk_widget_set_usize (main_connection->window, 500, 300);
@@ -474,21 +541,19 @@ void init_window ()
   gtk_combo_set_use_arrows(GTK_COMBO(combo), FALSE);
   gtk_combo_disable_activate(GTK_COMBO(combo));
   if (EntryHistory != NULL)
-    gtk_combo_set_popdown_strings(GTK_COMBO(combo), EntryHistory);
+  {
+	gtk_combo_set_popdown_strings(GTK_COMBO(combo), EntryHistory);
+  }
   gtk_box_pack_start(GTK_BOX(box_main), combo, FALSE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT(text_entry), "key_press_event",
-		      GTK_SIGNAL_FUNC (text_entry_key_press_cb), NULL);
-  gtk_signal_connect(GTK_OBJECT(GTK_COMBO(combo)->list), "select-child",
-		     GTK_SIGNAL_FUNC (text_entry_select_child_cb), NULL);
-  gtk_signal_connect(GTK_OBJECT(text_entry), "activate", 
-		     GTK_SIGNAL_FUNC (send_to_connection), (gpointer) combo); 
+  gtk_signal_connect (GTK_OBJECT(text_entry), "key_press_event", GTK_SIGNAL_FUNC (text_entry_key_press_cb), NULL);
+  gtk_signal_connect(GTK_OBJECT(GTK_COMBO(combo)->list), "select-child", GTK_SIGNAL_FUNC (text_entry_select_child_cb), NULL);
+  gtk_signal_connect(GTK_OBJECT(text_entry), "activate", GTK_SIGNAL_FUNC (send_to_connection), (gpointer) combo); 
   gtk_widget_grab_focus (text_entry);
   
   gtk_widget_show_all (window);
   
   gtk_widget_realize (main_connection->window);
-  gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, 
-			     &color_black);
+  gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &color_black);
   
   get_version_info (buf);
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
