@@ -1,3 +1,7 @@
+Tue Oct 16 13:48:00 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.in: really commit po/ fixes.
+
 Fri Oct 12 13:45:53 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* NEWS: added new releases and dates.
