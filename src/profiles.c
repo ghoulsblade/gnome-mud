@@ -62,7 +62,15 @@ void load_profiles()
 
 		if (nr == 0)
 		{
+			PROFILE_DATA *pd = g_malloc0(sizeof(PROFILE_DATA));
+			
+			pd->name		= "Default";
+			pd->alias		= (GtkCList *) gtk_clist_new(2);
+			pd->variables	= (GtkCList *) gtk_clist_new(2);
+			pd->triggers	= (GtkCList *) gtk_clist_new(2);
+			
 			ProfilesList = g_list_append(ProfilesList, "Default");
+			ProfilesData = g_list_append(ProfilesData, (gpointer) pd);
 		}
 
 		for (i = 0; i < nr; i++)
@@ -849,3 +857,120 @@ void window_profiles(void)
 	gnome_popup_menu_attach(extra_menu, main_clist, NULL);
 }
 
+void window_profile_edit(void)
+{
+	GtkWidget *profile_window;
+	GtkWidget *vbox;
+	GtkWidget *toolbar;
+	GtkWidget *tmp_toolbar_icon;
+	GtkWidget *button_new;
+	GtkWidget *button_delete;
+	GtkWidget *button_alias;
+	GtkWidget *button_variables;
+	GtkWidget *button_triggers;
+	GtkWidget *button_keybinds;
+	GtkWidget *scrolledwindow;
+	GtkWidget *profile_list;
+	GtkWidget *vseparator;
+	gchar *titles[1] = {_("Profiles")};
+	
+	profile_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title(GTK_WINDOW(profile_window), _("GNOME-Mud Profiles"));
+
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show(vbox);
+	gtk_container_add(GTK_CONTAINER(profile_window), vbox);
+
+	toolbar = gtk_toolbar_new(GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_BOTH);
+	gtk_toolbar_set_button_relief(GTK_TOOLBAR(toolbar), GTK_RELIEF_NONE);
+	gtk_widget_show(toolbar);
+	gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 0);
+	
+	/*
+	 * Button new
+	 */
+	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_NEW);
+	button_new = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("New"), NULL, NULL,
+										    tmp_toolbar_icon, NULL, NULL);
+	gtk_widget_show(button_new);
+
+	/*
+	 * Button delete
+	 */
+	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_TRASH);
+	button_delete = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Delete"), NULL, NULL,
+											   tmp_toolbar_icon, NULL, NULL);
+	gtk_widget_show(button_delete);
+
+	/*
+	 * Vertical separator
+	 */
+	vseparator = gtk_vseparator_new();
+	gtk_widget_show(vseparator);
+	gtk_toolbar_append_space(GTK_TOOLBAR(toolbar));
+	gtk_toolbar_append_widget(GTK_TOOLBAR(toolbar), vseparator, NULL, NULL);
+	gtk_widget_set_usize(vseparator, -2, 19);
+	gtk_toolbar_append_space(GTK_TOOLBAR(toolbar));
+
+	/*
+	 * Button alias
+	 */
+	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_PREFERENCES);
+	button_alias = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Aliases"), NULL, NULL,
+											  tmp_toolbar_icon, NULL, NULL);
+	gtk_widget_show(button_alias);
+
+	/*
+	 * Button variables
+	 */
+	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_SPELLCHECK);
+	button_variables = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Variables"), NULL, NULL,
+												  tmp_toolbar_icon, NULL, NULL);
+	gtk_widget_show(button_variables);
+
+	/*
+	 * Button triggers
+	 */
+	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_INDEX);
+	button_triggers = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Triggers"), NULL, NULL,
+												 tmp_toolbar_icon, NULL, NULL);
+	gtk_widget_show(button_triggers);
+
+	/*
+	 * Vertical separator
+	 */
+	vseparator = gtk_vseparator_new();
+	gtk_widget_show(vseparator);
+	gtk_toolbar_append_space(GTK_TOOLBAR(toolbar));
+	gtk_toolbar_append_widget(GTK_TOOLBAR(toolbar), vseparator, NULL, NULL);
+	gtk_widget_set_usize(vseparator, -2, 19);
+	gtk_toolbar_append_space(GTK_TOOLBAR(toolbar));
+	
+	/*
+	 * Button keybinds
+	 */
+	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_MIDI);
+	button_keybinds = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Keybinds"), NULL, NULL,
+												 tmp_toolbar_icon, NULL, NULL);
+	gtk_widget_show(button_keybinds);
+
+	/*
+	 * CList
+	 */
+	scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
+	gtk_widget_show(scrolledwindow);
+	gtk_box_pack_start(GTK_BOX(vbox), scrolledwindow, TRUE, TRUE, 0);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+
+	profile_list = gtk_clist_new_with_titles(1, titles);
+	gtk_widget_show(profile_list);
+	gtk_container_add(GTK_CONTAINER(scrolledwindow), profile_list);
+	//gtk_clist_set_column_width(GTK_CLIST(profile_list), 0, 80);
+	gtk_widget_set_usize(profile_list, 250, 180);
+	gtk_clist_column_titles_show(GTK_CLIST(profile_list));
+	gtk_clist_column_title_passive(GTK_CLIST(profile_list), 0);
+
+	g_list_foreach(ProfilesList, (GFunc) profilelist_clist_fill, (gpointer) profile_list);
+	
+	gtk_widget_show(profile_window);
+}
