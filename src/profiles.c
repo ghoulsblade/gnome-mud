@@ -83,16 +83,96 @@ void load_profiles()
 			pd->alias 	  = (GtkCList *) gtk_clist_new(2);
 			pd->variables = (GtkCList *) gtk_clist_new(2);
 			pd->triggers  = (GtkCList *) gtk_clist_new(2);
+			pd->kd		  = NULL;
 
+			/*
+			 * Aliases
+			 */
 			g_snprintf(name, 50, "/gnome-mud/Profile: %s/Alias", profiles[i]);
 			gnome_config_get_vector(name, &new_nr, &vector);
 			g_snprintf(name, 50, "/gnome-mud/Profile: %s/AliasValue", profiles[i]);
 			gnome_config_get_vector(name, &new_nr, &vector2);
 			for (k = 0; k < new_nr; k++)
 			{
-				gchar *t[2] = { vector[k], vector2[k]};
+				gchar *t[2] = { vector[k], vector2[k] };
 
+				if (strlen(vector[k]) < 1)
+				{
+					continue;
+				}
+				
 				gtk_clist_append(pd->alias, t);
+			}
+
+			/*
+			 * Variables
+			 */
+			g_snprintf(name, 50, "/gnome-mud/Profile: %s/Variables", profiles[i]);
+			gnome_config_get_vector(name, &new_nr, &vector);
+			g_snprintf(name, 50, "/gnome-mud/Profile: %s/VariablesValue", profiles[i]);
+			gnome_config_get_vector(name, &new_nr, &vector2);
+			for (k = 0; k < new_nr; k++)
+			{
+				gchar *t[2] = { vector[k], vector2[k] };
+
+				if (strlen(vector[k]) < 1)
+				{
+					continue;
+				}
+				
+				gtk_clist_append(pd->variables, t);
+			}
+
+			/*
+			 * Triggers
+			 */
+			g_snprintf(name, 50, "/gnome-mud/Profile: %s/Triggers", profiles[i]);
+			gnome_config_get_vector(name, &new_nr, &vector);
+			g_snprintf(name, 50, "/gnome-mud/Profile: %s/TriggersValue", profiles[i]);
+			gnome_config_get_vector(name, &new_nr, &vector2);
+			for (k = 0; k < new_nr; k++)
+			{
+				gchar *t[2] = { vector[k], vector2[k] };
+
+				if (strlen(vector[k]) < 1)
+				{
+					continue;
+				}
+				
+				gtk_clist_append(pd->triggers, t);
+			}
+
+			/*
+			 * Keybinds
+			 */
+			g_snprintf(name, 50, "/gnome-mud/Profile: %s/Keybinds", profiles[i]);
+			gnome_config_get_vector(name, &new_nr, &vector);
+			g_snprintf(name, 50, "/gnome-mud/Profile: %s/KeybindValues", profiles[i]);
+			gnome_config_get_vector(name, &new_nr, &vector2);
+			for (k = 0; k < new_nr; k++)
+			{
+				KEYBIND_DATA *kd = (KEYBIND_DATA *) g_malloc0(sizeof(KEYBIND_DATA));
+				int KB_state = 0;
+				gchar *keyv_begin;
+
+				if (strlen(vector[k]) < 1)
+				{
+					continue;
+				}
+
+				if (strstr(vector[k], "Control"))	KB_state |= 4;
+				if (strstr(vector[k], "Alt"))		KB_state |= 8;
+				
+				keyv_begin = vector[k] + strlen(vector[k]) - 2;
+			
+				while (!(keyv_begin == (vector[k]-1) || keyv_begin[0] == '+')) keyv_begin--;
+				keyv_begin++;
+
+				kd->state = KB_state;
+				kd->keyv  = gdk_keyval_from_name(keyv_begin);
+				kd->data  = g_strdup(vector2[k]);
+				kd->next  = pd->kd;
+				pd->kd    = kd;
 			}
 
 			ProfilesList = g_list_append(ProfilesList, (gpointer) profiles[i]);
@@ -170,6 +250,38 @@ void profiledata_save(gchar *profilename, GtkCList *clist, gchar *partname)
 	gnome_config_set_vector(tmp, i, vector_name);
 
 	g_snprintf(tmp, 50, "%s/%sValue", name, partname);
+	gnome_config_set_vector(tmp, i, vector_value);
+}
+
+void profiledata_savekeys(gchar *profilename, KEYBIND_DATA *kd)
+{
+	KEYBIND_DATA *scroll;
+
+	// Ugly hardcoded value
+	gchar const *vector_name[500];
+	gchar const *vector_value[500];
+	gchar *buf;
+	gchar tmp[60], name[60];
+	int   i;
+
+	g_snprintf(name, 50, "/gnome-mud/Profile: %s", profilename);
+
+	for (i = 0, scroll = kd; scroll != NULL; i++, scroll = scroll->next)
+	{
+		buf = (char *) g_malloc0(sizeof(char *) * 30);
+		if ((scroll->state)&4)	strcat(buf, "Control+");
+		if ((scroll->state)&8)	strcat(buf, "Alt+");
+		strcat(buf, gdk_keyval_name(scroll->keyv));
+
+		vector_name[i]  = buf;
+		vector_value[i] = scroll->data;
+
+	}
+
+	g_snprintf(tmp, 50, "%s/Keybinds", name);
+	gnome_config_set_vector(tmp, i, vector_name);
+
+	g_snprintf(tmp, 50, "%s/KeybindValues", name);
 	gnome_config_set_vector(tmp, i, vector_value);
 }
 
@@ -264,6 +376,24 @@ static void profilelist_alias_cb(GtkWidget *widget, gpointer data)
 		if (pd != NULL)
 		{
 			window_data(pd, 0);
+		}
+	}
+}
+
+static void profilelist_keybinds_cb(GtkWidget *widget, gpointer data)
+{
+	PROFILE_DATA *pd;
+
+	if (selected != -1)
+	{
+		gchar *name;
+
+		gtk_clist_get_text(GTK_CLIST(data), selected, 0, &name);
+
+		pd = profiledata_find(name);
+		if (pd != NULL)
+		{
+			window_keybind(pd);
 		}
 	}
 }
@@ -908,7 +1038,7 @@ void window_profiles(void)
 
 void window_profile_edit(void)
 {
-	GtkWidget *profile_window;
+	static GtkWidget *profile_window;
 	GtkWidget *vbox;
 	GtkWidget *toolbar;
 	GtkWidget *tmp_toolbar_icon;
@@ -918,10 +1048,18 @@ void window_profile_edit(void)
 	GtkWidget *button_variables;
 	GtkWidget *button_triggers;
 	GtkWidget *button_keybinds;
+	GtkWidget *button_close;
 	GtkWidget *scrolledwindow;
 	GtkWidget *profile_list;
 	GtkWidget *vseparator;
 	gchar *titles[1] = {_("Profiles")};
+
+	if (profile_window != NULL)
+	{
+		gdk_window_raise(profile_window->window);
+		gdk_window_show(profile_window->window);
+		return;
+	}
 	
 	profile_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(profile_window), _("GNOME-Mud Profiles"));
@@ -1004,6 +1142,23 @@ void window_profile_edit(void)
 	gtk_widget_show(button_keybinds);
 
 	/*
+	 * Vertical separator
+	 */
+	vseparator = gtk_vseparator_new();
+	gtk_widget_show(vseparator);
+	gtk_toolbar_append_space(GTK_TOOLBAR(toolbar));
+	gtk_toolbar_append_widget(GTK_TOOLBAR(toolbar), vseparator, NULL, NULL);
+	gtk_widget_set_usize(vseparator, -2, 19);
+	gtk_toolbar_append_space(GTK_TOOLBAR(toolbar));
+	
+	/*
+	 *
+	 */
+	tmp_toolbar_icon = gnome_stock_pixmap_widget(profile_window, GNOME_STOCK_PIXMAP_CLOSE);
+	button_close = gtk_toolbar_append_element(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_CHILD_BUTTON, NULL, _("Close"), NULL, NULL,
+											  tmp_toolbar_icon, NULL, NULL);
+	gtk_widget_show(button_close);
+	/*
 	 * CList
 	 */
 	scrolledwindow = gtk_scrolled_window_new(NULL, NULL);
@@ -1014,7 +1169,6 @@ void window_profile_edit(void)
 	profile_list = gtk_clist_new_with_titles(1, titles);
 	gtk_widget_show(profile_list);
 	gtk_container_add(GTK_CONTAINER(scrolledwindow), profile_list);
-	//gtk_clist_set_column_width(GTK_CLIST(profile_list), 0, 80);
 	gtk_widget_set_usize(profile_list, 250, 180);
 	gtk_clist_column_titles_show(GTK_CLIST(profile_list));
 	gtk_clist_column_title_passive(GTK_CLIST(profile_list), 0);
@@ -1033,6 +1187,11 @@ void window_profile_edit(void)
 	gtk_signal_connect(GTK_OBJECT(button_alias),     "clicked", GTK_SIGNAL_FUNC(profilelist_alias_cb), profile_list);
 	gtk_signal_connect(GTK_OBJECT(button_triggers),  "clicked", GTK_SIGNAL_FUNC(profilelist_triggers_cb), profile_list);
 	gtk_signal_connect(GTK_OBJECT(button_variables), "clicked", GTK_SIGNAL_FUNC(profilelist_variables_cb), profile_list);
+
+	gtk_signal_connect(GTK_OBJECT(button_keybinds),  "clicked", GTK_SIGNAL_FUNC(profilelist_keybinds_cb), profile_list);
+
+	gtk_signal_connect_object(GTK_OBJECT(button_close), "clicked", gtk_widget_destroy, (gpointer) profile_window);
+	gtk_signal_connect(GTK_OBJECT(profile_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &profile_window);
 	
 	gtk_widget_show(profile_window);
 }
