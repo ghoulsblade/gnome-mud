@@ -3,9 +3,6 @@ GNOME-Mud BUGS
 
 Please report bugs to GNOME's Bugzilla: http://bugzilla.gnome.org/
 
-- (telnet) Telnet sequences are split across packages
-- (telnet) NAWS doesn't send out notification on window size changes
-
 - (python) PyGTK support is broken
 
 - (docs) Errors in plugin API
