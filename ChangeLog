@@ -1,3 +1,8 @@
+2004-02-11  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/window.c (terminal_feed): Convert vte-feed-buffer from utf-8
+	to locale fixing problem where user has a non-utf-8 locale.
+
 2004-02-11  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/pixmaps/gnome-mud.png, src/pixmaps/gnome-mud-tray-icon.png,
