@@ -1,11 +1,11 @@
-# French translation of gnome-mud messages
+# French translation of gnome-mud messages.
 # Copyright (C) 2001, 2002 Free Software Foundation, Inc.
 # Martin Quinson <martin.quinson@ens-lyon.fr>, 2001, 2002.
 # $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mud 0.8.99\n"
+"Project-Id-Version: gnome-mud 0.9.1\n"
 "POT-Creation-Date: 2002-06-25 14:25+0200\n"
 "PO-Revision-Date: 2002-06-24 17:55+0200\n"
 "Last-Translator: Martin Quinson <martin.quinson@ens-lyon.fr>\n"
@@ -652,9 +652,8 @@ msgid "MudList file:"
 msgstr "Fichier de liste des muds :"
 
 #: src/prefs.c:665
-#, fuzzy
 msgid "Select a MudList File"
-msgstr "Fichier de liste des muds :"
+msgstr "Choisir une liste de muds"
 
 #: src/prefs.c:673
 msgid "Functionality"
