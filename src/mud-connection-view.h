@@ -43,7 +43,9 @@ GType mud_connection_view_get_type (void) G_GNUC_CONST;
 
 MudConnectionView* mud_connection_view_new (const gchar *hostname, const gint port);
 GtkWidget* mud_connection_view_get_viewport (MudConnectionView *view);
-void mud_connection_view_disconnect ();
+void mud_connection_view_disconnect (MudConnectionView *view);
+void mud_connection_view_reconnect (MudConnectionView *view);
+void mud_connection_view_send (MudConnectionView *view, const gchar *data);
 
 G_END_DECLS
 

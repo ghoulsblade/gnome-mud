@@ -10,6 +10,8 @@
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
+  <property name="default_width">500</property>
+  <property name="default_height">400</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
 
@@ -122,7 +124,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="reconnect1">
+		    <widget class="GtkImageMenuItem" id="menu_reconnect">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Reconnect</property>
 		      <property name="use_underline">True</property>
@@ -326,7 +328,7 @@
 	      </child>
 
 	      <child>
-		<widget class="button" id="button5">
+		<widget class="button" id="toolbar_reconnect">
 		  <property name="visible">True</property>
 		  <property name="label" translatable="yes">Reconnect</property>
 		  <property name="use_underline">True</property>
@@ -408,7 +410,7 @@
       </child>
 
       <child>
-	<widget class="GtkEntry" id="entry1">
+	<widget class="GtkEntry" id="text_entry">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="editable">True</property>

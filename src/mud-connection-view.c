@@ -275,6 +275,24 @@ mud_connection_view_disconnect(MudConnectionView *view)
 	gnetwork_connection_close(GNETWORK_CONNECTION(view->connection));
 }
 
+void
+mud_connection_view_reconnect(MudConnectionView *view)
+{
+	gnetwork_connection_close(GNETWORK_CONNECTION(view->connection));
+	gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
+}
+
+void
+mud_connection_view_send(MudConnectionView *view, const gchar *data)
+{
+	gchar *text;
+
+	text = g_strdup_printf("%s\r\n", data);
+	gnetwork_connection_send(GNETWORK_CONNECTION(view->connection), text, strlen(text));
+	mud_connection_view_add_text(view, text, Sent);
+	g_free(text);
+}
+
 MudConnectionView*
 mud_connection_view_new (const gchar *hostname, const gint port)
 {
@@ -286,7 +304,9 @@ mud_connection_view_new (const gchar *hostname, const gint port)
 	view = g_object_new(MUD_TYPE_CONNECTION_VIEW, NULL);
 	view->connection = g_object_new(GNETWORK_TYPE_TCP_CONNECTION,
 									"address", hostname,
-									"port", port, NULL);
+									"port", port,
+									"authentication-type", GNETWORK_SSL_AUTH_ANONYMOUS,
+									"proxy-type", GNETWORK_TCP_PROXY_NONE, NULL);
 	g_object_add_weak_pointer(G_OBJECT(view->connection), (gpointer *) &view->connection);
 	g_signal_connect(view->connection, "received", G_CALLBACK(mud_connection_view_received_cb), view);
 	g_signal_connect(view->connection, "sent", G_CALLBACK(mud_connection_view_send_cb), view);

@@ -11,6 +11,7 @@ feel free to suggest features, contribute, or comment.
 0.11.0
 
 * Complete GNOME2 (no BROKEN or DEPRECATED code)
+* Let mud-window class keep record of current tab instead of let the method fetch it
 * Rewrite net-releated code
 * Right-click menu for connection-tabs
   - able close connection, get connection info such as connected

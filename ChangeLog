@@ -1,3 +1,20 @@
+2004-02-23  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-connection-view.c (mud_connection_view_reconnect): Added.
+	(mud_connection_view_send): Added.
+	(mud_connection_view_new): Added authentication-type and proxy-type.
+	
+	* src/mud-connection-view.h: Added prototypes.
+
+	* src/mud-window.c [_MudWindowPrivate]: Added textentry.
+	(mud_window_reconnect_cb): Added.
+	(mud_window_textentry_keypress): Added.
+	(mud_window_textentry_activate): Added.
+	(mud_window_init): Connect reconnect button and textentry.
+	
+	* ui/main.glade: Added default width and height.
+	Changed named of reconnect-buttons and textentries.
+
 2004-02-19  Robin Ericsson  <lobbin@localhost.nu>
 
 	* configure.ac: Added check for libnetwork.

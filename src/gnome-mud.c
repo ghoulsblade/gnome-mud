@@ -78,7 +78,7 @@ int main (gint argc, char *argv[])
 	GConfClient  *gconf_client;
 	GError       *err = NULL;
 	//gchar         buf[500];
-	
+
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 	textdomain(PACKAGE);

@@ -21,6 +21,7 @@ struct _MudWindowPrivate
 {
 	GtkWidget *window;
 	GtkWidget *notebook;
+	GtkWidget *textentry;
 
 	GtkWidget *blank_label;
 
@@ -69,7 +70,35 @@ mud_window_disconnect_cb(GtkWidget *widget, MudWindow *window)
 	view = mud_window_get_current_view(window);
 	mud_connection_view_disconnect(view);
 }
-	
+
+static void
+mud_window_reconnect_cb(GtkWidget *widget, MudWindow *window)
+{
+	MudConnectionView *view;
+
+	view = mud_window_get_current_view(window);
+	mud_connection_view_reconnect(view);
+}
+
+static gboolean
+mud_window_textentry_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *window)
+{
+	MudConnectionView *view;
+	view = mud_window_get_current_view(window);
+
+	return FALSE;
+}
+
+static void
+mud_window_textentry_activate(GtkWidget *widget, MudWindow *window)
+{
+	MudConnectionView *view;
+	view = mud_window_get_current_view(window);
+	g_message("%x", view);
+
+	mud_connection_view_send(view, gtk_entry_get_text(GTK_ENTRY(widget)));
+}
+
 static void
 mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 {
@@ -178,8 +207,17 @@ mud_window_init (MudWindow *window)
 	g_signal_connect(glade_xml_get_widget(glade, "menu_disconnect"), "activate", G_CALLBACK(mud_window_disconnect_cb), window);
 	g_signal_connect(glade_xml_get_widget(glade, "toolbar_disconnect"), "clicked", G_CALLBACK(mud_window_disconnect_cb), window);
 
+	/* connect reconnect buttons */
+	g_signal_connect(glade_xml_get_widget(glade, "menu_reconnect"), "activate", G_CALLBACK(mud_window_reconnect_cb), window);
+	g_signal_connect(glade_xml_get_widget(glade, "toolbar_reconnect"), "clicked", G_CALLBACK(mud_window_reconnect_cb), window);
+	
 	/* other objects */
 	window->priv->notebook = glade_xml_get_widget(glade, "notebook");
+
+	window->priv->textentry = glade_xml_get_widget(glade, "text_entry");
+	g_signal_connect(window->priv->textentry, "key_press_event", G_CALLBACK(mud_window_textentry_keypress), window);
+	g_signal_connect(window->priv->textentry, "activate", G_CALLBACK(mud_window_textentry_activate), window);
+	
 	window->priv->blank_label = glade_xml_get_widget(glade, "startup_label");
 	g_object_ref(window->priv->blank_label);
 	
