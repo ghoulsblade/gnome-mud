@@ -1,3 +1,10 @@
+Wed Jan 24 20:59:31 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* configure.in, src/Makefile.am, version.h.in, applied
+	patch from CrezyboY.
+
+	* src/data.c: Small patch sent in from message board.
+
 Sat Jan 20 02:29:40 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Makefile.am, amcl-lsm, gnome-mud.lsm: renamed amcl.lsm 

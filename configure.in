@@ -107,7 +107,20 @@ fi
 
 AM_GNU_GETTEXT
 
-AC_OUTPUT(Makefile macros/Makefile src/Makefile plugins/Makefile intl/Makefile po/Makefile.in)
+dnl Additional variables for version.h
+USER="`whoami`"
+HOST="`hostname`"
+GTKVER="GTK+ `gtk-config --version`"
+CCVER="`$CC -v 2>&1 | tail -1`"
+CODELINES="`cat $srcdir/src/*.c $srcdir/src/*.h | grep -c -e \"[[:alpha:]|[:punct:]]\"`"
+
+AC_SUBST(USER)
+AC_SUBST(HOST)
+AC_SUBST(GTKVER)
+AC_SUBST(CCVER)
+AC_SUBST(CODELINES)
+
+AC_OUTPUT(Makefile macros/Makefile src/Makefile plugins/Makefile intl/Makefile po/Makefile.in src/version.h)
 
 if test "x$enable_warnings" = "xyes"; then
   CFLAGS="$CFLAGS -O -pipe -Wall -Wundef -Wredundant-decls      \

@@ -11,18 +11,3 @@ gnomemud_LDADD    = gnome-mud.o $(GNOME_LIBDIR) $(GNOMEUI_LIBS)
 
 gnome-mud.o: gnome-mud.c
 	$(COMPILE) -DPKGDATADIR=\"$(pkgdatadir)\" -c $(top_srcdir)/src/gnome-mud.c
-
-version.h:
-	@echo "/* this header is automatically generated */" > version.h
-	@echo "/* and recreated for each new compilation */" >> version.h
-	@echo "#define PROG_NAME \"$(PROGNAME)\"" >> version.h
-	@echo "#define PROG_VERSION \"$(VERSION)\"" >> version.h
-	@echo "#define COMPILE_DATE \"`date +%D`\"" >> version.h
-	@echo "#define COMPILE_TIME \"`date +%T`\"" >> version.h
-	@echo "#define COMPILE_BY \"`whoami`\"" >> version.h
-	@echo "#define COMPILE_HOST \"`hostname`\"" >> version.h
-	@echo "#define GTK_VERSION \"GTK+ `gtk-config --version`\"" >> version.h
-	@echo "#define CC_VERSION \"`$(CC) -v 2>&1 | tail -1`\"">>version.h
-	@echo "#define CODE_LINES `cat *.c gnome-mud.h modules.h modules_api.h | grep -ch -e \"[[:alpha:]|[:punct:]]\"`">>version.h
-
-

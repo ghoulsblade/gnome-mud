@@ -2,7 +2,7 @@
 # Copyright (C) 1995 Free Software Foundation, Inc.
 
 # Package source files
-src/amcl.c
+src/gnome-mud.c
 src/data.c
 src/color.c
 src/init.c

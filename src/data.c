@@ -227,7 +227,8 @@ static void data_button_add (GtkWidget *button, DDATA *data)
         return;
     }
   
-    if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
+    //if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
+    if ( strcmp(gtk_clist_get_column_title(data->list, 0),_("Actions")) && (a = check_str(text[0])))
     {
         g_snprintf (buf, 255, _("Character '%c' not allowed."), a); 
         popup_window (buf);
