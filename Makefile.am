@@ -7,5 +7,5 @@ Applications_DATA = $(Applications_in_files:.desktop.in=.desktop)
 
 EXTRA_DIST = ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS PLUGIN.API \
 		README ROADMAP config.rpath configure.in gnome-mud.desktop.in \
-		gnome-mud.lsm intltool-extract.in, intltool-merge.in \
+		gnome-mud.lsm intltool-extract.in intltool-merge.in \
 		intltool-update.in $(Applications_DATA)
