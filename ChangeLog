@@ -1,3 +1,7 @@
+Mon Jan 14 14:26:07 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Updated.
+
 Mon Jan 14 14:04:39 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mudlist.c (mudlist_tree_fill_subtree): Added.
