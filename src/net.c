@@ -216,6 +216,7 @@ void open_connection (CONNECTION_DATA *connection)
     textfield_add (connection, buf, MESSAGE_SYSTEM);
 
     /* strerror(3) */
+    memset(&req,0,sizeof(req));
     req.ai_flags = 0;
     req.ai_family = AF_UNSPEC;
     req.ai_socktype = SOCK_STREAM;
