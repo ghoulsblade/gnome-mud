@@ -73,7 +73,7 @@ void window_menu_file_stop_logging_cb (GtkWidget *widget, gpointer data)
   g_return_if_fail (cd) ;
 
   if (!cd->logging) {
-    textfield_add(cd, _("*** No log is open in this window to be closed.\n"),
+    textfield_add(cd, _("*** No log to be closed is open in this window.\n"),
       MESSAGE_ERR) ;
     return ;
   }

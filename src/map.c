@@ -929,7 +929,7 @@ void path_type_dialog(AutoMap* automap, const gchar* name)
 		gtk_box_pack_start(GTK_BOX(vbox), hbox_follow , TRUE, TRUE, 2);
 
 		/* The radio button (default) */
-		follow_path = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(to_new_map), _("Path follow already existing path:"));
+		follow_path = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(to_new_map), _("Path follows an already existing path:"));
 		data->follow_choice = follow_path;
 		gtk_box_pack_start(GTK_BOX(hbox_follow), follow_path, FALSE, FALSE, 5);
 		gtk_signal_connect(GTK_OBJECT(follow_path), "clicked", GTK_SIGNAL_FUNC(on_follow_wanted), data);

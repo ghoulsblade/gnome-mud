@@ -23,11 +23,11 @@
 			<type>string</type>
 			<default>#000000</default>
 			<locale name="C">
-				<short>Default colour of the background</short>
+				<short>Default color of the background</short>
 				<long>
-				 Default colour of the background, as a colour
+				 Default color of the background, as a color
 				 specification (can be HTML-style hex digits,
-				 or a colour name such as "red").
+				 or a color name such as "red").
 				</long>
 			</locale>
 		</schema>
@@ -39,11 +39,11 @@
 			<type>string</type>
 			<default>#FFFFDD</default>
 			<locale name="C">
-				<short>Default colour of the text</short>
+				<short>Default color of the text</short>
 				<long>
-				 Default colour of the text, as a colour
+				 Default color of the text, as a color
 				 specification (can be HTML-style hex digits,
-				 or a colour name such as "red").
+				 or a color name such as "red").
 				</long>
 			</locale>
 		</schema>
@@ -55,12 +55,12 @@
 			<type>string</type>
 			<default>#000000:#AA0000:#00AA00:#AA5500:#0000AA:#AA00AA:#00AAAA:#AAAAAA:#555555:#FF5555:#55FF55:#FFFF55:#5555FF:#FF55FF:#55FFFF:#FFFFFF</default>
 			<locale name="C">
-				<short>Colour palette</short>
+				<short>Color palette</short>
 				<long>
-				 GNOME-Mud has a 16-colour palette that
+				 GNOME-Mud has a 16-color palette that
 				 MUDs can use. It must be specified in the form
-				 of a colon-separated list of colour names.
-				 Colour names should be in hex format e.g.
+				 of a colon-separated list of color names.
+				 Color names should be in hex format e.g.
 				 "#FF00FF".
 				</long>
 			</locale>
@@ -159,8 +159,8 @@
 				<short>Whether to enable or disable the system keys</short>
 				<long>
 				 If enabled, GNOME-Mud will offer a few
-				 built-in keybinds. They can be overridden by
-				 custom keybinds, or they can be disabled
+				 built-in keybindings. They can be overridden
+				 by custom keybindings, or they can be disabled
 				 completely with this option.
 				</long>
 			</locale>
@@ -227,7 +227,7 @@
 			<type>string</type>
 			<default></default>
 			<locale name="C">
-				<short>Last log dir</short>
+				<short>Last log directory</short>
 			</locale>
 		</schema>
 
@@ -326,7 +326,7 @@
 			<list_type>string</list_type>
 			<default>[]</default>
 			<locale name="C">
-				<short>Keybinds</short>
+				<short>Keybindings</short>
 			</locale>
 		</schema>
 	</schemalist>

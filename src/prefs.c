@@ -645,19 +645,19 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	gnome_font_picker_set_mode (GNOME_FONT_PICKER (picker_font), GNOME_FONT_PICKER_MODE_FONT_INFO);
 	gnome_font_picker_set_font_name(GNOME_FONT_PICKER(picker_font), prefs.FontName);
 	
-	label_palette = gtk_label_new (_("Colour palette:"));
+	label_palette = gtk_label_new (_("Color palette:"));
 	gtk_widget_show (label_palette);
 	gtk_table_attach (GTK_TABLE (table_colorfont), label_palette, 0, 1, 4, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_palette), 1, 0.5);
 	gtk_misc_set_padding (GTK_MISC (label_palette), 8, 0);
 
-	label_background = gtk_label_new (_("Background colour:"));
+	label_background = gtk_label_new (_("Background color:"));
 	gtk_widget_show (label_background);
 	gtk_table_attach (GTK_TABLE (table_colorfont), label_background, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_background), 1, 0.5);
 	gtk_misc_set_padding (GTK_MISC (label_background), 8, 0);
 
-	label_foreground = gtk_label_new (_("Foreground colour:"));
+	label_foreground = gtk_label_new (_("Foreground color:"));
 	gtk_widget_show (label_foreground);
 	gtk_table_attach (GTK_TABLE (table_colorfont), label_foreground, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_foreground), 1, 0.5);
@@ -665,8 +665,8 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 
 	picker_foreground = gnome_color_picker_new ();
 	gtk_tooltips_set_tip(tooltip, picker_foreground,
-			_("Default foreground colour used when the connection "
-			  "doesn't request the use of a specific colour."),
+			_("Default foreground color used when the connection "
+			  "doesn't request the use of a specific color."),
 			  NULL);
 	gtk_widget_show (picker_foreground);
 	gtk_table_attach (GTK_TABLE (table_colorfont), picker_foreground, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
@@ -674,8 +674,8 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
   
 	picker_background = gnome_color_picker_new ();
 	gtk_tooltips_set_tip(tooltip, picker_background,
-			_("Default background colour used when the connection "
-			  "doesn't request the use of a specific colour."),
+			_("Default background color used when the connection "
+			  "doesn't request the use of a specific color."),
 			  NULL);
 	gtk_widget_show (picker_background);
 	gtk_table_attach (GTK_TABLE (table_colorfont), picker_background, 1, 2, 3, 4, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
@@ -690,7 +690,7 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 		GtkWidget *picker = gnome_color_picker_new();
 	
 		gtk_tooltips_set_tip(tooltip, picker,
-				_("Change the colour of a specific colour that "
+				_("Change the color of a specific color that "
 				  "the MUD requests to use."), NULL);
 		
 		prefs_set_color(picker, i);
@@ -797,8 +797,9 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	gtk_box_pack_start(GTK_BOX(vbox), tmp, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltip, tmp,
 		  _("If enabled, GNOME-Mud will offer a few built-in "
-		    "keybinds. They can be overridden by custom keybinds, or "
-		    "they can be disabled completely with this option."),
+		    "keybindings. They can be overridden by custom "
+		    "keybindings, or they can be disabled completely with "
+		    "this option."),
 		  NULL);
 	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_checkbutton_disablekeys_cb), (gpointer) prefs_window);
 
@@ -863,7 +864,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
 
 	frame = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_NONE);
-	tmp = gtk_label_new(_("Colour and Fonts"));
+	tmp = gtk_label_new(_("Color and Fonts"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), frame, tmp);
 
 	vbox = prefs_color_frame(prefs_window);
@@ -893,8 +894,8 @@ void window_prefs (GtkWidget *widget, gpointer data)
 
 	tmp2 = gtk_option_menu_new();
 	gtk_tooltips_set_tip (tooltip, tmp2,
-			_("This settings defines where to place the "
-			  "connection tabs that are used the change active "
+			_("This setting defines where to place the "
+			  "connection tabs that are used to change active "
 			  "connection."), NULL);
 	gtk_option_menu_set_menu(GTK_OPTION_MENU(tmp2), tmp);
 	gtk_option_menu_set_history(GTK_OPTION_MENU(tmp2), tab_location_by_int(prefs.TabLocation));

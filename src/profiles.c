@@ -1230,7 +1230,7 @@ void window_profile_edit(void)
 	 * Button keybinds
 	 */
 	tmp_toolbar_icon = gtk_image_new_from_stock ("gtk-select-font", GTK_ICON_SIZE_LARGE_TOOLBAR);
-	button_keybinds = gtk_toolbar_append_item (GTK_TOOLBAR(toolbar), _("Keybinds"), _("Set keybinds"), NULL, tmp_toolbar_icon, NULL, NULL);
+	button_keybinds = gtk_toolbar_append_item (GTK_TOOLBAR(toolbar), _("Keybindings"), _("Set keybindings"), NULL, tmp_toolbar_icon, NULL, NULL);
 	gtk_widget_show(button_keybinds);
 
 	/*

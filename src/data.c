@@ -368,7 +368,7 @@ void window_data (PROFILE_DATA *profile, gint z)
     data->textname  = gtk_entry_new ();
     data->textvalue = gtk_entry_new ();
   
-    gtk_window_set_title (GTK_WINDOW (data->window), _("GNOME-Mud Configuration Centre"));
+    gtk_window_set_title (GTK_WINDOW (data->window), _("GNOME-Mud Configuration Center"));
     gtk_widget_set_usize (data->window,450,320);
 
 	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);

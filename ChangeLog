@@ -1,3 +1,15 @@
+2003-07-10  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/data.c, src/keybind.c, src/prefs.c, gnome-mud.schemas.in:
+	Use American English instead of Commonwealth English for "Color" and
+	"Center".
+	* src/log.c: Fix the construct of a message to make it not look weird.
+	* src/map.c: Fix typo.
+	* src/prefs.c: Fix typos.
+	* src/keybind.c, src/prefs.c, src/profiles.c, gnome-mud.schemas.in:
+	Standarize the use of "keybinding" on all messages.
+	* gnome-mud.schemas.in: Use "directory", not "dir".
+
 2003-07-09  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Release 0.10.2

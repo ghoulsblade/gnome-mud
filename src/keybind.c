@@ -306,7 +306,7 @@ void window_keybind (PROFILE_DATA *pd)
 	gtk_widget_set_usize (window_key_bind, 450, 320);
 
 	gtk_container_set_border_width (GTK_CONTAINER (window_key_bind), 5);
-	gtk_window_set_title (GTK_WINDOW (window_key_bind), _("GNOME-Mud Key Binding Centre"));
+	gtk_window_set_title (GTK_WINDOW (window_key_bind), _("GNOME-Mud Keybinding Center"));
 	gtk_window_set_position (GTK_WINDOW (window_key_bind), GTK_WIN_POS_CENTER);
 	
 	vbox = gtk_vbox_new (FALSE, 0);
