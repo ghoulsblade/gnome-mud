@@ -3,16 +3,4 @@
 .deps
 .libs
 Makefile
-aclocal.m4
-confdefs.h
-config.cache
-config.h
-config.log
-config.status
-configure
-libtool
-stamp-h
-stamp-h.in
-notes
-ChangeLog
-amcl*.tar.gz
+po2tbl.sed

@@ -7,4 +7,5 @@ cat-id*
 stamp-cat*
 *.pot
 POTFILES
-po2tbl.sed
+Makefile
+Makefile.in
