@@ -1,3 +1,10 @@
+Tue Feb  5 16:07:18 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/gnome-mud.h, src/net.c, src/prefs.c, src/telnet.c: new
+	patch from Vashti, adds terminal autodetection support, allows
+	users to specify their term type from preferences, and other
+	cleanups for telnet code.
+
 Tue Feb  5 15:26:15 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mudlist.c (mudlist_parse_hoststring): Added.

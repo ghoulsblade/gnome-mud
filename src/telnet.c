@@ -19,6 +19,7 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 #ifdef HAVE_TELNET_H
@@ -33,13 +34,20 @@
 static char const rcsid[] = 
     "$Id$";
 
-/* Added by Benjamin Curtis, Code Swiped from TUsh by Simon Marsh */
+/* Global variables */
+
+extern SYSTEM_DATA prefs ;
+
+/* Added by Benjamin Curtis, Code Swiped from TUsh by Simon Marsh
+ * TERMINAL-TYPE support added by Vashti <vashti@dream.org.uk> February 2002 */
+
 gint pre_process(char *buf, CONNECTION_DATA *connection)
 {
-  unsigned char *from, *to;
-  char pling[3];
-  int len=0;
+  unsigned char *from, *to, option, subneg;
+  int len;
   
+  subneg = len = 0 ;
+
   from = (unsigned char *)buf;
   to   = (unsigned char *)buf;
   
@@ -68,20 +76,63 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 	len++;
 	break;
 	
+      case SB: /* SB (subnegotiation) */
+	switch (*from++) {
+		case TELOPT_TTYPE:
+			if ( (*from++) == TELQUAL_SEND ) {
+				subneg = TELOPT_TTYPE ;
+			}
+			break ;
+
+		default:
+			break ;
+	}
+	break;
+
+      case SE: /* SE (end subnegotiation) */
+	switch (subneg) {
+		case TELOPT_TTYPE:
+			{
+				int pos;
+				unsigned char pkt[64]
+					= { IAC, SB, TELOPT_TTYPE, TELQUAL_IS };
+
+				/* if strlen(TERM) > 50 you have issues */
+				strncpy(&pkt[4],
+					(unsigned char *)prefs.TerminalType,
+					50);
+
+				pos = (4 + strlen(prefs.TerminalType)) - 1;
+				pkt[pos + 1] = IAC;
+				pkt[pos + 2] = SE;
+
+				write(connection->sockfd, &pkt, pos + 3);
+			}
+			break;
+
+		default:
+			break ;
+	}
+	subneg = 0 ;
+	break ;
+
 	/* WILL processing */
       case WILL: /* WILL control */
 	switch(*from++) {
 	case TELOPT_ECHO:
-	  write(connection->sockfd,"\377\375\001",3);
-	  break;
+		connection_send_telnet_control(connection, 3,
+			IAC, DO, TELOPT_ECHO);
+		break;
 	  
-	case TELOPT_SGA:
-	  write(connection->sockfd,"\377\376\003",3);
-	  break;
+	case TELOPT_SGA: /* suppress GA */
+		connection_send_telnet_control(connection, 3,
+			IAC, DONT, TELOPT_SGA);
+		break;
 	  
 	case TELOPT_EOR:
-	  write(connection->sockfd,"\377\375\031",3);
-	  break;
+		connection_send_telnet_control(connection, 3,
+			IAC, DO, TELOPT_EOR);
+		break;
 	}
 	break;
 	
@@ -89,44 +140,52 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
       case WONT: /* WONT control */
 	switch(*from++) {
 	case TELOPT_ECHO:
-	  write(connection->sockfd,"\377\376\001",3);
-	  break;
-	  
+		connection_send_telnet_control(connection, 3,
+			IAC, DONT, TELOPT_ECHO);
+		break;
+  
 	case TELOPT_SGA:
-	  break;
+		break;
 	  
 	case TELOPT_EOR:
-	  write(connection->sockfd,"\377\376\031",3);
-	  break;
+		connection_send_telnet_control(connection, 3,
+			IAC, DONT, TELOPT_EOR);
+		break;
 	}
 	break;
 	
-	/* DO processing ... received request to do something ... */
+     /* DO processing ... received request to do something ... */
       case DO:
-	switch(*from) {
+	option = *from;
+
+	switch(*from++) {
 	case TELOPT_ECHO:
-	  if (connection->echo == FALSE) {
-	    connection->echo = TRUE;
-	    write(connection->sockfd,"\377\373\001",3);
-	    from++;
-	  }
-	  break;
+		if (connection->echo == FALSE) {
+			connection->echo = TRUE;
+			connection_send_telnet_control(connection, 3,
+				IAC, WILL, TELOPT_ECHO);
+		}
+		break;
 	  
 	case TELOPT_SGA:
-	  write(connection->sockfd,"\377\374\003",3);
-	  from++;
-	  break;
+		connection_send_telnet_control(connection, 3,
+			IAC, WONT, TELOPT_SGA);
+		break;
 	  
 	case TELOPT_EOR:
-	  write(connection->sockfd,"\377\373\031",3);
-	  break;
+		connection_send_telnet_control(connection, 3,
+			IAC, WILL, TELOPT_EOR);
+		break;
 	  
+	case TELOPT_TTYPE:
+		connection_send_telnet_control(connection, 3,
+			IAC, WILL, TELOPT_TTYPE);
+		break ;
+
 	default:
-	  pling[0]='\377';
-	  pling[1]='\374';
-	  pling[2]=*from++;
-	  write(connection->sockfd,pling,3);
-	  break;
+		connection_send_telnet_control(connection, 3,
+			IAC, WONT, option) ;
+		break;
 	}
 	break;
 	
@@ -134,17 +193,20 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
       case DONT:
 	switch(*from++) {
 	case TELOPT_ECHO:
-	  if (connection->echo == TRUE) {
-	    connection->echo = FALSE;
-	    write(connection->sockfd,"\377\374\001",3);
-	  }
-	  break;
+		if (connection->echo == TRUE) {
+			connection->echo = FALSE;
+			connection_send_telnet_control(connection, 3,
+				IAC, WONT, TELOPT_ECHO);
+		}
+		break;
 	  
 	case TELOPT_SGA:
-	  break;
+		break;
 	  
 	case TELOPT_EOR:
-	  write(connection->sockfd,"\377\374\031",3);
+		connection_send_telnet_control(connection, 3,
+			IAC, WONT, TELOPT_EOR);
+		break;
 	}
 	break;
 	

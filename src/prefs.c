@@ -142,6 +142,7 @@ void load_prefs ( void )
 	prefs.Freeze      = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
 	prefs.DisableKeys = gnome_config_get_bool  ("/gnome-mud/Preferences/DisableKeys=false");
 	prefs.CommDev     = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
+	prefs.TerminalType = gnome_config_get_string("/gnome-mud/Preferences/TerminalType=ansi");
 	prefs.FontName    = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
 	prefs.MudListFile = gnome_config_get_string("/gnome-mud/Preferences/MudListFile=");
 	prefs.History     = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
@@ -192,6 +193,7 @@ void save_prefs ( void )
 	gnome_config_set_bool  ("/gnome-mud/Preferences/Freeze",      prefs.Freeze);
 	gnome_config_set_bool  ("/gnome-mud/Preferences/DisableKeys", prefs.DisableKeys);
 	gnome_config_set_string("/gnome-mud/Preferences/CommDev",     prefs.CommDev);
+	gnome_config_set_string("/gnome-mud/Preferences/TerminalType", prefs.TerminalType);
 	gnome_config_set_string("/gnome-mud/Preferences/FontName",    prefs.FontName);
 	gnome_config_set_string("/gnome-mud/Preferences/MudListFile", prefs.MudListFile);
 	gnome_config_set_int   ("/gnome-mud/Preferences/History",     prefs.History);
@@ -225,7 +227,8 @@ static void prefs_copy(SYSTEM_DATA *target, SYSTEM_DATA *prefs, gboolean alloc_c
 	target->Freeze      = prefs->Freeze;                g_free(target->FontName);
 	target->FontName    = g_strdup(prefs->FontName);    g_free(target->CommDev);
 	target->CommDev     = g_strdup(prefs->CommDev);     g_free(target->MudListFile);
-	target->MudListFile = g_strdup(prefs->MudListFile);
+	target->MudListFile = g_strdup(prefs->MudListFile); g_free(target->TerminalType);
+	target->TerminalType = g_strdup(prefs->TerminalType);
 	target->History     = prefs->History;
 
 	prefs_copy_color(&target->Foreground, &prefs->Foreground);
@@ -282,6 +285,18 @@ static void prefs_checkbutton_disablekeys_cb(GtkWidget *widget, GnomePropertyBox
 	}
 
 	gnome_property_box_changed(box);
+}
+
+static void prefs_entry_terminal_cb(GtkWidget *widget, GnomePropertyBox *box)
+{
+	gchar *s;
+
+	s = gtk_entry_get_text(GTK_ENTRY(widget));
+	if (s)
+	{
+		pre_prefs.TerminalType = s;
+		gnome_property_box_changed (box);
+	}
 }
 
 static void prefs_entry_history_cb(GtkWidget *widget, GnomePropertyBox *box)
@@ -478,10 +493,11 @@ void window_prefs (GtkWidget *widget, gpointer data)
   static GtkWidget *prefs_window;
   
   GtkWidget *vbox2;
-  GtkWidget *hbox1;
+  GtkWidget *hbox1, *hbox_term;
   GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton_freeze, *checkbutton;
-  GtkWidget *label1, *label2;
-  GtkWidget *entry_divider, *entry_history, *entry_mudlistfile;
+  GtkWidget *label1, *label2, *label_term;
+  GtkWidget *entry_divider, *entry_history, *entry_mudlistfile, *entry_term;
+  GtkWidget *event_box_term;
   gchar      history[10];
 
   GtkTooltips *tooltip;
@@ -585,6 +601,32 @@ void window_prefs (GtkWidget *widget, gpointer data)
   gtk_box_pack_start(GTK_BOX(hbox1), entry_history, FALSE, TRUE, 0);
   gtk_widget_set_usize(entry_history, 35, -2);
   gtk_signal_connect(GTK_OBJECT(entry_history), "changed", GTK_SIGNAL_FUNC(prefs_entry_history_cb), (gpointer) prefs_window);
+
+	/* Terminal type entry box and label */
+
+	hbox_term = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (hbox_term);
+
+	event_box_term = gtk_event_box_new ();
+	gtk_container_add (GTK_CONTAINER(event_box_term), hbox_term);
+	gtk_widget_show (event_box_term);
+	gtk_box_pack_start (GTK_BOX(vbox2), event_box_term, TRUE, TRUE, 5);
+
+	label_term = gtk_label_new (_("Terminal type:"));
+	gtk_widget_show (label_term);
+	gtk_box_pack_start (GTK_BOX(hbox_term), label_term, FALSE, FALSE, 10);
+
+	entry_term = gtk_entry_new ();
+	gtk_entry_set_text (GTK_ENTRY(entry_term), prefs.TerminalType);
+	gtk_widget_show (entry_term);
+	gtk_box_pack_start (GTK_BOX(hbox_term), entry_term, TRUE, TRUE, 5);
+
+	gtk_tooltips_set_tip(tooltip, event_box_term,
+		_("GNOME-Mud will attempt to transmit a terminal type "
+		  "(like ANSI or VT100) if the MUD requests one. This "
+		  "option sets the terminal type that will be sent."), NULL);
+
+	gtk_signal_connect (GTK_OBJECT(entry_term), "changed", GTK_SIGNAL_FUNC(prefs_entry_terminal_cb), (gpointer) prefs_window);
 
 	hbox1 = gtk_hbox_new(FALSE, 0);
 	gtk_widget_show(hbox1);

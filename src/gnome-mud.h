@@ -85,6 +85,7 @@ struct system_data {
 	bool       DisableKeys;
 	gchar     *FontName;
 	gchar     *CommDev;
+	gchar     *TerminalType;
 	gchar     *MudListFile;
 	gint       History;
 	GdkColor   Foreground;
@@ -146,6 +147,7 @@ void		 disconnect (GtkWidget *, CONNECTION_DATA *);
 void		 send_to_connection (GtkWidget *, gpointer);
 void		 connection_send (CONNECTION_DATA *, gchar *);
 void		 connection_send_data (CONNECTION_DATA *, gchar *, int);
+void		 connection_send_telnet_control (CONNECTION_DATA *, int len, ...);
 
 /* init.c */
 void		 main_window (void);

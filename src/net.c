@@ -28,6 +28,7 @@
 #include <errno.h>
 #include <libintl.h>
 #include <netdb.h>
+#include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -439,4 +440,27 @@ void connection_send (CONNECTION_DATA *connection, gchar *message)
     connection_send_data(connection, sent, 1);
     g_free(sent);
 }
+
+/* connection_send_telnet_control:
+ * Vashti <vashti@dream.org.uk> 2 February 2002.
+ *   Arguments: 0 - the connection to send the data to.
+ *              1 - the number of bytes to send.
+ *              2.. - a variable length list of bytes to send.
+ */
+
+void connection_send_telnet_control (CONNECTION_DATA *connection, int len, ...)
+{
+	int i;
+	unsigned char pkt[256];
+	va_list ap;
+
+	va_start (ap, len);
+
+	for (i = 0 ; i <= (len - 1); i++)
+		pkt[i] = va_arg (ap, unsigned char);
+
+	write (connection->sockfd, pkt, i);
+
+	va_end (ap);
+} /* connection_send_telnet_control */
 
