@@ -1,3 +1,8 @@
+Tue Feb 26 21:04:16 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* NEWS: fr updated.
+	* po/fr.po: French translation update by Martin Quinson.
+
 Tue Feb 26 08:02:24 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* NEWS: Added sv as language.

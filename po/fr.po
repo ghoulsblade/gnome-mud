@@ -1,14 +1,14 @@
-# French translation of amcl messages
-# Copyright (C) 2001 Free Software Foundation, Inc.
-# Martin Quinson <martin.quinson@ens-lyon.fr>, 2001.
+# French translation of gnome-mud messages
+# Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+# Martin Quinson <martin.quinson@ens-lyon.fr>, 2001, 2002.
 # $Id$
 #
 #: src/modules.c:301
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mud 0.7.99\n"
-"POT-Creation-Date: 2002-02-21 14:34+0100\n"
-"PO-Revision-Date: 2001-11-05 17:00+0100\n"
+"Project-Id-Version: gnome-mud 0.8.99\n"
+"POT-Creation-Date: 2002-02-26 19:41+0100\n"
+"PO-Revision-Date: 2002-02-26 20:17+0100\n"
 "Last-Translator: Martin Quinson <martin.quinson@ens-lyon.fr>\n"
 "Language-Team: Debian French translators <debian-l10n-french@lists.debian."
 "org>\n"
@@ -92,7 +92,7 @@ msgstr "Quitter ?"
 msgid "Do you really want to quit?"
 msgstr "Voulez vous réellement quitter ?"
 
-#: src/init.c:203 src/init.c:579 src/init.c:593
+#: src/init.c:203 src/init.c:580 src/init.c:594
 msgid "Connect..."
 msgstr "Connexion..."
 
@@ -106,7 +106,7 @@ msgstr "Port :"
 
 #: src/init.c:278
 msgid "*** Internal error: no such connection.\n"
-msgstr ""
+msgstr "*** Erreur interne : aucune connection de la sorte.\n"
 
 #: src/init.c:298
 msgid "Robin Ericsson, main developer"
@@ -163,118 +163,115 @@ msgstr "Martin Quinson, mainteneur de fr.po"
 #. if your charset doesn't support e with circumflex (è), just use e
 #: src/init.c:313
 msgid "Petter E. Stokke, Python scripting support"
-msgstr ""
+msgstr "Petter E. Stokke, Aide pour les scripts en Python"
 
 #: src/init.c:314
 msgid "Vashti, default keypad bindings, telnet support patches"
-msgstr ""
+msgstr "Vashti, racourcis claviers par défaut, correctifs pour le support telnet"
 
 #: src/init.c:324
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
-#: src/init.c:325
-#, fuzzy
+#. latin1 translators can use the copyright symbol here, see man latin1(7)
+#: src/init.c:326
 msgid "(C) 1998-2002 Robin Ericsson"
-msgstr "(C) 1998-2001 Robin Ericsson"
+msgstr "(C) 1998-2002 Robin Ericsson"
 
-#: src/init.c:327
+#: src/init.c:328
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
 msgstr ""
 "Un client pour les donjons multi-utilisateurs (Multi-User Dungeon - MUD) "
 "utilisant les bibliothèques GTK+/GNOME"
 
-#: src/init.c:340
+#: src/init.c:341
 msgid "GNOME-Mud homepage"
 msgstr "Page principale de GNOME-Mud"
 
-#: src/init.c:575
+#: src/init.c:576
 msgid "Wizard..."
 msgstr "Assistant..."
 
-#: src/init.c:577
+#: src/init.c:578
 msgid "Profiles..."
 msgstr "Profiles..."
 
-#: src/init.c:581 src/init.c:594
+#: src/init.c:582 src/init.c:595
 msgid "Disconnect"
 msgstr "Déconnecter"
 
-#: src/init.c:583 src/init.c:595
-#, fuzzy
+#: src/init.c:584 src/init.c:596
 msgid "Reconnect"
-msgstr "Connecter"
+msgstr "Reconnecter"
 
-#: src/init.c:585
+#: src/init.c:586
 msgid "Exit"
 msgstr "Sortie"
 
-#: src/init.c:590
+#: src/init.c:591
 msgid "Connection Wizard..."
 msgstr "Assistant de connexion..."
 
-#: src/init.c:591
+#: src/init.c:592
 msgid "MudList Listing..."
-msgstr ""
-
-#: src/init.c:597
-msgid "Start Logging..."
-msgstr ""
+msgstr "Liste des Muds..."
 
 #: src/init.c:598
-#, fuzzy
-msgid "Stop Logging"
-msgstr "Connexion automatique ?"
+msgid "Start Logging..."
+msgstr "Commencer l'enregistrement..."
 
 #: src/init.c:599
-msgid "Save Buffer..."
-msgstr ""
+msgid "Stop Logging"
+msgstr "Arrêter l'enregistrement"
 
-#: src/init.c:601
+#: src/init.c:600
+msgid "Save Buffer..."
+msgstr "Sauver le buffer..."
+
+#: src/init.c:602
 msgid "Close Window"
 msgstr "Fermer la fenêtre"
 
-#: src/init.c:609
+#: src/init.c:610
 msgid "Plugin Information..."
 msgstr "Information sur les greffons..."
 
-#: src/init.c:614
+#: src/init.c:615
 msgid "Auto Mapper..."
 msgstr "Cartographe automatique..."
 
-#: src/init.c:616
+#: src/init.c:617
 msgid "Plugins"
 msgstr "Greffons"
 
-#: src/init.c:623
-#, fuzzy
+#: src/init.c:624
 msgid "GNOME-Mud manual"
-msgstr "GNOME-Mud"
+msgstr "Manuel de GNOME-Mud"
 
-#: src/init.c:623
+#: src/init.c:624
 msgid "Open the GNOME-Mud manual"
-msgstr ""
+msgstr "Ouvrir le manuel de GNOME-Mud"
 
-#: src/init.c:675
+#: src/init.c:676
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:716
+#: src/init.c:717
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud version %s (compilé %s, %s)\n"
 
-#: src/init.c:719
+#: src/init.c:720
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribué sous les termes de la GNU General Public License.\n"
 
-#: src/init.c:721
+#: src/init.c:722
 #, c-format
 msgid ""
 "\n"
 "Python version %s\n"
 "\n"
-msgstr ""
+msgstr "\nVersion de Python %s\n\n"
 
 #: src/keybind.c:126
 msgid "Can't add an existing key."
@@ -307,38 +304,38 @@ msgstr "Capture"
 #: src/log.c:55
 #, c-format
 msgid "*** Already logging to %s. Close that log first.\n"
-msgstr ""
+msgstr "*** Il y a déjà un enregistrement vers %s. Veuillez fermer cet enregistrement en premier.\n"
 
 #: src/log.c:61
 msgid "Open log"
-msgstr ""
+msgstr "Ouvrir l'enregistrement"
 
 #: src/log.c:74
 msgid "*** No log is open in this window to be closed.\n"
-msgstr ""
+msgstr "*** Aucun enregistrement n'est ouvert dans cette fenêtre à fermer.\n"
 
 #: src/log.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "*** Couldn't open %s.\n"
-msgstr "*** Connexion close.\n"
+msgstr "*** Impossible d'ouvrir %s.\n"
 
 #: src/log.c:115
 #, c-format
 msgid "*** Logging to %s.\n"
-msgstr ""
+msgstr "*** Enregistre dans %s.\n"
 
 #: src/log.c:176
 #, c-format
 msgid "*** Stopped logging to %s.\n"
-msgstr ""
+msgstr "*** Arrêter les enregistrements vers %s\n"
 
 #: src/log.c:205
 msgid "*** Could not open file for writing.\n"
-msgstr ""
+msgstr "*** Impossible d'ouvrir le fichier pour écrire.\n"
 
 #: src/log.c:220
 msgid "Please select a log file..."
-msgstr ""
+msgstr "Veuillez sélectionner un fichier d'enregistrement..."
 
 #. Can easily be optimised ... but why bother ?
 #: src/map.c:1042 src/map.c:2666
@@ -402,9 +399,8 @@ msgid "GNOME-Mud AutoMapper"
 msgstr "Cartographe automatique de GNOME-Mud"
 
 #: src/modules.c:195
-#, fuzzy
 msgid "Plugin Information"
-msgstr "Information sur les greffons..."
+msgstr "Information sur les greffons"
 
 #: src/modules.c:211
 msgid "Plugin Name:"
@@ -457,17 +453,15 @@ msgstr "Erreur lors de l'obtention du greffon depuis son identificateur."
 
 #: src/mudlist.c:370
 msgid "Could not open MudList file for reading"
-msgstr ""
+msgstr "Impossible d'ouvrir le fichier de liste de mud en lecture"
 
 #: src/mudlist.c:376
-#, fuzzy
 msgid "GNOME-Mud MudList"
-msgstr "GNOME-Mud"
+msgstr "MudList de GNOME-Mud"
 
 #: src/mudlist.c:386
-#, fuzzy
 msgid "Mud Name :"
-msgstr "Nom de greffon :"
+msgstr "Nom de Mud :"
 
 #: src/mudlist.c:400
 msgid "Codebase :"
@@ -475,43 +469,40 @@ msgstr ""
 
 #: src/mudlist.c:414
 msgid "Telnet Address :"
-msgstr ""
+msgstr "Adresse Telnet :"
 
 #: src/mudlist.c:430
 msgid "Connect to the mud"
-msgstr ""
+msgstr "Connecter au Mud"
 
 #: src/mudlist.c:434
 msgid "Import and close"
-msgstr ""
+msgstr "Importer et fermer"
 
 #: src/mudlist.c:441
 msgid "Go to webpage of the mud"
-msgstr ""
+msgstr "Aller à la page web du mud"
 
 #: src/mudlist.c:448
-#, fuzzy
 msgid "Description :"
-msgstr "Description du greffon :"
+msgstr "Description :"
 
 #: src/net.c:190
 msgid "*** Connection closed.\n"
 msgstr "*** Connexion close.\n"
 
 #: src/net.c:203
-#, fuzzy
 msgid "*** Can't connect - you didn't specify a host.\n"
-msgstr "*** Connexion impossible - vous n'avez pas précisé d'hôte\n"
+msgstr "*** Connexion impossible - vous n'avez pas précisé d'hôte.\n"
 
 #: src/net.c:211
-#, fuzzy
 msgid "*** No port specified - assuming port 23.\n"
-msgstr "*** Pas de port spécifié - utilisation du port 23\n"
+msgstr "*** Pas de port spécifié - utilisation du port 23.\n"
 
 #: src/net.c:227
-#, fuzzy, c-format
+#, c-format
 msgid "*** Making connection to %s, port %s.\n"
-msgstr "*** Connexion à `%s', port %s\n"
+msgstr "*** Connexion à `%s', port %s.\n"
 
 #: src/net.c:256
 msgid "*** Connection established.\n"
@@ -524,7 +515,7 @@ msgstr "Impossible d'allouer la couleur"
 #: src/prefs.c:90
 #, c-format
 msgid "Font %s Loading Error"
-msgstr ""
+msgstr "Erreur lors de la lecture de la police %s"
 
 #: src/prefs.c:121
 #, c-format
@@ -537,9 +528,8 @@ msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s n'existe pas, et ne peut PAS être crée: %s"
 
 #: src/prefs.c:415
-#, fuzzy
 msgid "Font:"
-msgstr "Port :"
+msgstr "Police :"
 
 #: src/prefs.c:424
 msgid "The quick brown fox jumps over the lazy dog"
@@ -547,25 +537,24 @@ msgstr ""
 
 #: src/prefs.c:436
 msgid "Color palette:"
-msgstr ""
+msgstr "Palette de couleurs :"
 
 #: src/prefs.c:442
 msgid "Background color:"
-msgstr ""
+msgstr "Couleur du fond :"
 
 #: src/prefs.c:448
 msgid "Foreground color:"
-msgstr ""
+msgstr "Couleur de la police :"
 
 #. Bold foreground label and picker
 #: src/prefs.c:466
 msgid "Bold foreground color:"
-msgstr ""
+msgstr "Couleur de la police grasse :"
 
 #: src/prefs.c:540
-#, fuzzy
 msgid "GNOME-Mud Preferences"
-msgstr "Profiles GNOME-Mud"
+msgstr "Préférences GNOME-Mud"
 
 #: src/prefs.c:554
 msgid "Echo the text sent?"
@@ -609,13 +598,13 @@ msgstr ""
 
 #: src/prefs.c:591
 msgid "Disable Systemkeys?"
-msgstr ""
+msgstr "Désactiver les touches systèmes ?"
 
 #: src/prefs.c:593
 msgid ""
 "GNOME-Mud ships with a few built-in keybinds. These keybinds can be "
 "overridden by own keybinds, or they can be disabled by toggling this checkbox"
-msgstr ""
+msgstr "GNOME-Mud offre des racourcis claviers par défaut. Ces réglages peuvent être remplacés par vos propres racourcis, ou ils peuvent être désactivés en cochant cette boîte."
 
 #: src/prefs.c:607
 msgid "Command divide char:"
@@ -627,17 +616,17 @@ msgstr "Historique des commandes :"
 
 #: src/prefs.c:640
 msgid "Terminal type:"
-msgstr ""
+msgstr "Type de terminal :"
 
 #: src/prefs.c:650
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
-msgstr ""
+msgstr "GNOME-Mud essayera de transmettre un type de terminal (comme ANSI ou VT100) si le Mud en demande un. Cette option fixera le type de terminal qui sera envoyé."
 
 #: src/prefs.c:660
 msgid "MudList file:"
-msgstr ""
+msgstr "Fichier de liste des muds :"
 
 #: src/prefs.c:672
 msgid "Functionality"
@@ -645,7 +634,7 @@ msgstr "Fonctionnalité"
 
 #: src/prefs.c:683
 msgid "Color and Fonts"
-msgstr ""
+msgstr "Couleur et polices"
 
 #: src/profiles.c:335
 msgid "Name of new profile:"
@@ -701,7 +690,7 @@ msgstr "Choisir un profile"
 
 #: src/profiles.c:1109
 msgid "Fetch from mudlist"
-msgstr ""
+msgstr "Télécharger depuis la liste des muds"
 
 #: src/profiles.c:1126
 msgid "Connect"
@@ -727,294 +716,10 @@ msgstr "Alias"
 msgid "Keybinds"
 msgstr "Racourcis"
 
-#: src/window.c:153
+#: src/window.c:150
 msgid "GNOME-Mud Popup Message"
 msgstr "Message Popup GNOME-Mud"
 
-#: src/window.c:168
+#: src/window.c:165
 msgid "Ok"
 msgstr "Ok"
-
-#~ msgid "David Zanetti, bugfixes"
-#~ msgstr "David Zanetti, corrections de bogues"
-
-#~ msgid "Will Schenk, bugfixes"
-#~ msgstr "Will Schenk, corrections de bogues"
-
-#~ msgid "desaster, bugfixes"
-#~ msgstr "desaster, corrections de bogues"
-
-#~ msgid "Robert Brady, color selection"
-#~ msgstr "Robert Brady, sélection des couleurs"
-
-#~ msgid "Staffan Thomèn and the creators of gEdit - module API"
-#~ msgstr "Staffan Thomèn et les créateurs de gEdit - API des modules"
-
-#~ msgid "GNOME-Mud Color Chooser"
-#~ msgstr "Sélectionneur de couleurs GNOME-Mud"
-
-#~ msgid "Cancel"
-#~ msgstr "Annuler"
-
-#~ msgid "Apply"
-#~ msgstr "Appliquer"
-
-#~ msgid "Can't load font... %s Using default.\n"
-#~ msgstr ""
-#~ "Impossible de charger la police... %s Utilisation du réglage par défaut.\n"
-
-#~ msgid "Colors..."
-#~ msgstr "Couleurs..."
-
-#~ msgid ""
-#~ "Use this button to open the font selector to choose what font you will "
-#~ "use."
-#~ msgstr ""
-#~ "Utilisez ce bouton pour ouvrir le sélectionneur de police pour choisir "
-#~ "celle que vous allez utiliser."
-
-#~ msgid "Appearance"
-#~ msgstr "Apparance"
-
-#~ msgid "No selection made"
-#~ msgstr "Rien n'a été sélectionné"
-
-#~ msgid "Your connection doesn't have a name."
-#~ msgstr "Votre connexion n'a pas de nom"
-
-#~ msgid ""
-#~ "At the moment, everything but the name can be changed.\n"
-#~ "If you need to change the name of the connection, you'll have to recreate "
-#~ "it."
-#~ msgstr ""
-#~ "Pour le moment, tout peut être changé sauf le nom.\n"
-#~ "Si vous voulez changer le nom de la connexion, vous devez la recréer."
-
-#~ msgid "Can't add an existing connection."
-#~ msgstr "Impossible d'ajouter une connexion existante."
-
-#~ msgid "Connections"
-#~ msgstr "Connections"
-
-#~ msgid "GNOME-Mud Connection Wizard"
-#~ msgstr "Assistant de connexion GNOME-Mud"
-
-#~ msgid "Connection Name:"
-#~ msgstr "Nom de la connexion :"
-
-#~ msgid ""
-#~ "This is the name of the connection which will be displayed in the "
-#~ "connection list."
-#~ msgstr ""
-#~ "Il s'agit du nom de la connexion tel qu'il sera affiché dans la liste des "
-#~ "connexions."
-
-#~ msgid ""
-#~ "\n"
-#~ "Host:"
-#~ msgstr ""
-#~ "\n"
-#~ "Hôte :"
-
-#~ msgid "This is the host where the MUD you will connect to is located."
-#~ msgstr ""
-#~ "Il s'agit de l'hôte sur lequel se trouve le MUD auquel vous voulez vous "
-#~ "connecter."
-
-#~ msgid ""
-#~ "\n"
-#~ "Port:"
-#~ msgstr ""
-#~ "\n"
-#~ "Port:"
-
-#~ msgid ""
-#~ "This is the port on the host that the MUD is located on. The default port "
-#~ "is 23 (telnet)."
-#~ msgstr ""
-#~ "Il s'agit du port de l'hôte sur lequel le MUD se trouve. Le port par "
-#~ "défaut est 23 (telnet)."
-
-#~ msgid ""
-#~ "Should GNOME-Mud login to this MUD automatically? Player Name and "
-#~ "Password must be set to make this work."
-#~ msgstr ""
-#~ "GNOME-Mud doit-il se connecter automatiquement à ce MUD ? Le nom du "
-#~ "joueur et le mot de passe doivent être établis pour que cela fonctionne."
-
-#~ msgid ""
-#~ "\n"
-#~ "Player Name:"
-#~ msgstr ""
-#~ "\n"
-#~ "Nom de joueur :"
-
-#~ msgid ""
-#~ "This is the player you login to the MUD with. For use with AutoLogin."
-#~ msgstr ""
-#~ "Il s'agit du nom sous lequel vous voulez vous connecter. Pour la "
-#~ "connexion automatique."
-
-#~ msgid ""
-#~ "\n"
-#~ "Password:"
-#~ msgstr ""
-#~ "\n"
-#~ "Mot de passe :"
-
-#~ msgid ""
-#~ "This is your player account's password in the MUD. For use with AutoLogin."
-#~ msgstr ""
-#~ "Il s'agit du mot de passe de votre compte sur ce MUD. Pour la connexion "
-#~ "automatique."
-
-#~ msgid "%s can NOT be opened in write mode."
-#~ msgstr "Impossible d'ouvrir %s en écriture."
-
-#~ msgid "%s exists and can NOT be opened in read mode."
-#~ msgstr "%s existe, et ne peut PAS être ouvert en lecture."
-
-#~ msgid "Mouse is at (%d, %d)\n"
-#~ msgstr "La souris est à (%d, %d)\n"
-
-#~ msgid "node_reposition: invalid type(%s) passed to this function\n"
-#~ msgstr "node_reposition: type(%s) invalide passé a cette fonction\n"
-
-#~ msgid "draw_map: g_malloc0 error: %s\n"
-#~ msgstr "draw_map: erreur de g_malloc0: %s\n"
-
-#~ msgid "get_node: g_malloc error: %s\n"
-#~ msgstr "get_node: erreur de g_malloc: %s\n"
-
-#~ msgid "save_maps: Can't open %s for writing: %s\n"
-#~ msgstr "save_maps: Impossible d'ouvrir %s en écriture: %s\n"
-
-#~ msgid "file_sel_ok_cb: stat() error: %s\n"
-#~ msgstr "file_sel_ok_cb: erreur de stat(): %s\n"
-
-#~ msgid "file_sel_ok_cb: file %s is zero bytes in length\n"
-#~ msgstr "file_sel_ok_cb: fichier %s est de longueur nulle\n"
-
-#~ msgid "file_sel_ok_cb: file %s is not a regular file\n"
-#~ msgstr "file_sel_ok_cb: fichier %s n'est pas un fichier normal\n"
-
-#~ msgid "Can't open file %s for %s: %s\n"
-#~ msgstr "Impossible d'ouvrir le fichier %s pour %s : %s\n"
-
-#~ msgid "button_cb: g_malloc error: %s\n"
-#~ msgstr "button_cb: erreur de g_malloc: %s\n"
-
-#~ msgid "fill_node_path: g_malloc error: %s\n"
-#~ msgstr "fill_node_path: erreur de g_malloc: %s\n"
-
-#~ msgid "node_goto: g_malloc0 error: %s\n"
-#~ msgstr "node_goto: erreur de g_malloc0: %s\n"
-
-#~ msgid "From (%d, %d): %d tried (%d, %d): %d\n"
-#~ msgstr "Depuis (%d, %d): %d essayé (%d, %d): %d\n"
-
-#~ msgid "Currently at (%d, %d)\n"
-#~ msgstr "Actuellement à (%d, %d)\n"
-
-#~ msgid "Hmm, no connections led to node\n"
-#~ msgstr "Hmm, aucune connexion ne mène au noeud\n"
-
-#~ msgid "node_break: no node existed in that direction\n"
-#~ msgstr "node_break: aucun noeud existant dans cette direction\n"
-
-#~ msgid "node_break: will not break links to a node going up or down\n"
-#~ msgstr ""
-#~ "node_break: ne va pas casser les liens vers un lien allant vers le haut "
-#~ "ou vers le bas\n"
-
-#~ msgid "main: g_malloc0 error: %s\n"
-#~ msgstr "main: erreur de g_malloc0 : %s\n"
-
-#~ msgid "move_player: map does not support this move situation yet\n"
-#~ msgstr ""
-#~ "move_player: la carte ne gère pas encore cette situation de mouvement\n"
-
-#~ msgid "auto_map_new: g_malloc0 error: %s\n"
-#~ msgstr "auto_map_new: erreur de g_malloc0 : %s\n"
-
-#~ msgid "map_new: g_malloc0 error: %s\n"
-#~ msgstr "map_new: erreur de g_malloc0 : %s\n"
-
-#~ msgid "load_automap_from_file: Could not open %s for reading: %s\n"
-#~ msgstr "load_automap_from_file: Impossible d'ouvrir %s en lecture : %s\n"
-
-#~ msgid "Alias..."
-#~ msgstr "Alias..."
-
-#~ msgid "Actions/Triggers..."
-#~ msgstr "Actions/Déclencheurs..."
-
-#~ msgid "AMCL Alias Center"
-#~ msgstr "Centre des alias d'AMCL"
-
-#~ msgid "About"
-#~ msgstr "A propos"
-
-#~ msgid "AMCL version "
-#~ msgstr "Version de AMCL"
-
-#~ msgid "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
-#~ msgstr "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
-
-#~ msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
-#~ msgstr "Distribué sous la licence GNU GENERAL PUBLIC LICENSE (GPL)"
-
-#~ msgid "Homepage: http://amcl.sourceforge.net/"
-#~ msgstr "Homepage: http://amcl.sourceforge.net/"
-
-#~ msgid "Options"
-#~ msgstr "Options"
-
-#~ msgid "Preferences..."
-#~ msgstr "Préférences..."
-
-#~ msgid "Help"
-#~ msgstr "Aide"
-
-#~ msgid "Readme"
-#~ msgstr "Readme"
-
-#~ msgid "Authors"
-#~ msgstr "Auteurs"
-
-#~ msgid "About..."
-#~ msgstr "A propos..."
-
-#~ msgid "Checking whether plugin should be enabled by default..."
-#~ msgstr "Contrôle du branchement automatique du greffon.."
-
-#~ msgid "Plug-in internal name is `%s'."
-#~ msgstr "Le nom interne du greffon est `%s'."
-
-#~ msgid "Running init-function..."
-#~ msgstr "Exécution de la fonction d'initialisation..."
-
-#~ msgid "AMCL - Preferences"
-#~ msgstr "AMCL - Préférences"
-
-#~ msgid "AutoSave?"
-#~ msgstr "Sauvegarde automatique ?"
-
-#~ msgid ""
-#~ "With this toggled on, Preferences, Connection Wizard and Aliases will be "
-#~ "saved automatically."
-#~ msgstr ""
-#~ "Quand ce choix est coché, les préférences, l'assistant de connexion et "
-#~ "les alias seront sauvegardé automatiquement."
-
-#~ msgid ""
-#~ "This is the font that AMCL is using to print the text from the MUD. If "
-#~ "the font is unavailable when you start AMCL, the default font \"fixed.\" "
-#~ "will be used."
-#~ msgstr ""
-#~ "Il s'agit de la police de caractère utilisée par AMCL pour afficher le "
-#~ "texte du MUD. Si la police n'est pas disponible, la police par défaut "
-#~ "\"fixed\" sera choisie."
-
-#~ msgid "AMCL Internal Error: "
-#~ msgstr "Erreur interne AMCL: "
