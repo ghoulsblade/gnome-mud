@@ -1,4 +1,4 @@
-# Catalan Messages for the GNOME-Mud Client.
+# Catalan Messages for the GNOME-Mud client.
 # Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
 # This file is copyrighted under the same license as the gnome-mud package.
 # Jordi Mallach <jordi@sindominio.net>, 2000, 2001, 2002, 2003.
@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-10 19:39+0200\n"
-"PO-Revision-Date: 2003-07-10 20:03+0200\n"
+"POT-Creation-Date: 2003-07-11 01:59+0200\n"
+"PO-Revision-Date: 2003-07-11 01:03+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,9 @@ msgstr "El client de MUD del GNOME"
 
 #: gnome-mud.schemas.in.h:1
 msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
-msgstr "Un nom de tipus de lletra de Pango, com per exemple «Sans 12» o «Monospace Bold 14»."
+msgstr ""
+"Un nom de tipus de lletra de Pango, com per exemple «Sans 12» o «Monospace "
+"Bold 14»."
 
 #: gnome-mud.schemas.in.h:2
 msgid ""
@@ -35,7 +37,7 @@ msgstr ""
 "El caràcter que utilitza per a dividir les ordres en una cadena com «w;w;w;"
 "l», que s'enviarà al MUD com quatre ordres diferents."
 
-#: gnome-mud.schemas.in.h:3 src/profiles.c:1202
+#: gnome-mud.schemas.in.h:3 src/profiles.c:1203
 msgid "Aliases"
 msgstr "Àlies"
 
@@ -55,7 +57,9 @@ msgstr "Color del fons predeterminat"
 msgid ""
 "Default color of the background, as a color specification (can be HTML-style "
 "hex digits, or a color name such as \"red\")."
-msgstr "El color del fons predeterminat, com una especificació de color (pot ser dígits en hexadecimal a l'estil HTML o un nom de color com «red»)."
+msgstr ""
+"El color del fons predeterminat, com una especificació de color (pot ser "
+"dígits en hexadecimal a l'estil HTML o un nom de color com «red»)."
 
 #: gnome-mud.schemas.in.h:8
 msgid "Default color of the text"
@@ -65,7 +69,9 @@ msgstr "El color del text predeterminat"
 msgid ""
 "Default color of the text, as a color specification (can be HTML-style hex "
 "digits, or a color name such as \"red\")."
-msgstr "El color del text predeterminat, com una especificació de color (pot ser dígits en hexadecimal a l'estil HTML o un nom de color com «red»)."
+msgstr ""
+"El color del text predeterminat, com una especificació de color (pot ser "
+"dígits en hexadecimal a l'estil HTML o un nom de color com «red»)."
 
 #: gnome-mud.schemas.in.h:10
 msgid "Font"
@@ -99,7 +105,10 @@ msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
 "overridden by custom keybindings, or they can be disabled completely with "
 "this option."
-msgstr "Si s'habilita, GNOME-Mud oferirà algunes assignacions de tecles internes. Aquestes assignacions es poden reemplaçar amb les vostres assignacions personalitzades, o poden ser deshabilitades per complet amb aquesta opció."
+msgstr ""
+"Si s'habilita, GNOME-Mud oferirà algunes assignacions de tecles internes. "
+"Aquestes assignacions es poden reemplaçar amb les vostres assignacions "
+"personalitzades, o poden ser deshabilitades per complet amb aquesta opció."
 
 #: gnome-mud.schemas.in.h:15 src/prefs.c:777
 msgid ""
@@ -127,7 +136,7 @@ msgstr ""
 "Si s'habilita, quan es produisca nova eixida, el terminal es desplaçarà cap "
 "avall."
 
-#: gnome-mud.schemas.in.h:18 src/profiles.c:1233
+#: gnome-mud.schemas.in.h:18 src/profiles.c:1234
 msgid "Keybindings"
 msgstr "Assignacions de tecles"
 
@@ -205,12 +214,12 @@ msgstr ""
 "La ubicació de les pestanyes de connexions. Les opcions vàlides són «left», "
 "«right», «top» i «bottom»."
 
-#: gnome-mud.schemas.in.h:32 src/data.c:344 src/profiles.c:1216
+#: gnome-mud.schemas.in.h:32 src/data.c:344 src/profiles.c:1217
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: gnome-mud.schemas.in.h:33 src/data.c:351 src/profiles.c:1209
+#: gnome-mud.schemas.in.h:33 src/data.c:351 src/profiles.c:1210
 msgid "Variables"
 msgstr "Variables"
 
@@ -290,11 +299,11 @@ msgstr "Esteu segur de voler sortir?"
 msgid "Connect..."
 msgstr "Connecta..."
 
-#: src/init.c:154 src/profiles.c:940
+#: src/init.c:154 src/profiles.c:941
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:160 src/profiles.c:960
+#: src/init.c:160 src/profiles.c:961
 msgid "Port:"
 msgstr "Port:"
 
@@ -307,11 +316,6 @@ msgstr "*** Error intern: no existeix la connexió.\n"
 #: src/init.c:244
 msgid "translator_credits"
 msgstr "Jordi Mallach <jordi@sindominio.net>"
-
-#. latin1 translators can use the copyright symbol here, see man latin1(7)
-#: src/init.c:250
-msgid "(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
-msgstr "© 1998, 1999, 2000, 2001 2002, 2003 Robin Ericsson"
 
 #: src/init.c:251
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
@@ -420,7 +424,7 @@ msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versió %s (compilat %s, %s)\n"
 
 #: src/init.c:769
-msgid "Distributed under the terms of the GNU General Public Licence.\n"
+msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït sota els termes de la Llicència Pública General GNU.\n"
 
 #: src/init.c:771
@@ -514,7 +518,7 @@ msgid "A link already exists here!"
 msgstr "Ja existeix un enllaç ací!"
 
 #. Create the hint label
-#: src/map.c:656 src/map.c:3539 src/map.c:3542
+#: src/map.c:656 src/map.c:3548 src/map.c:3551
 msgid "Ready"
 msgstr "Preparat"
 
@@ -530,41 +534,42 @@ msgstr "No es pot crear un node ací"
 msgid "New Map"
 msgstr "Nou mapa"
 
-#: src/map.c:900
+#. Translator: "path" means "line of travel", ie "road"
+#: src/map.c:901
 msgid "Creating a path"
 msgstr "S'està creant un camí"
 
 #. The radio button (new map)
-#: src/map.c:908
+#: src/map.c:909
 msgid "Path lead to a new map"
 msgstr "El camí porta a un nou mapa"
 
-#: src/map.c:915
+#: src/map.c:916
 msgid "New map"
 msgstr "Nou mapa"
 
 #. The radio button (default)
-#: src/map.c:932
+#: src/map.c:933
 msgid "Path follows an already existing path:"
 msgstr "El camí segueix un camí ja existent:"
 
-#: src/map.c:951
+#: src/map.c:952
 msgid "Create"
 msgstr "Crea"
 
-#: src/map.c:1114
+#: src/map.c:1115
 msgid "Enter in a path"
 msgstr "Introduïu un camí"
 
-#: src/map.c:1121
+#: src/map.c:1122
 msgid "Create a new path:"
 msgstr "Crea un nou camí:"
 
-#: src/map.c:1138
+#: src/map.c:1139
 msgid "Enter in existing path:"
 msgstr "Introduïu un camí existent:"
 
-#: src/map.c:1189
+#: src/map.c:1190
 msgid ""
 "This node has already 8 links. Destroy one of these before trying to create "
 "a new one"
@@ -573,28 +578,28 @@ msgstr ""
 "un nou"
 
 #. Change the automap state
-#: src/map.c:1196
+#: src/map.c:1197
 msgid "Enter to finish, Esc to quit"
 msgstr "Premeu Intro per a finalitzar, Esc per a sortir"
 
-#: src/map.c:1197
+#: src/map.c:1198
 msgid "Use move buttons to build the link."
 msgstr "Utilitzeu els botons de moviment per a contruir l'enllaç."
 
-#: src/map.c:1375
+#: src/map.c:1376
 msgid "Zoom In"
 msgstr "Augmenta el zoom"
 
-#: src/map.c:1376
+#: src/map.c:1377
 msgid "Zoom Out"
 msgstr "Disminueix el zoom"
 
-#: src/map.c:1377
+#: src/map.c:1378
 msgid "Configure Automap"
 msgstr "Configura l'automapejador"
 
 #. Teleport here
-#: src/map.c:1417
+#: src/map.c:1418
 msgid "Teleport here"
 msgstr "Teleporta ací"
 
@@ -604,103 +609,111 @@ msgstr "Teleporta ací"
 #. 			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
 #. 			gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
 #. Create new link
-#: src/map.c:1427
+#: src/map.c:1428
 msgid "Create new link"
 msgstr "Crea un nou enllaç"
 
-#: src/map.c:1434
+#: src/map.c:1435
 msgid "Enter"
 msgstr "Entra"
 
 #. Can easily be optimised ... but why bother ?
-#: src/map.c:1734 src/map.c:3567
+#. Translator: "N" means "North" here
+#: src/map.c:1736 src/map.c:3576
 msgid "N"
 msgstr "N"
 
-#: src/map.c:1735 src/map.c:3568
+#. Translator: "NE" means "Northeast" here
+#: src/map.c:1738 src/map.c:3577
 msgid "NE"
 msgstr "NE"
 
-#: src/map.c:1736 src/map.c:3569
+#. Translator: "E" means "East" here
+#: src/map.c:1740 src/map.c:3578
 msgid "E"
 msgstr "E"
 
-#: src/map.c:1737 src/map.c:3570
+#. Translator: "SE" means "Southeast" here
+#: src/map.c:1742 src/map.c:3579
 msgid "SE"
 msgstr "SE"
 
-#: src/map.c:1738 src/map.c:3571
+#. Translator: "S" means "South" here
+#: src/map.c:1744 src/map.c:3580
 msgid "S"
 msgstr "S"
 
-#: src/map.c:1739 src/map.c:3572
+#. Translator: "SW" means "Southwest" here
+#: src/map.c:1746 src/map.c:3581
 msgid "SW"
 msgstr "SO"
 
-#: src/map.c:1740 src/map.c:3573
+#. Translator: "W" means "West" here
+#: src/map.c:1748 src/map.c:3582
 msgid "W"
 msgstr "O"
 
-#: src/map.c:1741 src/map.c:3574
+#. Translator: "NW" means "Northwest" here
+#: src/map.c:1750 src/map.c:3583
 msgid "NW"
 msgstr "NO"
 
-#: src/map.c:1742 src/map.c:3575
+#: src/map.c:1751 src/map.c:3584
 msgid "Up"
 msgstr "Dalt"
 
-#: src/map.c:1743 src/map.c:3576
+#: src/map.c:1752 src/map.c:3585
 msgid "Down"
 msgstr "Baix"
 
-#: src/map.c:1744 src/map.c:3564
+#: src/map.c:1753 src/map.c:3573
 msgid "Remove"
 msgstr "Elimina"
 
 #. Some buttons
-#: src/map.c:1745 src/map.c:3562
+#: src/map.c:1754 src/map.c:3571
 msgid "Load"
 msgstr "Carrega"
 
-#: src/map.c:1746 src/map.c:3563
+#: src/map.c:1755 src/map.c:3572
 msgid "Save"
 msgstr "Desa"
 
-#: src/map.c:2793
+#: src/map.c:2802
 msgid "Load map"
 msgstr "Carrega un mapa"
 
-#: src/map.c:2793
+#: src/map.c:2802
 msgid "Save map"
 msgstr "Desa el mapa"
 
-#: src/map.c:3042
+#: src/map.c:3051
 msgid "No link existed in that direction"
 msgstr "No existeix cap enllaç en eixa direcció"
 
-#: src/map.c:3048
+#: src/map.c:3057
 msgid "Cannot break links to a node going up or down"
 msgstr "No es poden trencar els enllaços a un node que va cap amunt o baix"
 
 #. It would seem this node already has a connection to here, That's
 #. * possible so we need to inform the user that his move is illegal.
 #.
-#: src/map.c:3157
+#: src/map.c:3166
 msgid "Destination node has already a connection here"
 msgstr "El node de destinació ja té una connexió ací"
 
-#: src/map.c:3306
+#: src/map.c:3315
 msgid "Can't create a link to another floor!"
 msgstr "No es pot crear un enllaç a un altre pis!"
 
-#: src/map.c:3312
+#: src/map.c:3321
 msgid "There is already a link here!"
 msgstr "Ja hi ha un enllaç ací!"
 
 #. Set the title
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
 #. gtk_window_set_title(GTK_WINDOW(automap->window), name);
-#: src/map.c:3447
+#: src/map.c:3456
 msgid "GNOME-Mud AutoMapper"
 msgstr "Automapejador del GNOME-Mud"
 
@@ -766,15 +779,15 @@ msgid "GNOME-Mud MudList"
 msgstr "Llista de muds del GNOME-Mud"
 
 #: src/mudlist.c:420
-msgid "Mud Name :"
+msgid "Mud name:"
 msgstr "Nom del mud:"
 
 #: src/mudlist.c:434
-msgid "Codebase :"
+msgid "Codebase:"
 msgstr "Base basat en:"
 
 #: src/mudlist.c:448
-msgid "Telnet Address :"
+msgid "Telnet address:"
 msgstr "Adreça de telnet:"
 
 #: src/mudlist.c:464
@@ -790,7 +803,7 @@ msgid "Go to webpage of the mud"
 msgstr "Vés a la pàgina web del mud"
 
 #: src/mudlist.c:483
-msgid "Description :"
+msgid "Description:"
 msgstr "Descripció:"
 
 #: src/net.c:182
@@ -840,7 +853,8 @@ msgstr "Tipus de lletra:"
 
 #: src/prefs.c:641
 msgid "Main font that is used on all open connections."
-msgstr "Tipus de lletra principal que s'utilitza a totes les connexions obertes."
+msgstr ""
+"Tipus de lletra principal que s'utilitza a totes les connexions obertes."
 
 #: src/prefs.c:644
 msgid "The quick brown fox jumps over the lazy dog"
@@ -862,13 +876,17 @@ msgstr "Color del text:"
 msgid ""
 "Default foreground color used when the connection doesn't request the use of "
 "a specific color."
-msgstr "El color del text predeterminat utilitzat quan la connexió no especifica l'ús d'un altre color."
+msgstr ""
+"El color del text predeterminat utilitzat quan la connexió no especifica "
+"l'ús d'un altre color."
 
 #: src/prefs.c:677
 msgid ""
 "Default background color used when the connection doesn't request the use of "
 "a specific color."
-msgstr "El color de fons predeterminat utilitzat quan la connexió no especifica l'ús d'un altre color."
+msgstr ""
+"El color de fons predeterminat utilitzat quan la connexió no especifica l'ús "
+"d'un altre color."
 
 #: src/prefs.c:693
 msgid "Change the color of a specific color that the MUD requests to use."
@@ -1022,11 +1040,11 @@ msgstr "Nom del nou perfil:"
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: Llista de perfils"
 
-#: src/profiles.c:666 src/profiles.c:1037
+#: src/profiles.c:666 src/profiles.c:1038
 msgid "Default"
 msgstr "Predeterminats"
 
-#: src/profiles.c:847 src/profiles.c:1185
+#: src/profiles.c:847 src/profiles.c:1186
 msgid "Delete"
 msgstr "Elimina"
 
@@ -1038,86 +1056,90 @@ msgstr "Connexions del GNOME-Mud"
 msgid "Mud"
 msgstr "Mud"
 
-#: src/profiles.c:903
+#. Translators: this is the name of your player
+#: src/profiles.c:904
 msgid "Character"
 msgstr "Personatge"
 
-#: src/profiles.c:916
-msgid " Mud Information "
-msgstr " Informació sobre el Mud "
+#: src/profiles.c:917
+msgid "Mud information"
+msgstr "Informació sobre el mud"
 
-#: src/profiles.c:932
+#: src/profiles.c:933
 msgid "Title:"
 msgstr "Títol:"
 
-#: src/profiles.c:976
-msgid " Character Information "
-msgstr " Informació sobre el personatge "
+#: src/profiles.c:977
+msgid "Character information"
+msgstr "Informació sobre el personatge"
 
-#: src/profiles.c:992
+#: src/profiles.c:993
 msgid "Character:"
 msgstr "Personatge:"
 
-#: src/profiles.c:1000
+#: src/profiles.c:1001
 msgid "Password:"
 msgstr "Contrasenya:"
 
-#: src/profiles.c:1021
-msgid " Profile Information "
+#: src/profiles.c:1022
+msgid "Profile information"
 msgstr "Informació de perfils"
 
-#: src/profiles.c:1047
+#: src/profiles.c:1048
 msgid "Select Profile"
 msgstr "Seleccioneu un perfil"
 
-#: src/profiles.c:1063
+#: src/profiles.c:1064
 msgid "Fetch from mudlist"
 msgstr "Importa de mudlist"
 
-#: src/profiles.c:1115
+#: src/profiles.c:1116
 msgid "Connect"
 msgstr "Connecta"
 
-#: src/profiles.c:1154
+#: src/profiles.c:1155
 msgid "Profiles"
 msgstr "Perfils"
 
-#: src/profiles.c:1163
+#: src/profiles.c:1164
 msgid "GNOME-Mud Profiles"
 msgstr "Perfils del GNOME-Mud"
 
-#: src/profiles.c:1177
+#: src/profiles.c:1178
 msgid "New"
 msgstr "Nou"
 
-#: src/profiles.c:1178
+#: src/profiles.c:1179
 msgid "Create a new profile"
 msgstr "Crea un nou perfil"
 
-#: src/profiles.c:1185
+#: src/profiles.c:1186
 msgid "Delete a profile"
 msgstr "Elimina un perfil"
 
-#: src/profiles.c:1202
+#: src/profiles.c:1203
 msgid "Set aliases"
 msgstr "Estableix àlies"
 
-#: src/profiles.c:1209
+#: src/profiles.c:1210
 msgid "Set variables"
 msgstr "Estableix variables"
 
-#: src/profiles.c:1216
+#: src/profiles.c:1217
 msgid "Set triggers"
 msgstr "Estableix triggers"
 
-#: src/profiles.c:1233
+#: src/profiles.c:1234
 msgid "Set keybindings"
 msgstr "Estableix assignacions de tecles"
 
-#: src/profiles.c:1250
+#: src/profiles.c:1251
 msgid "Close"
 msgstr "Tanca"
 
-#: src/profiles.c:1250
+#: src/profiles.c:1251
 msgid "Close the window"
 msgstr "Tanca la finestra"
+
+#~ msgid "(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
+#~ msgstr "© 1998, 1999, 2000, 2001 2002, 2003 Robin Ericsson"
