@@ -2,7 +2,7 @@ dnl Process this file with
 dnl aclocal; automake; autoconf to produce a configure script.
 
 
-AC_INIT([gnome-mud],[0.9.90],[amcl-devel@lists.sourceforge.net])
+AC_INIT([gnome-mud],[0.10.0],[amcl-devel@lists.sourceforge.net])
 AC_CONFIG_SRCDIR(src/gnome-mud.c)
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE([AC_PACKAGE_NAME], [AC_PACKAGE_VERSION])
@@ -47,7 +47,7 @@ AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h unistd.h malloc.h termios.h termio.h limits.h getopt.h regex.h)
 
 dnl Release date on LSM format (date +%d%b%y).
-LSMDATE="02Jul02"
+LSMDATE="02Jun03"
 AC_SUBST(LSMDATE)
 
 AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])

@@ -33,11 +33,3 @@ Vashti <vashti@jml.net>                  - telnet support patches and keypad
                                            and contributions.
 Sjoerd Simons <sjoerd@beast.luon.net>	 - IPv6 support.
 Remi Bonnet                              - big changes to automapper
-
-ANSI code 
--------- 
-http://www.sparta.lu.se/cancan95.html
-
-MODULE API
-----------
-Thanks to Staffan Thomèn and the creators of gEdit.
