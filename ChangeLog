@@ -1,5 +1,10 @@
 2003-09-02  Jordi Mallach  <jordi@sindominio.net>
 
+	* src/prefs.c: Use ngettext in the messages that need it.
+	Patch from Danilo.
+
+2003-09-02  Jordi Mallach  <jordi@sindominio.net>
+
 	* src/modules_api.c: Err, fix some more.
 
 2003-09-02  Jordi Mallach  <jordi@sindominio.net>

@@ -250,7 +250,7 @@ static void prefs_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *
 		gtk_color_selection_palette_from_string(gconf_value_get_string(gconf_entry_get_value(entry)), &colors, &n_colors); \
 		if (n_colors < C_MAX)                                                                    \
 		{                                                                                        \
-			g_printerr(_("Palette had %d entries instead of %d\n"), n_colors, C_MAX);            \
+		  g_printerr(ngettext("Palette had %d entry instead of %d\n","Palette had %d entries instead of %d\n",n_colors), n_colors, C_MAX); \
 		}                                                                                        \
 		memcpy(prefs.Variable, colors, C_MAX * sizeof(GdkColor));                                \
 	                                                                                             \
@@ -406,7 +406,10 @@ void load_prefs ( void )
 		gtk_color_selection_palette_from_string(p, &colors, &n_colors);
 		if (n_colors < C_MAX)
 		{
-			g_printerr(_("Palette had %d entries instead of %d\n"), n_colors, C_MAX);
+		        g_printerr(ngettext("Palette had %d entry instead of %d\n",
+					    "Palette had %d entries instead of %d\n",
+					    n_colors), 
+				   n_colors, C_MAX);
 		}
 		memcpy(prefs.Colors, colors, C_MAX * sizeof(GdkColor));
 		g_free(colors);
