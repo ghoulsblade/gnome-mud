@@ -1,3 +1,4 @@
+CFLAGS    += $(DEBUG_FLAGS)
 SUBDIRS =    src plugins
 
 EXTRA_DIST = AUTHORS BUGS COPYING ChangeLog INSTALL \

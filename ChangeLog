@@ -1,3 +1,18 @@
+Mon Jul 3 20:52:37 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
+
+	* AUTHORS: Add my email address.  Fix text to fit 80 column
+	displays.  Remove some leading dots to make the sentences
+	consistent.
+
+	* configure.in: Fix mapper start of sentence to be consistent
+	with the rest.  Add --enable-debug, which adds a few debugging
+	flags, to know: -g -DDEBUG -DG_ENABLE_DEBUG.  This allows easy
+	addition of DEBUG preprocessor definitions and makes sure we
+	debug GTk+, as well as compile it with symbols.
+
+	* plugins/Makefile.am, src/Makefile.am: Make sure the
+	DEBUG_FLAGS get incorporated into CFLAGS.
+
 Sun Jul 2 14:02:11 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
 
 	* src/amcl.c: Reorder include order.  Fix comments.

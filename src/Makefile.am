@@ -1,3 +1,4 @@
+CFLAGS	      += $(DEBUG_FLAGS)
 EXTRA_DIST     = amcl.c
 bin_PROGRAMS   = amcl
 amcl_SOURCES   = action.c alias.c color.c init.c keybind.c map.c \
