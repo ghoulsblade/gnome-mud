@@ -1,4 +1,4 @@
-Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
+Copyright (C) 1998-2001 Robin Ericsson <lobbin@localhost.nu>
 This program is under GPL. See file COPYING for details.
 
 1. What is it?
@@ -10,6 +10,7 @@ Bezerk, Xwhois, LinPopUp.
     Latest version of GNOME-Mud can always be found at
     <URL:http://amcl.sourceforge.net/>
 
+
 2. Requirements
 
     A c-compiler :), and the GTK+ (the GIMP ToolKit) which can be found
@@ -19,12 +20,13 @@ currently 1.2.X due to bugs in the text widget and GNOME.
     GNOME-Mud has been reported to compile and run on the following platforms,
 if you have a platform not included here, send me a mail to report.
 
-    - i386
-        - Linux 2.0, 2.1, 2.2
-        - FreeBSD 3.x-STABLE, 4.0-STABLE
-	- OpenBSD 2.7
+    - Linux 2.0, 2.1, 2.2
+    - FreeBSD 3.x-STABLE, 4.0-STABLE
+    - OpenBSD 2.7
+    - Linux 2.2 on Powerbook G3
 
     - GTK+ 1.2.4, 1.2.6, 1.2.7
+
 
 3. Compiling
 
@@ -36,6 +38,7 @@ if you have a platform not included here, send me a mail to report.
     strip src/gnomemud (if you want a smaller binary)
     make install (optional, just copy it if you don't want to install)
 
+
 4. Mailing-lists.
 
     User mailing-list:
@@ -43,6 +46,7 @@ if you have a platform not included here, send me a mail to report.
 
     Devel mailing-list (where bugs, feature requests, etc should be mailed...)
 	- amcl-devel@lists.sourceforge.net
+
 
 5. Contacting
 
