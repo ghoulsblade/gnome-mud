@@ -1,3 +1,8 @@
+Fri Oct 19 14:23:53 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/net.c [open_connection]: Fixed a small bug I added a few
+	days ago :)
+
 Fri Oct 19 13:02:18 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* gnome-mud.desktop: removed path to icon.

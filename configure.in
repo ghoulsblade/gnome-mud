@@ -106,7 +106,7 @@ AC_SUBST(GTKVER)
 AC_SUBST(CCVER)
 AC_SUBST(CODELINES)
 
-AC_OUTPUT(Makefile macros/Makefile src/Makefile plugins/Makefile intl/Makefile po/Makefile.in)
+AC_OUTPUT(Makefile src/Makefile plugins/Makefile intl/Makefile po/Makefile.in)
 
 if test "x$enable_warnings" = "xyes"; then
   CFLAGS="$CFLAGS -O -pipe -Wall -Wundef -Wredundant-decls      \
