@@ -140,9 +140,6 @@ void  save_colors     ( void				   );
 void  load_colors     ( void				   );
 void  load_color_to_c_structs ( void			   );
 
-/* dialog.c */
-void  doc_dialog      ( GtkWidget *widget, gint index      );
-
 /* keybind.c */
 void window_keybind   ( PROFILE_DATA *		   );
 void save_keys	      ( void				   );	

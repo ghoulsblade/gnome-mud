@@ -466,9 +466,6 @@ static GnomeUIInfo settings_menu[] = {
 };
 
 static GnomeUIInfo help_menu[] = {
-  GNOMEUIINFO_ITEM_DATA(N_("README"), NULL, doc_dialog, GINT_TO_POINTER(1), NULL),
-  GNOMEUIINFO_ITEM_DATA(N_("AUTHORS"), NULL, doc_dialog, GINT_TO_POINTER(2), NULL),
-  GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_MENU_ABOUT_ITEM(about_window, NULL),
   GNOMEUIINFO_END
 };
