@@ -122,7 +122,7 @@ gchar		*check_alias (GtkCList *, gchar *);
 gchar		*check_vars (GtkCList *, gchar *);
 
 /* net.c */
-CONNECTION_DATA	*make_connection (gchar *, gchar *);
+CONNECTION_DATA	*make_connection (gchar *, gchar *, gchar *);
 void		 disconnect (GtkWidget *, CONNECTION_DATA *);
 void		 send_to_connection (GtkWidget *, gpointer);
 void		 connection_send (CONNECTION_DATA *, gchar *);
