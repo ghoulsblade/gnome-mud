@@ -109,6 +109,7 @@ void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 {
 	GString *alias = g_string_new("");
 	gchar   *a;
+	GList* puck;
 	
 	check_aliases(alias, connection, entry_text, 0);
 
@@ -119,7 +120,6 @@ void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 	connection_send (connection, "\n");
 
 #ifndef WITHOUT_MAPPER	
-	GList* puck;
 	for (puck = AutoMapList; puck!= NULL; puck = puck->next)
 		user_command(puck->data, check_vars (connection->profile->variables, a));	
 #endif	

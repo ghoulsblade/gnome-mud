@@ -128,11 +128,13 @@ inline void link_blit(Link *link, struct win_scale *ws)
 
 void link_draw(Link* link, struct win_scale *ws)
 {
+  	gint tmp_width, width;
+	gint x1, y1, x2, y2;
+
 	if (link->type == LK_NODE)
 		return;
 
-	gint tmp_width, width = ws->mapped_unit / 4;
-	gint x1, y1, x2, y2;
+	width = ws->mapped_unit / 4;
 
 	/* Translate in pixels: (thanks to the code of the translate function) */
 	x1 = ( (gint) ((link->x - 2 * automap->x) * ws->mapped_unit) + ws->width ) / 2;
@@ -380,10 +382,11 @@ void link_free_list(GList* list)
 
 gboolean link_is_standard(MapNode* node, guint dir)
 {
+	Link *link; guint count = 0;
+
 	if (link_get_opposite_dir(node, dir) != OPPOSITE(dir))
 		return FALSE;
 	
-	Link *link; guint count = 0;
 	for (link = node->connections[dir].link; link != NULL; link = link->next)
 		count++;
 	
@@ -446,13 +449,17 @@ gint maplink_check(MapNode* from, MapNode* to)
 
 Link* maplink_create(MapNode* from, MapNode* to)
 {
+  	gint type;
+	Link *link_list;
+	int x, y, end_x, end_y, dx, dy;
+
 	if (actual == NULL)
 		maplink_init_new_map(from->map);
 	
 	if (from->map != actual->map)
 		maplink_change_map(from->map);
 	
-	gint type = maplink_check(from, to);
+	type = maplink_check(from, to);
 
 	if (type > 0)
 	{
@@ -466,10 +473,8 @@ Link* maplink_create(MapNode* from, MapNode* to)
 	}
 	type = (type * (-1)) - 1;
 	
-	Link *link_list;
-	int x = 2 * from->x, y = 2 * from->y;
-	int end_x = 2 * to->x, end_y = 2 * to->y;
-	int dx, dy;
+	x = 2 * from->x; y = 2 * from->y;
+	end_x = 2 * to->x; end_y = 2 * to->y;
 	
 	/* Create the starting point of the link */
 	link_list = link_add(NULL, LK_NODE, x, y);
@@ -575,6 +580,8 @@ void maplink_delete(MapNode* from, guint dir)
 
 void maplink_draw(gint x, gint y, struct win_scale* ws)
 {
+  gint width;
+  
 	/* Create a Pos structure for later */
 	Pos pos;
 	pos.x = x;
@@ -584,7 +591,7 @@ void maplink_draw(gint x, gint y, struct win_scale* ws)
     x = ( (gint) ((x - 2 * automap->x) * ws->mapped_unit) + ws->width ) / 2;
     y = ( ws->height - (gint)((y - 2 * automap->y) * ws->mapped_unit) ) / 2;
 
-	gint width = ws->mapped_unit / 4 - 1;
+	width = ws->mapped_unit / 4 - 1;
 
 	/* Clear the place */
 	gdk_draw_rectangle(automap->pixmap,

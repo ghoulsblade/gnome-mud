@@ -72,12 +72,13 @@ void update_gconf_from_unusual_exits()
 	gchar* entry;
 	int size = 0;
 	GList* puck;
+	gchar* iter;
 	
 	for (puck = automap_config->unusual_exits; puck != NULL; puck = puck->next)
 		size = size + strlen(puck->data) + 1;
 	
 	entry = g_malloc0(size * sizeof(char));
-	gchar* iter = entry;
+	iter = entry;
 
 	for (puck = automap_config->unusual_exits; puck != NULL; puck = puck->next)
 	{
@@ -287,6 +288,7 @@ static void prefs_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *
 	/* And the automapper */
 	if (!strcmp(key, "unusual_exits"))
 	{
+		gchar* p;
 		if (automap_config->unusual_exits)
 		{
 			/* Empty the previous list */
@@ -298,7 +300,7 @@ static void prefs_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *
 			automap_config->unusual_exits = NULL;
 		}
 		
-		gchar* p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/mapper/unusual_exits", NULL);
+		p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/mapper/unusual_exits", NULL);
 		if (p)
 		{
 			gchar** unusual_exits;
@@ -399,13 +401,16 @@ void load_prefs ( void )
 	/* palette */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/ui/palette", NULL);
 
-	gtk_color_selection_palette_from_string(p, &colors, &n_colors);
-	if (n_colors < C_MAX)
+	if (p)
 	{
-		g_printerr(_("Palette had %d entries instead of %d\n"), n_colors, C_MAX);
+		gtk_color_selection_palette_from_string(p, &colors, &n_colors);
+		if (n_colors < C_MAX)
+		{
+			g_printerr(_("Palette had %d entries instead of %d\n"), n_colors, C_MAX);
+		}
+		memcpy(prefs.Colors, colors, C_MAX * sizeof(GdkColor));
+		g_free(colors);
 	}
-	memcpy(prefs.Colors, colors, C_MAX * sizeof(GdkColor));
-	g_free(colors);
 
 	/* last log dir */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/functionality/last_log_dir", NULL);
@@ -425,12 +430,11 @@ void load_prefs ( void )
 	automap_config = g_malloc0(sizeof(AutoMapConfig));
 	if (p)
 	{
+		int i;
 		gchar** unusual_exits;
 		unusual_exits = g_malloc0(sizeof(char) * (strlen(p) + 2));
 		unusual_exits = g_strsplit(p, ";", 100);
 	
-		int i;
-			
 		for (i = 0; unusual_exits[i] != NULL; i++)
 		{
 			unusual_exits[i] = g_strstrip(unusual_exits[i]);

@@ -1,3 +1,11 @@
+2003-06-05  Abigail Brady  <morwen@evilmagic.org>
+
+	* src/map.c, net.c, prefs.c, map-link.c: Backport to C90, which has
+	declarations before code.
+
+	* src/prefs.c: Kill a segfault if there are no saved colour palette
+	settings.
+
 Wed Jun  4 19:53:54 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/gnome-mud-manual/C/topic.dat: Removed.
