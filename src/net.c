@@ -146,6 +146,8 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 	GtkWidget		*box_label;
 	gint			conn_id;
 
+	static gint	c_id = 0;
+	
         image = gtk_image_new_from_file(GMPIXMAPSDIR "/connection-offline.png");
         label = gtk_label_new(hoster);
 

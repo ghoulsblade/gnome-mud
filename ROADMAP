@@ -11,10 +11,10 @@ feel free to suggest features, contribute, or comment.
 0.11.0
 
 * Complete GNOME2 (no BROKEN or DEPRECATED code)
-* Fix PyGTK support.
 * Rewrite net-releated code
 * Right-click menu for connection-tabs
-* Green/Red marker, so that you can see if tab is connected or not
+  - able close connection, get connection info such as connected
+    to what host, which profile in use, bytes transfered, etc.
 * Other marker on tab to show if using MCCP or not
 
 0.12.0

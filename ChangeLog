@@ -1,3 +1,10 @@
+2004-01-27  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Removed some entries we've fixed. Whohoo!! :)
+
+	* src/net.c (make_connection): Compile-fix for lost part of Adams
+	patch from yesterday.
+
 2004-01-26  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/python.c (pyConnection_equals): New function, still unfinished.
