@@ -54,7 +54,7 @@ void window_menu_file_start_logging_cb (GtkWidget *widget, gpointer data)
   g_return_if_fail (cd) ;
 
   if (cd->logging) {
-    g_snprintf(buf, 255, _("*** Already logging to %s. Close that log first.\r\n"),
+    g_snprintf(buf, 255, _("*** Already logging to %s. Close that log first.\n"),
       cd->log_filename) ;
     textfield_add(cd, buf, MESSAGE_ERR) ;
     return ;
@@ -73,7 +73,7 @@ void window_menu_file_stop_logging_cb (GtkWidget *widget, gpointer data)
   g_return_if_fail (cd) ;
 
   if (!cd->logging) {
-    textfield_add(cd, _("*** No log is open in this window to be closed.\r\n"),
+    textfield_add(cd, _("*** No log is open in this window to be closed.\n"),
       MESSAGE_ERR) ;
     return ;
   }

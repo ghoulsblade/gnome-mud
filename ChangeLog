@@ -1,3 +1,12 @@
+Fri Mar 28 10:01:55 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* gnome-mud.schemas.in: Added keys profile_list, profile aliases,
+	profile variables, profile triggers and profile keybinds.
+
+	* data.c, gnome-mud.h, init.c, keybind.c, net.c, prefs.c,
+	profiles.c: Profiles rebuilt using GList instead GtkCList, and
+	also saving via gconf.
+
 Mon Mar 17 16:20:38 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Fixes bug #533313.

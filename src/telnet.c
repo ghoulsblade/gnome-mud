@@ -224,22 +224,6 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 				}
 				break;
       
-/*			case '\r':
-				if (*(from+1)!='\n')
-				{
-					len++;
-					*to++='\n';
-				}
-				from++;
-				break;
-				
-			case '\n':
-				if (*(from+1)=='\r') from++;
-				len++;
-				*to++='\n';
-				from++;
-				break;
-*/				
 			default:
 				len++;
 				*to++ = *from++;

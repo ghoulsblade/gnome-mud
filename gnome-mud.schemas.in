@@ -224,5 +224,71 @@
 			</locale>
 		</schema>
 
+		<schema>
+			<key>/schemas/apps/gnome-mud/profile_list</key>
+			<applyto>/apps/gnome-mud/profile_list</applyto>
+			<owner>gnome-mud</owner>
+			<type>list</type>
+			<list_type>string</list_type>
+			<default>[Default]</default>
+			<locale name="C">
+				<short>List of profiles</short>
+				<long>
+				 List of profiles known to gnome-terminal. The list contains
+				 strings naming subdirectories relative to
+				 /apps/gnome-mud/profiles.
+				</long>
+			</locale>
+		</schema>
+
+		<!-- Profile specific -->
+		<schema>
+			<key>/schemas/apps/gnome-mud/profiles/Default/aliases</key>
+			<applyto>/apps/gnome-mud/profiles/Default/aliases</applyto>
+			<owner>gnome-mud</owner>
+			<type>list</type>
+			<list_type>string</list_type>
+			<default>[]</default>
+			<locale name="C">
+				<short>Aliases</short>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/profiles/Default/variables</key>
+			<applyto>/apps/gnome-mud/profiles/Default/variables</applyto>
+			<owner>gnome-mud</owner>
+			<type>list</type>
+			<list_type>string</list_type>
+			<default>[]</default>
+			<locale name="C">
+				<short>Variables</short>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/profiles/Default/triggers</key>
+			<applyto>/apps/gnome-mud/profiles/Default/triggers</applyto>
+			<owner>gnome-mud</owner>
+			<type>list</type>
+			<list_type>string</list_type>
+			<default>[]</default>
+			<locale name="C">
+				<short>Triggers</short>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/profiles/Default/keybinds</key>
+			<applyto>/apps/gnome-mud/profiles/Default/keybinds</applyto>
+			<owner>gnome-mud</owner>
+			<type>list</type>
+			<list_type>string</list_type>
+			<default>[]</default>
+			<locale name="C">
+				<short>Keybinds</short>
+			</locale>
+		</schema>
+
 	</schemalist>
 </gconfschemafile>

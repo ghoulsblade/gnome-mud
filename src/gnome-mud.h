@@ -135,9 +135,9 @@ struct keybind_data {
 
 struct profile_data {
 	gchar 			*name;
-	GtkCList		*alias;
-	GtkCList		*variables;
-	GtkCList		*triggers;
+	GList			*alias;
+	GList			*variables;
+	GList			*triggers;
 	GtkCList		*keys;
 	KEYBIND_DATA	*kd;
 };
@@ -149,9 +149,9 @@ struct profile_data {
 /* data.c */
 void		 load_data (GtkCList *, gchar *);
 void		 window_data(PROFILE_DATA *, gint);
-gchar		*check_actions (GtkCList *, gchar *);
-gchar		*check_alias (GtkCList *, gchar *);
-gchar		*check_vars (GtkCList *, gchar *);
+gchar		*check_actions (GList *, gchar *);
+gchar		*check_alias (GList *, gchar *);
+gchar		*check_vars (GList *, gchar *);
 
 /* net.c */
 CONNECTION_DATA	*make_connection (gchar *, gchar *, gchar *);
@@ -226,6 +226,7 @@ void  popup_window    ( const gchar *message                         );
 void  switch_page_cb  ( GtkNotebook *, gpointer, guint, gpointer     );
 void  grab_focus_cb   ( GtkWidget* widget, gpointer user_data        );
 void  textfield_add   ( CONNECTION_DATA *, gchar *, gint             );
+void  terminal_feed   ( GtkWidget *, gchar *data                     );
 
 /* wizard.c */
 CONNECTION_DATA *create_connection_data ( gint notebook );

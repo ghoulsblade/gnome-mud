@@ -134,7 +134,7 @@ static void prefs_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *
 	gint      i, n_colors;
 	gchar    *key;
 	GdkColor  color, *colors;
-	
+
 	key = g_path_get_basename(gconf_entry_get_key(entry));
 
 #define vte_terminal_NULL(a, b)

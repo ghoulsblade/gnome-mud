@@ -115,7 +115,7 @@ void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 	g_string_free(alias, TRUE);
 	
    	connection_send (connection, check_vars (connection->profile->variables, a));
-	connection_send (connection, "\r\n");
+	connection_send (connection, "\n");
 
 	g_free(a);
 }
@@ -172,7 +172,7 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 #endif /* ENABLE_MCCP */
     gdk_input_remove (connection->data_ready);
 
-    textfield_add (connection, _("*** Connection closed.\r\n"), MESSAGE_SYSTEM);
+    textfield_add (connection, _("*** Connection closed.\n"), MESSAGE_SYSTEM);
     connection->connected = FALSE;
 }
 
@@ -184,13 +184,13 @@ void open_connection (CONNECTION_DATA *connection)
 
     if ( (!connection->host) || (!strcmp (connection->host, "\0")) )
     {
-        textfield_add (connection, _("*** Can't connect - you didn't specify a host.\r\n"), MESSAGE_ERR);
+        textfield_add (connection, _("*** Can't connect - you didn't specify a host.\n"), MESSAGE_ERR);
         return;
     }
 
     if ( (!connection->port) || (!strcmp(connection->port, "\0")) )
     {
-		textfield_add (connection, _("*** No port specified - assuming port 23.\r\n"), MESSAGE_SYSTEM);
+		textfield_add (connection, _("*** No port specified - assuming port 23.\n"), MESSAGE_SYSTEM);
 
 		if (connection->port[0] != '\0')
 		{
@@ -205,7 +205,7 @@ void open_connection (CONNECTION_DATA *connection)
         port = g_strdup("23");
     }
 
-    g_snprintf (buf, 2047, _("*** Making connection to %s, port %s.\r\n"), connection->host, connection->port);
+    g_snprintf (buf, 2047, _("*** Making connection to %s, port %s.\n"), connection->host, connection->port);
     textfield_add (connection, buf, MESSAGE_SYSTEM);
 
     /* strerror(3) */
@@ -229,7 +229,7 @@ void open_connection (CONNECTION_DATA *connection)
  		
 		getnameinfo(tmpaddr->ai_addr, tmpaddr->ai_addrlen, name,sizeof(name),portname,sizeof(portname), NI_NUMERICHOST | NI_NUMERICSERV);
 
-		snprintf(buf,2047,_("*** Trying %s port %s...\r\n"),name,port);
+		snprintf(buf,2047,_("*** Trying %s port %s...\n"),name,port);
 		textfield_add (connection, buf, MESSAGE_SYSTEM);
   
 		connection->sockfd = socket(tmpaddr->ai_family,tmpaddr->ai_socktype,tmpaddr->ai_protocol);
@@ -256,7 +256,7 @@ void open_connection (CONNECTION_DATA *connection)
 
 	freeaddrinfo(ans);
 
-	textfield_add (connection, _("*** Connection established.\r\n"), MESSAGE_SYSTEM);
+	textfield_add (connection, _("*** Connection established.\n"), MESSAGE_SYSTEM);
 
     connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ, GTK_SIGNAL_FUNC(read_from_connection), (gpointer) connection);
     connection->connected = TRUE;
@@ -379,7 +379,6 @@ void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo
 	 		if(sent[i] == prefs.CommDev[0])
 			{
 	    		sent[i] = '\n';
-				// FIXME, needs to be \r\n for display
 	  		}
 		}
 
@@ -401,7 +400,6 @@ void connection_send (CONNECTION_DATA *connection, gchar *message)
 		if(sent[i] == prefs.CommDev[0])
 		{
 	    	sent[i] = '\n';
-			// FIXME, needs to be \r\n for display
 		}
     }
 #ifdef USE_PYTHON
@@ -437,7 +435,7 @@ static void print_error (CONNECTION_DATA *cd, const gchar *error)
 {
 	gchar buf[256] ;
 
-	g_snprintf(buf, 255, "*** %s.\r\n", error);
+	g_snprintf(buf, 255, "*** %s.\n", error);
 	textfield_add (cd, buf, MESSAGE_ERR);
 } /* print_error */
 

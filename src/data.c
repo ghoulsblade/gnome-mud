@@ -19,8 +19,9 @@
 
 #include "config.h"
 
-#include <gnome.h>
+#include <gconf/gconf-client.h>
 #include <sys/types.h>
+#include <gnome.h>
 #include <regex.h>
 #include <stdio.h>
 #include <string.h>
@@ -31,7 +32,6 @@ static char const rcsid[] =
     "$Id$";
 
 struct own_data {
-	GtkCList		*list;
 	GtkWidget		*button_delete,  
 					*textname,
 					*textvalue,
@@ -48,18 +48,19 @@ struct own_data {
 
 typedef struct own_data DDATA;
 
+#define DATA_LIST(data)	(data->z == 0 ? data->pd->alias : data->z == 1 ? data->pd->triggers : data->z == 2 ? data->pd->variables : NULL)
+#define DATA_PLIST(data)	(data->z == 0 ? &data->pd->alias : data->z == 1 ? &data->pd->triggers : data->z == 2 ? &data->pd->variables : NULL)
+
 extern SYSTEM_DATA  prefs;
+extern GConfClient  *gconf_client;
 
 /* Local functions */
 gint	 get_size (GtkCList *);
-static gint	 find_data (GtkCList *, gchar *);
+static gint	 find_data (GList *, gchar *);
 static void	 data_button_add (GtkWidget *, DDATA *);
 static void	 data_button_delete (GtkWidget *, DDATA *);
 static void	 data_button_close (GtkWidget *, DDATA *);
-static void	 data_selection_made (GtkCList *, gint, gint, GdkEventButton *, DDATA *);
-static void	 data_unselection_made (GtkCList *, gint, gint, GdkEventButton *, DDATA *);
 static gchar	 check_str (gchar *);
-static gchar	*check_data (GtkCList *, gchar *);
 static gint      match_line (gchar *, gchar *);
 
 static gchar check_str (gchar *str)
@@ -74,64 +75,68 @@ static gchar check_str (gchar *str)
     return 0;
 }
 
-gint get_size (GtkCList *clist)
+static gint find_data (GList *list, gchar *text)
 {
-    gint i;
-    gchar *a[2] = { "", "" };
+	GList *entry;
+    gint i = 0;
 
-    i = gtk_clist_append (clist, a);
-    gtk_clist_remove (clist, i);
-    return i;
+	for (entry = g_list_first(list); entry != NULL; entry = g_list_next(entry), i++)
+	{
+		if (!g_ascii_strncasecmp(((gchar **) entry->data)[0], text, strlen(text)))
+		{
+			return i;
+		}
+	}
+
+	return -1;
 }
 
-static gint find_data (GtkCList *list, gchar *text)
+static gchar *check_data (GList *list, gchar *incoming)
 {
-    gint i;
-    gchar *aux;
-
-    for (i = 0; i < get_size(list); i++)
-    {
-        gtk_clist_get_text (list, i, 0, &aux);
-        if (!strcmp (aux, text)) return i;
-    }
-    return -1;
-}
-
-static gchar *check_data (GtkCList *list, gchar *incoming)
-{
+	GList *entry;
     gint i = find_data(list, incoming);
-    gchar *r = 0;
 
-    if (i != -1) gtk_clist_get_text (list, i, 1, &r);
-    return r;
+	if (i != -1)
+	{
+		entry = g_list_nth(list, i);
+
+		return ((gchar **) entry->data)[1];
+	}
+
+	return NULL;
 }
 
-gchar *check_actions (GtkCList *list, gchar *incoming)
+static void copy_data_pointer (GList **a, GList *b)
 {
-    gint i;
-    gchar *str;
-  
-    for (i=0; i < get_size(list); i++)
-    {
-        gtk_clist_get_text (list, i, 0, &str);
-        if (match_line(str, incoming))
-        {
-            gtk_clist_get_text (list, i, 1, &str);
-            return str;
-        }
-    }
-    return 0;
+	*a = b;
 }
 
-gchar *check_alias (GtkCList *list, gchar *incoming)
+gchar *check_actions (GList *list, gchar *incoming)
+{
+ 	GList *entry;
+	gchar *str;
+
+	for (entry = g_list_first(list); entry != NULL; entry = g_list_next(entry))
+	{
+		str = ((gchar **) entry->data)[0];
+
+		if (match_line(str, incoming))
+		{
+			return ((gchar **) entry->data)[1];
+		}
+	}
+ 
+	return NULL;
+}
+
+gchar *check_alias (GList *list, gchar *incoming)
 {
     return check_data(list, incoming);
 }
 
-gchar *check_vars (GtkCList *list, gchar *str)
+gchar *check_vars (GList *list, gchar *str)
 {
     gchar **var = g_strsplit(str, " ", 0), **c, *r;
-
 
     c = var;
     while (*c)
@@ -161,30 +166,74 @@ static gint match_line (gchar *trigger, gchar *incoming)
     return 0;
 }
 
-static void data_selection_made (GtkCList *list, gint row, gint column,
-			   GdkEventButton *event, DDATA *data)
+static void data_sync_gconf(DDATA *data)
 {
-    gchar *text;
-  
-    data->row = row;
-    gtk_clist_get_text (GTK_CLIST (list), row, 0, &text);
-    gtk_entry_set_text (GTK_ENTRY (data->textname), text);
-    gtk_clist_get_text (GTK_CLIST (list), row, 1, &text);
-    gtk_entry_set_text (GTK_ENTRY (data->textvalue), text);
-    gtk_widget_set_sensitive (data->button_delete, TRUE);
+	GSList *list = NULL, *elist;
+	GList  *entry;
+	gchar  *ldata;
+	gchar  *key = g_strdup_printf("/apps/gnome-mud/profiles/%s/%s", data->pd->name, data->file_name);
+
+	for (entry = g_list_first(DATA_LIST(data)); entry != NULL; entry = g_list_next(entry))
+	{
+		ldata = g_strjoin("=", ((gchar **) entry->data)[0], ((gchar **) entry->data)[1], NULL);
+
+		list = g_slist_append(list, (gpointer) ldata);
+	}
+
+	gconf_client_set_list(gconf_client, key, GCONF_VALUE_STRING, list, NULL);
+
+	for (elist = g_slist_nth(list, 0); elist != NULL; elist = g_slist_next(elist))
+	{
+		g_free(elist->data);
+	}
+
+	g_slist_free(list);
+	g_free(key);
 }
 
-static void data_unselection_made (GtkCList *list, gint row, gint column,
-			     	    GdkEventButton *event, DDATA *data)
+static void data_delete_entry(DDATA *data, const gchar *entry, GtkTreeSelection *selection)
 {
-    data->row = -1;
-    gtk_entry_set_text (GTK_ENTRY (data->textname), "");
-    gtk_entry_set_text (GTK_ENTRY (data->textvalue), "");
-    gtk_widget_set_sensitive (data->button_delete, FALSE);
+	GList *lentry;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+
+	for (lentry = g_list_first(DATA_LIST(data)); lentry != NULL; lentry = g_list_next(lentry))
+	{
+		if (!g_ascii_strncasecmp(((gchar **) lentry->data)[0], entry, strlen(entry)))
+		{
+			copy_data_pointer(DATA_PLIST(data), g_list_remove_link(DATA_LIST(data), lentry));
+			g_strfreev(lentry->data);
+			g_list_free_1(lentry);
+
+			break;
+		}
+	}
+
+	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+	{
+		gtk_list_store_remove(g_object_get_data(G_OBJECT(data->button_delete), "list-store"), &iter);
+	}
+}
+
+static void data_selection_made(GtkTreeSelection *selection, DDATA *data)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+
+	gchar *temp, *temp2;
+
+	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+	{
+		gtk_tree_model_get(model, &iter, 0, &temp, 1, &temp2, -1);
+	
+		gtk_entry_set_text(GTK_ENTRY(data->textname), temp);
+		gtk_entry_set_text(GTK_ENTRY(data->textvalue), temp2);
+	}
 }
 
 static void data_button_add (GtkWidget *button, DDATA *data)
 {
+	GtkTreeIter iter;
     gchar buf[256], *text[2], a;
   
     text[0] = g_strdup( gtk_entry_get_text (GTK_ENTRY (data->textname)) );
@@ -196,7 +245,7 @@ static void data_button_add (GtkWidget *button, DDATA *data)
 		goto free;
     }
   
-    if ( strcmp(gtk_clist_get_column_title(data->list, 0),_("Actions")) && (a = check_str(text[0])))
+    if ( strcmp(data->title_name, _("Actions")) && (a = check_str(text[0])))
     {
         g_snprintf (buf, 255, _("Character '%c' not allowed."), a); 
         popup_window (buf);
@@ -217,15 +266,20 @@ static void data_button_add (GtkWidget *button, DDATA *data)
     	goto free;
     }
 
-    if (find_data (data->list, text[0]) != -1)
+    if (find_data (DATA_LIST(data), text[0]) != -1)
     {
         g_snprintf (buf, 255, _("Can't duplicate %s."), data->title_name);
         popup_window (buf);
     	goto free;
 	}
-	
-    gtk_clist_append (data->list, text);
-    gtk_widget_set_sensitive (data->button_delete, TRUE);
+
+	gtk_list_store_append(g_object_get_data(G_OBJECT(button), "list-store"), &iter);
+	gtk_list_store_set(g_object_get_data(G_OBJECT(button), "list-store"), &iter, 0, text[0], 1, text[1], -1);
+
+	gtk_tree_selection_select_iter(g_object_get_data(G_OBJECT(button), "list-select"), &iter);
+
+	copy_data_pointer(DATA_PLIST(data), g_list_append(DATA_LIST(data), (gpointer) g_strdupv(text)));
+	data_sync_gconf(data);
 
 free:
 	g_free(text[0]);
@@ -234,48 +288,18 @@ free:
 
 static void data_button_delete (GtkWidget *button, DDATA *data)
 {
-    if (data->row == -1) return;
+	const gchar *entry = gtk_entry_get_text(GTK_ENTRY(data->textname));
 
-    gtk_clist_remove (data->list, data->row);
-    gtk_widget_set_sensitive (data->button_delete, FALSE);
+	data_delete_entry(data, entry, g_object_get_data(G_OBJECT(button), "list-select"));
+	data_sync_gconf(data);
 }
 
 static void data_button_close (GtkWidget *button, DDATA *data)
 {
-    gint i;
-    gchar *aux[2];
-
     if (button != data->window)
     {
         gtk_widget_destroy (data->window);
         return;
-    }
-
-	switch (data->z)
-	{
-		case 0: 
-			data->pd->alias = (GtkCList *) gtk_clist_new(2);
-			break;
-
-		case 1:
-			data->pd->triggers = (GtkCList *) gtk_clist_new(2);
-			break;
-
-		case 2:
-			data->pd->variables = (GtkCList *) gtk_clist_new(2);
-			break;
-	}
-	
-    for (i = 0; i < get_size(data->list); i++)
-    {
-        gtk_clist_get_text (data->list, i, 0, &aux[0]);
-        gtk_clist_get_text (data->list, i, 1, &aux[1]);
-		switch (data->z)
-		{
-			case 0: gtk_clist_append(data->pd->alias, aux);		break;
-			case 1: gtk_clist_append(data->pd->triggers, aux);	break;
-			case 2: gtk_clist_append(data->pd->variables, aux);	break;
-		}
     }
 
     g_free(data->title_name);
@@ -283,9 +307,25 @@ static void data_button_close (GtkWidget *button, DDATA *data)
     g_free(data);
 }
 
+static void data_populate_list_store(GtkListStore *store, GList *list)
+{
+	GtkTreeIter iter;
+	GList *entry;
+
+	for (entry = g_list_first(list); entry != NULL; entry = g_list_next(entry))
+	{
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, 0, ((gchar **) entry->data)[0], 1, ((gchar **) entry->data)[1], -1);
+	}
+}
+
 void window_data (PROFILE_DATA *profile, gint z)
 {
-    GtkWidget *vbox, *a, *b;
+    GtkWidget *vbox, *a, *b, *tree;
+	GtkListStore *store;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *select;
+	GtkCellRenderer *renderer;
     DDATA     *data = g_new0(DDATA, 1);
 
     switch(z)
@@ -296,7 +336,6 @@ void window_data (PROFILE_DATA *profile, gint z)
 		   	data->tam_name    = 15;
 		   	data->tam_value   = 80;
            	data->file_name   = "aliases";
-			data->list		  = profile->alias;
 			break;
 			
 		case(1): /* actions */
@@ -304,8 +343,7 @@ void window_data (PROFILE_DATA *profile, gint z)
 	   		data->title_value = g_strdup(_("Triggers"));
 	   		data->tam_name    = 80;
 	   		data->tam_value   = 80;
-           	data->file_name   = "actions";
-			data->list		  = profile->triggers;
+           	data->file_name   = "triggers";
 			break;
 			
 		case(2): /* vars */
@@ -313,15 +351,14 @@ void window_data (PROFILE_DATA *profile, gint z)
 	   		data->title_value = g_strdup(_("Values"));
 	   		data->tam_name    = 20;
 	   		data->tam_value   = 50;
-           	data->file_name   = "vars";
-			data->list		  = profile->variables;
+           	data->file_name   = "variables";
 			break;
 			
 		default:
 	   		g_warning(_("window_data: trying to access to undefined data range: %d"), z);
 			return;
     }
-	
+
     data->z      = z;
     data->row    = -1;
     data->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -333,15 +370,20 @@ void window_data (PROFILE_DATA *profile, gint z)
     gtk_window_set_title (GTK_WINDOW (data->window), _("GNOME-Mud Configuration Centre"));
     gtk_widget_set_usize (data->window,450,320);
 
-    gtk_clist_set_column_title         (data->list, 0, data->title_name);
-    gtk_clist_set_column_title         (data->list, 1, data->title_value);
-    gtk_clist_column_titles_passive    (data->list);
-    gtk_clist_column_titles_show       (data->list);
-    gtk_clist_set_shadow_type          (data->list, GTK_SHADOW_IN);
-    gtk_clist_set_column_width         (data->list, 0, 100);
-    gtk_clist_set_column_width         (data->list, 1, 250);
-    gtk_clist_set_column_justification (data->list, 0, GTK_JUSTIFY_LEFT);
-    gtk_clist_set_column_justification (data->list, 1, GTK_JUSTIFY_LEFT);
+	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
+	data_populate_list_store(store, DATA_LIST(data));
+
+	tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+	g_object_unref(G_OBJECT(store));
+	select = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+	gtk_tree_selection_set_mode(select, GTK_SELECTION_SINGLE);
+
+	renderer = gtk_cell_renderer_text_new();
+	column = gtk_tree_view_column_new_with_attributes(data->title_name, renderer, "text", 0, NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
+
+	column = gtk_tree_view_column_new_with_attributes(data->title_value, renderer, "text", 1, NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
 
     vbox = gtk_vbox_new (FALSE, 5);
     gtk_container_border_width (GTK_CONTAINER (vbox), 5);
@@ -350,7 +392,7 @@ void window_data (PROFILE_DATA *profile, gint z)
     a = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (a),
                                     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    gtk_container_add  (GTK_CONTAINER (a), (GtkWidget *)data->list);
+    gtk_container_add  (GTK_CONTAINER (a), tree);
     gtk_box_pack_start (GTK_BOX (vbox), a, TRUE, TRUE, 0);
 
     a = gtk_hbox_new (TRUE, 0);
@@ -375,26 +417,22 @@ void window_data (PROFILE_DATA *profile, gint z)
     gtk_box_pack_start (GTK_BOX (vbox), a, FALSE, FALSE, 0);
 
     b = gtk_button_new_with_label (_("Add"));
-    gtk_signal_connect (GTK_OBJECT (b), "clicked",
-                        GTK_SIGNAL_FUNC (data_button_add), data);
+	g_object_set_data(G_OBJECT(b), "list-store", store);
+	g_object_set_data(G_OBJECT(b), "list-select", select);
+    gtk_signal_connect (GTK_OBJECT (b), "clicked", GTK_SIGNAL_FUNC (data_button_add), data);
     gtk_box_pack_start (GTK_BOX (a), b, TRUE, TRUE, 15);
 
     data->button_delete = gtk_button_new_with_label (_("Delete"));
+	g_object_set_data(G_OBJECT(data->button_delete), "list-store", store);
+	g_object_set_data(G_OBJECT(data->button_delete), "list-select", select);
     gtk_box_pack_start (GTK_BOX (a), data->button_delete, TRUE, TRUE, 15);
-    gtk_widget_set_sensitive (data->button_delete, FALSE);
 
     b = gtk_button_new_with_label (_("Close"));
-    gtk_signal_connect (GTK_OBJECT (b), "clicked",
-                        GTK_SIGNAL_FUNC (data_button_close), data);
+    gtk_signal_connect (GTK_OBJECT (b), "clicked", GTK_SIGNAL_FUNC (data_button_close), data);
     gtk_box_pack_start (GTK_BOX (a), b, TRUE, TRUE, 15);
-
-    gtk_signal_connect (GTK_OBJECT (data->list), "select_row",
-                        GTK_SIGNAL_FUNC (data_selection_made), data);
-    gtk_signal_connect (GTK_OBJECT (data->list), "unselect_row",
-                        GTK_SIGNAL_FUNC (data_unselection_made), data);
-    gtk_signal_connect (GTK_OBJECT (data->button_delete), "clicked",
-                        GTK_SIGNAL_FUNC (data_button_delete), data);
-    gtk_signal_connect (GTK_OBJECT (data->window), "destroy",
-                        GTK_SIGNAL_FUNC(data_button_close), data);
+	
+	g_signal_connect(G_OBJECT(select), "changed", G_CALLBACK(data_selection_made), data);
+    gtk_signal_connect (GTK_OBJECT (data->button_delete), "clicked", GTK_SIGNAL_FUNC (data_button_delete), data);
+    gtk_signal_connect (GTK_OBJECT (data->window), "destroy", GTK_SIGNAL_FUNC(data_button_close), data);
     gtk_widget_show_all(data->window);
 }

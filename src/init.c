@@ -125,36 +125,7 @@ void destroy (GtkWidget *widget)
     gnome_config_set_vector("/gnome-mud/Data/CommandHistory", i, tt);
   }
  
-  if (ProfilesList != NULL)
-  {
-	  GList *t;
-	  gint   i;
-	  gchar const *prof[g_list_length(ProfilesList)];
-
-	  for (t = g_list_first(ProfilesList), i = 0; t != NULL; t = t->next, i++)
-	  {
-		  prof[i] = (gchar *) t->data;
-	  }
-
-	  gnome_config_set_vector("/gnome-mud/Data/Profiles", i, prof);
-  }
-
-  if (ProfilesData != NULL)
-  {
-	  GList *t;
-
-	  for (t = g_list_first(ProfilesData); t != NULL; t = t->next)
-	  {
-		  PROFILE_DATA *pd = (PROFILE_DATA *) t->data;
-		  
-		  profiledata_save(pd->name, pd->alias, "Alias");
-		  profiledata_save(pd->name, pd->variables, "Variables");
-		  profiledata_save(pd->name, pd->triggers, "Triggers");
-		  profiledata_savekeys(pd->name, pd->kd);
-	  }
-  }
-
-  if (Profiles != NULL)
+/*  if (Profiles != NULL)
   {
 	  GList *t;
 	  gint 	 i;
@@ -191,7 +162,7 @@ void destroy (GtkWidget *widget)
 		  i++;
 	  }
   }
-  
+  */
   gtk_main_quit ();
 }
 
@@ -280,7 +251,7 @@ static void window_menu_file_reconnect (GtkWidget *widget, gpointer data)
 
 	if (!cd)
 	{
-		textfield_add(main_connection, _("*** Internal error: no such connection.\r\n"), MESSAGE_ERR);
+		textfield_add(main_connection, _("*** Internal error: no such connection.\n"), MESSAGE_ERR);
 		return;
 	}
 
@@ -351,7 +322,7 @@ static void text_entry_send_command (CONNECTION_DATA *cn, gchar *cmd, GtkEntry *
 {
        gchar buf[256] ;
 
-       g_snprintf(buf, 255, "%s\r\n", cmd) ;
+       g_snprintf(buf, 255, "%s\n", cmd) ;
        connection_send(cn, buf) ;
        gtk_signal_emit_stop_by_name (GTK_OBJECT(txt), "key_press_event");
 }
@@ -368,7 +339,7 @@ static void text_entry_activate (GtkWidget *text_entry, gpointer data)
 
 	if (entry_text[0] == '\0') 
 	{
-		connection_send_data(cd, "\r\n", 1);
+		connection_send_data(cd, "\n", 1);
 		EntryCurr = NULL;
 		return;
 	}
@@ -572,7 +543,6 @@ CONNECTION_DATA *create_connection_data(gint notebook)
 	vte_terminal_set_scroll_on_output(VTE_TERMINAL(c->window), prefs.ScrollOnOutput);
 	
 	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(c->window), GTK_CAN_FOCUS);
-	gtk_widget_set_usize(c->window, 500, 300);
 
 	gtk_signal_connect(GTK_OBJECT(c->window), "focus-in-event", GTK_SIGNAL_FUNC(grab_focus_cb), NULL);
 	connections[notebook] = c;
@@ -713,6 +683,7 @@ void main_window ()
 	char  buf[1024];
   
 	window = gnome_app_new("gnome-mud", "GNOME Mud");
+	gtk_window_set_default_size(GTK_WINDOW(window), 500, 300);
 	gtk_widget_realize(window);
 	gtk_signal_connect(GTK_OBJECT(window), "delete_event", GTK_SIGNAL_FUNC(destroy), NULL);
   
@@ -759,13 +730,12 @@ void main_window ()
 	gtk_widget_show_all (window);
 	vte_terminal_set_font_from_string(VTE_TERMINAL(main_connection->window), prefs.FontName);
  
-	g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\r\n"), VERSION, __TIME__, __DATE__);
-	vte_terminal_feed(VTE_TERMINAL(main_connection->window), buf, strlen(buf));
-	vte_terminal_feed(VTE_TERMINAL(main_connection->window), 
-		_("Distributed under the terms of the GNU General Public Licence.\r\n"), -1);
+	g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\n"), VERSION, __TIME__, __DATE__);
+	terminal_feed(main_connection->window, buf);
+	terminal_feed(main_connection->window, _("Distributed under the terms of the GNU General Public Licence.\n"));
 #ifdef USE_PYTHON
-  	g_snprintf(buf, 1023, _("\r\nPython version %s\r\n"), Py_GetVersion());
-	vte_terminal_feed(VTE_TERMINAL(main_connection->window), buf, strlen(buf));
+  	g_snprintf(buf, 1023, _("\nPython version %s\n"), Py_GetVersion());
+	terminal_feed(main_connection->window, buf);
 #endif
 }
 

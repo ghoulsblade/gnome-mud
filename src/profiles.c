@@ -18,6 +18,7 @@
 
 #include "config.h"
 
+#include <gconf/gconf-client.h>
 #include <ctype.h>
 #include <gnome.h>
 
@@ -28,20 +29,89 @@ static char const rcsid[] =
 
 WIZARD_DATA2 *connections_find_by_profilename(gchar *name);
 gint 		  get_size(GtkCList *clist);
-gint		  g_list_compare_strings(gchar *a, gchar *b);
 
-GList	  *ProfilesList;
-GList	  *ProfilesData;
-GList	  *Profiles;
+GList     *ProfilesData;
+GList     *Profiles;
 gint	   selected, pselected;
 gint	   connection_selected;
 
 GtkWidget *main_clist;
 
+extern GConfClient	*gconf_client;
 
-gint g_list_compare_strings(gchar *a, gchar *b)
+static void profile_gconf_sync_list()
 {
-	return g_strcasecmp((gchar *) a, (gchar *) b);
+	GList *entry;
+	GSList *list = NULL;
+
+	for (entry = g_list_first(ProfilesData); entry != NULL; entry = g_list_next(entry))
+	{
+		list = g_slist_append(list, ((PROFILE_DATA *) entry->data)->name);
+	}
+
+	gconf_client_set_list(gconf_client, "/apps/gnome-mud/profile_list", GCONF_VALUE_STRING, list, NULL);
+}
+
+static KEYBIND_DATA *profile_load_keybinds(gchar *profile_name)
+{
+	KEYBIND_DATA *k = NULL;
+	GSList *slist, *lentry;
+	gchar pname[255];
+
+	snprintf(pname, 255, "/apps/gnome-mud/profiles/%s/keybinds", profile_name);
+	slist = gconf_client_get_list(gconf_client, pname, GCONF_VALUE_STRING, NULL);
+	g_message(" Loaded %d keybinds...", g_slist_length(slist));
+	for (lentry = slist; lentry != NULL; lentry = g_slist_next(lentry))
+	{
+		KEYBIND_DATA *kd = (KEYBIND_DATA *) g_malloc0(sizeof(KEYBIND_DATA));
+		int KB_state = 0;
+		gchar **a, *keyv_begin = NULL;
+			
+		a = g_strsplit((gchar *) lentry->data, "=", 2);
+
+		if (strstr(a[0], "Control"))	KB_state |= 4;
+		if (strstr(a[0], "Alt"))		KB_state |= 8;
+
+		keyv_begin = a[0] + strlen(a[0]) - 2;
+
+		while(!(keyv_begin == (a[0]-1) || keyv_begin[0] == '+')) keyv_begin--;
+		keyv_begin++;
+
+		kd->state	= KB_state;
+		kd->keyv	= gdk_keyval_from_name(keyv_begin);
+		kd->data	= g_strdup(a[1]);
+		kd->next	= k;
+		k 			= kd;
+
+		g_message("		Alias: %s = %s", a[0], a[1]);
+		g_strfreev(a);
+	}
+
+	return k;
+}
+
+static GList *profile_load_list(gchar *pn, gchar *pt)
+{
+	GList *list = NULL;
+	GSList *slist;
+	GSList *lentry;
+	gchar pname[255];
+
+	snprintf(pname, 255, "/apps/gnome-mud/profiles/%s/%s", pn, pt);
+	slist = gconf_client_get_list(gconf_client, pname, GCONF_VALUE_STRING, NULL);
+	g_message("	Loaded %d %s...", g_slist_length(slist), pt);
+	for (lentry = slist; lentry != NULL; lentry = g_slist_next(lentry))
+	{
+		gchar **a;
+
+		a = g_strsplit((gchar *) lentry->data, "=", 2);
+
+		list = g_list_append(list, (gpointer) a);
+		
+		g_message("		Alias: %s = %s", a[0], a[1]);
+	}
+
+	return list;
 }
 
 void load_profiles()
@@ -49,136 +119,30 @@ void load_profiles()
 	/*
 	 * Profiles
 	 */
-	{
-		gint nr, i;
-		gchar **profiles;
-		gnome_config_get_vector("/gnome-mud/Data/Profiles", &nr, &profiles);
-
-		if (nr == 0)
-		{
-			PROFILE_DATA *pd = g_malloc0(sizeof(PROFILE_DATA));
-			
-			pd->name		= "Default";
-			pd->alias		= (GtkCList *) gtk_clist_new(2);
-			pd->variables	= (GtkCList *) gtk_clist_new(2);
-			pd->triggers	= (GtkCList *) gtk_clist_new(2);
-			
-			ProfilesList = g_list_append(ProfilesList, "Default");
-			ProfilesData = g_list_append(ProfilesData, (gpointer) pd);
-		}
-
-		for (i = 0; i < nr; i++)
-		{
-			PROFILE_DATA *pd = g_malloc0(sizeof(PROFILE_DATA));
-			gchar name[50];
-			gint  new_nr, k;
-			gchar **vector, **vector2;
+	GSList *profiles;
+	GSList *entry;
 		
-			pd->name  	  = profiles[i];
-			pd->alias 	  = (GtkCList *) gtk_clist_new(2);
-			pd->variables = (GtkCList *) gtk_clist_new(2);
-			pd->triggers  = (GtkCList *) gtk_clist_new(2);
-			pd->kd		  = NULL;
+	profiles = gconf_client_get_list(gconf_client, "/apps/gnome-mud/profile_list", GCONF_VALUE_STRING, NULL);
 
-			/*
-			 * Aliases
-			 */
-			g_snprintf(name, 50, "/gnome-mud/Profile: %s/Alias", profiles[i]);
-			gnome_config_get_vector(name, &new_nr, &vector);
-			g_snprintf(name, 50, "/gnome-mud/Profile: %s/AliasValue", profiles[i]);
-			gnome_config_get_vector(name, &new_nr, &vector2);
-			for (k = 0; k < new_nr; k++)
-			{
-				gchar *t[2] = { vector[k], vector2[k] };
+	g_message("Loaded %d profiles...", g_slist_length(profiles));
+	for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
+	{
+		PROFILE_DATA *pd = g_malloc0(sizeof(PROFILE_DATA));
 
-				if (strlen(vector[k]) < 1)
-				{
-					continue;
-				}
-				
-				gtk_clist_append(pd->alias, t);
-			}
+		pd->name = g_strdup((gchar *) entry->data);
+		pd->alias = profile_load_list(pd->name, "aliases");
+		pd->variables = profile_load_list(pd->name, "variables");
+		pd->triggers = profile_load_list(pd->name, "triggers" );
 
-			/*
-			 * Variables
-			 */
-			g_snprintf(name, 50, "/gnome-mud/Profile: %s/Variables", profiles[i]);
-			gnome_config_get_vector(name, &new_nr, &vector);
-			g_snprintf(name, 50, "/gnome-mud/Profile: %s/VariablesValue", profiles[i]);
-			gnome_config_get_vector(name, &new_nr, &vector2);
-			for (k = 0; k < new_nr; k++)
-			{
-				gchar *t[2] = { vector[k], vector2[k] };
-
-				if (strlen(vector[k]) < 1)
-				{
-					continue;
-				}
-				
-				gtk_clist_append(pd->variables, t);
-			}
-
-			/*
-			 * Triggers
-			 */
-			g_snprintf(name, 50, "/gnome-mud/Profile: %s/Triggers", profiles[i]);
-			gnome_config_get_vector(name, &new_nr, &vector);
-			g_snprintf(name, 50, "/gnome-mud/Profile: %s/TriggersValue", profiles[i]);
-			gnome_config_get_vector(name, &new_nr, &vector2);
-			for (k = 0; k < new_nr; k++)
-			{
-				gchar *t[2] = { vector[k], vector2[k] };
-
-				if (strlen(vector[k]) < 1)
-				{
-					continue;
-				}
-				
-				gtk_clist_append(pd->triggers, t);
-			}
-
-			/*
-			 * Keybinds
-			 */
-			g_snprintf(name, 50, "/gnome-mud/Profile: %s/Keybinds", profiles[i]);
-			gnome_config_get_vector(name, &new_nr, &vector);
-			g_snprintf(name, 50, "/gnome-mud/Profile: %s/KeybindValues", profiles[i]);
-			gnome_config_get_vector(name, &new_nr, &vector2);
-			for (k = 0; k < new_nr; k++)
-			{
-				KEYBIND_DATA *kd = (KEYBIND_DATA *) g_malloc0(sizeof(KEYBIND_DATA));
-				int KB_state = 0;
-				gchar *keyv_begin;
-
-				if (strlen(vector[k]) < 1)
-				{
-					continue;
-				}
-
-				if (strstr(vector[k], "Control"))	KB_state |= 4;
-				if (strstr(vector[k], "Alt"))		KB_state |= 8;
-				
-				keyv_begin = vector[k] + strlen(vector[k]) - 2;
-			
-				while (!(keyv_begin == (vector[k]-1) || keyv_begin[0] == '+')) keyv_begin--;
-				keyv_begin++;
-
-				kd->state = KB_state;
-				kd->keyv  = gdk_keyval_from_name(keyv_begin);
-				kd->data  = g_strdup(vector2[k]);
-				kd->next  = pd->kd;
-				pd->kd    = kd;
-			}
-
-			ProfilesList = g_list_append(ProfilesList, (gpointer) profiles[i]);
-			ProfilesData = g_list_append(ProfilesData, (gpointer) pd);
-		}
+		pd->kd = profile_load_keybinds(pd->name);
+	
+		ProfilesData = g_list_append(ProfilesData, (gpointer) pd);
 	}
 
 	/*
 	 * Wizard
 	 */
-	{
+/*	{
 		WIZARD_DATA2 *wd;
 		
 		gint i = 0;
@@ -218,69 +182,7 @@ void load_profiles()
 
 			i++;
 		}
-	}	
-}
-
-void profiledata_save(gchar *profilename, GtkCList *clist, gchar *partname)
-{
-	gchar name[50], tmp[50];
-	gint  clist_count = get_size(clist), i;
-
-	gchar const *vector_name[clist_count];
-	gchar const *vector_value[clist_count];
-
-	gchar *n, *v;
-	
-	g_snprintf(name, 50, "/gnome-mud/Profile: %s", profilename);
-
-	for (i = 0; i < clist_count; i++)
-	{
-		gtk_clist_get_text(clist, i, 0, &n);
-		gtk_clist_get_text(clist, i, 1, &v);
-
-		vector_name[i] = n;
-		vector_value[i] = v;
-	}
-
-	g_snprintf(tmp, 50, "%s/%s", name, partname);
-	gnome_config_set_vector(tmp, i, vector_name);
-
-	g_snprintf(tmp, 50, "%s/%sValue", name, partname);
-	gnome_config_set_vector(tmp, i, vector_value);
-}
-
-void profiledata_savekeys(gchar *profilename, KEYBIND_DATA *kd)
-{
-	KEYBIND_DATA *scroll;
-
-	/*
-	 * Ygly hardcoded value
-	 */
-	gchar const *vector_name[500];
-	gchar const *vector_value[500];
-	gchar *buf;
-	gchar tmp[60], name[60];
-	int   i;
-
-	g_snprintf(name, 50, "/gnome-mud/Profile: %s", profilename);
-
-	for (i = 0, scroll = kd; scroll != NULL; i++, scroll = scroll->next)
-	{
-		buf = (char *) g_malloc0(sizeof(char *) * 30);
-		if ((scroll->state)&4)	strcat(buf, "Control+");
-		if ((scroll->state)&8)	strcat(buf, "Alt+");
-		strcat(buf, gdk_keyval_name(scroll->keyv));
-
-		vector_name[i]  = buf;
-		vector_value[i] = scroll->data;
-
-	}
-
-	g_snprintf(tmp, 50, "%s/Keybinds", name);
-	gnome_config_set_vector(tmp, i, vector_name);
-
-	g_snprintf(tmp, 50, "%s/KeybindValues", name);
-	gnome_config_set_vector(tmp, i, vector_value);
+	}*/
 }
 
 PROFILE_DATA *profiledata_find(gchar *profile)
@@ -300,35 +202,46 @@ PROFILE_DATA *profiledata_find(gchar *profile)
 
 static void profilelist_new_profile(const gchar *string, gpointer data)
 {
-	PROFILE_DATA *pd;
-	gchar *text[1];
 	GList *t;
+	PROFILE_DATA *pd;
+	gchar *pdir, *key, *text[2];
 
 	if (string == NULL)
 	{
 		return;
 	}
 	
-	for (t = g_list_first(ProfilesList); t != NULL; t = t->next)
+	for (t = g_list_first(ProfilesData); t != NULL; t = g_list_next(t))
 	{
-		if (!g_strcasecmp(string, (gchar *) t->data))
+		if (!g_strcasecmp(string, ((PROFILE_DATA *) t->data)->name))
 		{
 			return;
 		}
 	}
-	
+
+	pdir = gconf_concat_dir_and_key("/apps/gnome-mud/profiles", string);
+
+#define SET_LIST(name) \
+	key = gconf_concat_dir_and_key(pdir, name); \
+	gconf_client_set_list(gconf_client, key, GCONF_VALUE_STRING, NULL, NULL); \
+	g_free(key)
+
+	SET_LIST("aliases");
+	SET_LIST("variables");
+	SET_LIST("triggers");
+	SET_LIST("keybinds");
+
 	text[0] = g_strdup(string);
 	gtk_clist_append(GTK_CLIST(data), text);
-	ProfilesList = g_list_append(ProfilesList, g_strdup(string));
 
 	pd = g_malloc0(sizeof(PROFILE_DATA));
-	pd->name 		= g_strdup(string);
-	pd->alias		= (GtkCList *) gtk_clist_new(2);
-	pd->variables	= (GtkCList *) gtk_clist_new(2);
-	pd->triggers	= (GtkCList *) gtk_clist_new(2);
+	pd->name = g_strdup(string);
 	ProfilesData = g_list_append(ProfilesData, (gpointer) pd);
 
+	profile_gconf_sync_list();
+
 	g_free(text[0]);
+	g_free(pdir);
 }
 
 static void profilelist_new_cb(GtkWidget *widget, gpointer data)
@@ -381,13 +294,19 @@ static void profilelist_delete_cb(GtkWidget *widget, gpointer data)
 		{
 			GList *remove;
 
-			remove = g_list_find_custom(ProfilesList, name, (GCompareFunc) g_list_compare_strings);
-			if (remove != NULL)
+			for (remove = g_list_first(ProfilesData); remove != NULL; remove = g_list_next(remove))
 			{
-				ProfilesList = g_list_remove_link(ProfilesList, remove);
-				g_list_free_1(remove);
+				if (!g_strncasecmp(name, ((PROFILE_DATA *) remove->data)->name, strlen(name)))
+				{
+					ProfilesData = g_list_remove_link(ProfilesData, remove);
+					
+					g_free(((PROFILE_DATA *) remove->data)->name);
+					g_free(remove->data);
+					g_list_free_1(remove);
+					break;
+				}
 			}
-			
+
 			gtk_clist_remove(GTK_CLIST(data), selected);
 		}
 		else
@@ -395,6 +314,8 @@ static void profilelist_delete_cb(GtkWidget *widget, gpointer data)
 			g_message("this profile is in use");
 		}
 	}
+
+	profile_gconf_sync_list();
 }
 
 static void profilelist_alias_cb(GtkWidget *widget, gpointer data)
@@ -506,11 +427,11 @@ static void profilelist_select_row_cb(GtkCList *clist, gint row, gint column, Gd
 	}
 }
 
-static void profilelist_clist_fill(gchar *profile_name, GtkCList *clist)
+static void profilelist_clist_fill(PROFILE_DATA *pd, GtkCList *clist)
 {
 	gchar *text[1];
 	
-	text[0] = profile_name;
+	text[0] = pd->name;
 	gtk_clist_append(clist, text);
 }
 
@@ -566,7 +487,7 @@ static void profilelist_dialog (GtkWidget *label)
 	gtk_clist_set_column_width (GTK_CLIST (clist), 0, 80);
 	gtk_clist_column_titles_hide (GTK_CLIST (clist));
 	gtk_clist_set_shadow_type (GTK_CLIST (clist), GTK_SHADOW_ETCHED_IN);
-	g_list_foreach(ProfilesList, (GFunc) profilelist_clist_fill, (gpointer) clist);
+	g_list_foreach(ProfilesData, (GFunc) profilelist_clist_fill, (gpointer) clist);
 
 	dialog_action_area = GNOME_DIALOG (dialog)->action_area;
 	gtk_object_set_data (GTK_OBJECT (dialog), "dialog_action_area", dialog_action_area);
@@ -746,9 +667,9 @@ static void connections_button_connect_cb(GtkButton *button, gpointer data)
 			if (strlen(wd->playername) > 0 && strlen(wd->password) > 0)
 			{
 				connection_send(cd, wd->playername);
-				connection_send(cd, "\r\n");
+				connection_send(cd, "\n");
 				connection_send(cd, wd->password);
-				connection_send(cd, "\r\n");
+				connection_send(cd, "\n");
 			}
 
 			gtk_widget_destroy((GtkWidget *) data);
@@ -836,9 +757,9 @@ static gboolean connections_button_press_cb(GtkWidget *widget, GdkEventButton *e
 					if (strlen(wd->playername) > 0 && strlen(wd->password) > 0)
 					{
 						connection_send(cd, wd->playername);
-						connection_send(cd, "\r\n");
+						connection_send(cd, "\n");
 						connection_send(cd, wd->password);
-						connection_send(cd, "\r\n");
+						connection_send(cd, "\n");
 					}
 
 					gtk_widget_destroy((GtkWidget *) data);
@@ -1217,8 +1138,6 @@ void window_profile_edit(void)
 	gtk_container_add(GTK_CONTAINER(profile_window), vbox);
 
 	toolbar = gtk_toolbar_new ();
-	/*gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), "both");*/
-/*	gtk_toolbar_set_button_relief(GTK_TOOLBAR(toolbar), GTK_RELIEF_NONE);*/
 	gtk_widget_show(toolbar);
 	gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 0);
 	
@@ -1318,7 +1237,7 @@ void window_profile_edit(void)
 	gtk_clist_column_title_passive(GTK_CLIST(profile_list), 0);
 	gtk_object_set_data(GTK_OBJECT(profile_list), "main_window", profile_window);
 
-	g_list_foreach(ProfilesList, (GFunc) profilelist_clist_fill, (gpointer) profile_list);
+	g_list_foreach(ProfilesData, (GFunc) profilelist_clist_fill, (gpointer) profile_list);
 
 	/*
 	 * Signals

@@ -118,22 +118,58 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
 	switch (colortype)
     {
 	    case MESSAGE_SENT:
-			vte_terminal_feed(VTE_TERMINAL(text_widget), "\e[1;33m", 7);
+			terminal_feed(text_widget, "\e[1;33m");
 			break;
 		
 	    case MESSAGE_ERR:
-			vte_terminal_feed(VTE_TERMINAL(text_widget), "\e[1;31m", 7);
+			terminal_feed(text_widget, "\e[1;31m");
 			break;
 		
 		case MESSAGE_SYSTEM:
-			vte_terminal_feed(VTE_TERMINAL(text_widget), "\e[1;32m", 7);
+			terminal_feed(text_widget, "\e[1;32m");
 			break;
 		
 		default:
 			break;
     }
 
- 	vte_terminal_feed(VTE_TERMINAL(text_widget), message, strlen(message));
-	vte_terminal_feed(VTE_TERMINAL(text_widget), "\e[0m", 4);
+ 	terminal_feed(text_widget, message);
+	terminal_feed(text_widget, "\e[0m");
+}
+
+static void str_replace (char *buf, const char *s, const char *repl)
+{
+	char out_buf[4608];
+	char *pc, *out;
+	int  len = strlen (s);
+	bool found = FALSE;
+
+	for ( pc = buf, out = out_buf; *pc && (out-out_buf) < (4608-len-4);)
+		if ( !strncasecmp(pc, s, len))
+		{
+			out += sprintf (out, repl);
+			pc += len;
+			found = TRUE;
+		}
+		else
+			*out++ = *pc++;
+
+	if ( found)
+	{
+		*out = '\0';
+		strcpy (buf, out_buf);
+	}
+}
+
+void terminal_feed(GtkWidget *widget, gchar *data)
+{
+	gint rlen = strlen(data);
+	gchar buf[rlen*2];
+
+	g_stpcpy(buf, data);
+	str_replace(buf, "\r", "");
+	str_replace(buf, "\n", "\n\r");
+	
+	vte_terminal_feed(VTE_TERMINAL(widget), buf, strlen(buf));
 }
 
