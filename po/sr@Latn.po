@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-19 12:52+0100\n"
-"PO-Revision-Date: 2003-12-19 12:55+0100\n"
+"POT-Creation-Date: 2004-01-10 03:34+0100\n"
+"PO-Revision-Date: 2004-01-10 03:35+0100\n"
 "Last-Translator: Danilo Šegan <dsegan@gmx.net>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: gnome-mud.desktop.in.h:1 src/init.c:248
+#: gnome-mud.desktop.in.h:1 src/init.c:264
 msgid "GNOME-Mud"
 msgstr "Gnom-MUD"
 
@@ -80,7 +80,9 @@ msgstr ""
 #: gnome-mud.schemas.in.h:10
 msgid ""
 "File where the mud list will be read from to be used in the MudList dialog."
-msgstr "Datoteka iz koje se čita spisak koji će se koristiti u prozorčetu sa spiskom tamnica."
+msgstr ""
+"Datoteka iz koje se čita spisak koji će se koristiti u prozorčetu sa spiskom "
+"tamnica."
 
 #: gnome-mud.schemas.in.h:11
 msgid "Font"
@@ -307,6 +309,14 @@ msgstr "%s: pokušava da pristupi nedefinisanom opsegu podataka: %d"
 msgid "GNOME-Mud Configuration Center"
 msgstr "Centar za podešavanje Gnom-MUD-a"
 
+#: src/eggtrayicon.c:118
+msgid "Orientation"
+msgstr "Usmerenje"
+
+#: src/eggtrayicon.c:119
+msgid "The orientation of the tray."
+msgstr "Usmerenje fioke."
+
 #: src/gnome-mud.c:51
 #, c-format
 msgid "There was an error accessing GConf: %s"
@@ -320,7 +330,9 @@ msgstr "Nisam uspeo da ispravno pročitam podrazumevane vrednosti podešavanja."
 msgid ""
 "Please check your GConf configuration, specifically that the schemas have "
 "been installed correctly."
-msgstr "Proverite podešavanja vašeg GKonfa, naročito da li su sheme ispravno postavljene."
+msgstr ""
+"Proverite podešavanja vašeg GKonfa, naročito da li su sheme ispravno "
+"postavljene."
 
 #: src/gnome-mud.c:89
 #, c-format
@@ -331,7 +343,7 @@ msgstr "Nisam uspeo da pokrenem GKonfa: %s"
 msgid "Do you really want to quit?"
 msgstr "Da li zaista želite da izađete?"
 
-#: src/init.c:142 src/init.c:644
+#: src/init.c:142 src/init.c:667
 msgid "Connect..."
 msgstr "Poveži se..."
 
@@ -343,152 +355,153 @@ msgstr "Server:"
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:210
+#: src/init.c:214
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Unutrašnja greška: nema takve veze.\n"
 
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:244
+#: src/init.c:260
 msgid "translator_credits"
 msgstr ""
 "Danilo Šegan <dsegan@gmx.net>\n"
 "\n"
 "Prevod.org — prevod na srpski jezik."
 
-#: src/init.c:250
+#: src/init.c:266
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Gnom program za višekorisničke tamnice (MUD).\n"
 
 # Domaća stranica?
-#: src/init.c:262
+#: src/init.c:278
 msgid "GNOME-Mud home page"
 msgstr "Početna stranica za Gnom-MUD"
 
-#: src/init.c:594 src/init.c:624
+#: src/init.c:617 src/init.c:647
 #, c-format
 msgid "There was an error displaying help: %s"
 msgstr "Došlo je do greške pri prikazivanju pomoći: %s"
 
 # zašto lepo ne koristiti „vile“ umesto „čarobnjaka“ ;-)
-#: src/init.c:640
+#: src/init.c:663
 msgid "Wizard..."
 msgstr "Vila..."
 
-#: src/init.c:640
+#: src/init.c:663
 msgid "Open the Connection Wizard"
 msgstr "Pozovi u pomoć vilu za uspostavljanje veza"
 
-#: src/init.c:642
+#: src/init.c:665
 msgid "Profiles..."
 msgstr "Skupovi podešavanja..."
 
-#: src/init.c:642
+#: src/init.c:665
 msgid "Manage user profiles"
 msgstr "Upravljaj skupovima podešavanja korisnika"
 
-#: src/init.c:644
+#: src/init.c:667
 msgid "Connect to a mud"
 msgstr "Poveži se sa MUD-om"
 
-#: src/init.c:646
+#: src/init.c:669
 msgid "Disconnect"
 msgstr "Prekini vezu"
 
-#: src/init.c:646
+#: src/init.c:669
 msgid "Disconnect from the mud"
 msgstr "Prekida vezu sa MUD-om"
 
-#: src/init.c:648
+#: src/init.c:671
 msgid "Reconnect"
 msgstr "Ponovo se poveži"
 
-#: src/init.c:648
+#: src/init.c:671
 msgid "Reconnect to the mud"
 msgstr "Ponovo se poveži sa MUD-om"
 
-#: src/init.c:650
+#: src/init.c:673
 msgid "Exit"
 msgstr "Izađi"
 
-#: src/init.c:650
+#: src/init.c:673
 msgid "Quit GNOME-Mud"
 msgstr "Izađi iz Gnom-MUD-a"
 
-#: src/init.c:655
+#: src/init.c:678
 msgid "Connection _Wizard..."
 msgstr "_Vila za povezivanje..."
 
-#: src/init.c:656
+#: src/init.c:679
 msgid "_MudList Listing..."
 msgstr "_Ispis mudlist-a..."
 
-#: src/init.c:658
+#: src/init.c:681
 msgid "C_onnect..."
 msgstr "_Poveži se..."
 
-#: src/init.c:659
+#: src/init.c:682
 msgid "_Disconnect"
 msgstr "P_rekini vezu"
 
-#: src/init.c:660
+#: src/init.c:683
 msgid "_Reconnect"
 msgstr "Poveži _se ponovo"
 
-#: src/init.c:662
+#: src/init.c:685
 msgid "S_tart Logging..."
 msgstr "_Započni praćenje..."
 
-#: src/init.c:663
+#: src/init.c:686
 msgid "Sto_p Logging"
 msgstr "Z_austavi praćenje..."
 
-#: src/init.c:664
+#: src/init.c:687
 msgid "_Save Buffer..."
 msgstr "_Sačuvaj bafer..."
 
-#: src/init.c:666
+#: src/init.c:689
 msgid "_Close Window"
 msgstr "_Zatvori prozor"
 
-#: src/init.c:674
+#: src/init.c:697
 msgid "_Plugin Information..."
 msgstr "_Podaci o dodatku"
 
-#: src/init.c:680
+#: src/init.c:703
 msgid "Auto _Mapper..."
 msgstr "Samo_mapiranje.."
 
-#: src/init.c:683
+#: src/init.c:706
 msgid "P_lugins"
 msgstr "_Dodaci"
 
-#: src/init.c:690
+#: src/init.c:713
 msgid "User Manual"
 msgstr "Uputstvo"
 
-#: src/init.c:691
+#: src/init.c:714
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Prikaži uputstvo za Gnom-MUD"
 
-#: src/init.c:695
+#: src/init.c:718
 msgid "Plugin API Manual"
 msgstr "Uputstvo za API za dodatke"
 
-#: src/init.c:696
+#: src/init.c:719
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "Prikaži uputstvo za Gnom-MUD API za dodatke"
 
-#: src/init.c:747
+#. Do we really need this now?
+#: src/init.c:777
 msgid "Main"
 msgstr "Glavno"
 
-#: src/init.c:770
+#: src/init.c:813
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "Gnom-MUD izdanje %s (izgrađena %s, %s)\n"
 
-#: src/init.c:772
+#: src/init.c:815
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Objavljeno pod Gnuovom Opštom javnom licencom (GPL).\n"
 
@@ -814,17 +827,17 @@ msgstr "Greška, %s ne predstavlja moduo za Gnom-MUD: %s."
 msgid "Registering plugin `%s' under the name `%s'."
 msgstr "Prijava dodatka „%s“ pod imenom „%s“."
 
-#: src/modules_api.c:51
+#: src/modules_api.c:66
 #, c-format
 msgid "Error while registering the menu: %s"
 msgstr "Greška pri prijavi menija: %s"
 
-#: src/modules_api.c:71
+#: src/modules_api.c:86
 #, c-format
 msgid "Error while registering data %s: %s"
 msgstr "Greška pri prijavi podataka %s: %s"
 
-#: src/modules_api.c:79
+#: src/modules_api.c:94
 msgid "Error while getting plugin from handle."
 msgstr "Greška pri dobavljanju dodatka pomoću ručke."
 
@@ -864,29 +877,29 @@ msgstr "Idi na veb stranicu MUD-a"
 msgid "Description:"
 msgstr "Opis:"
 
-#: src/net.c:192
+#: src/net.c:218
 msgid "*** Connection closed.\n"
 msgstr "*** Veza je prekinuta.\n"
 
-#: src/net.c:204
+#: src/net.c:240
 msgid "*** Can't connect - you didn't specify a host.\n"
 msgstr "*** Ne može da se poveže — niste naveli server.\n"
 
-#: src/net.c:210
+#: src/net.c:246
 msgid "*** No port specified - assuming port 23.\n"
 msgstr "*** Port nije naveden — podrazumeva port broj 23.\n"
 
-#: src/net.c:225
+#: src/net.c:261
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** Uspostavlja vezu sa %s, preko porta broj %s.\n"
 
-#: src/net.c:250
+#: src/net.c:286
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr "*** Isprobava %s preko porta broj %s...\n"
 
-#: src/net.c:277
+#: src/net.c:313
 msgid "*** Connection established.\n"
 msgstr "*** Veza je uspostavljena.\n"
 
@@ -1199,3 +1212,19 @@ msgstr "Zatvori"
 #: src/profiles.c:1260
 msgid "Close the window"
 msgstr "Zatvori prozor"
+
+#: src/tray.c:104
+msgid "_Hide window"
+msgstr "_Sakrij prozor"
+
+#: src/tray.c:106
+msgid "_Show window"
+msgstr "_Prikaži prozor"
+
+#: src/tray.c:111
+msgid "_Quit"
+msgstr "_Izlaz"
+
+#: src/tray.c:161
+msgid "GNOME Mud"
+msgstr "Gnom MUD"

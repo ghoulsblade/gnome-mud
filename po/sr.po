@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-19 12:52+0100\n"
-"PO-Revision-Date: 2003-12-19 12:55+0100\n"
+"POT-Creation-Date: 2004-01-10 03:34+0100\n"
+"PO-Revision-Date: 2004-01-10 03:35+0100\n"
 "Last-Translator: Данило Шеган <dsegan@gmx.net>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: gnome-mud.desktop.in.h:1 src/init.c:248
+#: gnome-mud.desktop.in.h:1 src/init.c:264
 msgid "GNOME-Mud"
 msgstr "Гном-MUD"
 
@@ -80,7 +80,9 @@ msgstr ""
 #: gnome-mud.schemas.in.h:10
 msgid ""
 "File where the mud list will be read from to be used in the MudList dialog."
-msgstr "Датотека из које се чита списак који ће се користити у прозорчету са списком тамница."
+msgstr ""
+"Датотека из које се чита списак који ће се користити у прозорчету са списком "
+"тамница."
 
 #: gnome-mud.schemas.in.h:11
 msgid "Font"
@@ -307,6 +309,14 @@ msgstr "%s: покушава да приступи недефинисаном о
 msgid "GNOME-Mud Configuration Center"
 msgstr "Центар за подешавање Гном-MUD-а"
 
+#: src/eggtrayicon.c:118
+msgid "Orientation"
+msgstr "Усмерење"
+
+#: src/eggtrayicon.c:119
+msgid "The orientation of the tray."
+msgstr "Усмерење фиоке."
+
 #: src/gnome-mud.c:51
 #, c-format
 msgid "There was an error accessing GConf: %s"
@@ -320,7 +330,9 @@ msgstr "Нисам успео да исправно прочитам подра�
 msgid ""
 "Please check your GConf configuration, specifically that the schemas have "
 "been installed correctly."
-msgstr "Проверите подешавања вашег ГКонфа, нарочито да ли су схеме исправно постављене."
+msgstr ""
+"Проверите подешавања вашег ГКонфа, нарочито да ли су схеме исправно "
+"постављене."
 
 #: src/gnome-mud.c:89
 #, c-format
@@ -331,7 +343,7 @@ msgstr "Нисам успео да покренем ГКонфа: %s"
 msgid "Do you really want to quit?"
 msgstr "Да ли заиста желите да изађете?"
 
-#: src/init.c:142 src/init.c:644
+#: src/init.c:142 src/init.c:667
 msgid "Connect..."
 msgstr "Повежи се..."
 
@@ -343,152 +355,153 @@ msgstr "Сервер:"
 msgid "Port:"
 msgstr "Порт:"
 
-#: src/init.c:210
+#: src/init.c:214
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Унутрашња грешка: нема такве везе.\n"
 
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:244
+#: src/init.c:260
 msgid "translator_credits"
 msgstr ""
 "Данило Шеган <dsegan@gmx.net>\n"
 "\n"
 "Prevod.org — превод на српски језик."
 
-#: src/init.c:250
+#: src/init.c:266
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Гном програм за вишекорисничке тамнице (MUD).\n"
 
 # Домаћа страница?
-#: src/init.c:262
+#: src/init.c:278
 msgid "GNOME-Mud home page"
 msgstr "Почетна страница за Гном-MUD"
 
-#: src/init.c:594 src/init.c:624
+#: src/init.c:617 src/init.c:647
 #, c-format
 msgid "There was an error displaying help: %s"
 msgstr "Дошло је до грешке при приказивању помоћи: %s"
 
 # зашто лепо не користити „виле“ уместо „чаробњака“ ;-)
-#: src/init.c:640
+#: src/init.c:663
 msgid "Wizard..."
 msgstr "Вила..."
 
-#: src/init.c:640
+#: src/init.c:663
 msgid "Open the Connection Wizard"
 msgstr "Позови у помоћ вилу за успостављање веза"
 
-#: src/init.c:642
+#: src/init.c:665
 msgid "Profiles..."
 msgstr "Скупови подешавања..."
 
-#: src/init.c:642
+#: src/init.c:665
 msgid "Manage user profiles"
 msgstr "Управљај скуповима подешавања корисника"
 
-#: src/init.c:644
+#: src/init.c:667
 msgid "Connect to a mud"
 msgstr "Повежи се са MUD-ом"
 
-#: src/init.c:646
+#: src/init.c:669
 msgid "Disconnect"
 msgstr "Прекини везу"
 
-#: src/init.c:646
+#: src/init.c:669
 msgid "Disconnect from the mud"
 msgstr "Прекида везу са MUD-ом"
 
-#: src/init.c:648
+#: src/init.c:671
 msgid "Reconnect"
 msgstr "Поново се повежи"
 
-#: src/init.c:648
+#: src/init.c:671
 msgid "Reconnect to the mud"
 msgstr "Поново се повежи са MUD-ом"
 
-#: src/init.c:650
+#: src/init.c:673
 msgid "Exit"
 msgstr "Изађи"
 
-#: src/init.c:650
+#: src/init.c:673
 msgid "Quit GNOME-Mud"
 msgstr "Изађи из Гном-MUD-а"
 
-#: src/init.c:655
+#: src/init.c:678
 msgid "Connection _Wizard..."
 msgstr "_Вила за повезивање..."
 
-#: src/init.c:656
+#: src/init.c:679
 msgid "_MudList Listing..."
 msgstr "_Испис mudlist-а..."
 
-#: src/init.c:658
+#: src/init.c:681
 msgid "C_onnect..."
 msgstr "_Повежи се..."
 
-#: src/init.c:659
+#: src/init.c:682
 msgid "_Disconnect"
 msgstr "П_рекини везу"
 
-#: src/init.c:660
+#: src/init.c:683
 msgid "_Reconnect"
 msgstr "Повежи _се поново"
 
-#: src/init.c:662
+#: src/init.c:685
 msgid "S_tart Logging..."
 msgstr "_Започни праћење..."
 
-#: src/init.c:663
+#: src/init.c:686
 msgid "Sto_p Logging"
 msgstr "З_аустави праћење..."
 
-#: src/init.c:664
+#: src/init.c:687
 msgid "_Save Buffer..."
 msgstr "_Сачувај бафер..."
 
-#: src/init.c:666
+#: src/init.c:689
 msgid "_Close Window"
 msgstr "_Затвори прозор"
 
-#: src/init.c:674
+#: src/init.c:697
 msgid "_Plugin Information..."
 msgstr "_Подаци о додатку"
 
-#: src/init.c:680
+#: src/init.c:703
 msgid "Auto _Mapper..."
 msgstr "Само_мапирање.."
 
-#: src/init.c:683
+#: src/init.c:706
 msgid "P_lugins"
 msgstr "_Додаци"
 
-#: src/init.c:690
+#: src/init.c:713
 msgid "User Manual"
 msgstr "Упутство"
 
-#: src/init.c:691
+#: src/init.c:714
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Прикажи упутство за Гном-MUD"
 
-#: src/init.c:695
+#: src/init.c:718
 msgid "Plugin API Manual"
 msgstr "Упутство за API за додатке"
 
-#: src/init.c:696
+#: src/init.c:719
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "Прикажи упутство за Гном-MUD API за додатке"
 
-#: src/init.c:747
+#. Do we really need this now?
+#: src/init.c:777
 msgid "Main"
 msgstr "Главно"
 
-#: src/init.c:770
+#: src/init.c:813
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "Гном-MUD издање %s (изграђена %s, %s)\n"
 
-#: src/init.c:772
+#: src/init.c:815
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Објављено под Гнуовом Општом јавном лиценцом (GPL).\n"
 
@@ -814,17 +827,17 @@ msgstr "Грешка, %s не представља модуо за Гном-MUD:
 msgid "Registering plugin `%s' under the name `%s'."
 msgstr "Пријава додатка „%s“ под именом „%s“."
 
-#: src/modules_api.c:51
+#: src/modules_api.c:66
 #, c-format
 msgid "Error while registering the menu: %s"
 msgstr "Грешка при пријави менија: %s"
 
-#: src/modules_api.c:71
+#: src/modules_api.c:86
 #, c-format
 msgid "Error while registering data %s: %s"
 msgstr "Грешка при пријави података %s: %s"
 
-#: src/modules_api.c:79
+#: src/modules_api.c:94
 msgid "Error while getting plugin from handle."
 msgstr "Грешка при добављању додатка помоћу ручке."
 
@@ -864,29 +877,29 @@ msgstr "Иди на веб страницу MUD-а"
 msgid "Description:"
 msgstr "Опис:"
 
-#: src/net.c:192
+#: src/net.c:218
 msgid "*** Connection closed.\n"
 msgstr "*** Веза је прекинута.\n"
 
-#: src/net.c:204
+#: src/net.c:240
 msgid "*** Can't connect - you didn't specify a host.\n"
 msgstr "*** Не може да се повеже — нисте навели сервер.\n"
 
-#: src/net.c:210
+#: src/net.c:246
 msgid "*** No port specified - assuming port 23.\n"
 msgstr "*** Порт није наведен — подразумева порт број 23.\n"
 
-#: src/net.c:225
+#: src/net.c:261
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** Успоставља везу са %s, преко порта број %s.\n"
 
-#: src/net.c:250
+#: src/net.c:286
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr "*** Испробава %s преко порта број %s...\n"
 
-#: src/net.c:277
+#: src/net.c:313
 msgid "*** Connection established.\n"
 msgstr "*** Веза је успостављена.\n"
 
@@ -1199,3 +1212,19 @@ msgstr "Затвори"
 #: src/profiles.c:1260
 msgid "Close the window"
 msgstr "Затвори прозор"
+
+#: src/tray.c:104
+msgid "_Hide window"
+msgstr "_Сакриј прозор"
+
+#: src/tray.c:106
+msgid "_Show window"
+msgstr "_Прикажи прозор"
+
+#: src/tray.c:111
+msgid "_Quit"
+msgstr "_Излаз"
+
+#: src/tray.c:161
+msgid "GNOME Mud"
+msgstr "Гном MUD"
