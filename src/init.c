@@ -138,6 +138,7 @@ void destroy (GtkWidget *widget)
 		  profiledata_save(pd->name, pd->alias, "Alias");
 		  profiledata_save(pd->name, pd->variables, "Variables");
 		  profiledata_save(pd->name, pd->triggers, "Triggers");
+		  profiledata_savekeys(pd->name, pd->kd);
 	  }
   }
 
@@ -324,54 +325,71 @@ static void text_entry_select_child_cb(GtkList *list, GtkWidget *widget, gpointe
 
 static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gpointer data)
 {
-  CONNECTION_DATA *cd;
-  gint   number;
-  GList *li;
+	KEYBIND_DATA	*scroll;
+	CONNECTION_DATA *cd;
+	gint   number;
+	GList *li;
   
-  number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
-  cd = connections[number];
+	number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
+	cd = connections[number];
 
-  if ( event->state & GDK_CONTROL_MASK ) { }
-  else   {
-    if (EntryCurr)
-      switch ( event->keyval ) {
-      case GDK_Up:
-	if (EntryCurr->prev) {
-	  li = EntryCurr->prev;
-	  EntryCurr = li;
-	  gtk_entry_set_text (GTK_ENTRY (text_entry), (gchar *) li->data);
-	  gtk_entry_set_position (GTK_ENTRY (text_entry) ,
-				  GTK_ENTRY (text_entry)->text_length);
-	  gtk_entry_select_region (GTK_ENTRY (text_entry), 0,
-				   GTK_ENTRY (text_entry)->text_length);
-	  Keyflag = FALSE;
-	}
- 	gtk_signal_emit_stop_by_name (GTK_OBJECT (text_entry),
- 				      "key_press_event");
-	return TRUE;
-	break;
+	if ( event->state & GDK_CONTROL_MASK ) { }
+	else
+	{
+		if (EntryCurr)
+		{
+			switch ( event->keyval )
+			{
+				case GDK_Up:
+					if (EntryCurr->prev)
+					{
+						li = EntryCurr->prev;
+						EntryCurr = li;
+						
+						gtk_entry_set_text (GTK_ENTRY(text_entry), (gchar *) li->data);
+						gtk_entry_set_position (GTK_ENTRY(text_entry), GTK_ENTRY (text_entry)->text_length);
+						gtk_entry_select_region (GTK_ENTRY(text_entry), 0, GTK_ENTRY (text_entry)->text_length);
+						Keyflag = FALSE;
+					}
 	
-      case GDK_Down:
-	if (EntryCurr->next) {
-	  li = EntryCurr->next;
-	  EntryCurr = li;
-	  gtk_entry_set_text (GTK_ENTRY (text_entry), (gchar *) li->data);
-	  gtk_entry_set_position (GTK_ENTRY (text_entry),
-				  GTK_ENTRY (text_entry)->text_length);
-	  gtk_entry_select_region (GTK_ENTRY (text_entry), 0,
-				   GTK_ENTRY (text_entry)->text_length);
-	} else {
-	  EntryCurr = g_list_last (EntryHistory);
-	  gtk_entry_set_text (GTK_ENTRY (text_entry), "");
-	}            
- 	gtk_signal_emit_stop_by_name (GTK_OBJECT (text_entry),  
- 				      "key_press_event");
-	return TRUE;
-	break;
-      }
-  }
+					gtk_signal_emit_stop_by_name (GTK_OBJECT(text_entry), "key_press_event");
+					return TRUE;
+					break;
+	
+				case GDK_Down:
+					if (EntryCurr->next)
+					{
+						li = EntryCurr->next;
+						EntryCurr = li;
+						gtk_entry_set_text (GTK_ENTRY (text_entry), (gchar *) li->data);
+						gtk_entry_set_position (GTK_ENTRY (text_entry), GTK_ENTRY (text_entry)->text_length);
+						gtk_entry_select_region (GTK_ENTRY (text_entry), 0, GTK_ENTRY (text_entry)->text_length);
+					}
+					else
+					{
+						EntryCurr = g_list_last (EntryHistory);
+						gtk_entry_set_text (GTK_ENTRY (text_entry), "");
+					}            
+		
+					gtk_signal_emit_stop_by_name (GTK_OBJECT(text_entry), "key_press_event");
+					return TRUE;
+					break;
+			}
+		}
+	}
 
-  return FALSE;
+	for (scroll = cd->profile->kd; scroll != NULL; scroll = scroll->next)
+	{
+		if ((scroll->state) == ((event->state) & 12) && (scroll->keyv) == (gdk_keyval_to_upper(event->keyval)))
+		{
+			connection_send(cd, scroll->data);
+			connection_send(cd, "\n");
+			gtk_signal_emit_stop_by_name(GTK_OBJECT(text_entry), "key_press_event");
+			return TRUE;
+		}		
+	}
+
+	return FALSE;
 }
 
 static void do_close (GtkWidget *widget, gpointer data)
