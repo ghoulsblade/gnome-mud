@@ -31,27 +31,27 @@ static char const rcsid[] =
 
 int main (gint argc, char *argv[])
 {
-  setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
+	gchar buf[500];
+	
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
   
-  gnome_init("gnome-mud", VERSION, argc, argv);  
+	gnome_init("gnome-mud", VERSION, argc, argv);  
   
-  load_prefs   (); /* load preferences */
-  load_profiles(); /* load connections and profiles */
-  load_colors  (); /* load colors */
-  init_window  ();
+	load_prefs   (); /* load preferences */
+	load_profiles(); /* load connections and profiles */
+	load_colors  (); /* load colors */
+	init_window  ();
   
-  /*
-  g_snprintf(buf, 500, "%s/.amcl/plugins/", g_get_home_dir());
-  init_modules(buf);
-  init_modules(PKGDATADIR);
-   */
+	g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
+	init_modules(buf);
+	init_modules(PKGDATADIR);
   
-  gtk_main ();
-  gnome_config_sync();
+	gtk_main();
+	gnome_config_sync();
 
-  gdk_exit (0);
-  
-  return 0;
+	gdk_exit (0);
+
+	return 0;
 }

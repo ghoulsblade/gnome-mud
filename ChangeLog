@@ -1,3 +1,12 @@
+Mon Dec 10 12:26:40 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Added some more.
+
+	* src/gnome-mud.c (main): Changed formatting, and readded init
+	for modules.
+
+	* src/profiles.c: Removed a global variable.
+
 Tue Nov 27 18:33:07 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* README: Copied changed from BRANCH_0_8.

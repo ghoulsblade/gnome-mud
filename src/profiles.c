@@ -30,7 +30,6 @@ WIZARD_DATA2 *connections_find_by_profilename(gchar *name);
 gint 		  get_size(GtkCList *clist);
 gint		  g_list_compare_strings(gchar *a, gchar *b);
 
-GtkWidget *clist;
 GList	  *ProfilesList;
 GList	  *ProfilesData;
 GList	  *Profiles;
@@ -454,6 +453,7 @@ static void profilelist_variables_cb(GtkWidget *widget, gpointer data)
 
 static void profilelist_button_ok_cb(GtkWidget *widget, GtkWidget *label)
 {
+	GtkWidget *clist = gtk_object_get_data(GTK_OBJECT(widget), "clist");
 	gchar *text = NULL;
 
 	gtk_clist_get_text(GTK_CLIST(clist), pselected, 0, &text);
@@ -504,6 +504,7 @@ static void profilelist_dialog (GtkWidget *label)
 	GtkWidget *dialog_action_area;
 	GtkWidget *button_ok;
 	GtkWidget *button_cancel;
+	GtkWidget *clist;
 
 	if (dialog != NULL)
 	{
@@ -551,6 +552,7 @@ static void profilelist_dialog (GtkWidget *label)
 	button_ok = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog)->buttons)->data);
 	gtk_widget_ref (button_ok);
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "button_ok", button_ok, (GtkDestroyNotify) gtk_widget_unref);
+	gtk_object_set_data(GTK_OBJECT(button_ok), "clist", clist);
 	gtk_widget_show (button_ok);
 	GTK_WIDGET_SET_FLAGS (button_ok, GTK_CAN_DEFAULT);
 	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_CANCEL);
