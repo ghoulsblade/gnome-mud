@@ -10,6 +10,8 @@ GNOME-Mud 0.9.0 (UNRELEASED)
 - Mouse wheel and Page Up/Down support in the main window.
 - Font/Color support rewritten.
 - Fixed compilation on non-glibc systems.
+- Fixed the printing of ASCII junk at the end of telnet packets
+  when connected to certain MUDs.
 - Translation updates.
 
 GNOME-Mud 0.8.0 (08/11/2001)

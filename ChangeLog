@@ -1,3 +1,8 @@
+Sat Feb  2 16:21:42 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/telnet.c: patch from Vashti to get rid of the annoying
+	ASCII 255 char at the end of telnet packets in some muds.
+
 Fri Feb  1 17:35:44 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c: patch from Petter Stokke to fix a bug in the
