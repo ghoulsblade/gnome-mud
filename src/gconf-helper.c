@@ -11,14 +11,39 @@
 
 #include "gconf-helper.h"
 
-void gm_gconf_load_preferences(GConfClient *gconf_client, MudPrefs *prefs)
+void gm_gconf_load_preferences(MudProfile *profile)
 {
+	GConfClient *gconf_client;
+	MudPrefs *prefs;
 	GdkColor  color;
 	GdkColor *colors;
 	gint      n_colors;
 	struct    stat file_stat;
 	gchar     dirname[256], buf[256];
-	gchar    *p;
+	gchar    *p = NULL;
+	gchar     extra_path[512] = "", keyname[2048];
+	
+	gconf_client = gconf_client_get_default();
+	prefs = profile->preferences;
+
+	if (strcmp(profile->name, "Default"))
+	{
+		GError *error = NULL;
+		
+		/* Sanity check for whether profile has data or not */
+		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/functionality/terminal_type", profile->name);
+		p = gconf_client_get_string(gconf_client, keyname, &error);
+		if (error || p == NULL)
+		{
+			g_message("Error getting data for profile %s, using default instead.", profile->name);
+			mud_profile_copy_preferences(mud_profile_new("Default"), profile);
+		}
+		else
+		{	
+			g_snprintf(extra_path, 512, "profiles/%s/", profile->name);
+		}
+	}
+
 	
 	/*
 	 * Check for ~/.gnome-mud
@@ -44,17 +69,21 @@ void gm_gconf_load_preferences(GConfClient *gconf_client, MudPrefs *prefs)
 	}
 
 #define	GCONF_GET_STRING(entry, subdir, variable)                                          \
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/" #subdir "/" #entry, NULL);\
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/%s" #subdir "/" #entry, extra_path); \
+	p = gconf_client_get_string(gconf_client, keyname, NULL);\
 	prefs->variable = g_strdup(p);
 
 #define GCONF_GET_BOOLEAN(entry, subdir, variable)                                         \
-	prefs->variable = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/" #subdir "/" #entry, NULL);
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/%s" #subdir "/" #entry, extra_path); \
+	prefs->variable = gconf_client_get_bool(gconf_client, keyname, NULL);
 
 #define GCONF_GET_INT(entry, subdir, variable)                                             \
-	prefs->variable = gconf_client_get_int(gconf_client, "/apps/gnome-mud/" #subdir "/" #entry, NULL);
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/%s" #subdir "/" #entry, extra_path); \
+	prefs->variable = gconf_client_get_int(gconf_client, keyname, NULL);
 	
 #define GCONF_GET_COLOR(entry, subdir, variable)                                           \
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/" #subdir "/" #entry, NULL);\
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/%s" #subdir "/" #entry, extra_path); \
+	p = gconf_client_get_string(gconf_client, keyname, NULL);\
 	if (p && gdk_color_parse(p, &color))                                                   \
 	{                                                                                      \
 		prefs->variable = color;                                                            \
@@ -76,7 +105,8 @@ void gm_gconf_load_preferences(GConfClient *gconf_client, MudPrefs *prefs)
 	GCONF_GET_INT(flush_interval,		functionality,	FlushInterval);
 		
 	/* palette */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/ui/palette", NULL);
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/%sui/palette", extra_path);
+	p = gconf_client_get_string(gconf_client, keyname, NULL);
 
 	if (p)
 	{
@@ -93,9 +123,10 @@ void gm_gconf_load_preferences(GConfClient *gconf_client, MudPrefs *prefs)
 	}
 
 	/* last log dir */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/functionality/last_log_dir", NULL);
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/%sfunctionality/last_log_dir", extra_path);
+	p = gconf_client_get_string(gconf_client, keyname, NULL);
 
-	if (!g_ascii_strncasecmp(p, "", sizeof("")))
+	if (p == NULL || !g_ascii_strncasecmp(p, "", sizeof("")))
 	{
 		prefs->LastLogDir = g_strdup(g_get_home_dir());
 	}

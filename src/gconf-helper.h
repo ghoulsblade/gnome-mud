@@ -2,4 +2,4 @@
 
 #include "mud-profile.h"
 
-void gm_gconf_load_preferences(GConfClient *gconf_client, MudPrefs *prefs);
+void gm_gconf_load_preferences(MudProfile *profile);

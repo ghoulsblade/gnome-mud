@@ -26,8 +26,6 @@ gnome_mud_SOURCES =		\
 	gnome.mud.h \
 	mud-connection-view.c \
 	mud-connection-view.h \
-	mud-preferences.c \
-	mud-preferences.h \
 	mud-preferences-window.c \
 	mud-preferences-window.h \
 	mud-profile.c \

@@ -30,6 +30,7 @@
 
 #include "gnome-mud.h"
 #include "mud-window.h"
+#include "mud-profile.h"
 
 static char const rcsid[] =
     "$Id$";
@@ -107,10 +108,7 @@ int main (gint argc, char *argv[])
 
 	gnome_window_icon_set_default_from_file (PIXMAPSDIR "/gnome-mud.png");
 
-	//load_prefs   (); /* load preferences */
-	//load_profiles(); /* load connections and profiles */
-	//main_window  ();
-
+	mud_profile_load_profiles();
 	mud_window_new(gconf_client);
 	
 #ifdef USE_PYTHON

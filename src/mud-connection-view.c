@@ -2,13 +2,13 @@
 #  include "config.h"
 #endif
 
+#include <gconf/gconf-client.h>
 #include <glib-object.h>
 #include <glib/gi18n.h>
 #include <gtk/gtkmenu.h>
 #include <vte/vte.h>
 
 #include "mud-connection-view.h"
-#include "mud-preferences.h"
 #include "mud-profile.h"
 
 static char const rcsid[] = "$Id: ";
@@ -20,7 +20,6 @@ struct _MudConnectionViewPrivate
 	GtkWidget *box;
 	GtkWidget *popup_menu;
 
-	MudPreferences *prefs;
 	MudProfile *profile;
 
 	gulong signal;
@@ -35,7 +34,7 @@ static void mud_connection_view_set_terminal_scrollback  (MudConnectionView *vie
 static void mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view);
 static void mud_connection_view_set_terminal_font        (MudConnectionView *view);
 static void mud_connection_view_set_terminal_type        (MudConnectionView *view);
-static void mud_connection_view_prefs_changed_cb         (MudPreferences *prefs, MudPreferenceMask *mask, MudConnectionView *view);
+static void mud_connection_view_profile_changed_cb       (MudProfile *profile, MudProfileMask *mask, MudConnectionView *view);
 static gboolean mud_connection_view_button_press_event   (GtkWidget *widget, GdkEventButton *event, MudConnectionView *view);
 static void mud_connection_view_popup                    (MudConnectionView *view, GdkEventButton *event);
 static void mud_connection_view_set_profile              (MudConnectionView *view, MudProfile *profile);
@@ -273,12 +272,12 @@ mud_connection_view_init (MudConnectionView *connection_view)
 {
 	GtkWidget *box;
 	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
-	connection_view->priv->prefs = mud_preferences_new(NULL);
+	//FIXME connection_view->priv->prefs = mud_preferences_new(NULL);
 
 	connection_view->priv->signal = 
-		g_signal_connect(G_OBJECT(connection_view->priv->prefs),
+		g_signal_connect(G_OBJECT(connection_view->priv->profile),
 						 "changed",
-						 G_CALLBACK(mud_connection_view_prefs_changed_cb),
+						 G_CALLBACK(mud_connection_view_profile_changed_cb),
 						 connection_view);
 	
 	box = gtk_hbox_new(FALSE, 0);
@@ -422,53 +421,62 @@ mud_connection_view_reconnect(MudConnectionView *view)
 void
 mud_connection_view_send(MudConnectionView *view, const gchar *data)
 {
+	GList *commands, *command;
 	gchar *text;
 
-	text = g_strdup_printf("%s\r\n", data);
-	gnetwork_connection_send(GNETWORK_CONNECTION(view->connection), text, strlen(text));
-	mud_connection_view_add_text(view, text, Sent);
-	g_free(text);
+	commands = mud_profile_process_commands(view->priv->profile, data);
+	
+	for (command = g_list_first(commands); command != NULL; command = command->next)
+	{
+		text = g_strdup_printf("%s\r\n", (gchar *) command->data);
+		gnetwork_connection_send(GNETWORK_CONNECTION(view->connection), text, strlen(text));
+		if (view->priv->profile->preferences->EchoText)
+			mud_connection_view_add_text(view, text, Sent);
+		g_free(text);
+	}
+
+	g_list_free(commands);
 }
 
 static void
 mud_connection_view_set_terminal_colors(MudConnectionView *view)
 {
 	vte_terminal_set_colors(VTE_TERMINAL(view->priv->terminal),
-							&view->priv->prefs->preferences.Foreground,
-							&view->priv->prefs->preferences.Background,
-							view->priv->prefs->preferences.Colors, C_MAX);
+							&view->priv->profile->preferences->Foreground,
+							&view->priv->profile->preferences->Background,
+							view->priv->profile->preferences->Colors, C_MAX);
 }
 
 static void
 mud_connection_view_set_terminal_scrollback(MudConnectionView *view)
 {
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(view->priv->terminal),
-									  view->priv->prefs->preferences.Scrollback);
+									  view->priv->profile->preferences->Scrollback);
 }
 
 static void
 mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view)
 {
 	vte_terminal_set_scroll_on_output(VTE_TERMINAL(view->priv->terminal),
-									  view->priv->prefs->preferences.ScrollOnOutput);
+									  view->priv->profile->preferences->ScrollOnOutput);
 }
 
 static void
 mud_connection_view_set_terminal_font(MudConnectionView *view)
 {
 	vte_terminal_set_font_from_string(VTE_TERMINAL(view->priv->terminal),
-									  view->priv->prefs->preferences.FontName);
+									  view->priv->profile->preferences->FontName);
 }
 
 static void
 mud_connection_view_set_terminal_type(MudConnectionView *view)
 {
 	vte_terminal_set_emulation(VTE_TERMINAL(view->priv->terminal),
-							   view->priv->prefs->preferences.TerminalType);
+							   view->priv->profile->preferences->TerminalType);
 }
 
 static void
-mud_connection_view_prefs_changed_cb(MudPreferences *prefs, MudPreferenceMask *mask, MudConnectionView *view)
+mud_connection_view_profile_changed_cb(MudProfile *profile, MudProfileMask *mask, MudConnectionView *view)
 {
 	if (mask->ScrollOnOutput)
 		mud_connection_view_set_terminal_scrolloutput(view);
@@ -541,7 +549,7 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
 	gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
 
 	group = NULL;
-	profiles = mud_preferences_get_profiles(view->priv->prefs);
+	profiles = mud_profile_get_profiles();
 	profile = profiles;
 	while (profile != NULL)
 	{
@@ -595,7 +603,7 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
 }
 
 MudConnectionView*
-mud_connection_view_new (const gchar *hostname, const gint port)
+mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port)
 {
 	MudConnectionView *view;
 
@@ -613,6 +621,8 @@ mud_connection_view_new (const gchar *hostname, const gint port)
 	g_signal_connect(view->connection, "sent", G_CALLBACK(mud_connection_view_send_cb), view);
 	g_signal_connect(view->connection, "error", G_CALLBACK(mud_connection_view_error_cb), view);
 	g_signal_connect(view->connection, "notify::tcp-status", G_CALLBACK(mud_connection_view_notify_cb), view);
+
+	mud_connection_view_set_profile(view, mud_profile_new(profile));
 	
 	// FIXME, move this away from here
 	gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
@@ -626,18 +636,18 @@ mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profile)
 	if (profile == view->priv->profile)
 		return;
 
-	if (profile)
-	{
-		g_object_ref(G_OBJECT(profile));
-		//view->priv->signal_profile_changed =
-	}
-
 	if (view->priv->profile)
 	{
+		g_signal_handler_disconnect(view->priv->profile, view->priv->signal_profile_changed);
 		g_object_unref(G_OBJECT(view->priv->profile));
 	}
 
 	view->priv->profile = profile;
+	g_object_ref(G_OBJECT(profile));
+	view->priv->signal_profile_changed = 
+		g_signal_connect(G_OBJECT(view->priv->profile), "changed",
+				 G_CALLBACK(mud_connection_view_profile_changed_cb),
+				 view);
 	mud_connection_view_reread_profile(view);
 }
 

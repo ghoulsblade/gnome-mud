@@ -13,7 +13,6 @@
 #include <stdlib.h>
 
 #include "mud-connection-view.h"
-#include "mud-preferences.h"
 #include "mud-preferences-window.h"
 #include "mud-window.h"
 
@@ -23,8 +22,6 @@ struct _MudWindowPrivate
 {
 	GConfClient *gconf_client;
 
-	MudPreferences *prefs;
-	
 	GtkWidget *window;
 	GtkWidget *notebook;
 	GtkWidget *textentry;
@@ -132,7 +129,7 @@ mud_window_textentry_activate(GtkWidget *widget, MudWindow *window)
 static void
 mud_window_preferences_cb(GtkWidget *widget, MudWindow *window)
 {
-	mud_preferences_window_new(window->priv->prefs);
+	mud_preferences_window_new("Default");
 }
 
 static void
@@ -173,7 +170,7 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 			iport = 23;
 		}
 		
-		view = mud_connection_view_new(host, iport);
+		view = mud_connection_view_new("Default", host, iport);
 		mud_window_add_connection_view(window, view);
 	}
 
@@ -307,8 +304,6 @@ mud_window_new (GConfClient *client)
 	
 	window = g_object_new(MUD_TYPE_WINDOW, NULL);
 	window->priv->gconf_client = client;
-
-	window->priv->prefs = mud_preferences_new(client);
 
 	return window;
 }

@@ -48,17 +48,53 @@ struct _MudProfile
 	MudProfilePrivate *priv;
 
 	gchar *name;
-	MudPrefs preferences;
+	MudPrefs *preferences;
 };
+
+typedef struct
+{
+	unsigned int EchoText : 1;
+	unsigned int KeepText : 1;
+	unsigned int DisableKeys : 1;
+	unsigned int ScrollOnOutput : 1;
+	unsigned int CommDev : 1;
+	unsigned int TerminalType : 1;
+	unsigned int History : 1;
+	unsigned int Scrollback : 1;
+	unsigned int FontName : 1;
+	unsigned int Foreground : 1;
+	unsigned int Background : 1;
+	unsigned int Colors : 1;
+} MudProfileMask;
 
 struct _MudProfileClass
 {
 	GObjectClass parent_class;
+	
+	void (* changed) (MudProfile *profile, MudProfileMask *mask, gpointer data);
 };
 
 GType mud_profile_get_type (void) G_GNUC_CONST;
 
 MudProfile* mud_profile_new (const gchar *name);
+void mud_profile_load_profiles ();
+const GList* mud_profile_get_profiles ();
+
+void mud_profile_copy_preferences (MudProfile *from, MudProfile *to);
+GList* mud_profile_process_commands (MudProfile *profile, const gchar *data);
+
+void mud_profile_set_echotext (MudProfile *profile, gboolean value);
+void mud_profile_set_keeptext (MudProfile *profile, gboolean value);
+void mud_profile_set_disablekeys (MudProfile *profile, gboolean value);
+void mud_profile_set_scrolloutput (MudProfile *profile, gboolean value);
+void mud_profile_set_commdev (MudProfile *profile, const gchar *value);
+void mud_profile_set_terminal (MudProfile *profile, const gchar *value);
+void mud_profile_set_history (MudProfile *profile, const gint value);
+void mud_profile_set_scrollback (MudProfile *profile, const gint value);
+void mud_profile_set_font (MudProfile *profile, const gchar *value);
+void mud_profile_set_foreground (MudProfile *profile, guint r, guint g, guint b);
+void mud_profile_set_background (MudProfile *profile, guint r, guint g, guint b);
+void mud_profile_set_colors (MudProfile *profile, gint nr, guint r, guint g, guint b);
 
 G_END_DECLS
 

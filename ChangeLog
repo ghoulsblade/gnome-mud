@@ -1,3 +1,46 @@
+2004-07-18  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/Makefile.am: mud-preferences.[ch] removed.
+
+	* src/gconf-helper.c (gm_gconf_load_preferences): Rewritten to
+	support profiles.
+
+	* src/gnome-mud.c (main): Load profiles on startup.
+
+	* src/mud-connection-view.c [_MudConnectionViewPrivate]: Removed
+	prefs.
+	(mud_connection_view_init): Changed callback for profile-change.
+	(mud_connection_view_send): Now process command for separator.
+	(mud_connection_view_set_*): Changed prefs to profile.
+	(mud_connection_view_profile_changed_cb): Added callback for 
+	profile changes.
+	(mud_connection_view_new): Now loads default profile.
+
+	* src/mud-preferences.[ch]: Deleted.
+
+	* src/mud-preferences-window.c [_MudPreferencesWindowPrivate]:
+	Removed prefs, added profile and notification_count.
+	[COLUMN_PREFERENCSE, COLUMN_ALIASE]: Added.
+	[TAB_ALIASES]: Added.
+	(mud_preferences_window_init): Connect callbacks.
+	(mud_preferences_window_finalize): Disconnect callback.
+	(mud_preferences_window_fill_profiles): Added aliases.
+	(mud_preferences_window_tree_selection_cb): Added support for several
+	tabs.
+	(mud_preferences_window_change_profile_from_name): Added.
+	(mud_preferences_window_change_profile): Added.
+	(mud_preferences_window_connect_callbacks): Added.
+	(mud_preferences_window_set_preferences): Added.
+	(mud_preferences_window_*_cb): Changed preferences to profile and
+	added return if notifying.
+
+	* src/mud-profile.c [_MudProfilePrivate]: Added gconf_client, prefs
+	and in_notification_count. 
+	(General): Moved a lot of functions from mud-preferences.c to
+	mud-profile.c and renamed. 
+
+	* ui/main.glade: Added aliases tab.
+
 2004-07-06  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: Bump libgnetwork requirement to 0.0.6.
