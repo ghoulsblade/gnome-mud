@@ -1,3 +1,7 @@
+Wed Oct 10 13:08:01 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* configure.in: Moved config.h.in from src to root
+
 Wed Oct 10 09:16:13 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/init.c: Removed keybinds from the menu.
