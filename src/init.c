@@ -350,6 +350,27 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 		{
 			switch ( event->keyval )
 			{
+				case GDK_Page_Up:
+					{
+						GtkAdjustment *a;
+
+						a = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(cd->vscrollbar));
+					
+						gtk_adjustment_set_value(a, a->value - (a->page_increment/2));
+					}
+					
+					break;
+				
+				case GDK_Page_Down:
+					{
+						GtkAdjustment *a;
+
+						a = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(cd->vscrollbar));
+
+						gtk_adjustment_set_value(a, a->value + (a->page_increment/2));
+					}
+					break;
+					
 				case GDK_Up:
 					if (EntryCurr->prev)
 					{
@@ -600,19 +621,16 @@ void init_window ()
   main_connection->window = gtk_text_new (NULL, NULL);
   GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_connection->window), GTK_CAN_FOCUS);
   gtk_widget_set_usize (main_connection->window, 500, 300);
-  gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->window, TRUE, 
-		     TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT (main_connection->window), "focus-in-event",
-		      GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
+  gtk_signal_connect (GTK_OBJECT (main_connection->window), "focus-in-event", GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
   connections[0] = main_connection;
+ 
+  main_connection->vscrollbar = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(main_connection->vscrollbar), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->vscrollbar, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(main_connection->vscrollbar), main_connection->window);
   
   foreground = &color_white;
   background = &color_black;
-  
-  main_connection->vscrollbar = gtk_vscrollbar_new 
-    (GTK_TEXT(main_connection->window)->vadj);
-  gtk_box_pack_start (GTK_BOX (box_h_low), main_connection->vscrollbar, 
-		      FALSE, FALSE, 0);
   
   combo = gtk_combo_new();
   text_entry = GTK_COMBO(combo)->entry;

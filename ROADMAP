@@ -24,6 +24,7 @@ feel free to suggest features, contribute, or comment.
 * Cleanup of .c-files, better names on functions, etc...
 * Fix error when closing wizardwindow after using profilewindow
 * Scriptingsupport (python) [AS GOOD AS DONE]
+* Page Up, Page Down and Mousewheel support [DONE]
 
 0.10.0
 

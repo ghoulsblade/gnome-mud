@@ -130,12 +130,12 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
     connection->window = gtk_text_new (NULL, NULL);
     GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(connection->window), GTK_CAN_FOCUS);
     gtk_widget_set_usize (connection->window, 500, 320);
-    gtk_signal_connect (GTK_OBJECT (connection->window), "focus-in-event",
-    							GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
+    gtk_signal_connect (GTK_OBJECT (connection->window), "focus-in-event", GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
     gtk_widget_show (connection->window);
 
-    connection->vscrollbar = gtk_vscrollbar_new(GTK_TEXT(connection->window)->vadj);
-    gtk_widget_show (connection->vscrollbar);
+    connection->vscrollbar = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(connection->vscrollbar), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_widget_show (connection->vscrollbar);
   } else {
     connection = main_connection;
   }
@@ -156,9 +156,9 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
     gtk_notebook_append_page (GTK_NOTEBOOK(main_notebook), box, label);
     gtk_widget_show(box);
 
-    gtk_box_pack_start(GTK_BOX(box), connection->window, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(box), connection->vscrollbar, FALSE, FALSE, 0);
-    
+    gtk_box_pack_start(GTK_BOX(box), connection->vscrollbar, TRUE, TRUE, 0);
+   	gtk_container_add(GTK_CONTAINER(connection->vscrollbar), connection->window);
+	
     gtk_widget_realize (connection->window);
     gdk_window_set_background (GTK_TEXT (connection->window)->text_area, &color_black); 
     gtk_notebook_next_page (GTK_NOTEBOOK (main_notebook));

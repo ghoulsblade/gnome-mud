@@ -1,3 +1,13 @@
+Mon Jan 14 12:21:18 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/init.c (text_entry_key_press_cb): Added support for Page Up
+	and Page Down (Bug #481493)
+	(init_window): scrollbar changed to scrolled window, and now 
+	mousewheel works aswell :)
+
+	* src/net.c (make_connection): Removed scrollbar, and added 
+	scrolled window.
+
 Fri Jan 11 14:58:10 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* ROADMAP: Updated mudconnect
