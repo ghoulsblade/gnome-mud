@@ -246,7 +246,6 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
 	logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gnome-gmush.png", NULL);
   
 	about = gnome_about_new (_("GNOME-Mud"), VERSION,
-			   /* latin1 translators can use the copyright symbol here, see man latin1(7) */
 				 "\xc2\xa9 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson",
 				 _("A Multi-User Dungeon (MUD) client for GNOME.\n"),
 				 authors,
