@@ -50,6 +50,7 @@ GList           *EntryHistory = NULL;
 GList           *EntryCurr    = NULL;
 gboolean         Keyflag      = TRUE;
   
+extern GList *AutoMapList;
 extern GList *ProfilesList;
 extern GList *ProfilesData;
 extern GList *Profiles;
@@ -260,7 +261,13 @@ static void text_entry_send_command (CONNECTION_DATA *cn, gchar *cmd, GtkEntry *
 {
        gchar buf[256] ;
 
-       g_snprintf(buf, 255, "%s\n", cmd) ;
+#ifndef WITHOUT_MAPPER
+	GList* puck;
+	for (puck = AutoMapList; puck != NULL; puck = puck->next)
+		user_command(puck->data, cmd);
+#endif
+	
+	g_snprintf(buf, 255, "%s\r\n", cmd) ;
        connection_send(cn, buf) ;
        gtk_signal_emit_stop_by_name (GTK_OBJECT(txt), "key_press_event");
 }
@@ -602,7 +609,9 @@ static GnomeUIInfo plugin_menu[] = {
 };
 
 static GnomeUIInfo settings_menu[] = {
+#ifndef WITHOUT_MAPPER
   GNOMEUIINFO_ITEM_STOCK(N_("Auto _Mapper..."), NULL, window_automap, GNOME_STOCK_MENU_BLANK),
+#endif
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_SUBTREE(N_("P_lugins"), plugin_menu),
   GNOMEUIINFO_SEPARATOR,

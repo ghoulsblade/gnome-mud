@@ -43,6 +43,9 @@ extern CONNECTION_DATA	*connections[MAX_CONNECTIONS];
 extern GtkWidget        *main_notebook;
 
 SYSTEM_DATA prefs;
+#ifndef WITHOUT_MAPPER
+AutoMapConfig* automap_config;
+#endif
 
 static char *color_to_string(const GdkColor *c)
 {
@@ -62,6 +65,31 @@ static char *color_to_string(const GdkColor *c)
 	return s;
 }
 
+
+#ifndef WITHOUT_MAPPER
+void update_gconf_from_unusual_exits()
+{
+	gchar* entry;
+	int size = 0;
+	GList* puck;
+	
+	for (puck = automap_config->unusual_exits; puck != NULL; puck = puck->next)
+		size = size + strlen(puck->data) + 1;
+	
+	entry = g_malloc0(size * sizeof(char));
+	gchar* iter = entry;
+
+	for (puck = automap_config->unusual_exits; puck != NULL; puck = puck->next)
+	{
+		iter = g_stpcpy(iter, puck->data);
+		iter = g_stpcpy(iter, ";");
+	}
+	
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/unusual_exits", entry, NULL);
+	g_free(entry);
+}
+
+#endif
 static char *tab_location_by_name(const gint i)
 {
 	switch (i)
@@ -255,6 +283,43 @@ static void prefs_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *
 		UPDATE_INT("history_count",			History,		FALSE,	NULL,					NULL		);
 	}
 
+#ifndef WITHOUT_MAPPER
+	/* And the automapper */
+	if (!strcmp(key, "unusual_exits"))
+	{
+		if (automap_config->unusual_exits)
+		{
+			/* Empty the previous list */
+			GList* puck;
+			for (puck = automap_config->unusual_exits; puck != NULL; puck = puck->next)
+				g_free(puck->data);
+			g_list_free(automap_config->unusual_exits);
+		
+			automap_config->unusual_exits = NULL;
+		}
+		
+		gchar* p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/unusual_exits", NULL);
+		if (p)
+		{
+			gchar** unusual_exits;
+			unusual_exits = g_strsplit(p, ";", 100);
+	
+			for (i = 0; unusual_exits[i] != NULL; i++)
+			{
+				unusual_exits[i] = g_strstrip(unusual_exits[i]);
+				if (unusual_exits[i][0] != '\0')
+					automap_config->unusual_exits = g_list_append(automap_config->unusual_exits, g_strdup(unusual_exits[i]));
+			}
+			
+			g_strfreev(unusual_exits);
+		}
+		else
+		{
+			automap_config->unusual_exits = NULL;
+		}
+	}
+#endif
+
 #undef UPDATE_PALETTE
 #undef UPDATE_STRING
 #undef UPDATE_BOOLEAN
@@ -354,6 +419,31 @@ void load_prefs ( void )
 		prefs.LastLogDir = g_strdup(p);
 	}
 
+#ifndef WITHOUT_MAPPER
+	/* load automapper prefs : unusual_exits */
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/unusual_exits", NULL);
+	automap_config = g_malloc0(sizeof(AutoMapConfig));
+	if (p)
+	{
+		gchar** unusual_exits;
+		unusual_exits = g_malloc0(sizeof(char) * (strlen(p) + 2));
+		unusual_exits = g_strsplit(p, ";", 100);
+	
+		int i;
+			
+		for (i = 0; unusual_exits[i] != NULL; i++)
+		{
+			unusual_exits[i] = g_strstrip(unusual_exits[i]);
+			if (unusual_exits[i][0] != '\0')
+				automap_config->unusual_exits = g_list_append(automap_config->unusual_exits, g_strdup(unusual_exits[i]));
+		}
+		g_strfreev(unusual_exits);
+	}
+	else
+	{
+		automap_config->unusual_exits = NULL;
+	}
+#endif
 	/*
 	 * Command history
 	 *
@@ -507,6 +597,15 @@ static void prefs_scrollback_value_changed_cb(GtkWidget *button, gpointer data)
 	gconf_client_set_int(gconf_client, "/apps/gnome-mud/scrollback_lines", value, NULL);
 }
 
+#ifndef WITHOUT_MAPPER
+static void prefs_unusual_exits_cb(GtkWidget *entry, gpointer data)
+{
+	gchar* text = gtk_entry_get_text(GTK_ENTRY(entry));
+
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/unusual_exits", text, NULL);
+}
+
+#endif
 GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 {
 	GtkWidget *table_colorfont;
@@ -827,10 +926,45 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_scroll_output_changed_cb), NULL);
 
+#ifndef WITHOUT_MAPPER
+	/* AutoMapper settings */
+	frame = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_NONE);
+	tmp = gtk_label_new(_("AutoMapper"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), frame, tmp);
+	gtk_widget_show_all(notebook);
+	if (data == 0x123456) // This means that we are called from map.c
+	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(notebook), -1);
+	}
+
+	vbox = gtk_vbox_new(FALSE, 12);
+	gtk_container_add(GTK_CONTAINER(frame), vbox);
+	
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 5);
+		
+	tmp = gtk_label_new(_("Unusual deplacement commands:"));
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
+
+	tmp = gtk_entry_new();
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
+	gtk_entry_set_text(GTK_ENTRY(tmp), gconf_client_get_string(gconf_client, "/apps/gnome-mud/unusual_exits", NULL));
+	gtk_tooltips_set_tip(tooltip, tmp, 
+						 _("If you use the automapper, you may want \
+specifying here some unusual deplacement \
+commands. When you use one of these, the \
+automapper will create a path to an other \
+map. Use a semicolon to separate the different \
+commands."), NULL);
+	gtk_signal_connect(GTK_OBJECT(tmp), "changed", GTK_SIGNAL_FUNC(prefs_unusual_exits_cb), NULL);
+#endif
+
 	gtk_dialog_set_has_separator(GTK_DIALOG(prefs_window), FALSE);
 	gtk_dialog_add_buttons(GTK_DIALOG(prefs_window), GTK_STOCK_HELP, GTK_RESPONSE_HELP, GTK_STOCK_CLOSE, GTK_RESPONSE_ACCEPT, NULL);
 	gtk_dialog_set_default_response(GTK_DIALOG(prefs_window), GTK_RESPONSE_ACCEPT);
 	g_signal_connect(G_OBJECT(prefs_window), "response", G_CALLBACK(profile_response_cb), NULL); 
+
 
 	gtk_widget_show_all(prefs_window);
 }

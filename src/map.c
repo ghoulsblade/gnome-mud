@@ -20,6 +20,7 @@
  */
 
 #include "config.h"
+
 #ifndef WITHOUT_MAPPER
 
 #include <gdk/gdkkeysyms.h>
@@ -33,6 +34,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "gnome-mud.h"
+#include "map.h"
 
 #if 0
 #define USE_DMALLOC
@@ -93,44 +97,15 @@ extern GList *MapList, *AutoMapList;
 
 GdkColor red = RGB(255, 0, 0);
 
-typedef struct _AutoMap     AutoMap;
-typedef struct _Map         Map;
-typedef struct _MapNode     MapNode;
-
 typedef GdkPoint            Point;
-typedef struct _Rectangle   Rectangle;
 typedef struct _RectNode    RectNode;
+typedef struct _CreatePathData CreatePathData;
+typedef struct _EnterPathData  EnterPathData;
 typedef struct _SPVertex    SPVertex; /* Shortest path vertex */
-
-struct _Map {
-
-    gchar *name;
-
-    /* The extents of the map */
-    gint min_x, min_y, max_x, max_y;
-
-    /* The map contains a linked list of all nodes which aren't interlinked */
-    GList *nodelist;
-
-    /* Hash table of linked lists of all MapNodes in this map */
-    GHashTable *nodes;
-};
 
 char *direction[] = { "N", "NE", "E", "SE", "S", "SW", "W", "NW", "U", "D" };
 char *direction_long[] = { "North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest", "Up", "Down" };
 
-/* Direction values and button direction codes */
-#define NORTH     0
-#define NORTHEAST 1
-#define EAST      2
-#define SOUTHEAST 3
-#define SOUTH     4
-#define SOUTHWEST 5
-#define WEST      6
-#define NORTHWEST 7
-#define UP        8
-#define DOWN      9
-#define OPPOSITE(x) ( ((x) & ~7) ? (!(x - 8) + 8) : (((x) + 4) & 7) )
 /* Other button codes */
 #define REMOVE   10
 #define LOAD     11
@@ -142,80 +117,18 @@ char *direction_long[] = { "North", "Northeast", "East", "Southeast", "South", "
 #define X_PADDING   (X_INIT_SIZE / PIX_ZOOM / 2)
 #define Y_PADDING   (Y_INIT_SIZE / PIX_ZOOM / 2)
 
+extern CONNECTION_DATA* main_connection; 
+extern AutoMapConfig* automap_config;
+extern LinkMemory* actual; 
+
 /* The join types.
  * LINE has no additional parameters, so needs no additional struct
  * ARC requires that the arc thingy be known. The rest is calculated
  */
-struct _MapNode {
-
-    gint32 x, y;
-    Map *map;
-    int conn; /* The number of node connections (discounting up/down) */
-
-    /* There is a one to one mapping between node connections */
-    struct {
-        MapNode *node; /* The map this node is located on */
-    } connections[10];
-};
-
-struct _Rectangle {
-
-    gint16 x, y;
-    gint16 width, height;
-};
-
 struct _RectNode {
 
     Rectangle  rectangle;
     MapNode   *node;
-};
-
-/* This struct contains the window the drawable is being drawn in, the
- * drawable, the backing pixmap, and anything else
- */
-struct _AutoMap {
-
-    GtkWidget *window;
-    GtkWidget *draw_area;
-    GdkPixmap *pixmap;
-
-    /* Horizontal and vertical scrollbars, plus adjustment data */
-    GtkWidget *hsb, *vsb;
-    GtkObject *hsbdata, *vsbdata;
-    gint last_hvalue, last_vvalue;
-    
-    Map *map;         /* The map which is currently being displayed    */
-    gint16 x, y;      /* The center of the map currently displayed     */
-    gfloat zoom;      /* Zoom factor, must be > 0, > 1 means zoom out  */
-    MapNode *player;  /* The map node the player is currently on       */
-    GList *visible;   /* A linked list of RectNode elements            */
-
-    /* Use this to determine what state the program is in when the mouse
-     * cursor is moving
-     */
-    enum { NONE, SELECTMOVE, BOXSELECT } state;
-
-    GList *selected;  /* A list of all selected nodes */
-
-    /* The X and Y positions where the last node was selected */
-    gint16 x_orig, y_orig;
-
-    /* The X and Y offsets of the selected nodes */
-    gint16 x_offset, y_offset;
-
-    /* A box being drawn to handle grouping selected nodes */
-    Rectangle selection_box;
-
-    /* And all nodes which fall within this box */
-    GList *in_selection_box;
-
-    /* Program states */
-    guint shift : 1;
-    guint node_break : 1;
-    guint node_goto : 1;
-    guint print_coord : 1;
-    guint modifying_coords : 1;
-    guint redraw_map : 1;
 };
 
 struct _SPVertex {
@@ -225,17 +138,23 @@ struct _SPVertex {
     int working;
 };
 
-struct win_scale {
-
-    gint16 width;         /* Width of the pixmap */
-    gint16 height;        /* Height of the pixmap in question */
-    gint16 mapped_unit;   /* The number of pixels in a unit of the graph */
-    gint16 mapped_x;      /* The leftmost x coord in the graph visible in the pixmap */
-    gint16 mapped_y;      /* The bottom y coord in the graph visible in the pixmap */
-    gint16 mapped_width;  /* The width of the pixmap in units of the graph */
-    gint16 mapped_height; /* The height of the pixmap in units of the graph */
+struct _CreatePathData {
+	AutoMap* automap;
+	gchar* path_name;
+	enum { NEW_PATH, FOLLOW_PATH, SELECT_PATH } choice;
+	gchar* map_name;
+	gchar* follow_path_name;
+	GtkWidget* new_choice;
+	GtkWidget* follow_choice;
 };
-
+struct _EnterPathData {
+	AutoMap* automap;
+	enum {CREATE_PATH, USE_PATH} choice;
+	gchar* new_path_name;
+	gchar* exists_path_name;
+	GtkWidget* new_choice;    // Used to select the radio button when the use modifies the data 
+	GtkWidget* exists_choice; //
+};
 GList *AutoMapList = NULL;
 GList *MapList = NULL;
 
@@ -247,10 +166,9 @@ void draw_map (AutoMap *);
 /* Local functions */
 static void		 blit_nodes (AutoMap *, struct win_scale *,
 				     MapNode *[]);
-static void		 draw_dot (AutoMap *, struct win_scale *, MapNode *);
+static void      create_path(MapNode*, MapNode*, gchar*);
 static void		 draw_nodes (AutoMap *, struct win_scale *, MapNode *,
 				     MapNode *, GHashTable *);
-static void		 draw_player (AutoMap *, struct win_scale *, MapNode *);
 static void		 draw_selected (AutoMap *, struct win_scale *);
 static void		 file_sel_cancel_cb (GtkWidget *, void *[]);
 static void		 file_sel_delete_event (GtkWidget *, GdkEventAny *,
@@ -259,33 +177,43 @@ static void		 file_sel_ok_cb (GtkWidget *, void *[]);
 static void		 fill_node_path (SPVertex *, MapNode *, GHashTable *,
 					 GList **);
 static void		 free_maps (AutoMap *);
+static void 	 free_node (MapNode *);
 static gboolean		 free_node_count (MapNode *, guint8 *, gpointer);
-static gboolean		 free_nodes (MapNode *, GList *, GList **);
 static gboolean		 free_vertexes (MapNode *, SPVertex *, gpointer);
-static void		 get_nodes (GHashTable *, Map *, int *);
+static void		 get_nodes (GHashTable *, Map *, guint *);
 static gboolean		 is_numeric (gchar *);
 static void		 load_automap_from_file (const gchar *, AutoMap *);
-static struct win_scale	*map_coords (AutoMap *);
+struct win_scale	*map_coords (AutoMap *);
+static void      move_player_real (AutoMap*, guint);
 static void		 move_player (AutoMap *, guint);
 static void		 node_break (AutoMap *, guint);
 static void		 new_automap_with_node (void);
-static gint		 node_comp (MapNode *, MapNode *);
 static void		 node_goto (AutoMap *, struct win_scale *, MapNode *);
-static guint		 node_hash (MapNode *);
+static void      path_type_dialog(AutoMap*, const gchar*);
 static void		 remove_map (Map *);
 static gboolean		 remove_node (MapNode *, guint *, void *);
+//static void      remove_path(MapNode*, gchar*);
 static void		 remove_player_node (AutoMap *);
 static void		 remove_selected (AutoMap *);
 static void		 scrollbar_adjust(AutoMap *);
 static void		 scrollbar_value_changed (GtkAdjustment *, AutoMap *);
+static void      show_message(AutoMap *automap, gchar *message, guint time);
 static gint		 sp_compare (SPVertex *, SPVertex *);
+static void		 teleport_player(AutoMap*, MapNode*);
 static void		 undraw_selected (AutoMap *, struct win_scale *);
+	   void 	 user_command(AutoMap* automap, const gchar* command);
        void		 window_automap (GtkWidget *, gpointer);
 static void		 write_node (MapNode *, guint *, void *[]);
 
 
 
-static struct win_scale *map_coords (AutoMap *automap)
+void hash_list_path(gchar* key, gpointer value, gpointer* list)
+{
+	// TODO: test if a path exists already
+	(*list) = g_list_append((*list), key);
+}
+
+struct win_scale *map_coords (AutoMap *automap)
 {
     static struct win_scale ws;
 
@@ -324,26 +252,24 @@ gboolean in_rectangle (gint x, gint y, Rectangle *rectangle)
             y >= rectangle->y && y <= rectangle->y + rectangle->height);
 }
 
-static guint node_hash (MapNode *a)
+guint node_hash (MapNode *a)
 {
     return (guint)(a->x << 16 | a->y);
 }
 
-static gint node_comp (MapNode *a, MapNode *b)
+gint node_comp (MapNode *a, MapNode *b)
 {
     return a->x == b->x && a->y == b->y;
 }
 
-static inline
-void node_hash_prepend (GHashTable *hash, MapNode *node)
+static inline void node_hash_prepend (GHashTable *hash, MapNode *node)
 {
     GList *list = g_hash_table_lookup(hash, node);
     list = g_list_prepend(list, node);
     g_hash_table_insert(hash, node, list);
 }
 
-static inline
-void node_hash_remove (GHashTable *hash, MapNode *node)
+static inline void node_hash_remove (GHashTable *hash, MapNode *node)
 {
     GList *list = g_hash_table_lookup(hash, node);
     list = g_list_remove(list, node);
@@ -353,6 +279,7 @@ void node_hash_remove (GHashTable *hash, MapNode *node)
     else
         g_hash_table_remove(hash, node);
 }
+
 
 static gint expose_event (GtkWidget *widget, GdkEventExpose *event,
 			 AutoMap *automap)
@@ -369,12 +296,65 @@ static gint expose_event (GtkWidget *widget, GdkEventExpose *event,
     return TRUE; /* Terminate signal */
 }
 
+static void create_path(MapNode* from, MapNode* to, gchar* name)
+{
+	/* First, if we need this, create the hash tables */
+	if (from->gates == NULL)
+		from->gates = g_hash_table_new(g_str_hash, g_str_equal);
+	if (to->in_gates == NULL)
+		to->in_gates = g_hash_table_new(g_str_hash, g_str_equal);
+	
+	/* And now, create the paths */
+	g_hash_table_insert(from->gates, g_strdup(name), to);
+	g_hash_table_insert(to->in_gates, g_strdup(name), from);
+}
+
+
 static void remove_selected (AutoMap *automap)
 {
     undraw_selected(automap, map_coords(automap));
     g_list_free(automap->selected);
     automap->selected = NULL;
 }
+
+//~ static void remove_path(MapNode* node, gchar* name)
+//~ {
+	//~ /* If there is no paths, there is nothing to do */
+	//~ if (node->gates == NULL)
+		//~ return;
+	
+	//~ MapNode* target;
+	//~ target = g_hash_table_lookup(node->gates, name);
+	
+	//~ /* The path doesn't exist */
+	//~ if (!target)
+		//~ return;
+	
+	//~ g_hash_table_remove(node->gates, name);
+	
+	//~ /* If there is no more keys in the hash table, destroy it */
+	//~ if (g_hash_table_size(node->gates) == 0)
+		//~ g_hash_table_destroy(node->gates);
+	
+	//~ if (target->in_gates == NULL)
+	//~ {
+		//~ g_warning("Path %s exist but hasn't been registred in in_gates", name);
+		//~ return;
+	//~ }
+	//~ else
+	//~ {
+		//~ if (g_hash_table_lookup(target->in_gates, name) == NULL)
+		//~ {
+			//~ g_warning("Path %s exist but hasn't been registred in in_gates", name);
+			//~ return;
+		//~ }
+	//~ }
+	
+	//~ g_hash_table_remove(target->in_gates, name);
+
+	//~ if (g_hash_table_size(target->in_gates) == 0)
+		//~ g_hash_table_destroy(target->in_gates);
+//~ }
 
 /* Recurses the map node list, looking for nodes in the map node
  * list that are in the list of all unconnected node starting places
@@ -386,7 +366,7 @@ static void remove_selected (AutoMap *automap)
  * 2) If the hash table 'global' is not passed, then all nodes will
  *    be searched. If the starting node is found, it is returned.
  */
-static MapNode *connected_node_in_list (Map *map, MapNode *node,
+MapNode *connected_node_in_list (Map *map, MapNode *node,
 					GHashTable *hash,
 					GHashTable *global)
 {
@@ -485,14 +465,24 @@ static void remove_player_node (AutoMap *automap)
         if (this)
         {
             /* Maintain the node count unless this node goes up or down */
-            if (i < 8) this->conn--;
-
-            memset(&this->connections[OPPOSITE(i)], 0, sizeof(*this->connections));
-
+            if (i < 8)
+			{
+				maplink_delete(curr, i);
+				curr->connections[i].node = this; // We need this for later 
+			}
+			if (i > 7)
+			{
+				this->connections[OPPOSITE(i)].node = NULL;
+				this->conn--;
+			}
+			
             if (automap->player == NULL)
+			{
+				if (i > 7)
+					maplink_change_map(this->map);
                 automap->player = this;
-        }
-
+        	}
+		}
     }
 
     /* Step 4:
@@ -504,7 +494,7 @@ static void remove_player_node (AutoMap *automap)
 
     if (automap->player)
     {
-        for (i = 0; i < 8; i++) {
+/*        for (i = 0; i < 8; i++) { // This is normally done by maplink_delete
             GHashTable *thishash;
 
             MapNode *this = curr->connections[i].node;
@@ -519,13 +509,14 @@ static void remove_player_node (AutoMap *automap)
                 g_hash_table_destroy(thishash);
             }
         }
-    } else {
+*/    } else {
 
         /* This node had no connections, yet there were other nodes on the map */
         automap->player = automap->map->nodelist->data;
     }
 
     g_hash_table_destroy(hash);
+	automap->map->nodelist = g_list_remove(automap->map->nodelist, curr);
     node_hash_remove(automap->map->nodes, curr);
     g_free(curr);
 
@@ -561,8 +552,7 @@ static void remove_player_node (AutoMap *automap)
     scrollbar_adjust(automap);
 }
 
-static gint
-key_press_event (GtkWidget *widget, GdkEventKey *event, AutoMap *automap)
+static gint key_press_event (GtkWidget *widget, GdkEventKey *event, AutoMap *automap)
 {
 
     switch (event->keyval)
@@ -570,6 +560,108 @@ key_press_event (GtkWidget *widget, GdkEventKey *event, AutoMap *automap)
     case GDK_q:
         gtk_exit(0); break;
         
+	case GDK_Escape:
+		if (automap->create_link_data != NULL)
+		{
+			/* Free the create_link_data structure */
+			show_message(automap, _("Ready."), 0);
+			show_message(automap, _("Canceled."), 750);
+			link_delete(automap->create_link_data->link);
+			g_free(automap->create_link_data);
+			automap->create_link_data = NULL;
+		}
+		break;
+	
+	case GDK_Return:
+		if (automap->create_link_data != NULL)
+		{
+			Link* last = automap->create_link_data->link;
+			while (last->next)
+				last = last->next;
+			
+			if (2 * ((gint) (last->x / 2)) == last->x && 2 * ((gint) (last->y / 2)) == last->y)
+			{
+				/* Create a new node for testing */
+				MapNode *node, *from = automap->create_link_data->from;
+				GList *list;
+				node = g_malloc0(sizeof(MapNode));
+				node->x = last->x / 2;
+				node->y = last->y / 2;
+				
+				/* Test if a node already exist */
+				list = g_hash_table_lookup(automap->map->nodes, node);
+				if (list)
+				{
+					g_free(node);
+					node = list->data; /* We will create the link to the first node at this place */
+
+					if (node->connections[OPPOSITE(automap->create_link_data->last_move)].node != NULL)
+					{
+						show_message(automap, _("A link already exists here!"), 2000);
+						break;
+					}
+					
+					/* I really like Ctrl-C Ctrl-V :) , and I am too lazy to create a new function :p */
+					
+                    /* If the node we're connecting to is part of a different trail
+                     * (ie automap->map->nodelist start point is different to the start
+                     * point of this node), then delete the start point of the other node
+                     * (since we are connecting start points)
+                     */
+
+                    MapNode *my_start_node, *next_start_node;
+                    GHashTable *hash;
+
+                    hash = g_hash_table_new((GHashFunc)node_hash, (GCompareFunc)node_comp);
+                    my_start_node = connected_node_in_list(automap->map, from, hash, NULL);
+                    g_hash_table_destroy(hash);
+
+                    hash = g_hash_table_new((GHashFunc)node_hash, (GCompareFunc)node_comp);
+                    next_start_node = connected_node_in_list(automap->map, node, hash, NULL);
+                    g_hash_table_destroy(hash);
+
+                    if (my_start_node != next_start_node)
+                        automap->map->nodelist = g_list_remove(automap->map->nodelist, next_start_node);
+
+				}
+				else
+				{
+					/* Achieve to create the node */
+					node->map = automap->map;
+					
+					/* Add the node to the hash */
+					node_hash_prepend(automap->map->nodes, node);
+				}
+				
+				/* And now, create the new connection */
+				last->type = LK_NODE;
+				last->node = node;
+				from = automap->create_link_data->from;
+				from->connections[automap->create_link_data->first_move].node = node;
+				from->connections[automap->create_link_data->first_move].link = automap->create_link_data->link;
+				node->connections[OPPOSITE(automap->create_link_data->last_move)].node = from;
+				node->connections[OPPOSITE(automap->create_link_data->last_move)].link = last;
+				(from->conn)++;
+				(node->conn)++;
+
+				/* Draw correctly the ending nodes */
+				struct win_scale *ws = map_coords(automap);
+				maplink_draw(2 * node->x, 2 * node->y, ws);
+				maplink_draw(last->prev->x, last->prev->y, ws);
+				
+				/* End the create_link */
+				g_free(automap->create_link_data);
+				automap->create_link_data = NULL;
+				show_message(automap, _("Ready"), 0);
+				show_message(automap, _("Link created"), 1500);
+			}
+			else
+			{
+				show_message(automap, _("Can't create a node here"), 3000); /* More explicit message ? */
+			}
+		}
+		break;
+	
     case GDK_Shift_L:
     case GDK_Shift_R:
         automap->shift = TRUE; break;
@@ -662,8 +754,484 @@ key_release_event (GtkWidget *widget, GdkEventKey *event, AutoMap *automap)
     return FALSE;
 }
 
-static gint
-button_press_event (GtkWidget *widget, GdkEventButton *event, AutoMap *automap)
+static void on_create_path(GtkDialog *widget, int id, CreatePathData* data)
+{
+	gtk_widget_destroy(GTK_WIDGET(widget));
+	
+	switch (data->choice)
+	{
+		case NEW_PATH:
+		{
+			GList* puck; 
+			gboolean retry = TRUE;
+			
+			/* Create the initial node */
+			MapNode* node = g_malloc0(sizeof(MapNode));
+			node->x = 0;
+			node->y = 0;
+			
+			/* Verify that the name is unique */
+			while (retry)
+			{
+				retry = FALSE;
+				for (puck = MapList; puck != NULL; puck = puck->next)
+				{
+					Map *map = puck->data;
+					if (strcmp(data->map_name, map->name))
+						continue;
+				
+					retry = TRUE;
+					gchar* tmp;
+					tmp = g_malloc0(sizeof(char) * (strlen(data->map_name) + 5));
+					strcpy(tmp, data->map_name);
+					strcat(tmp, " (2)");
+					g_free(data->map_name);
+					data->map_name = tmp;
+				}
+			}
+			
+			/* Set the new map */
+			Map* new_map = map_new();
+			new_map->name = g_strdup(data->map_name);
+			node->map = new_map;
+			data->automap->map = new_map;
+			maplink_change_map(new_map);
+
+			/* Add the initial node to the list and to the hash */
+			new_map->nodelist = g_list_append(new_map->nodelist, node);
+			node_hash_prepend(new_map->nodes, node);
+			
+			/* Create the path */
+			create_path(data->automap->player, node, data->path_name);
+			
+			/* Set the automap data */
+			data->automap->player = node;
+			data->automap->x = 0;
+			data->automap->y = 0;
+			
+			/* Redraw all */
+			redraw_map(data->automap);
+			
+			break;
+		}
+		case FOLLOW_PATH:
+		{
+			/* Gets the target with the in_gates hash */
+			MapNode* target = g_hash_table_lookup(data->automap->player->in_gates, data->follow_path_name);
+			if (target == NULL)
+			{
+				g_warning("There is no entry in data->automap->player->in_gates which match %s", data->follow_path_name);
+				return;
+			}
+
+			/* Create the path */
+			create_path(data->automap->player, target, data->path_name);
+
+			/* Update the automap data */
+			data->automap->player = target;
+			data->automap->map = target->map;
+			data->automap->x = target->x;
+			data->automap->y = target->y;
+			
+			/* Notify the map change and redraw */
+			maplink_change_map(target->map);
+			redraw_map(data->automap);
+			break;
+		}
+		default:
+			g_warning("data->choice doesn't match with anything");		
+	}
+	
+	/* To finish, free the data */
+	g_free(data->path_name);
+	g_free(data->follow_path_name);
+	g_free(data->map_name);
+	g_free(data);
+}
+
+
+static inline void on_new_path_wanted(GtkWidget *widget, CreatePathData* data)
+{
+	data->choice = NEW_PATH;
+}
+static inline void on_follow_wanted(GtkWidget *widget, CreatePathData* data)
+{
+	data->choice = FOLLOW_PATH;
+}
+static inline void on_map_name_changed(GtkWidget *widget, CreatePathData* data)
+{
+	g_free(data->map_name);
+	data->map_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(widget)));
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(data->new_choice), TRUE);
+	data->choice = NEW_PATH;	
+}
+static inline void on_follow_changed(GtkWidget *widget, CreatePathData* data)
+{
+	g_free(data->follow_path_name);
+	data->follow_path_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(widget)));
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(data->follow_choice), TRUE);
+	data->choice = FOLLOW_PATH;	
+}
+void path_type_dialog(AutoMap* automap, const gchar* name)
+{
+	GtkWidget *dialog;             			// Main dialog
+	GtkWidget *to_new_map_edit;             // Edit field
+	GtkWidget *follow_path_combo;           // A combo box
+	GtkWidget *to_new_map, *follow_path;	// Choices
+	GtkWidget *vbox, *hbox_new_map, *hbox_follow;	 			// Containers
+
+	/* Initialise the CreatePathData */
+	CreatePathData* data;
+	data = g_malloc0(sizeof(CreatePathData));
+	data->map_name = g_strdup(_("New Map"));
+	data->path_name = g_strdup(name);
+	data->follow_path_name = g_strdup("");
+	data->automap = automap;
+	data->choice = NEW_PATH;
+			
+	/* Setting the dialog */
+	dialog = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dialog), _("Creating a path"));
+	vbox = GTK_DIALOG(dialog)->vbox;
+
+	/* First horizontal container */
+	hbox_new_map = gtk_hbox_new(TRUE, 15);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox_new_map, TRUE, TRUE, 2);
+	
+	/* The radio button (new map)*/
+	to_new_map = gtk_radio_button_new_with_label(NULL, _("Path lead to a new map"));
+	data->new_choice = to_new_map;
+	gtk_box_pack_start(GTK_BOX(hbox_new_map), to_new_map, FALSE, FALSE, 5);
+	gtk_signal_connect(GTK_OBJECT(to_new_map), "clicked", GTK_SIGNAL_FUNC(on_new_path_wanted), data);
+
+	/* The edit entry for the name of the new map */
+	to_new_map_edit = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(to_new_map_edit), _("New map"));
+	gtk_box_pack_start(GTK_BOX(hbox_new_map), to_new_map_edit, FALSE, FALSE, 5);
+	gtk_signal_connect(GTK_OBJECT(to_new_map_edit), "changed", GTK_SIGNAL_FUNC(on_map_name_changed), data);
+			
+	/* If there is entrances, give anothers choices */
+	if (automap->player->in_gates)
+	{
+		/* Choose this node by default */
+		data->choice = FOLLOW_PATH; 
+				
+		/* The container */
+		hbox_follow =  gtk_hbox_new(TRUE, 15);
+		gtk_box_pack_start(GTK_BOX(vbox), hbox_follow , TRUE, TRUE, 2);
+
+		/* The radio button (default) */
+		follow_path = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(to_new_map), _("Path follow already existing path:"));
+		data->follow_choice = follow_path;
+		gtk_box_pack_start(GTK_BOX(hbox_follow), follow_path, FALSE, FALSE, 5);
+		gtk_signal_connect(GTK_OBJECT(follow_path), "clicked", GTK_SIGNAL_FUNC(on_follow_wanted), data);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(follow_path), TRUE);
+	
+		/* And the dropdown list */
+		follow_path_combo = gtk_combo_new();
+		gpointer* path_list;
+		path_list = g_malloc0(sizeof(gpointer));
+		g_hash_table_foreach(automap->player->in_gates, (GHFunc) hash_list_path, path_list);
+		gtk_combo_set_popdown_strings(GTK_COMBO(follow_path_combo), (*path_list));
+		gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(follow_path_combo)->entry), FALSE);
+		gtk_box_pack_start(GTK_BOX(hbox_follow), follow_path_combo, FALSE, FALSE, 5);
+		gtk_signal_connect(GTK_OBJECT(GTK_COMBO(follow_path_combo)->entry), "changed", GTK_SIGNAL_FUNC(on_follow_changed), data);
+		g_free(data->follow_path_name);
+		data->follow_path_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(follow_path_combo)->entry)));				
+	}
+
+			
+	gtk_dialog_add_button(GTK_DIALOG(dialog), _("Create"), GTK_RESPONSE_ACCEPT);
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
+			
+	/* and show all */
+	gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
+	guint result = gtk_dialog_run(GTK_DIALOG(dialog));
+
+	/* When the dialog is destroyed, create the path */
+	on_create_path(dialog, result, data);
+}
+
+void user_command(AutoMap* automap, const gchar* command)
+{
+	command = g_ascii_strdown(command, -1);
+	
+	int i = 0;
+	int out = -1;
+	
+	char* exits[20] = {"north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "up", "down", "n", "ne", "e", "se", "s", "sw", "w", "nw", "u", "d"};
+	
+    for (i = 0; i<10; i++)
+	{
+		if (!g_ascii_strcasecmp(command, exits[i]))
+			out = i;
+	}
+	for (i = 10; i<20; i++)
+	{
+		if (!g_ascii_strcasecmp(command, exits[i]))
+			out = i - 10;
+	}
+	
+	if (out != -1)
+	{
+		move_player_real(automap, out);
+		return;
+	}
+	
+	GList* puck;
+	for (puck = automap_config->unusual_exits; puck != NULL; puck = puck->next)
+	{
+		if (!g_ascii_strcasecmp(command, puck->data))
+		{
+			MapNode* target = NULL;
+			if (automap->player->gates)
+				target = g_hash_table_lookup(automap->player->gates, command);
+			
+			if (target)
+			{
+				teleport_player(automap, target);
+				return;
+			}
+			
+			path_type_dialog(automap, command);			
+			return;
+		}
+	}
+	
+	return;
+}
+
+static void on_enter_event(GtkWidget* widget, int id, EnterPathData* data)
+{
+	if (id == GTK_RESPONSE_ACCEPT)
+	{
+		switch (data->choice)
+		{
+			case CREATE_PATH:
+			{
+				if (strcmp(data->new_path_name, "") == 0)
+					return;
+
+				if (g_list_find_custom(automap_config->unusual_exits, data->new_path_name, (GCompareFunc) g_str_equal) == NULL)
+				{
+					g_list_append(automap_config->unusual_exits, data->new_path_name);					
+					update_gconf_from_unusual_exits();
+				}
+				
+				gtk_widget_destroy(widget);
+
+				path_type_dialog(data->automap, data->new_path_name);
+
+				gchar command[25];
+				g_snprintf(command, 25, "%s\r\n", data->new_path_name);
+				connection_send(main_connection, command);
+
+				g_free(data->new_path_name);
+				g_free(data->exists_path_name);
+
+				break;
+			}
+			case USE_PATH:
+			{
+				MapNode* target = g_hash_table_lookup(data->automap->player->gates, data->exists_path_name);
+
+				if (target == NULL)
+				{
+					g_warning("There is no entry in data->automap->player->gates which match %s", data->exists_path_name);
+					return;
+				}
+
+			data->automap->player = target;
+			data->automap->map = target->map;
+			data->automap->x = target->x;
+			data->automap->y = target->y;
+
+			gchar command[25];
+			g_snprintf(command, 25, "%s\r\n", data->exists_path_name);
+			connection_send(main_connection, command);
+			
+			gtk_widget_destroy(widget);
+			maplink_change_map(data->automap->map);
+			redraw_map(data->automap);
+			}
+		}
+	}	
+	
+	gtk_widget_destroy(widget);
+}
+
+static inline void on_create_path_wanted(GtkWidget* widget, EnterPathData* data)
+{
+	data->choice = CREATE_PATH;
+}
+static inline void on_future_path_name_changed(GtkWidget* widget, EnterPathData* data)
+{
+	g_free(data->new_path_name);
+	data->new_path_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(widget)));
+	data->new_path_name = g_strstrip(data->new_path_name);
+	
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(data->new_choice), TRUE);
+	data->choice = CREATE_PATH;	
+}
+static inline void on_enter_wanted(GtkWidget* widget, EnterPathData* data)
+{
+	data->choice = USE_PATH;
+}
+static inline void on_exists_name_changed(GtkWidget* widget, EnterPathData* data)
+{
+	g_free(data->exists_path_name);
+	data->exists_path_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(widget)));
+	
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(data->exists_choice), TRUE);
+	data->choice = USE_PATH;
+}
+static void path_enter_dialog(AutoMap* automap)
+{
+	GtkWidget* dialog;
+	GtkWidget *new_choice, *exists_choice;
+	GtkWidget *new_edit, *exists_combo;
+	GtkWidget *vbox, *hbox;
+	
+	/* Create the data which will be passed to the callbacks */
+	EnterPathData *data;
+	data = g_malloc0(sizeof(EnterPathData));
+	data->automap = automap;
+	data->choice = CREATE_PATH;
+	data->new_path_name = g_strdup("");
+	data->exists_path_name = g_strdup("");
+	
+	/* Create the dialog */
+	dialog = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dialog), _("Enter in a path"));
+	vbox = GTK_DIALOG(dialog)->vbox;
+	
+	/* First choice: create */
+	hbox = gtk_hbox_new(FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
+	
+	new_choice = gtk_radio_button_new_with_label(NULL, _("Create a new path:"));
+	data->new_choice = new_choice;
+	gtk_box_pack_start(GTK_BOX(hbox), new_choice, FALSE, FALSE, 5);
+	gtk_signal_connect(GTK_OBJECT(new_choice), "clicked", GTK_SIGNAL_FUNC(on_create_path_wanted), data);
+
+	new_edit = gtk_entry_new();
+	gtk_box_pack_start(GTK_BOX(hbox), new_edit, FALSE, FALSE, 1);
+	gtk_signal_connect(GTK_OBJECT(new_edit), "changed", GTK_SIGNAL_FUNC(on_future_path_name_changed), data);
+	
+	/* Second choice: enter in existing path */
+	if (automap->player->gates)
+	{
+		hbox = gtk_hbox_new(FALSE, 12);
+		gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
+		
+		exists_choice = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(new_choice), _("Enter in existing path:"));
+		data->exists_choice = exists_choice;
+		gtk_box_pack_start(GTK_BOX(hbox), exists_choice, FALSE, FALSE, 5);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(exists_choice), TRUE);
+		gtk_signal_connect(GTK_OBJECT(exists_choice), "clicked", GTK_SIGNAL_FUNC(on_enter_wanted), data);
+
+		exists_combo = gtk_combo_new();
+		gpointer* path_list;
+		path_list = g_malloc0(sizeof(gpointer));
+		g_hash_table_foreach(automap->player->gates, (GHFunc) hash_list_path, path_list);
+		gtk_combo_set_popdown_strings(GTK_COMBO(exists_combo), (*path_list));
+		gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(exists_combo)->entry), FALSE);
+		gtk_box_pack_start(GTK_BOX(hbox), exists_combo, FALSE, FALSE, 5);
+		gtk_signal_connect(GTK_OBJECT(GTK_COMBO(exists_combo)->entry), "changed", GTK_SIGNAL_FUNC(on_exists_name_changed), data);
+		g_free(data->exists_path_name);
+		data->exists_path_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(exists_combo)->entry)));						
+
+		data->choice = USE_PATH;
+	}
+	
+	gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_OK, GTK_RESPONSE_ACCEPT);
+	gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_NONE);
+
+	gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
+	guint result = gtk_dialog_run(GTK_DIALOG(dialog));
+	
+	on_enter_event(dialog, result, data);
+}
+static void on_enter_item_activated(GtkWidget* widget, void* data[2])
+{
+	path_enter_dialog(data[0]);
+	g_free(data);
+}
+static void on_teleport_item_activated(GtkWidget* widget, void* data[2])
+{
+	teleport_player(data[0], data[1]);
+	g_free(data);
+}
+
+static void on_create_link_item_activated(GtkWidget* widget, void* data[2])
+{
+	int i;
+	AutoMap* automap = data[0];
+	MapNode* node = data[1];
+	
+	for(i=0; i<8; i++)
+	{
+		if (node->connections[i].node == NULL)
+			break;
+		
+		if (i == 7)
+		{
+			GtkWidget* error = gtk_message_dialog_new(GTK_WINDOW(automap->window), 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, _("This node has already 8 links. Destroy one of these before trying to create a new one"));
+			g_signal_connect_swapped(GTK_OBJECT(error), "response", GTK_SIGNAL_FUNC(gtk_widget_destroy), GTK_OBJECT(error));
+			gtk_dialog_run(GTK_DIALOG(error));
+		}
+	}
+	
+	/* Change the automap state */
+	show_message(automap, _("Enter to finish, Esc to quit"), 0);
+	show_message(automap, _("Use move buttons to build the link."), 5000);
+	automap->create_link_data = g_malloc0(sizeof(struct _create_link_data));
+	automap->create_link_data->from = node;
+	automap->create_link_data->first_move = -1; /* Means that the user hasn't move yet */
+	
+	/* Move the player to the node and initialise the new link */
+	automap->player = node;
+	automap->create_link_data->link = link_add(NULL, LK_NODE, 2 * node->x, 2 * node->y);
+	automap->create_link_data->link->node = node;
+	
+	g_free(data);
+}
+
+static void on_zoom_in_item_activated(GtkWidget* widget, AutoMap* automap)
+{
+	if (automap->zoom > 0.25)
+	{
+  		automap->zoom /= 2;
+		scrollbar_adjust(automap);
+  		redraw_map(automap);
+	}
+}
+
+static void on_zoom_out_item_activated(GtkWidget* widget, AutoMap* automap)
+{
+	if (automap->zoom < 4)
+	{
+		automap->zoom *= 2;
+		scrollbar_adjust(automap);
+		redraw_map(automap);
+	}
+}
+
+static void on_config_item_activated(GtkWidget* widget, AutoMap* automap)
+{
+	window_prefs(NULL, (gpointer*) 0x123456); // Window_prefs is a callback. This code will be broken if a release use its first argument
+								  			  // The second argument tells to window_prefs that it is called from here
+	return;
+}
+
+/*static void on_properties_item_activated(GtkWidget* widget, AutoMap* automap)
+{
+	return;
+}*/
+
+static gint button_press_event (GtkWidget *widget, GdkEventButton *event, AutoMap *automap)
 {
 
     GList *puck;
@@ -713,16 +1281,8 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, AutoMap *automap)
                  */
                 if (!automap->shift)
                 {
-                    MapNode *nodelist[] = { automap->player, NULL };
+					teleport_player(automap, rn->node);
                     automap->state = NONE;
-
-                    draw_dot(automap, ws, automap->player);
-                    blit_nodes(automap, ws, nodelist);
-
-                    nodelist[0] = automap->player = rn->node;
-                    draw_player(automap, ws, automap->player);
-                    blit_nodes(automap, ws, nodelist);
-
                     return TRUE;
                 }
 
@@ -752,6 +1312,130 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, AutoMap *automap)
         automap->selection_box.y = y;
         automap->selection_box.width = automap->selection_box.height = 0;
     }
+
+    if (event->button == 3)
+    {
+		MapNode* clicked_node = NULL;
+	
+		/* Test if we are in a normal state */
+		if (automap->state != NONE)
+	  		return FALSE;
+
+		/* If there is a selection of more than one, do nothing! */
+		if (g_list_length(automap->selected) > 1)
+	  		return FALSE;
+
+		/* Check now if there is a node clicked */
+		if (g_list_length(automap->selected) == 1)
+	  	{
+	    	clicked_node = automap->selected->data;
+	  	}
+		else
+	  	{
+	    	GList* puck;
+	    	for(puck = automap->visible; puck != NULL; puck = puck->next)
+	    	{
+				RectNode* rn = puck->data;
+				struct win_scale *ws;
+				Rectangle* rect = malloc(sizeof(Rectangle));
+				ws = map_coords(automap);
+				rect->x = rn->rectangle.x - (ws->mapped_unit / 4);
+				rect->y = rn->rectangle.y - (ws->mapped_unit / 4);
+				rect->width  = ws->mapped_unit / 2;
+				rect->height = ws->mapped_unit / 2;
+				if (in_rectangle(x, y, rect))
+					clicked_node = rn->node;
+	    	}
+	  	}
+
+		/* So test now if there is a node selected */
+		if (clicked_node == NULL)
+	  	{
+			/* The user clicked on a blank area: display a menu:
+			 * Zoom In: Increase the zoom factor
+			 * Zoom Out: Decrease the zoom factor
+			 * Configure Automap: Display a message box to configure automap
+			 */
+			
+			GtkWidget* pop_menu;
+			GtkWidget* zoom_in_item;
+			GtkWidget* zoom_out_item;
+			GtkWidget* config_item;
+			
+			/* Build menu */
+			pop_menu = gtk_menu_new();
+			zoom_in_item = gtk_menu_item_new_with_label(_("Zoom In"));
+			zoom_out_item = gtk_menu_item_new_with_label(_("Zoom Out"));
+			config_item = gtk_menu_item_new_with_label(_("Configure Automap"));
+			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), zoom_in_item);
+			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), zoom_out_item);
+			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), config_item);
+			
+			/* Connecting events */
+			gtk_signal_connect(GTK_OBJECT(zoom_in_item), "activate", GTK_SIGNAL_FUNC(on_zoom_in_item_activated), automap);
+			gtk_signal_connect(GTK_OBJECT(zoom_out_item), "activate", GTK_SIGNAL_FUNC(on_zoom_out_item_activated), automap);
+			gtk_signal_connect(GTK_OBJECT(config_item), "activate", GTK_SIGNAL_FUNC(on_config_item_activated), automap);
+
+			/* Show menu */
+			gtk_menu_popup(GTK_MENU(pop_menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+			gtk_widget_show(zoom_in_item);
+			gtk_widget_show(zoom_out_item);
+			gtk_widget_show(config_item);
+			
+			return TRUE;
+		}
+		else
+		{
+			/* The user clicked on a single node: display a menu:
+			 * Teleport here: Move instantly the player to this node.
+			 * Create new link: Create a link with *no* restriction.
+			 * Set node properties: Display a message box to set things like name, icon...		
+			 * Enter in: Enter in a non-standard paths (only if the node is the player node)
+	 		 */
+		    void **data = g_malloc0(2 * sizeof(gpointer));
+	  		GtkWidget *pop_menu;
+	  		GtkWidget *teleport_item, *enter_item, *create_item;
+
+			/* Create data */
+			data[0] = automap;
+			data[1] = clicked_node;
+		
+//	  		GtkWidget* properties_item;
+			
+			/* create the menu */
+			pop_menu = gtk_menu_new();
+			
+			/* Teleport here */
+	  		teleport_item = gtk_menu_item_new_with_label(_("Teleport here"));
+	  		gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), teleport_item);
+			gtk_signal_connect(GTK_OBJECT(teleport_item), "activate", GTK_SIGNAL_FUNC(on_teleport_item_activated), data);
+//
+//			/* Set node properties */
+//	  		properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+//			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+//			gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+
+			/* Create new link */
+			create_item = gtk_menu_item_new_with_label(_("Create new link"));
+			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), create_item);
+			gtk_signal_connect(GTK_OBJECT(create_item), "activate", GTK_SIGNAL_FUNC(on_create_link_item_activated), data);
+
+			/* Enter in */
+			if (automap->player == clicked_node)
+			{
+				enter_item = gtk_menu_item_new_with_label(_("Enter"));
+				gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), enter_item);
+				gtk_signal_connect(GTK_OBJECT(enter_item), "activate", GTK_SIGNAL_FUNC(on_enter_item_activated), data);
+			}
+			
+			/* show the menu */
+	  		gtk_menu_popup(GTK_MENU(pop_menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+	  		gtk_widget_show_all(pop_menu);
+			
+			return TRUE;
+		}
+	    
+  	}
 
     return FALSE; /* Propogate signal */
 }
@@ -960,11 +1644,11 @@ static void scrollbar_adjust (AutoMap *automap)
 
     if (automap->map->max_x - automap->map->min_x < ws->mapped_width / 2)
     {
-        hsb->lower = automap->map->min_x;
+        hsb->lower = automap->map->min_x ;
         hsb->upper = automap->map->min_x + ws->mapped_width / 2;
-        hsb->value = automap->map->min_x;
+        hsb->value = automap->map->min_x ;
     } else {
-        hsb->lower = automap->map->min_x;
+        hsb->lower = automap->map->min_x ;
         hsb->upper = automap->map->max_x + ws->mapped_width / 2;
         hsb->value = automap->x;
     }
@@ -973,7 +1657,7 @@ static void scrollbar_adjust (AutoMap *automap)
 
     if (automap->map->max_y - automap->map->min_y < ws->mapped_height / 2)
     {
-        vsb->lower = automap->map->min_y;
+        vsb->lower = automap->map->min_y ;
         vsb->upper = automap->map->min_y + ws->mapped_height / 2;
         vsb->value = automap->map->min_y;
     } else {
@@ -1059,6 +1743,23 @@ static inline guint get_direction_type (char *text)
     exit(1); /* Shut GCC up */
 }
 
+static inline gchar* get_direction_text(guint type)
+{
+	switch (type)
+	{
+		case NORTH:     return g_strdup("north");
+		case NORTHWEST: return g_strdup("northwest");
+		case NORTHEAST: return g_strdup("northeast");
+		case WEST:      return g_strdup("west");
+		case EAST:      return g_strdup("east");
+		case SOUTHWEST: return g_strdup("southwest");
+		case SOUTHEAST: return g_strdup("southeast");
+		case SOUTH:     return g_strdup("south");
+		case UP:		return g_strdup("up");
+		case DOWN:		return g_strdup("down");
+	}
+	return NULL;
+}
 static inline void node_reposition (guint type, guint *x, guint *y)
 {
     switch(type) {
@@ -1079,50 +1780,18 @@ static inline void node_reposition (guint type, guint *x, guint *y)
 }
 
 /* Process for drawing the graphs
- * Iterate over the nodes stored in Map
- * For each node, pass it to the drawing routine
- *
- * The drawing routine requires that the node that called it be
- * pass to it in the arguments list. It needs this so it can draw
- * paths from the calling node to itself.
- *
- * The draw_node routine has more than one mode of control
- *   1) It can iterate through all nodes and draw the links to them
- *   2) It only draw one node
- *
- * When iterating through all nodes and drawing them, it is possible
- * that it may run into recursion errors, so a hash table is needed to
- * store all nodes that have been drawn. This hash table should be passed
- * to it, the act of creating and destroying it is not this routine's
- * responsibility
- *
- * If passed a hash table, assume that mode 1 is the mode of control
- * (draw all nodes). If there was no hash table passed, assume mode 2.
- *
- * If in mode of control 1, then this is the process of drawing:
- *   1) If I had a parent, draw the line from the parent to me
- *   2) Check if I have any nodes that branch off me
- *   3) Foreach node that branches off me, if it is not in the hash
- *      table, then add it. Call myself with the current node as the parent,
- *      and the node that we just checked if in the hash as the start node.
- *   4) When done drawing all nodes, draw the actual 'dot' that signifies that
- *      this is a node
- *
- * If in mode of control 2:
- *   1) If I had a parent, draw the line from the parent to me
- *   2) Draw the dot that signifies this is a node
+ *  Draw node draw only one node (if this node is visible)
+ *  draw_map call draw_node for each entry in automap->nodes
  */
 
 static inline
 void translate (AutoMap *automap, struct win_scale *ws, Point *p)
 {
-
     p->x = (gint)((p->x - automap->x) * ws->mapped_unit) + ws->width / 2;
     p->y = ws->height / 2 - (gint)((p->y - automap->y) * ws->mapped_unit);
 }
 
-static inline
-gboolean adjust (struct win_scale *ws, Rectangle *rect)
+inline gboolean adjust (struct win_scale *ws, Rectangle *rect)
 {
 
     if (rect->x < 0)
@@ -1161,52 +1830,37 @@ gboolean adjust (struct win_scale *ws, Rectangle *rect)
     return TRUE;
 }
 
-static void draw_line (AutoMap *automap, struct win_scale *ws,
-		       MapNode *node1, MapNode *node2)
+static void teleport_player(AutoMap* automap, MapNode* target)
 {
+	struct win_scale *ws;
+	ws = map_coords(automap);
 
-    /* nodewidth is the distance from the nodes centre, to the nodes
-     * edge (not its diagonal edge)
-     */
-    gint nodewidth = ws->mapped_unit / 4;
+	if (automap->map == target->map)
+	{
+		MapNode *nodelist[] = { automap->player, NULL };
 
-    Point p1 = { node1->x, node1->y }, p2 = { node2->x, node2->y };
-    translate(automap, ws, &p1);
-    translate(automap, ws, &p2);
+    	draw_dot(automap, ws, automap->player);
+    	blit_nodes(automap, ws, nodelist);
 
-    /* Draw line from the edge of one node, to the edge of the other
-     * node
-     */
-
-    if (p1.x < p2.x)
-    {
-        p1.x += nodewidth;
-        p2.x -= nodewidth;
-    } else if (p1.x > p2.x) {
-        p1.x -= nodewidth;
-        p2.x += nodewidth;
-    }
-
-    if (p1.y < p2.y)
-    {
-        p1.y += nodewidth;
-        p2.y -= nodewidth;
-    } else if (p1.y > p2.y) {
-        p1.y -= nodewidth;
-        p2.y += nodewidth;
-    }
-
-    gdk_draw_line(automap->pixmap,
-                  automap->draw_area->style->black_gc, p1.x, p1.y, p2.x, p2.y);
+	    nodelist[0] = automap->player = target;
+    	draw_player(automap, ws, automap->player);
+    	blit_nodes(automap, ws, nodelist);
+	}
+	else
+	{
+		automap->player = target;
+		automap->map = target->map;
+		maplink_change_map(automap->map);
+		redraw_map(automap);
+	}
 }
 
-static void draw_dot (AutoMap *automap, struct win_scale *ws, MapNode *node)
+void draw_dot (AutoMap *automap, struct win_scale *ws, MapNode *node)
 {
-
     /* nodewidth is the distance from the nodes centre, to the nodes
      * edge (not its diagonal edge)
      */
-    gint nodewidth = ws->mapped_unit / 4;
+    gint nodewidth = ws->mapped_unit / 4 - 1;
 
     Point p = { node->x, node->y };
     translate(automap, ws, &p);
@@ -1228,18 +1882,18 @@ static void draw_dot (AutoMap *automap, struct win_scale *ws, MapNode *node)
     {
         gdk_draw_line(automap->pixmap,
                       automap->draw_area->style->black_gc,
-                      p.x + nodewidth/2, p.y - nodewidth/5*4,
-                      p.x + nodewidth/2, p.y + nodewidth/5*4);
+                      p.x + (nodewidth + 1)/2, p.y - (nodewidth + 1)/5*4,
+                      p.x + (nodewidth + 1)/2, p.y + (nodewidth + 1)/5*4);
 
         gdk_draw_line(automap->pixmap,
                       automap->draw_area->style->black_gc,
-                      p.x + nodewidth/2, p.y - nodewidth/5*4,
-                      p.x + nodewidth/5, p.y - nodewidth/5*2);
+                      p.x + (nodewidth + 1)/2, p.y - (nodewidth + 1)/5*4,
+                      p.x + (nodewidth + 1)/5, p.y - (nodewidth + 1)/5*2);
 
         gdk_draw_line(automap->pixmap,
                       automap->draw_area->style->black_gc,
-                      p.x + nodewidth/2, p.y - nodewidth/5*4,
-                      p.x + nodewidth/5*4, p.y - nodewidth/5*2);
+                      p.x + (nodewidth + 1)/2, p.y - (nodewidth + 1)/5*4,
+                      p.x + (nodewidth + 1)/5*4, p.y - (nodewidth + 1)/5*2);
     }
 
     /* Going down ? Draw down arrow */
@@ -1247,18 +1901,83 @@ static void draw_dot (AutoMap *automap, struct win_scale *ws, MapNode *node)
     {
         gdk_draw_line(automap->pixmap,
                       automap->draw_area->style->black_gc,
-                      p.x - nodewidth/2, p.y + nodewidth/5*4,
-                      p.x - nodewidth/2, p.y - nodewidth/5*4);
+                      p.x - (nodewidth + 1)/2, p.y + (nodewidth + 1)/5*4,
+                      p.x - (nodewidth + 1)/2, p.y - (nodewidth + 1)/5*4);
 
         gdk_draw_line(automap->pixmap,
                       automap->draw_area->style->black_gc,
-                      p.x - nodewidth/2, p.y + nodewidth/5*4,
-                      p.x - nodewidth/5, p.y + nodewidth/5*2);
+                      p.x - (nodewidth + 1)/2, p.y + (nodewidth + 1)/5*4,
+                      p.x - (nodewidth + 1)/5, p.y + (nodewidth + 1)/5*2);
 
         gdk_draw_line(automap->pixmap,
                       automap->draw_area->style->black_gc,
-                      p.x - nodewidth/2, p.y + nodewidth/5*4,
-                      p.x - nodewidth/5*4, p.y + nodewidth/5*2);
+                      p.x - (nodewidth + 1)/2, p.y + (nodewidth + 1)/5*4,
+                      p.x - (nodewidth + 1)/5*4, p.y + (nodewidth + 1)/5*2);
+    }
+	
+	/* Paths? Draw a door */ 
+	if (node->gates || node->in_gates)
+	{
+		int x = p.x; 	
+		if (node->connections[UP].node)
+			x = x - (nodewidth + 1) / 2;
+		
+		gdk_draw_line(automap->pixmap,
+					  automap->draw_area->style->black_gc,
+					  x + (nodewidth + 1)/3, p.y - (nodewidth + 1)/3,
+					  x + (nodewidth + 1)/3, p.y - (nodewidth + 1)*2/3);
+		
+		gdk_draw_line(automap->pixmap,
+					  automap->draw_area->style->black_gc,
+					  x + (nodewidth + 1)*2/3, p.y - (nodewidth + 1)/3,
+					  x + (nodewidth + 1)*2/3, p.y - (nodewidth + 1)*2/3);
+		
+		gdk_draw_line(automap->pixmap,
+					  automap->draw_area->style->black_gc,
+					  x + (nodewidth + 1)/3, p.y - (nodewidth + 1)/3,
+					  x + (nodewidth + 1)*2/3, p.y - (nodewidth + 1)/3); 
+	
+		gdk_draw_arc(automap->pixmap,
+			    	 automap->draw_area->style->black_gc, FALSE,
+					 x + (nodewidth + 1)/3, p.y - (nodewidth + 1)*5/6,
+					 (nodewidth + 1)/3, (nodewidth + 1)/3,
+					 0, 180*64);		
+	}
+	
+	/* Now insert the node into the visible nodes list (for selecting items)
+     */
+    if (node_visible (node, ws))
+    {
+        GList *puck = automap->visible;
+
+        for (; puck != NULL; puck = puck->next)
+        {
+            if ( ((RectNode *)puck->data)->node == node )
+                break;
+        }
+
+        if (puck == NULL)
+        {
+            /* Not in the list */
+            RectNode *rn = g_malloc0(sizeof(RectNode));
+
+            if (rn == NULL)
+            {
+                g_error("draw_nodes: g_malloc0 error: %s\n", strerror(errno));
+                gtk_exit(1);
+            }
+
+            rn->rectangle.x = (node->x - automap->x) * ws->mapped_unit +
+                ws->width / 2 - 3;
+
+            rn->rectangle.y = ws->height / 2 - (gint)((node->y - automap->y) *
+                                                      ws->mapped_unit) - 3;
+
+            rn->rectangle.width = rn->rectangle.height = 6;
+            rn->node = node;
+
+            automap->visible = g_list_prepend(automap->visible, rn);
+        }
     }
 }
 
@@ -1307,9 +2026,9 @@ static void blit_nodes (AutoMap *automap, struct win_scale *ws,
 
     if (adjust(ws, &rect))
     {
-        gdk_draw_pixmap(automap->draw_area->window,
-                        automap->draw_area->style->fg_gc[GTK_WIDGET_STATE (automap->draw_area)],
-                        automap->pixmap, rect.x, rect.y, rect.x, rect.y, rect.width, rect.height);
+        gdk_draw_drawable(automap->draw_area->window,
+                          automap->draw_area->style->fg_gc[GTK_WIDGET_STATE (automap->draw_area)],
+                          automap->pixmap, rect.x, rect.y, rect.x, rect.y, rect.width, rect.height);
     }
 }
 
@@ -1320,7 +2039,7 @@ static void blank_nodes (AutoMap *automap, struct win_scale *ws,
     /* nodewidth is the distance from the nodes centre, to the nodes
      * edge (not its diagonal edge)
      */
-    gint nodewidth = ws->mapped_unit / 4;
+    gint nodewidth = ws->mapped_unit / 4 - 1;
 
     Point p = { nodelist[0]->x, nodelist[0]->y };
     Rectangle rect;
@@ -1365,7 +2084,7 @@ static void blank_nodes (AutoMap *automap, struct win_scale *ws,
 
 static void draw_selected (AutoMap *automap, struct win_scale *ws)
 {
-    gint16 radius = 5; /* ceil (sqrt (3*3 + 3*3)) */
+    gint16 radius = 5 * ws->mapped_unit / 40; /* ceil (sqrt (3*3 + 3*3)) */
     GList *list_start, *puck;
     MapNode *node;
     gint x, y;
@@ -1394,7 +2113,7 @@ static void draw_selected (AutoMap *automap, struct win_scale *ws)
                          x - radius, y - radius, radius * 2, radius * 2, 0, 360*64);
         } else {
             gdk_draw_rectangle(automap->draw_area->window, gc, TRUE,
-                               x - 3, y - 3, 6, 6);
+                               x - (3 * ws->mapped_unit / 40), y - (3 * ws->mapped_unit / 40), 6 * ws->mapped_unit / 40, 6 * ws->mapped_unit / 40);
         }
 
         puck = puck->next;
@@ -1413,7 +2132,7 @@ static void draw_selected (AutoMap *automap, struct win_scale *ws)
 
 static void undraw_selected (AutoMap *automap, struct win_scale *ws)
 {
-    gint16 radius = 5; /* ceil (sqrt (3*3 + 3*3)) */
+    gint16 radius = 5 * ws->mapped_unit / 40; /* ceil (sqrt (3*3 + 3*3)) */
     GList *list_start, *puck;
     MapNode *node;
     Point p;
@@ -1439,8 +2158,8 @@ static void undraw_selected (AutoMap *automap, struct win_scale *ws)
             rect.x = p.x - radius; rect.y = p.y - radius;
             rect.width = rect.height = radius * 2;
         } else {
-            rect.x = p.x - 3; rect.y = p.y - 3;
-            rect.width = rect.height = 6;
+            rect.x = p.x - (3 * ws->mapped_unit / 40); rect.y = p.y - (3 * ws->mapped_unit / 40);
+            rect.width = rect.height = 6 * ws->mapped_unit / 40;
         }
 
         if (adjust(ws, &rect))
@@ -1462,14 +2181,15 @@ static void undraw_selected (AutoMap *automap, struct win_scale *ws)
     }
 }
 
-static void draw_player (AutoMap *automap, struct win_scale *ws, MapNode *node)
+void draw_player (AutoMap *automap, struct win_scale *ws, MapNode *node)
 {
-    gint16 radius = 5; /* ceil (sqrt (3*3 + 3*3)) */
+    gint16 radius = 5 * ws->mapped_unit / 40; /* ceil (sqrt (3*3 + 3*3)) */ // Dfaut of mapped_unit is 40
     Point p = { node->x, node->y };
     Rectangle rect;
 
     translate(automap, ws, &p);
-    rect.x = p.x - radius;
+	
+	rect.x = p.x - radius;
     rect.y = p.y - radius;
     rect.width = rect.height = radius * 2;
 
@@ -1549,7 +2269,6 @@ static void draw_nodes (AutoMap *automap, struct win_scale *ws,
                 g_print("Drawing from (%3d, %3d) to (%3d, %3d)\n",
                         next->x, next->y, start->x, start->y);
 #endif
-            draw_line(automap, ws, next, start);
         }
 
         for (puck = unvisited; puck != NULL; puck = puck->next)
@@ -1557,67 +2276,13 @@ static void draw_nodes (AutoMap *automap, struct win_scale *ws,
         
         g_slist_free(unvisited);
     } else {
-        if (parent)
-        {
-            for (i = 0; i < 8; i++)
-            {
-                next = start->connections[i].node;
-
-            if (next && next != parent)
-                draw_line(automap, ws, next, start);
-            }
-        } else {
-
+        if (!parent)
+		{
             /* Clear this entire pixel block */
-            clear_block(automap, ws, start->x, start->y);
+            clear_block(automap, ws, start->x, start->y);}
+    	}
 
-            for (i = 0; i < 8; i++)
-            {
-                next = start->connections[i].node;
-
-                if (next)
-                    draw_line(automap, ws, next, start);
-            }
-        }
-    }
-
-    /* Now insert the node into the visible nodes list (for selecting items)
-     */
-    if (node_visible (start, ws))
-    {
-        GList *puck = automap->visible;
-
-        for (; puck != NULL; puck = puck->next)
-        {
-            if ( ((RectNode *)puck->data)->node == start )
-                break;
-        }
-
-        if (puck == NULL)
-        {
-            /* Not in the list */
-            RectNode *rn = g_malloc0(sizeof(RectNode));
-
-            if (rn == NULL)
-            {
-                g_error("draw_nodes: g_malloc0 error: %s\n", strerror(errno));
-                gtk_exit(1);
-            }
-
-            rn->rectangle.x = (start->x - automap->x) * ws->mapped_unit +
-                ws->width / 2 - 3;
-
-            rn->rectangle.y = ws->height / 2 - (gint)((start->y - automap->y) *
-                                                      ws->mapped_unit) - 3;
-
-            rn->rectangle.width = rn->rectangle.height = 6;
-            rn->node = start;
-
-            automap->visible = g_list_prepend(automap->visible, rn);
-        }
-    }
-
-    draw_dot(automap, ws, start);
+   draw_dot(automap, ws, start);
 }
 
 /* Wrapper function over draw_map, which fixes up the
@@ -1667,10 +2332,10 @@ void draw_map (AutoMap *automap)
     struct win_scale *ws = map_coords(automap);
     GList *puck;
 
-    /* Iterate over all the nodes in automap->map, and recursively draw
-     * all those nodes which are on the screen
-      */
+    /* Draw all links */
+	maplink_draw_all(ws);
 
+	/* And now, draw the nodes */
     for (puck = automap->map->nodelist; puck != NULL; puck = puck->next)
     {
         GHashTable *hash = g_hash_table_new((GHashFunc)node_hash, (GCompareFunc)node_comp );
@@ -1694,7 +2359,42 @@ void draw_map (AutoMap *automap)
         draw_player(automap, ws, automap->player);
 }
 
-static void get_node (GHashTable *hash, MapNode *node, gint *n)
+static gboolean restore_message(AutoMap *automap)
+{
+	gtk_label_set_text(GTK_LABEL(automap->hint), automap->last_unlimited_message);
+	return FALSE; /* This functions must be called only one time */
+}
+
+static void show_message(AutoMap *automap, gchar *message, guint time)
+{
+	if (time == 0)
+	{
+		if (automap->last_unlimited_message)
+			g_free(automap->last_unlimited_message);
+		
+		automap->last_unlimited_message = g_strdup(message);
+		
+		gtk_label_set_text(GTK_LABEL(automap->hint), automap->last_unlimited_message);
+	}
+	if (time > 0)
+	{
+		gtk_label_set_text(GTK_LABEL(automap->hint), message);
+		gtk_timeout_add(time, (GtkFunction) restore_message, automap);
+	}
+}
+
+static void get_node_through_path(gchar *key, MapNode *node, GHashTable *hash)
+{
+	if (!g_hash_table_lookup(hash, node))
+	{
+		guint *n = g_malloc0(sizeof(guint));
+		*n = g_hash_table_size(hash);
+		get_nodes(hash, node->map, n);
+		g_free(n);
+	}
+}
+
+static void get_node (GHashTable *hash, MapNode *node, guint *n)
 {
     gint *num = g_malloc(sizeof(gint));
     gint i;
@@ -1723,12 +2423,17 @@ static void get_node (GHashTable *hash, MapNode *node, gint *n)
         if (next && !g_hash_table_lookup(hash, next))
             get_nodes(hash, next->map, n);
     }
+
+	if (node->gates)	
+		g_hash_table_foreach(node->gates, (GHFunc) get_node_through_path, hash);
+	if (node->in_gates)
+		g_hash_table_foreach(node->in_gates, (GHFunc) get_node_through_path, hash);
 }
 
-static void get_nodes (GHashTable *hash, Map *map, int *n)
+static void get_nodes (GHashTable *hash, Map *map, guint *n)
 {
     GList *puck;
-
+	
     for (puck = map->nodelist; puck != NULL; puck = puck->next)
     {
         MapNode *node = puck->data;
@@ -1740,21 +2445,81 @@ static void get_nodes (GHashTable *hash, Map *map, int *n)
     }
 }
 
-static void write_node (MapNode *node, guint *num, void *data[2])
+static void write_link(Link* link, guint nbr, void *data[5])
+{
+	FILE *file = data[0];
+	GHashTable *hash_maps = data[2];
+	
+	fprintf(file, "%d map %d ", nbr, (gint) g_hash_table_lookup(hash_maps, link->node->map->name));
+	
+	link = link_reorder(link);
+	while (link)
+	{
+		fprintf(file, "(%d, %d) ", link->x, link->y);
+		link = link->next;
+	}
+	
+	fprintf(file, "\n");
+}
+static inline void write_path (gchar* key, MapNode* target, void *data[2])
+{
+	fprintf(data[0], "%s %d",
+			key,
+			*(gint*) g_hash_table_lookup(data[1], target));
+	
+}
+
+static void write_node (MapNode *node, guint *num, void *data[5])
 {
     FILE *file = data[0];
-    GHashTable *hash = data[1];
+    GHashTable *hash_nodes = data[1];
+	GHashTable *hash_maps = data[2];
+	GHashTable *hash_links = data[3];
+	guint *nbr_links = data[4];
     int i;
 
-    fprintf(file, "%d (%d, %d) %s ", *num, node->x, node->y, node->map->name);
+    fprintf(file, "%d (%d, %d) %d ", *num, node->x, node->y, (gint) g_hash_table_lookup(hash_maps, node->map->name));
 
     for (i = 0; i < 10; i++)
     {
         MapNode *next = node->connections[i].node;
 
-        fprintf(file, "%s %d ", direction[i],
-                next ? *(gint *)g_hash_table_lookup(hash, next) : -1 );
-    }
+		if (next == NULL)
+		{
+			fprintf(file, "%s -1 ", direction[i]);
+		}
+		else if (i>7)
+		{
+	        fprintf(file, "%s %d ", direction[i], *(gint *)g_hash_table_lookup(hash_nodes, next));
+		}
+		else if (link_is_standard(node, i))
+		{
+	        fprintf(file, "%s %d ", direction[i], *(gint *)g_hash_table_lookup(hash_nodes, next));
+    	}
+		else
+		{
+			guint index;
+			Link *opposite = link_reorder(node->connections[i].link);
+						
+			
+			/* Gets the opposite link to test if the link has already been registred */
+			while (opposite->next)
+				opposite = opposite->next;
+			
+			index = GPOINTER_TO_INT(g_hash_table_lookup(hash_links, opposite));
+			
+			if (!index)
+			{
+				(*nbr_links)++;
+				index = *nbr_links;
+				g_hash_table_insert(hash_links, node->connections[i].link, (gpointer) index); 
+			}
+			fprintf(file, "%s *%d ", direction[i], index);
+		}
+	}
+	
+	if (node->gates)
+		g_hash_table_foreach(node->gates, (GHFunc) write_path, data);
 
     fputs("\n", file);
 }
@@ -1767,12 +2532,15 @@ static gboolean remove_node (MapNode *node, guint *num, void *data)
 
 static void save_maps (const gchar *filename, AutoMap *automap)
 {
-    GHashTable *hash;
+    GHashTable *hash_nodes;
+	GHashTable *hash_maps;
+	GHashTable *hash_links;
+	guint *nbr_links = g_malloc0(sizeof(guint));
     GList *puck;
     Map *map;
     FILE *file;
     int n = 0;
-    void *data[2];
+    void *data[3];
 
     file = fopen(filename, "w");
 
@@ -1783,11 +2551,14 @@ static void save_maps (const gchar *filename, AutoMap *automap)
         return;
     }
 
-    hash = g_hash_table_new(g_direct_hash, g_direct_equal);
-    get_nodes(hash, automap->map, &n);
+	*nbr_links = 0;
+	hash_links = g_hash_table_new(g_direct_hash, g_direct_equal);
+    hash_nodes = g_hash_table_new(g_direct_hash, g_direct_equal);
+	hash_maps = g_hash_table_new(g_str_hash, g_str_equal);
+    get_nodes(hash_nodes, automap->map, &n);
 
-    fprintf(file, "automap map %s player %d zoom %.2f, center (%d, %d)\n",
-            automap->map->name, *(gint *)g_hash_table_lookup(hash, automap->player),
+    fprintf(file, "automap map %s ~map player %d zoom %.2f, center (%d, %d)\n",
+            automap->map->name, *(gint *)g_hash_table_lookup(hash_nodes, automap->player),
             automap->zoom, automap->x, automap->y);
 
     /* For all maps known, if elements in the map's nodelist are
@@ -1796,89 +2567,101 @@ static void save_maps (const gchar *filename, AutoMap *automap)
      * with the code) for maps to be listed, yet not be referenced
      * by all nodes in the hash
      */
+	int nbr = 0;
     for (puck = MapList; puck != NULL; puck = puck->next)
     {
         GList *inner;
 
         map = puck->data;
 
-        if (!g_hash_table_lookup(hash, map->nodelist->data))
+        if (!g_hash_table_lookup(hash_nodes, map->nodelist->data))
             continue;
 
-        fprintf(file, "map %s min_x %d min_y %d max_x %d max_y %d nodelist ", map->name,
+		g_hash_table_insert(hash_maps, map->name, (void*) nbr);
+		nbr++;
+		fprintf(file, "map %s ~map min_x %d min_y %d max_x %d max_y %d nodelist ", map->name,
                 map->min_x, map->min_y, map->max_x, map->max_y);
-
+       
         for (inner = map->nodelist; inner != NULL; inner = inner->next)
-            fprintf(file, "%d ", *(gint *)g_hash_table_lookup(hash, inner->data));
+            fprintf(file, "%d ", *(gint *)g_hash_table_lookup(hash_nodes, inner->data));
 
         fputs("\n", file);
     }
 
     data[0] = file;
-    data[1] = hash;
+	data[1] = hash_nodes;
+    data[2] = hash_maps;
+	data[3] = hash_links;
+	data[4] = nbr_links;
 
-    g_hash_table_foreach(hash, (GHFunc)write_node, (gpointer)data);
-    g_hash_table_foreach_remove(hash, (GHRFunc)remove_node, NULL);
-    g_hash_table_destroy(hash);
+	/* Write all nodes */
+    g_hash_table_foreach(hash_nodes, (GHFunc)write_node, (gpointer)data);
+
+	/* Write all links */
+	fprintf(file, "--Links--\n");
+	g_hash_table_foreach(hash_links, (GHFunc)write_link, data);
+	
+    g_hash_table_foreach_remove(hash_nodes, (GHRFunc)remove_node, NULL);
+	g_hash_table_destroy(hash_links);
+    g_hash_table_destroy(hash_nodes);
+	g_hash_table_destroy(hash_maps);
 
     fclose(file);
 }
 
-static gboolean free_nodes (MapNode *key, GList *value, GList **maps)
+static inline gboolean free_key (void *key, void *data, void *data2)
 {
-    MapNode *node, *next;
-    GList *puck, *map_link;
-    gint i;
+	g_free(key);
+	
+	return TRUE;
+}
 
-    for (puck = value; puck != NULL; puck = puck->next)
-    {
-        node = puck->data;
+static void free_node (MapNode *node)
+{	
+	if (node->gates)
+	{
+		g_hash_table_foreach_remove(node->gates, (GHRFunc) free_key, NULL);
+		g_hash_table_destroy(node->gates);
+	}
+	if (node->in_gates)
+	{
+		g_hash_table_foreach_remove(node->in_gates, (GHRFunc) free_key, NULL);
+		g_hash_table_destroy(node->in_gates);
+	}
+	g_free(node);
+}
 
-        for (i = 0; i < 10; i++)
-        {
-            next = node->connections[i].node;
-
-            if (next)
-            {
-                if ((map_link = g_list_find(MapList, next->map)) != NULL)
-                {
-                    *maps = g_list_prepend(*maps, next->map);
-                    MapList = g_list_remove_link(MapList, map_link);
-                }
-
-                next->connections[OPPOSITE(i)].node = NULL;
-            }
-        }
-
-        g_free(node);
-    }
-
-    g_list_free(value);
-
-    return TRUE;
+static inline gboolean free_nodes_from_hash(MapNode *key, GList *list, void *data)
+{
+	free_node(key);
+	g_list_free(list);
+	return TRUE;
 }
 
 static void free_maps (AutoMap *automap)
 {
-    GList *list = g_list_prepend(NULL, automap->map);
     Map *map;
-    MapList = g_list_remove(MapList, automap->map);
+	GList *puck;
 
-    while (list)
+    while (MapList)
     {
-        map = (Map *)list->data;
-        list = g_list_remove_link(list, list);
+        map = (Map *)MapList->data;
+        MapList = g_list_remove_link(MapList, MapList);
 
-        g_hash_table_foreach_remove(map->nodes, (GHRFunc)free_nodes, &list);
+        g_hash_table_foreach_remove(map->nodes, (GHRFunc)free_nodes_from_hash, NULL);
         g_hash_table_destroy(map->nodes);
         g_list_free(map->nodelist);
         g_free(map->name);
         g_free(map);
     }
 
+	maplink_free();
+	
     automap->player = NULL;
     automap->map = NULL;
     automap->x = automap->y = 0;
+	for (puck = automap->visible; puck != NULL; puck = puck->next)
+		g_free(puck->data);
     g_list_free(automap->visible);
 
     automap->visible = NULL;
@@ -1943,7 +2726,6 @@ static void file_sel_ok_cb (GtkWidget *widget, void *ptr[])
 
     if (type == LOAD)
     {
-        free_maps(automap);
         load_automap_from_file(filename, automap);
     } else {
         save_maps(filename, automap);
@@ -2000,7 +2782,7 @@ static void button_cb (GtkWidget *widget, AutoMap *automap)
             return;
         }
 
-        find = gtk_file_selection_new(type == LOAD ? "Load map" : "Save map");
+        find = gtk_file_selection_new(type == LOAD ? _("Load map") : _("Save map"));
 
         ptr[0] = GUINT_TO_POINTER(type);
         ptr[1] = automap;
@@ -2246,17 +3028,16 @@ static void node_break (AutoMap *automap, guint type)
     MapNode *nodelist[3] = { this, next, NULL };
 
     struct win_scale *ws = map_coords(automap);
-    GHashTable *hash, *thishash;
 
-    if (!this)
+    if (!next)
     {
-        g_warning("node_break: no node existed in that direction\n");
+        show_message(automap, _("No link existed in that direction"), 750);
         return;
     }
 
     if (type > 7)
     {
-        g_warning("node_break: will not break links to a node going up or down\n");
+        show_message(automap, _("Cannot break links to a node going up or down"), 750);
         return;
     }
 
@@ -2269,58 +3050,21 @@ static void node_break (AutoMap *automap, guint type)
      * So ... store all lines drawn in a hash somewhere to test if making an
      * image modification will require more redraws to maintain image
      * correctness ? hmm ...
+	 *
+	 * That normally work now.
      */
 
-    automap->player = next;
-
-    blank_nodes(automap, ws, nodelist);
-    memset(&this->connections[type], 0, sizeof(*this->connections));
-    memset(&next->connections[OPPOSITE(type)], 0, sizeof(*next->connections));
-    draw_nodes(automap, ws, this, NULL, NULL);
-    draw_nodes(automap, ws, next, NULL, NULL);
-    draw_player(automap, ws, next);
+	maplink_delete(this, type);
     blit_nodes(automap, ws, nodelist);
-
-    /* If removing this link means one section of the map will be unreachable
-     * from the other section of the map, then add the unreachable
-     * section to the nodelist
-     */
-
-    hash = g_hash_table_new( (GHashFunc)node_hash, (GCompareFunc)node_comp );
-    thishash = g_hash_table_new( (GHashFunc)node_hash, (GCompareFunc)node_comp );
-
-    if (!connected_node_in_list(automap->map, this, thishash, hash))
-    {
-        automap->map->nodelist = g_list_prepend(automap->map->nodelist, this);
-    } else {
-        g_hash_table_destroy(thishash);
-        thishash = g_hash_table_new( (GHashFunc)node_hash, (GCompareFunc)node_comp );
-
-        if (!connected_node_in_list(automap->map, this, thishash, hash))
-            automap->map->nodelist = g_list_prepend(automap->map->nodelist, this);
-    }
-
-    g_hash_table_destroy(thishash);
-    g_hash_table_destroy(hash);
 }
 
-static void move_player (AutoMap *automap, guint type)
+static void move_player_real(AutoMap *automap, guint type)
 {
     MapNode *this = automap->player;
     MapNode *next = automap->player->connections[type].node;
     struct win_scale *ws = map_coords(automap);
     guint opposite = OPPOSITE(type);
     gboolean redraw = FALSE;
-
-    if (automap->node_break)
-    {
-
-        /* Doesn't belong here ? Lazyness ... */
-        automap->node_break = FALSE;
-        node_break(automap, type);
-
-        return;
-    }
 
     /* Check if this is following a path */
     if (next)
@@ -2338,17 +3082,20 @@ static void move_player (AutoMap *automap, guint type)
         {
             automap->x = next->x;
             automap->y = next->y;
+			maplink_change_map(automap->map);
 
             redraw = TRUE;
         }
-    } else {
+    }
+	else
+	{
         /* See if there are any nodes on this path */
         if (type == UP || type == DOWN)
         {
             /* Create a new map */
             automap->map = map_new();
             next = g_malloc0(sizeof(MapNode));
-
+			
             if (next == NULL)
             {
                 g_error("main: g_malloc0 error: %s\n", strerror(errno));
@@ -2361,6 +3108,7 @@ static void move_player (AutoMap *automap, guint type)
 
             /* Link the two nodes up */
             next->map = automap->map;
+			maplink_change_map(next->map);
             next->connections[opposite].node = automap->player;
             automap->player->connections[type].node = next;
             automap->player = next;
@@ -2376,7 +3124,9 @@ static void move_player (AutoMap *automap, guint type)
             ws = map_coords(automap);
 
             redraw = TRUE;
-        } else {
+        } 
+		else
+		{
             GList *list;
             MapNode node;
 
@@ -2391,15 +3141,16 @@ static void move_player (AutoMap *automap, guint type)
 
                 if (next->connections[opposite].node)
                 {
-                    /* It would seem this node already has a connection to here, and
-                     * it's not from us. Probably is possible, will see. Deal with it
-                     * later
+                    /* It would seem this node already has a connection to here, That's 
+					 * possible so we need to inform the user that his move is illegal.
                      */
 
-                    g_warning("move_player: map does not support this move situation yet\n");
+                    show_message(automap, _("Destination node has already a connection here"), 1500);
                     return;
 
-                } else {
+                }
+				else
+				{
                     /* If the node we're connecting to is part of a different trail
                      * (ie automap->map->nodelist start point is different to the start
                      * point of this node), then delete the start point of the other node
@@ -2422,30 +3173,62 @@ static void move_player (AutoMap *automap, guint type)
                             g_list_remove(automap->map->nodelist, next_start_node);
 
                 }
-            } else {
+            }
+			else
+			{
                 next = g_malloc0(sizeof(MapNode));
 
                 next->x = node.x;
                 next->y = node.y;
 
-                node_hash_prepend(automap->map->nodes, next);
-            }
+ 				node_hash_prepend(automap->map->nodes, next);
+				
+				/* Test if there is links passing by this position
+				 * If true, we need to redraw the previous and the next part
+				 * of this link.
+				 */
+				GList *puck;
+				Pos pos;
+				pos.x = next->x * 2;
+				pos.y = next->y * 2;
+				puck = g_hash_table_lookup(actual->link_table, &pos);
+				while (puck)
+				{
+					Link* link = puck->data;
+					
+					if (link->type == LK_PART)
+					{
+						gint x, y;
+						
+						/* We need to delete manually the point between the node and 
+						 * the adjacent links because maplink_draw doesn't
+						 */
+			    		x = ( (gint) ((link->x + link->next->x - 4 * automap->x) * ws->mapped_unit / 2) + ws->width ) / 2;
+   						y = ( ws->height - (gint)((link->y + link->next->y - 4 * automap->y) * ws->mapped_unit / 2) ) / 2;
+						gdk_draw_point(automap->pixmap,
+									   automap->draw_area->style->white_gc,
+					   				   x, y);
+			    		x = ( (gint) ((link->x + link->prev->x - 4 * automap->x) * ws->mapped_unit / 2) + ws->width ) / 2;
+   						y = ( ws->height - (gint)((link->y + link->prev->y - 4 * automap->y) * ws->mapped_unit / 2) ) / 2;
+						gdk_draw_point(automap->pixmap,
+									   automap->draw_area->style->white_gc,
+					   				   x, y);
+									   
+						maplink_draw(link->prev->x, link->prev->y, ws);
+						maplink_draw(link->next->x, link->next->y, ws);
+					}
+					
+					puck = puck->next;
+				}
+				
+			}
 
-            next->conn++;
-            automap->player->conn++;
-
-            next->connections[opposite].node = automap->player;
-            automap->player->connections[type].node = next;
-
+			maplink_create(automap->player, next);
+			
             next->map = automap->map;
             automap->player = next;
         }
     }
-
-    /* FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
-     * Here you would insert the command to send the direction of travel to the
-     * mud
-     */
 
     /* Check the boundaries to see if they have been extended */
     if (next->x <= automap->map->min_x)
@@ -2468,19 +3251,95 @@ static void move_player (AutoMap *automap, guint type)
         automap->y = next->y;
 
         scrollbar_adjust(automap);
-    } else {
+    }
+	else
+	{
 
         /* Pass the old co-ordinates along with the automap details to the drawing
-         * routine
+         * routine and add the new node to the automap->visible list
          */
+		MapNode *thislist[] = { this, NULL };
         MapNode *nodelist[] = { this, next, NULL };
 
-        draw_nodes(automap, ws, this, NULL, NULL);
-        draw_nodes(automap, ws, next, this, NULL);
+		blank_nodes(automap, ws, thislist);
+		draw_dot(automap, ws, this);
+		draw_dot(automap, ws, next);
         draw_player(automap, ws, next);
         blit_nodes(automap, ws, nodelist);
         draw_selected(automap, ws);
     }
+}
+
+static void move_player (AutoMap *automap, guint type)
+{
+    if (automap->node_break)
+    {
+
+        /* Doesn't belong here ? Lazyness ... */
+        automap->node_break = FALSE;
+        node_break(automap, type);
+
+        return;
+    }
+	if (automap->create_link_data)
+	{
+		Link *link;
+		for (link = automap->create_link_data->link; link->next != NULL; link = link->next) { }
+		int x = link->x, y = link->y;
+		
+		if (type == UP || type == DOWN)
+		{
+			show_message(automap, _("Can't create a link to another floor!"), 2000);
+			return;
+		}
+		
+		if (automap->create_link_data->first_move == -1 && automap->player->connections[type].node != NULL)
+		{
+			show_message(automap, _("There is already a link here!"), 1000);
+			return;
+		}
+		
+		/* Add a part */
+		node_reposition(type, &x, &y);
+		automap->create_link_data->link = link_add(automap->create_link_data->link, LK_PART, x, y);
+		link = link->next;
+		
+		/* Update the data */
+		if (automap->create_link_data->first_move == -1)
+			automap->create_link_data->first_move = type;
+		automap->create_link_data->last_move = type;
+
+	    /* If the node is not on the screen, then centre the view, redraw the screen
+   		 * and fix up the scrollbars
+     	 */
+		struct win_scale *ws = map_coords(automap);
+
+    	if ((link->x <= 2 * ws->mapped_x) || (link->x >= 2 * (ws->mapped_x + ws->mapped_width)) ||
+        	(link->y <= 2 * ws->mapped_y) || (link->y >= 2 * (ws->mapped_y + ws->mapped_height)))
+    	{
+        	automap->x = (gint) link->x / 2;
+        	automap->y = (gint) link->y / 2;
+
+        	scrollbar_adjust(automap);
+    	}
+		else
+		{		
+			link_draw(link, ws); // Draw the new part (the old one has been drawed by link_add)
+			link_blit(link, ws);	
+		}
+
+		return;
+	}
+
+	/* Call the real function */
+	move_player_real(automap, type);
+	
+	/* And to finish, send the command to the server */
+	gchar* text = get_direction_text(type);
+	gchar command[15];
+	g_snprintf(command, 15, "%s\r\n", text);
+	connection_send(main_connection, command);
+	g_free(text);
 }
 
 static void scrollbar_value_changed (GtkAdjustment *adjustment,
@@ -2537,6 +3396,14 @@ static gint leave_notify_event (GtkWidget *widget, GdkEventCrossing *event,
     return TRUE;
 }
 
+static void automap_quit(GtkWidget *widget, AutoMap *automap)
+{
+	/* Remove the automap from the AutoMapList */
+	free_maps(automap);
+	g_free(automap);
+	AutoMapList = g_list_remove(AutoMapList, automap);
+}
+
 AutoMap *auto_map_new (void)
 {
     AutoMap *automap = g_malloc0(sizeof(AutoMap));
@@ -2544,7 +3411,14 @@ AutoMap *auto_map_new (void)
     GtkWidget *n, *ne, *e, *se, *s, *sw, *w, *nw, *up, *down;
     GtkWidget *load, *save, *remove;
     GtkWidget *table, *table_draw;
+	GtkWidget *hint;
 
+	if (g_list_length(AutoMapList) != 0)
+	{
+		g_free(automap);
+		return NULL;
+	}
+	
     if (automap == NULL)
     {
         g_error("auto_map_new: g_malloc0 error: %s\n", strerror(errno));
@@ -2613,6 +3487,10 @@ AutoMap *auto_map_new (void)
     gtk_signal_connect(GTK_OBJECT(automap->draw_area), "leave_notify_event",
                        GTK_SIGNAL_FUNC(leave_notify_event), automap);
 
+	/* When the automapper ends */
+	gtk_signal_connect(GTK_OBJECT(automap->window), "destroy",
+					   GTK_SIGNAL_FUNC(automap_quit), automap);
+
     /* Set up the scrollbars/scrollbar data */
     {
         gint ps = X_INIT_SIZE / PIX_ZOOM, upper;
@@ -2644,18 +3522,27 @@ AutoMap *auto_map_new (void)
     gtk_range_set_update_policy(GTK_RANGE(automap->hsb), GTK_UPDATE_CONTINUOUS);
     gtk_range_set_update_policy(GTK_RANGE(automap->vsb), GTK_UPDATE_CONTINUOUS);
 
+	/* Create the hint label */
+	hint = gtk_label_new(_("Ready"));
+	gtk_misc_set_alignment(GTK_MISC(hint), 0, 0);
+	automap->hint = hint;
+	automap->last_unlimited_message = g_strdup(_("Ready"));
+	
     /* Pack the range/drawing widgets into the draw table */
-    table_draw = gtk_table_new(2, 2, FALSE);
+    table_draw = gtk_table_new(3, 2, FALSE);
     gtk_table_attach(GTK_TABLE(table_draw), automap->draw_area,
                      0, 1, 0, 1, GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
     gtk_table_attach(GTK_TABLE(table_draw), automap->hsb,
                      0, 1, 1, 2, GTK_EXPAND | GTK_FILL,                     0, 0, 0);
     gtk_table_attach(GTK_TABLE(table_draw), automap->vsb,
                      1, 2, 0, 1, 0                    , GTK_EXPAND | GTK_FILL, 0, 0);
+	gtk_table_attach(GTK_TABLE(table_draw), automap->hint,
+					 0, 2, 2, 3, GTK_EXPAND | GTK_FILL,                     0, 0, 0); 
 
     gtk_widget_show(automap->hsb);
     gtk_widget_show(automap->vsb);
     gtk_widget_show(automap->draw_area);
+	gtk_widget_show(automap->hint);
     gtk_widget_show(table_draw);
 
     /* Some buttons */
@@ -2754,7 +3641,7 @@ AutoMap *auto_map_new (void)
 Map *map_new (void)
 {
     Map *map;
-    char name[10];
+    char name[28];
 
     /* Create our map */
     map = g_malloc0(sizeof(MapNode));
@@ -2765,7 +3652,7 @@ Map *map_new (void)
         gtk_exit(1);
     }
 
-    g_snprintf(name, 10, "GNOME-Mud Mapper - map%d", g_list_length(MapList));
+    g_snprintf(name, 27, "GNOME-Mud Mapper - map%d", g_list_length(MapList));
     map->name = g_strdup(name);
 
     if (map->name == NULL)
@@ -2803,7 +3690,8 @@ static void new_automap_with_node (void)
     MapNode *node;
 
     /* Create our automaplist ... */
-    automap = auto_map_new();
+    if ((automap = auto_map_new()) == NULL)
+		return;
 
     AutoMapList = g_list_append(AutoMapList, automap);
     automap->zoom = 1;
@@ -2828,6 +3716,9 @@ static void new_automap_with_node (void)
     automap->map = node->map = map;
     automap->player = node;
 
+	/* Initialise the structures of map-link */
+	maplink_init_new_map(map);
+	
     /* Display the main window in the main() routine (ensures the
      * first node is drawn
      */
@@ -2864,14 +3755,32 @@ static gboolean is_numeric (gchar *token)
     return TRUE;
 }
 
+static void translate_path(gchar* path, MapNode* target_index, void* data[2])
+{
+	GPtrArray* arr = data[0];
+	MapNode* node = data[1];
+
+	MapNode* target = g_ptr_array_index(arr, GPOINTER_TO_INT(target_index));
+	
+	g_hash_table_replace(node->gates, path, target);
+
+	if (!target->in_gates)
+		target->in_gates = g_hash_table_new(g_str_hash, g_str_equal);
+	g_hash_table_insert(target->in_gates, path, node);
+}
+
 static void load_automap_from_file (const gchar *filename, AutoMap *automap)
 {
     FILE *file;
-    gchar buf[256], token[256], *bptr, *mapname;
+    gchar buf[256], token[256], *bptr, *mapname, *tmp;
     GPtrArray *arr = g_ptr_array_new();
+	GPtrArray *links = g_ptr_array_new();
     GList *maps = NULL, *puck;
     gint i, o, explicit_redraw = (automap != NULL);
+	void* data[2];
     Map *map = NULL;
+	
+	mapname = g_strdup("");
 
     file = fopen(filename, "r");
 
@@ -2883,16 +3792,30 @@ static void load_automap_from_file (const gchar *filename, AutoMap *automap)
     }
 
     /* Create our automaplist ... */
-    if (!automap) automap = auto_map_new();
-    AutoMapList = g_list_append(AutoMapList, automap);
-
+    if (!automap)
+	{
+		automap = auto_map_new();
+	    AutoMapList = g_list_append(AutoMapList, automap);
+	}
+    free_maps(automap);
+ 
     /* Get details from the file to fill in to our automap */
     bptr = fgets(buf, BUFSIZ, file);
     bptr = get_token(bptr, token);
     bptr = get_token(bptr, token);
     bptr = get_token(bptr, token);
-    mapname = g_strdup(token);
-    bptr = get_token(bptr, token);
+	while (strcmp(token, "~map"))
+	{
+		tmp = g_strdup(mapname);
+		g_free(mapname);
+		mapname = g_malloc0(sizeof(mapname) + sizeof(token));
+ 		sprintf(mapname, "%s %s", tmp, token);
+		g_free(tmp);
+		
+		bptr = get_token(bptr, token);
+    }
+	mapname = g_strstrip(mapname);
+	bptr = get_token(bptr, token);
     bptr = get_token(bptr, token);
     automap->player = (MapNode *)atol(token);
     bptr = get_token(bptr, token);
@@ -2916,19 +3839,31 @@ static void load_automap_from_file (const gchar *filename, AutoMap *automap)
 
         if (is_numeric(token))
             break;
+		
+		map = g_malloc0(sizeof(Map));
 
-        bptr = get_token(bptr, token);
-        map = g_malloc0(sizeof(Map));
+        map->nodes = g_hash_table_new((GHashFunc)node_hash, (GCompareFunc)node_comp);
 
-        if (mapname && !strcmp(mapname, token))
+		bptr = get_token(bptr, token);
+		map->name = g_strdup("");
+		while (strcmp(token, "~map"))
+		{
+			tmp = g_strdup(map->name);
+			g_free(map->name);
+			map->name = g_malloc0(sizeof(map->name) + sizeof(token));
+ 			sprintf(map->name, "%s %s", tmp, token);
+			g_free(tmp);
+		
+			bptr = get_token(bptr, token);
+    	}
+				
+		map->name =	g_strstrip(map->name);
+		if (mapname && !strcmp(mapname, map->name))
         {
             g_free(mapname);
             mapname = NULL;
             automap->map = map;
         }
-
-        map->nodes = g_hash_table_new((GHashFunc)node_hash, (GCompareFunc)node_comp);
-        map->name = g_strdup(token);
 
         bptr = get_token(bptr, token);
         bptr = get_token(bptr, token);
@@ -2948,7 +3883,9 @@ static void load_automap_from_file (const gchar *filename, AutoMap *automap)
             map->nodelist = g_list_prepend(map->nodelist, (gpointer)atol(token));
         
         MapList = g_list_prepend(MapList, map);
-        maps = g_list_prepend(maps, map);
+        maps = g_list_append(maps, map);
+		
+		maplink_init_new_map(map);
     }
 
     bptr = buf;
@@ -2972,16 +3909,8 @@ static void load_automap_from_file (const gchar *filename, AutoMap *automap)
 
         bptr = get_token(bptr, token);
 
-        for (puck = MapList; puck != NULL; puck = puck->next)
-        {
-            map = puck->data;
-
-            if (!strcmp(token, map->name))
-                break;
-        }
-
-        node_hash_prepend(map->nodes, node);
-        node->map = map;
+        node->map = g_list_nth_data(maps, atol(token));
+        node_hash_prepend(node->map->nodes, node);
 
         if (num >= arr->len)
             g_ptr_array_set_size(arr, num + 1);
@@ -2992,10 +3921,109 @@ static void load_automap_from_file (const gchar *filename, AutoMap *automap)
         {
             bptr = get_token(bptr, token);
             bptr = get_token(bptr, token);
-            node->connections[num].node = (MapNode *)(atol(token) + 1);
-        }
-    } while ((bptr = fgets(buf, BUFSIZ, file)) != NULL);
+			
+			/* This means that the link is strange (can't be created with maplink_create */
+			if (token[0] == '*')
+			{
+				gchar* toktmp = token + 1;
+				node->connections[num].node = (MapNode *) atol(toktmp);
+				node->connections[num].link = (gpointer) TRUE;
+			}
+			else
+			{
+            	node->connections[num].node = (MapNode *) (atol(token) + 1);
+        		node->connections[num].link = NULL;
+			}
+		}
+		
+		g_strstrip(bptr);
+		while (bptr[0] != '\0')
+		{
+			gchar* path;
+			bptr = get_token(bptr, token);
+			path = g_strdup(token);
+			bptr = get_token(bptr, token);
+			if (!node->gates)
+				node->gates = g_hash_table_new(g_str_hash, g_str_equal);
+			g_hash_table_insert(node->gates, path, (MapNode*) atol(token));
+		}
 
+		bptr = fgets(buf, BUFSIZ, file);
+	} while (strcmp(bptr, "--Links--\n") != 0);
+
+	/* Pass 1, part 3:
+	 *
+	 * Parse the file to create the strange links_arr
+	 */
+	while ((bptr = fgets(buf, BUFSIZ, file)) != NULL)
+	{
+		Link *link = NULL, *prev = NULL;
+		Map *map;
+		guint index;
+		
+		bptr = get_token(bptr, token);
+		index = atol(token);
+		
+		bptr = get_token(bptr, token);
+		bptr = get_token(bptr, token);
+		map = g_list_nth_data(maps, atol(token));
+		
+		maplink_change_map(map);
+				
+		g_strstrip(bptr);
+		while (bptr[0] != '\0')
+		{
+			GList *list;
+			Pos* pos;	
+			guint x, y;
+			
+			/* Get the coords */
+			bptr = get_token(bptr, token);
+			x = atol(token);
+			
+			bptr = get_token(bptr, token);
+			y = atol(token);
+			
+			/* Create the link structure */
+			link = g_malloc0(sizeof(Link));
+			link->type = LK_PART;
+			link->x = x;
+			link->y = y;
+
+			/* Create a Pos structure for the hash */
+			pos = g_malloc0(sizeof(Pos));
+			pos->x = x;
+			pos->y = y;
+
+			/* Append to the built-in list */
+			if (prev)
+			{
+				prev->next = link;
+				link->prev = prev;
+				link->next = NULL;
+			}
+			else
+			{
+				link->prev = NULL;
+				link->next = NULL;
+			}
+
+			/* Append to the list gived by global hash */
+			list = g_hash_table_lookup(actual->link_table, pos);
+			list = g_list_append(list, link);
+			g_hash_table_steal(actual->link_table, pos); // Steal to avoid freeing the list with link_free_list
+			g_hash_table_insert(actual->link_table, pos, list);
+
+			/* Keep a pointer to the previous part */
+			prev = link;
+		}
+		
+		/* Add the link to the hash */
+		if (links->len < index + 1)
+			g_ptr_array_set_size(links, index + 1);
+		g_ptr_array_index(links, index) = link;
+	}
+	
     fclose(file);
 
     /* Pass 2, part 1:
@@ -3016,17 +4044,78 @@ static void load_automap_from_file (const gchar *filename, AutoMap *automap)
      * Go through all map nodes, substituting the node numbers for the
      * actual nodes
      */
+	data[0] = arr;
     for (i = 0; i < arr->len; i++)
     {
         MapNode *node = g_ptr_array_index(arr, i);
 
-        for (o = 0; o < 10; o++)
-            if (node->connections[o].node != NULL)
-                node->connections[o].node =
-                    g_ptr_array_index(arr, GPOINTER_TO_INT(node->connections[o].node) - 1);
-    }
+        for (o = 0; o < 8; o++)
+		{
+			if (node->connections[o].node != NULL && node->connections[o].link == NULL && GPOINTER_TO_INT(node->connections[o].node) < arr->len + 2)
+			{
+				MapNode* target = g_ptr_array_index(arr, GPOINTER_TO_INT(node->connections[o].node) - 1);
+				node->connections[o].node = NULL;
+				target->connections[OPPOSITE(o)].node = NULL;
+				maplink_create(node, target);
+			}
+			else if ((gboolean) node->connections[o].link == TRUE )
+			{
+				Link* opposite;
+				Link* link = g_ptr_array_index(links, (guint) node->connections[o].node);
+				link = link_reorder(link);
+				if (link->x == 2 * node->x && link->y == 2 * node->y && get_direction(link->x, link->y, link->next->x, link->next->y) == o)
+				{
+					link->node = node;
+					link->type = LK_NODE;
+					node->connections[o].link = link;
+					
+					opposite = link;
+					while (opposite->next)
+						opposite = opposite->next;
+					
+					if (opposite->node)
+					{
+						node->connections[o].node = opposite->node;
+						opposite->node->connections[get_direction(opposite->x, opposite->y, opposite->prev->x, opposite->prev->y)].node = node;
+					}
+				}
+				else
+				{
+					/* We assume that the good node is the other */
+					while (link->next)
+						link = link->next;
+					link = link_reorder(link);
+					
+					link->node = node;
+					link->type = LK_NODE;
+					node->connections[o].link = link;
+					
+					opposite = link;
+					while (opposite->next)
+						opposite = opposite->next;
+					
+					if (opposite->node)
+					{
+						node->connections[o].node = opposite->node;
+						opposite->node->connections[get_direction(opposite->x, opposite->y, opposite->prev->x, opposite->prev->y)].node = node;
+					}
+				}
+				
+			}
+		}
+		for (o = 8; o < 10; o++)
+		{
+			if (node->connections[o].node != NULL)
+				node->connections[o].node = g_ptr_array_index(arr, GPOINTER_TO_INT(node->connections[o].node) - 1);
+		}
+		data[1] = node;
+		if (node->gates)
+			g_hash_table_foreach(node->gates, (GHFunc) translate_path, data);			
+	}
+
 
     automap->player = g_ptr_array_index(arr, GPOINTER_TO_INT(automap->player));
+	maplink_change_map(automap->player->map);
     g_ptr_array_free(arr, TRUE);
     g_list_free(maps);
 

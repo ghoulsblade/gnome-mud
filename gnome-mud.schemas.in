@@ -264,6 +264,22 @@
 			</locale>
 		</schema>
 
+		<schema>
+			<key>/schemas/apps/gnome-mud/unusual_exits</key>
+			<applyto>/apps/gnome-mud/unusual_exits</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>path;in;out;town;farm;gates;gate;cave;valley;ruins;enter;hole;cottage</default>
+			<locale name="C">
+				<short>List of deplacement commands</short>
+				<long>
+				List of commands which will be treated as
+				deplacement by the automapper. A semicolon
+				is used between two commands
+				</long>
+			</locale>
+		</schema>
+
 		<!-- Profile specific -->
 		<schema>
 			<key>/schemas/apps/gnome-mud/profiles/Default/aliases</key>
@@ -312,6 +328,5 @@
 				<short>Keybinds</short>
 			</locale>
 		</schema>
-
 	</schemalist>
 </gconfschemafile>

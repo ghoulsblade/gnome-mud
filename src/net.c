@@ -69,6 +69,7 @@ extern bool		Keyflag;
 extern SYSTEM_DATA	prefs;
 extern CONNECTION_DATA	*main_connection;
 extern CONNECTION_DATA	*connections[15];
+extern GList        *AutoMapList;
 extern GtkWidget	*main_notebook;
 extern GtkWidget	*menu_main_disconnect;
 extern GList		*EntryHistory;
@@ -117,6 +118,12 @@ void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
    	connection_send (connection, check_vars (connection->profile->variables, a));
 	connection_send (connection, "\n");
 
+#ifndef WITHOUT_MAPPER	
+	GList* puck;
+	for (puck = AutoMapList; puck!= NULL; puck = puck->next)
+		user_command(puck->data, check_vars (connection->profile->variables, a));	
+#endif	
+	
 	g_free(a);
 }
 

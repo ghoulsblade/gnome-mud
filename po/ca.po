@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.0\n"
-"POT-Creation-Date: 2003-04-03 19:51+0200\n"
+"POT-Creation-Date: 2003-05-02 10:49+0200\n"
 "PO-Revision-Date: 2003-04-03 19:52+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -19,203 +19,203 @@ msgstr ""
 msgid "Failed to init GConf: %s"
 msgstr "No s'ha pogut iniciar GConf: %s"
 
-#: src/data.c:244
+#: src/data.c:245
 msgid "No void characters allowed."
 msgstr "No es permeten caràcters buïts."
 
 #. actions
-#: src/data.c:248 src/data.c:342
+#: src/data.c:249 src/data.c:343
 msgid "Actions"
 msgstr "Accions"
 
-#: src/data.c:250
+#: src/data.c:251
 #, c-format
 msgid "Character '%c' not allowed."
 msgstr "El caràcter '%c' no és permés."
 
-#: src/data.c:257 src/data.c:264
+#: src/data.c:258 src/data.c:265
 #, c-format
 msgid "%s too big."
 msgstr "%s és massa gran."
 
-#: src/data.c:271
+#: src/data.c:272
 #, c-format
 msgid "Can't duplicate %s."
 msgstr "No es pot duplicar %s."
 
 #. alias
-#: src/data.c:334
+#: src/data.c:335
 msgid "Alias"
 msgstr "Àlies"
 
-#: src/data.c:335
+#: src/data.c:336
 msgid "Replacement"
 msgstr "Substitució"
 
-#: src/data.c:343 src/profiles.c:1219 gnome-mud.schemas.in.h:30
+#: src/data.c:344 src/profiles.c:1219 gnome-mud.schemas.in.h:32
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:350 src/profiles.c:1212 gnome-mud.schemas.in.h:31
+#: src/data.c:351 src/profiles.c:1212 gnome-mud.schemas.in.h:33
 msgid "Variables"
 msgstr "Variables"
 
-#: src/data.c:351
+#: src/data.c:352
 msgid "Values"
 msgstr "Valors"
 
-#: src/data.c:358
+#: src/data.c:359
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
 msgstr ""
 "window_data: s'està tractant d'accedir a una regió de dades indefinida: %d"
 
-#: src/data.c:370
+#: src/data.c:371
 msgid "GNOME-Mud Configuration Centre"
 msgstr "Centre de Configuració del GNOME-Mud"
 
-#: src/init.c:79
+#: src/init.c:80
 msgid "Do you really want to quit?"
 msgstr "Esteu segur de voler sortir?"
 
-#: src/init.c:126 src/init.c:570
+#: src/init.c:127 src/init.c:577
 msgid "Connect..."
 msgstr "Connecta..."
 
-#: src/init.c:138 src/profiles.c:942
+#: src/init.c:139 src/profiles.c:942
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:144 src/profiles.c:962
+#: src/init.c:145 src/profiles.c:962
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:192
+#: src/init.c:193
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Error intern: no existeix la connexió.\n"
 
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:223
+#: src/init.c:224
 msgid "translator_credits"
 msgstr "Jordi Mallach <jordi@sindominio.net>"
 
-#: src/init.c:234 gnome-mud.desktop.in.h:1
+#: src/init.c:235 gnome-mud.desktop.in.h:1
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
 #. latin1 translators can use the copyright symbol here, see man latin1(7)
-#: src/init.c:236
+#: src/init.c:237
 msgid "(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
 msgstr "© 1998, 1999, 2000, 2001 2002, 2003 Robin Ericsson"
 
-#: src/init.c:237
+#: src/init.c:238
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Un client MUD (Multi-User Dungeon) per al GNOME.\n"
 
-#: src/init.c:250
+#: src/init.c:251
 msgid "GNOME-Mud home page"
 msgstr "Pàgina principal del GNOME-Mud"
 
-#: src/init.c:566
+#: src/init.c:573
 msgid "Wizard..."
 msgstr "Assistent..."
 
-#: src/init.c:568
+#: src/init.c:575
 msgid "Profiles..."
 msgstr "Perfils..."
 
-#: src/init.c:572
+#: src/init.c:579
 msgid "Disconnect"
 msgstr "Desconnecta"
 
-#: src/init.c:574
+#: src/init.c:581
 msgid "Reconnect"
 msgstr "Reconnecta"
 
-#: src/init.c:576
+#: src/init.c:583
 msgid "Exit"
 msgstr "Surt"
 
-#: src/init.c:581
+#: src/init.c:588
 msgid "Connection _Wizard..."
 msgstr "_Assistent de Connexions..."
 
-#: src/init.c:582
+#: src/init.c:589
 msgid "_MudList Listing..."
 msgstr "Llistes de la _MudList..."
 
-#: src/init.c:584
+#: src/init.c:591
 msgid "C_onnect..."
 msgstr "_Connecta..."
 
-#: src/init.c:585
+#: src/init.c:592
 msgid "_Disconnect"
 msgstr "_Desconnecta"
 
-#: src/init.c:586
+#: src/init.c:593
 msgid "_Reconnect"
 msgstr "_Reconnecta"
 
-#: src/init.c:588
+#: src/init.c:595
 msgid "S_tart Logging..."
 msgstr "Come_nça un log..."
 
-#: src/init.c:589
+#: src/init.c:596
 msgid "Sto_p Logging"
 msgstr "D_eixa de fer log"
 
-#: src/init.c:590
+#: src/init.c:597
 msgid "_Save Buffer..."
 msgstr "De_sa el búfer..."
 
-#: src/init.c:592
+#: src/init.c:599
 msgid "_Close Window"
 msgstr "_Tanca finestra"
 
-#: src/init.c:600
+#: src/init.c:607
 msgid "_Plugin Information..."
 msgstr "_Informació sobre Connectors..."
 
-#: src/init.c:605
+#: src/init.c:613
 msgid "Auto _Mapper..."
 msgstr "_Automapejador..."
 
-#: src/init.c:607
+#: src/init.c:616
 msgid "P_lugins"
 msgstr "_Connectors"
 
-#: src/init.c:614
+#: src/init.c:623
 msgid "User Manual"
 msgstr "Manual de l'usuari"
 
-#: src/init.c:615
+#: src/init.c:624
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Mostra el manual d'usuari del GNOME-Mud"
 
-#: src/init.c:619
+#: src/init.c:628
 msgid "Plugin API Manual"
 msgstr "Manual de l'API de connectors"
 
-#: src/init.c:620
+#: src/init.c:629
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "Mostra el manual de l'API de connectors de GNOME-Mud"
 
-#: src/init.c:669
+#: src/init.c:678
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:692
+#: src/init.c:701
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versió %s (compilat %s, %s)\n"
 
-#: src/init.c:694
+#: src/init.c:703
 msgid "Distributed under the terms of the GNU General Public Licence.\n"
 msgstr "Distribuït sota els termes de la Llicència Pública General GNU.\n"
 
-#: src/init.c:696
+#: src/init.c:705
 #, c-format
 msgid ""
 "\n"
@@ -232,27 +232,27 @@ msgstr "Heu d'utilitzar «captura» abans!"
 msgid "Can't add an existing key."
 msgstr "No es pot afegir una tecla ja existent."
 
-#: src/keybind.c:185
+#: src/keybind.c:187
 msgid "Incomplete fields."
 msgstr "Camps incomplets."
 
-#: src/keybind.c:308
+#: src/keybind.c:310
 msgid "GNOME-Mud Key Binding Centre"
 msgstr "Centre d'assignació de tecles del GNOME-Mud"
 
-#: src/keybind.c:325
+#: src/keybind.c:327
 msgid "Key"
 msgstr "Tecla"
 
-#: src/keybind.c:328 src/keybind.c:345 src/keybind.c:363
+#: src/keybind.c:330 src/keybind.c:347 src/keybind.c:365
 msgid "Command"
 msgstr "Ordre"
 
-#: src/keybind.c:341
+#: src/keybind.c:343
 msgid "Bind"
 msgstr "Assigna"
 
-#: src/keybind.c:357 src/keybind.c:378
+#: src/keybind.c:359 src/keybind.c:380
 msgid "Capture"
 msgstr "Captura"
 
@@ -292,64 +292,211 @@ msgstr "*** No s'ha pogut obrir el fitxer per escriptura.\n"
 msgid "Please select a log file..."
 msgstr "Si us plau sel·leccioneu un fitxer de log..."
 
+#. Free the create_link_data structure
+#: src/map.c:567
+msgid "Ready."
+msgstr ""
+
+#: src/map.c:568
+msgid "Canceled."
+msgstr ""
+
+#: src/map.c:600
+msgid "A link already exists here!"
+msgstr ""
+
+#. Create the hint label
+#: src/map.c:655 src/map.c:3526 src/map.c:3529
+msgid "Ready"
+msgstr ""
+
+#: src/map.c:656
+msgid "Link created"
+msgstr ""
+
+#: src/map.c:660
+#, fuzzy
+msgid "Can't create a node here"
+msgstr "Crea un nou perfil"
+
+#: src/map.c:888
+msgid "New Map"
+msgstr ""
+
+#: src/map.c:896
+msgid "Creating a path"
+msgstr ""
+
+#. The radio button (new map)
+#: src/map.c:904
+msgid "Path lead to a new map"
+msgstr ""
+
+#: src/map.c:911
+msgid "New map"
+msgstr ""
+
+#. The radio button (default)
+#: src/map.c:926
+msgid "Path follow already existing path:"
+msgstr ""
+
+#: src/map.c:946
+#, fuzzy
+msgid "Create"
+msgstr "Personatge"
+
+#: src/map.c:1107
+msgid "Enter in a path"
+msgstr ""
+
+#: src/map.c:1114
+#, fuzzy
+msgid "Create a new path:"
+msgstr "Crea un nou perfil"
+
+#: src/map.c:1129
+msgid "Enter in existing path:"
+msgstr ""
+
+#: src/map.c:1181
+msgid ""
+"This node has already 8 links. Destroy one of these before trying to create "
+"a new one"
+msgstr ""
+
+#. Change the automap state
+#: src/map.c:1188
+msgid "Enter to finish, Esc to quit"
+msgstr ""
+
+#: src/map.c:1189
+msgid "Use move buttons to build the link."
+msgstr ""
+
+#: src/map.c:1367
+msgid "Zoom In"
+msgstr ""
+
+#: src/map.c:1368
+msgid "Zoom Out"
+msgstr ""
+
+#: src/map.c:1369
+msgid "Configure Automap"
+msgstr ""
+
+#. Teleport here
+#: src/map.c:1409
+msgid "Teleport here"
+msgstr ""
+
+#.
+#. 			/* Set node properties */
+#. 	  		properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#. 			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#. 			gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#. Create new link
+#: src/map.c:1419
+#, fuzzy
+msgid "Create new link"
+msgstr "Crea un nou perfil"
+
+#: src/map.c:1426
+msgid "Enter"
+msgstr ""
+
 #. Can easily be optimised ... but why bother ?
-#: src/map.c:1042 src/map.c:2667
+#: src/map.c:1726 src/map.c:3554
 msgid "N"
 msgstr "N"
 
-#: src/map.c:1043 src/map.c:2668
+#: src/map.c:1727 src/map.c:3555
 msgid "NE"
 msgstr "NE"
 
-#: src/map.c:1044 src/map.c:2669
+#: src/map.c:1728 src/map.c:3556
 msgid "E"
 msgstr "E"
 
-#: src/map.c:1045 src/map.c:2670
+#: src/map.c:1729 src/map.c:3557
 msgid "SE"
 msgstr "SE"
 
-#: src/map.c:1046 src/map.c:2671
+#: src/map.c:1730 src/map.c:3558
 msgid "S"
 msgstr "S"
 
-#: src/map.c:1047 src/map.c:2672
+#: src/map.c:1731 src/map.c:3559
 msgid "SW"
 msgstr "SO"
 
-#: src/map.c:1048 src/map.c:2673
+#: src/map.c:1732 src/map.c:3560
 msgid "W"
 msgstr "O"
 
-#: src/map.c:1049 src/map.c:2674
+#: src/map.c:1733 src/map.c:3561
 msgid "NW"
 msgstr "NO"
 
-#: src/map.c:1050 src/map.c:2675
+#: src/map.c:1734 src/map.c:3562
 msgid "Up"
 msgstr "Dalt"
 
-#: src/map.c:1051 src/map.c:2676
+#: src/map.c:1735 src/map.c:3563
 msgid "Down"
 msgstr "Baix"
 
-#: src/map.c:1052 src/map.c:2664
+#: src/map.c:1736 src/map.c:3551
 msgid "Remove"
 msgstr "Llevar"
 
 #. Some buttons
-#: src/map.c:1053 src/map.c:2662
+#: src/map.c:1737 src/map.c:3549
 msgid "Load"
 msgstr "Carrega"
 
-#: src/map.c:1054 src/map.c:2663
+#: src/map.c:1738 src/map.c:3550
 msgid "Save"
 msgstr "Desa"
+
+#: src/map.c:2785
+#, fuzzy
+msgid "Load map"
+msgstr "Carrega"
+
+#: src/map.c:2785
+#, fuzzy
+msgid "Save map"
+msgstr "Desa"
+
+#: src/map.c:3034
+msgid "No link existed in that direction"
+msgstr ""
+
+#: src/map.c:3040
+msgid "Cannot break links to a node going up or down"
+msgstr ""
+
+#. It would seem this node already has a connection to here, That's
+#. * possible so we need to inform the user that his move is illegal.
+#.
+#: src/map.c:3148
+msgid "Destination node has already a connection here"
+msgstr ""
+
+#: src/map.c:3292
+msgid "Can't create a link to another floor!"
+msgstr ""
+
+#: src/map.c:3298
+msgid "There is already a link here!"
+msgstr ""
 
 #. Set the title
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
 #. gtk_window_set_title(GTK_WINDOW(automap->window), name);
-#: src/map.c:2560
+#: src/map.c:3434
 msgid "GNOME-Mud AutoMapper"
 msgstr "Automapejador del GNOME-Mud"
 
@@ -442,72 +589,72 @@ msgstr "Vés a la pàgina web del mud"
 msgid "Description :"
 msgstr "Descripció:"
 
-#: src/net.c:175
+#: src/net.c:182
 msgid "*** Connection closed.\n"
 msgstr "*** Connexió tancada.\n"
 
-#: src/net.c:187
+#: src/net.c:194
 msgid "*** Can't connect - you didn't specify a host.\n"
 msgstr "*** No es pot connectar - no s'ha especificat cap servidor.\n"
 
-#: src/net.c:193
+#: src/net.c:200
 msgid "*** No port specified - assuming port 23.\n"
 msgstr "*** No s'ha especificat cap port - s'asumeix el port 23.\n"
 
-#: src/net.c:208
+#: src/net.c:215
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** S'està realitzant la connexió a %s, port %s.\n"
 
-#: src/net.c:232
+#: src/net.c:239
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr "*** S'està provant de connectar a %s, port %s...\n"
 
-#: src/net.c:259
+#: src/net.c:266
 msgid "*** Connection established.\n"
 msgstr "*** Connexió establida.\n"
 
-#: src/prefs.c:224 src/prefs.c:340
+#: src/prefs.c:252 src/prefs.c:405
 #, c-format
 msgid "Palette had %d entries instead of %d\n"
 msgstr "La paleta tenia %d entrades en comptes de %d\n"
 
-#: src/prefs.c:286
+#: src/prefs.c:351
 #, c-format
 msgid "%s already exists and is not a directory!"
 msgstr "%s ja existeix i no és un directori!"
 
-#: src/prefs.c:295
+#: src/prefs.c:360
 #, c-format
 msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s no existeix i NO es pot crear: %s"
 
-#: src/prefs.c:530
+#: src/prefs.c:629
 msgid "Font:"
 msgstr "Tipus de lletra:"
 
-#: src/prefs.c:538
+#: src/prefs.c:637
 msgid "Main font that is used on all open connections."
 msgstr "Font principal que s'utilitza en totes les connexions obertes."
 
-#: src/prefs.c:541
+#: src/prefs.c:640
 msgid "The quick brown fox jumps over the lazy dog"
 msgstr "A la taula i al llit, al primer crit"
 
-#: src/prefs.c:545
+#: src/prefs.c:644
 msgid "Colour palette:"
 msgstr "Paleta de colors:"
 
-#: src/prefs.c:551
+#: src/prefs.c:650
 msgid "Background colour:"
 msgstr "Color de fons:"
 
-#: src/prefs.c:557
+#: src/prefs.c:656
 msgid "Foreground colour:"
 msgstr "Color del text:"
 
-#: src/prefs.c:565
+#: src/prefs.c:664
 msgid ""
 "Default foreground colour used when the connection doesn't request the use "
 "of a specific colour."
@@ -515,7 +662,7 @@ msgstr ""
 "El color del text per defecte utilitzat quan la connexió no especifica l'ús "
 "d'un altre color."
 
-#: src/prefs.c:574
+#: src/prefs.c:673
 msgid ""
 "Default background colour used when the connection doesn't request the use "
 "of a specific colour."
@@ -523,39 +670,39 @@ msgstr ""
 "El color de fons per defecte utilitzat quan la connexió no especifica l'ús "
 "d'un altre color."
 
-#: src/prefs.c:590
+#: src/prefs.c:689
 msgid "Change the colour of a specific colour that the MUD requests to use."
 msgstr "Canvia el color d'un color específic que el MUD demane utilitzar."
 
-#: src/prefs.c:632
+#: src/prefs.c:731
 msgid "on top"
 msgstr "amunt"
 
-#: src/prefs.c:632
+#: src/prefs.c:731
 msgid "on the right"
 msgstr "a la dreta"
 
-#: src/prefs.c:632
+#: src/prefs.c:731
 msgid "at the bottom"
 msgstr "avall"
 
-#: src/prefs.c:632
+#: src/prefs.c:731
 msgid "on the left"
 msgstr "a l'esquerra"
 
-#: src/prefs.c:651
+#: src/prefs.c:750
 msgid "GNOME-Mud Preferences"
 msgstr "Preferències del GNOME-Mud"
 
-#: src/prefs.c:665
+#: src/prefs.c:764
 msgid "Functionality"
 msgstr "Funcionalitats"
 
-#: src/prefs.c:671
+#: src/prefs.c:770
 msgid "_Echo the text sent"
 msgstr "_Mostra el text enviat"
 
-#: src/prefs.c:675 gnome-mud.schemas.in.h:15
+#: src/prefs.c:774 gnome-mud.schemas.in.h:15
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
@@ -563,11 +710,11 @@ msgstr ""
 "Si s'habilita, tot el text que s'envii es mostrarà en la terminal, fent més "
 "fàcil el control del que s'està enviant."
 
-#: src/prefs.c:682
+#: src/prefs.c:781
 msgid "_Keep the text entered"
 msgstr "_Mantin el text introduït"
 
-#: src/prefs.c:686 gnome-mud.schemas.in.h:16
+#: src/prefs.c:785 gnome-mud.schemas.in.h:16
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
@@ -577,11 +724,12 @@ msgstr ""
 "selecció en el camp d'entrada. Si no, el camp d'entrada de text es netejarà "
 "després de cada introducció de text."
 
-#: src/prefs.c:693
-msgid "Disable System Keys"
+#: src/prefs.c:792
+#, fuzzy
+msgid "Disable _System Keys"
 msgstr "Deshabilita les tecles del sistema"
 
-#: src/prefs.c:697 gnome-mud.schemas.in.h:14
+#: src/prefs.c:796 gnome-mud.schemas.in.h:14
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
 "overridden by custom keybinds, or they can be disabled completely with this "
@@ -591,11 +739,11 @@ msgstr ""
 "Aquestes assignacions es poden reemplaçar amb les vostres assignacions "
 "personalitzades, o poden ser deshabilitades per complet amb aquesta opció."
 
-#: src/prefs.c:706
+#: src/prefs.c:805
 msgid "Command division character:"
 msgstr "Caràcter de divisió d'ordres:"
 
-#: src/prefs.c:711
+#: src/prefs.c:810
 msgid ""
 "The character used to divide commands sent to the mud. For example, \";\", "
 "will let the string \"w;look\" be sent to the mud as 2 separate commands."
@@ -604,19 +752,19 @@ msgstr ""
 "exemple, «;» farà que la cadena «w;look» s'envie al MUD com dos ordres "
 "separades."
 
-#: src/prefs.c:721
+#: src/prefs.c:820
 msgid "Command history:"
 msgstr "Historia d'ordres:"
 
-#: src/prefs.c:727
+#: src/prefs.c:826
 msgid "The number of entries to be saved in the command history."
 msgstr "El nom de la connexió que apareixerà a la llista de connexions."
 
-#: src/prefs.c:735
+#: src/prefs.c:834
 msgid "Terminal type:"
 msgstr "Tipus de terminal:"
 
-#: src/prefs.c:742 gnome-mud.schemas.in.h:12
+#: src/prefs.c:841 gnome-mud.schemas.in.h:12
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
@@ -624,32 +772,32 @@ msgstr ""
 "GNOME-Mud tractarà de transmetre un tipus de terminal (com ANSI o VT100) si "
 "el MUD demana un. Aquesta opció estableix el tipus de terminal que s'enviarà."
 
-#: src/prefs.c:750
+#: src/prefs.c:849
 msgid "MudList file:"
 msgstr "Fitxer amb la MudList:"
 
-#: src/prefs.c:753
+#: src/prefs.c:852
 msgid "Select a MudList File..."
 msgstr "Seleccioneu un fitxer de MudList..."
 
-#: src/prefs.c:755
+#: src/prefs.c:854
 msgid "Mudlist file to be used for the mudlist functionality."
 msgstr ""
 "El fitxer de MudList que utilitzarà per a la funcionalitat de llistat de MUD."
 
-#: src/prefs.c:764
+#: src/prefs.c:863
 msgid "Colour and Fonts"
 msgstr "Colors i fonts"
 
-#: src/prefs.c:772
+#: src/prefs.c:871
 msgid "Appearance"
 msgstr "Apariència"
 
-#: src/prefs.c:781
+#: src/prefs.c:880
 msgid "Tabs are located:"
 msgstr "Les pestanyes es troben:"
 
-#: src/prefs.c:794
+#: src/prefs.c:893
 msgid ""
 "This settings defines where to place the connection tabs that are used the "
 "change active connection."
@@ -657,29 +805,45 @@ msgstr ""
 "Aquesta configuració estableix on apareixen les pestanyes de connexions que "
 "s'utilitzen per a canviar la connexió activa."
 
-#: src/prefs.c:805
+#: src/prefs.c:904
 msgid "Scrollback:"
 msgstr "Desplaçament:"
 
-#: src/prefs.c:811
+#: src/prefs.c:910
 msgid "Number of lines to save in the scrollback."
 msgstr "Número de línies a desar en el desplaçament."
 
-#: src/prefs.c:815
+#: src/prefs.c:914
 msgid "lines"
 msgstr "línies"
 
-#: src/prefs.c:821
+#: src/prefs.c:920
 msgid "S_croll on output"
 msgstr "_Desplaça en sortida"
 
-#: src/prefs.c:823
+#: src/prefs.c:922
 msgid ""
 "If enabled, the terminal will scroll to the bottom if new output appears in "
 "the connection when the terminal was scrolled back."
 msgstr ""
 "Si s'habilita, el terminal es desplaçarà avall si apareix text nou en la "
 "connexió quan el terminal estava desplaçat cap enrere."
+
+#: src/prefs.c:933
+#, fuzzy
+msgid "AutoMapper"
+msgstr "_Automapejador..."
+
+#: src/prefs.c:947
+msgid "Unusual deplacement commands:"
+msgstr ""
+
+#: src/prefs.c:954
+msgid ""
+"If you use the automapper, you may want specifying here some unusual "
+"deplacement commands. When you use one of these, the automapper will create "
+"a path to an other map. Use a semicolon to separate the different commands."
+msgstr ""
 
 #: src/profiles.c:283
 msgid "New profile"
@@ -882,10 +1046,16 @@ msgid "Last log dir"
 msgstr "Últim directori de registres"
 
 #: gnome-mud.schemas.in.h:20
+msgid ""
+"List of commands which will be treated as deplacement by the automapper. A "
+"semicolon is used between two commands"
+msgstr ""
+
+#: gnome-mud.schemas.in.h:21
 msgid "List of connections"
 msgstr "Llista de connexions"
 
-#: gnome-mud.schemas.in.h:21
+#: gnome-mud.schemas.in.h:22
 msgid ""
 "List of connections known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/connections."
@@ -893,25 +1063,31 @@ msgstr ""
 "Llista de connexions conegudes per GNOME-Mud. La llista conté cadenes amb "
 "els noms dels subdirectoris rel·latius a /apps/gnome-mud/connections."
 
-#: gnome-mud.schemas.in.h:22
+#: gnome-mud.schemas.in.h:23
+msgid "List of deplacement commands"
+msgstr ""
+
+#: gnome-mud.schemas.in.h:24
 msgid "List of profiles"
 msgstr "Llista de perfils"
 
-#: gnome-mud.schemas.in.h:23
+#: gnome-mud.schemas.in.h:25
 msgid ""
 "List of profiles known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/profiles."
-msgstr "Llista de perfils coneguts per GNOME-Mud. Aquesta llista conté cadenes amb els noms dels subdirectoris rel·latius a /apps/gnome-mud/profiles."
+msgstr ""
+"Llista de perfils coneguts per GNOME-Mud. Aquesta llista conté cadenes amb "
+"els noms dels subdirectoris rel·latius a /apps/gnome-mud/profiles."
 
-#: gnome-mud.schemas.in.h:24
+#: gnome-mud.schemas.in.h:26
 msgid "Mudlist file"
 msgstr "Fitxer de Mudlist"
 
-#: gnome-mud.schemas.in.h:25
+#: gnome-mud.schemas.in.h:27
 msgid "Number of lines to keep in scrollback"
 msgstr "Número de línies a desar en el desplaçament"
 
-#: gnome-mud.schemas.in.h:26
+#: gnome-mud.schemas.in.h:28
 msgid ""
 "Number of scrollback lines to keep around. You can scroll back in the "
 "terminal by this number of lines; lines that don't fit in the scrollback are "
@@ -921,15 +1097,15 @@ msgstr ""
 "terminal aquest número de línies; les línies que no caben en el desplaçament "
 "es descarten."
 
-#: gnome-mud.schemas.in.h:27
+#: gnome-mud.schemas.in.h:29
 msgid "Tab location"
 msgstr "Ubicació de les pestanyes"
 
-#: gnome-mud.schemas.in.h:28
+#: gnome-mud.schemas.in.h:30
 msgid "Terminal type"
 msgstr "Tipus de terminal"
 
-#: gnome-mud.schemas.in.h:29
+#: gnome-mud.schemas.in.h:31
 msgid ""
 "The location of the connection tabs. Valid options are \"left\", \"right\", "
 "\"top\" and \"bottom\"."
@@ -937,19 +1113,19 @@ msgstr ""
 "La ubicació de les pestanyes de connexions. Les opcions vàlides són «left», "
 "«right», «top» i «bottom»."
 
-#: gnome-mud.schemas.in.h:32
+#: gnome-mud.schemas.in.h:34
 msgid "Whether to echo sent text to the connection"
 msgstr "Si s'ha de mostrar el text enviat a la connexió"
 
-#: gnome-mud.schemas.in.h:33
+#: gnome-mud.schemas.in.h:35
 msgid "Whether to enable or disable the system keys"
 msgstr "Si s'han d'habilitar les tecles del sistema"
 
-#: gnome-mud.schemas.in.h:34
+#: gnome-mud.schemas.in.h:36
 msgid "Whether to keep text sent to the connection"
 msgstr "Si s'ha de mantindre el text enviat a la connexió."
 
-#: gnome-mud.schemas.in.h:35
+#: gnome-mud.schemas.in.h:37
 msgid "Whether to scroll to the bottom when there's new output"
 msgstr "Si s'ha de desplaçar avall quan es produeix nova sortida."
 

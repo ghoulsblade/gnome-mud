@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME-MUD 0.10.0\n"
-"POT-Creation-Date: 2003-04-02 10:33+0200\n"
-"PO-Revision-Date: 2003-04-02 10:37+0200\n"
+"POT-Creation-Date: 2003-05-02 10:49+0200\n"
+"PO-Revision-Date: 2003-05-02 11:08+0200\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,202 +18,202 @@ msgstr ""
 msgid "Failed to init GConf: %s"
 msgstr "Initiering av GConf misslyckades: %s"
 
-#: src/data.c:244
+#: src/data.c:245
 msgid "No void characters allowed."
 msgstr "Inga tomma tecken tillåtna."
 
 #. actions
-#: src/data.c:248 src/data.c:342
+#: src/data.c:249 src/data.c:343
 msgid "Actions"
 msgstr "Actions"
 
-#: src/data.c:250
+#: src/data.c:251
 #, c-format
 msgid "Character '%c' not allowed."
 msgstr "Tecken '%c' är inte tillåtet"
 
-#: src/data.c:257 src/data.c:264
+#: src/data.c:258 src/data.c:265
 #, c-format
 msgid "%s too big."
 msgstr "%s är för stort."
 
-#: src/data.c:271
+#: src/data.c:272
 #, c-format
 msgid "Can't duplicate %s."
 msgstr "Kan inte duplicera %s."
 
 #. alias
-#: src/data.c:334
+#: src/data.c:335
 msgid "Alias"
 msgstr "Alias"
 
-#: src/data.c:335
+#: src/data.c:336
 msgid "Replacement"
 msgstr "Ersättning"
 
-#: src/data.c:343 src/profiles.c:1180 gnome-mud.schemas.in.h:26
+#: src/data.c:344 src/profiles.c:1219 gnome-mud.schemas.in.h:32
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:350 src/profiles.c:1173 gnome-mud.schemas.in.h:27
+#: src/data.c:351 src/profiles.c:1212 gnome-mud.schemas.in.h:33
 msgid "Variables"
 msgstr "Variabler"
 
-#: src/data.c:351
+#: src/data.c:352
 msgid "Values"
 msgstr "Värden"
 
-#: src/data.c:358
+#: src/data.c:359
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
 msgstr "window_data: försöker få access till undefinerat data område: %d"
 
-#: src/data.c:370
+#: src/data.c:371
 msgid "GNOME-Mud Configuration Centre"
 msgstr "GNOME-Mud Inställnings Center"
 
-#: src/init.c:79
+#: src/init.c:80
 msgid "Do you really want to quit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/init.c:126 src/init.c:557
+#: src/init.c:127 src/init.c:577
 msgid "Connect..."
 msgstr "Anslut..."
 
-#: src/init.c:138 src/profiles.c:903
+#: src/init.c:139 src/profiles.c:942
 msgid "Host:"
 msgstr "Adress:"
 
-#: src/init.c:144 src/profiles.c:923
+#: src/init.c:145 src/profiles.c:962
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:192
+#: src/init.c:193
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Internt fel: ingen anslutning.\n"
 
-#: src/init.c:211
-msgid "Robin Ericsson <lobbin@localhost.nu>"
-msgstr "Robin Ericsson <lobbin@localhost.nu>"
-
-#: src/init.c:212 src/init.c:217
-msgid "Jordi Mallach <jordi@sindominio.net>"
-msgstr "Jordi Mallach <jordi@sindominio.net>"
-
-#: src/init.c:213 src/init.c:218
-msgid "Petter E. Stokke <gibreel@project23.no>"
-msgstr "Petter E. Stokke <gibreel@project23.no>"
-
-#: src/init.c:214
-msgid "Rachael Munns <vashti@dream.org.uk>"
-msgstr "Rachael Munns <vashti@dream.org.uk>"
-
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:223
+#: src/init.c:224
 msgid "translator_credits"
 msgstr "© 2003 Robin Ericsson"
 
-#: src/init.c:234 gnome-mud.desktop.in.h:1
+#: src/init.c:235 gnome-mud.desktop.in.h:1
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
 #. latin1 translators can use the copyright symbol here, see man latin1(7)
-#: src/init.c:236
-msgid "(C) 1998-2002 Robin Ericsson"
-msgstr " © 1998-2002 Robin Ericsson"
-
 #: src/init.c:237
+msgid "(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
+msgstr " © 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
+
+#: src/init.c:238
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "En MUD-klient byggd på GTK+/GNOME libbar.\n"
 
-#: src/init.c:250
+#: src/init.c:251
 msgid "GNOME-Mud home page"
 msgstr "GNOME-Mud's hemsida"
 
-#: src/init.c:553
+#: src/init.c:573
 msgid "Wizard..."
 msgstr "Wizard..."
 
-#: src/init.c:555
+#: src/init.c:575
 msgid "Profiles..."
 msgstr "Profiler..."
 
-#: src/init.c:559
+#: src/init.c:579
 msgid "Disconnect"
 msgstr "Koppla från"
 
-#: src/init.c:561
+#: src/init.c:581
 msgid "Reconnect"
 msgstr "Återanslut"
 
-#: src/init.c:563
+#: src/init.c:583
 msgid "Exit"
 msgstr "Avsluta"
 
-#: src/init.c:568
+#: src/init.c:588
 msgid "Connection _Wizard..."
 msgstr "Anslutnings _Lista..."
 
-#: src/init.c:569
+#: src/init.c:589
 msgid "_MudList Listing..."
 msgstr "_MudList lista..."
 
-#: src/init.c:571
+#: src/init.c:591
 msgid "C_onnect..."
 msgstr "_Anslut..."
 
-#: src/init.c:572
+#: src/init.c:592
 msgid "_Disconnect"
 msgstr "_Koppla från"
 
-#: src/init.c:573
+#: src/init.c:593
 msgid "_Reconnect"
 msgstr "_Återanslut"
 
-#: src/init.c:575
+#: src/init.c:595
 msgid "S_tart Logging..."
 msgstr "S_tarta Loggning..."
 
-#: src/init.c:576
+#: src/init.c:596
 msgid "Sto_p Logging"
 msgstr "Sto_ppa Loggning..."
 
-#: src/init.c:577
+#: src/init.c:597
 msgid "_Save Buffer..."
 msgstr "_Spara log..."
 
-#: src/init.c:579
+#: src/init.c:599
 msgid "_Close Window"
 msgstr "_Stäng fönster"
 
-#: src/init.c:587
+#: src/init.c:607
 msgid "_Plugin Information..."
 msgstr "_Plugin Information..."
 
-#: src/init.c:592
+#: src/init.c:613
 msgid "Auto _Mapper..."
 msgstr "_Kart Genererare..."
 
-#: src/init.c:594
+#: src/init.c:616
 msgid "P_lugins"
 msgstr "P_lugins"
 
-#: src/init.c:648
+#: src/init.c:623
+msgid "User Manual"
+msgstr "Användar manual"
+
+#: src/init.c:624
+msgid "Display the GNOME-Mud User Manual"
+msgstr "Öppna GNOME-Mud användarmanual"
+
+#: src/init.c:628
+msgid "Plugin API Manual"
+msgstr "Plugin API Manual"
+
+#: src/init.c:629
+msgid "Display the GNOME-Mud Plugin API Manual"
+msgstr "Visa GNOME-Mud Plugin-API Manual"
+
+#: src/init.c:678
 msgid "Main"
 msgstr "Arkiv"
 
-#: src/init.c:671
+#: src/init.c:701
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud version %s (kompilerad %s, %s)\n"
 
-#: src/init.c:673
+#: src/init.c:703
 msgid "Distributed under the terms of the GNU General Public Licence.\n"
 msgstr "Distribuerad under GNU General Public License.\n"
 
-#: src/init.c:675
+#: src/init.c:705
 #, c-format
 msgid ""
 "\n"
@@ -231,27 +231,27 @@ msgstr "Du måste fånga en knapp-kombination först!"
 msgid "Can't add an existing key."
 msgstr "Kan inte lägga till en existerande snabbtangent."
 
-#: src/keybind.c:185
+#: src/keybind.c:187
 msgid "Incomplete fields."
 msgstr "Inkompletta fält."
 
-#: src/keybind.c:308
+#: src/keybind.c:310
 msgid "GNOME-Mud Key Binding Centre"
 msgstr "GNOME-Mud Snabbtangent Center"
 
-#: src/keybind.c:325
+#: src/keybind.c:327
 msgid "Key"
 msgstr "Tangent"
 
-#: src/keybind.c:328 src/keybind.c:345 src/keybind.c:363
+#: src/keybind.c:330 src/keybind.c:347 src/keybind.c:365
 msgid "Command"
 msgstr "Kommando"
 
-#: src/keybind.c:341
+#: src/keybind.c:343
 msgid "Bind"
 msgstr "Bind"
 
-#: src/keybind.c:357 src/keybind.c:378
+#: src/keybind.c:359 src/keybind.c:380
 msgid "Capture"
 msgstr "Fånga"
 
@@ -291,64 +291,206 @@ msgstr "*** Kan inte öppna för att skriva till filen.\n"
 msgid "Please select a log file..."
 msgstr "Välj logfil..."
 
+#. Free the create_link_data structure
+#: src/map.c:567
+msgid "Ready."
+msgstr "Klar."
+
+#: src/map.c:568
+msgid "Canceled."
+msgstr "Avbruten."
+
+#: src/map.c:600
+msgid "A link already exists here!"
+msgstr "En länk existerar redan här!"
+
+#. Create the hint label
+#: src/map.c:655 src/map.c:3526 src/map.c:3529
+msgid "Ready"
+msgstr "Klar"
+
+#: src/map.c:656
+msgid "Link created"
+msgstr "Länk skapad"
+
+#: src/map.c:660
+msgid "Can't create a node here"
+msgstr "Kan inte skapa en nod här"
+
+#: src/map.c:888
+msgid "New Map"
+msgstr "Ny karta"
+
+#: src/map.c:896
+msgid "Creating a path"
+msgstr "Skapa en stig"
+
+#. The radio button (new map)
+#: src/map.c:904
+msgid "Path lead to a new map"
+msgstr "Stigen leder till en ny karta"
+
+#: src/map.c:911
+msgid "New map"
+msgstr "Ny karta"
+
+#. The radio button (default)
+#: src/map.c:926
+msgid "Path follow already existing path:"
+msgstr "Stigen använder redan existerande stig:"
+
+#: src/map.c:946
+msgid "Create"
+msgstr "Skapa"
+
+#: src/map.c:1107
+msgid "Enter in a path"
+msgstr "Följ en stig"
+
+#: src/map.c:1114
+msgid "Create a new path:"
+msgstr "Skapa en ny stig:"
+
+#: src/map.c:1129
+msgid "Enter in existing path:"
+msgstr "Följ existerande stig:"
+
+#: src/map.c:1181
+msgid ""
+"This node has already 8 links. Destroy one of these before trying to create "
+"a new one"
+msgstr ""
+"Denna noden har redan 8 länkar. Förstör en av dessa innan du skapar en ny"
+
+#. Change the automap state
+#: src/map.c:1188
+msgid "Enter to finish, Esc to quit"
+msgstr "Enter för klar, Esc för ångra"
+
+#: src/map.c:1189
+msgid "Use move buttons to build the link."
+msgstr "Använd flytta knappar för att bygga länken"
+
+#: src/map.c:1367
+msgid "Zoom In"
+msgstr "Zooma in"
+
+#: src/map.c:1368
+msgid "Zoom Out"
+msgstr "Zooma ut"
+
+#: src/map.c:1369
+msgid "Configure Automap"
+msgstr "Konfigurera Automap"
+
+#. Teleport here
+#: src/map.c:1409
+msgid "Teleport here"
+msgstr "Teleportera hit"
+
+#.
+#. 			/* Set node properties */
+#. 	  		properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#. 			gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#. 			gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#. Create new link
+#: src/map.c:1419
+msgid "Create new link"
+msgstr "Skapa ny länk"
+
+#: src/map.c:1426
+msgid "Enter"
+msgstr "Gå igenom"
+
 #. Can easily be optimised ... but why bother ?
-#: src/map.c:1042 src/map.c:2667
+#: src/map.c:1726 src/map.c:3554
 msgid "N"
 msgstr "N"
 
-#: src/map.c:1043 src/map.c:2668
+#: src/map.c:1727 src/map.c:3555
 msgid "NE"
 msgstr "NÖ"
 
-#: src/map.c:1044 src/map.c:2669
+#: src/map.c:1728 src/map.c:3556
 msgid "E"
 msgstr "Ö"
 
-#: src/map.c:1045 src/map.c:2670
+#: src/map.c:1729 src/map.c:3557
 msgid "SE"
 msgstr "SÖ"
 
-#: src/map.c:1046 src/map.c:2671
+#: src/map.c:1730 src/map.c:3558
 msgid "S"
 msgstr "S"
 
-#: src/map.c:1047 src/map.c:2672
+#: src/map.c:1731 src/map.c:3559
 msgid "SW"
 msgstr "SV"
 
-#: src/map.c:1048 src/map.c:2673
+#: src/map.c:1732 src/map.c:3560
 msgid "W"
 msgstr "V"
 
-#: src/map.c:1049 src/map.c:2674
+#: src/map.c:1733 src/map.c:3561
 msgid "NW"
 msgstr "NV"
 
-#: src/map.c:1050 src/map.c:2675
+#: src/map.c:1734 src/map.c:3562
 msgid "Up"
 msgstr "Upp"
 
-#: src/map.c:1051 src/map.c:2676
+#: src/map.c:1735 src/map.c:3563
 msgid "Down"
 msgstr "Ner"
 
-#: src/map.c:1052 src/map.c:2664
+#: src/map.c:1736 src/map.c:3551
 msgid "Remove"
 msgstr "Ta bort"
 
 #. Some buttons
-#: src/map.c:1053 src/map.c:2662
+#: src/map.c:1737 src/map.c:3549
 msgid "Load"
 msgstr "Ladda"
 
-#: src/map.c:1054 src/map.c:2663
+#: src/map.c:1738 src/map.c:3550
 msgid "Save"
 msgstr "Spara"
+
+#: src/map.c:2785
+msgid "Load map"
+msgstr "Ladda karta"
+
+#: src/map.c:2785
+msgid "Save map"
+msgstr "Spara karta"
+
+#: src/map.c:3034
+msgid "No link existed in that direction"
+msgstr "Ingen länk existerar i den riktningen"
+
+#: src/map.c:3040
+msgid "Cannot break links to a node going up or down"
+msgstr "Kan inte ta bort länk till en nod som går upp eller ner"
+
+#. It would seem this node already has a connection to here, That's
+#. * possible so we need to inform the user that his move is illegal.
+#.
+#: src/map.c:3148
+msgid "Destination node has already a connection here"
+msgstr "Mål-nod har redan en anslutning här"
+
+#: src/map.c:3292
+msgid "Can't create a link to another floor!"
+msgstr "Kan inte skapa en länk till en annan våning!"
+
+#: src/map.c:3298
+msgid "There is already a link here!"
+msgstr "Det finns redan en länk här!"
 
 #. Set the title
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
 #. gtk_window_set_title(GTK_WINDOW(automap->window), name);
-#: src/map.c:2560
+#: src/map.c:3434
 msgid "GNOME-Mud AutoMapper"
 msgstr "GNOME-Mud KartGenererare"
 
@@ -441,138 +583,139 @@ msgstr "Hemsida till mud"
 msgid "Description :"
 msgstr "Beskrivning : "
 
-#: src/net.c:175
+#: src/net.c:182
 msgid "*** Connection closed.\n"
 msgstr "*** Anslutning avslutad.\n"
 
-#: src/net.c:187
+#: src/net.c:194
 msgid "*** Can't connect - you didn't specify a host.\n"
 msgstr "*** Kan inte ansluta - du angav ingen adress\n"
 
-#: src/net.c:193
+#: src/net.c:200
 msgid "*** No port specified - assuming port 23.\n"
 msgstr "*** Ingen port - antar port 23.\n"
 
-#: src/net.c:208
+#: src/net.c:215
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** Försöker ansluta till %s, port %s.\n"
 
-#: src/net.c:232
+#: src/net.c:239
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr "*** Ansluter %s port %s...\n"
 
-#: src/net.c:259
+#: src/net.c:266
 msgid "*** Connection established.\n"
 msgstr "*** Anslutning etablerad.\n"
 
-#: src/prefs.c:224 src/prefs.c:340
+#: src/prefs.c:252 src/prefs.c:405
 #, c-format
 msgid "Palette had %d entries instead of %d\n"
 msgstr "Paletten hade %d fält, istället för %d\n"
 
-#: src/prefs.c:286
+#: src/prefs.c:351
 #, c-format
 msgid "%s already exists and is not a directory!"
 msgstr "%s finns redan, och är inte en katalog!"
 
-#: src/prefs.c:295
+#: src/prefs.c:360
 #, c-format
 msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s finns inte, och kan INTE skapas: %s"
 
-#: src/prefs.c:530
+#: src/prefs.c:629
 msgid "Font:"
 msgstr "Font:"
 
-#: src/prefs.c:538
+#: src/prefs.c:637
 msgid "Main font that is used on all open connections."
 msgstr "Huvudfont som används på alla anslutningar."
 
-#: src/prefs.c:541
+#: src/prefs.c:640
 msgid "The quick brown fox jumps over the lazy dog"
 msgstr "The quick brown fox jumps over the lazy dog"
 
-#: src/prefs.c:545
+#: src/prefs.c:644
 msgid "Colour palette:"
 msgstr "Färg Palette"
 
-#: src/prefs.c:551
+#: src/prefs.c:650
 msgid "Background colour:"
 msgstr "Backgrunds färg:"
 
-#: src/prefs.c:557
+#: src/prefs.c:656
 msgid "Foreground colour:"
 msgstr "Förgrunds färg:"
 
-#: src/prefs.c:565
+#: src/prefs.c:664
 msgid ""
-"Default foreground color used when the connection doesn't tell us to use "
-"another font."
+"Default foreground colour used when the connection doesn't request the use "
+"of a specific colour."
 msgstr ""
-"Standard fontfärg som används när anslutingen inte säger till oss att använda "
-"en annan färg."
+"Standard fontfärg som används när anslutingen inte säger till oss att "
+"använda en annan färg."
 
-#: src/prefs.c:573
+#: src/prefs.c:673
 msgid ""
-"Default background color used when the connection doesn't tell us to use "
-"another font."
+"Default background colour used when the connection doesn't request the use "
+"of a specific colour."
 msgstr ""
 "Standard bakgrundfärg som används när anslutningen inte säger till att "
 "använda någon annan."
 
-#: src/prefs.c:588
-msgid "Change the color of a specific color that the mud tells us to use."
+#: src/prefs.c:689
+msgid "Change the colour of a specific colour that the MUD requests to use."
 msgstr ""
 "Ändra specifika färger som används när anslutningen säger till oss att byta "
 "färg."
 
-#: src/prefs.c:630
+#: src/prefs.c:731
 msgid "on top"
 msgstr "ovanför"
 
-#: src/prefs.c:630
+#: src/prefs.c:731
 msgid "on the right"
 msgstr "till höger"
 
-#: src/prefs.c:630
+#: src/prefs.c:731
 msgid "at the bottom"
 msgstr "nedanför"
 
-#: src/prefs.c:630
+#: src/prefs.c:731
 msgid "on the left"
 msgstr "till vänster"
 
-#: src/prefs.c:649
+#: src/prefs.c:750
 msgid "GNOME-Mud Preferences"
 msgstr "GNOME-Mud Inställningar"
 
-#: src/prefs.c:663
+#: src/prefs.c:764
 msgid "Functionality"
 msgstr "Funktionalitet"
 
-#: src/prefs.c:669
-msgid "Echo the text sent?"
+#: src/prefs.c:770
+msgid "_Echo the text sent"
 msgstr "Skriva ut sänd data?"
 
-#: src/prefs.c:673 gnome-mud.schemas.in.h:32
+#: src/prefs.c:774 gnome-mud.schemas.in.h:15
 msgid ""
-"With this toggled on, all the text you type and enter will be echoed on the "
-"connection so you can control what you are sending."
+"If enabled, all the text typed in will be echoed in the terminal, making it "
+"easier to control what is sent."
 msgstr ""
-"Men denna påslagen, kommer att text du skriver och skickar att skrivas ut så\n"
+"Men denna påslagen, kommer att text du skriver och skickar att skrivas ut "
+"så\n"
 "du kan se vad du skickar."
 
-#: src/prefs.c:680
-msgid "Keep the text entered?"
+#: src/prefs.c:781
+msgid "_Keep the text entered"
 msgstr "Spara inskriven text?"
 
-#: src/prefs.c:684 gnome-mud.schemas.in.h:33
+#: src/prefs.c:785 gnome-mud.schemas.in.h:16
 msgid ""
-"With this toggled on, the text you have entered and sent to the connection, "
-"will be left in the entry box but selected. Turn this off to remove the text "
-"after it has been sent."
+"If enabled, the text that is sent to the connection will be left as a "
+"selection in the entry box. Otherwise, the text entry box will be cleared "
+"after each text input."
 msgstr ""
 "Med denna påslagen kommer texten du matade in att stanna kvar i "
 "inmatningsfältet\n"
@@ -580,223 +723,242 @@ msgstr ""
 "texten \n"
 "efter den har blivit skickad."
 
-#: src/prefs.c:691
-msgid "Disable Systemkeys?"
+#: src/prefs.c:792
+msgid "Disable _System Keys"
 msgstr "Stäng av systemalias?"
 
-#: src/prefs.c:695 gnome-mud.schemas.in.h:12
+#: src/prefs.c:796 gnome-mud.schemas.in.h:14
 msgid ""
-"GNOME-Mud ships with a few built-in keybinds. These keybinds can be "
-"overridden by own keybinds, or they can be disabled by toggling this checkbox"
+"If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
+"overridden by custom keybinds, or they can be disabled completely with this "
+"option."
 msgstr ""
-"GNOME-Mud kommer med några inbyggda alias. Dessa alias kan överanvändas eller "
-"de kan bli avstängda genom denna checkbox"
+"GNOME-Mud kommer med några inbyggda alias. Dessa alias kan överanvändas "
+"eller de kan bli avstängda genom denna checkbox"
 
-#: src/prefs.c:704
-msgid "Command divide char:"
+#: src/prefs.c:805
+msgid "Command division character:"
 msgstr "Kommando uppdelnings tecken:"
 
-#: src/prefs.c:709
+#: src/prefs.c:810
 msgid ""
-"This character is used to separed commands sent to the mud. Example ';', will "
-"let the user input \"w;look\" be sent to the mud at 2 separate commands."
+"The character used to divide commands sent to the mud. For example, \";\", "
+"will let the string \"w;look\" be sent to the mud as 2 separate commands."
 msgstr ""
-"Ett tecken som används för att upp kommandon i en sträng av typen "
-"\"w;w;w;l\", som kommer att skickas till mud:en som 4 separator kommandon."
+"Ett tecken som används för att upp kommandon i en sträng av typen \"w;w;w;l"
+"\", som kommer att skickas till mud:en som 4 separator kommandon."
 
-#: src/prefs.c:718
+#: src/prefs.c:820
 msgid "Command history:"
 msgstr "Kommando historik:"
 
-#: src/prefs.c:724
-msgid "This is the number of entries to be saved in the command history"
+#: src/prefs.c:826
+msgid "The number of entries to be saved in the command history."
 msgstr "Hur många poster att spara i kommando historiken"
 
-#: src/prefs.c:732
+#: src/prefs.c:834
 msgid "Terminal type:"
 msgstr "Terminaltyp:"
 
-#: src/prefs.c:739 gnome-mud.schemas.in.h:13
+#: src/prefs.c:841 gnome-mud.schemas.in.h:12
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
 msgstr ""
-"GNOME-Mud kommer att försöka sända terminaltyp (som ANSI el. VT100) om mudden "
-"så önskar. Detta option sätter terminaltypen som skickas."
+"GNOME-Mud kommer att försöka sända terminaltyp (som ANSI el. VT100) om "
+"mudden så önskar. Detta option sätter terminaltypen som skickas."
 
-#: src/prefs.c:747
+#: src/prefs.c:849
 msgid "MudList file:"
 msgstr "MudList fil:"
 
-#: src/prefs.c:750
-msgid "Select a MudList File"
-msgstr "Väl en MudList fil"
+#: src/prefs.c:852
+msgid "Select a MudList File..."
+msgstr "Välj en MudList fil"
 
-#: src/prefs.c:752
-msgid "Mudlist file to be used for the mudlist functionality"
+#: src/prefs.c:854
+msgid "Mudlist file to be used for the mudlist functionality."
 msgstr "MudList-fil som används för mud-list funktionalitet."
 
-#: src/prefs.c:760
+#: src/prefs.c:863
 msgid "Colour and Fonts"
 msgstr "Färg och Font"
 
-#: src/prefs.c:768
-msgid "Apperence"
+#: src/prefs.c:871
+msgid "Appearance"
 msgstr "Utseende"
 
-#: src/prefs.c:777
+#: src/prefs.c:880
 msgid "Tabs are located:"
 msgstr "Tabbar är placerade:"
 
-#: src/prefs.c:790
+#: src/prefs.c:893
 msgid ""
-"This settings tell where to place the connection tabs that are used the "
-"change active connection"
+"This settings defines where to place the connection tabs that are used the "
+"change active connection."
 msgstr ""
 "Denna inställning talar om vart tabbarna för att byta aktiv anslutning är "
 "placerade."
 
-#: src/prefs.c:800
+#: src/prefs.c:904
 msgid "Scrollback:"
 msgstr "Spara skroll:"
 
-#: src/prefs.c:806
-msgid "How many lines will be saved in the scrollback"
+#: src/prefs.c:910
+msgid "Number of lines to save in the scrollback."
 msgstr "Antal rader att spara i rullhistorik"
 
-#: src/prefs.c:810
+#: src/prefs.c:914
 msgid "lines"
 msgstr "rader"
 
-#: src/prefs.c:816
-msgid "Scroll on output"
+#: src/prefs.c:920
+msgid "S_croll on output"
 msgstr "Rullning vid utskrift"
 
-#: src/prefs.c:818
+#: src/prefs.c:922
 msgid ""
-"Should the connection scroll to bottom on output or stay at the current "
-"position (if scrolled back)"
+"If enabled, the terminal will scroll to the bottom if new output appears in "
+"the connection when the terminal was scrolled back."
 msgstr ""
 "Ska anslutningen rulla till slutet när det kommer data eller stanna där den "
 "är (om man har rullat tillbaka i listan)"
 
-#: src/profiles.c:248
+#: src/prefs.c:933
+msgid "AutoMapper"
+msgstr "_Kart Genererare"
+
+#: src/prefs.c:947
+msgid "Unusual deplacement commands:"
+msgstr "Ovanliga förflyttnings kommandon:"
+
+#: src/prefs.c:954
+msgid ""
+"If you use the automapper, you may want specifying here some unusual "
+"deplacement commands. When you use one of these, the automapper will create "
+"a path to an other map. Use a semicolon to separate the different commands."
+msgstr ""
+"Om du använder kartgenereraren, underlättar det om du listar ovanliga "
+"förflyttnings kommandon. När du använder dessa kommer kartgeneraren skapa en "
+"länk till en annan karta. Använd semikolon för att separera kommandon."
+
+#: src/profiles.c:283
 msgid "New profile"
 msgstr "Ny profil"
 
-#: src/profiles.c:251
+#: src/profiles.c:286
 msgid "Name of new profile:"
 msgstr "Namn på nya profilen:"
 
-#: src/profiles.c:462
+#: src/profiles.c:497
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: Profil-lista"
 
-#: src/profiles.c:629 src/profiles.c:1000
+#: src/profiles.c:667 src/profiles.c:1039
 msgid "Default"
 msgstr "Standard"
 
-#: src/profiles.c:809 src/profiles.c:1149
+#: src/profiles.c:848 src/profiles.c:1188
 msgid "Delete"
 msgstr "Ta bort"
 
-#: src/profiles.c:826
+#: src/profiles.c:865
 msgid "GNOME-Mud Connections"
 msgstr "GNOME-Mud Anslutningar"
 
-#: src/profiles.c:860
+#: src/profiles.c:899
 msgid "Mud"
 msgstr "Mud"
 
-#: src/profiles.c:866
+#: src/profiles.c:905
 msgid "Character"
 msgstr "Karaktär"
 
-#: src/profiles.c:879
+#: src/profiles.c:918
 msgid " Mud Information "
 msgstr "Mud Information "
 
-#: src/profiles.c:895
+#: src/profiles.c:934
 msgid "Title:"
 msgstr "Titel:"
 
-#: src/profiles.c:939
+#: src/profiles.c:978
 msgid " Character Information "
 msgstr " Karaktär Information "
 
-#: src/profiles.c:955
+#: src/profiles.c:994
 msgid "Character:"
 msgstr "Karaktär:"
 
-#: src/profiles.c:963
+#: src/profiles.c:1002
 msgid "Password:"
 msgstr "Lösenord:"
 
-#: src/profiles.c:984
+#: src/profiles.c:1023
 msgid " Profile Information "
 msgstr " Profil Information "
 
-#: src/profiles.c:1010
+#: src/profiles.c:1049
 msgid "Select Profile"
 msgstr "Välj Profil"
 
-#: src/profiles.c:1026
+#: src/profiles.c:1065
 msgid "Fetch from mudlist"
 msgstr "Hämta från mudlista"
 
-#: src/profiles.c:1078
+#: src/profiles.c:1117
 msgid "Connect"
 msgstr "Anslut"
 
-#: src/profiles.c:1117
+#: src/profiles.c:1156
 msgid "Profiles"
 msgstr "Profiler"
 
-#: src/profiles.c:1127
+#: src/profiles.c:1166
 msgid "GNOME-Mud Profiles"
 msgstr "GNOME-Mud Profiler"
 
-#: src/profiles.c:1141
+#: src/profiles.c:1180
 msgid "New"
 msgstr "Ny"
 
-#: src/profiles.c:1142
+#: src/profiles.c:1181
 msgid "Create a new profile"
 msgstr "Skapa ny profil"
 
-#: src/profiles.c:1149
+#: src/profiles.c:1188
 msgid "Delete a profile"
 msgstr "Ta bort profil"
 
-#: src/profiles.c:1166 gnome-mud.schemas.in.h:3
+#: src/profiles.c:1205 gnome-mud.schemas.in.h:3
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1166
+#: src/profiles.c:1205
 msgid "Set aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1173
+#: src/profiles.c:1212
 msgid "Set variables"
 msgstr "Variabler"
 
-#: src/profiles.c:1180
+#: src/profiles.c:1219
 msgid "Set triggers"
 msgstr "Triggers"
 
-#: src/profiles.c:1197 gnome-mud.schemas.in.h:16
+#: src/profiles.c:1236 gnome-mud.schemas.in.h:18
 msgid "Keybinds"
 msgstr "Tangenter"
 
-#: src/profiles.c:1197
+#: src/profiles.c:1236
 msgid "Set keybinds"
 msgstr "Tangenter"
 
-#: src/profiles.c:1214
+#: src/profiles.c:1253
 msgid "Close"
 msgstr "Stäng"
 
-#: src/profiles.c:1214
+#: src/profiles.c:1253
 msgid "Close the window"
 msgstr "_Stäng fönster"
 
@@ -805,19 +967,19 @@ msgid "The GNOME MUD Client"
 msgstr "GNOMEs MUD Klient"
 
 #: gnome-mud.schemas.in.h:1
-msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\""
-msgstr "Ett Pango fontnamn. T.ex. \"Sans 12\" eller \"Monospace Bold 14\""
+msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
+msgstr "Ett Pango fontnamn. T.ex. \"Sans 12\" eller \"Monospace Bold 14\"."
 
 #: gnome-mud.schemas.in.h:2
 msgid ""
 "A character that is used to split commands in a string like \"w;w;w;l\", "
-"which will be sent to the mud as 4 separate commands"
+"which will be sent to the MUD as 4 separate commands."
 msgstr ""
-"Ett tecken som används för att upp kommandon i en sträng av typen "
-"\"w;w;w;l\", som kommer att skickas till mud:en som 4 separator kommandon."
+"Ett tecken som används för att upp kommandon i en sträng av typen \"w;w;w;l"
+"\", som kommer att skickas till mud:en som 4 separator kommandon."
 
 #: gnome-mud.schemas.in.h:4
-msgid "Color palette"
+msgid "Colour palette"
 msgstr "Färg Palette"
 
 #: gnome-mud.schemas.in.h:5
@@ -825,24 +987,24 @@ msgid "Command Divider"
 msgstr "Kommando uppdelnings tecken:"
 
 #: gnome-mud.schemas.in.h:6
-msgid "Default color of the background"
-msgstr "Standard bakgrund färg"
+msgid "Default colour of the background"
+msgstr "Standard bakgrundsfärg"
 
 #: gnome-mud.schemas.in.h:7
 msgid ""
-"Default color of the background, as a color specification (can be HTML-style "
-"hex digits, or a color name such as \"red\")."
+"Default colour of the background, as a colour specification (can be HTML-"
+"style hex digits, or a colour name such as \"red\")."
 msgstr ""
 "Standard färg på bakgrunden, kan vara HTML hex-tal, eller namn, t.ex. \"red\""
 
 #: gnome-mud.schemas.in.h:8
-msgid "Default color of the text"
+msgid "Default colour of the text"
 msgstr "Standard färg på texten"
 
 #: gnome-mud.schemas.in.h:9
 msgid ""
-"Default color of the text, as a color specification (can be HTML-style hex "
-"digits, or a color name such as \"red\")."
+"Default colour of the text, as a colour specification (can be HTML-style hex "
+"digits, or a colour name such as \"red\")."
 msgstr ""
 "Standard färg på texten, kan vara HTML hexkod, eller namn, t.ex. \"red\""
 
@@ -852,46 +1014,72 @@ msgstr "Font"
 
 #: gnome-mud.schemas.in.h:11
 msgid ""
-"GNOME-Mud have a 16-color palette that connected muds can use. This is that "
-"palette, in the form of a color-separated list of color names. Color names "
-"should be in hex format e.g. \"#FF00FF\""
+"GNOME-Mud has a 16-colour palette that MUDs can use. It must be specified in "
+"the form of a colon-separated list of colour names. Colour names should be "
+"in hex format e.g. \"#FF00FF\"."
 msgstr ""
 "GNOME-Mud har en 16-färgers palett. Detta är paletten i color-separerad "
 "lista. Namnen på färgerna bör vara i hexkod, t.ex. #FF00FF."
 
-#: gnome-mud.schemas.in.h:14
+#: gnome-mud.schemas.in.h:13
 msgid "How meny entries to keep in the command history"
 msgstr "Hur många poster att spara i kommando historiken"
 
-#: gnome-mud.schemas.in.h:15
-msgid "If true, whenever there's new output will scroll to the bottom."
+#: gnome-mud.schemas.in.h:17
+msgid ""
+"If enabled, whenever there's new output the terminal will be scrolled to the "
+"bottom."
 msgstr "Om den är ikryssad, kommer texten att rulla vid utskrit."
 
-#: gnome-mud.schemas.in.h:17
+#: gnome-mud.schemas.in.h:19
 msgid "Last log dir"
 msgstr "Sista bokmärket för loggar"
 
-#: gnome-mud.schemas.in.h:18
+#: gnome-mud.schemas.in.h:20
+msgid ""
+"List of commands which will be treated as deplacement by the automapper. A "
+"semicolon is used between two commands"
+msgstr ""
+"Lista av kommandon som kommer att tolkas som ovanliga förfklyttningar av "
+"kartgenereraren. Ett semikolon avänds för att separera 2 kommandon."
+
+#: gnome-mud.schemas.in.h:21
+msgid "List of connections"
+msgstr "Anslutningslista"
+
+#: gnome-mud.schemas.in.h:22
+msgid ""
+"List of connections known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/connections."
+msgstr ""
+"Lista av anslutningar kända av GNOME-Mud. Lista innehåller pekare till "
+"underkataloger relative till /apps/gnome-mud/connections."
+
+#: gnome-mud.schemas.in.h:23
+msgid "List of deplacement commands"
+msgstr "Lista av ovanliga förflyttnings kommandon"
+
+#: gnome-mud.schemas.in.h:24
 msgid "List of profiles"
 msgstr "Profil-lista"
 
-#: gnome-mud.schemas.in.h:19
+#: gnome-mud.schemas.in.h:25
 msgid ""
-"List of profiles known to gnome-mud. The list contains strings naming "
+"List of profiles known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/profiles."
 msgstr ""
 "Lista av profiler kända av GNOME-Mud. Lista innehåller pekare till "
 "underkataloger relative till /apps/gnome-mud/profiles"
 
-#: gnome-mud.schemas.in.h:20
+#: gnome-mud.schemas.in.h:26
 msgid "Mudlist file"
 msgstr "MudList fil:"
 
-#: gnome-mud.schemas.in.h:21
+#: gnome-mud.schemas.in.h:27
 msgid "Number of lines to keep in scrollback"
 msgstr "Antal rader att spara i rullhistorik"
 
-#: gnome-mud.schemas.in.h:22
+#: gnome-mud.schemas.in.h:28
 msgid ""
 "Number of scrollback lines to keep around. You can scroll back in the "
 "terminal by this number of lines; lines that don't fit in the scrollback are "
@@ -900,15 +1088,15 @@ msgstr ""
 "Antal rader att spara i rullhistorik. Man kan rulla tillbaka dessa antal "
 "rader. Rader som inte får plats, tas bort."
 
-#: gnome-mud.schemas.in.h:23
+#: gnome-mud.schemas.in.h:29
 msgid "Tab location"
 msgstr "Tabb placering"
 
-#: gnome-mud.schemas.in.h:24
+#: gnome-mud.schemas.in.h:30
 msgid "Terminal type"
 msgstr "Terminaltyp:"
 
-#: gnome-mud.schemas.in.h:25
+#: gnome-mud.schemas.in.h:31
 msgid ""
 "The location of the connection tabs. Valid options are \"left\", \"right\", "
 "\"top\" and \"bottom\"."
@@ -916,21 +1104,39 @@ msgstr ""
 "Placering av anslutningstabbar. Alternativ är \"left\", \"right\", \"top\", "
 "och \"bottom\"."
 
-#: gnome-mud.schemas.in.h:28
+#: gnome-mud.schemas.in.h:34
 msgid "Whether to echo sent text to the connection"
 msgstr "Om text som skickas till anslutning ska skrivas ut eller inte"
 
-#: gnome-mud.schemas.in.h:29
+#: gnome-mud.schemas.in.h:35
 msgid "Whether to enable or disable the system keys"
 msgstr "Om systemets snabb-tangenter ska vara igång eller inte"
 
-#: gnome-mud.schemas.in.h:30
-msgid "Whether to keep text sent to the connect"
+#: gnome-mud.schemas.in.h:36
+msgid "Whether to keep text sent to the connection"
 msgstr "Om den skickade texten ska sparas i fältet eller tas bort"
 
-#: gnome-mud.schemas.in.h:31
+#: gnome-mud.schemas.in.h:37
 msgid "Whether to scroll to the bottom when there's new output"
 msgstr "Om vi ska rulla till slutet om det skrivs ut ny text"
+
+#~ msgid "Robin Ericsson <lobbin@localhost.nu>"
+#~ msgstr "Robin Ericsson <lobbin@localhost.nu>"
+
+#~ msgid "Jordi Mallach <jordi@sindominio.net>"
+#~ msgstr "Jordi Mallach <jordi@sindominio.net>"
+
+#~ msgid "Petter E. Stokke <gibreel@project23.no>"
+#~ msgstr "Petter E. Stokke <gibreel@project23.no>"
+
+#~ msgid "Rachael Munns <vashti@dream.org.uk>"
+#~ msgstr "Rachael Munns <vashti@dream.org.uk>"
+
+#~ msgid "How many lines will be saved in the scrollback"
+#~ msgstr "Antal rader att spara i rullhistorik"
+
+#~ msgid "Color palette"
+#~ msgstr "Färg Palette"
 
 #~ msgid "Add"
 #~ msgstr "Lägg till"
@@ -1012,6 +1218,3 @@ msgstr "Om vi ska rulla till slutet om det skrivs ut ny text"
 
 #~ msgid "GNOME-Mud _manual"
 #~ msgstr "GNOME-Mud _manual"
-
-#~ msgid "Open the GNOME-Mud manual"
-#~ msgstr "Öppna GNOME-Mud manualen"

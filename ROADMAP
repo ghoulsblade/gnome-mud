@@ -14,6 +14,7 @@ feel free to suggest features, contribute, or comment.
 * IPv6 support [DONE]
 * Customize buffersize [DONE]
 * Move tablist to top/left/right/bottom [DONE]
+* Fix Speedwalking in AutoMapper [DONE]
 
 0.11.0
 
@@ -34,7 +35,6 @@ feel free to suggest features, contribute, or comment.
 
 When time comes
 
-* Fix Speedwalking in AutoMapper
 * User defineable buttonbar
 * Customizable statusline
 * Tab completion, and separate history for each connection

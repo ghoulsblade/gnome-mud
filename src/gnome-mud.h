@@ -60,6 +60,10 @@ typedef struct wizard_data2    WIZARD_DATA2;
 typedef struct system_data     SYSTEM_DATA;
 typedef struct keybind_data    KEYBIND_DATA;
 typedef	struct profile_data	   PROFILE_DATA;
+#ifndef WITHOUT_MAPPER
+	typedef struct _AutoMap        AutoMap;
+	typedef struct _AutoMapConfig  AutoMapConfig;
+#endif
 typedef        gint            bool;
 
 /*
@@ -130,6 +134,14 @@ struct profile_data {
 	KEYBIND_DATA	*kd;
 };
 
+#ifndef WITHOUT_MAPPER
+struct _AutoMapConfig
+{
+	GList* unusual_exits;
+};
+#endif
+
+
 /*
  * Function declares
  */
@@ -173,8 +185,11 @@ void  window_menu_file_stop_logging_cb  ( GtkWidget *widget, gpointer data );
 void  window_menu_file_save_buffer_cb   ( GtkWidget *widget, gpointer data );
 void  stop_logging_connection           ( CONNECTION_DATA *connection      );
 
+#ifndef WITHOUT_MAPPER
 /* map.c */
-void  window_automap  ( GtkWidget *widget, gpointer data   );
+void window_automap   ( GtkWidget *widget, gpointer data);
+void user_command     ( AutoMap* automap, const gchar* command);
+#endif
 
 /* misc.c */
 void  init_uid        ( void                               );
@@ -190,6 +205,7 @@ void  window_mudlist  ( GtkWidget *widget, gboolean wizard );
 /* prefs.c */
 void  load_prefs      ( void                               );
 void  window_prefs    ( GtkWidget *widget, gpointer data   );
+void  update_gconf_from_unusual_exits (                    );
 FILE *open_file       ( gchar *filename, gchar *mode       );
 GtkPositionType tab_location_by_gtk( const gchar *p        );
 

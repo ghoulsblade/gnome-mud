@@ -9,7 +9,8 @@ Ben Gertzfield <che@debian.org>          - creation of ~/.amcl
 Will Schenk <chilly@psu.edu>             - buffer overflow in send_to_connection
 desaster <desaster@sci.fi>               - small fix for resizing main window
 Paul Cameron <thrase@progsoc.uts.edu.au> - compile fix for gtk >= 1.1.3 and 
-                                           the wonderfull automapper
+                                           initial work on the wonderful
+                                           automapper
 Abigail Brady <morwen@evilmagic.org>     - the color selection dialog
 Bret Robideaux <fayd@alliances.org>      - the action/trigger module
 Maxim Kiselev <max@hostel.nstu.ru>       - keybindings, colorsaving,
@@ -29,8 +30,9 @@ Martin Quinson                           - fr.po maintainer.
 Petter E. Stokke                         - Python scripting support.
 Vashti <vashti@jml.net>                  - telnet support patches and keypad
                                            bindings + several other patches
-					   and contributions.
+                                           and contributions.
 Sjoerd Simons <sjoerd@beast.luon.net>	 - IPv6 support.
+Remi Bonnet                              - big changes to automapper
 
 ANSI code 
 -------- 
