@@ -234,7 +234,7 @@
 			<locale name="C">
 				<short>List of profiles</short>
 				<long>
-				 List of profiles known to gnome-terminal. The list contains
+				 List of profiles known to gnome-mud. The list contains
 				 strings naming subdirectories relative to
 				 /apps/gnome-mud/profiles.
 				</long>

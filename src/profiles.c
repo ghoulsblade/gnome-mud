@@ -60,7 +60,6 @@ static KEYBIND_DATA *profile_load_keybinds(gchar *profile_name)
 
 	snprintf(pname, 255, "/apps/gnome-mud/profiles/%s/keybinds", profile_name);
 	slist = gconf_client_get_list(gconf_client, pname, GCONF_VALUE_STRING, NULL);
-	g_message(" Loaded %d keybinds...", g_slist_length(slist));
 	for (lentry = slist; lentry != NULL; lentry = g_slist_next(lentry))
 	{
 		KEYBIND_DATA *kd = (KEYBIND_DATA *) g_malloc0(sizeof(KEYBIND_DATA));
@@ -83,7 +82,6 @@ static KEYBIND_DATA *profile_load_keybinds(gchar *profile_name)
 		kd->next	= k;
 		k 			= kd;
 
-		g_message("		Alias: %s = %s", a[0], a[1]);
 		g_strfreev(a);
 	}
 
@@ -99,7 +97,6 @@ static GList *profile_load_list(gchar *pn, gchar *pt)
 
 	snprintf(pname, 255, "/apps/gnome-mud/profiles/%s/%s", pn, pt);
 	slist = gconf_client_get_list(gconf_client, pname, GCONF_VALUE_STRING, NULL);
-	g_message("	Loaded %d %s...", g_slist_length(slist), pt);
 	for (lentry = slist; lentry != NULL; lentry = g_slist_next(lentry))
 	{
 		gchar **a;
@@ -107,8 +104,6 @@ static GList *profile_load_list(gchar *pn, gchar *pt)
 		a = g_strsplit((gchar *) lentry->data, "=", 2);
 
 		list = g_list_append(list, (gpointer) a);
-		
-		g_message("		Alias: %s = %s", a[0], a[1]);
 	}
 
 	return list;
@@ -124,7 +119,6 @@ void load_profiles()
 		
 	profiles = gconf_client_get_list(gconf_client, "/apps/gnome-mud/profile_list", GCONF_VALUE_STRING, NULL);
 
-	g_message("Loaded %d profiles...", g_slist_length(profiles));
 	for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
 	{
 		PROFILE_DATA *pd = g_malloc0(sizeof(PROFILE_DATA));
