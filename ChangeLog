@@ -1,3 +1,13 @@
+2003-12-17  Jordi Mallach  <jordi@sindominio.net>
+
+	* autogen.sh: Remove workarounds for configure.ac, gnome-common 2.4.0
+	groks new autoconf versions.
+
+	* src/gnome-mud.c (gconf_sanity_check_string): New function stolen
+	from gnome-games to check for badly installed schemas.
+	(main): check for "/apps/gnome-mud/functionality/terminal_type" before
+	starting.
+
 2003-12-12  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac (ALL_LINGUAS): Added "hr" (Croatian).

@@ -7,19 +7,10 @@ test -z "$srcdir" && srcdir=.
 PKG_NAME="gnome-mud"
 
 (test -f $srcdir/configure.ac) || {
-    echo -n "**Error**: Directory "\'$srcdir\'" does not look like the"
+    echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
     echo " top-level $PKG_NAME directory"
     exit 1
 }
-
-if [ -f configure.in -a ! -L configure.in ]; then
-    echo "configure.in is not a symlink to configure.ac."
-    echo "Move it out of the way and try again."
-    exit 1
-else
-    rm -f configure.in
-    ln -s configure.ac configure.in
-fi
 
 which gnome-autogen.sh || {
 	echo "You need to install gnome-common from the GNOME CVS"

@@ -35,6 +35,44 @@ static char const rcsid[] =
 
 GConfClient *gconf_client;
 
+gboolean gconf_sanity_check_string (GConfClient *client, const gchar* key)
+{
+  gchar *string;
+  GError *error = NULL;
+  
+  string = gconf_client_get_string (client, key, &error);
+
+  if (error) {
+    GtkWidget *dialog;
+    dialog = gtk_message_dialog_new (NULL,
+                                     0,
+                                     GTK_MESSAGE_ERROR,
+                                     GTK_BUTTONS_OK,
+                                     _("There was an error accessing GConf: %s"),
+                                     error->message);
+    gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
+    gtk_dialog_run(GTK_DIALOG(dialog));
+    return FALSE;
+  }
+  if (!string) {
+    GtkWidget *dialog;
+    dialog = gtk_message_dialog_new (NULL,
+                                     0,
+                                     GTK_MESSAGE_ERROR,
+                                     GTK_BUTTONS_OK,
+                                     "<span weight=\"bold\" size=\"larger\">%s</span>\n\n%s",
+                                     _("The default configuration values could not be retrieved correctly."),
+                                     _("Please check your GConf configuration, specifically that the schemas have been installed correctly."));
+    gtk_label_set_use_markup (GTK_LABEL (GTK_MESSAGE_DIALOG (dialog)->label), TRUE);
+    gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
+    gtk_dialog_run(GTK_DIALOG(dialog));
+    gtk_widget_destroy (dialog);
+    return FALSE;
+  }
+  g_free (string);
+  return TRUE;
+}
+
 int main (gint argc, char *argv[])
 {
 	GnomeProgram *program;
@@ -63,6 +101,9 @@ int main (gint argc, char *argv[])
 	
 	/* Start a GConf client */
 	gconf_client = gconf_client_get_default();
+	if (!gconf_sanity_check_string (gconf_client, "/apps/gnome-mud/functionality/terminal_type")) {
+		return 1;
+	}
 	gconf_client_add_dir(gconf_client, "/apps/gnome-mud", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	
   

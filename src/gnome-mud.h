@@ -239,4 +239,4 @@ void  terminal_feed   ( GtkWidget *, gchar *data                     );
 CONNECTION_DATA *create_connection_data ( gint notebook );
 void  free_connection_data (CONNECTION_DATA *c             );
 
-#endif /* __GNOME_H__ */
+#endif /* __GNOME_MUD_H__ */
