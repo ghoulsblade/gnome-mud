@@ -2,7 +2,7 @@ dnl Process this file with
 dnl aclocal; automake; autoconf to produce a configure script.
 
 AC_INIT(src/gnome-mud.c)
-AM_INIT_AUTOMAKE(gnome-mud, 0.7.99)
+AM_INIT_AUTOMAKE(gnome-mud, 0.8)
 AM_CONFIG_HEADER(config.h)
 
 ALL_LINGUAS="es sv de ca fr"

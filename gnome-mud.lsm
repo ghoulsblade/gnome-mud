@@ -1,15 +1,14 @@
 Begin3
 Title:          GNOMEMUD
-Version:        0.7.5
-Entered-date:   19DEC2000
+Version:        0.8.0
+Entered-date:   08OCT2001
 Description:    GNOME-Mud is a simple mudclient designed for robustness, 
                 speed and trying to get those last mudders off the 
                 windows platform.
-Keywords:       amcl x11 games mud gtk moo mush gnome
+Keywords:       gnome-mud x11 games mud gtk moo mush gnome
 Author:         lobbin@localhost.nu (Robin Ericsson)
 Maintained-by:  lobbin@localhost.nu (Robin Ericsson)
 Primary-site:   http://amcl.sourceforge.net/
-Alternate-site: sunsite.unc.edu /pub/Linux/games/muds
 Platforms:      Linux Unix X11 GTK
 Copying-policy: GPL
 End
