@@ -10,7 +10,8 @@
 			<locale name="C">
 				<short>Font</short>
 				<long>
-				 A Pango font name. Examples are "Sans 12" or "Monospace Bold 14"
+				 A Pango font name. Examples are "Sans 12" or
+				 "Monospace Bold 14".
 				</long>
 			</locale>
 		</schema>
@@ -24,8 +25,9 @@
 			<locale name="C">
 				<short>Command Divider</short>
 				<long>
-				 A character that is used to split commands in a string like "w;w;w;l",
-				 which will be sent to the mud as 4 separate commands
+				 A character that is used to split commands
+				 in a string like "w;w;w;l", which will be
+				 sent to the MUD as 4 separate commands.
 				</long>
 			</locale>
 		</schema>
@@ -39,9 +41,9 @@
 			<locale name="C">
 				<short>Whether to echo sent text to the connection</short>
 				<long>
-				 With this toggled on, all the text you type and
-				 enter will be echoed on the connection so you can
-				 control what you are sending.
+				 If enabled, all the text typed in will be
+				 echoed in the terminal, making it easier to
+				 control what is sent.
 				</long>
 			</locale>
 		</schema>
@@ -53,12 +55,12 @@
 			<type>bool</type>
 			<default>false</default>
 			<locale name="C">
-				<short>Whether to keep text sent to the connect</short>
+				<short>Whether to keep text sent to the connection</short>
 				<long>
-				 With this toggled on, the text you have entered
-				 and sent to the connection, will be left in the
-				 entry box but selected. Turn this off to remove
-				 the text after it has been sent.
+				 If enabled, the text that is sent to the
+				 connection will be left as a selection in the
+				 entry box. Otherwise, the text entry box will
+				 be cleared after each text input.
 				</long>
 			</locale>
 		</schema>
@@ -72,9 +74,10 @@
 			<locale name="C">
 				<short>Whether to enable or disable the system keys</short>
 				<long>
-				 GNOME-Mud ships with a few built-in keybinds.
-				 These keybinds can be overridden by own keybinds,
-				 or they can be disabled by toggling this checkbox
+				 If enabled, GNOME-Mud will offer a few
+				 built-in keybinds. They can be overridden by
+				 custom keybinds, or they can be disabled
+				 completely with this option.
 				</long>
 			</locale>
 		</schema>
@@ -88,9 +91,10 @@
 			<locale name="C">
 				<short>Terminal type</short>
 				<long>
-				 GNOME-Mud will attempt to transmit a terminal type
-				 (like ANSI or VT100) if the MUD requests one. This
-				 option sets the terminal type that will be sent.
+				 GNOME-Mud will attempt to transmit a terminal
+				 type (like ANSI or VT100) if the MUD requests
+				 one. This option sets the terminal type that
+				 will be sent.
 				</long>
 			</locale>
 		</schema>
@@ -103,7 +107,6 @@
 			<default></default>
 			<locale name="C">
 				<short>Mudlist file</short>
-				<long></long>
 			</locale>
 		</schema>
 
@@ -114,11 +117,11 @@
 			<type>string</type>
 			<default>#000000</default>
 			<locale name="C">
-				<short>Default color of the background</short>
+				<short>Default colour of the background</short>
 				<long>
-				 Default color of the background, as a color specification
-				 (can be HTML-style hex digits, or a color name such as
-				 "red").
+				 Default colour of the background, as a colour
+				 specification (can be HTML-style hex digits,
+				 or a colour name such as "red").
 				</long>
 			</locale>
 		</schema>
@@ -130,11 +133,11 @@
 			<type>string</type>
 			<default>#FFFFDD</default>
 			<locale name="C">
-				<short>Default color of the text</short>
+				<short>Default colour of the text</short>
 				<long>
-				 Default color of the text, as a color specification
-				 (can be HTML-style hex digits, or a color name such 
-				 as "red").
+				 Default colour of the text, as a colour
+				 specification (can be HTML-style hex digits,
+				 or a colour name such as "red").
 				</long>
 			</locale>
 		</schema>
@@ -146,12 +149,13 @@
 			<type>string</type>
 			<default>#000000:#AA0000:#00AA00:#AA5500:#0000AA:#AA00AA:#00AAAA:#AAAAAA:#555555:#FF5555:#55FF55:#FFFF55:#5555FF:#FF55FF:#55FFFF:#FFFFFF</default>
 			<locale name="C">
-				<short>Color palette</short>
+				<short>Colour palette</short>
 				<long>
-				 GNOME-Mud have a 16-color palette that connected
-				 muds can use. This is that palette, in the form
-				 of a color-separated list of color names. Color names
-				 should be in hex format e.g. "#FF00FF"
+				 GNOME-Mud has a 16-colour palette that
+				 MUDs can use. It must be specified in the form
+				 of a colon-separated list of colour names.
+				 Colour names should be in hex format e.g.
+				 "#FF00FF".
 				</long>
 			</locale>
 		</schema>
@@ -165,8 +169,9 @@
 			<locale name="C">
 				<short>Tab location</short>
 				<long>
-				 The location of the connection tabs. Valid options
-				 are "left", "right", "top" and "bottom".
+				 The location of the connection tabs. Valid
+				 options are "left", "right", "top" and
+				 "bottom".
 				</long>
 			</locale>
 		</schema>
@@ -191,9 +196,10 @@
 			<locale name="C">
 				<short>Number of lines to keep in scrollback</short>
 				<long>
-				 Number of scrollback lines to keep around. You can
-				 scroll back in the terminal by this number of lines;
-				 lines that don't fit in the scrollback are discarded.
+				 Number of scrollback lines to keep around.
+				 You can scroll back in the terminal by this
+				 number of lines; lines that don't fit in the
+				 scrollback are discarded.
 				</long>
 			</locale>
 		</schema>
@@ -207,8 +213,8 @@
 			<locale name="C">
 				<short>Whether to scroll to the bottom when there's new output</short>
 				<long>
-				 If true, whenever there's new output will scroll
-				 to the bottom.
+				 If enabled, whenever there's new output the
+				 terminal will be scrolled to the bottom.
 				</long>
 			</locale>
 		</schema>
@@ -234,9 +240,9 @@
 			<locale name="C">
 				<short>List of profiles</short>
 				<long>
-				 List of profiles known to gnome-mud. The list contains
-				 strings naming subdirectories relative to
-				 /apps/gnome-mud/profiles.
+				 List of profiles known to GNOME-Mud. The
+				 list contains strings naming subdirectories
+				 relative to /apps/gnome-mud/profiles.
 				</long>
 			</locale>
 		</schema>
@@ -251,9 +257,9 @@
 			<locale name="C">
 				<short>List of connections</short>
 				<long>
-				 List of connections known to gnome-mud. The list contains
-				 strings name subdirectories relative to
-				 /apps/gnome-mud/connections.
+				 List of connections known to GNOME-Mud. The
+				 list contains strings naming subdirectories
+				 relative to /apps/gnome-mud/connections.
 				</long>
 			</locale>
 		</schema>

@@ -562,16 +562,18 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 
 	picker_foreground = gnome_color_picker_new ();
 	gtk_tooltips_set_tip(tooltip, picker_foreground,
-			_("Default foreground color used when the connection doesn't tell "
-			  "us to use another font."), NULL);
+			_("Default foreground colour used when the connection "
+			  "doesn't request the use of a specific colour."),
+			  NULL);
 	gtk_widget_show (picker_foreground);
 	gtk_table_attach (GTK_TABLE (table_colorfont), picker_foreground, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(picker_foreground), prefs.Foreground.red, prefs.Foreground.green, prefs.Foreground.blue, 0);
   
 	picker_background = gnome_color_picker_new ();
 	gtk_tooltips_set_tip(tooltip, picker_background,
-			_("Default background color used when the connection doesn't tell "
-			  "us to use another font."), NULL);
+			_("Default background colour used when the connection "
+			  "doesn't request the use of a specific colour."),
+			  NULL);
 	gtk_widget_show (picker_background);
 	gtk_table_attach (GTK_TABLE (table_colorfont), picker_background, 1, 2, 3, 4, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(picker_background), prefs.Background.red, prefs.Background.green, prefs.Background.blue, 0);
@@ -585,8 +587,8 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 		GtkWidget *picker = gnome_color_picker_new();
 	
 		gtk_tooltips_set_tip(tooltip, picker,
-				_("Change the color of a specific color that the "
-				  "mud tells us to use."), NULL);
+				_("Change the colour of a specific colour that "
+				  "the MUD requests to use."), NULL);
 		
 		prefs_set_color(picker, i);
 		gtk_table_attach(GTK_TABLE(table2), picker, j, j + 1, k, k + 1, GTK_FILL, 0, 0, 0);
@@ -666,49 +668,50 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	vbox = gtk_vbox_new(FALSE, 12);
 	gtk_container_add(GTK_CONTAINER(frame), vbox);
 
-	tmp = gtk_check_button_new_with_label(_("Echo the text sent?"));
+	tmp = gtk_check_button_new_with_mnemonic(_("_Echo the text sent"));
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(tmp), prefs.EchoText);
 	gtk_box_pack_start(GTK_BOX(vbox), tmp, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip (tooltip, tmp,
-			_("With this toggled on, all the text you type and "
-			  "enter will be echoed on the connection so you can "
-			  "control what you are sending."),
+			_("If enabled, all the text typed in will be echoed "
+			  "in the terminal, making it easier to control what "
+			  "is sent."),
 			NULL);
 	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_checkbox_echo_cb), (gpointer) prefs_window);
 
 
-	tmp = gtk_check_button_new_with_label(_("Keep the text entered?"));
+	tmp = gtk_check_button_new_with_mnemonic(_("_Keep the text entered"));
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(tmp), prefs.KeepText);
 	gtk_box_pack_start(GTK_BOX(vbox), tmp, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip (tooltip, tmp,
-			_("With this toggled on, the text you have entered "
-			  "and sent to the connection, will be left in the "
-			  "entry box but selected. Turn this off to remove "
-			  "the text after it has been sent."),
+			_("If enabled, the text that is sent to the "
+			  "connection will be left as a selection in the "
+			  "entry box. Otherwise, the text entry box will be "
+			  "cleared after each text input."),
 			NULL);
 	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_checkbox_keep_cb), (gpointer) prefs_window);
 
-	tmp = gtk_check_button_new_with_label(_("Disable Systemkeys?"));
+	tmp = gtk_check_button_new_with_label(_("Disable System Keys"));
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(tmp), prefs.DisableKeys);
 	gtk_box_pack_start(GTK_BOX(vbox), tmp, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltip, tmp,
-		  _("GNOME-Mud ships with a few built-in keybinds. "
-			"These keybinds can be overridden by own keybinds, "
-			"or they can be disabled by toggling this checkbox"),
+		  _("If enabled, GNOME-Mud will offer a few built-in "
+		    "keybinds. They can be overridden by custom keybinds, or "
+		    "they can be disabled completely with this option."),
 		  NULL);
 	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_checkbutton_disablekeys_cb), (gpointer) prefs_window);
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
 
-	tmp = gtk_label_new(_("Command divide char:"));
+	tmp = gtk_label_new(_("Command division character:"));
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
 	tmp = gtk_entry_new_with_max_length(1);
 	gtk_tooltips_set_tip (tooltip, tmp,
-			_("This character is used to separed commands sent "
-			  "to the mud. Example ';', will let the user input "
-			  "\"w;look\" be sent to the mud at 2 separate commands."),
+			_("The character used to divide commands sent to the "
+			  "mud. For example, \";\", will let the string "
+			  "\"w;look\" be sent to the mud as 2 separate "
+			  "commands."),
 			NULL);
 	gtk_entry_set_text(GTK_ENTRY(tmp), prefs.CommDev);
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, TRUE, 0);
@@ -721,8 +724,8 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	spinner = (GtkAdjustment *) gtk_adjustment_new(prefs.History, 0, 500, 1, 5, 5);
 	tmp = gtk_spin_button_new(spinner, 1, 0);
 	gtk_tooltips_set_tip (tooltip, tmp,
-			_("This is the number of entries to be saved in the command "
-			  "history"), NULL);
+			_("The number of entries to be saved in the command "
+			  "history."), NULL);
 	g_signal_connect(G_OBJECT(tmp), "value-changed", G_CALLBACK(prefs_entry_history_cb), NULL);
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
@@ -747,9 +750,10 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	tmp = gtk_label_new(_("MudList file:"));
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
-	tmp = gnome_file_entry_new(NULL, _("Select a MudList File"));
+	tmp = gnome_file_entry_new(NULL, _("Select a MudList File..."));
 	gtk_tooltips_set_tip (tooltip, gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(tmp)),
-			_("Mudlist file to be used for the mudlist functionality"), NULL);
+			_("Mudlist file to be used for the mudlist "
+			  "functionality."), NULL);
 	gtk_entry_set_text(GTK_ENTRY(gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(tmp))), prefs.MudListFile);
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, TRUE, 0);
 	g_signal_connect(G_OBJECT(gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(tmp))), "changed",
@@ -765,7 +769,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
 
 	frame = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_NONE);
-	tmp = gtk_label_new(_("Apperence"));
+	tmp = gtk_label_new(_("Appearance"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), frame, tmp);
 
 	vbox = gtk_vbox_new(FALSE, 0);
@@ -787,8 +791,9 @@ void window_prefs (GtkWidget *widget, gpointer data)
 
 	tmp2 = gtk_option_menu_new();
 	gtk_tooltips_set_tip (tooltip, tmp2,
-			_("This settings tell where to place the connection tabs "
-			  "that are used the change active connection"), NULL);
+			_("This settings defines where to place the "
+			  "connection tabs that are used the change active "
+			  "connection."), NULL);
 	gtk_option_menu_set_menu(GTK_OPTION_MENU(tmp2), tmp);
 	gtk_option_menu_set_history(GTK_OPTION_MENU(tmp2), tab_location_by_int(prefs.TabLocation));
 	g_signal_connect(G_OBJECT(tmp2), "changed", G_CALLBACK(prefs_tab_location_changed_cb), NULL);
@@ -803,7 +808,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	spinner = (GtkAdjustment *) gtk_adjustment_new(prefs.Scrollback, 0, 5000, 1, 5, 5);
 	tmp = gtk_spin_button_new(spinner, 1, 0);
 	gtk_tooltips_set_tip (tooltip, tmp,
-			_("How many lines will be saved in the scrollback"), NULL);
+			_("Number of lines to save in the scrollback."), NULL);
 	g_signal_connect(G_OBJECT(tmp), "value-changed", G_CALLBACK(prefs_scrollback_value_changed_cb), NULL);
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
@@ -813,10 +818,11 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
 
-	tmp = gtk_check_button_new_with_label(_("Scroll on output"));
+	tmp = gtk_check_button_new_with_mnemonic(_("S_croll on output"));
 	gtk_tooltips_set_tip (tooltip, tmp,
-			_("Should the connection scroll to bottom on output "
-			  "or stay at the current position (if scrolled back)"), NULL);
+			_("If enabled, the terminal will scroll to the "
+			  "bottom if new output appears in the connection "
+			  "when the terminal was scrolled back."), NULL);
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(tmp), prefs.ScrollOnOutput);
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_scroll_output_changed_cb), NULL);

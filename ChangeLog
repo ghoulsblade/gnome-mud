@@ -1,3 +1,16 @@
+Thu Apr  3 19:53:42 CEST 2003  Jordi Mallach   <jordi@sindominio.net>
+
+	* gnome-mud.schemas.in: Typo and style fixes.
+
+	* src/prefs.c (window_prefs): Reword some tooltips.
+	Add mnemonics to preferences.
+	* src/init.c (window_menu_help_about): Unmark author names for
+	translation, as they have no non-ASCII characters.
+	[help_menu]: Change help items to GNOME_APP_UI_ITEM.
+	(window_menu_help_manual_activate_cb): New function, launch User
+	Manual help.
+	(window_menu_plugin_api_manual_activate_cb): Likewise, for Plugin API.
+
 Wed Apr  2 15:23:34 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Fixed #623355.

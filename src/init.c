@@ -208,14 +208,14 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
   GdkPixbuf *logo;
 
   const char *authors[] = {
-	  N_("Robin Ericsson <lobbin@localhost.nu>"),
-	  N_("Jordi Mallach <jordi@sindominio.net>"),
-	  N_("Petter E. Stokke <gibreel@project23.no>"),
-	  N_("Rachael Munns <vashti@dream.org.uk>"),
+	  "Robin Ericsson <lobbin@localhost.nu>",
+	  "Jordi Mallach <jordi@sindominio.net>",
+	  "Petter E. Stokke <gibreel@project23.no>",
+	  "Rachael Munns <vashti@dream.org.uk>",
 	  NULL};
   const char *documenters[] = {
-	  N_("Jordi Mallach <jordi@sindominio.net>"),
-	  N_("Petter E. Stokke <gibreel@project23.no>"),
+	  "Jordi Mallach <jordi@sindominio.net>",
+	  "Petter E. Stokke <gibreel@project23.no>",
 	  NULL};
 
   /* Translators: translate as your names & emails
@@ -233,7 +233,7 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
   
   about = gnome_about_new (_("GNOME-Mud"), VERSION,
 			   /* latin1 translators can use the copyright symbol here, see man latin1(7) */
-			   _("(C) 1998-2002 Robin Ericsson"),
+			   _("(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"),
 			   _("A Multi-User Dungeon (MUD) client for GNOME.\n"),
 			   authors,
 			   documenters,
@@ -549,6 +549,19 @@ static void window_menu_file_disconnect (GtkWidget *widget, gpointer data)
   }
 }
 
+/* FIXME: display error message if document is missing */
+static void window_menu_help_manual_activate_cb(GtkMenuItem *menuitem)
+{
+      
+       gnome_help_display("gnome-mud-manual", NULL, NULL);
+}
+
+/* FIXME: display error message if document is missing */
+static void window_menu_plugin_api_manual_activate_cb(GtkMenuItem *menuitem)
+{
+       gnome_help_display("gnome-mud-plugin-api", NULL, NULL);
+}
+
 static GnomeUIInfo toolbar_menu[] = {
   GNOMEUIINFO_ITEM_STOCK(N_("Wizard..."), NULL, window_profiles,   GNOME_STOCK_PIXMAP_NEW),
   GNOMEUIINFO_SEPARATOR,
@@ -598,8 +611,16 @@ static GnomeUIInfo settings_menu[] = {
 };
 
 static GnomeUIInfo help_menu[] = {
-	GNOMEUIINFO_HELP("gnome-mud-manual"),
-	GNOMEUIINFO_HELP("gnome-mud-plugin-api"),
+	GNOME_APP_UI_ITEM, N_("User Manual"),
+	N_("Display the GNOME-Mud User Manual"),
+	window_menu_help_manual_activate_cb, NULL, NULL,
+	GNOME_APP_PIXMAP_STOCK, GTK_STOCK_HELP,
+	0, 0, NULL,
+	GNOME_APP_UI_ITEM, N_("Plugin API Manual"),
+	N_("Display the GNOME-Mud Plugin API Manual"),
+	window_menu_plugin_api_manual_activate_cb, NULL, NULL,
+	GNOME_APP_PIXMAP_STOCK, GTK_STOCK_HELP,
+	0, 0, NULL,
 	GNOMEUIINFO_MENU_ABOUT_ITEM(window_menu_help_about, NULL),
 	GNOMEUIINFO_END
 };
