@@ -43,90 +43,10 @@
 static char const rcsid[] =
 	"$Id$";
 
-
-typedef enum { NORM, ESC, SQUARE, PARMS } STATE;
-
 /* Global Variables */
-extern GtkWidget       *menu_main_disconnect;
-extern GtkWidget       *menu_main_close;
-extern CONNECTION_DATA *connections[15];
-extern GtkWidget       *main_notebook;
-extern GtkWidget       *text_entry;
-extern GdkFont         *font_normal;
-extern SYSTEM_DATA      prefs;
-
-static gint parms[10], nparms;
-static gint nowcol = 0 ;
-bool        BOLD   = FALSE;
-
-static void cons_escm (CONNECTION_DATA *cd)
-{
-    int i, p;
-
-    for ( i = 0; i < nparms; i++ )
-    {
-        switch ( p = parms[i])
-        {
-        case 0: /* none */
-			cd->foreground = &prefs.Foreground;
-			cd->background = &prefs.Background;
-			nowcol = 0; /* default foreground colour */
-            BOLD   = FALSE;
-            break;
-
-        case 1:/* bold */
-            BOLD = TRUE;
-            break;
-
-        case 22: /* bold off */
-            BOLD = FALSE;
-            break;
-
-        case 4: /* underscore */
-        case 5: /* blink */
-        case 7: /* inverse */
-            break;
-
-        case 30: case 31: case 32: case 33:
-        case 34: case 35: case 36: case 37:
-            nowcol = p;
-            break;
-
-        case 39:
-            nowcol = 0;
-            cd->foreground = &prefs.Foreground;
-            break;
-	
-        case 40: case 41: case 42: case 43:
-        case 44: case 45: case 46:
-            cd->background = &prefs.Colors[ p - 40 ];
-            break;
-
-        case 47:
-            cd->background = &prefs.Colors[15];
-            break;
-
-	case 49:
-            cd->background = &prefs.Background;
-            break;
-
-        default:
-            break;
-        }
-    }
-
-	if ( nowcol >= 30 && nowcol <= 37 )
-	{
-		gint j;
-
-		j = nowcol - ( BOLD ? 22 : 30 ) ;
-	        cd->foreground = &prefs.Colors[j] ;
-	}
-	else if ( BOLD && !nowcol )
-	{
-		cd->foreground = &prefs.BoldForeground;
-	}
-}
+extern CONNECTION_DATA 	*connections[15];
+extern GtkWidget       	*text_entry;
+extern GtkWidget		*main_notebook;
 
 void popup_window (const gchar *message)
 {
@@ -180,206 +100,42 @@ void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer 
 void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
 {
 	GtkWidget *text_widget = cd->window;
-    gchar *start, *logtmp, c;
-    gint  len;
 	gint       i;
-    static STATE state = NORM;
 
     if ( message[0] == '\0' )
     {
         return;
     }
 
-    if ( prefs.Freeze )
-    {
-        gtk_text_freeze (GTK_TEXT (text_widget));
-    }
-    
 	i = gtk_notebook_get_current_page (GTK_NOTEBOOK(main_notebook));
 	if (connections[i]->logging
-		&& colortype != MESSAGE_ANSI
 		&& colortype != MESSAGE_ERR
 		&& colortype != MESSAGE_SYSTEM)
 	{
 		fputs(message, connections[i]->log);
 	}
 
-	vte_terminal_feed(VTE_TERMINAL(text_widget), message, strlen(message));
-	return;
-	
-    switch (colortype)
+	switch (colortype)
     {
-    case MESSAGE_SENT:
-        gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Colors[11], &prefs.Background, message, strlen (message));
-        break;
+	    case MESSAGE_SENT:
+			// FIXME correct graphic-codes here
+			//gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Colors[11], &prefs.Background, message, strlen (message));
+			//break;
 		
-    case MESSAGE_ERR:
-        gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Colors[2], &prefs.Background, message, strlen (message));
-        break;
+	    case MESSAGE_ERR:
+			// FIXME correct graphic-codes here
+    	    //gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Colors[2], &prefs.Background, message, strlen (message));
+			//break;
 		
-    case MESSAGE_ANSI:
-        if ( !strchr (message, '\033') )
-        {
-            gtk_text_insert (GTK_TEXT (text_widget), font_normal, cd->foreground, cd->background, message, -1);
-            gtk_text_insert (GTK_TEXT (text_widget), NULL, NULL, NULL," ", 1 );
-            gtk_text_backward_delete (GTK_TEXT (text_widget), 1);
-
-	    if (connections[i]->logging)
-	    {
-		fputs(message, connections[i]->log);
-	    }
-
-            break;
-        }
-        
-        while ( (c = *message) )
-        {
-            switch ( state )
-            {
-            case NORM:
-                if ( c >= ' ' )
-                {
-                    start = message; len = 0;
-                    while ( *message && *message >= ' ')
-                    {
-                        message++;
-                        len++;
-                    }
-                    gtk_text_insert (GTK_TEXT (text_widget), font_normal,
-                                     cd->foreground,
-                                     cd->background, start, len );
-
-		    if (connections[i]->logging)
-		    {
-			logtmp = g_malloc (len + 1);
-			strncpy(logtmp, start, len);
-			logtmp[len] = '\0';
-			fputs (logtmp, connections[i]->log);
-			g_free (logtmp);
-                    }
-                }
-
-                if ( !(c = *message))
-                    break;
-
-                if (c == '\xbf') {
-                        state = SQUARE;
-                        break;
-                }
-
-                if ( c != '\033' )
-                {
-                    gtk_text_insert (GTK_TEXT (text_widget), font_normal, cd->foreground, cd->background, &c, 1);
-                    ++message;
-
-		    if (connections[i]->logging)
-		    {
-			fputc(c, connections[i]->log);
-                    }
-
-                    break;
-                }
-
-                state = ESC;
-                /*c = *++message;*/
-                message++;
-                break;
-
-            case ESC:
-                if ( c != '[' )
-                {
-                    state = NORM;
-                    break;
-                }
-
-                state = SQUARE;
-                /*c = *++message;*/
-                message++;
-                break;
-
-            case SQUARE:
-                nparms = 0;
-
-                while ( c && (isdigit (c) || c == ';'))
-                {
-                    if ( isdigit (c))
-                    {
-                        if ( nparms < 10 )
-                        {
-                            parms[nparms] = atoi(message);
-                            nparms++;
-                        }
-                        while ( isdigit(c))
-                            c = *++message;
-
-                        if ( c == ';' )
-                            c = *++message;
-                    }
-                    else if ( c == ';' )
-                    {
-                        if ( nparms < 10 )
-                        {
-                            parms[nparms] = 0;
-                            nparms++;
-                        }
-                        c = *++message;
-                    }
-                }
-                if ( nparms == 0 )
-                    parms[nparms++] = 0;
-
-                state = PARMS;
-
-            case PARMS:
-                switch (c)
-                {
-                case 'A':
-                    ++message;
-                    break;
-                case 'B':
-                    ++message;
-                    break;
-                case 'C':
-                    ++message;
-                    break;
-                case 'D':
-                    ++message;
-                    break;
-                case 'H':
-                    ++message;
-                    break;
-                case 'J':
-                    ++message;
-                    break;
-                case 'K':
-                    ++message;
-                    break;
-                case 'm':
-                    cons_escm(cd);
-                    ++message;
-                    break;
-                default:
-                    break;
-                }
-                state = NORM;
-            }
-        }
-
-        break;
-        
-    case MESSAGE_NORMAL:
-    case MESSAGE_NONE:
-    case MESSAGE_SYSTEM:
-    default:
-        gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Foreground, &prefs.Background, message, strlen (message));
-        break;
+		case MESSAGE_SYSTEM:
+			// FIXME correct graphic-codes here
+			//
+			//break;
+		
+		default:
+			break;
     }
 
-    if ( prefs.Freeze )
-    {
-        gtk_text_thaw (GTK_TEXT (text_widget));
-        gtk_text_insert (GTK_TEXT (text_widget), NULL, NULL, NULL, " ", 1 );
-        gtk_text_backward_delete (GTK_TEXT (text_widget), 1);
-    }
+ 	vte_terminal_feed(VTE_TERMINAL(text_widget), message, strlen(message));
 }
 

@@ -22,8 +22,8 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
-
 #include <netinet/in.h>
+#include <vte/vte.h>
 
 #include <errno.h>
 #include <netdb.h>
@@ -61,6 +61,8 @@ static char const rcsid[] =
 static void read_from_connection (CONNECTION_DATA *, gint, GdkInputCondition);   
 static void print_error (CONNECTION_DATA *connection, const gchar *error) ;
 static void append_word_to_command (GString *string, gchar *word);
+
+extern CONNECTION_DATA *create_connection_data(gint notebook);
 
 /* Global Variables */
 extern bool		Keyflag;
@@ -113,68 +115,52 @@ void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 	g_string_free(alias, TRUE);
 	
    	connection_send (connection, check_vars (connection->profile->variables, a));
-	connection_send (connection, "\n");
+	connection_send (connection, "\r\n");
 
 	g_free(a);
 }
 
 CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 {
-  CONNECTION_DATA *connection;
-  PROFILE_DATA	  *pd;
-  GtkWidget       *label;
-  GtkWidget       *box;
+	CONNECTION_DATA *c;
+	PROFILE_DATA	*pd;
+	GtkWidget		*label;
+	GtkWidget		*box;
 
-  if (main_connection->connected) {
-    connection = g_malloc0( sizeof (CONNECTION_DATA));
-    
-    connection->window = gtk_text_new (NULL, NULL);
-    GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(connection->window), GTK_CAN_FOCUS);
-    gtk_widget_set_usize (connection->window, 500, 320);
-    gtk_signal_connect (GTK_OBJECT (connection->window), "focus-in-event", GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
-    gtk_widget_show (connection->window);
+	if (main_connection->connected)
+	{
+		box = gtk_hbox_new(FALSE, 0);
+		label = gtk_label_new(hoster);
+		gtk_widget_show(box);
+		gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box, label);
+		gtk_notebook_next_page(GTK_NOTEBOOK(main_notebook));
+		
+		c = create_connection_data(gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook)));
+		
+		gtk_box_pack_start(GTK_BOX(box), c->window, TRUE, TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(box), c->vscrollbar, TRUE, TRUE, 0);
+		gtk_widget_show_all(box);
+	}
+	else
+	{
+		c = main_connection;
+	}
 
-    connection->vscrollbar = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(connection->vscrollbar), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-	gtk_widget_show (connection->vscrollbar);
-  } else {
-    connection = main_connection;
-  }
+	g_free(c->host); g_free(c->port);
+	c->host = g_strdup(hoster);
+	c->port = g_strdup(porter);
 
-  g_free(connection->host); g_free(connection->port);
-  connection->host = g_strdup(hoster);
-  connection->port = g_strdup(porter);
+	if ((pd = profiledata_find(profile)) == NULL)
+	{
+		pd = profiledata_find("Default");
+	}
+	c->profile = pd;
 
-  if ((pd = profiledata_find(profile)) == NULL)
-  {
-	  pd = profiledata_find("Default");
-  }
-  connection->profile = pd;
+	open_connection (c);
+	// FIXME - is this needed here
+	vte_terminal_set_font_from_string(VTE_TERMINAL(c->window), prefs.FontName);
 
-  if (main_connection != connection) {
-    box = gtk_hbox_new(FALSE, 0);
-    label = gtk_label_new(connection->host);
-    gtk_notebook_append_page (GTK_NOTEBOOK(main_notebook), box, label);
-    gtk_widget_show(box);
-
-    gtk_box_pack_start(GTK_BOX(box), connection->vscrollbar, TRUE, TRUE, 0);
-   	gtk_container_add(GTK_CONTAINER(connection->vscrollbar), connection->window);
-	
-    gtk_widget_realize (connection->window);
-    /*FIXME gdk_window_set_background (GTK_TEXT (connection->window)->text_area, &prefs.Background);*/
-    gtk_notebook_next_page (GTK_NOTEBOOK (main_notebook));
-    connection->notebook = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
-    connections[connection->notebook] = connection;
-#ifdef ENABLE_MCCP
-	connection->mccp = mudcompress_new();
-#endif /* ENABLE_MCCP */
-	connection->foreground = &prefs.Foreground;
-	connection->background = &prefs.Background;
-  }
-  
-  open_connection (connection);
-
-  return connection;
+	return c;
 }
 
 void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
@@ -271,7 +257,6 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	gchar  buf[3000];
 	gchar  *triggered_action;
 	gint   numbytes;
-	gint   len;
 	GList *t;
 	gchar *mccp_buffer = NULL;
 	gchar *mccp_data;
@@ -344,7 +329,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
        /* this crashes gnome-mud */
 	m = g_strdup(mccp_data);
 #endif
-	textfield_add (connection, mccp_data, MESSAGE_ANSI);
+	textfield_add (connection, mccp_data, MESSAGE_NORMAL);
 
 	/* Added by Bret Robideaux (fayd@alliances.org)
 	 * OK, this seems like a good place to handle checking for action triggers
@@ -382,6 +367,7 @@ void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo
 	 		if(sent[i] == prefs.CommDev[0])
 			{
 	    		sent[i] = '\n';
+				// FIXME, needs to be \r\n for display
 	  		}
 		}
 
@@ -403,6 +389,7 @@ void connection_send (CONNECTION_DATA *connection, gchar *message)
 		if(sent[i] == prefs.CommDev[0])
 		{
 	    	sent[i] = '\n';
+			// FIXME, needs to be \r\n for display
 		}
     }
 #ifdef USE_PYTHON

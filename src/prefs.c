@@ -19,6 +19,7 @@
 #include "config.h"
 
 #include <sys/stat.h>
+#include <vte/vte.h>
 
 #include <errno.h>
 #include <fcntl.h>
@@ -34,7 +35,6 @@
 static char const rcsid[] =
     "$Id$";
 
-//FIXME extern GdkFont  *font_normal;
 extern GList 	*EntryHistory;
 extern GList	*EntryCurr;
 
@@ -139,7 +139,6 @@ void load_prefs ( void )
 	 */
 	prefs.EchoText     = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
 	prefs.KeepText     = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
-	prefs.Freeze       = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
 	prefs.DisableKeys  = gnome_config_get_bool  ("/gnome-mud/Preferences/DisableKeys=false");
 	prefs.CommDev      = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
 	prefs.TerminalType = gnome_config_get_string("/gnome-mud/Preferences/TerminalType=ansi");
@@ -181,21 +180,16 @@ void load_prefs ( void )
 
 		EntryCurr = NULL;
 	}
-	
-	/*
-	 * Load font
-	 */
-	// FIXME font_normal = gdk_font_load(prefs.FontName);
 }
 
 void save_prefs ( void )
 {
+	extern CONNECTION_DATA *main_connection;
 	gint  i; 
 
 	gnome_config_set_bool  ("/gnome-mud/Preferences/EchoText",    prefs.EchoText);
 	gnome_config_set_bool  ("/gnome-mud/Preferences/KeepText",    prefs.KeepText);
 	gnome_config_set_bool  ("/gnome-mud/Preferences/AutoSave",    prefs.AutoSave);
-	gnome_config_set_bool  ("/gnome-mud/Preferences/Freeze",      prefs.Freeze);
 	gnome_config_set_bool  ("/gnome-mud/Preferences/DisableKeys", prefs.DisableKeys);
 	gnome_config_set_string("/gnome-mud/Preferences/CommDev",     prefs.CommDev);
 	gnome_config_set_string("/gnome-mud/Preferences/TerminalType", prefs.TerminalType);
@@ -214,6 +208,9 @@ void save_prefs ( void )
 	}
 	
 	gnome_config_sync();
+
+	// FIXME, this should iterate all open connections
+	vte_terminal_set_font_from_string(VTE_TERMINAL(main_connection->window), prefs.FontName);
 }
 
 static void prefs_copy_color(GdkColor *a, GdkColor *b)
@@ -230,8 +227,7 @@ static void prefs_copy(SYSTEM_DATA *target, SYSTEM_DATA *prefs, gboolean alloc_c
 	target->EchoText     = prefs->EchoText;
 	target->KeepText     = prefs->KeepText;
 	target->AutoSave     = prefs->AutoSave;
-	target->DisableKeys  = prefs->DisableKeys;
-	target->Freeze       = prefs->Freeze;                 g_free(target->FontName);
+	target->DisableKeys  = prefs->DisableKeys;            g_free(target->FontName);
 	target->FontName     = g_strdup(prefs->FontName);     g_free(target->CommDev);
 	target->CommDev      = g_strdup(prefs->CommDev);      g_free(target->MudListFile);
 	target->MudListFile  = g_strdup(prefs->MudListFile);  g_free(target->TerminalType);
@@ -270,16 +266,6 @@ static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)
         pre_prefs.KeepText = FALSE;
 
     gnome_property_box_changed(box);
-}
-
-static void prefs_checkbutton_freeze_cb (GtkWidget *widget, GnomePropertyBox *box)
-{
-  if ( GTK_TOGGLE_BUTTON (widget)->active )
-    pre_prefs.Freeze = TRUE;
-  else
-    pre_prefs.Freeze = FALSE;
-  
-  gnome_property_box_changed(box);
 }
 
 static void prefs_checkbutton_disablekeys_cb(GtkWidget *widget, GnomePropertyBox *box)
@@ -382,8 +368,6 @@ static void prefs_apply_cb(GnomePropertyBox *propertybox, gint page, gpointer da
   if (page == -1) {
     prefs_copy(&prefs, &pre_prefs, TRUE);
     
-    //FIXME font_normal = gdk_font_load(prefs.FontName);
-
     save_prefs();
   }
 }
@@ -513,7 +497,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
   
   GtkWidget *vbox2;
   GtkWidget *hbox1, *hbox_term;
-  GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton_freeze, *checkbutton;
+  GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton;
   GtkWidget *label1, *label2, *label_term;
   GtkWidget *entry_divider, *entry_history, *entry_mudlistfile, *entry_term;
   GtkWidget *event_box_term;
@@ -568,20 +552,6 @@ void window_prefs (GtkWidget *widget, gpointer data)
 			NULL);
   gtk_signal_connect(GTK_OBJECT(checkbutton_keep), "toggled", GTK_SIGNAL_FUNC(prefs_checkbox_keep_cb), (gpointer) prefs_window);
  
-  checkbutton_freeze = gtk_check_button_new_with_label (_("Freeze/Thaw?"));
-  gtk_tooltips_set_tip (tooltip, checkbutton_freeze,
-			_("Using this, text will draw faster but it will not "
-			  "draw every character, only whole strings. This "
-			  "will probably make displays a lot faster if you "
-			  "are playing MUDs with a lot of different colours."),
-			NULL);
-  gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_freeze), prefs.Freeze);
-  gtk_box_pack_start (GTK_BOX (vbox2), checkbutton_freeze, FALSE, FALSE, 0);
-  GTK_WIDGET_UNSET_FLAGS (checkbutton_freeze, GTK_CAN_FOCUS);
-  gtk_widget_show(checkbutton_freeze);
-  gtk_signal_connect(GTK_OBJECT(checkbutton_freeze), "toggled",
-		     GTK_SIGNAL_FUNC(prefs_checkbutton_freeze_cb), (gpointer) prefs_window);
-
   checkbutton = gtk_check_button_new_with_label(_("Disable Systemkeys?"));
   gtk_tooltips_set_tip(tooltip, checkbutton,
 		  _("GNOME-Mud ships with a few built-in keybinds. "

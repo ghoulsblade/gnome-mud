@@ -746,9 +746,9 @@ static void connections_button_connect_cb(GtkButton *button, gpointer data)
 			if (strlen(wd->playername) > 0 && strlen(wd->password) > 0)
 			{
 				connection_send(cd, wd->playername);
-				connection_send(cd, "\n");
+				connection_send(cd, "\r\n");
 				connection_send(cd, wd->password);
-				connection_send(cd, "\n");
+				connection_send(cd, "\r\n");
 			}
 
 			gtk_widget_destroy((GtkWidget *) data);
@@ -836,9 +836,9 @@ static gboolean connections_button_press_cb(GtkWidget *widget, GdkEventButton *e
 					if (strlen(wd->playername) > 0 && strlen(wd->password) > 0)
 					{
 						connection_send(cd, wd->playername);
-						connection_send(cd, "\n");
+						connection_send(cd, "\r\n");
 						connection_send(cd, wd->password);
-						connection_send(cd, "\n");
+						connection_send(cd, "\r\n");
 					}
 
 					gtk_widget_destroy((GtkWidget *) data);

@@ -26,10 +26,8 @@
  */
 #define MESSAGE_ERR     0
 #define MESSAGE_NORMAL  1
-#define MESSAGE_ANSI    2
-#define MESSAGE_NONE    3
-#define MESSAGE_SENT    4
-#define MESSAGE_SYSTEM	5
+#define MESSAGE_SENT    2
+#define MESSAGE_SYSTEM	3
 
 /*
  * Maximum number of connections possible
@@ -51,7 +49,7 @@
  */
 typedef struct connection_data CONNECTION_DATA;
 typedef struct wizard_data     WIZARD_DATA;
-typedef	struct wizard_data2	   WIZARD_DATA2;
+typedef struct wizard_data2    WIZARD_DATA2;
 typedef struct system_data     SYSTEM_DATA;
 typedef struct keybind_data    KEYBIND_DATA;
 typedef	struct profile_data	   PROFILE_DATA;
@@ -77,15 +75,12 @@ struct connection_data
 	gboolean		 echo;
 	GtkWidget		*window;
 	GtkWidget		*vscrollbar;
-	GdkColor		*foreground;
-	GdkColor		*background;
 };
 
 struct system_data {
 	bool       EchoText;
 	bool       KeepText;
 	bool       AutoSave;
-	bool       Freeze;
 	bool       DisableKeys;
 	gchar     *FontName;
 	gchar     *CommDev;
@@ -112,13 +107,14 @@ struct wizard_data {
 };
 
 struct wizard_data2 {
-	gchar	*name;
-	gchar	*hostname;
-	gchar	*port;
-	gchar	*playername;
-	gchar	*password;
-	gchar	*profile;
+	gchar   *name;
+	gchar   *hostname;
+	gchar   *port;
+	gchar   *playername;
+	gchar   *password;
+	gchar   *profile;
 };
+
 
 struct keybind_data {
     gint	 state;
@@ -222,6 +218,7 @@ void  grab_focus_cb   ( GtkWidget* widget, gpointer user_data        );
 void  textfield_add   ( CONNECTION_DATA *, gchar *, gint             );
 
 /* wizard.c */
+CONNECTION_DATA *create_connection_data ( gint notebook );
 void  free_connection_data (CONNECTION_DATA *c             );
 void  add_wizard_connect ( gchar **entry, bool al, WIZARD_DATA *w   );
 

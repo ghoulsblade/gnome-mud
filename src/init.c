@@ -45,8 +45,6 @@ GtkWidget *box_user;
 #endif
 
 GtkWidget       *window;
-/*FIXME GdkFont         *font_normal;
-GdkFont         *font_fixed;*/
 GList           *EntryHistory = NULL;
 GList           *EntryCurr    = NULL;
 gboolean         Keyflag      = TRUE;
@@ -353,7 +351,7 @@ static void text_entry_send_command (CONNECTION_DATA *cn, gchar *cmd, GtkEntry *
 {
        gchar buf[256] ;
 
-       g_snprintf(buf, 255, "%s\n", cmd) ;
+       g_snprintf(buf, 255, "%s\r\n", cmd) ;
        connection_send(cn, buf) ;
        gtk_signal_emit_stop_by_name (GTK_OBJECT(txt), "key_press_event");
 }
@@ -370,7 +368,7 @@ static void text_entry_activate (GtkWidget *text_entry, gpointer data)
 
 	if (entry_text[0] == '\0') 
 	{
-		connection_send_data(cd, "\n", 1);
+		connection_send_data(cd, "\r\n", 1);
 		EntryCurr = NULL;
 		return;
 	}
@@ -557,6 +555,32 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 	return FALSE;
 }
 
+CONNECTION_DATA *create_connection_data(gint notebook)
+{
+	CONNECTION_DATA *c;
+
+	c = g_malloc0(sizeof(CONNECTION_DATA));
+#ifdef ENABLE_MCCP
+	c->mccp = mudcompress_new();
+#endif /* ENABLE_MCCP */
+	c->notebook = notebook;
+	c->profile = profiledata_find("Default");
+	c->window = vte_terminal_new();
+
+	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(c->window), GTK_CAN_FOCUS);
+	gtk_widget_set_usize(c->window, 500, 300);
+
+	gtk_signal_connect(GTK_OBJECT(c->window), "focus-in-event", GTK_SIGNAL_FUNC(grab_focus_cb), NULL);
+	connections[notebook] = c;
+
+	c->vscrollbar = gtk_vscrollbar_new(NULL);
+	gtk_range_set_adjustment(GTK_RANGE(c->vscrollbar), VTE_TERMINAL(c->window)->adjustment);
+
+	
+	
+	return c;
+}
+
 void free_connection_data (CONNECTION_DATA *c)
 {
 #ifdef ENABLE_MCCP
@@ -714,28 +738,11 @@ void main_window ()
 	box_h_low = gtk_hbox_new (FALSE, 0);
 	label = gtk_label_new (_("Main"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box_h_low, label);
-  
-	main_connection = g_malloc0( sizeof (CONNECTION_DATA));
-#ifdef ENABLE_MCCP
-	main_connection->mccp = mudcompress_new();
-#endif /* ENABLE_MCCP */
-	main_connection->notebook = 0;
-	main_connection->profile = profiledata_find("Default");
-	main_connection->window = vte_terminal_new();
-	
-	main_connection->foreground = &prefs.Foreground;
-	main_connection->background = &prefs.Background;
-	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_connection->window), GTK_CAN_FOCUS);
-	gtk_widget_set_usize (main_connection->window, 500, 300);
-	gtk_signal_connect (GTK_OBJECT (main_connection->window), "focus-in-event", GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
-	connections[0] = main_connection;
+ 
+	main_connection = create_connection_data(0);
 
 	gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->window, TRUE, TRUE, 0);
-  
-/*  main_connection->vscrollbar = gtk_scrolled_window_new(NULL, NULL);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(main_connection->vscrollbar), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->vscrollbar, TRUE, TRUE, 0);
-  gtk_container_add(GTK_CONTAINER(main_connection->vscrollbar), main_connection->window);*/
+	gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->vscrollbar, TRUE, TRUE, 0);
 
 	text_entry = gtk_entry_new();
 	if (EntryHistory != NULL)
