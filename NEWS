@@ -1,105 +1,102 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
---- Since 0.7.x
+GNOME-Mud 0.8.0 [UNRELEASED]
 
-Name changed to GNOME-Mud.
-Compiled using GNOME libs.
-Initial profiles support.
-Preferences reordering.
-Help dialogs "AUTHORS" and "README" removed, please see "ABOUT" or the
-documents shipped with the package.
-Manpage added (gnome-mud.6)
-French Translation.
-Spanish and Swedish updates.
-Many bugfixes.
+- Name changed to GNOME-Mud.
+- Compiled using GNOME libs.
+- Initial profiles support.
+- Preferences reordering.
+- Help dialogs "AUTHORS" and "README" removed, please see "ABOUT" or the
+  documents shipped with the package.
+- Manpage added (gnome-mud.6)
+- French Translation.
+- Spanish and Swedish updates.
+- Many bugfixes.
 
---- Since 0.6.x
+AMCL 0.7.5	(19/12/2000)
 
-Key binding. Bind your favorite keys to for example directions.
+- Bugfixes.
+- MCCP support.
+- Fix test plugin compilation.
+- Internationalization and Swedish, German, Catalan and Spanish
+  translations.
 
-Save the colors, finally you can save your favorite color settings.
+AMCL 0.7.0pl1	(01/03/2000)
 
-Command queue, send several command in one row.
+- Minor fixes.
+- AMCL creates ~/.amcl/plugins.
+- Fixed Color window title.
 
-Multiple simultanious connections. Now you can connect to several
-muds within one AMCL.
+AMCL 0.7.0	(24/02/2000)
 
-Internationalization and Swedish, German, Catalan and Spanish translations.
+- Key binding. Bind your favorite keys to for example directions.
+- Save the colors, finally you can save your favorite color settings.
+- Command queue, send several command in one row.
+- Multiple simultanious connections. Now you can connect to several
+  muds within one AMCL.
+- And of course, bugfixes, and many more bugs to be found. ;)
 
-And of course, bugfixes, and many more bugs to be found. ;)
 
---- Since 0.5.2
+AMCL 0.6.1	(10/03/1999)
 
-AutoMapper! This is not tested and can't be used to walk through the mud
-yet, it is only bundled so it can and will be tested. 
+- Bugfixes.
+- GNOME compile fixes.
 
-Compile and bugfixes. Aliases should now save and work as it is supposed
-to. Color are now standard Linux console colors. Background ANSI codes
-should also be supported now.
+AMCL 0.6.0	(05/03/1999)
 
-Color chooser! Choose what colors you want to use with what colorcode.
+- AutoMapper! This is not tested and can't be used to walk through the mud
+  yet, it is only bundled so it can and will be tested. 
+- Compile and bugfixes. Aliases should now save and work as it is supposed
+  to. Color are now standard Linux console colors. Background ANSI codes
+  should also be supported now.
+- Color chooser! Choose what colors you want to use with what colorcode.
+- AMCL also comes with triggers, please test all these things out.
 
-AMCL also comes with triggers, please test all these things out.
+AMCL 0.5.2
 
---- 0.5.1
+- Only bugfixes.
 
-Only bugfixes.
+AMCL 0.5.1
 
---- 0.5
+- GNOME! If you want it, AMCL supports it. Nothing really special about it
+  so far, just the menu bar and about window. More will come, like ability
+  to save sessions, etc.
+- Command entry now have a scollback of the last 10 commands.
 
-GNOME! If you want it, AMCL supports it. Nothing really special about it
-so far, just the menu bar and about window. More will come, like ability
-to save sessions, etc.
+- A font selector, select the font you want to use. AutoSave check button,
+  with this toggled down, aliases, preferences and the connection wizard
+  all will autosave when you press close. Good if you forget to press save
+  normally.
 
-Command entry now have a scollback of the last 10 commands.
+AMCL 0.5.0.
 
-Options
--------
+- Mostly bugfixes.
+- AMCL now creates ~/.amcl if that doesn't exist so you don't have to do
+  that by hand.
 
-A font selector, select the font you want to use. AutoSave check button,
-with this toggled down, aliases, preferences and the connection wizard all
-will autosave when you press close. Good if you forget to press save
-normally.
+AMCL 0.4.2
 
---- Since 0.4.2
+- Only bugfixes.
 
-Mostly bugfixes.
+AMCL 0.4.1
 
-Core
-----
+- Minor bugfixes.
 
-AMCL now creates ~/.amcl if that doesn't exist so you don't have to do
-that by hand.
+AMCL 0.4.0
 
---- 0.4.1
+- The code that reads from the connection and print it on the screen have
+  been redone and is a lot faster then before, hopefully every ANSI codes
+  will now be supported.
 
-Only bug fixes.
+- Two options have been added, find them at Options/Preferences, on is a
+  toggled if text sent to the mud will be echoed on the screen or not, and
+  the other one is of the text sent to the mud should be kept on the text
+  modules at the bottom or not.
 
---- 0.4
-
-Text
-----
-
-The code that reads from the connection and print it on the screen have
-been redone and is a lot faster then before, hopefully every ANSI codes
-will now be supported.
-
-Options
--------
-
-Two options have been added, find them at Options/Preferences, on is a
-toggled if text sent to the mud will be echoed on the screen or not, and
-the other one is of the text sent to the mud should be kept on the text
-modules at the bottom or not.
-
-Connection Wizard
------------------
-
-AMCL 0.4 comes with a so called Connection Wizard. It is a list of your
-favorite connections so you don't have to type them fully all the time.
-There is also an option called AutoLogin, which logins in you character on
-the mud after connection have been made.
-
-For AutoLogin to work, you must have entered both playername and password,
-you also must have commit this by pressing modify.
+- There is now something called Connection Wizard. It is a list of your
+  favorite connections so you don't have to type them fully all the time.
+  There is also an option called AutoLogin, which logins in you character
+  on the mud after connection have been made.
+- For AutoLogin to work, you must have entered both playername and password,
+  you also must have commit this by pressing modify.
