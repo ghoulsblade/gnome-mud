@@ -17,6 +17,7 @@
  */
 
 #include "config.h"
+#include <gconf/gconf-client.h>
 #include <gdk/gdkkeysyms.h>
 #include <gnome.h>
 #include <stdio.h>

@@ -29,3 +29,4 @@ gnome-mud.lsm
 gnome-mud-*.tar.gz
 mkinstalldirs
 gnome-mud.desktop
+gnome-mud.schemas

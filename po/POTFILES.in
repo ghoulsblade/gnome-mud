@@ -18,3 +18,4 @@ src/python.c
 src/window.c
 # files added by intltool-prepare
 gnome-mud.desktop.in
+gnome-mud.schemas.in

@@ -23,6 +23,7 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#include <gconf/gconf-client.h>
 #include <gnome.h>
 #include <pwd.h>
 #include <stdio.h>
@@ -35,8 +36,10 @@
 static char const rcsid[] =
     "$Id$";
 
-extern GList 	*EntryHistory;
-extern GList	*EntryCurr;
+extern GList 			*EntryHistory;
+extern GList			*EntryCurr;
+extern GConfClient		*gconf_client;
+extern CONNECTION_DATA	*connections[MAX_CONNECTIONS];
 
 SYSTEM_DATA prefs;
 SYSTEM_DATA pre_prefs;
@@ -105,11 +108,29 @@ static void prefs_save_color(GdkColor *color, gchar *prefs, gchar *name)
 	gnome_config_set_string(key, value);
 }
 
+void prefs_fontname_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	gint i;
+
+	for (i = 0; i < MAX_CONNECTIONS; i++)
+	{
+		if (connections[i] != NULL)
+		{
+			vte_terminal_set_font_from_string(VTE_TERMINAL(connections[i]->window), gconf_value_get_string(gconf_entry_get_value(entry)));
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+
 void load_prefs ( void )
 {
 	struct stat file_stat;
 	gchar dirname[256], buf[256];
 	gint i;
+	gchar *p;
 	
 	/*
 	 * Check for ~/.gnome-mud
@@ -134,9 +155,15 @@ void load_prefs ( void )
 		}
 	}
 
+	/* font name */
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/font", NULL);
+	prefs.FontName = g_strdup(p);
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/font", prefs_fontname_changed, NULL, NULL, NULL);
+	
 	/*
 	 * Get general parameters
-	 */
+	 *
 	prefs.EchoText     = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
 	prefs.KeepText     = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
 	prefs.DisableKeys  = gnome_config_get_bool  ("/gnome-mud/Preferences/DisableKeys=false");
@@ -150,24 +177,24 @@ void load_prefs ( void )
 
 	prefs.History     = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
 
-	/*
+	*
 	 * Fore-/Background Colors
-	 */
+	 *
 	prefs_load_color(&prefs.Foreground,     "Preferences", "Foreground",     "65535,65535,65535");
 	prefs_load_color(&prefs.BoldForeground, "Preferences", "BoldForeground", "65535,65535,65535");
 	prefs_load_color(&prefs.Background,     "Preferences", "Background",     "0,0,0");
 
-	/*
+	*
 	 * Other Colors
-	 */
+	 *
 	for (i = 0; i < C_MAX; i++)
 	{
 		prefs_load_color(&prefs.Colors[i], "Preferences", c_structs[i].name, c_structs[i].def);
 	}
 	
-	/*
+	*
 	 * Command history
-	 */
+	 *
 	{
 		gint  nr, i;
 		gchar **cmd_history;
@@ -179,7 +206,7 @@ void load_prefs ( void )
 		}
 
 		EntryCurr = NULL;
-	}
+	}*/
 }
 
 void save_prefs ( void )
@@ -341,13 +368,10 @@ static void prefs_checkbox_echo_cb(GtkWidget *widget, GnomePropertyBox *box)
 
 static void prefs_select_font_cb(GnomeFontPicker *fontpicker, gchar *font, gpointer data)
 {
-	if (font != NULL)
-	{
-		g_free(pre_prefs.FontName);
-		pre_prefs.FontName = g_strdup(font);
-    
-		gnome_property_box_changed((GnomePropertyBox *) data);
-	}
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/font", font, NULL);
+
+	g_free(prefs.FontName);
+	prefs.FontName = g_strdup(font);
 }
 
 static void prefs_select_color_cb(GnomeColorPicker *colorpicker, guint r, guint g, guint b, guint alpha, GdkColor *color)

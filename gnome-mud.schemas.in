@@ -1,0 +1,18 @@
+<gconfschemafile>
+	<schemalist>
+		<!-- Global settings -->
+		<schema>
+			<key>/schemas/apps/gnome-mud/font</key>
+			<applyto>/apps/gnome-mud/font</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>monospace 12</default>
+			<locale name="C">
+				<short>Font</short>
+				<long>
+				 A Pango font name. Examples are "Sans 12" or "Monospace Bold 14"
+				</long>
+			</locale>
+		</schema>
+	</schemalist>
+</gconfschemafile>

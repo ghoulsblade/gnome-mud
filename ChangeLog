@@ -1,3 +1,19 @@
+Mon Feb 24 12:43:57 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* .cvsignore: Added gnome-mud.schemas
+
+	* Makefile.am: Added schemas
+
+	* configure.ac: Added GCONF checks
+
+	* po/POTFILES.in: Added gnome-mud.schemas.in
+
+	* src/gnome-mud.c (main): Added gconf initialization
+
+	* src/prefs.c (prefs_fontname_changed): New function
+	(load_prefs): prefs.FontName is now using gconf
+	(prefs_select_font_cb): Now using gconf
+
 Fri Feb 21 12:27:34 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/gnome-mud.h: Cleanup	

@@ -19,6 +19,7 @@
 #include "config.h"
 
 #include <locale.h>
+#include <gconf/gconf-client.h>
 #include <gnome.h>
 #include <pwd.h>
 #include <signal.h>
@@ -32,15 +33,29 @@
 static char const rcsid[] =
     "$Id$";
 
+GConfClient *gconf_client;
 
 int main (gint argc, char *argv[])
 {
+	GError *err = NULL;
 	gchar buf[500];
 	
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	textdomain(PACKAGE);
   
+	/* Initialize the GConf library */
+	if (!gconf_init(argc, argv, &err))
+	{
+		g_error(_("Failed to init GConf: %s"), err->message);
+		g_error_free(err);
+		return 1;
+	}
+
+	/* Start a GConf client */
+	gconf_client = gconf_client_get_default();
+	gconf_client_add_dir(gconf_client, "/apps/gnome-mud", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	
 	gnome_init("gnome-mud", VERSION, argc, argv);  
   
 	load_prefs   (); /* load preferences */
