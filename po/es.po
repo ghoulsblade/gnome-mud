@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.8.0-CVS\n"
 "POT-Creation-Date: 2002-02-01 09:22+0100\n"
-"PO-Revision-Date: 2001-01-09 01:25+0100\n"
+"PO-Revision-Date: 2001-02-01 12:43+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -222,7 +222,7 @@ msgstr "Asistente de Conexiones..."
 
 #: src/init.c:534
 msgid "MudList Listing..."
-msgstr ""
+msgstr "Listas de MudList..."
 
 #: src/init.c:539
 msgid "Save log..."
@@ -415,40 +415,36 @@ msgid "Error getting plugin from handle."
 msgstr "Error en el manejo del conector."
 
 #: src/mudlist.c:304
-#, fuzzy
 msgid "Could not open MudList file for reading"
-msgstr "No se ha podido abrir el fichero para escritura..."
+msgstr "No se ha podido abrir la lista de muds para lectura"
 
 #: src/mudlist.c:310
-#, fuzzy
 msgid "GNOME-Mud MudList"
-msgstr "GNOME-Mud"
+msgstr "Lista de muds de GNOME-Mud"
 
 #: src/mudlist.c:320
-#, fuzzy
 msgid "Mud Name :"
-msgstr "Nombre del Conector:"
+msgstr "Nombre del Mud :"
 
 #: src/mudlist.c:334
 msgid "Codebase :"
-msgstr ""
+msgstr "Base del código :"
 
 #: src/mudlist.c:348
 msgid "Telnet Address :"
-msgstr ""
+msgstr "Dirección de telnet :"
 
 #: src/mudlist.c:362
 msgid "Connect to the mud"
-msgstr ""
+msgstr "Conectar al mud"
 
 #: src/mudlist.c:368
 msgid "Go to webpage of the mud"
-msgstr ""
+msgstr "Ir a la página web del mud"
 
 #: src/mudlist.c:375
-#, fuzzy
 msgid "Description :"
-msgstr "Descripción del Conector:"
+msgstr "Descripción :"
 
 #: src/net.c:182
 msgid "*** Connection closed.\n"
@@ -478,7 +474,7 @@ msgstr "No se pudo fijar el color"
 #: src/prefs.c:91
 #, c-format
 msgid "Font %s Loading Error"
-msgstr ""
+msgstr "Error al cargar la fuente %s"
 
 #: src/prefs.c:122
 #, c-format
@@ -491,25 +487,24 @@ msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s no existe y NO se puede crear: %s"
 
 #: src/prefs.c:397
-#, fuzzy
 msgid "Font:"
-msgstr "Puerto:"
+msgstr "Fuente:"
 
 #: src/prefs.c:406
 msgid "The quick brown fox jumps over the lazy dog"
-msgstr ""
+msgstr "Tres tristes tigres tomaban trigo en un trigal"
 
 #: src/prefs.c:418
 msgid "Color palette:"
-msgstr ""
+msgstr "Paleta de colores:"
 
 #: src/prefs.c:424
 msgid "Background color:"
-msgstr ""
+msgstr "Color de fondo:"
 
 #: src/prefs.c:430
 msgid "Foreground color:"
-msgstr ""
+msgstr "Color de la fuente:"
 
 #: src/prefs.c:515
 msgid "Echo the text sent?"
@@ -561,7 +556,7 @@ msgstr "Historial de comandos:"
 
 #: src/prefs.c:583
 msgid "MudList file:"
-msgstr ""
+msgstr "Fichero de MudList:"
 
 #: src/prefs.c:595
 msgid "Functionality"
@@ -569,7 +564,7 @@ msgstr "Funcionalidades"
 
 #: src/prefs.c:606
 msgid "Color and Fonts"
-msgstr ""
+msgstr "Colores y fuentes"
 
 #: src/profiles.c:335
 msgid "Name of new profile:"

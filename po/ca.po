@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0-CVS\n"
 "POT-Creation-Date: 2002-02-01 09:22+0100\n"
-"PO-Revision-Date: 2002-01-09 01:21+0100\n"
+"PO-Revision-Date: 2002-02-01 12:21+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -223,7 +223,7 @@ msgstr "Assistent de Conexions..."
 
 #: src/init.c:534
 msgid "MudList Listing..."
-msgstr ""
+msgstr "Llistes de la MudList..."
 
 #: src/init.c:539
 msgid "Save log..."
@@ -416,40 +416,36 @@ msgid "Error getting plugin from handle."
 msgstr "Error de manejament del connector."
 
 #: src/mudlist.c:304
-#, fuzzy
 msgid "Could not open MudList file for reading"
-msgstr "No s'ha pogut obrir el fitxer per escriptura..."
+msgstr "No s'ha pogut obrir la llista de muds per a lectura"
 
 #: src/mudlist.c:310
-#, fuzzy
 msgid "GNOME-Mud MudList"
-msgstr "GNOME-Mud"
+msgstr "Llista de muds de GNOME-Mud"
 
 #: src/mudlist.c:320
-#, fuzzy
 msgid "Mud Name :"
-msgstr "Nom del Connector:"
+msgstr "Nom del Mud :"
 
 #: src/mudlist.c:334
 msgid "Codebase :"
-msgstr ""
+msgstr "Base del codi :"
 
 #: src/mudlist.c:348
 msgid "Telnet Address :"
-msgstr ""
+msgstr "Adreça de telnet :"
 
 #: src/mudlist.c:362
 msgid "Connect to the mud"
-msgstr ""
+msgstr "Connectar al mud"
 
 #: src/mudlist.c:368
 msgid "Go to webpage of the mud"
-msgstr ""
+msgstr "Anar a la pàgina web del mud"
 
 #: src/mudlist.c:375
-#, fuzzy
 msgid "Description :"
-msgstr "Descripció del Connector:"
+msgstr "Descripció :"
 
 #: src/net.c:182
 msgid "*** Connection closed.\n"
@@ -479,7 +475,7 @@ msgstr "No s'ha pogut fixar el color"
 #: src/prefs.c:91
 #, c-format
 msgid "Font %s Loading Error"
-msgstr ""
+msgstr "Error al carregar la font %s"
 
 #: src/prefs.c:122
 #, c-format
@@ -492,25 +488,24 @@ msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s no existeix i NO es pot crear: %s"
 
 #: src/prefs.c:397
-#, fuzzy
 msgid "Font:"
-msgstr "Port:"
+msgstr "Font:"
 
 #: src/prefs.c:406
 msgid "The quick brown fox jumps over the lazy dog"
-msgstr ""
+msgstr "A la taula i al llit, al primer crit"
 
 #: src/prefs.c:418
 msgid "Color palette:"
-msgstr ""
+msgstr "Paleta de colors:"
 
 #: src/prefs.c:424
 msgid "Background color:"
-msgstr ""
+msgstr "Color de fons:"
 
 #: src/prefs.c:430
 msgid "Foreground color:"
-msgstr ""
+msgstr "Color de les fonts:"
 
 #: src/prefs.c:515
 msgid "Echo the text sent?"
@@ -562,7 +557,7 @@ msgstr "Historia d'ordres:"
 
 #: src/prefs.c:583
 msgid "MudList file:"
-msgstr ""
+msgstr "Fitxer amb la MudList:"
 
 #: src/prefs.c:595
 msgid "Functionality"
@@ -570,7 +565,7 @@ msgstr "Funcionalitats"
 
 #: src/prefs.c:606
 msgid "Color and Fonts"
-msgstr ""
+msgstr "Colors i fonts"
 
 #: src/profiles.c:335
 msgid "Name of new profile:"
