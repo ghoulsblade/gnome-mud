@@ -15,8 +15,6 @@ feel free to suggest features, contribute, or comment.
 * Copy/Paste from clipboard
 * Rewrite connection wizard step 1 [DONE]
 	+ double click on entries to connect [DONE]
-	+ be able to ping host...
-	+ several characters per host
 * Rewrite font/color support [DONE]
 * Right-click menu for connection-tabs
 * Make better use for gtk_object_(get|set)_data [DONE]
@@ -24,7 +22,7 @@ feel free to suggest features, contribute, or comment.
 * Fix error when closing wizardwindow after using profilewindow [DONE]
 * Scriptingsupport (python) [DONE]
 * Page Up, Page Down and Mousewheel support [DONE]
-* Fix Segfault in delete keybind
+* Fix Segfault in delete keybind [DONE]
 
 0.10.0
 

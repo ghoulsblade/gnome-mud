@@ -50,8 +50,6 @@ static void	on_clist_unselect_row (GtkCList *, gint, gint, GdkEvent *,
     
 extern SYSTEM_DATA  prefs;
 
-KEYBIND_DATA *KB_head = NULL;
-
 gint KB_state;
 gint KB_keyv;    
 
@@ -164,29 +162,31 @@ static void on_KB_button_add_clicked (GtkButton *button, PROFILE_DATA *pd)
 
 static void on_KB_button_delete_clicked (GtkButton *button, gpointer clist)
 {
+	PROFILE_DATA *profile = gtk_object_get_data(button, "profile");
+	
     gint i;
-    KEYBIND_DATA *tmp = KB_head, *tmp2 = NULL;
-
+    KEYBIND_DATA *tmp = profile->kd, *tmp2 = NULL;
 
     if(bind_list_selected_row >= 0)
     {
-
-        if (bind_list_selected_row == 0)
+		if (bind_list_selected_row == 0)
     	{
-	    KB_head = KB_head->next;
-	    g_free(tmp->data);
-	    g_free(tmp);
+			profile->kd = profile->kd->next;
+			g_free(tmp->data);
+			g_free(tmp);
+		}
+		else
+		{
+			for(i=1;i<bind_list_selected_row;i++, tmp = tmp->next);
+				
+			tmp2 = tmp->next;
+			tmp->next = tmp2->next;
+			g_free(tmp2->data);
+			g_free(tmp2);
+		}
+        
+		gtk_clist_remove(GTK_CLIST(clist),bind_list_selected_row);
 	}
-        else
-    	{
-    	 for(i=1;i<bind_list_selected_row;i++, tmp = tmp->next);
-    	 tmp2 = tmp->next;
-    	 tmp->next = tmp2->next;
-	 g_free(tmp2->data);
-    	 g_free(tmp2);
-	}
-        gtk_clist_remove(GTK_CLIST(clist),bind_list_selected_row);
-    }
 }
 
 static void on_clist_select_row (GtkCList *clist, gint row, gint column, GdkEvent *event, PROFILE_DATA *pd)
@@ -197,6 +197,7 @@ static void on_clist_select_row (GtkCList *clist, gint row, gint column, GdkEven
 	gchar *text;
     gint i = 0;
     KEYBIND_DATA *scroll = pd->kd;
+	
 
     bind_list_selected_row = row;
     
@@ -380,6 +381,8 @@ void window_keybind (PROFILE_DATA *pd)
   gtk_object_set_data(GTK_OBJECT(clist), "KB_button_delete", KB_button_delete);
 
   gtk_object_set_data(GTK_OBJECT(KB_button_add), "clist", clist);
+
+  gtk_object_set_data(GTK_OBJECT(KB_button_delete), "profile", pd);
   
   gtk_signal_connect(GTK_OBJECT(window_key_bind), "destroy", gtk_widget_destroyed, &window_key_bind);
   gtk_signal_connect (GTK_OBJECT (clist), "select_row", GTK_SIGNAL_FUNC (on_clist_select_row), pd);
