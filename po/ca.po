@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2001-11-05 16:06+0100\n"
+"POT-Creation-Date: 2001-11-06 18:13+0100\n"
 "PO-Revision-Date: 2001-11-05 16:46+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -124,7 +124,7 @@ msgstr "Sortir?"
 msgid "Do you really want to quit?"
 msgstr "Esteu segurs de voler sortir?"
 
-#: src/init.c:198 src/init.c:445 src/init.c:455
+#: src/init.c:198 src/init.c:460 src/init.c:470
 msgid "Connect..."
 msgstr "Connectar..."
 
@@ -227,56 +227,64 @@ msgstr ""
 msgid "GNOME-Mud homepage"
 msgstr "Pàgina principal de GNOME-Mud"
 
-#: src/init.c:441
+#: src/init.c:456
 msgid "Wizard..."
 msgstr "Assistent..."
 
-#: src/init.c:443
+#: src/init.c:458
 msgid "Profiles..."
 msgstr "Perfils..."
 
-#: src/init.c:446 src/init.c:456
+#: src/init.c:461 src/init.c:471
 msgid "Disconnect"
 msgstr "Desconnectar"
 
-#: src/init.c:448
+#: src/init.c:463
 msgid "Exit"
 msgstr "Sortir"
 
-#: src/init.c:453
+#: src/init.c:468
 msgid "Connection Wizard..."
 msgstr "Assistent de Conexions..."
 
-#: src/init.c:458
+#: src/init.c:473
 msgid "Close Window"
 msgstr "Tancar finestra"
 
-#: src/init.c:466
+#: src/init.c:481
 msgid "Plugin Information..."
 msgstr "Informació sobre Connectors..."
 
-#: src/init.c:471
+#: src/init.c:486
 msgid "Colors..."
 msgstr "Colors..."
 
-#: src/init.c:473
+#: src/init.c:488
 msgid "Auto Mapper..."
 msgstr "Automapejador..."
 
-#: src/init.c:475
+#: src/init.c:490
 msgid "Plugins"
 msgstr "Connectors"
 
-#: src/init.c:561
+#: src/init.c:497
+msgid "GNOME-Mud manual"
+msgstr "Manual de GNOME-Mud"
+
+#: src/init.c:497
+msgid "Open the GNOME-Mud manual"
+msgstr "Obrir el manual de GNOME-Mud"
+
+#: src/init.c:579
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:604
+#: src/init.c:622
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versió %s (compilat %s, %s)\n"
 
-#: src/init.c:609
+#: src/init.c:627
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït sota els termes de la Llicència Pública General GNU.\n"
 
