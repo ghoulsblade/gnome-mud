@@ -5,12 +5,15 @@
 #include <glib-object.h>
 
 #include "mud-preferences.h"
+#include "mud-profile.h"
 
 static char const rcsid[] = "$Id: ";
 
 struct _MudPreferencesPrivate
 {
 	GConfClient		*gconf_client;
+
+	GList *profile_list;
 };
 
 static void mud_preferences_init        (MudPreferences *preferences);
@@ -67,11 +70,42 @@ mud_preferences_finalize (GObject *object)
 
 	preferences = MUD_PREFERENCES(object);
 
+	g_list_free(preferences->priv->profile_list);
 	g_free(preferences->priv);
 
 	g_message("finalizing preferences...\n");
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
 	parent_class->finalize(object);
+}
+
+GList*
+mud_preferences_get_profiles (MudPreferences *prefs)
+{
+	return prefs->priv->profile_list;
+}
+
+void
+mud_preferences_load_profiles (MudPreferences *prefs)
+{
+	GSList *profiles, *entry;
+
+	profiles = gconf_client_get_list(prefs->priv->gconf_client, "/apps/gnome-mud/profiles/list", GCONF_VALUE_STRING, NULL);
+
+	for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
+	{
+		MudProfile *profile;
+		gchar *pname, *epname;
+
+		pname = g_strdup((gchar *) entry->data);
+		epname = gconf_escape_key(pname, -1);
+
+		profile = mud_profile_new(pname);
+
+		prefs->priv->profile_list = g_list_append(prefs->priv->profile_list, (gpointer) profile);
+		
+		g_free(epname);
+		g_free(pname);
+	}
 }
 
 MudPreferences*
@@ -85,6 +119,8 @@ mud_preferences_new (GConfClient *client)
 		prefs->priv->gconf_client = client;
 	}
 
+	mud_preferences_load_profiles(prefs);
+	
 	return prefs;
 }
 

@@ -4,15 +4,30 @@
 
 #include <glade/glade.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtkcellrenderer.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtktreestore.h>
+#include <gtk/gtktreeview.h>
+#include <gtk/gtktreeviewcolumn.h>
 #include <glib-object.h>
 
 #include "mud-preferences-window.h"
+#include "mud-profile.h"
 
 static char const rcsid[] = "$Id: ";
 
 struct _MudPreferencesWindowPrivate
 {
-	GConfClient		*gconf_client;
+	MudPreferences	*prefs;
+
+	GtkWidget *treeview;
+};
+
+enum
+{
+	TITLE_COLUMN,
+	DATA_COLUMN,
+	N_COLUMNS
 };
 
 static void mud_preferences_window_init        (MudPreferencesWindow *preferences);
@@ -59,7 +74,7 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 	dialog = glade_xml_get_widget(glade, "preferences_window");
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 
-	//g_signal_connect(G_OBJECT(editor), "destroy", G_CALLBACK(mud_prefereces_destroyed), preferences);
+	preferences->priv->treeview = glade_xml_get_widget(glade, "treeview");
 	
 	gtk_widget_show_all(dialog);
 	
@@ -92,14 +107,48 @@ mud_preferences_window_finalize (GObject *object)
 	parent_class->finalize(object);
 }
 
+void
+mud_preferences_window_fill_profiles (MudPreferencesWindow *window)
+{
+	GList *list, *entry;
+	GtkTreeStore *store;
+	GtkTreeIter   iter;
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *column;
+
+	store = gtk_tree_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
+	gtk_tree_view_set_model(GTK_TREE_VIEW(window->priv->treeview), GTK_TREE_MODEL(store));
+
+	renderer = gtk_cell_renderer_text_new();
+	column = gtk_tree_view_column_new_with_attributes("Title",
+													  renderer,
+													  "text", TITLE_COLUMN,
+													  NULL);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(window->priv->treeview), column);
+	
+	list = mud_preferences_get_profiles(window->priv->prefs);
+	for (entry = list; entry != NULL; entry = g_list_next(entry))
+	{
+		MudProfile *profile = (MudProfile *) entry->data;
+		
+		gtk_tree_store_append(store, &iter, NULL);
+		gtk_tree_store_set(store, &iter, 
+						   TITLE_COLUMN, profile->name,
+						   DATA_COLUMN, profile,
+						   -1);
+	}
+}
+
 MudPreferencesWindow*
-mud_preferences_window_new (GConfClient *client)
+mud_preferences_window_new (MudPreferences *preferences)
 {
 	MudPreferencesWindow *prefs;
 
 	prefs = g_object_new(MUD_TYPE_PREFERENCES_WINDOW, NULL);
-	prefs->priv->gconf_client = client;
+	prefs->priv->prefs = preferences;
 
+	mud_preferences_window_fill_profiles(prefs);
+	
 	return prefs;
 }
 

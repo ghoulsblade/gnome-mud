@@ -4,6 +4,7 @@
 G_BEGIN_DECLS
 
 #include <gconf/gconf-client.h>
+#include "mud-preferences.h"
 
 #define MUD_TYPE_PREFERENCES_WINDOW              (mud_preferences_window_get_type ())
 #define MUD_PREFERENCES_WINDOW(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_PREFERENCES_WINDOW, MudPreferencesWindow))
@@ -30,7 +31,7 @@ struct _MudPreferencesWindowClass
 
 GType mud_preferences_window_get_type (void) G_GNUC_CONST;
 
-MudPreferencesWindow* mud_preferences_window_new (GConfClient *client);
+MudPreferencesWindow* mud_preferences_window_new (MudPreferences *prefs);
 
 G_END_DECLS
 

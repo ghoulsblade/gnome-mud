@@ -28,6 +28,8 @@ gnome_mud_SOURCES =		\
 	mud-preferences.h \
 	mud-preferences-window.c \
 	mud-preferences-window.h \
+	mud-profile.c \
+	mud-profile.h \
 	mud-window.c \
 	mud-window.h
 	

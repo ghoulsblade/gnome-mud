@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 #include "mud-connection-view.h"
+#include "mud-preferences.h"
 #include "mud-preferences-window.h"
 #include "mud-window.h"
 
@@ -22,6 +23,8 @@ struct _MudWindowPrivate
 {
 	GConfClient *gconf_client;
 
+	MudPreferences *prefs;
+	
 	GtkWidget *window;
 	GtkWidget *notebook;
 	GtkWidget *textentry;
@@ -126,7 +129,7 @@ mud_window_textentry_activate(GtkWidget *widget, MudWindow *window)
 static void
 mud_window_preferences_cb(GtkWidget *widget, MudWindow *window)
 {
-	mud_preferences_window_new(window->priv->gconf_client);
+	mud_preferences_window_new(window->priv->prefs);
 }
 
 static void
@@ -227,19 +230,19 @@ mud_window_init (MudWindow *window)
 	/* connect quit buttons */
 	g_signal_connect(window->priv->window, "destroy", G_CALLBACK(mud_window_close), window);
 	g_signal_connect(glade_xml_get_widget(glade, "menu_quit"), "activate", G_CALLBACK(mud_window_close), window);
-	g_signal_connect(glade_xml_get_widget(glade, "toolbar_quit"), "clicked", G_CALLBACK(mud_window_close), window);
+	//FIXME g_signal_connect(glade_xml_get_widget(glade, "toolbar_quit"), "clicked", G_CALLBACK(mud_window_close), window);
 
 	/* connect connect buttons */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_connect"), "activate", G_CALLBACK(mud_window_connect_dialog), window);
-	g_signal_connect(glade_xml_get_widget(glade, "toolbar_connect"), "clicked", G_CALLBACK(mud_window_connect_dialog), window);
+	//FIXME g_signal_connect(glade_xml_get_widget(glade, "toolbar_connect"), "clicked", G_CALLBACK(mud_window_connect_dialog), window);
 
 	/* connect disconnect buttons */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_disconnect"), "activate", G_CALLBACK(mud_window_disconnect_cb), window);
-	g_signal_connect(glade_xml_get_widget(glade, "toolbar_disconnect"), "clicked", G_CALLBACK(mud_window_disconnect_cb), window);
+	//FIXME g_signal_connect(glade_xml_get_widget(glade, "toolbar_disconnect"), "clicked", G_CALLBACK(mud_window_disconnect_cb), window);
 
 	/* connect reconnect buttons */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_reconnect"), "activate", G_CALLBACK(mud_window_reconnect_cb), window);
-	g_signal_connect(glade_xml_get_widget(glade, "toolbar_reconnect"), "clicked", G_CALLBACK(mud_window_reconnect_cb), window);
+	//FIXME g_signal_connect(glade_xml_get_widget(glade, "toolbar_reconnect"), "clicked", G_CALLBACK(mud_window_reconnect_cb), window);
 
 	/* connect close window button */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_closewindow"), "activate", G_CALLBACK(mud_window_closewindow_cb), window);
@@ -297,9 +300,11 @@ MudWindow*
 mud_window_new (GConfClient *client)
 {
 	MudWindow *window;
-
+	
 	window = g_object_new(MUD_TYPE_WINDOW, NULL);
 	window->priv->gconf_client = client;
+
+	window->priv->prefs = mud_preferences_new(client);
 
 	return window;
 }

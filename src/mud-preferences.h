@@ -31,6 +31,7 @@ struct _MudPreferencesClass
 GType mud_preferences_get_type (void) G_GNUC_CONST;
 
 MudPreferences* mud_preferences_new (GConfClient *client);
+GList *mud_preferences_get_profiles (MudPreferences *prefs);
 
 G_END_DECLS
 

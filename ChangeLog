@@ -1,3 +1,31 @@
+2004-04-16  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/Makefile.am: mud-profile.[ch] added.
+
+	* src/mud-preferences-window.c [MudPreferencesWindowPrivate]:
+	Removed gconf_client and added prefs and treeview.
+	(mud_preferences_window_init): Save treeview in private data.
+	(mud_preferences_window_fill_profiles): Added.
+	(mud_preferences_window_new): Takes a MudPreferences as argument
+	instead of GConfClient.
+
+	* src/mud-preferences-window.h (mud_preferences_window_new): 
+	Changed prototype.
+
+	* src/mud-preferences.c [MudPreferencesPrivate]: Added profile_list.
+	(mud_preferences_finalize): Free private profile_list.
+	(mud_preferences_get_profiles): Added.
+	(mud_preferences_load_profiles): Added.
+
+	* src/mud-profile.[ch]: Added.
+
+	* src/mud-window.c [MudWindowPrivate]: Added prefs.
+	(mud_window_init): Commented out non-working toolbar.
+	(mud_window_new): Load preferences on startup.
+
+	* ui/main.glade (preferences_window): Renamed treeview and removed
+	headers.
+
 2004-04-07  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/Makefile.am: Added mud-preferences.[ch] and
