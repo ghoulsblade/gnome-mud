@@ -1,0 +1,23 @@
+Original AUTHOR
+---------------
+Robin Ericsson <lobbin@localhost.nu>
+
+Recieved Patches and Improvements
+---------------------------------
+David Zanetti <dave@lynx.co.nz>          - fixed bug i load_wizard()
+Ben Gertzfield <che@debian.org>          - creation of ~/.amcl
+Will Schenk <chilly@psu.edu>             - buffer overflow in send_to_connection
+desaster <desaster@sci.fi>               - small fix for resizing main window
+Paul Cameron <thrase@progsoc.uts.edu.au> - compile fix for gtk >= 1.1.3 and 
+                                           the wonderfull automapper
+Robert Brady <rwb197@ecs.soton.ac.uk>    - the color selection dialog
+Bret Robideaux <fayd@alliances.org>      - the action/trigger module
+
+ANSI code
+---------
+The developers of CanCan95
+http://www.sparta.lu.se/cancan95.html
+
+MODULE API
+----------
+Thanks to Staffan Thomen and the creators of gEdit.

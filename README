@@ -1,0 +1,56 @@
+Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+This program is under GPL. See file COPYING for details.
+AMCL = A simple Mud CLient
+
+1. What is it?
+
+    It is a client for connecting to MUD's (Multi User Dungeon), writtin 
+for X-Windows using the the GIMP ToolKit (GTK+). Some code used from 
+Bezerk, Xwhois, LinPopUp.
+
+    Latest version of AMCL can always be found at
+    <URL:http://www.localhost.nu/apps/amcl/>
+
+2. Requirements
+
+    A c-compiler :), and the GTK+ (the GIMP ToolKit) which can be found
+at ftp://ftp.gimp.org/pub/gtk. AMCL requires the newest version of GTK+,
+currently 1.2.X due to bugs in the text widget.
+
+    AMCL has been reported to compile and run on the following platforms,
+if you have a platform not included here, send me a mail to report.
+
+    - Linux 2.0.X
+    - Linux 2.2.X
+    - Sun Solaris 2.6
+    - FreeBSD 3.2-RELEASE
+
+3. Compiling
+
+    Fastest way to do it:
+	
+    ./configure --help
+    ./configure
+    make
+    strip src/amcl (if you want a smaller binary)
+    make install (optional, just copy it if you don't want to install)
+
+4. Problems.
+
+    Mail me <lobbin@localhost.nu>. If this is a runtime bug, please 
+include information about how I can reproduce the bug. Also include your
+version of GTK+.
+
+  * The version of GTK+     - gtk-config --version
+
+    If it was a compiling bug, please include the following:
+
+  * The version of GTK+     - gtk-config --version
+  * System type/version     - uname -a
+  * Output of ./configure   - ./configure > temp-config.txt
+  * Output of make          - make > temp-make.txt
+
+5. Contacting
+
+Robin Ericsson
+lobbin@localhost.nu

@@ -1,0 +1,29 @@
+/* src/config.h.in.  Generated automatically from configure.in by autoheader.  */
+
+/* Define to empty if the keyword does not work.  */
+#undef const
+
+/* Define if you have the ANSI C header files.  */
+#undef STDC_HEADERS
+
+#undef PACKAGE
+#undef VERSION
+#undef WITHOUT_MAPPER
+
+/* Define if you have the <arpa/telnet.h> header file.  */
+#undef HAVE_ARPA_TELNET_H
+
+/* Define if you have the <telnet.h> header file.  */
+#undef HAVE_TELNET_H
+
+/* Define if you have the <unistd.h> header file.  */
+#undef HAVE_UNISTD_H
+
+/* Define if you have the dl library (-ldl).  */
+#undef HAVE_LIBDL
+
+/* Define if you have the nsl library (-lnsl).  */
+#undef HAVE_LIBNSL
+
+/* Define if you have the socket library (-lsocket).  */
+#undef HAVE_LIBSOCKET

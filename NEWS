@@ -1,0 +1,77 @@
+NEWS for veteran AMCL users
+===========================
+
+--- Since 0.5.2
+
+AutoMapper! This is not tested and can't be used to walk through the mud
+yet, it is only bundled so it can and will be tested. 
+
+Compile and bugfixes. Aliases should now save and work as it is supposed
+to. Color are now standard Linux console colors. Background ANSI codes
+should also be supported now.
+
+Color chooser! Choose what colors you want to use with what colorcode.
+
+AMCL also comes with triggers, please test all these things out.
+
+--- 0.5.1
+
+Only bugfixes.
+
+--- 0.5
+
+GNOME! If you want it, AMCL supports it. Nothing really special about it
+so far, just the menu bar and about window. More will come, like ability
+to save sessions, etc.
+
+Command entry now have a scollback of the last 10 commands.
+
+Options
+-------
+
+A font selector, select the font you want to use. AutoSave check button,
+with this toggled down, aliases, preferences and the connection wizard all
+will autosave when you press close. Good if you forget to press save
+normally.
+
+--- Since 0.4.2
+
+Mostly bugfixes.
+
+Core
+----
+
+AMCL now creates ~/.amcl if that doesn't exist so you don't have to do
+that by hand.
+
+--- 0.4.1
+
+Only bug fixes.
+
+--- 0.4
+
+Text
+----
+
+The code that reads from the connection and print it on the screen have
+been redone and is a lot faster then before, hopefully every ANSI codes
+will now be supported.
+
+Options
+-------
+
+Two options have been added, find them at Options/Preferences, on is a
+toggled if text sent to the mud will be echoed on the screen or not, and
+the other one is of the text sent to the mud should be kept on the text
+modules at the bottom or not.
+
+Connection Wizard
+-----------------
+
+AMCL 0.4 comes with a so called Connection Wizard. It is a list of your
+favorite connections so you don't have to type them fully all the time.
+There is also an option called AutoLogin, which logins in you character on
+the mud after connection have been made.
+
+For AutoLogin to work, you must have entered both playername and password,
+you also must have commit this by pressing modify.

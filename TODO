@@ -1,0 +1,18 @@
+Things to TODO that is not done :)
+==================================
+
+- Rewrite most code into more generic gtk code
+- MSP, Mud Sound Protocol (Is there many muds using this?)
+- Multiple Connections (zMud like)
+- SOCKS support
+- Plug-in API.
+- An icon or something to use with GNOME and WM:s.
+
+- Other things you would like. Just mail me, lobbin@localhost.nu.
+
+Things that are under development
+=================================
+
+- Automapper
+- Triggers
+

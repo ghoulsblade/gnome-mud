@@ -1,0 +1,54 @@
+dnl Process this file with 
+dnl aclocal; automake; autoconf to produce a configure script.
+
+AC_INIT(src/amcl.c)
+
+AM_INIT_AUTOMAKE(amcl, 0.7.0)
+AM_CONFIG_HEADER(src/config.h)
+AM_MAINTAINER_MODE
+
+dnl Ability to disable the map feature until I found a fix for it.
+AC_ARG_ENABLE(mapper,
+	      [  --disable-mapper        Do not include automapper part of client],
+	      enable_mapper="$enableval",)
+
+if test x$enable_mapper != xyes ; then
+  if test x$enable_mapper != x ; then
+    AC_DEFINE(WITHOUT_MAPPER)
+  fi
+fi
+
+
+dnl Checks for programs.
+AC_PROG_CC
+AM_PROG_CC_STDC
+AC_PROG_LN_S
+AC_PROG_INSTALL
+
+dnl Checks for libraries.
+dnl Replace `main' with a function in -libs:
+AM_PATH_GTK(1.2.0,
+	    [LIBS="$LIBS $GTK_LIBS" 
+	     CFLAGS="$CFLAGS $GTK_CFLAGS"],
+	     AC_MSG_ERROR(Cannot find GTK: Is gtk-config in path?))
+AC_CHECK_LIB(socket,socket)
+AC_CHECK_LIB(nsl,connect)
+AC_CHECK_LIB(dl,dlopen)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(unistd.h)
+AC_CHECK_HEADERS(telnet.h arpa/telnet.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+
+dnl Checks for library functions.
+AC_CHECK_FUNC(bzero)
+AC_CHECK_FUNC(dlopen)
+
+AC_SUBST(CFLAGS)
+AC_SUBST(CPPFLAGS)
+AC_SUBST(LDFLAGS)
+
+AC_OUTPUT(Makefile src/Makefile)

@@ -1,0 +1,16 @@
+Begin3
+Title:          AMCL
+Version:        0.6.1
+Entered-date:   10MAR99
+Description:    AMCL is a simple mudclient designed for robustness, 
+                speed and trying to get those last mudders off the 
+                windows platform.
+Keywords:       amcl x11 games mud gtk moo mush gnome
+Author:         lobbin@localhost.nu (Robin Ericsson)
+Maintained-by:  lobbin@localhost.nu (Robin Ericsson)
+Primary-site:   http://amcl.localhost.nu/
+Alternate-site: sunsite.unc.edu /pub/Linux/games/muds
+Platforms:      Linux Unix X11 GTK
+Copying-policy: GPL
+End
+
