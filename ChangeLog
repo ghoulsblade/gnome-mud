@@ -1,3 +1,21 @@
+2004-06-16  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c [MudPreferencesWindowPrivate]:
+	Added notebook.
+	[enums]: Added.
+	(mud_preferences_tree_selection_cb): Added.
+	(mud_preferences_show_tab): Added.
+	(mud_preferences_window_fill_profiles): Added 3:d field to
+	TreeView. Also show preferences child and attack selected
+	callback.
+
+	* src/mud-preferences.[ch]: Changed mud_preferences_get_profiles()
+	into const.
+
+	* ui/main.glade: Renamde notebook2 to notebook. Changed size of
+	scrolledwindow for TreeView. Added missing labels for empty tabs
+	at the moment. Added preferences tab with empty tabs.
+
 2004-04-16  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/Makefile.am: mud-profile.[ch] added.

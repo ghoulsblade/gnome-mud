@@ -78,7 +78,7 @@ mud_preferences_finalize (GObject *object)
 	parent_class->finalize(object);
 }
 
-GList*
+const GList*
 mud_preferences_get_profiles (MudPreferences *prefs)
 {
 	return prefs->priv->profile_list;

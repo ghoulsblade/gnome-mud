@@ -6,10 +6,13 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkcellrenderer.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtknotebook.h>
+#include <gtk/gtktreeselection.h>
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeviewcolumn.h>
 #include <glib-object.h>
+#include <glib/gi18n.h>
 
 #include "mud-preferences-window.h"
 #include "mud-profile.h"
@@ -21,18 +24,34 @@ struct _MudPreferencesWindowPrivate
 	MudPreferences	*prefs;
 
 	GtkWidget *treeview;
+	GtkWidget *notebook;
 };
 
 enum
 {
 	TITLE_COLUMN,
 	DATA_COLUMN,
+	TYPE_COLUMN,
 	N_COLUMNS
 };
 
-static void mud_preferences_window_init        (MudPreferencesWindow *preferences);
-static void mud_preferences_window_class_init  (MudPreferencesWindowClass *preferences);
-static void mud_preferences_window_finalize    (GObject *object);
+enum
+{
+	COLUMN_NODE,
+	COLUMN_PREFERENCES
+};
+
+enum
+{
+	TAB_BLANK,
+	TAB_PREFERENCES
+};
+
+static void mud_preferences_window_init           (MudPreferencesWindow *preferences);
+static void mud_preferences_window_class_init     (MudPreferencesWindowClass *preferences);
+static void mud_preferences_window_finalize       (GObject *object);
+static void mud_preferences_tree_selection_cb     (GtkTreeSelection *selection, MudPreferencesWindow *window);
+static void mud_preferences_show_tab              (MudPreferencesWindow *window, gint tab);
 
 GType
 mud_preferences_window_get_type (void)
@@ -75,6 +94,7 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 
 	preferences->priv->treeview = glade_xml_get_widget(glade, "treeview");
+	preferences->priv->notebook = glade_xml_get_widget(glade, "notebook");
 	
 	gtk_widget_show_all(dialog);
 	
@@ -110,13 +130,15 @@ mud_preferences_window_finalize (GObject *object)
 void
 mud_preferences_window_fill_profiles (MudPreferencesWindow *window)
 {
-	GList *list, *entry;
+	const GList *list;
+	GList *entry;
 	GtkTreeStore *store;
-	GtkTreeIter   iter;
+	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
 
-	store = gtk_tree_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
+	store = gtk_tree_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_INT);
 	gtk_tree_view_set_model(GTK_TREE_VIEW(window->priv->treeview), GTK_TREE_MODEL(store));
 
 	renderer = gtk_cell_renderer_text_new();
@@ -127,15 +149,77 @@ mud_preferences_window_fill_profiles (MudPreferencesWindow *window)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(window->priv->treeview), column);
 	
 	list = mud_preferences_get_profiles(window->priv->prefs);
-	for (entry = list; entry != NULL; entry = g_list_next(entry))
+	for (entry = (GList *) list; entry != NULL; entry = g_list_next(entry))
 	{
+		GtkTreeIter iter_child;
 		MudProfile *profile = (MudProfile *) entry->data;
 		
 		gtk_tree_store_append(store, &iter, NULL);
 		gtk_tree_store_set(store, &iter, 
 						   TITLE_COLUMN, profile->name,
 						   DATA_COLUMN, profile,
+						   TYPE_COLUMN, GINT_TO_POINTER(COLUMN_NODE),
 						   -1);
+		gtk_tree_store_append(store, &iter_child, &iter);
+		gtk_tree_store_set(store, &iter_child,
+						   TITLE_COLUMN, _("Preferences"),
+						   DATA_COLUMN, profile,
+						   TYPE_COLUMN, GINT_TO_POINTER(COLUMN_PREFERENCES),
+						   -1);
+	}
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(window->priv->treeview));
+	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+	g_signal_connect(G_OBJECT(selection), "changed",
+					 G_CALLBACK(mud_preferences_tree_selection_cb), window);
+}
+
+static void
+mud_preferences_tree_selection_cb(GtkTreeSelection *selection, MudPreferencesWindow *window)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	MudProfile *profile = NULL;
+	gint type;
+	
+	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+	{
+		if (gtk_tree_model_iter_has_child(model, &iter))
+		{
+			GtkTreeIter iter_child;
+
+			if (gtk_tree_model_iter_children(model, &iter_child, &iter))
+			{
+				gtk_tree_view_expand_to_path(GTK_TREE_VIEW(window->priv->treeview),
+											 gtk_tree_model_get_path(model, &iter));
+				gtk_tree_selection_select_iter(selection, &iter_child);
+				gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(window->priv->treeview),
+											 gtk_tree_model_get_path(model, &iter_child),
+											 NULL, TRUE, 1.0f, 0.5f);
+
+				return;
+			}
+			
+		}
+		
+		gtk_tree_model_get(model, &iter, DATA_COLUMN, &profile, TYPE_COLUMN, &type, -1);
+
+		mud_preferences_show_tab(window, TAB_PREFERENCES);
+	}
+}
+
+static void
+mud_preferences_show_tab(MudPreferencesWindow *window, gint tab)
+{
+	GtkWidget *widget;
+	
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(window->priv->notebook), tab);
+	switch (tab)
+	{
+		case COLUMN_PREFERENCES:
+			widget = gtk_notebook_get_nth_page(GTK_NOTEBOOK(window->priv->notebook), COLUMN_PREFERENCES);
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(widget), 0);
+			break;
 	}
 }
 
