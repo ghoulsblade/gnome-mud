@@ -80,15 +80,19 @@ static void profile_gconf_sync_connection_list()
 static void profile_gconf_sync_wizard(WIZARD_DATA2 *wd)
 {
 	gchar buf[1024] = "";
+	gchar *cname, *pname;
 	gchar *bufn;
+
+	cname = gconf_escape_key(wd->name, -1);
+	pname = gconf_escape_key(wd->playername, -1);
 
 	if (strlen(wd->playername) > 0)
 	{
-		bufn = g_strdup_printf("%s-at-%s", wd->playername, wd->name);
+		bufn = g_strdup_printf("%s-at-%s", pname, cname);
 	}
 	else
 	{
-		bufn = g_strdup(wd->name);
+		bufn = g_strdup(cname);
 	}
 
 #define SYNC(Name, Value) \
@@ -104,6 +108,8 @@ static void profile_gconf_sync_wizard(WIZARD_DATA2 *wd)
 #undef SYNC
 
 	g_free(bufn);
+	g_free(pname);
+	g_free(cname);
 }
 
 static KEYBIND_DATA *profile_load_keybinds(gchar *profile_name)
@@ -175,16 +181,20 @@ void load_profiles()
 
 	for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
 	{
+		gchar *pname;
 		PROFILE_DATA *pd = g_malloc0(sizeof(PROFILE_DATA));
 
 		pd->name = g_strdup((gchar *) entry->data);
-		pd->alias = profile_load_list(pd->name, "aliases");
-		pd->variables = profile_load_list(pd->name, "variables");
-		pd->triggers = profile_load_list(pd->name, "triggers" );
+		pname = gconf_escape_key(pd->name, -1);
+		pd->alias = profile_load_list(pname, "aliases");
+		pd->variables = profile_load_list(pname, "variables");
+		pd->triggers = profile_load_list(pname, "triggers" );
 
-		pd->kd = profile_load_keybinds(pd->name);
+		pd->kd = profile_load_keybinds(pname);
 	
 		ProfilesData = g_list_append(ProfilesData, (gpointer) pd);
+
+		g_free(pname);
 	}
 
 	/*
@@ -193,13 +203,16 @@ void load_profiles()
 	connections = gconf_client_get_list(gconf_client, "/apps/gnome-mud/connections/list", GCONF_VALUE_STRING, NULL);
 
 #define LOAD(Name, Value) \
-		g_snprintf(buf, 1024, "/apps/gnome-mud/connections/%s/%s", (gchar *) entry->data, Name); \
+		g_snprintf(buf, 1024, "/apps/gnome-mud/connections/%s/%s", wname, Name); \
 		Value = g_strdup(gconf_client_get_string(gconf_client, buf, NULL));
 
 	for (entry = connections; entry != NULL; entry = g_slist_next(entry))
 	{
 		WIZARD_DATA2 *wd = g_malloc0(sizeof(WIZARD_DATA2));
 		gchar buf[1024];
+		gchar *wname;
+
+		wname = gconf_escape_key((gchar *) entry->data, -1);
 	
 		LOAD("name", wd->name);
 		LOAD("hostname", wd->hostname);
@@ -209,6 +222,8 @@ void load_profiles()
 		LOAD("profile", wd->profile);
 		
 		Profiles = g_list_append(Profiles, (gpointer) wd);
+
+		g_free(wname);
 	}
 
 #undef LOAD
@@ -234,6 +249,7 @@ static void profilelist_new_profile(const gchar *string, gpointer data)
 	GList *t;
 	PROFILE_DATA *pd;
 	gchar *pdir, *key, *text[2];
+	gchar *pname = gconf_escape_key(string, -1);
 
 	if (string == NULL)
 	{
@@ -248,7 +264,7 @@ static void profilelist_new_profile(const gchar *string, gpointer data)
 		}
 	}
 
-	pdir = gconf_concat_dir_and_key("/apps/gnome-mud/profiles", string);
+	pdir = gconf_concat_dir_and_key("/apps/gnome-mud/profiles", pname);
 
 #define SET_LIST(name) \
 	key = gconf_concat_dir_and_key(pdir, name); \
@@ -271,6 +287,7 @@ static void profilelist_new_profile(const gchar *string, gpointer data)
 
 	g_free(text[0]);
 	g_free(pdir);
+	g_free(pname);
 }
 
 static void profilelist_new_cb(GtkWidget *widget, gpointer data)

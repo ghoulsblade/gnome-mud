@@ -1,3 +1,10 @@
+2003-07-14  Robin Ericsson  <lobbin@localhost.nu>
+
+	* NEWS: updated.
+
+	* src/data.c, src/profiles.c: Escape wizard- and profilenames when
+	used in gconf. Fixes bug #117241.
+	
 2003-07-14  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c (window_menu_help_about): Remove obsolete comment.

@@ -117,7 +117,8 @@ static void keybind_gconf_sync(PROFILE_DATA *pd)
 {
 	KEYBIND_DATA *entry;
 	GSList *list = NULL;
-	gchar *data, *key = g_strdup_printf("/apps/gnome-mud/profiles/%s/keybinds", pd->name);
+	gchar *pname = gconf_escape_key(pd->name, -1);
+	gchar *data, *key = g_strdup_printf("/apps/gnome-mud/profiles/%s/keybinds", pname);
 
 	for (entry = pd->kd; entry != NULL; entry = entry->next)
 	{
@@ -133,6 +134,7 @@ static void keybind_gconf_sync(PROFILE_DATA *pd)
 	gconf_client_set_list(gconf_client, key, GCONF_VALUE_STRING, list, NULL);
 
 	g_free(key);
+	g_free(pname);
 }
 
 static void keybind_button_add_clicked_cb (GtkButton *button, PROFILE_DATA *pd)

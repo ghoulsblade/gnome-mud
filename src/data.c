@@ -171,7 +171,8 @@ static void data_sync_gconf(DDATA *data)
 	GSList *list = NULL, *elist;
 	GList  *entry;
 	gchar  *ldata;
-	gchar  *key = g_strdup_printf("/apps/gnome-mud/profiles/%s/%s", data->pd->name, data->file_name);
+	gchar  *pname = gconf_escape_key(data->pd->name, -1);
+	gchar  *key = g_strdup_printf("/apps/gnome-mud/profiles/%s/%s", pname, data->file_name);
 
 	for (entry = g_list_first(DATA_LIST(data)); entry != NULL; entry = g_list_next(entry))
 	{
@@ -189,6 +190,7 @@ static void data_sync_gconf(DDATA *data)
 
 	g_slist_free(list);
 	g_free(key);
+	g_free(pname);
 }
 
 static void data_delete_entry(DDATA *data, const gchar *entry, GtkTreeSelection *selection)
