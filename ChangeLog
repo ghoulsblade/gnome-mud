@@ -1,3 +1,7 @@
+Sun Jun 23 13:33:21 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* gnome-mud.desktop: fixed "Type" so it works under GNOME 2.
+
 Tue May  7 17:52:18 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/gnome-mud-plugin-api/C/gnome-mud-plugin-api.sgml: removed
