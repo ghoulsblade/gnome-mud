@@ -17,17 +17,15 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include <glib.h>
-#include <libintl.h>
+
+#include <gnome.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
 #include "gnome-mud.h"
-
-#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -386,74 +384,49 @@ void window_color (GtkWidget *a, gpointer d)
 
 void save_colors (void)
 {
-    FILE *fp;
     gint i;
 
-    if (!(fp = open_file("colors", "w"))) return;
+	gchar const *v_color_names[C_MAX], *v_color_values[C_MAX];
+	gchar c_buf[10];
 
-    for (i = 0 ; i < C_MAX; i++)
-    {
-	gint tmp;
+	for (i = 0; i < C_MAX; i++)
+	{
+		snprintf(c_buf, 10, "#%s%x%s%x%s%x", (c_structs[i]->red / 256)   < 16 ? "0" : "", c_structs[i]->red / 256,
+										   (c_structs[i]->green / 256) < 16 ? "0" : "", c_structs[i]->green / 256,
+										   (c_structs[i]->blue / 256)  < 16 ? "0" : "", c_structs[i]->blue / 256);
+	
+		v_color_names[i]  = c_captions[i];
+		v_color_values[i] = g_strdup(c_buf);
 
-		if ( strlen (c_captions[i]) > 7)
-		    fprintf (fp, "%s\t#",c_captions[i]);
-		else
-		    fprintf (fp, "%s\t\t#", c_captions[i]);
+	}
 
-                tmp = c_structs[i]->red / 256;
-                if (tmp < 16)
-                  fprintf(fp, "0%x",tmp);
-                 else
-                  fprintf(fp, "%x",tmp);
-                tmp = c_structs[i]->green / 256;
-                if (tmp < 16)
-                  fprintf(fp, "0%x",tmp);
-                 else
-                  fprintf(fp, "%x",tmp);
-                tmp = c_structs[i]->blue / 256;
-                if (tmp < 16)
-                  fprintf(fp, "0%x\n",tmp);
-                else
-                  fprintf(fp, "%x\n",tmp);
-     }
-     if (fp) fclose(fp);
+	gnome_config_set_vector("/gnome-mud/Preferences/ColorNames", C_MAX, v_color_names);
+	gnome_config_set_vector("/gnome-mud/Preferences/ColorValue", C_MAX, v_color_values);
 }
 
 void load_colors ( void )
 {
-    FILE *fp;
-    gchar line[80];
-  
+	gchar **color_names;
+	gchar **color_value;
+	gint    i, nr;
+	
     load_colors_default();
+
+	gnome_config_get_vector("/gnome-mud/Preferences/ColorNames", &nr, &color_names);
+	gnome_config_get_vector("/gnome-mud/Preferences/ColorValue", &nr, &color_value);
+
+	for (i = 0; i < nr; i++)
+	{
+		free(text_color[i]);
+		text_color[i] = g_strdup(color_value[i]);
+	}
     
-    if (!(fp = open_file("colors", "r"))) return;
-
-    while ( fgets(line, 80, fp) != NULL)
-    {
-	gchar *fontvalue;
-	gint  i;
-
-	for (i = 0; line[i] != 0 && line[i] != '#'; i++);
-	fontvalue = line+i;
-	for (;i>0 && line[i] < 'a';i--);
-	line[i+1] = 0;
-	for ( i = 0; i < C_MAX ; i++)
-	    if ( strcmp ( line, c_captions[i]) == 0)
-		{
-			free (text_color[i]);
-			text_color[i] = strdup (fontvalue);
-			break;
-		}
-    }
-
-    if (fp) fclose (fp);
-
     if ( ( font_normal = gdk_font_load (prefs.FontName) ) == NULL )
     {
         g_warning (_("Can't load font... %s Using default.\n"), prefs.FontName);
         g_free ( prefs.FontName );
         prefs.FontName = g_strdup ("fixed");
-	save_prefs ();
+		save_prefs ();
     }
 
     load_color_to_c_structs();
