@@ -1,5 +1,6 @@
+localedir = $(datadir)/locale
 CFLAGS	         += $(DEBUG_FLAGS)
-INCLUDES          = $(GNOME_INCLUDEDIR)
+INCLUDES          = -DLOCALEDIR=\"$(localedir)\" $(GNOME_INCLUDEDIR)
 EXTRA_DIST        = gnome-mud.c
 bin_PROGRAMS   	  = gnomemud
 gnomemud_SOURCES  = data.c color.c init.c keybind.c map.c \

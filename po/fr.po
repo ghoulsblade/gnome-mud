@@ -3,23 +3,24 @@
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Martin Quinson <mquinson@ens-lyon.fr>, 2001.
 #
-#: src/init.c:172
+#: src/modules.c:294
 msgid ""
 msgstr ""
 "Project-Id-Version: amcl\n"
-"POT-Creation-Date: 2000-12-19 18:35+0100\n"
+"POT-Creation-Date: 2001-06-09 18:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Martin Quinson <mquinson@ens-lyon.fr>\n"
-"Language-Team: Debian French translators <debian-l10n-french@lists.debian.org>\n"
+"Language-Team: Debian French translators <debian-l10n-french@lists.debian."
+"org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=Latin-1\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bits\n"
 
-#: src/data.c:227
+#: src/data.c:226
 msgid "No void characters allowed."
 msgstr "Pas de caractères nuls autorisés."
 
-#. actions
+#. if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
 #: src/data.c:231 src/data.c:316
 msgid "Actions"
 msgstr "Actions"
@@ -64,27 +65,27 @@ msgstr "Valeurs"
 #: src/data.c:330
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
-msgstr "window_data: tentative d'accès à des données hors de l'intervalle défini : %d"
+msgstr ""
+"window_data: tentative d'accès à des données hors de l'intervalle défini : %d"
 
 #: src/data.c:341
-msgid "AMCL Alias Center"
-msgstr "Centre des alias d'AMCL"
+msgid "GNOME-Mud Configuration Center"
+msgstr ""
 
-#: src/data.c:386 src/keybind.c:419 src/wizard.c:570
+#: src/data.c:386 src/keybind.c:420 src/wizard.c:572
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/data.c:391 src/keybind.c:426 src/wizard.c:572
+#: src/data.c:391 src/keybind.c:427 src/wizard.c:574
 msgid "Delete"
 msgstr "Effacer"
 
-#: src/color.c:336 src/data.c:395 src/keybind.c:430 src/map.c:2663
-#: src/prefs.c:443 src/wizard.c:598
+#: src/color.c:336 src/data.c:395 src/keybind.c:431 src/map.c:2663
+#: src/wizard.c:600
 msgid "Save"
 msgstr "Sauver"
 
-#: src/data.c:399 src/init.c:136 src/keybind.c:434 src/prefs.c:444
-#: src/wizard.c:599
+#: src/data.c:399 src/keybind.c:435 src/wizard.c:601
 msgid "Close"
 msgstr "Fermer"
 
@@ -93,7 +94,8 @@ msgid "Couldn't allocate color"
 msgstr "Impossible d'allouer la couleur"
 
 #: src/color.c:296
-msgid "AMCL Color Chooser"
+#, fuzzy
+msgid "GNOME-Mud Color Chooser"
 msgstr "Sélectionneur de couleurs AMCL"
 
 #: src/color.c:333 src/window.c:222
@@ -104,7 +106,7 @@ msgstr "Ok"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/color.c:335 src/wizard.c:571
+#: src/color.c:335 src/wizard.c:573
 msgid "Apply"
 msgstr "Appliquer"
 
@@ -115,153 +117,138 @@ msgstr "Par défaut"
 #: src/color.c:453
 #, c-format
 msgid "Can't load font... %s Using default.\n"
-msgstr "Impossible de charger la police... %s Utilisation du réglage par défaut.\n"
+msgstr ""
+"Impossible de charger la police... %s Utilisation du réglage par défaut.\n"
 
-#: src/init.c:96 src/init.c:387
+#: src/init.c:75
+#, fuzzy
+msgid "Quit?"
+msgstr "Quitter"
+
+#: src/init.c:81
+msgid "Do you really want to quit?"
+msgstr ""
+
+#: src/init.c:123 src/init.c:317 src/init.c:328
 msgid "Connect..."
 msgstr "Connexion..."
 
-#: src/init.c:107
+#: src/init.c:134
 msgid "Host:"
 msgstr "Hôte :"
 
-#: src/init.c:119
+#: src/init.c:141
 msgid "Port:"
 msgstr "Port :"
 
-#: src/init.c:135 src/wizard.c:597
-msgid "Connect"
-msgstr "Connecter"
+#: src/init.c:202
+msgid "Gnome-Mud"
+msgstr ""
 
-#: src/init.c:166
-msgid "About"
-msgstr "A propos"
+#: src/init.c:205
+msgid "Send bug reports to: amcl-devel@lists.sourceforge.net"
+msgstr ""
 
-#: src/init.c:172
-msgid "AMCL version "
-msgstr "Version de AMCL"
+#: src/init.c:315
+#, fuzzy
+msgid "Wizard..."
+msgstr "Variables..."
 
-#: src/init.c:176
-msgid "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
-msgstr "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
-
-#: src/init.c:180
-msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
-msgstr "Distribué sous la licence GNU GENERAL PUBLIC LICENSE (GPL)"
-
-#: src/init.c:184
-msgid "Homepage: http://amcl.sourceforge.net/"
-msgstr "Homepage: http://amcl.sourceforge.net/"
-
-#. Main menu
-#: src/init.c:374 src/init.c:546
-msgid "Main"
-msgstr "Principal"
-
-#: src/init.c:380
-msgid "Connection Wizard..."
-msgstr "Assistant de connexion..."
-
-#: src/init.c:392
+#: src/init.c:318 src/init.c:329
 msgid "Disconnect"
 msgstr "Déconnecter"
 
-#: src/init.c:399
+#: src/init.c:320
+msgid "Exit"
+msgstr ""
+
+#: src/init.c:325
+msgid "Connection Wizard..."
+msgstr "Assistant de connexion..."
+
+#: src/init.c:326
+#, fuzzy
+msgid "Connection Wizard2(tm)"
+msgstr "Assistant de connexion..."
+
+#: src/init.c:331
 msgid "Close Window"
 msgstr "Fermer la fenêtre"
 
-#: src/init.c:406
-msgid "Quit"
-msgstr "Quitter"
+#: src/init.c:339
+#, fuzzy
+msgid "Plugin Information..."
+msgstr "Information sur les greffons"
 
-#. Options menu
-#: src/init.c:412
-msgid "Options"
-msgstr "Options"
-
-#: src/init.c:418
+#: src/init.c:347
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:423
-msgid "Vars..."
-msgstr "Variables..."
+#: src/init.c:348
+#, fuzzy
+msgid "Variables..."
+msgstr "Variables"
 
-#: src/init.c:428
-msgid "Preferences..."
-msgstr "Préférences..."
-
-#: src/init.c:434
-msgid "Auto Mapper..."
-msgstr "Cartographe automatique..."
-
-#: src/init.c:440
-msgid "Colors..."
-msgstr "Couleurs..."
-
-#: src/init.c:445
+#: src/init.c:349
 msgid "Actions/Triggers..."
 msgstr "Actions/Déclencheurs..."
 
-#: src/init.c:450
-msgid "Keys..."
+#: src/init.c:350
+#, fuzzy
+msgid "Keybinds..."
 msgstr "Touches..."
 
-#. Plugins menu
-#: src/init.c:456
+#: src/init.c:352
+#, fuzzy
+msgid "Auto Mapper"
+msgstr "Cartographe automatique..."
+
+#: src/init.c:354
 msgid "Plugins"
 msgstr "Greffons"
 
-#: src/init.c:464
-msgid "Plugin Information"
-msgstr "Information sur les greffons"
+#: src/init.c:361
+msgid "README"
+msgstr ""
 
-#. Help menu
-#: src/init.c:470
-msgid "Help"
-msgstr "Aide"
+#: src/init.c:362
+msgid "AUTHORS"
+msgstr ""
 
-#: src/init.c:477
-msgid "Readme"
-msgstr "Readme"
+#: src/init.c:448
+msgid "Main"
+msgstr "Principal"
 
-#: src/init.c:483
-msgid "Authors"
-msgstr "Auteurs"
-
-#: src/init.c:491
-msgid "About..."
-msgstr "A propos..."
-
-#: src/init.c:590
+#: src/init.c:495
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribué sous les termes de la GNU General Public License.\n"
 
-#: src/keybind.c:210
+#: src/keybind.c:207
 msgid "Can't add an existing key."
 msgstr "Impossible d'ajouter une touche existante."
 
-#: src/keybind.c:231
+#: src/keybind.c:228
 msgid "Incomplete fields."
 msgstr "Champs incomplets."
 
-#: src/keybind.c:340
-msgid "AMCL Key Binding Center"
+#: src/keybind.c:342
+#, fuzzy
+msgid "GNOME-Mud Key Binding Center"
 msgstr "Centre des raccourcis claviers d'AMCL"
 
-#: src/keybind.c:365
+#: src/keybind.c:366
 msgid "Key"
 msgstr "Touche"
 
-#: src/keybind.c:369 src/keybind.c:382 src/keybind.c:400
+#: src/keybind.c:370 src/keybind.c:383 src/keybind.c:401
 msgid "Command"
 msgstr "Commande"
 
-#: src/keybind.c:378
+#: src/keybind.c:379
 msgid "Bind"
 msgstr "Lie"
 
-#: src/keybind.c:394 src/keybind.c:415
+#: src/keybind.c:395 src/keybind.c:416
 msgid "Capture"
 msgstr "Capture"
 
@@ -345,7 +332,9 @@ msgstr "node_break: aucun noeud existant dans cette direction\n"
 
 #: src/map.c:2259
 msgid "node_break: will not break links to a node going up or down\n"
-msgstr "node_break: ne va pas casser les liens vers un lien allant vers le haut ou vers le bas\n"
+msgstr ""
+"node_break: ne va pas casser les liens vers un lien allant vers le haut ou "
+"vers le bas\n"
 
 #: src/map.c:2354 src/map.c:2819
 #, c-format
@@ -358,7 +347,8 @@ msgstr "main: erreur de g_malloc0 : %s\n"
 #.
 #: src/map.c:2399
 msgid "move_player: map does not support this move situation yet\n"
-msgstr "move_player: la carte ne gère pas encore cette situation de mouvement\n"
+msgstr ""
+"move_player: la carte ne gère pas encore cette situation de mouvement\n"
 
 #: src/map.c:2550
 #, c-format
@@ -369,7 +359,8 @@ msgstr "auto_map_new: erreur de g_malloc0 : %s\n"
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
 #. gtk_window_set_title(GTK_WINDOW(automap->window), name);
 #: src/map.c:2560
-msgid "AMCL AutoMapper"
+#, fuzzy
+msgid "GNOME-Mud AutoMapper"
 msgstr "Cartographe automatique d'AMCL"
 
 #. Some buttons
@@ -428,8 +419,8 @@ msgid "map_new: g_malloc0 error: %s\n"
 msgstr "map_new: erreur de g_malloc0 : %s\n"
 
 #: src/map.c:2768
-#, c-format
-msgid "AMCL Mapper - map%d"
+#, fuzzy, c-format
+msgid "GNOME-Mud Mapper - map%d"
 msgstr "Cartographe d'AMCL - carte%d"
 
 #: src/map.c:2880
@@ -437,85 +428,69 @@ msgstr "Cartographe d'AMCL - carte%d"
 msgid "load_automap_from_file: Could not open %s for reading: %s\n"
 msgstr "load_automap_from_file: Impossible d'ouvrir %s en lecture : %s\n"
 
-#: src/modules.c:177
-msgid "AMCL Plugin Information"
-msgstr "Informations sur les greffons d'AMCL"
-
-#: src/modules.c:202
+#: src/modules.c:204
 msgid "Plugin Name:"
 msgstr "Nom de greffon :"
 
-#: src/modules.c:220
+#: src/modules.c:224
 msgid "Plugin Author:"
 msgstr "Auteur du greffon :"
 
-#: src/modules.c:237
+#: src/modules.c:234
 msgid "Plugin Version:"
 msgstr "Version du greffon :"
 
-#: src/modules.c:254
+#: src/modules.c:244
 msgid "Plugin Description:"
 msgstr "Description du greffon :"
 
-#: src/modules.c:271
-msgid " Is Plugin Enabled?"
+#: src/modules.c:254
+#, fuzzy
+msgid "Is Plugin Enabled?"
 msgstr " Le greffon est il branché ?"
 
-#: src/modules.c:358
+#: src/modules.c:407
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
 msgstr "Erreur lors de l'obtention de l'identificateur de greffon (%s) : %s"
 
-#: src/modules.c:363
-#, c-format
-msgid "Error, %s not an AMCL module: %s."
+#: src/modules.c:412
+#, fuzzy, c-format
+msgid "Error, %s not an GNOME-Mud module: %s."
 msgstr "Erreur, %s n'est pas un module AMCL: %s"
 
-#: src/modules.c:382
-msgid "Checking whether plugin should be enabled by default..."
-msgstr "Contrôle du branchement automatique du greffon.."
-
-#: src/modules.c:395
-#, c-format
-msgid "Registering plugin `%s'."
+#: src/modules.c:438
+#, fuzzy, c-format
+msgid "Registering plugin `%s' under the name `%s'."
 msgstr "Enregistrement du greffon `%s'."
 
-#: src/modules.c:396
-#, c-format
-msgid "Plug-in internal name is `%s'."
-msgstr "Le nom interne du greffon est `%s'."
-
-#: src/modules.c:404
-msgid "Running init-function..."
-msgstr "Exécution de la fonction d'initialisation..."
-
-#: src/modules_api.c:53
+#: src/modules_api.c:54
 #, c-format
 msgid "Error register menu: %s"
 msgstr "Erreur lors de l'enregistrement du menu : %s"
 
-#: src/modules_api.c:72
+#: src/modules_api.c:74
 #, c-format
 msgid "Error register for data %s: %s"
 msgstr "Erreur lors de l'enregistrement des données %s : %s"
 
-#: src/modules_api.c:80
+#: src/modules_api.c:82
 msgid "Error getting plugin from handle."
 msgstr "Erreur lors de l'obtention du greffon depuis son identificateur."
 
-#: src/net.c:154
+#: src/net.c:152
 msgid "*** Connection closed.\n"
 msgstr "*** Connexion close.\n"
 
-#: src/net.c:167
+#: src/net.c:164
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** Connexion impossible - vous n'avez pas précisé d'hôte\n"
 
-#: src/net.c:174
+#: src/net.c:171
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** Pas de port spécifié - utilisation du port 23\n"
 
-#: src/net.c:179
+#: src/net.c:176
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Connexion à `%s', port %s\n"
@@ -524,96 +499,96 @@ msgstr "*** Connexion à `%s', port %s\n"
 msgid "*** Connection established.\n"
 msgstr "*** Connexion établie.\n"
 
-#: src/prefs.c:72
+#: src/prefs.c:58
 #, c-format
 msgid "%s already exists and is not a directory!"
 msgstr "%s existe déjà, et ce n'est pas un répertoire !"
 
-#: src/prefs.c:82
+#: src/prefs.c:68
 #, c-format
 msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s n'existe pas, et ne peut PAS être crée: %s"
 
-#: src/prefs.c:94
+#: src/prefs.c:80
 #, c-format
 msgid "%s can NOT be opened in write mode."
 msgstr "Impossible d'ouvrir %s en écriture."
 
-#: src/prefs.c:100
+#: src/prefs.c:86
 #, c-format
 msgid "%s exists and can NOT be opened in read mode."
 msgstr "%s existe, et ne peut PAS être ouvert en lecture."
 
-#: src/prefs.c:326
-msgid "AMCL - Preferences"
-msgstr "AMCL - Préférences"
-
-#: src/prefs.c:337
+#: src/prefs.c:251
 msgid "Echo the text sent?"
 msgstr "Afficher le texte envoyé ?"
 
-#: src/prefs.c:342
+#: src/prefs.c:256
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
-msgstr "Quand ce choix est coché, tout le texte que vous tapez sera affiché sur la connexion, de façon à ce que vous puissiez contrôler ce que vous envoyez."
+msgstr ""
+"Quand ce choix est coché, tout le texte que vous tapez sera affiché sur la "
+"connexion, de façon à ce que vous puissiez contrôler ce que vous envoyez."
 
-#: src/prefs.c:350
+#: src/prefs.c:263
 msgid "Keep the text entered?"
 msgstr "Garder le texte entré ?"
 
-#: src/prefs.c:356
+#: src/prefs.c:268
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
 "will be left in the entry box but seleceted. Turn this off to remove the "
 "text after it has been sent."
-msgstr "Quand ce choix est coché, le texte que vous entrez et envoyez à la connexion sera gardé dans la boîte de dialogue et sélectionné. Décochez le pour effacer le texte après son envoi."
+msgstr ""
+"Quand ce choix est coché, le texte que vous entrez et envoyez à la connexion "
+"sera gardé dans la boîte de dialogue et sélectionné. Décochez le pour "
+"effacer le texte après son envoi."
 
-#: src/prefs.c:365
-msgid "AutoSave?"
-msgstr "Sauvegarde automatique ?"
-
-#: src/prefs.c:370
+#: src/prefs.c:289
 msgid ""
-"With this toggled on, Preferences, Connection Wizard and Aliases will be "
-"saved automatically."
-msgstr "Quand ce choix est coché, les préférences, l'assistant de connexion et les alias seront sauvegardé automatiquement."
+"Use this button to open the font selector to choose what font you will use."
+msgstr ""
+"Utilisez ce bouton pour ouvrir le sélectionneur de police pour choisir celle "
+"que vous allez utiliser."
 
-#: src/prefs.c:377
-msgid "Freeze/Thaw"
+#: src/prefs.c:294
+msgid "Apperence"
+msgstr ""
+
+#: src/prefs.c:310
+#, fuzzy
+msgid "Freeze/Thaw?"
 msgstr "Geler/Fondre"
 
-#: src/prefs.c:382
+#: src/prefs.c:312
 msgid ""
 "Using this, text will draw faster but it will not draw every character, only "
 "whole strings. This will probably make displays a lot faster if you are "
 "playing MUDs with a lot of different colours."
-msgstr "En utilisant cela, le texte s'affichera plus vite, mais chaque lettre ne sera pas affichée, seulement les phrases entières le seront. Cela accélérera sans doute beaucoup l'affichage si votre MUD utilise de nombreuses couleurs."
+msgstr ""
+"En utilisant cela, le texte s'affichera plus vite, mais chaque lettre ne "
+"sera pas affichée, seulement les phrases entières le seront. Cela accélérera "
+"sans doute beaucoup l'affichage si votre MUD utilise de nombreuses couleurs."
 
-#: src/prefs.c:395
-msgid "   Command divide char"
+#: src/prefs.c:328
+#, fuzzy
+msgid "Command divide char:"
 msgstr "Caractère diviseur de commande"
 
-#: src/prefs.c:415
-msgid ""
-"This is the font that AMCL is using to print the text from the MUD. If the "
-"font is unavailable when you start AMCL, the default font \"fixed.\" will be "
-"used."
-msgstr "Il s'agit de la police de caractère utilisée par AMCL pour afficher le texte du MUD. Si la police n'est pas disponible, la police par défaut \"fixed\" sera choisie."
+#: src/prefs.c:340
+#, fuzzy
+msgid "Command history:"
+msgstr "Commande"
 
-#: src/prefs.c:422
-msgid "Select font"
-msgstr "Choisir une police"
-
-#: src/prefs.c:428
-msgid ""
-"Use this button to open the font selector to choose what font you will use."
-msgstr "Utilisez ce bouton pour ouvrir le sélectionneur de police pour choisir celle que vous allez utiliser."
+#: src/prefs.c:353
+msgid "Functionality"
+msgstr ""
 
 #: src/version.c:36
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"Welcome to AMCL Version %s\n"
+"Welcome to GNOME-Mud Version %s\n"
 "Compiled by %s on %s the %s at %s\n"
 "Using %s and %s.\n"
 "\n"
@@ -624,22 +599,19 @@ msgstr ""
 "\n"
 
 #: src/window.c:207
-msgid "AMCL Popup Message"
+#, fuzzy
+msgid "GNOME-Mud Popup Message"
 msgstr "Message Popup AMCL"
 
-#: src/window.c:271
-msgid "AMCL Internal Error: "
-msgstr "Erreur interne AMCL: "
-
-#: src/wizard.c:312
+#: src/wizard.c:308
 msgid "No selection made"
 msgstr "Rien n'a été sélectionné"
 
-#: src/wizard.c:342 src/wizard.c:374
+#: src/wizard.c:338 src/wizard.c:370
 msgid "Your connection doesn't have a name."
 msgstr "Votre connexion n'a pas de nom"
 
-#: src/wizard.c:348
+#: src/wizard.c:344
 msgid ""
 "At the moment, everything but the name can be changed.\n"
 "If you need to change the name of the connection, you'll have to recreate it."
@@ -647,77 +619,182 @@ msgstr ""
 "Pour le moment, tout peut être changé sauf le nom.\n"
 "Si vous voulez changer le nom de la connexion, vous devez la recréer."
 
-#: src/wizard.c:380
+#: src/wizard.c:376
 msgid "Can't add an existing connection."
 msgstr "Impossible d'ajouter une connexion existante."
 
-#: src/wizard.c:440
+#: src/wizard.c:436
 msgid "Connections"
 msgstr "Connections"
 
 #: src/wizard.c:448
-msgid "AMCL Connection Wizard"
+#, fuzzy
+msgid "GNOME-Mud Connection Wizard"
 msgstr "Assistant de connexion AMCL"
 
-#: src/wizard.c:491
+#: src/wizard.c:493
 msgid "Connection Name:"
 msgstr "Nom de la connexion :"
 
-#: src/wizard.c:499
+#: src/wizard.c:501
 msgid ""
 "This is the name of the conection which will be displayed in the conection "
 "list."
-msgstr "Il s'agit du nom de la connexion tel qu'il sera affiché dans la liste des connexions."
+msgstr ""
+"Il s'agit du nom de la connexion tel qu'il sera affiché dans la liste des "
+"connexions."
 
-#: src/wizard.c:504
+#: src/wizard.c:506
 msgid ""
 "\n"
 "Host:"
-msgstr "\nHôte :"
+msgstr ""
+"\n"
+"Hôte :"
 
-#: src/wizard.c:511
+#: src/wizard.c:513
 msgid "This is the host where the MUD you will connect to is located."
-msgstr "Il s'agit de l'hôte sur lequel se trouve le MUD auquel vous voulez vous connecter."
+msgstr ""
+"Il s'agit de l'hôte sur lequel se trouve le MUD auquel vous voulez vous "
+"connecter."
 
-#: src/wizard.c:516
+#: src/wizard.c:518
 msgid ""
 "\n"
 "Port:"
-msgstr "\nPort:"
+msgstr ""
+"\n"
+"Port:"
 
-#: src/wizard.c:523
+#: src/wizard.c:525
 msgid ""
 "This is the port on the host that the MUD is located on. The default port is "
 "23 (telnet)."
-msgstr "Il s'agit du port de l'hôte sur lequel le MUD se trouve. Le port par défaut est 23 (telnet)."
+msgstr ""
+"Il s'agit du port de l'hôte sur lequel le MUD se trouve. Le port par défaut "
+"est 23 (telnet)."
 
-#: src/wizard.c:528
+#: src/wizard.c:530
 msgid "Auto Login?"
 msgstr "Connexion automatique ?"
 
-#: src/wizard.c:534
+#: src/wizard.c:536
+#, fuzzy
 msgid ""
-"Should AMCL login to this MUD automatically? Player Name and Password must "
-"be set to make this work."
-msgstr "AMCL doit-il se connecter automatiquement à ce MUD ? Le nom du joueur et le mot de passe doivent être établis pour que cela fonctionne"
+"Should GNOME-Mud login to this MUD automatically? Player Name and Password "
+"must be set to make this work."
+msgstr ""
+"AMCL doit-il se connecter automatiquement à ce MUD ? Le nom du joueur et le "
+"mot de passe doivent être établis pour que cela fonctionne"
 
-#: src/wizard.c:541
+#: src/wizard.c:543
 msgid ""
 "\n"
 "Player Name:"
-msgstr "\nNom de joueur :"
+msgstr ""
+"\n"
+"Nom de joueur :"
 
-#: src/wizard.c:548
+#: src/wizard.c:550
 msgid "This is the player you login to the MUD with. For use with AutoLogin."
-msgstr "Il s'agit du nom sous lequel vous voulez vous connecter. Pour la connexion automatique."
+msgstr ""
+"Il s'agit du nom sous lequel vous voulez vous connecter. Pour la connexion "
+"automatique."
 
-#: src/wizard.c:553
+#: src/wizard.c:555
 msgid ""
 "\n"
 "Password:"
-msgstr "\nMot de passe :"
+msgstr ""
+"\n"
+"Mot de passe :"
 
-#: src/wizard.c:561
+#: src/wizard.c:563
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
-msgstr "Il s'agit du mot de passe de votre compte sur ce MUD. Pour la connexion automatique."
+msgstr ""
+"Il s'agit du mot de passe de votre compte sur ce MUD. Pour la connexion "
+"automatique."
+
+#: src/wizard.c:599
+msgid "Connect"
+msgstr "Connecter"
+
+#~ msgid "AMCL Alias Center"
+#~ msgstr "Centre des alias d'AMCL"
+
+#~ msgid "About"
+#~ msgstr "A propos"
+
+#~ msgid "AMCL version "
+#~ msgstr "Version de AMCL"
+
+#~ msgid "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
+#~ msgstr "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
+
+#~ msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
+#~ msgstr "Distribué sous la licence GNU GENERAL PUBLIC LICENSE (GPL)"
+
+#~ msgid "Homepage: http://amcl.sourceforge.net/"
+#~ msgstr "Homepage: http://amcl.sourceforge.net/"
+
+#~ msgid "Options"
+#~ msgstr "Options"
+
+#~ msgid "Preferences..."
+#~ msgstr "Préférences..."
+
+#~ msgid "Colors..."
+#~ msgstr "Couleurs..."
+
+#~ msgid "Help"
+#~ msgstr "Aide"
+
+#~ msgid "Readme"
+#~ msgstr "Readme"
+
+#~ msgid "Authors"
+#~ msgstr "Auteurs"
+
+#~ msgid "About..."
+#~ msgstr "A propos..."
+
+#~ msgid "AMCL Plugin Information"
+#~ msgstr "Informations sur les greffons d'AMCL"
+
+#~ msgid "Checking whether plugin should be enabled by default..."
+#~ msgstr "Contrôle du branchement automatique du greffon.."
+
+#~ msgid "Plug-in internal name is `%s'."
+#~ msgstr "Le nom interne du greffon est `%s'."
+
+#~ msgid "Running init-function..."
+#~ msgstr "Exécution de la fonction d'initialisation..."
+
+#~ msgid "AMCL - Preferences"
+#~ msgstr "AMCL - Préférences"
+
+#~ msgid "AutoSave?"
+#~ msgstr "Sauvegarde automatique ?"
+
+#~ msgid ""
+#~ "With this toggled on, Preferences, Connection Wizard and Aliases will be "
+#~ "saved automatically."
+#~ msgstr ""
+#~ "Quand ce choix est coché, les préférences, l'assistant de connexion et "
+#~ "les alias seront sauvegardé automatiquement."
+
+#~ msgid ""
+#~ "This is the font that AMCL is using to print the text from the MUD. If "
+#~ "the font is unavailable when you start AMCL, the default font \"fixed.\" "
+#~ "will be used."
+#~ msgstr ""
+#~ "Il s'agit de la police de caractère utilisée par AMCL pour afficher le "
+#~ "texte du MUD. Si la police n'est pas disponible, la police par défaut "
+#~ "\"fixed\" sera choisie."
+
+#~ msgid "Select font"
+#~ msgstr "Choisir une police"
+
+#~ msgid "AMCL Internal Error: "
+#~ msgstr "Erreur interne AMCL: "

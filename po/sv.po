@@ -6,83 +6,83 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME-MUD 0.8.0\n"
-"POT-Creation-Date: 2001-01-14 22:46+0100\n"
+"POT-Creation-Date: 2001-06-09 18:15+0200\n"
 "PO-Revision-Date: 2001-01-14 22:47+0100\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: src/data.c:226
 msgid "No void characters allowed."
 msgstr "Inga tomma tecken tillåtna."
 
-#. actions
-#: src/data.c:230 src/data.c:315
+#. if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
+#: src/data.c:231 src/data.c:316
 msgid "Actions"
 msgstr "Actions"
 
-#: src/data.c:232
+#: src/data.c:233
 #, c-format
 msgid "Character '%c' not allowed."
 msgstr "Tecken '%c' är inte tillåtet"
 
-#: src/data.c:239 src/data.c:246
+#: src/data.c:240 src/data.c:247
 #, c-format
 msgid "%s too big."
 msgstr "%s är för stort."
 
-#: src/data.c:253
+#: src/data.c:254
 #, c-format
 msgid "Can't duplicate %s."
 msgstr "Kan inte duplicera %s."
 
 #. alias
-#: src/data.c:308
+#: src/data.c:309
 msgid "Alias"
 msgstr "Alias"
 
-#: src/data.c:309
+#: src/data.c:310
 msgid "Replacement"
 msgstr "Ersättning"
 
-#: src/data.c:316
+#: src/data.c:317
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:322
+#: src/data.c:323
 msgid "Variables"
 msgstr "Variabler"
 
-#: src/data.c:323
+#: src/data.c:324
 msgid "Values"
 msgstr "Värden"
 
-#: src/data.c:329
+#: src/data.c:330
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
 msgstr "window_data: försöker få access till undefinerat data område: %d"
 
-#: src/data.c:340
+#: src/data.c:341
 msgid "GNOME-Mud Configuration Center"
 msgstr "GNOME-Mud Inställnings Center"
 
-#: src/data.c:385 src/keybind.c:420 src/wizard.c:572
+#: src/data.c:386 src/keybind.c:420 src/wizard.c:572
 msgid "Add"
 msgstr "Lägg till"
 
-#: src/data.c:390 src/keybind.c:427 src/wizard.c:574
+#: src/data.c:391 src/keybind.c:427 src/wizard.c:574
 msgid "Delete"
 msgstr "Ta bort"
 
-#: src/color.c:336 src/data.c:394 src/keybind.c:431 src/map.c:2663
+#: src/color.c:336 src/data.c:395 src/keybind.c:431 src/map.c:2663
 #: src/wizard.c:600
 msgid "Save"
 msgstr "Spara"
 
-#: src/data.c:398 src/keybind.c:435 src/wizard.c:601
+#: src/data.c:399 src/keybind.c:435 src/wizard.c:601
 msgid "Close"
 msgstr "Stäng"
 
@@ -123,7 +123,7 @@ msgstr "Avsluta?"
 msgid "Do you really want to quit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/init.c:123 src/init.c:317 src/init.c:327
+#: src/init.c:123 src/init.c:317 src/init.c:328
 msgid "Connect..."
 msgstr "Anslut..."
 
@@ -147,7 +147,7 @@ msgstr "Skicka bugrapporter till: amcl-devel@lists.sourceforge.net"
 msgid "Wizard..."
 msgstr "Wizard..."
 
-#: src/init.c:318 src/init.c:328
+#: src/init.c:318 src/init.c:329
 msgid "Disconnect"
 msgstr "Koppla ifrån"
 
@@ -159,51 +159,56 @@ msgstr "Avsluta"
 msgid "Connection Wizard..."
 msgstr "Anslutnings Wizard..."
 
-#: src/init.c:330
+#: src/init.c:326
+#, fuzzy
+msgid "Connection Wizard2(tm)"
+msgstr "Anslutnings Wizard..."
+
+#: src/init.c:331
 msgid "Close Window"
 msgstr "Stäng fönster"
 
-#: src/init.c:338
+#: src/init.c:339
 msgid "Plugin Information..."
 msgstr "Plugin Information..."
 
-#: src/init.c:346
+#: src/init.c:347
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:347
+#: src/init.c:348
 msgid "Variables..."
 msgstr "Variabler..."
 
-#: src/init.c:348
+#: src/init.c:349
 msgid "Actions/Triggers..."
 msgstr "Actions/Triggers..."
 
-#: src/init.c:349
+#: src/init.c:350
 msgid "Keybinds..."
 msgstr "Tangenter..."
 
-#: src/init.c:351
+#: src/init.c:352
 msgid "Auto Mapper"
 msgstr "Kart Genererare..."
 
-#: src/init.c:353
+#: src/init.c:354
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:360
+#: src/init.c:361
 msgid "README"
 msgstr "LÄSMIG"
 
-#: src/init.c:361
+#: src/init.c:362
 msgid "AUTHORS"
 msgstr "Inblandade"
 
-#: src/init.c:447
+#: src/init.c:448
 msgid "Main"
 msgstr "Arkiv"
 
-#: src/init.c:494
+#: src/init.c:495
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuerad under GNU General Public License.\n"
 
@@ -456,24 +461,24 @@ msgstr "Fel i registrering av data %s: %s"
 msgid "Error getting plugin from handle."
 msgstr "Fel i att ta reda på plugin handle."
 
-#: src/net.c:154
+#: src/net.c:152
 msgid "*** Connection closed.\n"
 msgstr "*** Anslutning avslutad.\n"
 
-#: src/net.c:166
+#: src/net.c:164
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** Kan inte ansluta - du angav ingen adress\n"
 
-#: src/net.c:173
+#: src/net.c:171
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** Ingen port - antar port 23\n"
 
-#: src/net.c:178
+#: src/net.c:176
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Försöker ansluta till %s, port %s\n"
 
-#: src/net.c:205
+#: src/net.c:206
 msgid "*** Connection established.\n"
 msgstr "*** Anslutning etablerad.\n"
 
@@ -506,8 +511,8 @@ msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
 msgstr ""
-"Men denna påslagen, kommer att text du skriver och skickar att skrivas ut så "
-"\n"
+"Men denna påslagen, kommer att text du skriver och skickar att skrivas ut "
+"så \n"
 "du kan se vad du skickar."
 
 #: src/prefs.c:263
@@ -581,10 +586,6 @@ msgstr ""
 #: src/window.c:207
 msgid "GNOME-Mud Popup Message"
 msgstr "GNOME-Mud Popup Meddelande"
-
-#: src/window.c:272
-msgid "GNOME-Mud Internal Error: "
-msgstr "GNOME-Mud Internt Fel: "
 
 #: src/wizard.c:308
 msgid "No selection made"
@@ -693,3 +694,6 @@ msgstr "Detta är spelarens lösenord. Att användas med AutoLogin."
 #: src/wizard.c:599
 msgid "Connect"
 msgstr "Anslut"
+
+#~ msgid "GNOME-Mud Internal Error: "
+#~ msgstr "GNOME-Mud Internt Fel: "

@@ -18,15 +18,12 @@
 
 #include "config.h"
 
-#include <libintl.h>
 #include <locale.h>
 #include <gnome.h>
 #include <pwd.h>
 #include <signal.h>
 
 #include "gnome-mud.h"
-
-#define LOCALEDIR "/usr/share/locale"
 
 static char const rcsid[] =
     "$Id$";
