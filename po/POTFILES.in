@@ -1,9 +1,9 @@
 # List of source files containing translatable strings.
-# Copyright (C) 1995 Free Software Foundation, Inc.
-
-# Package source files
-src/gnome-mud.c
+# Please keep this file sorted alphabetically.
+gnome-mud.desktop.in
+gnome-mud.schemas.in
 src/data.c
+src/gnome-mud.c
 src/init.c
 src/keybind.c
 src/log.c
@@ -16,6 +16,3 @@ src/prefs.c
 src/profiles.c
 src/python.c
 src/window.c
-# files added by intltool-prepare
-gnome-mud.desktop.in
-gnome-mud.schemas.in
