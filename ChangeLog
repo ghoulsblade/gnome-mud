@@ -1,3 +1,28 @@
+2003-01-08  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/map.c (path_type_dialog): Fix compile warning.
+
+	* src/init.c (window_menu_file_close), (main):
+	* src/net.c (action_send_to_connection): Only show connection
+	tabs if there's more than one, and set the main tab label to the
+	connection name.
+	Add a connection status icon to the connection tab.
+	* src/eggtrayicon.[ch]:
+	* src/tray.c: New file, notification area icon to show/hide the
+	main window, and notify about new data.
+	Patches by Nuno Sousa <nunofgs@punkass.com>.
+
+	* src/Makefile.am (SUBDIRS): Add pixmaps.
+	(GMPIXMAPSDIR): Added new directory for gnome-mud icons.
+	(gnome-mud_SOURCES): Updated.
+	* src/pixmaps/Makefile.am: New.
+	* src/pixmaps/connection.png, src/pixmaps/connection-offline.png:
+	Added.
+
+	* configure.ac (AC_OUTPUT): Updated.
+
+	* NEWS: Updated.
+
 2004-01-03  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/modules_api.[ch], src/net.c: Reapply Quim's patch, with a pair

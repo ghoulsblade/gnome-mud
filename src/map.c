@@ -957,7 +957,7 @@ void path_type_dialog(AutoMap* automap, const gchar* name)
 	result = gtk_dialog_run(GTK_DIALOG(dialog));
 
 	/* When the dialog is destroyed, create the path */
-	on_create_path(dialog, result, data);
+	on_create_path(GTK_DIALOG(dialog), result, data);
 }
 
 void user_command(AutoMap* automap, const gchar* command)

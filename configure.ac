@@ -217,6 +217,7 @@ AC_OUTPUT([
   doc/gnome-mud-plugin-api/C/Makefile
   doc/omf-install/Makefile
   src/Makefile
+  src/pixmaps/Makefile
   plugins/Makefile
   po/Makefile.in
 ])

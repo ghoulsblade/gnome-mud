@@ -201,6 +201,10 @@ static void window_menu_file_reconnect (GtkWidget *widget, gpointer data)
 {
 	CONNECTION_DATA *cd;
 	gint i;
+        GtkWidget		*label;
+        GtkWidget		*image = NULL;
+        GtkWidget		*box_label;
+
 
 	i = gtk_notebook_get_current_page (GTK_NOTEBOOK(main_notebook));
 	cd = connections[i];
@@ -217,6 +221,18 @@ static void window_menu_file_reconnect (GtkWidget *widget, gpointer data)
 	}
 
 	open_connection(cd);
+
+        if (cd->connected == TRUE) {
+                image = gtk_image_new_from_file(GMPIXMAPSDIR "/connection-online.png");
+                label = gtk_label_new(cd->host);
+
+                box_label = gtk_hbox_new (FALSE, 0);
+                gtk_box_pack_start (GTK_BOX (box_label), image, TRUE, TRUE, 0);
+                gtk_box_pack_start (GTK_BOX (box_label), label, FALSE, FALSE, 0);
+                gtk_widget_show_all(box_label);
+
+                gtk_notebook_set_tab_label(GTK_NOTEBOOK(main_notebook), gtk_notebook_get_nth_page(GTK_NOTEBOOK(main_notebook), i), box_label);
+        }
 } /* window_menu_file_reconnect */
 
 static void window_menu_help_about (GtkWidget *widget, gpointer data)
@@ -532,9 +548,10 @@ void free_connection_data (CONNECTION_DATA *c)
 static void window_menu_file_close (GtkWidget *widget, gpointer data)
 {
 	CONNECTION_DATA *cd;
-	gint number, i;
+	gint number, i, tabs;
 
 	number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
+        tabs = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_notebook));
 
 	cd = connections[number];
 
@@ -548,9 +565,12 @@ static void window_menu_file_close (GtkWidget *widget, gpointer data)
 		disconnect (NULL, cd);
 	}
 
-	if (cd != main_connection)
-	{
+        if (tabs > 1) {
 		gtk_notebook_remove_page (GTK_NOTEBOOK (main_notebook), number);
+                tabs--;
+                if (tabs == 1)
+                        gtk_notebook_set_show_tabs(GTK_NOTEBOOK(main_notebook), FALSE);
+
 
 		free_connection_data (cd);
 
@@ -559,6 +579,9 @@ static void window_menu_file_close (GtkWidget *widget, gpointer data)
 			int old = i++;
 			connections[old] = connections[i];
 		}
+
+                if (cd == main_connection)
+                       main_connection = connections[0];
 	}
 }
 
@@ -715,6 +738,8 @@ void main_window ()
 	GtkWidget *box_main;
 	GtkWidget *box_main2;
 	GtkWidget *box_h_low;
+        GtkWidget *box_label;
+        GtkWidget *image = NULL;
 	char  buf[1024];
   
 	window = gnome_app_new("gnome-mud", "GNOME Mud");
@@ -735,17 +760,28 @@ void main_window ()
 */
   
 	box_main2 = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (box_main), box_main2, TRUE, TRUE, 5);
+	gtk_box_pack_start (GTK_BOX (box_main), box_main2, TRUE, TRUE, 1);
 
 	main_notebook = gtk_notebook_new();
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(main_notebook), tab_location_by_gtk(prefs.TabLocation));
 	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_notebook), GTK_CAN_FOCUS);
 	gtk_signal_connect (GTK_OBJECT (main_notebook), "switch-page", GTK_SIGNAL_FUNC (switch_page_cb), NULL);
-	gtk_box_pack_start (GTK_BOX (box_main2), main_notebook, TRUE, TRUE, 5);
-  
+	gtk_box_pack_start (GTK_BOX (box_main2), main_notebook, TRUE, TRUE, 1);
+	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(main_notebook), FALSE);
+	gtk_notebook_set_show_border(GTK_NOTEBOOK(main_notebook), FALSE);
+
 	box_h_low = gtk_hbox_new (FALSE, 0);
+
+	image = gtk_image_new_from_file(GMPIXMAPSDIR "/connection-offline.png");
+	/* Do we really need this now? */
 	label = gtk_label_new (_("Main"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box_h_low, label);
+
+	box_label = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box_label), image, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (box_label), label, FALSE, FALSE, 0);
+	gtk_widget_show_all(box_label);
+
+	gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box_h_low, box_label);
  
 	main_connection = create_connection_data(0);
 
@@ -753,6 +789,11 @@ void main_window ()
 	gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->vscrollbar, FALSE, FALSE, 0);
 
 	text_entry = gtk_entry_new();
+	/* Need to fix the text entry cursor/text colour 
+	gtk_widget_modify_base(text_entry, GTK_STATE_NORMAL, &prefs.Background);
+	gtk_widget_modify_text(text_entry, GTK_STATE_NORMAL, &prefs.Foreground);
+	*/ 
+
 	if (EntryHistory != NULL)
 	{
 		// FIXME
@@ -765,6 +806,8 @@ void main_window ()
 	gtk_widget_grab_focus (text_entry);
   
 	gtk_widget_show_all (window);
+	tray_create();
+
 	vte_terminal_set_font_from_string(VTE_TERMINAL(main_connection->window), prefs.FontName);
  
 	g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\n"), VERSION, __TIME__, __DATE__);

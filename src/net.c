@@ -129,7 +129,7 @@ void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 	connection_send (connection, check_vars (connection->profile->variables, a));
 
 #ifndef WITHOUT_MAPPER	
-	for (puck = AutoMapList; puck!= NULL; puck = puck->next)
+	for (puck = AutoMapList; puck != NULL; puck = puck->next)
 		user_command(puck->data, check_vars (connection->profile->variables, a));	
 #endif	
 	
@@ -141,15 +141,28 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 	CONNECTION_DATA *c;
 	PROFILE_DATA	*pd;
 	GtkWidget		*label;
+	GtkWidget		*image = NULL;
 	GtkWidget		*box;
+	GtkWidget		*box_label;
+
+
+        image = gtk_image_new_from_file(GMPIXMAPSDIR "/connection-offline.png");
+        label = gtk_label_new(hoster);
+
+        box_label = gtk_hbox_new (FALSE, 0);
+        gtk_box_pack_start (GTK_BOX (box_label), image, TRUE, TRUE, 0);
+        gtk_box_pack_start (GTK_BOX (box_label), label, FALSE, FALSE, 0);
+        gtk_widget_show_all(box_label);
 
 	if (main_connection->connected)
 	{
 		box = gtk_hbox_new(FALSE, 0);
-		label = gtk_label_new(hoster);
 		gtk_widget_show(box);
-		gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box, label);
+
+		gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box, box_label);
 		gtk_notebook_next_page(GTK_NOTEBOOK(main_notebook));
+                if ( gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_notebook)) > 1 )
+                       gtk_notebook_set_show_tabs(GTK_NOTEBOOK(main_notebook), TRUE);
 		
 		c = create_connection_data(gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook)));
 		
@@ -160,6 +173,9 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 	else
 	{
 		c = main_connection;
+
+                gtk_notebook_set_tab_label(GTK_NOTEBOOK(main_notebook), gtk_notebook_get_nth_page(GTK_NOTEBOOK(main_notebook), -1), box_label);
+
 	}
 
 	g_free(c->host); g_free(c->port);
@@ -173,6 +189,12 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 	c->profile = pd;
 
 	open_connection (c);
+
+        if (c->connected == TRUE) {
+                gtk_image_set_from_file(GTK_IMAGE(image), GMPIXMAPSDIR "/connection-online.png");
+                gtk_notebook_set_tab_label(GTK_NOTEBOOK(main_notebook), gtk_notebook_get_nth_page(GTK_NOTEBOOK(main_notebook), -1), box_label);
+        }
+
 	// FIXME - is this needed here
 	vte_terminal_set_font_from_string(VTE_TERMINAL(c->window), prefs.FontName);
 
@@ -181,6 +203,11 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 
 void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 {
+    GtkWidget		*label;
+    GtkWidget		*image = NULL;
+    GtkWidget		*box_label;
+
+
     close (connection->sockfd);
 #ifdef ENABLE_MCCP
     mudcompress_delete(connection->mccp);
@@ -190,6 +217,16 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 
     textfield_add (connection, _("*** Connection closed.\n"), MESSAGE_SYSTEM);
     connection->connected = FALSE;
+
+    image = gtk_image_new_from_file(PIXMAPSDIR "/gossip-offline.png");
+    label = gtk_label_new(connection->host);
+
+    box_label = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (box_label), image, TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (box_label), label, FALSE, FALSE, 0);
+    gtk_widget_show_all(box_label);
+
+    gtk_notebook_set_tab_label(GTK_NOTEBOOK(main_notebook), gtk_notebook_get_nth_page(GTK_NOTEBOOK(main_notebook), gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook))), box_label);
 }
 
 void open_connection (CONNECTION_DATA *connection)

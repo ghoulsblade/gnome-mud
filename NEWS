@@ -1,6 +1,14 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
+GNOME-Mud 0.10.5  (xx/xx/xxxx)
+
+- Reapply a fixed version of the plugin interface patch [Dani Carbonell]
+- Tabs are shown only if there are 2 or more open [Nuno Sousa]
+- Show connection status in the connection tabs [Nuno Sousa]
+- Add a notification area icon to hide/show main window and to notify
+  new incoming data [Nuno Sousa]
+
 GNOME-Mud 0.10.4a (02/01/2004)
 
 - Revert plugin support patch which caused random segfaults [Jordi]

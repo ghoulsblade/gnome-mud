@@ -157,6 +157,16 @@ struct _AutoMapConfig
 };
 #endif
 
+enum tray_status
+{
+        offline,
+        offline_connecting,
+        online,
+        online_connecting
+        // could use a few more
+};
+
+
 
 /*
  * Function declares
@@ -252,5 +262,11 @@ void  terminal_feed   ( GtkWidget *, gchar *data                     );
 /* wizard.c */
 CONNECTION_DATA *create_connection_data ( gint notebook );
 void  free_connection_data (CONNECTION_DATA *c             );
+
+/* tray.c */
+void tray_create();
+void tray_destroy();
+void tray_menu();
+void tray_update_icon (enum tray_status icon);
 
 #endif /* __GNOME_MUD_H__ */
