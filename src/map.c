@@ -2024,7 +2024,7 @@ static void button_cb (GtkWidget *widget, AutoMap *automap)
             strcpy(dir, "default.map");
         } else {
             strcpy(dir, home);
-            strcat(dir, "/.amcl/");
+            strcat(dir, "/.gnome-mud/");
 
             if (!stat(dir, &dirstat) && S_ISDIR(dirstat.st_mode)) {
                 strcat(dir, "default.map");

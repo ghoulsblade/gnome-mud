@@ -43,6 +43,35 @@ SYSTEM_DATA pre_prefs;
 
 void load_prefs ( void )
 {
+	struct stat file_stat;
+	gchar dirname[256], buf[256];
+
+	/*
+	 * Check for ~/.gnome-mud
+	 */
+	g_snprintf (dirname, 255, "%s/.gnome-mud", g_get_home_dir());
+	if ( stat (dirname, &file_stat) == 0) /* can we stat ~/.gnome-mud? */
+	{
+		if ( !(S_ISDIR(file_stat.st_mode))) /* if it's not a directory */
+		{
+			g_snprintf (buf, 255, _("%s already exists and is not a directory!"), dirname);
+			popup_window (buf);
+			return;
+		}
+	} 
+	else /* it must not exist */
+	{
+		if ((mkdir (dirname, 0777)) != 0) /* this isn't dangerous, umask modifies it */
+		{
+			g_snprintf (buf, 255, _("%s does not exist and can NOT be created: %s"), dirname, strerror(errno));
+			popup_window (buf);
+			return;
+		}
+	}
+
+	/*
+	 * Get general parameters
+	 */
 	prefs.EchoText = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
 	prefs.KeepText = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
 	prefs.Freeze   = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
