@@ -224,6 +224,11 @@ void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer 
   if (text_entry != NULL) gtk_widget_grab_focus(text_entry);
 }
 
+void grab_focus_cb (GtkWidget* widget, gpointer user_data)
+{
+	if (text_entry != NULL) gtk_widget_grab_focus(text_entry);
+} // grab_focus
+
 void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
 {
     gchar *start, c;

@@ -1,3 +1,22 @@
+Mon Apr  3 20:42:55 2000  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Fixed bugs:
+	[103619]: Resizing AMCL-Window will not resize the textarea
+
+	* AUTHORS: Added Jörgen Kosche for his focus-patches.
+
+	* README: Added some more OSes and GTK versions.
+
+	* src/amcl.h: grab_focus_cb() added.
+
+	* src/init.c, src/net.c: See bug above.
+
+	* src/prefs.c (check_amcl_dir): Removed some messages.
+
+	* src/version.c (get_version_info): Added some \n:s
+
+	* src/window.c (grab_focus_cb): Added.
+
 Tue Mar 28 22:11:36 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Fixed bugs:

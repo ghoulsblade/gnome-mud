@@ -169,6 +169,7 @@ int   check_amcl_dir  ( gchar *dirname                     );
 void  window_alias    ( GtkWidget *widget, gpointer data             );
 void  popup_window    ( const gchar *message                         );
 void  switch_page_cb  ( GtkNotebook *, gpointer, guint, gpointer     );
+void	grab_focus_cb   ( GtkWidget* widget, gpointer user_data        );
 void  textfield_add   ( GtkWidget *widget, gchar *me, gint colortype );
 
 /* wizard.c */

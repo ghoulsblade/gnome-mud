@@ -164,6 +164,8 @@ CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
     
     connection->window = gtk_text_new (NULL, NULL);
     gtk_widget_set_usize (connection->window, 500, 320);
+    gtk_signal_connect (GTK_OBJECT (connection->window), "focus-in-event",
+    							GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
     gtk_widget_show (connection->window);
 
     connection->vscrollbar = gtk_vscrollbar_new(GTK_TEXT(connection->window)->vadj);
@@ -182,7 +184,7 @@ CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
     gtk_notebook_append_page (GTK_NOTEBOOK(main_notebook), box, label);
     gtk_widget_show(box);
 
-    gtk_box_pack_start(GTK_BOX(box), connection->window, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), connection->window, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(box), connection->vscrollbar, FALSE, FALSE, 0);
     
     gtk_widget_realize (connection->window);

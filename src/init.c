@@ -531,7 +531,9 @@ void init_window ()
     main_connection->notebook = 0;
     main_connection->window = gtk_text_new (NULL, NULL);
     gtk_widget_set_usize (main_connection->window, 500, 320);
-    gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->window, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->window, TRUE, TRUE, 0);
+    gtk_signal_connect (GTK_OBJECT (main_connection->window), "focus-in-event",
+    							GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
     gtk_widget_show (main_connection->window);
     connections[0] = main_connection;
     

@@ -29,7 +29,7 @@ static char const rcsid[] =
 
 char * get_version_info (char *buf)
 {
-    sprintf (buf, "Welcome to AMCL Version %s\nCompiled by %s on %s the %s at %s\nUsing %s and %s.\n",
+    sprintf (buf, "Welcome to AMCL Version %s\nCompiled by %s on %s the %s at %s\nUsing %s and %s.\n\n",
              PROG_VERSION,
              COMPILE_BY, COMPILE_HOST, COMPILE_DATE, COMPILE_TIME,
              CC_VERSION, GTK_VERSION);

@@ -20,10 +20,11 @@ currently 1.2.X due to bugs in the text widget.
     AMCL has been reported to compile and run on the following platforms,
 if you have a platform not included here, send me a mail to report.
 
-    - Linux 2.0, 2.1, 2.2
-    - FreeBSD 3.x-STABLE
+    - i386
+        - Linux 2.0, 2.1, 2.2
+        - FreeBSD 3.x-STABLE, 4.0-STABLE
 
-    - GTK+ 1.2.4, 1.2.6
+    - GTK+ 1.2.4, 1.2.6, 1.2.7
 
 3. Compiling
 
