@@ -1,3 +1,7 @@
+Wed May 28 13:26:44 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
+
+	* NEWS, README: Update for 0.10.0.
+
 Wed May 28 10:43:31 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Restructuring of gconf keys.	
@@ -94,7 +98,7 @@ Wed Apr  2 10:23:57 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/window.c (popup_window): Dialog rewritten.
 
-	* src/*.sv: Updated translations.
+	* src/*.po: Updated translations.
 
 Fri Mar 28 10:58:45 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 

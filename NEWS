@@ -1,15 +1,16 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
-GNOME-Mud 0.10.0	(UNRELEASED)
+GNOME-Mud 0.10.0 (UNRELEASED)
 
 - GNOME2 port, at long last!
 - GNOME-Mud will now install the binary by default in $(prefix)/games.
 - Python modules are now searched in ~/.gnome-mud/plugins/.
 - We now have IPv6 support.
 - AutoMapper is now working with speedwalking.
+- Docs have been temporarily disabled.
 
-GNOME-Mud 0.9.1	(02/07/2002)
+GNOME-Mud 0.9.1 (02/07/2002)
 
 - Minor fixes.
 - Added mnemonics to all menu items.
@@ -58,7 +59,7 @@ GNOME-Mud 0.8.0 (08/11/2001)
 - Catalan, Spanish and Swedish updates.
 - Many bugfixes.
 
-AMCL 0.7.5	(19/12/2000)
+AMCL 0.7.5 (19/12/2000)
 
 - Bugfixes.
 - MCCP support.
@@ -66,13 +67,13 @@ AMCL 0.7.5	(19/12/2000)
 - Internationalization and Swedish, German, Catalan and Spanish
   translations.
 
-AMCL 0.7.0pl1	(01/03/2000)
+AMCL 0.7.0pl1 (01/03/2000)
 
 - Minor fixes.
 - AMCL creates ~/.amcl/plugins.
 - Fixed Color window title.
 
-AMCL 0.7.0	(24/02/2000)
+AMCL 0.7.0 (24/02/2000)
 
 - Key binding. Bind your favorite keys to for example directions.
 - Save the colors, finally you can save your favorite color settings.
@@ -82,12 +83,12 @@ AMCL 0.7.0	(24/02/2000)
 - And of course, bugfixes, and many more bugs to be found. ;)
 
 
-AMCL 0.6.1	(10/03/1999)
+AMCL 0.6.1 (10/03/1999)
 
 - Bugfixes.
 - GNOME compile fixes.
 
-AMCL 0.6.0	(05/03/1999)
+AMCL 0.6.0 (05/03/1999)
 
 - AutoMapper! This is not tested and can't be used to walk through the mud
   yet, it is only bundled so it can and will be tested. 
@@ -97,11 +98,11 @@ AMCL 0.6.0	(05/03/1999)
 - Color chooser! Choose what colors you want to use with what colorcode.
 - AMCL also comes with triggers, please test all these things out.
 
-AMCL 0.5.2	(20/10/1998)
+AMCL 0.5.2 (20/10/1998)
 
 - Only bugfixes.
 
-AMCL 0.5.1	(19/10/1998)
+AMCL 0.5.1 (19/10/1998)
 
 - GNOME! If you want it, AMCL supports it. Nothing really special about it
   so far, just the menu bar and about window. More will come, like ability
@@ -113,21 +114,21 @@ AMCL 0.5.1	(19/10/1998)
   all will autosave when you press close. Good if you forget to press save
   normally.
 
-AMCL 0.5.0.	(18/10/1998)
+AMCL 0.5.0 (18/10/1998)
 
 - Mostly bugfixes.
 - AMCL now creates ~/.amcl if that doesn't exist so you don't have to do
   that by hand.
 
-AMCL 0.4.2	(17/09/1998)
+AMCL 0.4.2 (17/09/1998)
 
 - Only bugfixes.
 
-AMCL 0.4.1	(16/09/1998)
+AMCL 0.4.1 (16/09/1998)
 
 - Minor bugfixes.
 
-AMCL 0.4.0	(14/09/1998)
+AMCL 0.4.0 (14/09/1998)
 
 - The code that reads from the connection and print it on the screen have
   been redone and is a lot faster then before, hopefully every ANSI codes
@@ -145,10 +146,10 @@ AMCL 0.4.0	(14/09/1998)
 - For AutoLogin to work, you must have entered both playername and password,
   you also must have commit this by pressing modify.
 
-AMCL 0.3.0	(16/08/1998)
+AMCL 0.3.0 (16/08/1998)
 
 - Unknown changes.
 
-AMCL 0.2.0	(28/07/1998)
+AMCL 0.2.0 (28/07/1998)
 
 - Unknown changes.

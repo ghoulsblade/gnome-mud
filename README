@@ -14,9 +14,9 @@ This program is under GPL. See file COPYING for details.
 2. Requirements.
 
     A c-compiler :), the GTK+ (the GIMP ToolKit) which can be found
-    at ftp://ftp.gimp.org/pub/gtk and the GNOME libraries (gnome-libs package)
-    found at ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnome-libs.
-    GNOME-Mud requires GTK+ 1.2 or later.
+    at ftp://ftp.gimp.org/pub/gtk and the GNOME libraries found at
+    ftp://ftp.gnome.org/pub/gnome/sources. GNOME-Mud requires GTK+ 2.0
+    or later.
     While GNOME-Mud is an application designed to work under the GNOME
     desktop, there's nothing that prevents you from using it in KDE or any
     other window manager.
@@ -67,3 +67,6 @@ This program is under GPL. See file COPYING for details.
 
     Robin Ericsson
     lobbin@localhost.nu
+
+    Development mailing list
+    amcl-devel@lists.sourceforge.net
