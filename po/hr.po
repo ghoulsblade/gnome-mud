@@ -1,11 +1,11 @@
 # Translation of gnome-mud to Croatian
 # Copyright (C) Croatian team
-# Translators: Automatski Prijevod <>,
+# Translators: Antun Krasic <butch@gawab.com>,Automatski Prijevod <>,Boris Tudan <boris.tudan@ka.htnet.hr>,
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0\n"
 "POT-Creation-Date: 2003-11-06 18:09+0100\n"
-"PO-Revision-Date: 2003-11-07 18:42+CET\n"
+"PO-Revision-Date: 2003-11-10 16:51+CET\n"
 "Last-Translator: auto\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "MIME-Version: 1.0\n"
@@ -219,7 +219,7 @@ msgstr ""
 #: src/data.c:260 src/data.c:267
 #, c-format
 msgid "%s too big."
-msgstr ""
+msgstr "%s je prevelik."
 
 #: src/data.c:274
 #, c-format
@@ -242,7 +242,7 @@ msgstr "Vrijednosti"
 #: src/data.c:361
 #, c-format
 msgid "%s: trying to access to undefined data range: %d"
-msgstr ""
+msgstr "%s: pokušavam pristupiti nedefiniranom rasponu podataka:  %d"
 
 #: src/data.c:373
 msgid "GNOME-Mud Configuration Center"
@@ -817,7 +817,7 @@ msgstr[1] "Paleta ima %d zapisa umjesto %d\n"
 #: src/prefs.c:353
 #, c-format
 msgid "%s already exists and is not a directory!"
-msgstr ""
+msgstr "%s već postoji i nije mapa!"
 
 #: src/prefs.c:362
 #, c-format
