@@ -1,3 +1,7 @@
+Fri Mar 15 08:04:40 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* gnome-mud.lsm, configure.in, NEWS: Updated version.
+
 Mon Mar 11 07:56:18 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/net.c (read_from_connection): Fixed formatting errors.
