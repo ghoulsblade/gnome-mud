@@ -1,4 +1,4 @@
-<!DOCTYPE article PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"[
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.0//EN"[
         <!-- if not using PNG graphic, replace reference above with
              .....PUBLIC "-//OASIS//DTD DocBook V3.1//EN"[
          -->
@@ -6,19 +6,6 @@
 <!ENTITY date "10/20/2001"> <!-- date the manual was last updated -->
 ]>
 
-
-<!--
-  This is a GNOME documentation template, designed by the GNOME
-  Documentation Project Team. Please use it for writing GNOME
-  documentation, making obvious changes. In particular, all the words
-  written in UPPERCASE (with the exception of GNOME) should be
-  replaced. As for "legalnotice", please leave the reference
-  unchanged.
-
-  Remember that this is a guide, rather than a perfect model to follow
-  slavishly. Make your manual logical and readable.  And don't forget
-  to remove these comments in your final documentation!  ;-)
--->
 
 <!--
       (Do not remove this comment block.)
@@ -35,10 +22,10 @@
 <!-- please do not change the id; for translations, change lang to -->
 <!-- appropriate code -->
 
-  <artheader>
+  <articleinfo>
     <title>GNOME-Mud Manual</title>
     <copyright>
-      <year>2001</year>
+      <year>2001, 2002</year>
       <holder>Jordi Mallach</holder>
     </copyright>
 
@@ -113,7 +100,7 @@
        last updated on &date;.
     </releaseinfo>
 
-  </artheader>
+  </articleinfo>
 
  <!-- ============= Document Body ============================= -->
 
@@ -197,9 +184,8 @@
 	  <title>GNOME-Mud Main Window</title>
 	  <screenshot>
 	    <screeninfo>GNOME-Mud Main Window</screeninfo>
-	    <graphic fileref="main-window.png" format="png"
+	    <graphic fileref="figures/main-window.png" format="png"
 	    srccredit="Jordi Mallach">
-            </graphic>
 	  </screenshot>
 	</figure>
     <!-- ==== End of Figure ==== -->
@@ -317,8 +303,8 @@
 	    <title>GNOME-Mud Profiles</title>
 	    <screenshot>
 	      <screeninfo>GNOME-Mud Profiles</screeninfo>
-	      <graphic fileref="profiles-window.png" format="png"
-	      srccredit="Jordi Mallach"></graphic>
+	      <graphic fileref="figures/profiles-window.png" format="png"
+	      srccredit="Jordi Mallach">
 	    </screenshot>
 	  </figure>
           <variablelist>
@@ -706,9 +692,8 @@
    <title>Preferences Dialog</title>
    <screenshot>
     <screeninfo>Preferences Dialog</screeninfo>
-    <graphic fileref="preferences-window.png" format="png"
+    <graphic fileref="figures/preferences-window.png" format="png"
      srccredit="Jordi Mallach">
-    </graphic>
    </screenshot>
   </figure>
 

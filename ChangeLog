@@ -1,3 +1,21 @@
+Wed Feb  6 23:57:20 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* doc/C/main-window.png: moved to figures/.
+	* doc/C/preferences-window.png: likewise.
+	* doc/C/profiles-window.png: likewise.
+
+	* doc/C/figures/main-window.png: updated for 0.9.0.
+	* doc/C/figures/preferences-window.png: likewise.
+	* doc/C/figures/profiles-window.png: likewise.
+	* doc/C/figures/mudlist-window.png: new image.
+	* doc/C/figures/connections-window.png: new image.
+
+	* doc/sgmldocs.make: updated.
+	* doc/C/Makefile.am: cleaned up.
+
+	* doc/C/gnome-mud.sgml: moved to DocBook 4.0. Still needs merge of
+	Petter's stuff and extensions for new features.
+
 Tue Feb  5 19:46:22 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* macros/codeset.m4: removed, looks it's not really needed.
