@@ -1,3 +1,8 @@
+Wed Feb 27 13:11:48 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* doc/C/gnome-mud.sgml: removed fixed bugs from the "Bugs and
+	Limitations" section.
+
 Wed Feb 27 12:38:08 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* NEWS: minor additions.

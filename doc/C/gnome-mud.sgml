@@ -967,19 +967,6 @@
  <sect1 id="bugs">
   <title>Known Bugs and Limitations</title>
   <para>
-   GNOME-Mud will crash on some MUDs when MCCP (MUD Client Compression
-   Protocol) is compiled in. If you're playing in a LP MUD, it is recommended
-   to <emphasis>disable MCCP support</emphasis>.
-  </para>
-  <para>
-   8bit characters are sent correctly to the MUD but aren't shown well in
-   the connection window.
-  </para>
-  <para>
-   Some colors are bad defined. For example, yellow shows as dark blue and
-   bold black doesn't show at all.
-  </para>
-  <para>
    Command history search won't show the last command when you press
    the up-arrow key, but the command before the last.
   </para>
