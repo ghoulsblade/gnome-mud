@@ -210,53 +210,53 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
   GtkWidget *hbox;
   GdkPixbuf *logo;
 
-  const char *authors[] = {
-	  "Robin Ericsson <lobbin@localhost.nu>",
-	  "Jordi Mallach <jordi@sindominio.net>",
-	  "Petter E. Stokke <gibreel@project23.no>",
-	  "Rachael Munns <vashti@dream.org.uk>",
-	  NULL};
-  const char *documenters[] = {
-	  "Jordi Mallach <jordi@sindominio.net>",
-	  "Petter E. Stokke <gibreel@project23.no>",
-	  NULL};
-
-  /* Translators: translate as your names & emails
-   * Paul Translator <paul@translator.org>         */
-  const char *translator_credits = _("translator_credits");
-
- 
-  if (about != NULL) {    
-    gdk_window_raise (about->window);
-    gdk_window_show (about->window);
-    return;
-  }
-
-  logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gnome-gmush.png", NULL);
+  if (!GTK_IS_WINDOW (about))
+  {
   
-  about = gnome_about_new (_("GNOME-Mud"), VERSION,
+	const char *authors[] = {
+		"Robin Ericsson <lobbin@localhost.nu>",
+		"Jordi Mallach <jordi@sindominio.net>",
+		"Petter E. Stokke <gibreel@project23.no>",
+		"Rachael Munns <vashti@dream.org.uk>",
+		NULL};
+	const char *documenters[] = {
+		"Jordi Mallach <jordi@sindominio.net>",
+		"Petter E. Stokke <gibreel@project23.no>",
+		NULL};
+
+	  /* Translators: translate as your names & emails
+	   * Paul Translator <paul@translator.org>         */
+	const char *translator_credits = _("translator_credits");
+
+	logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gnome-gmush.png", NULL);
+  
+	about = gnome_about_new (_("GNOME-Mud"), VERSION,
 			   /* latin1 translators can use the copyright symbol here, see man latin1(7) */
-			   _("(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"),
-			   _("A Multi-User Dungeon (MUD) client for GNOME.\n"),
-			   authors,
-			   documenters,
-			   strcmp (translator_credits, "translator_credits") 
-			   	!= 0 ? translator_credits : NULL,
-			   logo);
+				 _("(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"),
+				 _("A Multi-User Dungeon (MUD) client for GNOME.\n"),
+				 authors,
+				 documenters,
+				 strcmp (translator_credits, "translator_credits") != 0 ? translator_credits : NULL,
+				 logo);
 
-  if (logo != NULL)
-	  g_object_unref (logo);
+	if (logo != NULL)
+		g_object_unref (logo);
   
-  hbox = gtk_hbox_new(TRUE, 0);
-  gtk_box_pack_start (GTK_BOX (hbox),
-		  gnome_href_new ("http://amcl.sourceforge.net/",
-		  _("GNOME-Mud home page")),
-		  FALSE, FALSE, 0);
+	hbox = gtk_hbox_new(TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox),
+			    gnome_href_new ("http://amcl.sourceforge.net/",
+			    _("GNOME-Mud home page")),
+			    FALSE, FALSE, 0);
 
-  gtk_box_pack_start(GTK_BOX (GTK_DIALOG (about)->vbox), hbox, TRUE, TRUE, 0);
-  gtk_widget_show(hbox);
+	gtk_box_pack_start(GTK_BOX (GTK_DIALOG (about)->vbox), hbox, TRUE, TRUE, 0);
+	gtk_widget_show(hbox);
 
-  gtk_widget_show (about);
+	gtk_widget_show (about);
+  }
+  else
+  {
+	gtk_window_present (GTK_WINDOW (about));
+  }
 }
 
 static void text_entry_send_command (CONNECTION_DATA *cn, gchar *cmd, GtkEntry *txt)

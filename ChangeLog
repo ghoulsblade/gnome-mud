@@ -1,3 +1,9 @@
+2003-06-18  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c (window_menu_help_about): Check for an existing about
+	window before doing anything. Fixes a crash when you try to open the
+	about dialog multiple times.
+
 2003-06-10  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/gnome-mud.c (main): Yet another embarrasing bugfix, initialize
