@@ -361,8 +361,7 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	
 	if (mudlist_window != NULL)
 	{
-		gdk_window_raise(mudlist_window->window);
-		gdk_window_show(mudlist_window->window);
+		gtk_window_present (GTK_WINDOW (mudlist_window));
 		return;
 	}
 	

@@ -183,8 +183,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   GtkWidget *plugin_enable_check;
   
   if (dialog1 != NULL) {
-    gdk_window_raise(dialog1->window);
-    gdk_window_show(dialog1->window);
+    gtk_window_present (GTK_WINDOW (dialog1));
     return;
   }
 

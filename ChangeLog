@@ -1,3 +1,16 @@
+2003-06-24  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.ac (ALL_LINGUAS): Added "mk" (Macedonian).
+
+	* src/bind.c (window_keybind): Replace gdk_window_raise() &
+	gdk_window_show() with gtk_window_present().
+	* src/modules.c (do_plugin_information): Likewise.
+	* src/mudlist.c (window_mudlist): Likewise.
+	* src/prefs.c (window_prefs): Likewise.
+	* src/profiles.c (profilelist_dialog): Likewise.
+	(window_profiles): Likewise.
+	(window_profile_edit): Likewise.
+
 2003-06-18  Fatih Demir <kabalak@gtranslator.org>
 
 	* configure.ac: Added Turkish ("tr") to the languages' list and re-

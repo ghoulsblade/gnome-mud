@@ -484,8 +484,7 @@ static void profilelist_dialog (GtkWidget *label)
 
 	if (dialog != NULL)
 	{
-		gdk_window_raise(dialog->window);
-		gdk_window_show(dialog->window);
+		gtk_window_present (GTK_WINDOW (dialog));
 		return;
 	}
 
@@ -851,8 +850,7 @@ void window_profiles(void)
 
 	if (dialog != NULL)
 	{
-		gdk_window_raise(dialog->window);
-		gdk_window_show(dialog->window);
+		gtk_window_present (GTK_WINDOW (dialog));
 		return;
 	}
  
@@ -1157,8 +1155,7 @@ void window_profile_edit(void)
 
 	if (profile_window != NULL)
 	{
-		gdk_window_raise(profile_window->window);
-		gdk_window_show(profile_window->window);
+		gtk_window_present (GTK_WINDOW (profile_window));
 		return;
 	}
 	

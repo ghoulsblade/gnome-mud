@@ -745,8 +745,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
 
 	if (prefs_window != NULL)
 	{
-		gdk_window_raise(prefs_window->window);
-		gdk_window_show(prefs_window->window);
+		gtk_window_present (GTK_WINDOW (prefs_window));
 		return;
 	}
 

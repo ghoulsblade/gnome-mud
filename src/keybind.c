@@ -296,8 +296,7 @@ void window_keybind (PROFILE_DATA *pd)
 
 	if (window_key_bind != NULL)
 	{
-		gdk_window_raise(window_key_bind->window);
-		gdk_window_show(window_key_bind->window);
+		gtk_window_present (GTK_WINDOW (window_key_bind));
 		return;
 	}
 
