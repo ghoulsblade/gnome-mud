@@ -1,5 +1,5 @@
 /* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ static char const rcsid[] =
 
 int main (gint argc, char *argv[])
 {
+  gchar filename[255];
   char buf[500];
   struct sigaction act;
   
@@ -42,6 +43,14 @@ int main (gint argc, char *argv[])
   
   init_uid();
   
+  g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
+  if (check_amcl_dir (filename) != 0)
+    return;
+
+  g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/plugins");
+  if (check_amcl_dir(filename) != 0)
+    return;
+
   load_aliases();
   load_actions();
   load_prefs  ();

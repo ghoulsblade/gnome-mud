@@ -1,5 +1,5 @@
 /* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -259,117 +259,115 @@ void color_radio_clicked (GtkWidget *what)
     }
 }
 
-void create_color_box ()
-{
-    int i;
-    current_color = colors[0];
-
-    for ( i = 0; i < 16; i++ )
-    {
-        colors[i][0] = ((double) c_structs[i]->red)   / 65535;
-        colors[i][1] = ((double) c_structs[i]->green) / 65535;
-        colors[i][2] = ((double) c_structs[i]->blue)  / 65535;
-    }
-
-    color_window = GTK_WIDGET (gtk_window_new (GTK_WINDOW_TOPLEVEL));
-    gtk_window_set_title (GTK_WINDOW (color_window), "Amcl Color Chooser");
-    gtk_signal_connect_object (GTK_OBJECT (color_window), "destroy",
-                               GTK_SIGNAL_FUNC (color_cancel_pressed),
-                               NULL);
-    
-    color_widget = gtk_color_selection_new ();
-    c_box        = GTK_BOX (gtk_vbox_new (FALSE, 5));
-    c_box2       = GTK_BOX (gtk_vbox_new (FALSE, 5));
-    c_box3       = GTK_BOX (gtk_vbox_new (FALSE, 5));
-    c_hbox       = GTK_BOX (gtk_hbox_new (FALSE, 5));
-    c_hbox2      = GTK_BOX (gtk_hbox_new (FALSE, 5));
-    c_a1         = GTK_ALIGNMENT (gtk_alignment_new (0.5, 0.5, 0.0, 0.0));
-    c_a2         = GTK_ALIGNMENT (gtk_alignment_new (0.5, 0.5, 0.0, 0.0));
-
-    c_radio[0] = GTK_WIDGET (gtk_radio_button_new_with_label(NULL,
-                                                             c_captions[0]));
-
-    for ( i = 1; i < C_MAX; i++ )
-        c_radio[i] = GTK_WIDGET (gtk_radio_button_new_with_label_from_widget (
-                                 GTK_RADIO_BUTTON (c_radio[0]), c_captions[i]));
-
-    gtk_container_border_width (GTK_CONTAINER (color_widget), 5);
-
-    gtk_container_add (GTK_CONTAINER (color_window), GTK_WIDGET (c_hbox));
-    gtk_container_add (GTK_CONTAINER (c_hbox), GTK_WIDGET (c_box));
-
-    gtk_container_border_width (GTK_CONTAINER (c_box2), 5);
-    gtk_container_border_width (GTK_CONTAINER (c_box3), 5);
-
-    gtk_container_add (GTK_CONTAINER (c_hbox), GTK_WIDGET (c_box2));
-    gtk_container_add (GTK_CONTAINER (c_hbox), GTK_WIDGET (c_box3));
-    gtk_container_add (GTK_CONTAINER (c_box),  GTK_WIDGET (c_a1));
-    gtk_container_add (GTK_CONTAINER (c_a1),   GTK_WIDGET (color_widget));
-    gtk_container_add (GTK_CONTAINER (c_box),  GTK_WIDGET (c_a2));
-    gtk_container_add (GTK_CONTAINER (c_a2),   GTK_WIDGET (c_hbox2));
-
-    gtk_widget_show (GTK_WIDGET (c_a1));
-    gtk_widget_show (GTK_WIDGET (c_a2));
-
-    c_ok     = GTK_BUTTON (gtk_button_new_with_label (" Ok "));
-    c_cancel = GTK_BUTTON (gtk_button_new_with_label (" Cancel "));
-    c_apply  = GTK_BUTTON (gtk_button_new_with_label (" Apply "));
-    c_save   = GTK_BUTTON (gtk_button_new_with_label (" Save "));
-    c_load   = GTK_BUTTON (gtk_button_new_with_label (" Default "));    
-
-    gtk_signal_connect (GTK_OBJECT (c_ok), "clicked",
-                        GTK_SIGNAL_FUNC (color_ok_pressed), 0);
-    gtk_signal_connect (GTK_OBJECT (c_cancel), "clicked",
-                        GTK_SIGNAL_FUNC (color_cancel_pressed), 0);
-    gtk_signal_connect (GTK_OBJECT (c_apply), "clicked",
-                        GTK_SIGNAL_FUNC (color_apply_pressed), 0);
-    gtk_signal_connect (GTK_OBJECT (c_save), "clicked",
-                        GTK_SIGNAL_FUNC (save_colors), 0);
-    gtk_signal_connect (GTK_OBJECT (c_load), "clicked",
-                        GTK_SIGNAL_FUNC (on_load_pressed), 0);
-
-    gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_ok));
-    gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_cancel));
-    gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_apply));
-    gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_save));
-    gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_load));    
-
-    gtk_widget_show (GTK_WIDGET (c_ok));
-    gtk_widget_show (GTK_WIDGET (c_cancel));
-    gtk_widget_show (GTK_WIDGET (c_apply));
-    gtk_widget_show (GTK_WIDGET (c_save));
-    gtk_widget_show (GTK_WIDGET (c_load));    
-
-    for ( i = 0; i < 8; i++ )
-        gtk_container_add (GTK_CONTAINER (c_box2), c_radio[i]);
-
-    for ( i = 8; i < 16; i++ )
-        gtk_container_add (GTK_CONTAINER (c_box3), c_radio[i]);
-
-    for ( i = 0; i < 16; i++ )
-    {
-        gtk_signal_connect (GTK_OBJECT (c_radio[i]), "clicked",
-                            GTK_SIGNAL_FUNC (color_radio_clicked), 0);
-        gtk_widget_show (c_radio[i]);
-    }
-
-    gtk_widget_show (GTK_WIDGET (color_widget));
-    gtk_widget_show (GTK_WIDGET (c_hbox2));
-    gtk_widget_show (GTK_WIDGET (c_box));
-    gtk_widget_show (GTK_WIDGET (c_box2));
-    gtk_widget_show (GTK_WIDGET (c_box3));
-    gtk_widget_show (GTK_WIDGET (c_hbox));
-
-    copy_color_from_array_to_selector ();
-
-    return;
-}
-
 void window_color (GtkWidget *a, gpointer d)
 {
-    gtk_widget_show (GTK_WIDGET (color_window));
-    gtk_widget_set_sensitive (menu_option_colors, FALSE);
+  int i;
+  current_color = colors[0];
+  
+  for ( i = 0; i < 16; i++ ) {
+    colors[i][0] = ((double) c_structs[i]->red)   / 65535;
+    colors[i][1] = ((double) c_structs[i]->green) / 65535;
+    colors[i][2] = ((double) c_structs[i]->blue)  / 65535;
+  }
+  
+  gtk_widget_set_sensitive (menu_option_colors, FALSE);
+  color_window = GTK_WIDGET (gtk_window_new (GTK_WINDOW_TOPLEVEL));
+  gtk_window_set_title (GTK_WINDOW (color_window), "Amcl Color Chooser");
+  gtk_signal_connect (GTK_OBJECT (color_window), "destroy",
+		      GTK_SIGNAL_FUNC (color_cancel_pressed),
+		      NULL);
+  
+  color_widget = gtk_color_selection_new ();
+  c_box        = GTK_BOX (gtk_vbox_new (FALSE, 5));
+  c_box2       = GTK_BOX (gtk_vbox_new (FALSE, 5));
+  c_box3       = GTK_BOX (gtk_vbox_new (FALSE, 5));
+  c_hbox       = GTK_BOX (gtk_hbox_new (FALSE, 5));
+  c_hbox2      = GTK_BOX (gtk_hbox_new (FALSE, 5));
+  c_a1         = GTK_ALIGNMENT (gtk_alignment_new (0.5, 0.5, 0.0, 0.0));
+  c_a2         = GTK_ALIGNMENT (gtk_alignment_new (0.5, 0.5, 0.0, 0.0));
+  
+  c_radio[0] = GTK_WIDGET (gtk_radio_button_new_with_label(NULL,c_captions[0]));
+  
+  for ( i = 1; i < C_MAX; i++ )
+    c_radio[i] = GTK_WIDGET (gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (c_radio[0]), c_captions[i]));
+  
+  gtk_container_border_width (GTK_CONTAINER (color_widget), 5);
+  
+  gtk_container_add (GTK_CONTAINER (color_window), GTK_WIDGET (c_hbox));
+  gtk_container_add (GTK_CONTAINER (c_hbox), GTK_WIDGET (c_box));
+  
+  gtk_container_border_width (GTK_CONTAINER (c_box2), 5);
+  gtk_container_border_width (GTK_CONTAINER (c_box3), 5);
+  
+  gtk_container_add (GTK_CONTAINER (c_hbox), GTK_WIDGET (c_box2));
+  gtk_container_add (GTK_CONTAINER (c_hbox), GTK_WIDGET (c_box3));
+  gtk_container_add (GTK_CONTAINER (c_box),  GTK_WIDGET (c_a1));
+  gtk_container_add (GTK_CONTAINER (c_a1),   GTK_WIDGET (color_widget));
+  gtk_container_add (GTK_CONTAINER (c_box),  GTK_WIDGET (c_a2));
+  gtk_container_add (GTK_CONTAINER (c_a2),   GTK_WIDGET (c_hbox2));
+  
+  gtk_widget_show (GTK_WIDGET (c_a1));
+  gtk_widget_show (GTK_WIDGET (c_a2));
+  
+  c_ok     = GTK_BUTTON (gtk_button_new_with_label (" Ok "));
+  c_cancel = GTK_BUTTON (gtk_button_new_with_label (" Cancel "));
+  c_apply  = GTK_BUTTON (gtk_button_new_with_label (" Apply "));
+  c_save   = GTK_BUTTON (gtk_button_new_with_label (" Save "));
+  c_load   = GTK_BUTTON (gtk_button_new_with_label (" Default "));    
+  
+  gtk_signal_connect (GTK_OBJECT (c_ok), "clicked",
+		      GTK_SIGNAL_FUNC (color_ok_pressed), 0);
+  gtk_signal_connect (GTK_OBJECT (c_cancel), "clicked",
+		      GTK_SIGNAL_FUNC (color_cancel_pressed), 0);
+  gtk_signal_connect (GTK_OBJECT (c_apply), "clicked",
+		      GTK_SIGNAL_FUNC (color_apply_pressed), 0);
+  gtk_signal_connect (GTK_OBJECT (c_save), "clicked",
+		      GTK_SIGNAL_FUNC (save_colors), 0);
+  gtk_signal_connect (GTK_OBJECT (c_load), "clicked",
+		      GTK_SIGNAL_FUNC (on_load_pressed), 0);
+  
+  gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_ok));
+  gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_cancel));
+  gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_apply));
+  gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_save));
+  gtk_container_add (GTK_CONTAINER (c_hbox2), GTK_WIDGET (c_load));    
+  
+  gtk_widget_show (GTK_WIDGET (c_ok));
+  gtk_widget_show (GTK_WIDGET (c_cancel));
+  gtk_widget_show (GTK_WIDGET (c_apply));
+  gtk_widget_show (GTK_WIDGET (c_save));
+  gtk_widget_show (GTK_WIDGET (c_load));    
+  
+  for ( i = 0; i < 8; i++ )
+    gtk_container_add (GTK_CONTAINER (c_box2), c_radio[i]);
+  
+  for ( i = 8; i < 16; i++ )
+    gtk_container_add (GTK_CONTAINER (c_box3), c_radio[i]);
+  
+  for ( i = 0; i < 16; i++ ) {
+    gtk_signal_connect (GTK_OBJECT (c_radio[i]), "clicked",
+			GTK_SIGNAL_FUNC (color_radio_clicked), 0);
+    gtk_widget_show (c_radio[i]);
+  }
+  
+  gtk_widget_show (GTK_WIDGET (color_widget));
+  gtk_widget_show (GTK_WIDGET (c_hbox2));
+  gtk_widget_show (GTK_WIDGET (c_box));
+  gtk_widget_show (GTK_WIDGET (c_box2));
+  gtk_widget_show (GTK_WIDGET (c_box3));
+  gtk_widget_show (GTK_WIDGET (c_hbox));
+  gtk_widget_show (GTK_WIDGET (color_window));
+  
+  copy_color_from_array_to_selector ();
+  
+  return;
 }
+
+//void window_color (GtkWidget *a, gpointer d)
+//{
+//    gtk_widget_show (GTK_WIDGET (color_window));
+//    gtk_widget_set_sensitive (menu_option_colors, FALSE);
+//}
 
 void save_colors (void)
 {

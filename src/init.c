@@ -1,5 +1,5 @@
 /* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -187,7 +187,7 @@ void about_window (GtkWidget *widget, gpointer data)
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 5);
     gtk_widget_show (label);
 
-    label = gtk_label_new ("Copyright © 1998-1999 Robin Ericsson <lobbin@localhost.nu>");
+    label = gtk_label_new ("Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>");
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 0);
     gtk_widget_show (label);
 
@@ -586,5 +586,5 @@ void init_window ()
         gtk_text_insert (GTK_TEXT (main_connection->window), NULL, &color_lightgrey, NULL, buf, -1);
     }
 
-    create_color_box ();
+    //create_color_box ();
 }

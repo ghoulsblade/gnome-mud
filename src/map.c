@@ -1,5 +1,5 @@
 /* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
  *
  * map.c is written by Paul Cameron <thrase@progsoc.uts.edu.au> with
  * modifications by Robin Ericsson to make it work with AMCL.
@@ -953,7 +953,7 @@ static void scrollbar_adjust(AutoMap *automap)
         vsb->value = automap->map->max_y + automap->map->min_y - automap->y;
     }
 
-#if 1
+#if DEBUG
     g_print("hsb->lower=%.4f, hsb->upper=%.4f\n", hsb->lower, hsb->upper);
     g_print("vsb->lower=%.4f, vsb->upper=%.4f\n", vsb->lower, vsb->upper);
     g_print("hsb->value=%.4f, vsb->value=%.4f\n", hsb->value, vsb->value);
@@ -2518,7 +2518,7 @@ gint leave_notify_event (GtkWidget *widget,
 
 AutoMap *auto_map_new(void)
 {
-    gchar name[100];
+  //gchar name[100];
     AutoMap *automap = g_malloc0(sizeof(AutoMap));
     GtkWidget *hbox, *updownvbox, *loadsavevbox, *vbox, *sep;
     GtkWidget *n, *ne, *e, *se, *s, *sw, *w, *nw, *up, *down;
@@ -2535,9 +2535,10 @@ AutoMap *auto_map_new(void)
     automap->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
     /* Set the title */
-    g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
-    gtk_window_set_title(GTK_WINDOW(automap->window), name);
-
+    //g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
+    //gtk_window_set_title(GTK_WINDOW(automap->window), name);
+    gtk_window_set_title (GTK_WINDOW (automap->window), "Amcl AutoMapper");
+    
     /* Create the drawing window and allocate its colours */
     automap->draw_area = gtk_drawing_area_new();
     gtk_drawing_area_size(GTK_DRAWING_AREA(automap->draw_area),

@@ -4,7 +4,7 @@ AMCL = A simple Mud CLient
 
 1. What is it?
 
-    It is a client for connecting to MUD's (Multi User Dungeon), writtin 
+    It is a client for connecting to MUD's (Multi User Dungeon), written
 for X-Windows using the the GIMP ToolKit (GTK+). Some code used from 
 Bezerk, Xwhois, LinPopUp.
 

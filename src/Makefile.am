@@ -1,23 +1,18 @@
-EXTRA_DIST     = amcl.c mkhelp.c
+EXTRA_DIST     = amcl.c
 
 bin_PROGRAMS   = amcl
 
 amcl_SOURCES   = action.c alias.c color.c init.c keybind.c map.c misc.c \
 		 net.c prefs.c window.c wizard.c dialog.c version.c \
-                 modules.c modules_api.c modules.h modules_api.h amcl.h 
+                 modules.c modules_api.c modules.h modules_api.h amcl.h \
+		 readme_doc.h authors_doc.h
 
 amcl_LDADD	= amcl.o
 
 amcl.o: amcl.c
-	$(COMPILE) -DPKGDATADIR=\"$(pkgdatadir)\" -c amcl.c
+	$(COMPILE) -DPKGDATADIR=\"$(pkgdatadir)\" -c $(top_srcdir)/src/amcl.c
 
-readme_doc.h: ../README mkhelp
-	@(cd ..; src/mkhelp README src/readme_doc.h)
-
-authors_doc.h: ../AUTHORS mkhelp
-	@(cd ..; src/mkhelp AUTHORS src/authors_doc.h)
-
-version.h: FORCE
+version.h:
 	@echo "/* this header is automatically generated */" > version.h
 	@echo "/* and recreated for each new compilation */" >> version.h
 	@echo "#define PROG_NAME \"$(PROGNAME)\"" >> version.h
@@ -30,8 +25,4 @@ version.h: FORCE
 	@echo "#define CC_VERSION \"`$(CC) -v 2>&1 | tail -1`\"">>version.h
 	@echo "#define CODE_LINES `cat *.c amcl.h modules.h modules_api.h | grep -ch -e \"[[:alpha:]|[:punct:]]\"`">>version.h
 
-FORCE:	
 
-
-mkhelp: mkhelp.c
-	$(COMPILE) -o mkhelp mkhelp.c

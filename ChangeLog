@@ -1,3 +1,25 @@
+Mon Feb 28 19:36:49 2000  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Makefile.am: Added acconfig.h.
+
+	* README: Spelling errors.
+
+	* src/Makefile.am: mkhelp removed, and readme_doc.h and
+	authors_doc.h added.
+
+	* src/Makefile.mkhelp: added to create readme_doc.h and
+	authors_doc.h.
+
+	* src/amcl.c (main): Create ~/.amcl/plugins aswell as
+	~/.amcl
+
+	* src/color.c (create_color_box): renamed to window_color(),
+	now it doesn't break when opening, closing, and open again.
+
+	* src/init.c (init_window): fix for the above.
+
+	* src/map.c (auto_map_new): Fix window title.
+
 Wed Feb 23 17:00:19 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* AUTHORS: Added Maxim Kiselev.
