@@ -10,7 +10,7 @@ feel free to suggest features, contribute, or comment.
 0.10.0
 
 * GNOME 2.0
-* Support for TELNET codes [PARTLY DONE]
+* Support for TELNET codes [DONE]
 * IPv6 support [DONE]
 * Customize buffersize [DONE]
 * Move tablist to top/left/right/bottom [DONE]
