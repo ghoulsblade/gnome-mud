@@ -1,3 +1,10 @@
+Thu Oct  4 15:29:56 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c: merged AUTHORS into the gnome_about dialog. Marked
+	many things as translatable. Hopefully this is the first step to
+	get rid of those widgets in the Help menu.
+	* autogen.sh: call automake with -add-missing, for automake 1.5.
+
 Thu Oct  4 15:23:18 CEST 2001  Robin Ercisson  <lobbin@localhost.nu>
 
 	* src/.cvsignore, src/Makefile.am: changed gnomemud to gnome-mud.
@@ -10,6 +17,7 @@ Thu Oct  4 15:23:18 CEST 2001  Robin Ercisson  <lobbin@localhost.nu>
 
 	* src/profiles.c: Pass profilename to make_connection().
 
+>>>>>>> 1.65
 Thu Oct  4 13:56:33 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/data.c [own_data]: Removed some unused variables.

@@ -37,7 +37,7 @@ do
   (cd $dir; \
   aclocalinclude="$ACLOCAL_FLAGS"; \
   aclocal -I macros $aclocalinclude; \
-  autoheader; automake;
+  autoheader; automake --add-missing;
   autoconf)
 done
 

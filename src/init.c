@@ -264,8 +264,28 @@ static void about_window (GtkWidget *widget, gpointer data)
   GtkWidget *hbox;
   GtkWidget *hrefbox;
 
-  const gchar *authors[] = {"Robin Ericsson <lobbin@localhost.nu>", "and many others...", NULL};
-  
+  const gchar *authors[] = {
+	_("Robin Ericsson, Main developer"),
+	_("David Zanetti, bugfixes"),
+	_("Ben Gertzfield, creation of rcfiles for AMCL"),
+	_("Will Schenk, bugfixes"),
+	_("desaster, bugfixes"),
+	_("Paul Cameron, compile fixes, automapper"),
+	_("Robert Brady, color selection"),
+	_("Bret Robideaux, action/trigger module"),
+	_("Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"),
+	_("Benjamin Curtis, recognition of TELNET codes and replies"),
+	/* if your charset doesn't support o with dieresis (ö) just use o */
+	_("Jörgen Kosche, focus-bugs patches, de.po maintainer"),
+	_("Jeroen Ruigrok, various code cleanups and fixes"),
+	_("Jorge Garcia, various code cleanups and fixes"),
+	_("Jordi Mallach, official Debian package, i18n support, "
+		  "ca.po & es.po maintainer"),
+	/* if your charset doesn't support e circumflex (è), just use e */
+	_("Staffan Thomèn and the creators of gEdit - module API"),
+	NULL};
+
+ 
   if (about != NULL) {    
     gdk_window_raise (about->window);
     gdk_window_show (about->window);
@@ -273,9 +293,10 @@ static void about_window (GtkWidget *widget, gpointer data)
   }
   
   about = gnome_about_new (_("GNOME-Mud"), VERSION,
-			   "(C) 1998-2001 Robin Ericsson",
+			   _("(C) 1998-2001 Robin Ericsson"),
 			   (const char **)authors,
-			   _("Send bug reports to: amcl-devel@lists.sourceforge.net"),
+			   _("A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."),
+/*			   _("Send bug reports to: amcl-devel@lists.sourceforge.net"), */
 			   NULL);
   gtk_signal_connect (GTK_OBJECT (about), "destroy", GTK_SIGNAL_FUNC
 		      (gtk_widget_destroyed), &about);
@@ -287,7 +308,7 @@ static void about_window (GtkWidget *widget, gpointer data)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
   gtk_widget_show(hbox);
 
-  hrefbox = gnome_href_new("http://amcl.sourceforge.net/", "GNOME-Mud homepage");
+  hrefbox = gnome_href_new("http://amcl.sourceforge.net/", _("GNOME-Mud homepage"));
   gtk_box_pack_start(GTK_BOX(hbox), hrefbox, FALSE, FALSE, 0);
   GTK_WIDGET_UNSET_FLAGS(hrefbox, GTK_CAN_FOCUS);
   gtk_widget_show(hrefbox);
