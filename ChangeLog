@@ -1,3 +1,7 @@
+Fri Jun  8 15:34:02 CEST 2001  Robin Ericsson  <robin@noname4us.com>
+
+	* src/init.c: Added window_color() to the menu again.
+
 Thu May 31 22:05:49 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/net.c: Fixed bug #408834.
