@@ -1,3 +1,11 @@
+Wed Oct 10 16:52:38 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c: renamed Connection Wizard menu entry.
+	
+	* configure.in: fixed things so po/ works again.
+	
+	* po/es.po: updated.
+
 Wed Oct 10 16:17:35 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/Makefile.am: dialog.c deleted.
@@ -7,23 +15,33 @@ Wed Oct 10 16:17:35 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 	* src/init.c: Removed README and AUTHORS menu.
 
 Wed Oct 10 15:54:01 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
 	* NEWS: updated release info for 0.8.0.
 
 Wed Oct 10 15:00:39 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
 	* init.c: print version information, the easy way.
 
 Wed Oct 10 13:32:21 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
 	* mkhelp lobotomy! Removed Anything related to version.c or
 	author and readme .h's.
+	
 	* src/Makefile.mkhelp src/config.h.in src/mkhelp.c src/version.c
 	src/version.h.in: removed.
+	
 	* configure.in. Removed VERSION and PACKAGE cruft. It now
 	outputs	these defines to config.h.
+	
 	* Robin bumped version to 0.7.99.
+	
 	* po/POTFILES.in: removed version.c.
+	
 	* dialog.c: README and AUTHORS options should be removed. Right now,
 	they display a nice, blank box.
+	
 	* init.c: don't call get_version_info()
+
 	* automake.sh: removed echo's about version.c & cia.
 
 Wed Oct 10 13:08:01 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
@@ -67,6 +85,7 @@ Thu Oct  4 16:40:16 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 	The "fix" right now is to translate some extra directions, but that
 	code should be cleaned a bit. Removed gettext marks from debug
 	messages.
+
 	* po/es.po: updated Spanish translation.
 
 Thu Oct  4 15:46:02 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
@@ -78,6 +97,7 @@ Thu Oct  4 15:29:56 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 	* src/init.c: merged AUTHORS into the gnome_about dialog. Marked
 	many things as translatable. Hopefully this is the first step to
 	get rid of those widgets in the Help menu.
+
 	* autogen.sh: call automake with -add-missing, for automake 1.5.
 
 Thu Oct  4 15:23:18 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
@@ -186,10 +206,12 @@ Sat Jun  9 18:17:24 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/Makefile.am: added LOCALEDIR to INCLUDES, so the
 	translated mo's can get installed wherever "datadir" points to.
+
 	* src/gnome-mud.c: removed the static LOCALEDIR define, and
 	removed the libintl.h include too. Every file including gnome.h
 	has libintl.h included already, so we need to wipe those of every
 	c source file, later.
+
 	* po/sv.po, po/fr.po: corrected charset and encoding definitions.
 
 Fri Jun  8 17:15:58 CEST 2001  Robin Ericsson  <robin@noname4us.com>
