@@ -1,3 +1,32 @@
+2004-06-29  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c (mud_preferences_window_set_preferences):
+	Changed the way color-selections are set.
+	(mud_preferences_window_font_cb): Added.
+	(mud_preferences_window_foreground_cb): Added.
+	(mud_preferences_window_background_cb): Added.
+	(mud_preferences_window_colors_cb): Added.
+	(mud_preferences_window_changed_cb): Added history and scrollback.
+	(mud_preferences_window_update_font): Added.
+	(mud_preferences_window_update_foreground): Added.
+	(mud_preferences_window_update_background): Added.
+	(mud_preferences_window_update_colors): Added.
+
+	* src/mud-preferences.c (color_to_string): Added.
+	(set_Foreground): Added.
+	(set_Background): Added.
+	(set_Colors): Added.
+	(set_FontName): Added.
+	(mud_preferences_gconf_changed): Added font, foreground, background and
+	palette.
+	(mud_preferences_set_font): Added.
+	(mud_preferences_set_foreground): Added.
+	(mud_preferences_set_background): Added.
+	(mud_preferences_set_colors): Added.
+
+	* src/mud-preferences.h [MudPreferenceMask]: Added FontName, Foreground,
+	Background and Colors.
+
 2004-06-28  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mud-preferences-window.c (mud_preferences_window_set_preferences):

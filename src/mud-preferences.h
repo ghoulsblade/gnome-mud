@@ -36,6 +36,10 @@ typedef struct
 	unsigned int TerminalType : 1;
 	unsigned int History : 1;
 	unsigned int Scrollback : 1;
+	unsigned int FontName : 1;
+	unsigned int Foreground : 1;
+	unsigned int Background : 1;
+	unsigned int Colors : 1;
 } MudPreferenceMask;
 
 struct _MudPreferencesClass
@@ -58,6 +62,10 @@ void mud_preferences_set_commdev (MudPreferences *prefs, const gchar *value);
 void mud_preferences_set_terminal (MudPreferences *prefs, const gchar *value);
 void mud_preferences_set_history (MudPreferences *prefs, const gint value);
 void mud_preferences_set_scrollback (MudPreferences *prefs, const gint value);
+void mud_preferences_set_font (MudPreferences *prefs, const gchar *value);
+void mud_preferences_set_foreground (MudPreferences *prefs, guint r, guint g, guint b);
+void mud_preferences_set_background (MudPreferences *prefs, guint r, guint g, guint b);
+void mud_preferences_set_colors (MudPreferences *prefs, gint nr, guint r, guint g, guint b);
 
 G_END_DECLS
 

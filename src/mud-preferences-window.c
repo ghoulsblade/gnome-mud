@@ -85,6 +85,10 @@ static void mud_preferences_window_commdev_cb         (GtkWidget *widget, MudPre
 static void mud_preferences_window_terminal_cb        (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_history_cb         (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_scrollback_cb      (GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_font_cb            (GtkWidget *widget, const gchar *fontname, MudPreferencesWindow *window);
+static void mud_preferences_window_foreground_cb      (GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window);
+static void mud_preferences_window_background_cb      (GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window);
+static void mud_preferences_window_colors_cb          (GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window);
 
 static void mud_preferences_window_changed_cb         (MudPreferences *prefs, MudPreferenceMask *mask, MudPreferencesWindow *window);
 
@@ -96,6 +100,10 @@ static void mud_preferences_window_update_commdev     (MudPreferencesWindow *win
 static void mud_preferences_window_update_terminaltype(MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_history     (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_scrollback  (MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_font        (MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_foreground  (MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_background  (MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_colors      (MudPreferencesWindow *window, MudPrefs *preferences);
 
 GType
 mud_preferences_window_get_type (void)
@@ -358,24 +366,27 @@ mud_preferences_window_set_preferences(MudPreferencesWindow *window)
 					 G_CALLBACK(mud_preferences_window_scrollback_cb),
 					 window);
 
-	gnome_font_picker_set_font_name(GNOME_FONT_PICKER(window->priv->fp_font),
-									prefs->preferences.FontName);
-	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->cp_foreground),
-							   prefs->preferences.Foreground.red,
-							   prefs->preferences.Foreground.green,
-							   prefs->preferences.Foreground.blue, 0);
-	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->cp_background),
-							   prefs->preferences.Background.red,
-							   prefs->preferences.Background.green,
-							   prefs->preferences.Background.blue, 0);
+	mud_preferences_window_update_font(window, &prefs->preferences);
+	g_signal_connect(G_OBJECT(window->priv->fp_font), "font_set",
+					 G_CALLBACK(mud_preferences_window_font_cb),
+					 window);
 
+	mud_preferences_window_update_foreground(window, &prefs->preferences);
+	g_signal_connect(G_OBJECT(window->priv->cp_foreground), "color_set",
+					 G_CALLBACK(mud_preferences_window_foreground_cb),
+					 window);
+
+	mud_preferences_window_update_background(window, &prefs->preferences);
+	g_signal_connect(G_OBJECT(window->priv->cp_background), "color_set",
+					 G_CALLBACK(mud_preferences_window_background_cb),
+					 window);
+
+	mud_preferences_window_update_colors(window, &prefs->preferences);
 	for (i = 0; i < C_MAX; i++)
 	{
-		gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->colors[i]),
-								   prefs->preferences.Colors[i].red,
-								   prefs->preferences.Colors[i].green,
-								   prefs->preferences.Colors[i].blue,
-								   0);
+		g_signal_connect(G_OBJECT(window->priv->colors[i]), "color_set",
+						 G_CALLBACK(mud_preferences_window_colors_cb),
+						 window);
 	}
 	
 #undef SET_SPIN_BUTTON
@@ -446,6 +457,38 @@ mud_preferences_window_scrollback_cb(GtkWidget *widget, MudPreferencesWindow *wi
 }
 
 static void
+mud_preferences_window_font_cb(GtkWidget *widget, const gchar *fontname, MudPreferencesWindow *window)
+{
+	mud_preferences_set_font(window->priv->prefs, fontname);
+}
+
+static void
+mud_preferences_window_foreground_cb(GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window)
+{
+	mud_preferences_set_foreground(window->priv->prefs, r, g, b);
+}
+
+static void
+mud_preferences_window_background_cb(GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window)
+{
+	mud_preferences_set_background(window->priv->prefs, r, g, b);
+}
+
+static void
+mud_preferences_window_colors_cb(GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window)
+{
+	gint i;
+
+	for (i = 0; i < C_MAX; i++)
+	{
+		if (widget == window->priv->colors[i])
+		{
+			mud_preferences_set_colors(window->priv->prefs, i, r, g, b);
+		}
+	}
+}
+
+static void
 mud_preferences_window_changed_cb(MudPreferences *preferences, MudPreferenceMask *mask, MudPreferencesWindow *window)
 {
 	MudPreferences *prefs = window->priv->prefs;
@@ -467,6 +510,14 @@ mud_preferences_window_changed_cb(MudPreferences *preferences, MudPreferenceMask
 		mud_preferences_window_update_history(window, &prefs->preferences);
 	if (mask->Scrollback)
 		mud_preferences_window_update_scrollback(window, &prefs->preferences);
+	if (mask->FontName)
+		mud_preferences_window_update_font(window, &prefs->preferences);
+	if (mask->Foreground)
+		mud_preferences_window_update_foreground(window, &prefs->preferences);
+	if (mask->Background)
+		mud_preferences_window_update_background(window, &prefs->preferences);
+	if (mask->Colors)
+		mud_preferences_window_update_colors(window, &prefs->preferences);
 }
 
 static void
@@ -515,6 +566,46 @@ static void
 mud_preferences_window_update_scrollback(MudPreferencesWindow *window, MudPrefs *preferences)
 {
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(window->priv->sb_lines), preferences->Scrollback);
+}
+
+static void
+mud_preferences_window_update_font(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gnome_font_picker_set_font_name(GNOME_FONT_PICKER(window->priv->fp_font),
+									preferences->FontName);
+}
+
+static void
+mud_preferences_window_update_foreground(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->cp_foreground),
+							   preferences->Foreground.red,
+							   preferences->Foreground.green,
+							   preferences->Foreground.blue, 0);
+}
+	
+static void
+mud_preferences_window_update_background(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->cp_background),
+							   preferences->Background.red,
+							   preferences->Background.green,
+							   preferences->Background.blue, 0);
+}
+
+static void
+mud_preferences_window_update_colors(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gint i;
+
+	for (i = 0; i < C_MAX; i++)
+	{
+		gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->colors[i]),
+								   preferences->Colors[i].red,
+								   preferences->Colors[i].green,
+								   preferences->Colors[i].blue,
+								   0);
+	}
 }
 
 MudPreferencesWindow*
