@@ -34,7 +34,52 @@ struct _mudentry{
 	GList     *list;
 };
 
+struct _mudcode{
+	gchar     *key;
+	gchar     *value;
+};
+
 typedef struct _mudentry mudentry;
+typedef struct _mudcode  mudcode;
+
+static char *mudlist_fix_codebase(gchar *codebase)
+{
+	mudcode replacements[] = 
+	{
+		{ "Abermud",         "Aber"      },
+		{ "Amylaar's",       "Amylaar"   },
+		{ "Cold",            "ColdMud"   },
+		{ "coldC",           "ColdMud"   },
+		{ "Circlemud",       "Circle"    },
+		{ "Circle3",         "Circle"    },
+		{ "Circle3.0",       "Circle"    },
+		{ "CircleMUD30pl12", "Circle"    },
+		{ "Dikumud",         "Diku"      },
+		{ "Envymud",         "Envy"      },
+		{ "EW-too",          "EwToo"     },
+		{ "Lambda",          "LambdaMOO" },
+		{ "LPC",             "LP"        },
+		{ "LPMud",           "LP"        },
+		{ "Rom2.4",          "Rom"       },
+		{ "ROM24b4",         "Rom"       },
+		{ "SillyMUD",        "Silly"     },
+		{ NULL,              NULL        }
+	};
+
+	gint i = 0;
+
+	while(replacements[i].key)
+	{
+		if (!g_strcasecmp(replacements[i].key, codebase))
+		{
+			return replacements[i].value;
+		}
+
+		i++;
+	}
+	
+	return codebase;
+}
 
 static void mudlist_tree_fill_subtree(gpointer item, gpointer tree)
 {
@@ -216,6 +261,7 @@ static void mudlist_parse(FILE *fp, GtkWidget *tree)
 			GList	  *subtree = NULL;
 			gchar     *p = (line + 14);
 			gchar      code[2048] = "";
+			gchar     *realname;
 			gchar     *c = code;
 			gchar	   f[1];
 			
@@ -238,17 +284,19 @@ static void mudlist_parse(FILE *fp, GtkWidget *tree)
 				
 				*f = *p++;	
 			}
-	
+
+			realname = mudlist_fix_codebase(code);
+			
 			if (codelist != NULL)
 			{
-				subtree = g_list_find_custom(codelist, code, mudlist_compare_char_struct);
+				subtree = g_list_find_custom(codelist, realname, mudlist_compare_char_struct);
 			}
 			
 			if (subtree == NULL)
 			{
 				e = g_malloc0(sizeof(mudentry));
 
-				e->name = g_strdup(code);
+				e->name = g_strdup(realname);
 
 				codelist = g_list_append(codelist, e);
 			}

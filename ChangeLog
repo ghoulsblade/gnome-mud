@@ -1,3 +1,8 @@
+Tue Feb  5 12:21:17 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mudlist.c (mudlist_fix_codebase): Added, now changes some
+	codebases into better namnes.
+
 Mon Feb  4 22:45:20 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/mccpDecompress.c: include config.h.
