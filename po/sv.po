@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
-"POT-Creation-Date: 2003-07-10 00:45+0200\n"
-"PO-Revision-Date: 2003-07-10 00:45+0200\n"
+"POT-Creation-Date: 2003-07-10 01:32+0200\n"
+"PO-Revision-Date: 2003-07-10 01:33+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -765,8 +765,6 @@ msgstr "Fel i registermeny: %s"
 msgid "Error register for data %s: %s"
 msgstr "Fel i register för data %s: %s"
 
-# Kom så här långt i revidering
-# Christian
 #: src/modules_api.c:79
 msgid "Error getting plugin from handle."
 msgstr "Fel vid hämtande av insticksmodul från handtag."
@@ -877,7 +875,7 @@ msgid ""
 "Default foreground colour used when the connection doesn't request the use "
 "of a specific colour."
 msgstr ""
-"Standardförgrundsfärg som används när anslutingen inte begär användning av "
+"Standardförgrundsfärg som används när anslutningen inte begär användning av "
 "en specifik färg."
 
 #: src/prefs.c:677
@@ -1141,6 +1139,15 @@ msgstr "Stäng"
 msgid "Close the window"
 msgstr "Stäng fönstret"
 
+#~ msgid "Color palette:"
+#~ msgstr "Färgpalett:"
+
+#~ msgid "Color and Fonts"
+#~ msgstr "Färg och typsnitt"
+
+#~ msgid "Color and Font"
+#~ msgstr "Färg och typsnitt"
+
 #~ msgid "Mud Name:"
 #~ msgstr "Mud-namn:"
 
@@ -1216,11 +1223,8 @@ msgstr "Stäng fönstret"
 #~ msgid "Rachael Munns <vashti@dream.org.uk>"
 #~ msgstr "Rachael Munns <vashti@dream.org.uk>"
 
-#~ msgid "How many lines will be saved in the scrollback"
-#~ msgstr "Antal rader att spara i rullhistorik"
-
 #~ msgid "Color palette"
-#~ msgstr "Färg Palette"
+#~ msgstr "Färgpalett"
 
 #~ msgid "Add"
 #~ msgstr "Lägg till"
@@ -1228,77 +1232,8 @@ msgstr "Stäng fönstret"
 #~ msgid "Quit?"
 #~ msgstr "Avsluta?"
 
-#~ msgid "GNOME-Mud Popup Message"
-#~ msgstr "GNOME-Mud Popup Meddelande"
-
 #~ msgid "Ok"
-#~ msgstr "Ok"
-
-#~ msgid "Couldn't allocate colour"
-#~ msgstr "Kunde inte allokera färg"
-
-#~ msgid "Font %s Loading Error"
-#~ msgstr "Kunde inte ladda font %s"
-
-#~ msgid "Bold foreground colour:"
-#~ msgstr "Fet förgrunds färg:"
-
-#~ msgid "Freeze/Thaw?"
-#~ msgstr "Freeze/Thaw?"
-
-#~ msgid ""
-#~ "Using this, text will draw faster but it will not draw every character, "
-#~ "only whole strings. This will probably make displays a lot faster if you "
-#~ "are playing MUDs with a lot of different colours."
-#~ msgstr ""
-#~ "Med denna inställning kommer texten att rita upp snabbare, men den kommer "
-#~ "inte\n"
-#~ "att rita bokstav för bokstav, utan bara hela rader. Detta kan snabba upp "
-#~ "en\n"
-#~ "MUD med mycket färger."
+#~ msgstr "OK"
 
 #~ msgid "Robin Ericsson, main developer"
 #~ msgstr "Robin Ericsson, huvudutvecklare"
-
-#~ msgid "Ben Gertzfield, creation of rcfiles for AMCL"
-#~ msgstr "Ben Gertzfield, skapande av config-filer"
-
-#~ msgid "Paul Cameron, compile fixes, automapper"
-#~ msgstr "Paul Cameron, compilerings fixar, automapper"
-
-#~ msgid "Bret Robideaux, action/trigger module"
-#~ msgstr "Bret Robideaux, action/triggers"
-
-#~ msgid "Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"
-#~ msgstr "Maxim Kiselev, tangentkommandon, spara färger, bugfixar"
-
-#~ msgid "Benjamin Curtis, recognition of TELNET codes and replies"
-#~ msgstr "Benjamin Curtis, TELNET koder"
-
-#~ msgid "Jorgen Kosche, focus-bugs patches, de.po maintainer"
-#~ msgstr "Jörgen Kosche, fokus fixar, de.po underhållare"
-
-#~ msgid "Jeroen Ruigrok, various code cleanups and fixes"
-#~ msgstr "Jeroen Ruigrok, upprensning av kod, samt fixar"
-
-#~ msgid "Jorge Garcia, various code cleanups and fixes"
-#~ msgstr "Jorge García, upprensning av kod, samt fixar"
-
-#~ msgid ""
-#~ "Jordi Mallach, official Debian package, i18n support, ca.po & es.po "
-#~ "maintainer"
-#~ msgstr ""
-#~ "Jordi Mallach, officiell Debian-paket, i18n support, ca.po & es.po "
-#~ "översättare"
-
-#~ msgid "Martin Quinson, fr.po maintainer"
-#~ msgstr "Martin Quinson, fr.po översättare"
-
-#~ msgid "Petter E. Stokke, Python scripting support"
-#~ msgstr "Petter E. Stokke, Python scriptstöd"
-
-#~ msgid "Vashti, default keypad bindings, telnet support patches"
-#~ msgstr "Vashti, piltangent mappning, telnet patchar"
-
-#~ msgid "GNOME-Mud _manual"
-#~ msgstr "GNOME-Mud _manual"
