@@ -184,7 +184,7 @@ else if (strcmp(key, KName) == 0)                   \
 		UPDATE_BOOLEAN("system_keys",		DisableKeys,	FALSE);
 		UPDATE_BOOLEAN("scroll_on_output",	ScrollOnOutput,	FALSE);
 		UPDATE_STRING("commdev",			CommDev,		";");
-		UPDATE_STRING("terminal",			TerminalType,	"ansi");
+		UPDATE_STRING("terminal_type",		TerminalType,	"ansi");
 	}
 	
 	
@@ -249,7 +249,7 @@ mud_preferences_set_terminal (MudPreferences *prefs, const gchar *value)
 	RETURN_IF_NOTIFYING(prefs);
 
 	gconf_client_set_string(prefs->priv->gconf_client,
-							"/apps/gnome-mud/functionality/terminal",
+							"/apps/gnome-mud/functionality/terminal_type",
 							value, NULL);
 }
 
