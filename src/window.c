@@ -220,7 +220,7 @@ void popup_window (const gchar *message)
     gtk_box_pack_start (GTK_BOX (box), separator, TRUE, TRUE, 0);
     gtk_widget_show (separator);
     
-    button = gtk_button_new_with_label (_(" Ok "));
+    button = gtk_button_new_with_label (_("Ok"));
     gtk_signal_connect (GTK_OBJECT (button), "clicked",
                         GTK_SIGNAL_FUNC (close_window), window);
     gtk_box_pack_start (GTK_BOX (box), button, TRUE, TRUE, 5);

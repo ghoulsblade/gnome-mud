@@ -1,2 +1,5 @@
 BUGS - hopefully none :)
 ========================
+
+- color chooser dialog spits gdk errors when it's opened. Not serious, but
+  annoying.

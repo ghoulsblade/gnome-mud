@@ -2,10 +2,11 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Jörgen Kosche <mnementh@gmx.de>, 2000
 #
+#: src/init.c:174
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2000-07-29 11:05+0200\n"
+"POT-Creation-Date: 2000-08-11 18:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Jörgen Kosche <mnementh@gmx.de>\n"
 "Language-Team: de <de@li.org>\n"
@@ -26,8 +27,8 @@ msgid "Action too big."
 msgstr "Aktion zu gross."
 
 #: src/action.c:249
-msgid "Can't have two of the same trigger ... yet."
-msgstr "Kann nicht zweimal denselben Trigger haben ... bis jetzt."
+msgid "Can't have two actions for the same trigger... yet."
+msgstr "Kann nicht zweimal dieselbe Aktion haben ... bis jetzt."
 
 #: src/action.c:270 src/alias.c:239
 msgid "No selection made."
@@ -42,23 +43,25 @@ msgid "Action"
 msgstr "Aktion"
 
 #: src/action.c:313
-msgid "Amcl Action Center"
-msgstr "AMCL Trigger-Zentrale"
+msgid "AMCL Action Center"
+msgstr "AMCL Aktionszentrale"
 
-#: src/action.c:381 src/wizard.c:575
-msgid "add"
+#: src/action.c:381 src/alias.c:349 src/keybind.c:419 src/wizard.c:570
+msgid "Add"
 msgstr "Hinzufügen"
 
-#: src/action.c:382 src/init.c:140 src/wizard.c:604
-msgid "close"
+#: src/action.c:382 src/alias.c:350 src/init.c:138 src/keybind.c:434
+#: src/prefs.c:423 src/wizard.c:599
+msgid "Close"
 msgstr "Schliessen"
 
-#: src/action.c:383 src/wizard.c:577
-msgid "delete"
+#: src/action.c:383 src/alias.c:351 src/keybind.c:426 src/wizard.c:572
+msgid "Delete"
 msgstr "Löschen"
 
-#: src/action.c:384 src/wizard.c:603
-msgid "save"
+#: src/action.c:384 src/alias.c:352 src/color.c:336 src/keybind.c:430
+#: src/map.c:2663 src/prefs.c:422 src/wizard.c:598
+msgid "Save"
 msgstr "Speichern"
 
 #: src/alias.c:194
@@ -90,51 +93,34 @@ msgid "Replacement"
 msgstr "Ersetzung"
 
 #: src/alias.c:282
-msgid "Amcl Alias Center"
+msgid "AMCL Alias Center"
 msgstr "AMCL Alias-Zentrale"
-
-#: src/alias.c:349
-msgid "  add   "
-msgstr "Hinzufügen"
-
-#: src/alias.c:350
-msgid " close  "
-msgstr "Schliessen"
-
-#: src/alias.c:351
-msgid " delete "
-msgstr "Löschen"
-
-#: src/alias.c:352
-msgid "  save  "
-msgstr "Speichern"
 
 #: src/color.c:187
 msgid "Couldn't allocate color"
 msgstr "Konnte Farbe nicht auswählen"
 
 #: src/color.c:296
-msgid "Amcl Color Chooser"
+msgid "AMCL Color Chooser"
 msgstr "AMCL Farb-Zentrale"
 
 #: src/color.c:333 src/window.c:223
-msgid " Ok "
+#, fuzzy
+msgid "Ok"
 msgstr "OK"
 
 #: src/color.c:334
-msgid " Cancel "
+#, fuzzy
+msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/color.c:335
-msgid " Apply "
+#: src/color.c:335 src/wizard.c:571
+msgid "Apply"
 msgstr "Übernehmen"
 
-#: src/color.c:336
-msgid " Save "
-msgstr "Speichern"
-
 #: src/color.c:337
-msgid " Default "
+#, fuzzy
+msgid "Default"
 msgstr "Standard"
 
 #: src/color.c:453
@@ -142,161 +128,145 @@ msgstr "Standard"
 msgid "Can't load font... %s Using default.\n"
 msgstr "Kann Zeichensatz nicht laden... %s Benutze Standard.\n"
 
-#: src/init.c:100 src/init.c:385
+#: src/init.c:98 src/init.c:383
 msgid "Connect..."
 msgstr "Verbinde..."
 
-#: src/init.c:111
+#: src/init.c:109
 msgid "Host:"
 msgstr "Rechner:"
 
-#: src/init.c:123
+#: src/init.c:121
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:139 src/wizard.c:602
-msgid "connect"
+#: src/init.c:137 src/wizard.c:597
+msgid "Connect"
 msgstr "Verbinden"
 
-#: src/init.c:170
+#: src/init.c:168
 msgid "About"
 msgstr "Über"
 
-#: src/init.c:176
+#: src/init.c:174
 msgid "AMCL version "
 msgstr "AMCL Version"
 
-#: src/init.c:180
+#: src/init.c:178
 msgid "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
 msgstr "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
 
-#: src/init.c:184
+#: src/init.c:182
 msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
 msgstr "Lizensiert unter der GNU GENERAL PUBLIC LICENSE (GPL)"
 
-#: src/init.c:188
+#: src/init.c:186
 msgid "Homepage: http://www.localhost.nu/apps/amcl/"
 msgstr "Homepage: http://www.localhost.nu/apps/amcl/"
 
 #. Main menu
-#: src/init.c:370 src/init.c:546
+#: src/init.c:368 src/init.c:544
 msgid "Main"
 msgstr "Allgemein"
 
-#: src/init.c:376
+#: src/init.c:374
 msgid "Connection Wizard..."
 msgstr "Verbindungsassistent"
 
-#: src/init.c:390
+#: src/init.c:388
 msgid "Disconnect"
 msgstr "Verbindung unterbrechen"
 
-#: src/init.c:399
+#: src/init.c:397
 msgid "Close Window"
 msgstr "Schliesse Fenster"
 
-#: src/init.c:408
+#: src/init.c:406
 msgid "Quit"
 msgstr "Ende"
 
 #. Options menu
-#: src/init.c:414
+#: src/init.c:412
 msgid "Options"
 msgstr "Optionen"
 
-#: src/init.c:420
+#: src/init.c:418
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:425
+#: src/init.c:423
 msgid "Preferences..."
 msgstr "Voreinstellungen..."
 
-#: src/init.c:431
+#: src/init.c:429
 msgid "Auto Mapper..."
 msgstr "Karte..."
 
-#: src/init.c:442
+#: src/init.c:440
 msgid "Actions/Triggers..."
 msgstr "Aktionen/Trigger..."
 
-#: src/init.c:447
+#: src/init.c:445
 msgid "Keys..."
 msgstr "Makros..."
 
 #. Plugins menu
-#: src/init.c:453
+#: src/init.c:451
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:463
+#: src/init.c:461
 msgid "Plugin Information"
 msgstr "Plugin Information"
 
 #. Help menu
-#: src/init.c:469
+#: src/init.c:467
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/init.c:476
+#: src/init.c:474
 msgid "Readme"
 msgstr "Readme"
 
-#: src/init.c:482
+#: src/init.c:480
 msgid "Authors"
 msgstr "Autoren"
 
-#: src/init.c:492
+#: src/init.c:490
 msgid "About..."
 msgstr "Über..."
 
-#: src/init.c:615
+#: src/init.c:613
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Verteilt unter den Bedingungen der GNU General Public License.\n"
 
-#: src/keybind.c:211
+#: src/keybind.c:210
 msgid "Can't add an existing key."
 msgstr "Kann kein existierendes Makro hinzufügen."
 
-#: src/keybind.c:232
+#: src/keybind.c:231
 msgid "Incomplete fields."
 msgstr "Felder unvollständig."
 
-#: src/keybind.c:347
-msgid "Amcl Key Binding Center"
+#: src/keybind.c:340
+msgid "AMCL Key Binding Center"
 msgstr "AMCL Makro-Tasten-Zentrum"
 
-#: src/keybind.c:372
+#: src/keybind.c:365
 msgid "Key"
 msgstr "Taste"
 
-#: src/keybind.c:376 src/keybind.c:389 src/keybind.c:407
+#: src/keybind.c:369 src/keybind.c:382 src/keybind.c:400
 msgid "Command"
 msgstr "Kommando"
 
-#: src/keybind.c:385
+#: src/keybind.c:378
 msgid "Bind"
 msgstr "Tastenmakro"
 
-#: src/keybind.c:401 src/keybind.c:422
+#: src/keybind.c:394 src/keybind.c:415
 msgid "Capture"
 msgstr ""
-
-#: src/keybind.c:426
-msgid "Add"
-msgstr "Hinzufügen"
-
-#: src/keybind.c:433
-msgid "Delete"
-msgstr "Löschen"
-
-#: src/keybind.c:437 src/map.c:2663
-msgid "Save"
-msgstr "Speichern"
-
-#: src/keybind.c:441
-msgid "Close"
-msgstr "Schliessen"
 
 #: src/map.c:698
 #, c-format
@@ -402,7 +372,7 @@ msgstr ""
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
 #. gtk_window_set_title(GTK_WINDOW(automap->window), name);
 #: src/map.c:2560
-msgid "Amcl AutoMapper"
+msgid "AMCL AutoMapper"
 msgstr "AMCL Kartenzeichner"
 
 #. Some buttons
@@ -470,55 +440,55 @@ msgstr "AMCL Kartenzeichner - Karte%d"
 msgid "load_automap_from_file: Could not open %s for reading: %s\n"
 msgstr ""
 
-#: src/modules.c:179
+#: src/modules.c:177
 msgid "AMCL Plugin Information"
 msgstr "AMCL Plugin-Informationen"
 
-#: src/modules.c:204
+#: src/modules.c:202
 msgid "Plugin Name:"
 msgstr "Name:"
 
-#: src/modules.c:222
+#: src/modules.c:220
 msgid "Plugin Author:"
 msgstr "Autor:"
 
-#: src/modules.c:239
+#: src/modules.c:237
 msgid "Plugin Version:"
 msgstr "Version:"
 
-#: src/modules.c:256
+#: src/modules.c:254
 msgid "Plugin Description:"
 msgstr "Beschreibung:"
 
-#: src/modules.c:273
+#: src/modules.c:271
 msgid " Is Plugin Enabled?"
 msgstr "Ist das Plugin eingeschaltet?"
 
-#: src/modules.c:360
+#: src/modules.c:358
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
 msgstr ""
 
-#: src/modules.c:365
+#: src/modules.c:363
 #, c-format
 msgid "Error, %s not an AMCL module: %s."
 msgstr ""
 
-#: src/modules.c:384
+#: src/modules.c:382
 msgid "Checking whether plugin should be enabled by default..."
 msgstr "Untersucht, ob das Plugin standardmäßig eingeschaltet werden soll..."
 
-#: src/modules.c:397
+#: src/modules.c:395
 #, c-format
 msgid "Registering plugin `%s'."
 msgstr "Registriere Plugin `%s'."
 
-#: src/modules.c:398
+#: src/modules.c:396
 #, c-format
 msgid "Plug-in internal name is `%s'."
 msgstr "Interner name des Plugins ist `%s'."
 
-#: src/modules.c:406
+#: src/modules.c:404
 msgid "Running init-function..."
 msgstr "Startet Init-Funktion..."
 
@@ -536,24 +506,24 @@ msgstr ""
 msgid "Error getting plugin from handle."
 msgstr ""
 
-#: src/net.c:167
+#: src/net.c:165
 msgid "*** Connection closed.\n"
 msgstr "*** Verbindung geschlossen\n"
 
-#: src/net.c:180
+#: src/net.c:178
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** Kann keine verbindung aufbauen - kein Rechner angegeben.\n"
 
-#: src/net.c:187
+#: src/net.c:185
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** Kein Port angegeben - benutze Port 23\n"
 
-#: src/net.c:192
+#: src/net.c:190
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Erstelle Verbindung zu %s, port %s\n"
 
-#: src/net.c:219
+#: src/net.c:217
 msgid "*** Connection established.\n"
 msgstr "*** Verbindung aufgebaut.\n"
 
@@ -578,7 +548,7 @@ msgid "%s exists and can NOT be opened in read mode."
 msgstr "%s existiert und kann NICHT für Lesen geöffnet werden."
 
 #: src/prefs.c:305
-msgid "Amcl - Preferences"
+msgid "AMCL - Preferences"
 msgstr "AMCL - Voreinstellungen"
 
 #: src/prefs.c:316
@@ -588,60 +558,76 @@ msgstr "Den gesendeten Text anzeigen?"
 #: src/prefs.c:321
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
-"connection so you can control what you are sending.\n"
-"Some people think this is annoying, and therefor this is an option."
-msgstr "Wenn diese Option angeschaltet ist, dann wird der Text, den man eingibst lokal ausgegeben, so dass man kontrollieren kann, was man sendet.\n"
-"Manche Leute nervt dieses Echo, deshalb ist das eine Option."
+"connection so you can control what you are sending."
+msgstr ""
+"Wenn diese Option angeschaltet ist, dann wird der Text, den man eingibst "
+"lokal ausgegeben, so dass man kontrollieren kann, was man sendet."
 
-#: src/prefs.c:337
+#: src/prefs.c:329
+#, fuzzy
+msgid "Keep the text entered?"
+msgstr "Den gesendeten Text anzeigen?"
+
+#: src/prefs.c:335
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
-"will be left in the entry box but seleceted.\n"
-"Turn this off to remove the text after it has been sent."
-msgstr "Wenn diese Option angeschaltet ist, dann wird der eingegebene text in der Eingabezeile behalten, aber markiert.\n"
-"Um die Eingabezeile nach Absenden des Textes zu löschen, sollte man diese Option ausschalten."
+"will be left in the entry box but seleceted. Turn this off to remove the "
+"text after it has been sent."
+msgstr ""
+"Wenn diese Option angeschaltet ist, dann wird der eingegebene Text in der "
+"Eingabezeile behalten, aber markiert.Um die Eingabezeile nach Absenden des "
+"Textes zu löschen, sollte man diese Option ausschalten."
 
-#: src/prefs.c:351
+#: src/prefs.c:344
+#, fuzzy
+msgid "AutoSave?"
+msgstr "Speichern"
+
+#: src/prefs.c:349
 msgid ""
-"With this toggled on, Preferences, Connection Wizard and Alias will autosave."
-msgstr "Wenn diese Option angeschaltet ist, werden alle Einstellungen (Voreinstellungen, Verbindungsassistent, Aliase) automatisch gespeichert."
+"With this toggled on, Preferences, Connection Wizard and Aliases will be "
+"saved automatically."
+msgstr ""
+"Wenn diese Option angeschaltet ist, werden alle Einstellungen "
+"(Voreinstellungen, Verbindungsassistent, Aliase) automatisch gespeichert."
 
-#: src/prefs.c:363
+#: src/prefs.c:356
+msgid "Freeze/Thaw"
+msgstr ""
+
+#: src/prefs.c:361
 msgid ""
-"Using this, text will draw faster but it will not draw every char, only "
-"whole strings. This will probably do a lot faster if you are playing mu* "
-"with a lot of different colours."
-msgstr "Wenn diese Option angeschaltet wird, dann wird der text schneller ausgegeben, aber es wird nicht mehr jedes Zeichen einzeln ausgegeben, sondern komplette Strings."
-"Das ist möglicherweise deutlich schneller, wenn das MU* viele unterschiedliche Farben benutzt."
+"Using this, text will draw faster but it will not draw every character, only "
+"whole strings. This will probably make displays a lot faster if you are "
+"playing MUDs with a lot of different colours."
+msgstr ""
+"Wenn diese Option angeschaltet wird, dann wird der Text schneller "
+"ausgegeben, aber es wird nicht mehr jedes Zeichen einzeln ausgegeben, "
+"sondern komplette Strings.Das ist möglicherweise deutlich schneller, wenn "
+"das MUD viele unterschiedliche Farben benutzt."
 
-#: src/prefs.c:376
+#: src/prefs.c:374
 msgid "   Command divide char"
 msgstr "Kommandoseparator"
 
-#: src/prefs.c:396
+#: src/prefs.c:394
 msgid ""
-"This is the font that AMCL is using to print the text from the mud. If the "
-"font is unavailable when you start AMCL, AMCL will use the default font "
-"\"fixed.\""
-msgstr "Dieser Schriftsatz wird benutzt, um den Text vom MUD auszugeben. Wenn dieser Schriftsatz nicht gefunden werden kann, dann benutzt AMCL den Standardschriftsatz \"fixed\""
+"This is the font that AMCL is using to print the text from the MUD. If the "
+"font is unavailable when you start AMCL, the default font \"fixed.\" will be "
+"used."
+msgstr ""
+"Dieser Schriftsatz wird benutzt, um den Text vom MUD auszugeben. Wenn dieser "
+"Schriftsatz nicht gefunden werden kann, dann benutzt AMCL den "
+"Standardschriftsatz \"fixed\""
 
-#: src/prefs.c:402
-msgid " select font "
-msgstr "wähle Schriftsatz"
+#: src/prefs.c:401
+msgid "Select font"
+msgstr "Wähle Schriftsatz"
 
-#: src/prefs.c:408
+#: src/prefs.c:407
 msgid ""
-"Use this button to start the Font selector and choose for yourself what font "
-"you will use."
+"Use this button to open the font selector to choose what font you will use."
 msgstr "Benutze diesen Knopf, um den Schriftsatz via Dialog auszuwählen"
-
-#: src/prefs.c:423
-msgid " save "
-msgstr "Speichern"
-
-#: src/prefs.c:424
-msgid " close "
-msgstr "Schliessen"
 
 #: src/version.c:36
 #, c-format
@@ -650,110 +636,167 @@ msgid ""
 "Compiled by %s on %s the %s at %s\n"
 "Using %s and %s.\n"
 "\n"
-msgstr "Willkommen zu AMCL version %s\n"
+msgstr ""
+"Willkommen zu AMCL version %s\n"
 "Kompiliert von %s auf %s am %s um %s\n"
 "unter Benutzung von %s und %s.\n"
 
 #: src/window.c:208
-msgid "Amcl Popup Message"
+msgid "AMCL Popup Message"
 msgstr "AMCL Benachrichtigung"
 
 #: src/window.c:280
 msgid "AMCL Internal Error: "
 msgstr "AMCL Interner Fehler: "
 
-#: src/wizard.c:317
+#: src/wizard.c:312
 msgid "No selection made"
 msgstr "Keine Auswahl getroffen"
 
-#: src/wizard.c:347 src/wizard.c:379
+#: src/wizard.c:342 src/wizard.c:374
 msgid "Your connection doesn't have a name."
 msgstr "Die Verbindung hat keinen Namen."
 
-#: src/wizard.c:353
+#: src/wizard.c:348
 msgid ""
-"As for the moment, everything but the name can be changed.\n"
-"\n"
-"If you need to change the name of the connection, you have to use delete."
-msgstr "Im Moment kann alles außer dem Namen geändert werden.\n\n"
+"At the moment, everything but the name can be changed.\n"
+"If you need to change the name of the connection, you'll have to recreate it."
+msgstr ""
+"Im Moment kann alles außer dem Namen geändert werden.\n"
 "Wenn der Name geändert werden soll, muss 'Löschen' benutzt werden."
 
-#: src/wizard.c:385
+#: src/wizard.c:380
 msgid "Can't add an existing connection."
 msgstr "Kann keine vorhandene Verbindung hinzufügen."
 
-#: src/wizard.c:445
+#: src/wizard.c:440
 msgid "Connections"
 msgstr "Verbindungen"
 
-#: src/wizard.c:453
-msgid "Amcl Connection Wizard"
+#: src/wizard.c:448
+msgid "AMCL Connection Wizard"
 msgstr "AMCL Verbindungsassistent"
 
-#: src/wizard.c:496
+#: src/wizard.c:491
 msgid "Connection Name:"
 msgstr "Verbindungsname:"
 
-#: src/wizard.c:504
+#: src/wizard.c:499
 msgid ""
-"This is what you will call the connection, and will also be used in when you "
-"choose a connection in the list on the left."
-msgstr "Dieser Name kennzeichnet die Verbindung und wird auch genutzt, um in der linken Spalten ausgewählt zu werden."
+"This is the name of the conection which will be displayed in the conection "
+"list."
+msgstr ""
+"Dieser Name kennzeichnet die Verbindung und wird auch genutzt, um in der "
+"linken Spalten ausgewählt zu werden."
 
-#: src/wizard.c:510
+#: src/wizard.c:504
 msgid ""
 "\n"
 "Host:"
-msgstr "\nRechner:"
+msgstr ""
+"\n"
+"Rechner:"
 
-#: src/wizard.c:517
-msgid "This is the host where the mud you will connect to is located."
+#: src/wizard.c:511
+msgid "This is the host where the MUD you will connect to is located."
 msgstr "Das ist der Rechnername (Host) auf dem das MUD sich befindet."
 
-#: src/wizard.c:522
+#: src/wizard.c:516
 msgid ""
 "\n"
 "Port:"
-msgstr "\nPort:"
+msgstr ""
+"\n"
+"Port:"
 
-#: src/wizard.c:529
+#: src/wizard.c:523
 msgid ""
-"This is the port of the host that the mud is located on. The default port is "
+"This is the port on the host that the MUD is located on. The default port is "
 "23 (telnet)."
-msgstr "Das ist der Port von dem Rechner, auf dem sich das MUD befindet. Der Standardport ist 23 (telnet)."
+msgstr ""
+"Das ist der Port von dem Rechner, auf dem sich das MUD befindet. Der "
+"Standardport ist 23 (Telnet)."
 
-#: src/wizard.c:534
+#: src/wizard.c:528
 msgid "Auto Login?"
 msgstr "Autologin?"
 
-#: src/wizard.c:540
+#: src/wizard.c:534
 msgid ""
-"Should AMCL login to this mud automatically? For this to work, Player Name "
-"and Password must be set."
-msgstr "Soll AMCL automatisch in das MUD einloggen? Damit das funktioniert, muss der Spielername und das Passwort gesetzt sein."
+"Should AMCL login to this MUD automatically? Player Name and Password must "
+"be set to make this work."
+msgstr ""
+"Soll AMCL automatisch in das MUD einloggen? Damit das funktioniert, muss der "
+"Spielername und das Passwort gesetzt sein."
 
-#: src/wizard.c:547
+#: src/wizard.c:541
 msgid ""
 "\n"
 "Player Name:"
-msgstr "\nSpielername:"
+msgstr ""
+"\n"
+"Spielername:"
 
-#: src/wizard.c:554
-msgid ""
-"This is the player you login to the mud with, this only works if AutoLogin "
-"is set."
-msgstr "Das ist der Spielername, der benutzt wird um zum MUD zu verbinden. Er wird nur benutzt, wenn Autologin eingeschaltet ist."
+#: src/wizard.c:548
+msgid "This is the player you login to the MUD with. For use with AutoLogin."
+msgstr ""
+"Das ist der Spielername, der benutzt wird um zum MUD zu verbinden. Er wird "
+"nur benutzt, wenn Autologin eingeschaltet ist."
 
-#: src/wizard.c:559
+#: src/wizard.c:553
 msgid ""
 "\n"
 "Password:"
-msgstr "\nPasswort:"
+msgstr ""
+"\n"
+"Passwort:"
 
-#: src/wizard.c:567
-msgid "Use this together with PlayerName and AutoLogin."
-msgstr "Benutze das in verbindung mit dem Spielernamen und Autologin."
+#: src/wizard.c:561
+msgid ""
+"This is your player account's password in the MUD. For use with AutoLogin."
+msgstr ""
 
-#: src/wizard.c:576
-msgid "apply"
-msgstr "Übernehmen"
+#~ msgid " Ok "
+#~ msgstr "OK"
+
+#~ msgid " Apply "
+#~ msgstr "Übernehmen"
+
+#~ msgid " Save "
+#~ msgstr "Speichern"
+
+#~ msgid "add"
+#~ msgstr "Hinzufügen"
+
+#~ msgid "close"
+#~ msgstr "Schliessen"
+
+#~ msgid "delete"
+#~ msgstr "Löschen"
+
+#~ msgid "save"
+#~ msgstr "Speichern"
+
+#~ msgid "  add   "
+#~ msgstr "Hinzufügen"
+
+#~ msgid " close  "
+#~ msgstr "Schliessen"
+
+#~ msgid " delete "
+#~ msgstr "Löschen"
+
+#~ msgid "  save  "
+#~ msgstr "Speichern"
+
+#~ msgid " save "
+#~ msgstr "Speichern"
+
+#~ msgid " close "
+#~ msgstr "Schliessen"
+
+#~ msgid "Use this together with PlayerName and AutoLogin."
+#~ msgstr "Benutze das in verbindung mit dem Spielernamen und Autologin."
+
+#~ msgid "apply"
+#~ msgstr "Übernehmen"

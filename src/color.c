@@ -330,11 +330,11 @@ void window_color (GtkWidget *a, gpointer d)
   gtk_widget_show (GTK_WIDGET (c_a1));
   gtk_widget_show (GTK_WIDGET (c_a2));
 
-  c_ok     = GTK_BUTTON (gtk_button_new_with_label (_(" Ok ")));
-  c_cancel = GTK_BUTTON (gtk_button_new_with_label (_(" Cancel ")));
-  c_apply  = GTK_BUTTON (gtk_button_new_with_label (_(" Apply ")));
-  c_save   = GTK_BUTTON (gtk_button_new_with_label (_(" Save ")));
-  c_load   = GTK_BUTTON (gtk_button_new_with_label (_(" Default ")));
+  c_ok     = GTK_BUTTON (gtk_button_new_with_label (_("Ok")));
+  c_cancel = GTK_BUTTON (gtk_button_new_with_label (_("Cancel")));
+  c_apply  = GTK_BUTTON (gtk_button_new_with_label (_("Apply")));
+  c_save   = GTK_BUTTON (gtk_button_new_with_label (_("Save")));
+  c_load   = GTK_BUTTON (gtk_button_new_with_label (_("Default")));
   
   gtk_signal_connect (GTK_OBJECT (c_ok), "clicked",
 		      GTK_SIGNAL_FUNC (color_ok_pressed), 0);

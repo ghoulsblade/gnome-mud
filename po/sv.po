@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AMCL 0.8.0\n"
-"POT-Creation-Date: 2000-08-02 09:01+0200\n"
+"POT-Creation-Date: 2000-08-11 18:44+0200\n"
 "PO-Revision-Date: 2000-08-02 09:20+0200\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -59,8 +59,8 @@ msgstr "Stäng"
 msgid "Delete"
 msgstr "Ta bort"
 
-#: src/action.c:384 src/alias.c:352 src/keybind.c:430 src/map.c:2663
-#: src/prefs.c:422 src/wizard.c:598
+#: src/action.c:384 src/alias.c:352 src/color.c:336 src/keybind.c:430
+#: src/map.c:2663 src/prefs.c:422 src/wizard.c:598
 msgid "Save"
 msgstr "Spara"
 
@@ -105,24 +105,21 @@ msgid "AMCL Color Chooser"
 msgstr "AMCL Färg Väljare"
 
 #: src/color.c:333 src/window.c:223
-msgid " Ok "
-msgstr " Ok "
+msgid "Ok"
+msgstr "Ok"
 
 #: src/color.c:334
-msgid " Cancel "
-msgstr " Avbryt "
+#, fuzzy
+msgid "Cancel"
+msgstr "Avbryt"
 
-#: src/color.c:335
-msgid " Apply "
-msgstr " Verkställ "
-
-#: src/color.c:336
-msgid " Save "
-msgstr " Spara "
+#: src/color.c:335 src/wizard.c:571
+msgid "Apply"
+msgstr "Verkställ"
 
 #: src/color.c:337
-msgid " Default "
-msgstr " Standard "
+msgid "Default"
+msgstr "Standard"
 
 #: src/color.c:453
 #, c-format
@@ -561,7 +558,8 @@ msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
 msgstr ""
-"Men denna påslagen, kommer att text du skriver och skickar att skrivas ut så \n"
+"Men denna påslagen, kommer att text du skriver och skickar att skrivas ut så "
+"\n"
 "du kan se vad du skickar."
 
 #: src/prefs.c:329
@@ -574,8 +572,10 @@ msgid ""
 "will be left in the entry box but seleceted. Turn this off to remove the "
 "text after it has been sent."
 msgstr ""
-"Med denna påslagen kommer texten du matade in att stanna kvar i inmatningsfältet\n"
-"efter du har skickat det till anslutningen. Stäng av denna för att ta bort texten \n"
+"Med denna påslagen kommer texten du matade in att stanna kvar i "
+"inmatningsfältet\n"
+"efter du har skickat det till anslutningen. Stäng av denna för att ta bort "
+"texten \n"
 "efter den har blivit skickad."
 
 #: src/prefs.c:344
@@ -598,7 +598,8 @@ msgid ""
 "whole strings. This will probably make displays a lot faster if you are "
 "playing MUDs with a lot of different colours."
 msgstr ""
-"Med denna inställning kommer texten att rita upp snabbare, men den kommer inte\n"
+"Med denna inställning kommer texten att rita upp snabbare, men den kommer "
+"inte\n"
 "att rita bokstav för bokstav, utan bara hela rader. Detta kan snabba upp en\n"
 "MUD med mycket färger."
 
@@ -613,7 +614,8 @@ msgid ""
 "used."
 msgstr ""
 "Detta är fonten AMCL använder för att skriva ut text. Om fonten inte är \n"
-"tillgänglig när du startar AMCL kommer standard fonten \\\"fixed\\\" att användas\n"
+"tillgänglig när du startar AMCL kommer standard fonten \\\"fixed\\\" att "
+"användas\n"
 "istället."
 
 #: src/prefs.c:401
@@ -624,7 +626,8 @@ msgstr "Välj font"
 msgid ""
 "Use this button to open the font selector to choose what font you will use."
 msgstr ""
-"Använda denna knappen för att ta dig till font väljaren för att snabbt och lätt\n"
+"Använda denna knappen för att ta dig till font väljaren för att snabbt och "
+"lätt\n"
 "välja en användbar font."
 
 #: src/version.c:36
@@ -690,7 +693,9 @@ msgstr "Detta namnet är det som kommer att användas för att ge ett unikt namn."
 msgid ""
 "\n"
 "Host:"
-msgstr "\nAdress:"
+msgstr ""
+"\n"
+"Adress:"
 
 #: src/wizard.c:511
 msgid "This is the host where the MUD you will connect to is located."
@@ -700,7 +705,9 @@ msgstr "Detta är datorn där MUDen du vill ansluta till ligger."
 msgid ""
 "\n"
 "Port:"
-msgstr "\nPort:"
+msgstr ""
+"\n"
+"Port:"
 
 #: src/wizard.c:523
 msgid ""
@@ -726,23 +733,24 @@ msgstr ""
 msgid ""
 "\n"
 "Player Name:"
-msgstr "\nSpelar Namn:"
+msgstr ""
+"\n"
+"Spelar Namn:"
 
 #: src/wizard.c:548
 msgid "This is the player you login to the MUD with. For use with AutoLogin."
-msgstr "Detta är spelaren du vill logga in på MUDen som. Att användas med AutoLogin."
+msgstr ""
+"Detta är spelaren du vill logga in på MUDen som. Att användas med AutoLogin."
 
 #: src/wizard.c:553
 msgid ""
 "\n"
 "Password:"
-msgstr "\nLösenord:"
+msgstr ""
+"\n"
+"Lösenord:"
 
 #: src/wizard.c:561
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr "Detta är spelarens lösenord. Att användas med AutoLogin."
-
-#: src/wizard.c:571
-msgid "Apply"
-msgstr "Verkställ"

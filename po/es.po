@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2000-07-25 18:40+0200\n"
+"POT-Creation-Date: 2000-08-11 18:44+0200\n"
 "PO-Revision-Date: 2000-07-25 18:12+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -59,8 +59,8 @@ msgstr "Cerrar"
 msgid "Delete"
 msgstr "Borrar"
 
-#: src/action.c:384 src/alias.c:352 src/keybind.c:430 src/map.c:2663
-#: src/prefs.c:422 src/wizard.c:598
+#: src/action.c:384 src/alias.c:352 src/color.c:336 src/keybind.c:430
+#: src/map.c:2663 src/prefs.c:422 src/wizard.c:598
 msgid "Save"
 msgstr "Salvar"
 
@@ -105,24 +105,20 @@ msgid "AMCL Color Chooser"
 msgstr "Seleccionador de Colores de AMCL"
 
 #: src/color.c:333 src/window.c:223
-msgid " Ok "
-msgstr " Ok "
+msgid "Ok"
+msgstr "Ok"
 
 #: src/color.c:334
-msgid " Cancel "
-msgstr " Cancel "
+msgid "Cancel"
+msgstr "Cancelar"
 
-#: src/color.c:335
-msgid " Apply "
-msgstr " Apply "
-
-#: src/color.c:336
-msgid " Save "
-msgstr " Save "
+#: src/color.c:335 src/wizard.c:571
+msgid "Apply"
+msgstr "Aplicar"
 
 #: src/color.c:337
-msgid " Default "
-msgstr " Default "
+msgid "Default"
+msgstr "Predeterminado"
 
 #: src/color.c:453
 #, c-format
@@ -464,7 +460,7 @@ msgstr "Descripción del Conector:"
 
 #: src/modules.c:271
 msgid " Is Plugin Enabled?"
-msgstr "¿Está el conector activo?"
+msgstr " ¿Está el conector activo?"
 
 #: src/modules.c:358
 #, c-format
@@ -754,7 +750,3 @@ msgstr ""
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr "Este es el password de tu jugador en el MUD. Utilizable con AutoLogin."
-
-#: src/wizard.c:571
-msgid "Apply"
-msgstr "Aplicar"
