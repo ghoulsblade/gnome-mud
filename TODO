@@ -6,20 +6,13 @@ Things that need to be done
 - Nested alias
 - Use GTK+ unstable's splitscreen feature
 - Import of Mud Connectfiles
-- Rewrite connection wizard...
+- Rewrite connection wizard... [PARTLY DONE]
 	+ be able to ping host...
 	+ several characters per host
+- Save logfiles of mud-traffic
+- Get more speed in ANSI
+- Support for TELNET codes [PARTLY DONE]
 
 - Other things you would like. Just mail me, lobbin@localhost.nu.
 
 
-Things that are under development
-=================================
-- Automapper
-- Multiple Connections (zMud like)
-- Mud specific settings, alias, triggers, etc...
-- Variables in alias and triggers..
-- Plug-in API
-- Gnomization:
-  + conversion of mkhelp documents to GNOME-Help
-  + conversion of Connection Wizard to GNOME's Druid widget.
