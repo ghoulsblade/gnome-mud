@@ -1,5 +1,15 @@
 2003-07-11  Jordi Mallach  <jordi@sindominio.net>
 
+	* src/init.c (window_menu_help_about): Use markup for the copyright
+	symbol instead of UTF-8.
+	(main_window): Don't show the Python version on startup, as it's
+	mostly useless. Fixes bug #117108.
+
+	* src/net.c (append_word_to_command): Use g_string_append_printf
+	instead of deprecated g_string_sprintfa.
+
+2003-07-11  Jordi Mallach  <jordi@sindominio.net>
+
 	* src/init.c [toolbar_menu]: Oops, use N_(), not _().
 
 2003-07-11  Jordi Mallach  <jordi@sindominio.net>

@@ -472,7 +472,7 @@ static void append_word_to_command (GString *string, gchar *word)
 	}
 	else
 	{
-		g_string_sprintfa(string, " %s", word);
+		g_string_append_printf(string, " %s", word);
 	}
 } /* append_word_to_command */
 

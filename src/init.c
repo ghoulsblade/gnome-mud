@@ -247,7 +247,7 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
   
 	about = gnome_about_new (_("GNOME-Mud"), VERSION,
 			   /* latin1 translators can use the copyright symbol here, see man latin1(7) */
-				 "© 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson",
+				 "\xc2\xa9 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson",
 				 _("A Multi-User Dungeon (MUD) client for GNOME.\n"),
 				 authors,
 				 documenters,
@@ -767,9 +767,5 @@ void main_window ()
 	g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\n"), VERSION, __TIME__, __DATE__);
 	terminal_feed(main_connection->window, buf);
 	terminal_feed(main_connection->window, _("Distributed under the terms of the GNU General Public License.\n"));
-#ifdef USE_PYTHON
-  	g_snprintf(buf, 1023, _("\nPython version %s\n"), Py_GetVersion());
-	terminal_feed(main_connection->window, buf);
-#endif
 }
 
