@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1998-2002 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2005 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #endif
 
 #include "gnome-mud.h"
+#include "directions.h"
 
 static char const rcsid[] = 
 	"$Id$";
@@ -375,62 +376,62 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 	if ( event->state & GDK_CONTROL_MASK ) { }
 	else
 	{
-		if (!prefs.DisableKeys)
+		if (!prefs.DisableKeys && cd->profile->directions)
 		{
 			switch ( event->keyval )
 			{
 				case GDK_KP_1:
-					text_entry_send_command(cd, "sw", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_SOUTHWEST), text_entry);
 					return TRUE;
 					break;
 
 				case GDK_KP_2:
-					text_entry_send_command(cd, "s", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_SOUTH), text_entry);
 					return TRUE;
 					break;
 
 				case GDK_KP_3:
-					text_entry_send_command(cd, "se", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_SOUTHEAST), text_entry);
 					return TRUE;
 					break;
 
 				case GDK_KP_4:
-					text_entry_send_command(cd, "w", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_WEST), text_entry);
 					return TRUE;
 					break;
 
 				case GDK_KP_5:
-					text_entry_send_command(cd, "look", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_LOOK), text_entry);
 					return TRUE;
 					break;
 
 				case GDK_KP_6:
-					text_entry_send_command(cd, "e", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_EAST), text_entry);
 					return TRUE;
 					break;
 
 				case GDK_KP_7:
-					text_entry_send_command(cd, "nw", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_NORTHWEST), text_entry);
 					return TRUE;
 					break;
 
 				case GDK_KP_8:
-					text_entry_send_command(cd, "n", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_NORTH), text_entry);
 					return TRUE;
 					break;
 
 				case GDK_KP_9:
-					text_entry_send_command(cd, "ne", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_NORTHEAST), text_entry);
 					return TRUE;
 					break;
 
 				case GDK_KP_Add:
-					text_entry_send_command(cd, "d", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_DOWN), text_entry);
 					return TRUE;
 					break;
 
 				case GDK_KP_Subtract:
-					text_entry_send_command(cd, "u", text_entry);
+					text_entry_send_command(cd, (gchar*) g_slist_nth_data(cd->profile->directions, DIRECTION_UP), text_entry);
 					return TRUE;
 					break;
 			}

@@ -31,11 +31,13 @@ dnl pkg-config dep checks
 LIBGNOME_REQUIRED=2.0.0
 LIBGNOMEUI_REQUIRED=2.0.0
 VTE_REQUIRED=0.10.26
+LIBGLADE_REQUIRED=2.0.1
 
 dnl libgnome, libgnomeui needed for all utils
 PKG_CHECK_MODULES(GMUD, libgnome-2.0 >= $LIBGNOME_REQUIRED
 			libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED
-			vte >= $VTE_REQUIRED)
+			vte >= $VTE_REQUIRED
+			libglade-2.0 >= $LIBGLADE_REQUIRED)
 AC_SUBST(GMUD_CFLAGS)
 AC_SUBST(GMUD_LIBS)
 
@@ -221,6 +223,7 @@ AC_OUTPUT([
   plugins/Makefile
   plugins/python/Makefile
   po/Makefile.in
+  ui/Makefile
 ])
 
 AC_MSG_RESULT([

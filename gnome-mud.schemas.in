@@ -356,5 +356,17 @@
 				<short>Keybindings</short>
 			</locale>
 		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/profiles/Default/directions</key>
+			<applyto>/apps/gnome-mud/profiles/Default/directions</applyto>
+			<owner>gnome-mud</owner>
+			<type>list</type>
+			<list_type>string</list_type>
+			<default>[n,nw,e,se,s,sw,w,nw,u,d,look]</default>
+			<locale name="C">
+				<short>Directionbindings</short>
+			</locale>
+		</schema>
 	</schemalist>
 </gconfschemafile>

@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1998-2002 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2005 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -149,6 +149,31 @@ static KEYBIND_DATA *profile_load_keybinds(gchar *profile_name)
 	return k;
 }
 
+static GSList *profile_load_directions(gchar *profile_name)
+{
+	GSList *slist;
+	gchar pname[255];
+
+	snprintf(pname, 255, "/apps/gnome-mud/profiles/%s/directions", profile_name);
+	slist = gconf_client_get_list(gconf_client, pname, GCONF_VALUE_STRING, NULL);
+	if (slist == NULL) {
+		/* Set default */
+		slist = g_slist_append(slist,"n");
+		slist = g_slist_append(slist,"ne");
+		slist = g_slist_append(slist,"e");
+		slist = g_slist_append(slist,"se");
+		slist = g_slist_append(slist,"s");
+		slist = g_slist_append(slist,"sw");
+		slist = g_slist_append(slist,"w");
+		slist = g_slist_append(slist,"nw");
+		slist = g_slist_append(slist,"u");
+		slist = g_slist_append(slist,"d");
+		slist = g_slist_append(slist,"look");
+	}
+	
+	return slist;
+}
+
 static GList *profile_load_list(gchar *pn, gchar *pt)
 {
 	GList *list = NULL;
@@ -192,6 +217,7 @@ void load_profiles()
 		pd->triggers = profile_load_list(pname, "triggers" );
 
 		pd->kd = profile_load_keybinds(pname);
+		pd->directions = profile_load_directions(pname);
 	
 		ProfilesData = g_list_append(ProfilesData, (gpointer) pd);
 
@@ -276,6 +302,7 @@ static void profilelist_new_profile(const gchar *string, gpointer data)
 	SET_LIST("variables");
 	SET_LIST("triggers");
 	SET_LIST("keybinds");
+	SET_LIST("directions");
 
 	text[0] = g_strdup(string);
 	gtk_clist_append(GTK_CLIST(data), text);
@@ -397,6 +424,24 @@ static void profilelist_keybinds_cb(GtkWidget *widget, gpointer data)
 		if (pd != NULL)
 		{
 			window_keybind(pd);
+		}
+	}
+}
+
+static void profilelist_directions_cb(GtkWidget *widget, gpointer data)
+{
+	PROFILE_DATA *pd;
+
+	if (selected != -1)
+	{
+		gchar *name;
+
+		gtk_clist_get_text(GTK_CLIST(data), selected, 0, &name);
+
+		pd = profiledata_find(name);
+		if (pd != NULL)
+		{
+			window_directions(pd);
 		}
 	}
 }
@@ -1157,6 +1202,7 @@ void window_profile_edit(void)
 	GtkWidget *button_variables;
 	GtkWidget *button_triggers;
 	GtkWidget *button_keybinds;
+	GtkWidget *button_directions;
 	GtkWidget *button_close;
 	GtkWidget *scrolledwindow;
 	GtkWidget *profile_list;
@@ -1244,6 +1290,13 @@ void window_profile_edit(void)
 	gtk_widget_show(button_keybinds);
 
 	/*
+	 * Directions
+	 */
+	tmp_toolbar_icon = gtk_image_new_from_stock (GTK_STOCK_MISSING_IMAGE, GTK_ICON_SIZE_LARGE_TOOLBAR);
+	button_directions = gtk_toolbar_append_item (GTK_TOOLBAR(toolbar), _("Directions"), _("Set directions"), NULL, tmp_toolbar_icon, NULL, NULL);
+	gtk_widget_show(button_directions);
+
+	/*
 	 * Vertical separator
 	 */
 	vseparator = gtk_vseparator_new();
@@ -1291,6 +1344,7 @@ void window_profile_edit(void)
 	gtk_signal_connect(GTK_OBJECT(button_triggers),  "clicked", GTK_SIGNAL_FUNC(profilelist_triggers_cb), profile_list);
 	gtk_signal_connect(GTK_OBJECT(button_variables), "clicked", GTK_SIGNAL_FUNC(profilelist_variables_cb), profile_list);
 	gtk_signal_connect(GTK_OBJECT(button_keybinds),  "clicked", GTK_SIGNAL_FUNC(profilelist_keybinds_cb), profile_list);
+	gtk_signal_connect(GTK_OBJECT(button_directions),  "clicked", GTK_SIGNAL_FUNC(profilelist_directions_cb), profile_list);
 
 	gtk_signal_connect_object(GTK_OBJECT(button_close), "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) profile_window);
 	gtk_signal_connect(GTK_OBJECT(profile_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &profile_window);

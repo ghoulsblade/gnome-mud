@@ -1,3 +1,28 @@
+2005-03-03  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Makefile.am: Added ui subdir.
+
+	* configure.ac: Added requirement for libglade-2.0.
+
+	* gnome-mud.schemas.in: Added default directions to Default profile.
+
+	* src/Makefile.am, src/directions.[ch]: Added.
+
+	* src/gnome-mud.h [profile_data]: directions added.
+
+	* src/init.c (text_entry_key_press_cb): Use dynamic directions from
+	profile.
+	* src/map.c (user_command),
+	(get_direction_text): Ditto.
+
+	* src/profiles.c (profile_load_directions): Added.
+	(load_profiles): Load directions.
+	(profilelist_profile): Set directions.
+	(profilelist_directions_cb): Added.
+	(window_profile_edit): Added direction button in toolbar menu.
+
+	* ui/Makefile.am, ui/directions.glade, ui/.cvsignore: Added.
+
 2005-02-16  Jordi Mallach  <jordi@sindominio.net>
 
 	* Makefile.am (EXTRA_DIST): Add gnome-mud.spec.

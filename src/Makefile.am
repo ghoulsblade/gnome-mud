@@ -43,4 +43,5 @@ gnome_mud_SOURCES =		\
 	python.c		\
 	telnet.c		\
 	tray.c			\
-	window.c
+	window.c		\
+	directions.c

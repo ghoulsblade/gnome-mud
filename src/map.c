@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1998-2002 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2005 Robin Ericsson <lobbin@localhost.nu>
  *
  * map.c is written by Paul Cameron <thrase@progsoc.uts.edu.au> with
  * modifications by Robin Ericsson to make it work with AMCL.
@@ -37,6 +37,7 @@
 
 #include "gnome-mud.h"
 #include "map.h"
+#include "directions.h"
 
 #if 0
 #define USE_DMALLOC
@@ -965,22 +966,23 @@ void user_command(AutoMap* automap, const gchar* command)
 	GList* puck;
 	int i = 0;
 	int out = -1;
-	
-	char* exits[20] = {"north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "up", "down", "n", "ne", "e", "se", "s", "sw", "w", "nw", "u", "d"};
+	GSList *dir;
 	
 	command = g_ascii_strdown(command, -1);
-	
-    for (i = 0; i<10; i++)
-	{
-		if (!g_ascii_strcasecmp(command, exits[i]))
+
+	//	no way to use this?
+	//	g_slist_foreach
+
+	dir = main_connection->profile->directions;
+	while(dir) {
+		if(!g_ascii_strcasecmp(command,(gchar *) dir->data)) {
 			out = i;
+			break;
+		}
+		i++;
+		dir = dir->next;
 	}
-	for (i = 10; i<20; i++)
-	{
-		if (!g_ascii_strcasecmp(command, exits[i]))
-			out = i - 10;
-	}
-	
+
 	if (out != -1)
 	{
 		move_player_real(automap, out);
@@ -1764,17 +1766,18 @@ static inline gchar* get_direction_text(guint type)
 {
 	switch (type)
 	{
-		case NORTH:     return g_strdup("north");
-		case NORTHWEST: return g_strdup("northwest");
-		case NORTHEAST: return g_strdup("northeast");
-		case WEST:      return g_strdup("west");
-		case EAST:      return g_strdup("east");
-		case SOUTHWEST: return g_strdup("southwest");
-		case SOUTHEAST: return g_strdup("southeast");
-		case SOUTH:     return g_strdup("south");
-		case UP:		return g_strdup("up");
-		case DOWN:		return g_strdup("down");
+		case NORTH:     return g_strdup(g_slist_nth_data(main_connection->profile->directions,DIRECTION_NORTH));
+		case NORTHWEST: return g_strdup(g_slist_nth_data(main_connection->profile->directions,DIRECTION_NORTHWEST));
+		case NORTHEAST: return g_strdup(g_slist_nth_data(main_connection->profile->directions,DIRECTION_NORTHEAST));
+		case WEST:      return g_strdup(g_slist_nth_data(main_connection->profile->directions,DIRECTION_WEST));
+		case EAST:      return g_strdup(g_slist_nth_data(main_connection->profile->directions,DIRECTION_EAST));
+		case SOUTHWEST: return g_strdup(g_slist_nth_data(main_connection->profile->directions,DIRECTION_SOUTHWEST));
+		case SOUTHEAST: return g_strdup(g_slist_nth_data(main_connection->profile->directions,DIRECTION_SOUTHEAST));
+		case SOUTH:     return g_strdup(g_slist_nth_data(main_connection->profile->directions,DIRECTION_SOUTH));
+		case UP:		return g_strdup(g_slist_nth_data(main_connection->profile->directions,DIRECTION_UP));
+		case DOWN:		return g_strdup(g_slist_nth_data(main_connection->profile->directions,DIRECTION_DOWN));
 	}
+
 	return NULL;
 }
 static inline void node_reposition (guint type, guint *x, guint *y)

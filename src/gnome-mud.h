@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1998-2002 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2005 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -148,6 +148,7 @@ struct profile_data {
 	GList			*variables;
 	GList			*triggers;
 	GtkCList		*keys;
+	GSList			*directions;
 	KEYBIND_DATA	*kd;
 };
 
@@ -205,6 +206,9 @@ void  load_color_to_c_structs ( void			   );
 
 /* keybind.c */
 void window_keybind   ( PROFILE_DATA *		   );
+
+/* directions.c */
+void window_directions( PROFILE_DATA *		   );
 
 /* log.c */
 void  window_menu_file_start_logging_cb ( GtkWidget *widget, gpointer data );
