@@ -1,5 +1,5 @@
 CFLAGS    += $(DEBUG_FLAGS)
-SUBDIRS    = intl po src plugins
+SUBDIRS    = doc intl po src plugins
 
 man_MANS   = gnome-mud.1
 

@@ -1,3 +1,11 @@
+Mon Oct 29 02:17:11 CET 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* doc/sgmldocs.make: fixed paths of screenshots and removed
+	cruft that we (still) don't need.
+
+	* configure.in, Makefile.am: enable doc building. Beware, you now
+	need a shitload of sgml packages to build gnome-mud.
+
 Fri Oct 26 14:04:49 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/gnome-mud.h (pre_process): Returns gint instead of char*.
@@ -297,7 +305,6 @@ Thu Oct  4 15:23:18 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/profiles.c: Pass profilename to make_connection().
 
->>>>>>> 1.65
 Thu Oct  4 13:56:33 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/data.c [own_data]: Removed some unused variables.
