@@ -479,6 +479,8 @@ CONNECTION_DATA *create_connection_data(gint notebook)
 #ifdef ENABLE_MCCP
 	c->mccp = mudcompress_new();
 #endif /* ENABLE_MCCP */
+	c->telnet_state = 0;
+	c->telnet_subneg = 0;
 	c->notebook = notebook;
 	c->profile = profiledata_find("Default");
 	c->window = vte_terminal_new();

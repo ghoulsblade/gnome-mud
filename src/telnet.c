@@ -42,68 +42,73 @@ extern SYSTEM_DATA prefs ;
 /* Added by Benjamin Curtis, Code Swiped from TUsh by Simon Marsh
  * TERMINAL-TYPE support added by Vashti <vashti@dream.org.uk> February 2002 */
 
+/* Rewritten 2003 by Abigail Brady to be safe */
+
 gint pre_process(char *buf, CONNECTION_DATA *connection)
 {
-	unsigned char *from, *to, option, subneg;
-	int len;
-  
-	subneg = len = 0 ;
+	unsigned char *from, *to;
+	int fromlen, i;
 
-	from = (unsigned char *)buf;
-	to   = (unsigned char *)buf;
-  
-	while (*from)
+	from = to =(unsigned char *) buf;
+	fromlen = strlen(buf);
+
+	for(i = 0; i < fromlen; i++)
 	{
-		switch(*from)
+		unsigned char data = from[i];
+
+		switch(connection->telnet_state)
 		{
-			/* got a telnet control char */
-			case IAC: /* switch for telnet control */
-				from++;
-				switch(*from++)
+				/* normal data mode */
+			case 0:
+				switch(data)
 				{
-					/* quote instance of IAC */
 					case IAC:
-						*to++ = IAC;
-                                                len++;
+						connection->telnet_state = IAC;
 						break;
+					default:
+						/* We discard the contents of IAC SB stuff at the moment, as there is nothing interesting to us */
+						if(!connection->telnet_subneg)
+							*to++ = data;
+				}
+				break;
+
+				/* right after an IAC */
+			case IAC:
+
+				connection->telnet_state = 0;
+
+				switch(data)
+				{
+				  	/* quote instance of IAC */
+					case IAC:
+						if(!connection->telnet_subneg)
+							*to++ = data;
+						break;
+
 					/* IP kill connection */
 					case IP: /* IP control */
 						disconnect(NULL,NULL);
 						return 0;
 						break;
-	
-					/* prompt processing stuff */
-					case GA: /* Go ahead (prompt) */
-						break;
-	
-					case EOR: /* EOR (prompt) */
-						break;
-	
-					case SB: /* SB (subnegotiation) */
-						switch (*from++)
-						{
-							case TELOPT_TTYPE:
-								if ( (*from++) == TELQUAL_SEND )
-								{
-									subneg = TELOPT_TTYPE ;
-								}
-								break ;
 
-							default:
-								break ;
-						}
+					case WILL:
+					case WONT:
+					case DO:
+					case DONT:
+					case SB:
+						connection->telnet_state = data;
 						break;
 
-					case SE: /* SE (end subnegotiation) */
-						switch (subneg)
+					case SE:
+						switch(connection->telnet_subneg)
 						{
 							case TELOPT_TTYPE:
 								{
 									int pos;
 									unsigned char pkt[64] = { IAC, SB, TELOPT_TTYPE, TELQUAL_IS };
-			
+
 									/* if strlen(TERM) > 50 you have issues */
-									strncpy(&pkt[4], (unsigned char *)prefs.TerminalType, 50);
+									strncpy(&pkt[4], (unsigned char *) prefs.TerminalType, 50);
 
 									pos = (4 + strlen(prefs.TerminalType)) - 1;
 									pkt[pos + 1] = IAC;
@@ -114,124 +119,110 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 								break;
 
 							default:
-							break ;
-						}
-
-						subneg = 0 ;
-						break ;
-
-					/* WILL processing */
-					case WILL: /* WILL control */
-						switch(*from++)
-						{
-							case TELOPT_ECHO:
-								connection_send_telnet_control(connection, 3, IAC, DO, TELOPT_ECHO);
-								break;
-	  
-							case TELOPT_SGA: /* suppress GA */
-								connection_send_telnet_control(connection, 3, IAC, DONT, TELOPT_SGA);
-								break;
-  
-							case TELOPT_EOR:
-								connection_send_telnet_control(connection, 3, IAC, DO, TELOPT_EOR);
 								break;
 						}
+						connection->telnet_subneg = 0;
 						break;
-	
-					/* WONT processing ... */
-					case WONT: /* WONT control */
-						switch(*from++)
-						{
-							case TELOPT_ECHO:
-								connection_send_telnet_control(connection, 3, IAC, DONT, TELOPT_ECHO);
-								break;
-  
-							case TELOPT_SGA:
-								break;
-	  
-							case TELOPT_EOR:
-								connection_send_telnet_control(connection, 3, IAC, DONT, TELOPT_EOR);
-								break;
-						}
+
+					default:
 						break;
-	
-					/* DO processing ... received request to do something ... */
-					case DO:
-						option = *from;
-
-						switch(*from++)
-						{
-							case TELOPT_ECHO:
-								if (connection->echo == FALSE)
-								{
-									connection->echo = TRUE;
-									connection_send_telnet_control(connection, 3, IAC, WILL, TELOPT_ECHO);
-								}
-								break;
-	  
-							case TELOPT_SGA:
-								connection_send_telnet_control(connection, 3, IAC, WONT, TELOPT_SGA);
-								break;
-	  
-							case TELOPT_EOR:
-								connection_send_telnet_control(connection, 3, IAC, WILL, TELOPT_EOR);
-								break;
-	  
-							case TELOPT_TTYPE:
-								connection_send_telnet_control(connection, 3, IAC, WILL, TELOPT_TTYPE);
-								break ;
-
-							case TELOPT_NAWS:
-							{
-								unsigned char pkt[9] = { IAC, SB, TELOPT_NAWS, 0, 0, 0, 0, IAC, SE };
-								unsigned long h = vte_terminal_get_row_count(VTE_TERMINAL(connection->window)),
-											  w = vte_terminal_get_column_count(VTE_TERMINAL(connection->window));
-
-								pkt[3] = (unsigned char)(w >> 8);
-								pkt[4] = (unsigned char)(w & 0xff);
-								pkt[5] = (unsigned char)(h >> 8);
-								pkt[6] = (unsigned char)(h & 0xff);
-								write(connection->sockfd, &pkt, 9);
-							}
-
-							default:
-								connection_send_telnet_control(connection, 3, IAC, WONT, option) ;
-								break;
-						}
-						break;
-	
-					/* DONT processing ... received request not to do something ... */
-					case DONT:
-						switch(*from++)
-						{
-							case TELOPT_ECHO:
-								if (connection->echo == TRUE)
-								{
-									connection->echo = FALSE;
-									connection_send_telnet_control(connection, 3, IAC, WONT, TELOPT_ECHO);
-								}
-								break;
-	  
-							case TELOPT_SGA:
-								break;
-	  
-							case TELOPT_EOR:
-								connection_send_telnet_control(connection, 3, IAC, WONT, TELOPT_EOR);
-								break;
-						}
-						break;
-	
 				}
 				break;
-      
-			default:
-				len++;
-				*to++ = *from++;
+
+			case WILL:
+				connection->telnet_state = 0;
+				switch(data)
+				{
+					case TELOPT_ECHO:
+						connection_send_telnet_control(connection, 3, IAC, DO, TELOPT_ECHO);
+						break;
+
+						/* refusing SGA is a violation of RFC 1123 */
+					case TELOPT_SGA:
+					case TELOPT_EOR:
+						connection_send_telnet_control(connection, 3, IAC, DONT, data);
+						break;
+				}
+				break;
+
+			case WONT:
+				connection->telnet_state = 0;
+				switch(data)
+				{
+					case TELOPT_ECHO:
+					case TELOPT_EOR:
+						connection_send_telnet_control(connection, 3, IAC, DONT, data);
+						break;
+				}
+				break;
+
+			case DO:
+				connection->telnet_state = 0;
+				switch(data)
+				{
+
+					case TELOPT_ECHO:
+						if(connection->echo == FALSE)
+						{
+							connection->echo = TRUE;
+							connection_send_telnet_control(connection, 3, IAC, WILL, TELOPT_ECHO);
+						}
+						break;
+
+					case TELOPT_SGA:
+						connection_send_telnet_control(connection, 3, IAC, WONT, TELOPT_SGA);
+						break;
+
+					case TELOPT_EOR:
+					case TELOPT_TTYPE:
+						connection_send_telnet_control(connection, 3, IAC, WILL, data);
+						break;
+
+					case TELOPT_NAWS:
+						connection_send_telnet_control(connection, 3, IAC, WILL, data);
+						{
+							unsigned char pkt[9] = { IAC, SB, TELOPT_NAWS, 0, 0, 0, 0, IAC, SE };
+							unsigned long h = vte_terminal_get_row_count(VTE_TERMINAL(connection->window)),
+						    	w = vte_terminal_get_column_count(VTE_TERMINAL(connection->window));
+						  
+						  	pkt[3] = (unsigned char)(w >> 8);
+						  	pkt[4] = (unsigned char)(w & 0xff);
+						  	pkt[5] = (unsigned char)(h >> 8);
+						  	pkt[6] = (unsigned char)(h & 0xff);
+						  	write(connection->sockfd, &pkt, 9);
+						}
+						break;
+				}
+				break;
+
+			case DONT:
+				connection->telnet_state = 0;
+				switch(data)
+				{
+					case TELOPT_EOR:
+						connection_send_telnet_control(connection, 3, IAC, WONT, TELOPT_EOR);
+						break;
+
+					case TELOPT_ECHO:
+						if(connection->echo)
+						{
+							connection->echo = FALSE;
+							connection_send_telnet_control(connection, 3, IAC, WILL, TELOPT_ECHO);
+						}
+						break;
+				}
+				break;
+
+			case SE:
+				connection->telnet_state = 0;
+				break;
+
+			case SB:
+				connection->telnet_subneg = data;
 				break;
 		}
+
 	}
-	
-	*to++=0;
-  
-	return len;
+
+	return to - (unsigned char *) buf;
 }

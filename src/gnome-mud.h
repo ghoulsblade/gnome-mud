@@ -86,6 +86,8 @@ struct connection_data
 	gboolean		 echo;
 	GtkWidget		*window;
 	GtkWidget		*vscrollbar;
+  	gint                     telnet_state;
+  	gint                     telnet_subneg;
 };
 
 struct system_data {
