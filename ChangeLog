@@ -1,7 +1,11 @@
-2003-09-01  Jordi Mallach  <jordi@sindominio.net>
+2003-09-02  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/modules_api.c: Err, fix some more.
+
+2003-09-02  Jordi Mallach  <jordi@sindominio.net>
 
 	* gnome-mud.schemas.in: Fix typo.
-	* src/modules_api: fix up a few wrong sentences.
+	* src/modules_api: Fix up a few wrong sentences.
 	* src/map.c: Add translator comment.
 	Thanks to Danilo Å| egan for the suggestions.
 

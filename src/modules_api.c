@@ -68,7 +68,7 @@ gboolean plugin_register_data (gint handle, gchar *function, PLUGIN_DATA_DIRECTI
   plugin_datafunc  datafunc;
 
   if ((datafunc = (plugin_datafunc) dlsym ((void *) handle, function)) == NULL) {
-    g_message (_("Error while registering for data %s: %s"), dir == PLUGIN_DATA_IN ? "incoming" : "outgoing",
+    g_message (_("Error while registering data %s: %s"), dir == PLUGIN_DATA_IN ? "incoming" : "outgoing",
 	       dlerror());
     return FALSE;
   }
