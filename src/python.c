@@ -125,18 +125,48 @@ static PyObject *pyConnection_print(pyConnection_ConnectionObject *self, PyObjec
 	return Py_None;
 }
 
+/* FIXME: Doesn't work /
+static int *pyConnection_equals(pyConnection_ConnectionObject *self, PyObject *args)
+{
+  PyObject *conn2;
+  gint      cid2;
+  
+  if (!PyArg_ParseTuple(args, "O", &conn2))
+    return 0; /* False /
+    
+  if (conn2->ob_type == &pyConnection_ConnectionType) {
+    //conn2->m->connection->conn_id = 0;
+  } else
+    return 0; /* False /  
+}*/
+
+static PyObject *pyConnection_isFocus(pyConnection_ConnectionObject *self) {
+  gint i;
+ 
+  i = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
+  
+  if (self->connection->conn_id == connections[i]->conn_id) {
+    return PyInt_FromLong(1); /* True */
+  } else {
+    return PyInt_FromLong(0); /* False */
+  }
+}
+
 static PyMethodDef pyConnection_methods[] =
 {
-    { "send",  (PyCFunction) pyConnection_send,  METH_VARARGS },
-    { "write", (PyCFunction) pyConnection_print, METH_VARARGS },
+    { "send",     (PyCFunction) pyConnection_send,     METH_VARARGS },
+    { "write",    (PyCFunction) pyConnection_print,    METH_VARARGS },
+    /*{ "equals",   (PyCFunction) pyConnection_equals,   METH_VARARGS },*/
+    { "isFocus",  (PyCFunction) pyConnection_isFocus,  METH_NOARGS },
     {NULL, NULL}
 };
 
 static struct memberlist pyConnection_memberlist[] = 
 {
-    { "connected", T_INT,    offsetof(struct connection_data,connected), RO },
-    { "host",      T_STRING, offsetof(struct connection_data,host),      RO },
-    { "port",      T_STRING, offsetof(struct connection_data,port),      RO },
+    { "connected",           T_INT,    offsetof(struct connection_data,connected), RO },
+    { "host",                T_STRING, offsetof(struct connection_data,host),      RO },
+    { "port",                T_STRING, offsetof(struct connection_data,port),      RO },
+    { "connection_id",       T_INT,    offsetof(struct connection_data,conn_id),   RO },
     {NULL}
 };
 

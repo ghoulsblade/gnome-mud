@@ -144,7 +144,7 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 	GtkWidget		*image = NULL;
 	GtkWidget		*box;
 	GtkWidget		*box_label;
-
+	gint			conn_id;
 
         image = gtk_image_new_from_file(GMPIXMAPSDIR "/connection-offline.png");
         label = gtk_label_new(hoster);
@@ -181,6 +181,7 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 	g_free(c->host); g_free(c->port);
 	c->host = g_strdup(hoster);
 	c->port = g_strdup(porter);
+	c->conn_id = c_id++;
 
 	if ((pd = profiledata_find(profile)) == NULL)
 	{

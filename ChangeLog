@@ -1,3 +1,11 @@
+2004-01-26  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/python.c (pyConnection_equals): New function, still unfinished.
+	(pyConnection_isFocus): New, return true if the connection object
+	is the current focused connection; false otherwise. Patch by
+	Adam Luchjenbroers.
+	* plugins/python/HPinfo.py: Updated version from Adam Luchjenbroers.
+
 2004-01-23  Jordi Mallach  <jordi@sindominio.net>
 
 	* plugins/python/HPinfo.py: Updated version from Adam Luchjenbroers.

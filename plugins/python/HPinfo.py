@@ -8,15 +8,22 @@ import gtk
 import re
 import GnomeMud
 
+HPI_VER = "1.1"
+
 #The regex used for parsing prompt strings and status lines is determined using this list
-#default is used if no entry corresponding to the host:port combination that has been connected to.
-MUD_REGEX = {"default"                     : "hp: ([0-9]*)\|? *sp: ([0-9]*)\|? *mp: ([0-9]*)\|? *", 
-             "mud.primaldarkness.com:5000" : "hp: ([0-9]*)\|? *sp: ([0-9]*)\|? *mp: ([0-9]*)\|? *"}
+#default is used if no entry corresponding to the host:port combination  or host that has 
+#been connected to.
+MUD_REGEX = {"default"                     : ["hp: ([0-9]*)\|? *sp: ([0-9]*)\|? *mp: ([0-9]*)\|? *"], 
+             "mud.primaldarkness.com:5000" : ["hp: ([0-9]*)\|? *sp: ([0-9]*)\|? *mp: ([0-9]*)\|? +"],
+             "mud.merentha.com:10000"      : ["([0-9]*) hps*\|? *([0-9]*) sp*\|? *([0-9]*) mp*\|? *",
+                                              "hp: ([0-9]*) *sp: ([0-9]*) *mp: ([0-9]*)"]}
 
 def getRegex(host,port):
   addr = host + ":" + port
   if MUD_REGEX.has_key(addr):
     return MUD_REGEX[addr]
+  elif MUD_REGEX.has_key(host): #Do some muds provide multiple ports to connect to?
+    return MUD_REGEX[host]
   else:
     return MUD_REGEX["default"]             
              
@@ -71,11 +78,11 @@ class HPInfo:
     self.spbar.modify_base(gtk.STATE_SELECTED,    gtk.gdk.color_parse("#00AA00"))
     self.spbar.modify_base(gtk.STATE_INSENSITIVE, gtk.gdk.color_parse("#006600"))
     
-    self.mpbar.modify_base(gtk.STATE_NORMAL,      gtk.gdk.color_parse("#000088"))
-    self.mpbar.modify_base(gtk.STATE_ACTIVE,      gtk.gdk.color_parse("#0000AA"))
-    self.mpbar.modify_base(gtk.STATE_PRELIGHT,    gtk.gdk.color_parse("#0000AA"))
-    self.mpbar.modify_base(gtk.STATE_SELECTED,    gtk.gdk.color_parse("#0000AA"))
-    self.mpbar.modify_base(gtk.STATE_INSENSITIVE, gtk.gdk.color_parse("#000066"))
+    self.mpbar.modify_base(gtk.STATE_NORMAL,      gtk.gdk.color_parse("#2222AA"))
+    self.mpbar.modify_base(gtk.STATE_ACTIVE,      gtk.gdk.color_parse("#4444CC"))
+    self.mpbar.modify_base(gtk.STATE_PRELIGHT,    gtk.gdk.color_parse("#4444CC"))
+    self.mpbar.modify_base(gtk.STATE_SELECTED,    gtk.gdk.color_parse("#4444CC"))
+    self.mpbar.modify_base(gtk.STATE_INSENSITIVE, gtk.gdk.color_parse("#222288"))
     
     self.hpbar.show()
     self.spbar.show()
@@ -117,6 +124,7 @@ class PlayerState:
     self.hp = self.hpmax = 1.0
     self.sp = self.spmax = 1.0
     self.mp = self.mpmax = 1.0
+    hpinfo.render(1.0,1.0,1.0,2.0,2.0,2.0)
    
   def updateHPInfo(self,m):
     self.hp = atoi(m.group(1)) * 1.0
@@ -128,28 +136,39 @@ class PlayerState:
       self.spmax = self.sp
     if self.mp > self.mpmax:
       self.mpmax = self.mp
+      
+  def renderHPInfo(self):
     hpinfo.render(self.hp,self.sp,self.mp,self.hpmax,self.spmax,self.mpmax)
-  
+    
   def inputText(self,c,s):
-   
     lines = s.splitlines()
- 
+      
     for line in lines:
       noansi = stripAnsi(line)
-      m = re.search(getRegex(c.host,c.port),noansi)
-      if m:
-        self.updateHPInfo(m)
+      
+      for regex in getRegex(c.host,c.port):
+        m = re.search(regex,noansi)
+        if m:
+          self.updateHPInfo(m)
+    if c.isFocus():
+      self.renderHPInfo()
+     
+def inputText(c,s):
+  if c.cid not in players:
+    players[c.connection_id] = PlayerState()
+  players[c.connection_id].inputText(c,s)
    
 if __name__ == "__main__":
   hpinfo = HPInfo()
-  player = PlayerState()
+  players = {}
+  #player = PlayerState()
      
   GnomeMud.add_user_widget(hpinfo.frame,1,1,5)
-  GnomeMud.register_input_handler(player.inputText)
+  GnomeMud.register_input_handler(inputText)
   
   c = GnomeMud.connection()
   c.write("\n[1;35m[*][22m-----------------------------------------------------[1m[*]\n")
-  c.write("[1;31mHP-Info plugin 1.0 loaded[1;39m\n")
+  c.write("[1;31mHP-Info plugin " + HPI_VER +" loaded[1;39m\n")
   c.write("Distribution and use of this plugin is covered under the \nterms of the GPL\n")
   c.write("[1;35m[*][22m-----------------------------------------------------[1m[*][0m\n")
 

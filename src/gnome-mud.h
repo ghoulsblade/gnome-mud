@@ -101,6 +101,7 @@ struct connection_data
 	GtkWidget		*vscrollbar;
   	gint             telnet_state;
   	gint             telnet_subneg;
+	gint             conn_id;
 };
 
 struct system_data {
