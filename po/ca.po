@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2001-10-04 14:00+0200\n"
+"POT-Creation-Date: 2001-10-09 16:32+0200\n"
 "PO-Revision-Date: 2000-09-28 17:35+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -48,12 +48,12 @@ msgstr "Alias"
 msgid "Replacement"
 msgstr "Substitució"
 
-#: src/data.c:301 src/profiles.c:984
+#: src/data.c:301 src/profiles.c:1122
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:309 src/profiles.c:976
+#: src/data.c:309 src/profiles.c:1114
 msgid "Variables"
 msgstr "Variables"
 
@@ -71,16 +71,16 @@ msgstr "window_data: tractan de accedir a una regió de dades indefinida: %d"
 msgid "GNOME-Mud Configuration Center"
 msgstr "Centre de Alias de AMCL"
 
-#: src/data.c:374 src/keybind.c:420 src/wizard.c:572
+#: src/data.c:374 src/keybind.c:409 src/wizard.c:572
 msgid "Add"
 msgstr "Anyadir"
 
-#: src/data.c:379 src/keybind.c:427 src/profiles.c:651 src/profiles.c:950
+#: src/data.c:379 src/keybind.c:416 src/profiles.c:781 src/profiles.c:1088
 #: src/wizard.c:574
 msgid "Delete"
 msgstr "Esborrar"
 
-#: src/data.c:383 src/keybind.c:435 src/wizard.c:601
+#: src/data.c:383 src/keybind.c:420 src/profiles.c:1158 src/wizard.c:601
 msgid "Close"
 msgstr "Tancar"
 
@@ -105,11 +105,11 @@ msgstr "Cancel·lar"
 msgid "Apply"
 msgstr "Aplicar"
 
-#: src/color.c:333 src/keybind.c:431 src/map.c:2663 src/wizard.c:600
+#: src/color.c:333 src/map.c:2663 src/wizard.c:600
 msgid "Save"
 msgstr "Salvar"
 
-#: src/color.c:334 src/profiles.c:478 src/profiles.c:840
+#: src/color.c:334 src/profiles.c:608 src/profiles.c:970
 msgid "Default"
 msgstr "Predeterminats"
 
@@ -127,221 +127,252 @@ msgstr "Sortir"
 msgid "Do you really want to quit?"
 msgstr ""
 
-#: src/init.c:195 src/init.c:392 src/init.c:402
+#: src/init.c:196 src/init.c:432 src/init.c:442
 msgid "Connect..."
 msgstr "Conectar..."
 
-#: src/init.c:206 src/profiles.c:743
+#: src/init.c:207 src/profiles.c:873
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:213 src/profiles.c:763
+#: src/init.c:214 src/profiles.c:893
 msgid "Port:"
 msgstr "Port:"
 
+#: src/init.c:269
+msgid "Robin Ericsson, main developer"
+msgstr ""
+
+#: src/init.c:270
+msgid "David Zanetti, bugfixes"
+msgstr ""
+
+#: src/init.c:271
+msgid "Ben Gertzfield, creation of rcfiles for AMCL"
+msgstr ""
+
+#: src/init.c:272
+msgid "Will Schenk, bugfixes"
+msgstr ""
+
+#: src/init.c:273
+msgid "desaster, bugfixes"
+msgstr ""
+
+#: src/init.c:274
+msgid "Paul Cameron, compile fixes, automapper"
+msgstr ""
+
 #: src/init.c:275
+msgid "Robert Brady, color selection"
+msgstr ""
+
+#: src/init.c:276
+msgid "Bret Robideaux, action/trigger module"
+msgstr ""
+
+#: src/init.c:277
+msgid "Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"
+msgstr ""
+
+#: src/init.c:278
+msgid "Benjamin Curtis, recognition of TELNET codes and replies"
+msgstr ""
+
+#. if your charset doesn't support o with dieresis (ö) just use o
+#: src/init.c:280
+msgid "Jörgen Kosche, focus-bugs patches, de.po maintainer"
+msgstr ""
+
+#: src/init.c:281
+msgid "Jeroen Ruigrok, various code cleanups and fixes"
+msgstr ""
+
+#. if your charset doesn't support i with acute (í) just use i
+#: src/init.c:283
+msgid "Jorge García, various code cleanups and fixes"
+msgstr ""
+
+#: src/init.c:284
+msgid ""
+"Jordi Mallach, official Debian package, i18n support, ca.po & es.po "
+"maintainer"
+msgstr ""
+
+#. if your charset doesn't support e with circumflex (è), just use e
+#: src/init.c:287
+msgid "Staffan Thomèn and the creators of gEdit - module API"
+msgstr ""
+
+#: src/init.c:297
 #, fuzzy
 msgid "GNOME-Mud"
 msgstr "Auto Mapeador de AMCL"
 
-#: src/init.c:278
-msgid "Send bug reports to: amcl-devel@lists.sourceforge.net"
+#: src/init.c:298
+msgid "(C) 1998-2001 Robin Ericsson"
 msgstr ""
 
-#: src/init.c:388
+#: src/init.c:300
+msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
+msgstr ""
+
+#: src/init.c:313
+#, fuzzy
+msgid "GNOME-Mud homepage"
+msgstr "Missatge de AMCL"
+
+#: src/init.c:428
 #, fuzzy
 msgid "Wizard..."
 msgstr "Variables..."
 
-#: src/init.c:390
+#: src/init.c:430
 #, fuzzy
 msgid "Profiles..."
 msgstr "Variables"
 
-#: src/init.c:393 src/init.c:403
+#: src/init.c:433 src/init.c:443
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: src/init.c:395
+#: src/init.c:435
 msgid "Exit"
 msgstr ""
 
-#: src/init.c:400
+#: src/init.c:440
 #, fuzzy
 msgid "Connection Wizard2(tm)"
 msgstr "Asistent de Conexions..."
 
-#: src/init.c:405
+#: src/init.c:445
 msgid "Close Window"
 msgstr "Tancar finestra"
 
-#: src/init.c:413
+#: src/init.c:453
 #, fuzzy
 msgid "Plugin Information..."
 msgstr "Informació sobre Conectors"
 
-#: src/init.c:418
+#: src/init.c:458
 #, fuzzy
 msgid "Keybinds..."
 msgstr "Tecles..."
 
-#: src/init.c:419
+#: src/init.c:459
 msgid "Colors..."
 msgstr "Colors..."
 
-#: src/init.c:421
+#: src/init.c:461
 #, fuzzy
 msgid "Auto Mapper"
 msgstr "Auto Mapeador"
 
-#: src/init.c:423
+#: src/init.c:463
 msgid "Plugins"
 msgstr "Conectors"
 
-#: src/init.c:430
+#: src/init.c:470
 msgid "README"
 msgstr ""
 
-#: src/init.c:431
+#: src/init.c:471
 msgid "AUTHORS"
 msgstr ""
 
-#: src/init.c:511
+#: src/init.c:551
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:557
+#: src/init.c:597
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït baix els termins de la Llicencia Pública General GNU.\n"
 
-#: src/keybind.c:207
+#: src/keybind.c:199
 msgid "Can't add an existing key."
 msgstr "No es pot anyadir una tecla ja existent."
 
-#: src/keybind.c:228
+#: src/keybind.c:219
 msgid "Incomplete fields."
 msgstr "Camps incomplets."
 
-#: src/keybind.c:342
+#: src/keybind.c:330
 #, fuzzy
 msgid "GNOME-Mud Key Binding Center"
 msgstr "Centre de Asignació de Tecles de AMCL"
 
-#: src/keybind.c:366
+#: src/keybind.c:355
 msgid "Key"
 msgstr "Tecla"
 
-#: src/keybind.c:370 src/keybind.c:383 src/keybind.c:401
+#: src/keybind.c:359 src/keybind.c:372 src/keybind.c:390
 msgid "Command"
 msgstr "Comanda"
 
-#: src/keybind.c:379
+#: src/keybind.c:368
 msgid "Bind"
 msgstr "Asignar"
 
-#: src/keybind.c:395 src/keybind.c:416
+#: src/keybind.c:384 src/keybind.c:405
 msgid "Capture"
 msgstr "Capturar"
 
-#: src/map.c:698
-#, c-format
-msgid "Mouse is at (%d, %d)\n"
-msgstr "El rató està en (%d, %d)\n"
-
-#: src/map.c:1075
-#, c-format
-msgid "node_reposition: invalid type(%s) passed to this function\n"
-msgstr "node_reposition: tipo(%s) invàlid pasat a aquesta funció\n"
-
-#: src/map.c:1683
-#, c-format
-msgid "draw_map: g_malloc0 error: %s\n"
-msgstr "draw_map: error de g_malloc0: %s\n"
-
-#: src/map.c:1705
-#, c-format
-msgid "get_node: g_malloc error: %s\n"
-msgstr "get_node: error de g_malloc0: %s\n"
-
-#: src/map.c:1782
-#, c-format
-msgid "save_maps: Can't open %s for writing: %s\n"
-msgstr "save_maps: No es pot obrir %s per a escriure: %s\n"
-
-#: src/map.c:1905
-#, c-format
-msgid "file_sel_ok_cb: stat() error: %s\n"
-msgstr "file_sel_ok_cb: error a stat(): %s\n"
-
-#: src/map.c:1912
-#, c-format
-msgid "file_sel_ok_cb: file %s is zero bytes in length\n"
+#. Can easily be optimised ... but why bother ?
+#: src/map.c:1043
+msgid "n"
 msgstr ""
 
-#: src/map.c:1921
-#, c-format
-msgid "file_sel_ok_cb: file %s is not a regular file\n"
+#: src/map.c:1044
+msgid "ne"
 msgstr ""
 
-#: src/map.c:1937
-#, c-format
-msgid "Can't open file %s for %s: %s\n"
+#: src/map.c:1045
+msgid "e"
 msgstr ""
 
-#: src/map.c:1999
-#, c-format
-msgid "button_cb: g_malloc error: %s\n"
+#: src/map.c:1046
+msgid "se"
 msgstr ""
 
-#: src/map.c:2101
-#, c-format
-msgid "fill_node_path: g_malloc error: %s\n"
+#: src/map.c:1047
+msgid "s"
 msgstr ""
 
-#: src/map.c:2140
-#, c-format
-msgid "node_goto: g_malloc0 error: %s\n"
+#: src/map.c:1048
+msgid "sw"
 msgstr ""
 
-#: src/map.c:2211
-#, c-format
-msgid "From (%d, %d): %d tried (%d, %d): %d\n"
+#: src/map.c:1049
+msgid "w"
 msgstr ""
 
-#: src/map.c:2220
-#, c-format
-msgid "Currently at (%d, %d)\n"
+#: src/map.c:1050
+msgid "nw"
 msgstr ""
 
-#: src/map.c:2221
-msgid "Hmm, no connections led to node\n"
+#: src/map.c:1051
+msgid "up"
 msgstr ""
 
-#: src/map.c:2253
-msgid "node_break: no node existed in that direction\n"
-msgstr ""
+#: src/map.c:1052
+#, fuzzy
+msgid "down"
+msgstr "Baix"
 
-#: src/map.c:2259
-msgid "node_break: will not break links to a node going up or down\n"
-msgstr ""
+#: src/map.c:1053
+#, fuzzy
+msgid "remove"
+msgstr "Llevar"
 
-#: src/map.c:2354 src/map.c:2819
-#, c-format
-msgid "main: g_malloc0 error: %s\n"
-msgstr ""
+#: src/map.c:1054
+#, fuzzy
+msgid "load"
+msgstr "Carregar"
 
-#. It would seem this node already has a connection to here, and
-#. * it's not from us. Probably is possible, will see. Deal with it
-#. * later
-#.
-#: src/map.c:2399
-msgid "move_player: map does not support this move situation yet\n"
-msgstr ""
-
-#: src/map.c:2550
-#, c-format
-msgid "auto_map_new: g_malloc0 error: %s\n"
-msgstr ""
+#: src/map.c:1055
+#, fuzzy
+msgid "save"
+msgstr "Salvar"
 
 #. Set the title
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
@@ -401,21 +432,6 @@ msgstr "Dalt"
 msgid "Down"
 msgstr "Baix"
 
-#: src/map.c:2764 src/map.c:2773
-#, c-format
-msgid "map_new: g_malloc0 error: %s\n"
-msgstr ""
-
-#: src/map.c:2768
-#, c-format
-msgid "GNOME-Mud Mapper - map%d"
-msgstr ""
-
-#: src/map.c:2880
-#, c-format
-msgid "load_automap_from_file: Could not open %s for reading: %s\n"
-msgstr ""
-
 #: src/modules.c:204
 msgid "Plugin Name:"
 msgstr "Nom del Conector:"
@@ -466,24 +482,24 @@ msgstr "Error de registre de dades %s: %s"
 msgid "Error getting plugin from handle."
 msgstr "Error de manejament del conector."
 
-#: src/net.c:150
+#: src/net.c:157
 msgid "*** Connection closed.\n"
 msgstr "*** Conexió tancada.\n"
 
-#: src/net.c:162
+#: src/net.c:169
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** No es pot conectar - no has especificat cap servidor \n"
 
-#: src/net.c:169
+#: src/net.c:176
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** No s'ha especificat cap port - asumint port 23\n"
 
-#: src/net.c:174
+#: src/net.c:181
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Realitzant conexió a %s, port %s\n"
 
-#: src/net.c:204
+#: src/net.c:211
 msgid "*** Connection established.\n"
 msgstr "*** Conexió establesa.\n"
 
@@ -573,86 +589,86 @@ msgstr "Comanda"
 msgid "Functionality"
 msgstr ""
 
-#: src/profiles.c:216
+#: src/profiles.c:328
 msgid "Name of new profile:"
 msgstr ""
 
-#: src/profiles.c:372
+#: src/profiles.c:502
 #, fuzzy
 msgid "GNOME-Mud: Profilelist"
 msgstr "Missatge de AMCL"
 
-#: src/profiles.c:668
+#: src/profiles.c:798
 #, fuzzy
 msgid "GNOME-Mud Connections"
 msgstr "Asistent de Conexions de AMCL"
 
-#: src/profiles.c:700
+#: src/profiles.c:830
 msgid "Mud"
 msgstr ""
 
-#: src/profiles.c:706
+#: src/profiles.c:836
 msgid "Character"
 msgstr ""
 
-#: src/profiles.c:719
+#: src/profiles.c:849
 #, fuzzy
 msgid " Mud Information "
 msgstr "Informació de Conectors de AMCL"
 
-#: src/profiles.c:735
+#: src/profiles.c:865
 msgid "Title:"
 msgstr ""
 
-#: src/profiles.c:779
+#: src/profiles.c:909
 msgid " Character Information "
 msgstr ""
 
-#: src/profiles.c:795
+#: src/profiles.c:925
 msgid "Character:"
 msgstr ""
 
-#: src/profiles.c:803
+#: src/profiles.c:933
 #, fuzzy
 msgid "Password:"
 msgstr ""
 "\n"
 "Password:"
 
-#: src/profiles.c:824
+#: src/profiles.c:954
 #, fuzzy
 msgid " Profile Information "
 msgstr "Informació de Conectors de AMCL"
 
-#: src/profiles.c:850
+#: src/profiles.c:980
 #, fuzzy
 msgid "Select Profile"
 msgstr "Sel·leccionar font"
 
-#: src/profiles.c:886 src/wizard.c:599
+#: src/profiles.c:1016 src/wizard.c:599
 msgid "Connect"
 msgstr "Conectar"
 
-#: src/profiles.c:924
+#: src/profiles.c:1055
 #, fuzzy
 msgid "Profiles"
 msgstr "Sel·leccionar font"
 
-#: src/profiles.c:927
+#: src/profiles.c:1065
 #, fuzzy
 msgid "GNOME-Mud Profiles"
 msgstr "Missatge de AMCL"
 
-#: src/profiles.c:942
+#: src/profiles.c:1080
 msgid "New"
 msgstr ""
 
-#: src/profiles.c:968
+#: src/profiles.c:1106
 #, fuzzy
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1002
+#: src/profiles.c:1140
 #, fuzzy
 msgid "Keybinds"
 msgstr "Tecles..."
@@ -782,6 +798,24 @@ msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr ""
 "Aquest és el password del teu jugador en el MUD. Utilitzable amb AutoLogin."
+
+#~ msgid "Mouse is at (%d, %d)\n"
+#~ msgstr "El rató està en (%d, %d)\n"
+
+#~ msgid "node_reposition: invalid type(%s) passed to this function\n"
+#~ msgstr "node_reposition: tipo(%s) invàlid pasat a aquesta funció\n"
+
+#~ msgid "draw_map: g_malloc0 error: %s\n"
+#~ msgstr "draw_map: error de g_malloc0: %s\n"
+
+#~ msgid "get_node: g_malloc error: %s\n"
+#~ msgstr "get_node: error de g_malloc0: %s\n"
+
+#~ msgid "save_maps: Can't open %s for writing: %s\n"
+#~ msgstr "save_maps: No es pot obrir %s per a escriure: %s\n"
+
+#~ msgid "file_sel_ok_cb: stat() error: %s\n"
+#~ msgstr "file_sel_ok_cb: error a stat(): %s\n"
 
 #~ msgid "Alias..."
 #~ msgstr "Alias..."
