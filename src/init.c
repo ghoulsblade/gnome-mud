@@ -742,7 +742,7 @@ void main_window ()
 	main_connection = create_connection_data(0);
 
 	gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->window, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->vscrollbar, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->vscrollbar, FALSE, FALSE, 0);
 
 	text_entry = gtk_entry_new();
 	if (EntryHistory != NULL)

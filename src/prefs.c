@@ -136,7 +136,6 @@ static void prefs_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *
 	GdkColor  color, *colors;
 	
 	key = g_path_get_basename(gconf_entry_get_key(entry));
-	g_message("gaaah %s", key);
 
 #define vte_terminal_NULL(a, b)
 #define prefs_changed_NULL()
@@ -253,6 +252,7 @@ static void prefs_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *
 		UPDATE_STRING("tab_location",		TabLocation,	FALSE,	NULL,					tab_location);
 		UPDATE_PALETTE("palette",			Colors                                                      );
 		UPDATE_STRING("last_log_dir",		LastLogDir,		FALSE,	NULL,					NULL        );
+		UPDATE_INT("history_count",			History,		FALSE,	NULL,					NULL		);
 	}
 
 #undef UPDATE_PALETTE
@@ -329,6 +329,7 @@ void load_prefs ( void )
 	GCONF_GET_BOOLEAN(scroll_on_output,	ScrollOnOutput);
 	GCONF_GET_INT(scrollback_lines,		Scrollback);
 	GCONF_GET_STRING(tab_location,		TabLocation);
+	GCONF_GET_INT(history_count,		History);
 		
 	/* palette */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/palette", NULL);
@@ -354,11 +355,6 @@ void load_prefs ( void )
 	}
 
 	/*
-	 * Get general parameters
-	 *
-	prefs.History     = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
-
-	*
 	 * Command history
 	 *
 	{
@@ -403,14 +399,9 @@ static void prefs_entry_terminal_cb(GtkWidget *widget, GnomePropertyBox *box)
 
 static void prefs_entry_history_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
-  /*gchar *s;
+	gint value = (gint) gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
 
-  s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
-  if (s) {
-    pre_prefs.History = atoi(s);
-    gnome_property_box_changed(box);
-	g_free(s);
-  }*/
+	gconf_client_set_int(gconf_client, "/apps/gnome-mud/history_count", value, NULL);
 }
 
 static void prefs_entry_mudlistfile_cb(GtkWidget *widget, GnomePropertyBox *box)
@@ -616,10 +607,9 @@ void window_prefs (GtkWidget *widget, gpointer data)
   GtkWidget *hbox1, *hbox_term;
   GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton;
   GtkWidget *label1, *label2, *label_term;
-  GtkWidget *entry_divider, *entry_history, *entry_mudlistfile, *entry_term;
+  GtkWidget *entry_divider, *entry_mudlistfile, *entry_term;
   GtkWidget *event_box_term;
   GtkWidget *tw, *menu, *mi;
-  gchar      history[10];
 
   GtkTooltips *tooltip;
 
@@ -699,13 +689,11 @@ void window_prefs (GtkWidget *widget, gpointer data)
   gtk_widget_show(label1);
   gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
 
-  entry_history = gtk_entry_new();
-  g_snprintf(history, 10, "%d", prefs.History);
-  gtk_entry_set_text(GTK_ENTRY(entry_history), history);
-  gtk_widget_show(entry_history);
-  gtk_box_pack_start(GTK_BOX(hbox1), entry_history, FALSE, TRUE, 0);
-  gtk_widget_set_usize(entry_history, 35, -2);
-  gtk_signal_connect(GTK_OBJECT(entry_history), "changed", GTK_SIGNAL_FUNC(prefs_entry_history_cb), (gpointer) prefs_window);
+  spinner_adj = (GtkAdjustment *) gtk_adjustment_new(prefs.History, 0, 500, 1, 5, 5);
+  tw = gtk_spin_button_new(spinner_adj, 1, 0);
+  gtk_widget_show(tw);
+  gtk_signal_connect(GTK_OBJECT(tw), "value-changed", GTK_SIGNAL_FUNC(prefs_entry_history_cb), NULL);
+  gtk_box_pack_start(GTK_BOX(hbox1), tw, FALSE, FALSE, 10);
 
 	/* Terminal type entry box and label */
 

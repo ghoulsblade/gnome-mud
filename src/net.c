@@ -339,6 +339,8 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
        /* this crashes gnome-mud */
 	m = g_strdup(mccp_data);
 #endif
+	pre_process(mccp_data, connection);
+
 	textfield_add (connection, mccp_data, MESSAGE_NORMAL);
 
 	/* Added by Bret Robideaux (fayd@alliances.org)

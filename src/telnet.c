@@ -18,6 +18,7 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
+#include <vte/vte.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -180,6 +181,19 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 								connection_send_telnet_control(connection, 3, IAC, WILL, TELOPT_TTYPE);
 								break ;
 
+							case TELOPT_NAWS:
+							{
+								unsigned char pkt[9] = { IAC, SB, TELOPT_NAWS, 0, 0, 0, 0, IAC, SE };
+								unsigned long h = vte_terminal_get_row_count(VTE_TERMINAL(connection->window)),
+											  w = vte_terminal_get_column_count(VTE_TERMINAL(connection->window));
+
+								pkt[3] = (unsigned char)(w >> 8);
+								pkt[4] = (unsigned char)(w & 0xff);
+								pkt[5] = (unsigned char)(h >> 8);
+								pkt[6] = (unsigned char)(h & 0xff);
+								write(connection->sockfd, &pkt, 9);
+							}
+
 							default:
 								connection_send_telnet_control(connection, 3, IAC, WONT, option) ;
 								break;
@@ -210,7 +224,7 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 				}
 				break;
       
-			case '\r':
+/*			case '\r':
 				if (*(from+1)!='\n')
 				{
 					len++;
@@ -225,7 +239,7 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 				*to++='\n';
 				from++;
 				break;
-				
+*/				
 			default:
 				len++;
 				*to++ = *from++;

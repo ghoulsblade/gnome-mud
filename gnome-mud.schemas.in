@@ -213,5 +213,16 @@
 			</locale>
 		</schema>
 
+		<schema>
+			<key>/schemas/apps/gnome-mud/history_count</key>
+			<applyto>/apps/gnome-mud/history_count</applyto>
+			<owner>gnome-mud</owner>
+			<type>int</type>
+			<default>10</default>
+			<locale name="C">
+				<short>How meny entries to keep in the command history</short>	
+			</locale>
+		</schema>
+
 	</schemalist>
 </gconfschemafile>

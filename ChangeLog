@@ -1,3 +1,22 @@
+Mon Mar 17 16:20:38 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Fixes bug #533313.
+
+	* gnome-mud.schemas.in: Added key history_count.
+
+	* src/init.c (main_window): scrollbar is now packed correctly.
+
+	* src/net.c (read_from_connection): Re-added pre_process().
+
+	* src/prefs.c (prefs_gconf_changed): Removed debug message.
+	Added key history_count.
+	(load_prefs): Added key history_count
+	(prefs_entry_history_cb): Changed to gconf
+	(window_prefs): historyentry changed to spinbutton
+
+	* src/telnet.c (pre_process): Added Petter E. Stokke's patch
+	for telnet NAWS negotiation.
+
 Wed Mar 12 11:35:34 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* gnome-mud.schemas.in: Added key scroll_on_output.
