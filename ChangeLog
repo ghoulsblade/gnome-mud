@@ -1,3 +1,13 @@
+Tue Feb 26 08:02:24 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* NEWS: Added sv as language.
+
+	* src/net.c (read_from_connection): Compile fix when not using
+	MCCP
+
+	* src/telnet.c (pre_process): Patch from Vashti regarding IAC GA
+	and EOR.
+
 Mon Feb 25 12:37:39 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/net.c: patch by Vashti & Robin: fixes MCCP crash (really).

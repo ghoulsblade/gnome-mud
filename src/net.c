@@ -269,6 +269,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	gint   i, len;
 	GList *t;
 	gchar *mccp_buffer = NULL;
+	gchar *mccp_data;
 #ifdef ENABLE_MCCP
 	gchar *string;
 	gint   mccp_i;
@@ -293,12 +294,10 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	mudcompress_receive(connection->mccp, buf, numbytes);
 	while((mccp_i = mudcompress_pending(connection->mccp)) > 0)
 	{
-		gchar *mccp_data;
-
 		mccp_buffer = g_malloc0(mccp_i);
 		mudcompress_get(connection->mccp, mccp_buffer, mccp_i);
 #else
-    mccp_buffer = g_strdup(buf);
+	    mccp_buffer = g_strdup(buf);
 #endif
     
 		mccp_data = g_strdup(mccp_buffer);
@@ -319,8 +318,13 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
     	}
     
     	for (i = len = 0; mccp_data[i] !='\0'; mccp_data[len++] = mccp_data[i++])
-      		if (mccp_data[i] == '\r') i++;
-	mccp_data[len] = mccp_data[i];
+		{
+      		if (mccp_data[i] == '\r')
+			{
+				i++;
+			}
+		}
+		mccp_data[len] = mccp_data[i];
     
     	len = pre_process(mccp_data, connection);
 
