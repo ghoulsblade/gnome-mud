@@ -1,3 +1,7 @@
+Sun Jan 27 03:43:21 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* po/POTFILES.in: removed wizard.c.
+
 Thu Jan 17 15:46:39 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* ROADMAP: Moved things around :)

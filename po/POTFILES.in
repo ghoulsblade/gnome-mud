@@ -16,4 +16,3 @@ src/prefs.c
 src/profiles.c
 src/python.c
 src/window.c
-src/wizard.c
