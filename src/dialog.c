@@ -22,8 +22,6 @@
 #include <string.h>
 
 #include "gnome-mud.h"
-#include "readme_doc.h"
-#include "authors_doc.h"
 
 static char const rcsid[] =
     "$Id$";
@@ -90,12 +88,12 @@ void doc_dialog (GtkWidget *widget, gint index)
     switch ((int)index)
     {
     case 1:
-        gtk_text_insert (GTK_TEXT (doc_text), font_fixed, NULL, NULL, README_STRING, -1);
+        gtk_text_insert (GTK_TEXT (doc_text), font_fixed, NULL, NULL, "", -1);
         strcat (doc_title, "README");
         break;
 
     case 2:
-        gtk_text_insert (GTK_TEXT (doc_text), font_fixed, NULL, NULL, AUTHORS_STRING, -1);
+        gtk_text_insert (GTK_TEXT (doc_text), font_fixed, NULL, NULL,"", -1);
         strcat (doc_title, "AUTHORS");
         break;
 

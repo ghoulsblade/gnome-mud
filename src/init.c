@@ -590,7 +590,6 @@ void init_window ()
   gtk_widget_realize (main_connection->window);
   gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &color_black);
   
-  get_version_info (buf);
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
 		   &color_lightgrey, NULL, 
 		   _("Distributed under the terms of the GNU General Public License.\n"), -1);

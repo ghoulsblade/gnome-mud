@@ -1,3 +1,17 @@
+Wed Oct 10 13:32:21 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+	* mkhelp lobotomy! Removed Anything related to version.c or
+	author and readme .h's.
+	* src/Makefile.mkhelp src/config.h.in src/mkhelp.c src/version.c
+	src/version.h.in: removed.
+	* configure.in. Removed VERSION and PACKAGE cruft. It now
+	outputs	these defines to config.h.
+	* Robin bumped version to 0.7.99.
+	* po/POTFILES.in: removed version.c.
+	* dialog.c: README and AUTHORS options should be removed. Right now,
+	they display a nice, blank box.
+	* init.c: don't call get_version_info()
+	* automake.sh: removed echo's about version.c & cia.
+
 Wed Oct 10 13:08:01 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* configure.in: Moved config.h.in from src to root
