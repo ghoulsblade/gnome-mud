@@ -675,15 +675,27 @@ static void connections_button_info_apply_cb(GtkButton *button, GtkCList *clist)
 	}
 }
 
-static void connections_button_info_cancel_cb(GtkButton *button, gpointer data)
+static void connections_fields_clean(GtkWidget *widget)
 {
-	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(button), "entry_info_mud_title")),      "");
-	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(button), "entry_info_mud_host")),       "");
-	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(button), "entry_info_mud_port")),       "");
-	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(button), "entry_info_char_character")), "");
-	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(button), "entry_info_char_password")),  "");
+	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(widget), "entry_info_mud_title")),      "");
+	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(widget), "entry_info_mud_host")),       "");
+	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(widget), "entry_info_mud_port")),       "");
+	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(widget), "entry_info_char_character")), "");
+	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(widget), "entry_info_char_password")),  "");
 
-	gtk_label_set_text(GTK_LABEL(gtk_object_get_data(GTK_OBJECT(button), "label_info_prof")), _("Default"));
+	gtk_label_set_text(GTK_LABEL(gtk_object_get_data(GTK_OBJECT(widget), "label_info_prof")), _("Default"));
+}
+
+static void connections_button_info_cancel_cb(GtkWidget *button, gpointer data)
+{
+	connections_fields_clean(button);
+}
+
+static void connections_button_info_fetch_cb(GtkWidget *button, gpointer data)
+{
+	connections_fields_clean(button);
+
+	window_mudlist(button, TRUE);
 }
 
 static void connections_button_connect_cb(GtkButton *button, gpointer data)
@@ -836,6 +848,7 @@ void window_profiles(void)
 	GtkWidget *table_buttons;
 	GtkWidget *button_info_apply;
 	GtkWidget *button_info_cancel;
+	GtkWidget *button_info_fetch;
 	GtkWidget *dialog_action_area;
 	GtkWidget *button_connect;
 	GtkWidget *button_cancel;
@@ -1056,7 +1069,7 @@ void window_profiles(void)
 	gtk_table_attach (GTK_TABLE (table3), button_info_prof, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_signal_connect(GTK_OBJECT(button_info_prof), "clicked", GTK_SIGNAL_FUNC(connections_button_info_prof_cb), (gpointer) label_info_prof);
 
-	table_buttons = gtk_table_new (1, 3, FALSE);
+	table_buttons = gtk_table_new (1, 4, FALSE);
 	gtk_widget_ref (table_buttons);
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "table_buttons", table_buttons, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (table_buttons);
@@ -1092,7 +1105,18 @@ void window_profiles(void)
 	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_char_character", entry_info_char_character);
 	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_char_password", entry_info_char_password);
 	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "label_info_prof", label_info_prof);
-	
+
+	button_info_fetch = gtk_button_new_with_label(_("Fetch from mudlist"));
+	gtk_widget_show(button_info_fetch);
+	gtk_table_attach(GTK_TABLE(table_buttons), button_info_fetch, 2, 3, 0, 1, GTK_FILL, GTK_EXPAND | GTK_FILL, 5, 0);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_mud_title", entry_info_mud_title);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_mud_host",  entry_info_mud_host);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_mud_port",  entry_info_mud_port);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_char_character", entry_info_char_character);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_char_password", entry_info_char_password);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "label_info_prof",      label_info_prof);
+	gtk_signal_connect(GTK_OBJECT(button_info_fetch), "clicked", GTK_SIGNAL_FUNC(connections_button_info_fetch_cb), NULL);
+
 	dialog_action_area = GNOME_DIALOG (dialog)->action_area;
 	gtk_object_set_data (GTK_OBJECT (dialog), "dialog_action_area", dialog_action_area);
 	gtk_widget_show (dialog_action_area);

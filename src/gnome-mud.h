@@ -174,7 +174,7 @@ int   init_modules    ( char *path                         );
 void  save_plugins    ( void                               );
 
 /* mudlist.c */
-void  window_mudlist  ( void                               );
+void  window_mudlist  ( GtkWidget *widget, gboolean wizard );
 
 /* prefs.c */
 void  load_prefs      ( void                               );

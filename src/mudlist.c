@@ -122,38 +122,56 @@ static gint mudlist_compare_structs(gconstpointer a, gconstpointer b)
 	return g_strcasecmp(c->name, d->name);
 }
 
-static void mudlist_button_connect_cb(GtkWidget *button, GtkWidget *entry)
+static void mudlist_parse_hoststring(gchar *string, gchar *host, gchar *port)
 {
-	gchar host[1024] = "";
-	gchar port[10] = "";
 	gchar f[1];
-	gchar *h = host;
-	gchar *p = port;
-	gchar *d = gtk_entry_get_text(GTK_ENTRY(entry));
 	gint  stat = 0;
 	
-	while(*d)
+	while(*string)
 	{
 		if (stat == 1)
 		{
-			if (*d == ' ')
+			if (*string == ' ')
 				break;
 			else
-				*p++ = *d;
+				*port++ = *string;
 		}
 		
 		if (stat == 0)
 		{
-			if (*d == ' ')
+			if (*string == ' ')
 				stat = 1;
 			else
-				*h++ = *d;
+				*host++ = *string;
 		}	
 
-		*f = *d++;
+		*f = *string++;
 	}
 
+}
+
+static void mudlist_button_connect_cb(GtkWidget *button, GtkWidget *entry)
+{
+	gchar host[1024] = "";
+	gchar port[10] = "";
+	gchar *d = gtk_entry_get_text(GTK_ENTRY(entry));
+
+	mudlist_parse_hoststring(d, host, port);
+
 	make_connection(host, port, "Default");
+}
+
+static void mudlist_button_import_cb(GtkWidget *widget, GtkWidget *button)
+{
+	gchar host[1024] = "";
+	gchar port[10]   = "";
+	gchar *d = gtk_entry_get_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(widget), "entry_telnet")));
+
+	mudlist_parse_hoststring(d, host, port);
+
+	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(button), "entry_info_mud_title")), gtk_entry_get_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(widget), "entry_name"))));
+	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(button), "entry_info_mud_host")), host);
+	gtk_entry_set_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(button), "entry_info_mud_port")), port);
 }
 
 static void mudlist_select_item_cb(GtkTreeItem *item, GtkTree *tree)
@@ -319,7 +337,7 @@ static void mudlist_parse(FILE *fp, GtkWidget *tree)
 	g_list_free(codelist);
 }
 
-void window_mudlist (void)
+void window_mudlist (GtkWidget *widget, gboolean wizard)
 {
 	static GtkWidget *mudlist_window;
 	GtkWidget  *table;
@@ -406,8 +424,15 @@ void window_mudlist (void)
 	box = gtk_hbox_new(FALSE, 10);
 	gtk_widget_show(box);
 	gtk_table_attach (GTK_TABLE (table), box, 1, 2, 6, 7, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
-	
-	button_connect = gtk_button_new_with_label(_("Connect to the mud"));
+
+	if (!wizard)
+	{
+		button_connect = gtk_button_new_with_label(_("Connect to the mud"));
+	}
+	else
+	{
+		button_connect = gtk_button_new_with_label(_("Import and close"));
+	}
 	gtk_button_set_relief(GTK_BUTTON(button_connect), GTK_RELIEF_NONE);
 	gtk_widget_show(button_connect);
 	gtk_container_add(GTK_CONTAINER(box), button_connect);
@@ -466,7 +491,17 @@ void window_mudlist (void)
 	 */
 	gtk_signal_connect(GTK_OBJECT(mudlist_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &mudlist_window);
 
-	gtk_signal_connect(GTK_OBJECT(button_connect), "clicked", GTK_SIGNAL_FUNC(mudlist_button_connect_cb), entry_telnet);
+	if (!wizard)
+	{
+		gtk_signal_connect(GTK_OBJECT(button_connect), "clicked", GTK_SIGNAL_FUNC(mudlist_button_connect_cb), entry_telnet);
+	}
+	else
+	{
+		gtk_object_set_data(GTK_OBJECT(button_connect), "entry_telnet", entry_telnet);
+		gtk_object_set_data(GTK_OBJECT(button_connect), "entry_name",   entry_name);
+		gtk_signal_connect(GTK_OBJECT(button_connect), "clicked", GTK_SIGNAL_FUNC(mudlist_button_import_cb), widget);
+		gtk_signal_connect_object(GTK_OBJECT(button_connect), "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) mudlist_window);
+	}
 	
 	mudlist_parse(fp, mudtree);	
 	gtk_widget_show(mudlist_window);

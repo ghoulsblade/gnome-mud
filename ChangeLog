@@ -1,3 +1,14 @@
+Tue Feb  5 15:26:15 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mudlist.c (mudlist_parse_hoststring): Added.
+	(mudlist_button_import_cb): Added.
+	(window_mudlist): Different behavior if called from wizard
+	or not.
+
+	* src/profiles.c (connections_fields_clean): Moved from 
+	connections_button_info_cancel_cb.
+	(connections_button_info_fethc_cb): Added.
+
 Tue Feb  5 12:21:17 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mudlist.c (mudlist_fix_codebase): Added, now changes some
