@@ -1,3 +1,8 @@
+Wed Jan  8 21:05:24 CET 2003  Jordi Mallach  <jordi@sindominio.net>
+
+	* autogen.sh: use gnome-autogen.sh.
+	* macros/*: removed. GNOME2 uses system wide macros.
+
 Wed Jan  8 13:10:24 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/data.c (data_button_add): g_strdup on text entry
