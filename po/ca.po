@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2001-01-14 22:46+0100\n"
+"POT-Creation-Date: 2001-06-09 18:15+0200\n"
 "PO-Revision-Date: 2000-09-28 17:35+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -19,72 +19,72 @@ msgstr ""
 msgid "No void characters allowed."
 msgstr "No es permeten caràcters buïts."
 
-#. actions
-#: src/data.c:230 src/data.c:315
+#. if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
+#: src/data.c:231 src/data.c:316
 msgid "Actions"
 msgstr "Accions"
 
-#: src/data.c:232
+#: src/data.c:233
 #, c-format
 msgid "Character '%c' not allowed."
 msgstr "Carácter '%c' no permés."
 
-#: src/data.c:239 src/data.c:246
+#: src/data.c:240 src/data.c:247
 #, c-format
 msgid "%s too big."
 msgstr "%s massa gran."
 
-#: src/data.c:253
+#: src/data.c:254
 #, c-format
 msgid "Can't duplicate %s."
 msgstr "No es pot duplicar %s."
 
 #. alias
-#: src/data.c:308
+#: src/data.c:309
 msgid "Alias"
 msgstr "Alias"
 
-#: src/data.c:309
+#: src/data.c:310
 msgid "Replacement"
 msgstr "Substitució"
 
-#: src/data.c:316
+#: src/data.c:317
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:322
+#: src/data.c:323
 msgid "Variables"
 msgstr "Variables"
 
-#: src/data.c:323
+#: src/data.c:324
 msgid "Values"
 msgstr "Valors"
 
-#: src/data.c:329
+#: src/data.c:330
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
 msgstr "window_data: tractan de accedir a una regió de dades indefinida: %d"
 
-#: src/data.c:340
+#: src/data.c:341
 #, fuzzy
 msgid "GNOME-Mud Configuration Center"
 msgstr "Centre de Alias de AMCL"
 
-#: src/data.c:385 src/keybind.c:420 src/wizard.c:572
+#: src/data.c:386 src/keybind.c:420 src/wizard.c:572
 msgid "Add"
 msgstr "Anyadir"
 
-#: src/data.c:390 src/keybind.c:427 src/wizard.c:574
+#: src/data.c:391 src/keybind.c:427 src/wizard.c:574
 msgid "Delete"
 msgstr "Esborrar"
 
-#: src/color.c:336 src/data.c:394 src/keybind.c:431 src/map.c:2663
+#: src/color.c:336 src/data.c:395 src/keybind.c:431 src/map.c:2663
 #: src/wizard.c:600
 msgid "Save"
 msgstr "Salvar"
 
-#: src/data.c:398 src/keybind.c:435 src/wizard.c:601
+#: src/data.c:399 src/keybind.c:435 src/wizard.c:601
 msgid "Close"
 msgstr "Tancar"
 
@@ -127,7 +127,7 @@ msgstr "Sortir"
 msgid "Do you really want to quit?"
 msgstr ""
 
-#: src/init.c:123 src/init.c:317 src/init.c:327
+#: src/init.c:123 src/init.c:317 src/init.c:328
 msgid "Connect..."
 msgstr "Conectar..."
 
@@ -152,7 +152,7 @@ msgstr ""
 msgid "Wizard..."
 msgstr "Variables..."
 
-#: src/init.c:318 src/init.c:328
+#: src/init.c:318 src/init.c:329
 msgid "Disconnect"
 msgstr "Desconectar"
 
@@ -164,55 +164,60 @@ msgstr ""
 msgid "Connection Wizard..."
 msgstr "Asistent de Conexions..."
 
-#: src/init.c:330
+#: src/init.c:326
+#, fuzzy
+msgid "Connection Wizard2(tm)"
+msgstr "Asistent de Conexions..."
+
+#: src/init.c:331
 msgid "Close Window"
 msgstr "Tancar finestra"
 
-#: src/init.c:338
+#: src/init.c:339
 #, fuzzy
 msgid "Plugin Information..."
 msgstr "Informació sobre Conectors"
 
-#: src/init.c:346
+#: src/init.c:347
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:347
+#: src/init.c:348
 #, fuzzy
 msgid "Variables..."
 msgstr "Variables"
 
-#: src/init.c:348
+#: src/init.c:349
 msgid "Actions/Triggers..."
 msgstr "Accions/Triggers"
 
-#: src/init.c:349
+#: src/init.c:350
 #, fuzzy
 msgid "Keybinds..."
 msgstr "Tecles..."
 
-#: src/init.c:351
+#: src/init.c:352
 #, fuzzy
 msgid "Auto Mapper"
 msgstr "Auto Mapeador"
 
-#: src/init.c:353
+#: src/init.c:354
 msgid "Plugins"
 msgstr "Conectors"
 
-#: src/init.c:360
+#: src/init.c:361
 msgid "README"
 msgstr ""
 
-#: src/init.c:361
+#: src/init.c:362
 msgid "AUTHORS"
 msgstr ""
 
-#: src/init.c:447
+#: src/init.c:448
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:494
+#: src/init.c:495
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït baix els termins de la Llicencia Pública General GNU.\n"
 
@@ -468,24 +473,24 @@ msgstr "Error de registre de dades %s: %s"
 msgid "Error getting plugin from handle."
 msgstr "Error de manejament del conector."
 
-#: src/net.c:154
+#: src/net.c:152
 msgid "*** Connection closed.\n"
 msgstr "*** Conexió tancada.\n"
 
-#: src/net.c:166
+#: src/net.c:164
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** No es pot conectar - no has especificat cap servidor \n"
 
-#: src/net.c:173
+#: src/net.c:171
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** No s'ha especificat cap port - asumint port 23\n"
 
-#: src/net.c:178
+#: src/net.c:176
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Realitzant conexió a %s, port %s\n"
 
-#: src/net.c:205
+#: src/net.c:206
 msgid "*** Connection established.\n"
 msgstr "*** Conexió establesa.\n"
 
@@ -591,11 +596,6 @@ msgstr ""
 #, fuzzy
 msgid "GNOME-Mud Popup Message"
 msgstr "Missatge de AMCL"
-
-#: src/window.c:272
-#, fuzzy
-msgid "GNOME-Mud Internal Error: "
-msgstr "Error intern de AMCL"
 
 #: src/wizard.c:308
 msgid "No selection made"
@@ -710,6 +710,10 @@ msgstr ""
 msgid "Connect"
 msgstr "Conectar"
 
+#, fuzzy
+#~ msgid "GNOME-Mud Internal Error: "
+#~ msgstr "Error intern de AMCL"
+
 #~ msgid "AMCL Plugin Information"
 #~ msgstr "Informació de Conectors de AMCL"
 
@@ -765,17 +769,17 @@ msgstr "Conectar"
 #~ "With this toggled on, Preferences, Connection Wizard and Aliases will be "
 #~ "saved automatically."
 #~ msgstr ""
-#~ "Amb aquesta opció activada, les Preferències, el Asistent de Conexions i els "
-#~ "Alies es salvaràn automàticament."
+#~ "Amb aquesta opció activada, les Preferències, el Asistent de Conexions i "
+#~ "els Alies es salvaràn automàticament."
 
 #~ msgid ""
-#~ "This is the font that AMCL is using to print the text from the MUD. If the "
-#~ "font is unavailable when you start AMCL, the default font \"fixed.\" will be "
-#~ "used."
+#~ "This is the font that AMCL is using to print the text from the MUD. If "
+#~ "the font is unavailable when you start AMCL, the default font \"fixed.\" "
+#~ "will be used."
 #~ msgstr ""
-#~ "Aquesta és la font que AMCL utilitza per a escriure el texte del MUD. Si la "
-#~ "font no està disponible quan inicies AMCL, s'utilitzarà la font per defecte, "
-#~ "\"fixed\""
+#~ "Aquesta és la font que AMCL utilitza per a escriure el texte del MUD. Si "
+#~ "la font no està disponible quan inicies AMCL, s'utilitzarà la font per "
+#~ "defecte, \"fixed\""
 
 #~ msgid "Select font"
 #~ msgstr "Sel·leccionar font"
