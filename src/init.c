@@ -415,9 +415,6 @@ static GnomeUIInfo plugin_menu[] = {
 };
 
 static GnomeUIInfo settings_menu[] = {
-  GNOMEUIINFO_ITEM_DATA(N_("Alias..."), NULL, window_data, GINT_TO_POINTER(0), NULL),
-  GNOMEUIINFO_ITEM_DATA(N_("Variables..."), NULL, window_data, GINT_TO_POINTER(2), NULL),
-  GNOMEUIINFO_ITEM_DATA(N_("Actions/Triggers..."), NULL, window_data, GINT_TO_POINTER(1), NULL),
   GNOMEUIINFO_ITEM_STOCK(N_("Keybinds..."), NULL, window_keybind, GNOME_STOCK_MENU_BLANK),
   GNOMEUIINFO_ITEM_STOCK(N_("Colors..."), NULL, window_color, GNOME_STOCK_MENU_BLANK),
   GNOMEUIINFO_SEPARATOR,
