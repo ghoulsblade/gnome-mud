@@ -1,5 +1,9 @@
 2003-06-05  Jordi Mallach  <jordi@sindominio.net>
 
+	* NEWS: Updated, docs are finally working.
+
+2003-06-05  Jordi Mallach  <jordi@sindominio.net>
+
 	* src/init.c: Remove fixed FIXMEs.
 
 	* BUGS: Add a few known issues.
