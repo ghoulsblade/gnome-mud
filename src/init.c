@@ -439,17 +439,7 @@ static void do_disconnect (GtkWidget *widget, gpointer data)
 
 static void window_menu_help_manual_activate_cb(GtkMenuItem *menuitem)
 {
-	gchar *path = gnome_help_file_find_file("gnome-mud", "");
-	gchar *fullpath;
-
-	fullpath = g_strconcat("ghelp:", path, "index.html", NULL);
-	//gchar fullpath[strlen(path) + 20];
-
-	//g_snprintf(fullpath, sizeof(fullpath), "%s%s%s", "ghelp:", path, "index.html");
-
-	gnome_help_goto(NULL, fullpath);
-	g_free(fullpath);
-	g_free(path);
+	gnome_help_goto(NULL, "ghelp:gnome-mud");
 }
 
 static GnomeUIInfo toolbar_menu[] = {
