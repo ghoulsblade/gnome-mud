@@ -45,6 +45,28 @@ static void	update_gdk_colors (void);
 
 #define C_MAX 16
 
+extern SYSTEM_DATA  prefs;
+extern GtkWidget   *menu_option_colors;
+extern GdkFont     *font_normal;
+
+GdkColor color_white;
+GdkColor color_black;
+GdkColor color_blue;
+GdkColor color_green;
+GdkColor color_red;
+GdkColor color_brown;
+GdkColor color_magenta;
+GdkColor color_lightred;
+GdkColor color_yellow;
+GdkColor color_lightgreen;  
+GdkColor color_cyan;
+GdkColor color_lightcyan;
+GdkColor color_lightblue;
+GdkColor color_lightmagenta;
+GdkColor color_grey;
+GdkColor color_lightgrey;
+GdkColor *foreground;
+GdkColor *background;
 GdkColormap *cmap;
 
 GtkWidget *color_window, *color_widget;

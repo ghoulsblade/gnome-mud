@@ -24,6 +24,9 @@
 
 static char const rcsid[] = "$Id$";
 
+extern CONNECTION_DATA *main_connection;
+extern GtkWidget       *menu_plugin_menu;
+
 void plugin_popup_message (gchar *message)
 {
   popup_window (message);

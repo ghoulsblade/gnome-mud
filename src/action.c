@@ -41,6 +41,9 @@ GtkWidget   *textaction;
 GtkWidget   *action_window;
 gint         action_selected_row    = -1;
 
+extern SYSTEM_DATA  prefs;
+extern GtkWidget   *menu_option_action;
+
 /* Local functions */
 static void		 action_button_add_cb (GtkWidget *, gpointer);
 static void		 action_button_delete_cb (GtkWidget *,  gpointer);

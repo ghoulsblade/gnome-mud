@@ -27,6 +27,8 @@
 static char const rcsid[] =
     "$Id$";
 
+extern GdkFont  *font_fixed;
+
 void doc_dialog (GtkWidget *widget, gint index)
 {
     GtkWidget *doc_window;

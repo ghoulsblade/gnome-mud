@@ -30,6 +30,10 @@
 static char const rcsid[] =
     "$Id$";
 
+extern SYSTEM_DATA  prefs;
+extern GtkWidget   *menu_main_wizard;
+extern GdkColor     color_yellow;
+extern GdkColor     color_black;
 
 gint          wizard_selected_row;
 GtkWidget    *wizard_entry_name;

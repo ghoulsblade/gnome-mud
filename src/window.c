@@ -47,6 +47,29 @@ typedef enum { NORM, ESC, SQUARE, PARMS } STATE;
 
 
 /* Global Variables */
+extern GdkColor         color_white;
+extern GdkColor         color_black;
+extern GdkColor         color_blue; 
+extern GdkColor         color_green; 
+extern GdkColor         color_red;  
+extern GdkColor         color_brown;
+extern GdkColor         color_magenta;  
+extern GdkColor         color_lightred;
+extern GdkColor         color_yellow;  
+extern GdkColor         color_lightgreen;
+extern GdkColor         color_cyan;
+extern GdkColor         color_lightcyan;
+extern GdkColor         color_lightblue;
+extern GdkColor         color_lightmagenta;
+extern GdkColor         color_grey;
+extern GdkColor         color_lightgrey;
+extern GtkWidget       *menu_main_disconnect;
+extern GtkWidget       *menu_main_close;
+extern CONNECTION_DATA *connections[15];
+extern GtkWidget       *text_entry;
+extern GdkFont         *font_normal;
+extern SYSTEM_DATA      prefs;
+
 GdkColor  *foreground;
 GdkColor  *background;
 static gint parms[10], nparms;

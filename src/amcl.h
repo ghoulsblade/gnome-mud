@@ -102,27 +102,27 @@ struct keybind_data {
 /*
  * Function declares
  */
-#define AD ALIAS_DATA
-#define WD WIZARD_DATA
-#define CD CONNECTION_DATA
 
 /* action.c */
-/*
-void  save_actions    ( GtkWidget *button, gpointer data   );
-void  add_action      ( gchar *trigger, gchar *action      );
-void  insert_actions  ( ACTION_DATA *a, GtkCList *clist    );
-*/
-void  load_actions    ( void                               );
-int   check_actions   ( gchar *, gchar *                   );
-void  window_action   ( GtkWidget *widget, gpointer data   );
+void              load_actions (void);
+int               check_actions (gchar *, gchar *);
+void              window_action (GtkWidget *, gpointer);
 
 /* alias.c */
-void  load_aliases    ( void                               );
-/*
-void  save_aliases    ( GtkWidget *button, gpointer data   );
-void  add_alias       ( gchar *alias, gchar *replacement   );
-void  insert_aliases  ( ALIAS_DATA *a, GtkCList *clist     );
-*/
+void              load_aliases (void);
+int               check_aliases (gchar *, gchar *);
+void              window_alias  (GtkWidget *, gpointer);
+
+/* net.c */
+CONNECTION_DATA  *make_connection (gchar *, gchar *);
+void              disconnect (GtkWidget *, CONNECTION_DATA *);
+void              send_to_connection (GtkWidget *, gpointer);
+void              connection_send (CONNECTION_DATA *, gchar *);
+
+/* init.c */
+void              init_window (void);
+void              destroy (GtkWidget *);
+void              close_window (GtkWidget *, gpointer);
 
 /* color.c */
 void  create_color_box( void                               );
@@ -133,12 +133,6 @@ void  load_color_to_c_structs ( void			   );
 
 /* dialog.c */
 void  doc_dialog      ( GtkWidget *widget, gint index      );
-
-/* init.c */
-void  init_window     ( void                               );
-void  init_colors     ( void                               );
-void  destroy         ( GtkWidget *widget                  );
-void  close_window    ( GtkWidget *widget, gpointer data   );
 
 /* keybind.c */
 void window_keybind   ( void				   );
@@ -156,16 +150,6 @@ void  do_plugin_information (GtkWidget *w, gpointer data   );
 int   init_modules    ( char *path                         );
 void  save_plugins    ( void                               );
 
-/* net.c */
-CD   *make_connection ( gchar *host, gchar *port            );
-void  disconnect      ( GtkWidget *widget, CONNECTION_DATA *);
-void  open_connection ( CONNECTION_DATA *connection         );
-void  read_from_connection (CONNECTION_DATA *connection,
-                            gint source,
-                            GdkInputCondition condition     );
-void  send_to_connection (GtkWidget *widget, gpointer data  );
-void  connection_send ( CONNECTION_DATA *cd, gchar *message );
-
 /* prefs.c */
 void  load_prefs      ( void                               );
 void  save_prefs      ( void                               );
@@ -176,7 +160,6 @@ FILE *open_file       ( gchar *filename, gchar *mode       );
 char *pre_process     ( char *buf, CONNECTION_DATA *connection       );
 
 /* window.c */
-void  window_alias    ( GtkWidget *widget, gpointer data             );
 void  popup_window    ( const gchar *message                         );
 void  switch_page_cb  ( GtkNotebook *, gpointer, guint, gpointer     );
 void	grab_focus_cb   ( GtkWidget* widget, gpointer user_data        );
@@ -185,78 +168,11 @@ void  textfield_add   ( GtkWidget *widget, gchar *me, gint colortype );
 /* wizard.c */
 void  free_connection_data (CONNECTION_DATA *c             );
 void  load_wizard        ( void                            );
-void  add_wizard_connect ( gchar **entry, bool al, WD *w   );
+void  add_wizard_connect ( gchar **entry, bool al, WIZARD_DATA *w   );
 void  window_wizard      ( GtkWidget *widget,gpointer data );
 
 /* version.c */
 char * get_version_info (char *buf);
 
-#undef AD
-#undef WD
-#undef CD
-/*
- * Variables declared somewhere else...
- */
-
-/* init.c */
-extern CONNECTION_DATA *main_connection;
-extern CONNECTION_DATA *connections[15];
-
-extern GtkWidget *main_notebook;
-extern GtkWidget *text_entry;
-extern GtkWidget *entry_host;
-extern GtkWidget *entry_port;
-extern GtkWidget *menu_plugin_menu;
-extern GtkWidget *menu_main_wizard;
-extern GtkWidget *menu_main_connect;
-extern GtkWidget *menu_main_disconnect;
-extern GtkWidget *menu_main_close;
-extern GtkWidget *menu_option_prefs;
-extern GtkWidget *menu_option_alias;
-extern GtkWidget *menu_option_colors;
-extern GtkWidget *menu_option_action;
-extern GtkWidget *menu_option_keys;
-extern GtkWidget *window;
-extern GtkWidget *color_window;
-
-extern GdkColor color_white;
-extern GdkColor color_black;
-extern GdkColor color_blue;
-extern GdkColor color_green;
-extern GdkColor color_red;
-extern GdkColor color_brown;
-extern GdkColor color_magenta;
-extern GdkColor color_lightred;
-extern GdkColor color_yellow;
-extern GdkColor color_lightgreen;
-extern GdkColor color_cyan;
-extern GdkColor color_lightcyan;
-extern GdkColor color_lightblue;
-extern GdkColor color_lightmagenta;
-extern GdkColor color_grey;
-extern GdkColor color_lightgrey;
-extern GdkColor *foreground;
-extern GdkColor *background;
-
-extern GdkFont  *font_normal;
-extern GdkFont  *font_fixed;
-extern GdkFont  *font_bold;
-
-/* keybind.c */
-extern KEYBIND_DATA *KB_head;
-
-/* misc.c */
-extern struct passwd *uid_info;
-
-/* net.c */
-extern bool      echo;
-extern gchar     *host;
-extern gchar     *port;
-
-/* prefs.c */
-extern SYSTEM_DATA prefs;
-
-/* wizard.c */
-extern WIZARD_DATA *wizard_connection_list;
 #endif /* __AMCL_H__ */
 

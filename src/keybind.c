@@ -47,6 +47,9 @@ static void	on_clist_unselect_row (GtkCList *, gint, gint, GdkEvent *,
 				       gpointer);
 static void	on_window_destroy (GtkObject *);
     
+extern GtkWidget   *menu_option_keys;
+extern SYSTEM_DATA  prefs;
+
 GtkWidget *capt_entry;
 GtkWidget *comm_entry;
 GtkWidget *KB_button_delete;

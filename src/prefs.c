@@ -45,6 +45,9 @@ static void	prefs_font_selected (GtkWidget *, GtkFontSelectionDialog *);
 static void	prefs_freeze_cb (GtkWidget *, GtkWidget *);
 static void	prefs_select_font_callback (GtkWidget *, gpointer);
 
+extern GdkFont  *font_normal;
+extern GtkWidget *menu_option_prefs;
+
 SYSTEM_DATA prefs;
 GtkWidget   *prefs_window;
 GtkWidget   *prefs_button_save;
