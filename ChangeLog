@@ -1,3 +1,8 @@
+2003-06-10  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/gnome-mud.c (main): Yet another embarrasing bugfix, initialize
+	the gettext textdomain correctly, specifying UTF-8 as the codeset.
+
 2003-06-09  Jordi Mallach  <jordi@sindominio.net>
 
 	* NEWS: Update for 0.10.1.

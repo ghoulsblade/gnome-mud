@@ -41,8 +41,8 @@ int main (gint argc, char *argv[])
 	GError *err = NULL;
 	gchar buf[500];
 	
-	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset(PACKAGE, "UTF-8");
 	textdomain(PACKAGE);
   
 	/* Initialize the GConf library */
