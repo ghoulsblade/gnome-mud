@@ -70,7 +70,7 @@ static gboolean dialog_close_cb(GtkWidget *widget, GdkEvent *event, gpointer dat
 	return TRUE;
 }
 
-void destroy (GtkWidget *widget)
+gboolean destroy (GtkWidget *widget)
 {
 	GtkWidget *dialog;
 	gint i, retval;
@@ -100,7 +100,7 @@ void destroy (GtkWidget *widget)
 		if (retval == GTK_RESPONSE_NO || retval == GTK_RESPONSE_DELETE_EVENT)
 		{
 			gtk_widget_destroy(dialog);
-			return;
+			return TRUE;
 		}
 	}
 
@@ -132,6 +132,8 @@ void destroy (GtkWidget *widget)
     }
   */  
 	gtk_main_quit ();
+	
+	return FALSE;
 }
 
 static void window_menu_file_connect (GtkWidget *widget, gpointer data)
@@ -745,7 +747,7 @@ void main_window ()
 	window = gnome_app_new("gnome-mud", "GNOME Mud");
 	gtk_window_set_default_size(GTK_WINDOW(window), 500, 300);
 	gtk_widget_realize(window);
-	gtk_signal_connect(GTK_OBJECT(window), "delete_event", GTK_SIGNAL_FUNC(destroy), NULL);
+	gtk_signal_connect(GTK_OBJECT(window), "delete-event", GTK_SIGNAL_FUNC(destroy), NULL);
   
 	box_main = gtk_vbox_new (FALSE, 0);
 	gnome_app_set_contents(GNOME_APP(window), box_main);

@@ -30,9 +30,6 @@ EggTrayIcon * tray_icon = NULL;
 GtkWidget *image = NULL;
 gboolean window_invisible;
 
-// protos
-extern void destroy (GtkWidget *widget);
-
 
 // callbacks
 void window_toggle()

@@ -1,3 +1,13 @@
+2003-01-13  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/gnome-mud.h (destroy): Changed proto.
+
+	* src/init.c (destroy): Changed from void to gboolean, returning TRUE
+	if we want to keep the main window.
+	(main_window): Changed signal from delete_event to delete-event.
+
+	* src/tray.c (destroy): Removed proto already existing in gnome.mud.h.
+
 2003-01-09  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: Remove call to AM_GNU_GETTEXT_VERSION, which confuses

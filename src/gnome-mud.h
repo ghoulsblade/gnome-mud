@@ -192,7 +192,7 @@ void		 open_connection (CONNECTION_DATA *);
 
 /* init.c */
 void		 main_window (void);
-void		 destroy (GtkWidget *);
+gboolean	 destroy (GtkWidget *);
 void		 close_window (GtkWidget *, gpointer);
 
 /* color.c */
