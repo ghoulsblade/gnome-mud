@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.9.1\n"
-"POT-Creation-Date: 2002-06-24 13:11+0200\n"
-"PO-Revision-Date: 2002-06-24 13:30+0200\n"
+"POT-Creation-Date: 2002-06-25 14:25+0200\n"
+"PO-Revision-Date: 2002-06-25 14:28+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -642,6 +642,10 @@ msgstr ""
 #: src/prefs.c:661
 msgid "MudList file:"
 msgstr "Fichero de MudList:"
+
+#: src/prefs.c:665
+msgid "Select a MudList File"
+msgstr "Selecciona un fichero de MudList"
 
 #: src/prefs.c:673
 msgid "Functionality"

@@ -662,7 +662,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	gtk_widget_show(label1);
 	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
  
-	entry_mudlistfile = gnome_file_entry_new(NULL, "MudList File...");
+	entry_mudlistfile = gnome_file_entry_new(NULL, _("Select a MudList File"));
 	gtk_entry_set_text(GTK_ENTRY(gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(entry_mudlistfile))), prefs.MudListFile);
 	gtk_widget_show(entry_mudlistfile);
 	gtk_box_pack_start(GTK_BOX(hbox1), entry_mudlistfile, FALSE, TRUE, 0);

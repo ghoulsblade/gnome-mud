@@ -1,3 +1,9 @@
+Tue Jun 25 14:31:25 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/prefs (window_prefs): i18nized a string.
+	* po/{ca,es}.po: updated.
+	* po/fr.po: French update by Martin Quinson.
+
 Mon Jun 24 16:46:24 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* NEWS: added items for 0.9.1.

@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.9.1\n"
-"POT-Creation-Date: 2002-06-24 13:11+0200\n"
-"PO-Revision-Date: 2002-06-24 13:28+0200\n"
+"POT-Creation-Date: 2002-06-25 14:25+0200\n"
+"PO-Revision-Date: 2002-06-25 14:30+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,8 @@ msgstr "Valors"
 #: src/data.c:317
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
-msgstr "window_data: s'està tractant d'accedir a una regió de dades indefinida: %d"
+msgstr ""
+"window_data: s'està tractant d'accedir a una regió de dades indefinida: %d"
 
 #: src/data.c:329
 msgid "GNOME-Mud Configuration Center"
@@ -644,6 +645,10 @@ msgstr ""
 msgid "MudList file:"
 msgstr "Fitxer amb la MudList:"
 
+#: src/prefs.c:665
+msgid "Select a MudList File"
+msgstr "Seleccioneu un fitxer de MudList"
+
 #: src/prefs.c:673
 msgid "Functionality"
 msgstr "Funcionalitats"
@@ -730,7 +735,7 @@ msgstr "Nou"
 
 #: src/profiles.c:1246
 msgid "Aliases"
-msgstr "Alies"
+msgstr "Àlies"
 
 #: src/profiles.c:1280
 msgid "Keybinds"
@@ -763,10 +768,10 @@ msgstr "Accepta"
 #~ msgstr "Seleccionador de Colors de GNOME-Mud"
 
 #~ msgid "Cancel"
-#~ msgstr "Cancel·lar"
+#~ msgstr "Cancel·la"
 
 #~ msgid "Apply"
-#~ msgstr "Aplicar"
+#~ msgstr "Aplica"
 
 #~ msgid "Can't load font... %s Using default.\n"
 #~ msgstr "No es pot carregar la font... %s Utilitzant predeterminada.\n"
