@@ -59,12 +59,12 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 	
 	/* prompt processing stuff */
       case GA: /* Go ahead (prompt) */
-	*to++=255;
+	*to++ = '\0';
 	len++;
 	break;
 	
-      case EOR: /* EOR  (prompt)  */
-	*to++=255;
+      case EOR: /* EOR (prompt) */
+	*to++ = '\0';
 	len++;
 	break;
 	
