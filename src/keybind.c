@@ -193,7 +193,6 @@ static void on_KB_button_capt_clicked (GtkButton *button, gpointer user_data)
  gtk_widget_grab_focus(GTK_WIDGET(capt_entry));
 }
 
-
 static void on_KB_button_add_clicked (GtkButton *button, gpointer clist)
 {
 gchar *list[2];
@@ -232,7 +231,6 @@ if (list[0][0] && list[1][0])
 	popup_window (_("Incomplete fields."));
 }
 
-
 static void on_KB_button_delete_clicked (GtkButton *button, gpointer clist)
 {
     gint i;
@@ -261,7 +259,6 @@ static void on_KB_button_delete_clicked (GtkButton *button, gpointer clist)
     }
 }
 
-
 static void on_clist_select_row (GtkCList *clist, gint row, gint column,
 				 GdkEvent *event, gpointer user_data)
 {
@@ -287,8 +284,6 @@ static void on_clist_select_row (GtkCList *clist, gint row, gint column,
     
 
 }
-
-
 
 static void on_clist_unselect_row (GtkCList *clist, gint row, gint column,
 				   GdkEvent *event, gpointer user_data)
@@ -317,8 +312,6 @@ static void Command_list_fill(GtkCList *clist)
 
 }
 
-/*----------------------------------------*/
-
 void window_keybind ()
 {
   GtkWidget *window_keybind;
@@ -344,7 +337,7 @@ void window_keybind ()
   window_keybind = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_usize (window_keybind, 450, 320);
   gtk_container_set_border_width (GTK_CONTAINER (window_keybind), 5);
-  gtk_window_set_title (GTK_WINDOW (window_keybind), _("Amcl Key Binding Center"));
+  gtk_window_set_title (GTK_WINDOW (window_keybind), _("AMCL Key Binding Center"));
   gtk_window_set_position (GTK_WINDOW (window_keybind), GTK_WIN_POS_CENTER);
 
   vbox = gtk_vbox_new (FALSE, 0);

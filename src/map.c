@@ -2557,7 +2557,7 @@ AutoMap *auto_map_new (void)
     /* Set the title */
     /*g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));*/
     /*gtk_window_set_title(GTK_WINDOW(automap->window), name);*/
-    gtk_window_set_title (GTK_WINDOW(automap->window), _("Amcl AutoMapper"));
+    gtk_window_set_title (GTK_WINDOW(automap->window), _("AMCL AutoMapper"));
 
     /* Create the drawing window and allocate its colours */
     automap->draw_area = gtk_drawing_area_new();

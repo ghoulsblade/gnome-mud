@@ -32,8 +32,7 @@
 
 static char const rcsid[] = "$Id$";
 
-/* Added by Benjamin Curtis
-   Code Swiped from TUsh by Simon Marsh */
+/* Added by Benjamin Curtis, Code Swiped from TUsh by Simon Marsh */
 char *pre_process(char *buf, CONNECTION_DATA *connection)
 {
   unsigned char *from, *to;

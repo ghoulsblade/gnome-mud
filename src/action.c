@@ -246,7 +246,7 @@ void action_button_add_cb (GtkWidget *button, gpointer data)
 
     if ( action_get_action_data(text[0], action_list2) )
     {
-	popup_window (_("Can't have two of the same trigger ... yet."));
+	popup_window (_("Can't have two actions for the same trigger... yet."));
 	return;
     }
 
@@ -310,7 +310,7 @@ void window_action (GtkWidget *widget, gpointer data)
     gtk_widget_set_sensitive (menu_option_action, FALSE);
 
     action_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (action_window), _("Amcl Action Center"));
+    gtk_window_set_title (GTK_WINDOW (action_window), _("AMCL Action Center"));
     gtk_signal_connect_object (GTK_OBJECT (action_window), "destroy",
                                GTK_SIGNAL_FUNC(action_close_window),
                                NULL);
@@ -378,10 +378,10 @@ void window_action (GtkWidget *widget, gpointer data)
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show (hbox);
 
-    action_button_add    = gtk_button_new_with_label (_("add"));
-    action_button_quit   = gtk_button_new_with_label (_("close"));
-    action_button_delete = gtk_button_new_with_label (_("delete"));
-    action_button_save   = gtk_button_new_with_label (_("save"));
+    action_button_add    = gtk_button_new_with_label (_("Add"));
+    action_button_quit   = gtk_button_new_with_label (_("Close"));
+    action_button_delete = gtk_button_new_with_label (_("Delete"));
+    action_button_save   = gtk_button_new_with_label (_("Save"));
     gtk_signal_connect (GTK_OBJECT (action_button_add), "clicked",
                                GTK_SIGNAL_FUNC (action_button_add_cb),
                                (gpointer) clist);

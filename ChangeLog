@@ -1,3 +1,9 @@
+Tue Jul 25 16:04 2000  Jordi Mallach  <jordi@debian.org>
+	* Cosmetic fixes: unify button labels, MUD and AMCL nomeclature.
+	* Reformat or delete redundant comments in the sources. We've had an
+	  AUTHORS file for a while.
+	* Improvements in help strings, etc.
+
 Tue Jul 25 10:49:57 2000  Robin Ericsson  <robin@noname4us.com>
 
 	* acconfig.h: added #undef ENABLE_MCCP

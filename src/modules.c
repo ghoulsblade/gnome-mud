@@ -16,9 +16,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-/*
- * This module/plug-in API is slighly based on the API in gEdit.
- */
+/* This module/plug-in API is slighly based on the API in gEdit. */
 
 #ifndef __MODULES_C__
 #define __MODULES_C__

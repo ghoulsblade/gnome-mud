@@ -32,9 +32,8 @@
 #include <unistd.h>
 
 #include <gtk/gtk.h>
-/*
- * Added by Michael Stevens
- */
+
+/* Added by Michael Stevens */
 #ifndef INHIBIT_STRING_HEADER
 # if defined (HAVE_STRING_H) || defined (STDC_HEADERS) || defined (_LIBC)
 #  include <string.h>
@@ -80,8 +79,7 @@ gchar *host, *port;
 
 /* Added by Bret Robideaux (fayd@alliences.org)
  * I needed a separate way to send triggered actions to game, without
- * messing up the players command line or adding to his history.
- */
+ * messing up the players command line or adding to his history. */
 static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 {
   gchar *temp_entry;

@@ -205,7 +205,7 @@ void popup_window (const gchar *message)
     gchar       buf[2048];
 
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (window), _("Amcl Popup Message"));
+    gtk_window_set_title (GTK_WINDOW (window), _("AMCL Popup Message"));
 
     box = gtk_vbox_new (FALSE, 5);
     gtk_container_border_width (GTK_CONTAINER (box), 5);

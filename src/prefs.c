@@ -302,7 +302,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_widget_set_sensitive (menu_option_prefs, FALSE);
                               
     prefs_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (prefs_window), _("Amcl - Preferences"));
+    gtk_window_set_title (GTK_WINDOW (prefs_window), _("AMCL - Preferences"));
     gtk_signal_connect_object (GTK_OBJECT (prefs_window), "destroy",
                                GTK_SIGNAL_FUNC(prefs_close_window), NULL );
 
@@ -320,9 +320,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_tooltips_set_tip (tooltip, check_button,
 			_("With this toggled on, all the text you type and "
 			  "enter will be echoed on the connection so you can "
-			  "control what you are sending."
-			  "\nSome people think this is annoying, and therefor this "
-			  "is an option."),
+			  "control what you are sending."),
 			  NULL);
     GTK_WIDGET_UNSET_FLAGS (check_button, GTK_CAN_FOCUS);
     gtk_widget_show (check_button);
@@ -334,10 +332,10 @@ void window_prefs (GtkWidget *widget, gpointer data)
                         GTK_SIGNAL_FUNC (check_text_toggle),
                         check_text);
     gtk_tooltips_set_tip (tooltip, check_text,
-			_("With this toggled on, the text you have entered and sent "
-			  "to the connection, will be left in the entry box but "
-			  "seleceted."
-			  "\nTurn this off to remove the text after it has been sent."),
+			_("With this toggled on, the text you have entered "
+			  "and sent to the connection, will be left in the "
+			  "entry box but seleceted. Turn this off to remove "
+			  "the text after it has been sent."),
 			  NULL);
     GTK_WIDGET_UNSET_FLAGS (check_text, GTK_CAN_FOCUS);
     gtk_widget_show (check_text);
@@ -348,8 +346,8 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_signal_connect (GTK_OBJECT (check_autosave), "toggled",
                         GTK_SIGNAL_FUNC (prefs_autosave_cb), check_autosave);
     gtk_tooltips_set_tip (tooltip, check_autosave,
-			_("With this toggled on, Preferences, Connection Wizard and "
-			  "Alias will autosave."),
+			_("With this toggled on, Preferences, Connection "
+			  "Wizard and Aliases will be saved automatically."),
 			  NULL);
     GTK_WIDGET_UNSET_FLAGS (check_autosave, GTK_CAN_FOCUS);
     gtk_widget_show (check_autosave);
@@ -361,9 +359,9 @@ void window_prefs (GtkWidget *widget, gpointer data)
                         GTK_SIGNAL_FUNC (prefs_freeze_cb), check_freeze);
     gtk_tooltips_set_tip (tooltip, check_freeze,
 			_("Using this, text will draw faster but it will not "
-			  "draw every char, only whole strings. This will probably "
-			  "do a lot faster if you are playing mu* with a lot of "
-			  "different colours."),
+			  "draw every character, only whole strings. This "
+			  "will probably make displays a lot faster if you "
+			  "are playing MUDs with a lot of different colours."),
 			  NULL);
     GTK_WIDGET_UNSET_FLAGS (check_freeze, GTK_CAN_FOCUS);
     gtk_widget_show (check_freeze);
@@ -393,20 +391,21 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_entry_set_text (GTK_ENTRY (entry_fontname), prefs.FontName);
     gtk_box_pack_start (GTK_BOX (hbox_font), entry_fontname, FALSE, TRUE, 10);
     gtk_tooltips_set_tip (tooltip, entry_fontname,
-			_("This is the font that AMCL is using to print the text from "
-			  "the mud. If the font is unavailable when you start AMCL, "
-			  "AMCL will use the default font \"fixed.\""),
+			_("This is the font that AMCL is using to print the "
+			  "text from the MUD. If the font is unavailable "
+			  "when you start AMCL, the default font \"fixed.\" "
+			  "will be used."),
 			  NULL);
     gtk_widget_show (entry_fontname);
     
-    button_select_font = gtk_button_new_with_label (_(" select font "));
+    button_select_font = gtk_button_new_with_label (_("Select font"));
 
     gtk_signal_connect_object (GTK_OBJECT (button_select_font), "clicked",
                                GTK_SIGNAL_FUNC (prefs_select_font_callback),
                                NULL);
     gtk_tooltips_set_tip (tooltip, button_select_font,
-			_("Use this button to start the Font selector and "
-			  "choose for yourself what font you will use."),
+			_("Use this button to open the font selector to "
+			  "choose what font you will use."),
 			  NULL);
 
     gtk_box_pack_start (GTK_BOX (hbox_font), button_select_font, FALSE, TRUE, 10);
@@ -420,8 +419,8 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show (hbox);
 
-    prefs_button_save  = gtk_button_new_with_label (_(" save "));
-    button_close = gtk_button_new_with_label (_(" close "));
+    prefs_button_save  = gtk_button_new_with_label (_("Save"));
+    button_close = gtk_button_new_with_label (_("Close"));
     gtk_signal_connect_object (GTK_OBJECT (prefs_button_save), "clicked",
                                GTK_SIGNAL_FUNC (save_prefs),
                                NULL);

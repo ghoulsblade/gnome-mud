@@ -279,7 +279,7 @@ void window_alias (GtkWidget *widget, gpointer data)
     gtk_widget_set_sensitive (menu_option_alias, FALSE);
 
     alias_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (alias_window), _("Amcl Alias Center"));
+    gtk_window_set_title (GTK_WINDOW (alias_window), _("AMCL Alias Center"));
     gtk_signal_connect_object (GTK_OBJECT (alias_window), "destroy",
                                GTK_SIGNAL_FUNC(alias_close_window), NULL );
     gtk_widget_set_usize (alias_window,450,320);
@@ -346,10 +346,10 @@ void window_alias (GtkWidget *widget, gpointer data)
     gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show (hbox);
 
-    alias_button_add    = gtk_button_new_with_label (_("  add   "));
-    alias_button_quit   = gtk_button_new_with_label (_(" close  "));
-    alias_button_delete = gtk_button_new_with_label (_(" delete "));
-    alias_button_save   = gtk_button_new_with_label (_("  save  "));
+    alias_button_add    = gtk_button_new_with_label (_("Add"));
+    alias_button_quit   = gtk_button_new_with_label (_("Close"));
+    alias_button_delete = gtk_button_new_with_label (_("Delete"));
+    alias_button_save   = gtk_button_new_with_label (_("Save"));
     gtk_signal_connect (GTK_OBJECT (alias_button_add), "clicked",
                                GTK_SIGNAL_FUNC (alias_button_add_cb),
                                (gpointer) clist);

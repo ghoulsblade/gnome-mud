@@ -293,7 +293,7 @@ void window_color (GtkWidget *a, gpointer d)
   
   gtk_widget_set_sensitive (menu_option_colors, FALSE);
   color_window = GTK_WIDGET (gtk_window_new (GTK_WINDOW_TOPLEVEL));
-  gtk_window_set_title (GTK_WINDOW (color_window), _("Amcl Color Chooser"));
+  gtk_window_set_title (GTK_WINDOW (color_window), _("AMCL Color Chooser"));
   gtk_signal_connect (GTK_OBJECT (color_window), "destroy",
 		      GTK_SIGNAL_FUNC (color_cancel_pressed),
 		      NULL);

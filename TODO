@@ -1,11 +1,11 @@
-Things to TODO that is not done :)
+Things in TODO that are not done :)
 ==================================
 - Rewrite most code into more generic gtk code (this is ongoing)
 - MSP, Mud Sound Protocol (Is there many muds using this?)
 - SOCKS support
-- An icon or something to use with GNOME and WM:s.
+- An icon or something to use with GNOME and WM:s
 - AutoReconnect
-- nested alias
+- Nested alias
 
 - Other things you would like. Just mail me, lobbin@localhost.nu.
 
@@ -14,4 +14,5 @@ Things that are under development
 =================================
 - Automapper
 - Multiple Connections (zMud like)
-- Plug-in API.
+- Plug-in API
+- Gnomization

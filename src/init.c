@@ -48,9 +48,7 @@ extern GdkColor     color_lightgrey;
 extern GdkColor     color_white;
 extern GdkColor     color_black;
 
-/*
- * Global Variables
- */
+/* Global Variables */
 CONNECTION_DATA *main_connection;
 CONNECTION_DATA *connections[15];
 GtkWidget *main_notebook;
@@ -136,8 +134,8 @@ static void connect_window (GtkWidget *widget, gpointer data)
     gtk_container_add (GTK_CONTAINER (vbox), hbox3);
     gtk_widget_show (hbox3);
     
-    button       = gtk_button_new_with_label (_("connect"));
-    button_close = gtk_button_new_with_label (_("close"));
+    button       = gtk_button_new_with_label (_("Connect"));
+    button_close = gtk_button_new_with_label (_("Close"));
     gtk_signal_connect (GTK_OBJECT (button), "clicked",
                         GTK_SIGNAL_FUNC (do_connection), NULL );
     gtk_signal_connect (GTK_OBJECT (button), "clicked",
@@ -196,7 +194,7 @@ static void about_window (GtkWidget *widget, gpointer data)
     box2 = gtk_hbox_new (FALSE, 5);
     gtk_box_pack_start (GTK_BOX (main_box), box2, FALSE, FALSE, 0);
 
-    button = gtk_button_new_with_label ( " close ");
+    button = gtk_button_new_with_label ("Close");
     gtk_signal_connect (GTK_OBJECT (button), "clicked",
                         GTK_SIGNAL_FUNC (close_window), a_window);
     gtk_box_pack_start (GTK_BOX (box2), button, TRUE, TRUE, 5);
