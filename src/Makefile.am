@@ -3,7 +3,7 @@ CFLAGS	         += $(DEBUG_FLAGS)
 INCLUDES          = -DLOCALEDIR=\"$(localedir)\" $(GNOME_INCLUDEDIR)
 EXTRA_DIST        = gnome-mud.c
 bin_PROGRAMS   	  = gnome-mud
-gnome_mud_SOURCES = data.c color.c init.c keybind.c map.c \
+gnome_mud_SOURCES = data.c init.c keybind.c map.c \
                     net.c prefs.c window.c modules.c modules_api.c \
                     modules.h modules_api.h gnome-mud.h telnet.c mccpDecompress.c \
                     mccpDecompress.h profiles.c python.c mudlist.c
