@@ -437,6 +437,21 @@ static void do_disconnect (GtkWidget *widget, gpointer data)
   }
 }
 
+static void window_menu_help_manual_activate_cb(GtkMenuItem *menuitem)
+{
+	gchar *path = gnome_help_file_find_file("gnome-mud", "");
+	gchar *fullpath;
+
+	fullpath = g_strconcat("ghelp:", path, "index.html", NULL);
+	//gchar fullpath[strlen(path) + 20];
+
+	//g_snprintf(fullpath, sizeof(fullpath), "%s%s%s", "ghelp:", path, "index.html");
+
+	gnome_help_goto(NULL, fullpath);
+	g_free(fullpath);
+	g_free(path);
+}
+
 static GnomeUIInfo toolbar_menu[] = {
   GNOMEUIINFO_ITEM_STOCK(N_("Wizard..."), NULL, window_profiles,   GNOME_STOCK_PIXMAP_NEW),
   GNOMEUIINFO_SEPARATOR,
@@ -479,7 +494,10 @@ static GnomeUIInfo settings_menu[] = {
 };
 
 static GnomeUIInfo help_menu[] = {
-	GNOMEUIINFO_HELP("gnome-mud"),
+	{ GNOME_APP_UI_ITEM, N_("GNOME-Mud manual"), N_("Open the GNOME-Mud manual"), 
+		window_menu_help_manual_activate_cb, NULL, NULL,
+		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BOOK_BLUE, 0, 0, NULL 
+	},
 	GNOMEUIINFO_MENU_ABOUT_ITEM(about_window, NULL),
 	GNOMEUIINFO_END
 };
