@@ -1,3 +1,7 @@
+Wed Nov 29 10:21:07 CET 2000  Robin Ericsson  <lobbin@localhost.nu>
+
+	* TODO: Added a few things...
+
 Sun Oct  1 03:40:32 CEST 2000  Jordi Mallach  <jordi@sindominio.net>
 	* src/prefs.c: fix for a compile error with Woody's CVS gcc.
 	* configure.in: add ca to ALL_LINGUAS.
