@@ -45,6 +45,10 @@ if test x$1 != xno ; then
   ./configure "$@"
 fi
 
-echo    
+echo
+echo "readme_doc.h, authors_doc.h and version.h is not created."
+echo "cd src; make -f Makefile.mkhelp; make version.h with GNU make"
+echo "(that is gmake for *BSD ;)"
+echo
 echo "Now type 'make' to compile $PROG."
 

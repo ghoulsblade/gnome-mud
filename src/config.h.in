@@ -3,24 +3,62 @@
 /* Define to empty if the keyword does not work.  */
 #undef const
 
+/* Define as __inline if that's what the C compiler calls it.  */
+#undef inline
+
 /* Define if you have the ANSI C header files.  */
 #undef STDC_HEADERS
 
-#undef PACKAGE
-#undef VERSION
+#undef HAVE_ZVTLIB
 #undef WITHOUT_MAPPER
+
+/* Define if you have the dlopen function.  */
+#undef HAVE_DLOPEN
+
+/* Define if you have the socket function.  */
+#undef HAVE_SOCKET
+
+/* Define if you have the strdup function.  */
+#undef HAVE_STRDUP
+
+/* Define if you have the strerror function.  */
+#undef HAVE_STRERROR
+
+/* Define if you have the strstr function.  */
+#undef HAVE_STRSTR
 
 /* Define if you have the <arpa/telnet.h> header file.  */
 #undef HAVE_ARPA_TELNET_H
+
+/* Define if you have the <dirent.h> header file.  */
+#undef HAVE_DIRENT_H
+
+/* Define if you have the <dl.h> header file.  */
+#undef HAVE_DL_H
+
+/* Define if you have the <dlfcn.h> header file.  */
+#undef HAVE_DLFCN_H
+
+/* Define if you have the <fcntl.h> header file.  */
+#undef HAVE_FCNTL_H
+
+/* Define if you have the <ndir.h> header file.  */
+#undef HAVE_NDIR_H
+
+/* Define if you have the <strings.h> header file.  */
+#undef HAVE_STRINGS_H
+
+/* Define if you have the <sys/dir.h> header file.  */
+#undef HAVE_SYS_DIR_H
+
+/* Define if you have the <sys/ndir.h> header file.  */
+#undef HAVE_SYS_NDIR_H
 
 /* Define if you have the <telnet.h> header file.  */
 #undef HAVE_TELNET_H
 
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H
-
-/* Define if you have the dl library (-ldl).  */
-#undef HAVE_LIBDL
 
 /* Define if you have the nsl library (-lnsl).  */
 #undef HAVE_LIBNSL

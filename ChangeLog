@@ -1,5 +1,8 @@
 Fri Mar 24 22:07:10 2000  Robin Ericsson  <lobbin@localhost.nu>
 
+	* Fixed bugs:
+	[103014]: Scroll bar only works for the main window
+	
 	* acconfig.h/autogen.sh/configure.in: Changed some checkings
 	mostly regarding dlopen stuff.
 

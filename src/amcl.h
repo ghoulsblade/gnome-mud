@@ -56,6 +56,7 @@ struct connection_data {
   gint        notebook;
   gboolean    echo;
   GtkWidget  *window;
+  GtkWidget  *vscrollbar;
 };
 
 struct alias_data {

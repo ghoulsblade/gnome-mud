@@ -31,18 +31,18 @@ static char const rcsid[] =
     "$Id$";
 
 
-gint         wizard_selected_row;
-GtkWidget   *wizard_entry_name;
-GtkWidget   *wizard_entry_host;
-GtkWidget   *wizard_entry_port;
-GtkWidget   *wizard_check_autologin;
-GtkWidget   *wizard_entry_player;
-GtkWidget   *wizard_entry_password;
-GtkWidget   *wizard_window;
-GtkWidget   *button_update;
-GtkWidget   *button_delete;
-GtkWidget   *button_connect;
-static GList       *wizard_connection_list2;
+gint          wizard_selected_row;
+GtkWidget    *wizard_entry_name;
+GtkWidget    *wizard_entry_host;
+GtkWidget    *wizard_entry_port;
+GtkWidget    *wizard_check_autologin;
+GtkWidget    *wizard_entry_player;
+GtkWidget    *wizard_entry_password;
+GtkWidget    *wizard_window;
+GtkWidget    *button_update;
+GtkWidget    *button_delete;
+GtkWidget    *button_connect;
+static GList *wizard_connection_list2;
 
 void free_connection_data (CONNECTION_DATA *c)
 {

@@ -516,31 +516,31 @@ void init_window ()
     box_main2 = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (box_main), box_main2, TRUE, TRUE, 5);
 
-    box_h_low = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (box_main2), box_h_low, TRUE, TRUE, 5);
-
     main_notebook = gtk_notebook_new();
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK (main_notebook), GTK_POS_BOTTOM);
     gtk_signal_connect (GTK_OBJECT (main_notebook), "switch-page",
                         GTK_SIGNAL_FUNC (switch_page_cb), NULL);
-    gtk_box_pack_start (GTK_BOX (box_h_low), main_notebook, TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (box_main2), main_notebook, TRUE, TRUE, 5);
     gtk_widget_show (main_notebook);
+
+    box_h_low = gtk_hbox_new (FALSE, 0);
+    label = gtk_label_new ("Main");
+    gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box_h_low, label);
 
     main_connection = g_malloc0( sizeof (CONNECTION_DATA));
     main_connection->notebook = 0;
     main_connection->window = gtk_text_new (NULL, NULL);
     gtk_widget_set_usize (main_connection->window, 500, 320);
+    gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->window, FALSE, FALSE, 0);
     gtk_widget_show (main_connection->window);
     connections[0] = main_connection;
     
     foreground = &color_white;
     background = &color_black;
 
-    label = gtk_label_new ("Main");
-    gtk_notebook_append_page (GTK_NOTEBOOK (main_notebook), main_connection->window, label);
-
-    v_scrollbar = gtk_vscrollbar_new (GTK_TEXT(main_connection->window)->vadj);
-    gtk_box_pack_start (GTK_BOX (box_h_low), v_scrollbar, FALSE, FALSE, 0);
+    main_connection->vscrollbar = gtk_vscrollbar_new (GTK_TEXT(main_connection->window)->vadj);
+    gtk_box_pack_start (GTK_BOX (box_h_low), main_connection->vscrollbar, FALSE, FALSE, 0);
+    gtk_widget_show(main_connection->vscrollbar);
 
     text_entry = gtk_entry_new ();
     gtk_signal_connect (GTK_OBJECT (text_entry), "key_press_event",
@@ -552,7 +552,6 @@ void init_window ()
     gtk_widget_show (text_entry);
 
     /* show them */
-    gtk_widget_show (v_scrollbar         );
     gtk_widget_show (box_h_low           );
     gtk_widget_show (box_main2           );
     gtk_widget_show (menu_help_readme    );

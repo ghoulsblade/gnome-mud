@@ -1,3 +1,2 @@
-#undef PACKAGE
-#undef VERSION
+#undef HAVE_ZVTLIB
 #undef WITHOUT_MAPPER

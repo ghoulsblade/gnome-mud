@@ -32,19 +32,27 @@ AM_PATH_GTK(1.2.0,
 	     AC_MSG_ERROR(Cannot find GTK: Is gtk-config in path?))
 AC_CHECK_LIB(socket,socket)
 AC_CHECK_LIB(nsl,connect)
-AC_CHECK_LIB(dl,dlopen)
+
+AC_CHECK_HEADERS(dlfcn.h dl.h)
+AC_CHECK_LIB(dl, dlopen, DL_LIB="-ldl",[
+	AC_CHECK_LIB(dld, shl_load, DL_LIB="-ldld",[
+	AC_CHECK_FUNCS(dlopen, DL_LIB="",
+	AC_MSG_ERROR(Dynamic linking is not available on this platform.))])])
+AC_SUBST(DL_LIB)  
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(unistd.h)
+AC_HEADER_DIRENT
+AC_CHECK_HEADERS(fcntl.h strings.h unistd.h)
 AC_CHECK_HEADERS(telnet.h arpa/telnet.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
+AC_C_INLINE
 
 dnl Checks for library functions.
 AC_CHECK_FUNC(bzero)
-AC_CHECK_FUNC(dlopen)
+AC_CHECK_FUNCS(socket strdup strerror strstr)
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)

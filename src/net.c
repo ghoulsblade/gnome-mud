@@ -157,11 +157,17 @@ CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
 {
   CONNECTION_DATA *connection;
   GtkWidget       *label;
+  GtkWidget       *box;
 
   if (main_connection->connected) {
     connection = g_malloc0( sizeof (CONNECTION_DATA));
+    
     connection->window = gtk_text_new (NULL, NULL);
+    gtk_widget_set_usize (connection->window, 500, 320);
     gtk_widget_show (connection->window);
+
+    connection->vscrollbar = gtk_vscrollbar_new(GTK_TEXT(connection->window)->vadj);
+    gtk_widget_show (connection->vscrollbar);
   } else {
     connection = main_connection;
   }
@@ -171,8 +177,14 @@ CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
   connection->port = g_strdup(porter);
 
   if (main_connection != connection) {
+    box = gtk_hbox_new(FALSE, 0);
     label = gtk_label_new(connection->host);
-    gtk_notebook_append_page (GTK_NOTEBOOK (main_notebook), connection->window, label);
+    gtk_notebook_append_page (GTK_NOTEBOOK(main_notebook), box, label);
+    gtk_widget_show(box);
+
+    gtk_box_pack_start(GTK_BOX(box), connection->window, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), connection->vscrollbar, FALSE, FALSE, 0);
+    
     gtk_widget_realize (connection->window);
     gdk_window_set_background (GTK_TEXT (connection->window)->text_area, &color_black); 
     gtk_notebook_next_page (GTK_NOTEBOOK (main_notebook));
