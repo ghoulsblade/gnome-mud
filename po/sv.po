@@ -170,7 +170,7 @@ msgstr "GNOME-Mud"
 
 #: src/init.c:325
 msgid "(C) 1998-2002 Robin Ericsson"
-msgstr "(C) 1998-2002 Robin Ericsson"
+msgstr " © 1998-2002 Robin Ericsson"
 
 #: src/init.c:327
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
@@ -492,7 +492,7 @@ msgstr "*** Kan inte ansluta - du angav ingen adress\n"
 
 #: src/net.c:211
 msgid "*** No port specified - assuming port 23.\n"
-msgstr "*** Ingen port - antar port 23\n"
+msgstr "*** Ingen port - antar port 23.\n"
 
 #: src/net.c:227
 #, c-format
