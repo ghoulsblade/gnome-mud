@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
 "POT-Creation-Date: 2003-09-02 20:20+0200\n"
-"PO-Revision-Date: 2003-09-02 20:20+0200\n"
+"PO-Revision-Date: 2003-09-02 20:24+0200\n"
 "Last-Translator: Данило Шеган <dsegan@gmx.net>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -579,10 +579,9 @@ msgstr "Путања прати већ постојећу путању:"
 msgid "Create"
 msgstr "Створи"
 
-# bug: enter in a path, or enter a path?
 #: src/map.c:1115
 msgid "Enter in a path"
-msgstr "Унесите у путању"
+msgstr "Унесите путању"
 
 #: src/map.c:1122
 msgid "Create a new path:"
@@ -635,11 +634,10 @@ msgstr "Телепортуј се овде"
 msgid "Create new link"
 msgstr "Направи нову везу"
 
-# bug: is this a verb "enter" or a key "Enter"?
 #. Translator: this is an action, not a key
 #: src/map.c:1435
 msgid "Enter"
-msgstr "Ентер"
+msgstr "Уђи"
 
 #. Can easily be optimised ... but why bother ?
 #. Translator: "N" means "North" here
