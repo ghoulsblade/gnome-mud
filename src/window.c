@@ -76,6 +76,10 @@ static void cons_escm (CONNECTION_DATA *cd)
             BOLD = TRUE;
             break;
 
+        case 22: /* bold off */
+            BOLD = FALSE;
+            break;
+
         case 4: /* underscore */
         case 5: /* blink */
         case 7: /* inverse */
@@ -86,36 +90,22 @@ static void cons_escm (CONNECTION_DATA *cd)
             nowcol = p;
             break;
 
-        case 40:
-            cd->background = &prefs.Colors[0];
+        case 39:
+            nowcol = 0;
+            cd->foreground = &prefs.Foreground;
             break;
-
-        case 41:
-            cd->background = &prefs.Colors[1];
-            break;
-
-        case 42:
-            cd->background = &prefs.Colors[2];
-            break;
-
-        case 43:
-            cd->background = &prefs.Colors[3];
-            break;
-
-        case 44:
-            cd->background = &prefs.Colors[4];
-            break;
-
-        case 45:
-            cd->background = &prefs.Colors[5];
-            break;
-
-        case 46:
-            cd->background = &prefs.Colors[6];
+	
+        case 40: case 41: case 42: case 43:
+        case 44: case 45: case 46:
+            cd->background = &prefs.Colors[ p - 40 ];
             break;
 
         case 47:
             cd->background = &prefs.Colors[15];
+            break;
+
+	case 49:
+            cd->background = &prefs.Background;
             break;
 
         default:
@@ -266,6 +256,11 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
 
                 if ( !(c = *message))
                     break;
+
+                if (c == '\xbf') {
+                        state = SQUARE;
+                        break;
+                }
 
                 if ( c != '\033' )
                 {

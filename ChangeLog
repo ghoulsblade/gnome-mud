@@ -1,3 +1,9 @@
+Tue Oct 29 19:47:13 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/telnet.c, src/window.c: patch from
+	Abigail Brady <morwen@evilmagic.org> which fixes the handling of a
+	few telnet codes + minor cleanups.
+
 Mon Oct 28 19:19:49 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: lots of cleanups. Temporarily remove the debug stuff.

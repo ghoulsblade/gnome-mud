@@ -60,6 +60,11 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 				from++;
 				switch(*from++)
 				{
+					/* quote instance of IAC */
+					case IAC:
+						*to++ = IAC;
+                                                len++;
+						break;
 					/* IP kill connection */
 					case IP: /* IP control */
 						disconnect(NULL,NULL);
