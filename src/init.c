@@ -455,7 +455,6 @@ static GnomeUIInfo plugin_menu[] = {
 };
 
 static GnomeUIInfo settings_menu[] = {
-  GNOMEUIINFO_ITEM_STOCK(N_("Keybinds..."), NULL, window_keybind, GNOME_STOCK_MENU_BLANK),
   GNOMEUIINFO_ITEM_STOCK(N_("Colors..."), NULL, window_color, GNOME_STOCK_MENU_BLANK),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Auto Mapper"), NULL, window_automap, GNOME_STOCK_MENU_BLANK),
