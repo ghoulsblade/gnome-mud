@@ -36,6 +36,11 @@
 #define MAX_CONNECTIONS 16
 
 /*
+ * Maximum number of colors
+ */
+#define C_MAX 16
+
+/*
  * Save file version
  */
 #define WIZARD_SAVEFILE_VERSION 1
@@ -54,7 +59,8 @@ typedef        gint            bool;
 /*
  * Structures
  */
-struct connection_data {
+struct connection_data 
+{
 	PROFILE_DATA	*profile;
 	mc_state		*mccp;
 	gint			 mccp_timer;
@@ -67,17 +73,23 @@ struct connection_data {
 	gboolean		 echo;
 	GtkWidget		*window;
 	GtkWidget		*vscrollbar;
+	GdkColor		*foreground;
+	GdkColor		*background;
 };
 
 struct system_data {
-  bool       EchoText;
-  bool       KeepText;
-  bool       AutoSave;
-  bool       Freeze;
-  gchar     *FontName;
-  gchar     *CommDev;
-  gchar     *MudListFile;
-  gint       History;
+	bool       EchoText;
+	bool       KeepText;
+	bool       AutoSave;
+	bool       Freeze;
+	gchar     *FontName;
+	gchar     *CommDev;
+	gchar     *MudListFile;
+	gint       History;
+	GdkColor   Foreground;
+	GdkColor   Background;
+
+	GdkColor   Colors[16];
 };
 
 struct wizard_data {
@@ -190,12 +202,10 @@ gint  pre_process     ( char *buf, CONNECTION_DATA *connection       );
 void  popup_window    ( const gchar *message                         );
 void  switch_page_cb  ( GtkNotebook *, gpointer, guint, gpointer     );
 void  grab_focus_cb   ( GtkWidget* widget, gpointer user_data        );
-void  textfield_add   ( GtkWidget *widget, gchar *me, gint colortype );
+void  textfield_add   ( CONNECTION_DATA *, gchar *, gint             );
 
 /* wizard.c */
 void  free_connection_data (CONNECTION_DATA *c             );
 void  add_wizard_connect ( gchar **entry, bool al, WIZARD_DATA *w   );
-void  window_wizard      ( GtkWidget *widget,gpointer data );
 
-#endif /* __GNOME_MUD_H__ */
-
+#endif /* __GNOME_H__ */

@@ -17,7 +17,7 @@ feel free to suggest features, contribute, or comment.
 	+ double click on entries to connect [DONE]
 	+ be able to ping host...
 	+ several characters per host
-* Rewrite font/color support
+* Rewrite font/color support [DONE]
 * Right-click menu for connection-tabs
 * Make better use for gtk_object_(get|set)_data [DONE]
 * Cleanup of .c-files, better names on functions, etc...

@@ -25,8 +25,6 @@
 #include "gnome-mud.h"
 #include "modules.h"
 
-/* FIXME */
-extern GtkWidget  *window;
 
 static char const rcsid[] = 
     "$Id$";
@@ -41,9 +39,9 @@ void plugin_popup_message (gchar *message)
 void plugin_add_connection_text(CONNECTION_DATA *connection, gchar *message, gint color)
 {
   if (connection == NULL || connection->window == NULL)
-    textfield_add (main_connection->window, message, color);
+    textfield_add (main_connection, message, color);
   else
-    textfield_add (connection->window, message, color);
+    textfield_add (connection, message, color);
 }
 
 gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)

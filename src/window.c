@@ -42,30 +42,9 @@ static char const rcsid[] =
 	"$Id$";
 
 
-/* Local functions */
-static void	cons_escm (void);
-	
 typedef enum { NORM, ESC, SQUARE, PARMS } STATE;
 
-
-
 /* Global Variables */
-extern GdkColor         color_white;
-extern GdkColor         color_black;
-extern GdkColor         color_blue; 
-extern GdkColor         color_green; 
-extern GdkColor         color_red;  
-extern GdkColor         color_brown;
-extern GdkColor         color_magenta;  
-extern GdkColor         color_lightred;
-extern GdkColor         color_yellow;  
-extern GdkColor         color_lightgreen;
-extern GdkColor         color_cyan;
-extern GdkColor         color_lightcyan;
-extern GdkColor         color_lightblue;
-extern GdkColor         color_lightmagenta;
-extern GdkColor         color_grey;
-extern GdkColor         color_lightgrey;
 extern GtkWidget       *menu_main_disconnect;
 extern GtkWidget       *menu_main_close;
 extern CONNECTION_DATA *connections[15];
@@ -73,12 +52,10 @@ extern GtkWidget       *text_entry;
 extern GdkFont         *font_normal;
 extern SYSTEM_DATA      prefs;
 
-GdkColor  *foreground;
-GdkColor  *background;
 static gint parms[10], nparms;
 bool      BOLD = FALSE;
 
-static void cons_escm (void)
+static void cons_escm (CONNECTION_DATA *cd)
 {
     int i, p;
 
@@ -87,8 +64,8 @@ static void cons_escm (void)
         switch ( p = parms[i])
         {
         case 0: /* none */
-            foreground = &color_white;
-            background = &color_black;
+			cd->foreground = &prefs.Foreground;
+			cd->background = &prefs.Background;
             BOLD       = FALSE;
             break;
         case 1:/* bold */
@@ -101,90 +78,90 @@ static void cons_escm (void)
 
         case 30:
             if ( BOLD )
-                foreground = &color_grey;
+                cd->foreground = &prefs.Colors[8];
             else
-                foreground = &color_black;
+                cd->foreground = &prefs.Colors[0];
             break;
 
         case 31:
             if ( BOLD )
-                foreground = &color_lightred;
+                cd->foreground = &prefs.Colors[9];
             else
-                foreground = &color_red;
+                cd->foreground = &prefs.Colors[1];
             break;
 
         case 32:
             if ( BOLD )
-                foreground = &color_lightgreen;
+                cd->foreground = &prefs.Colors[10];
             else
-                foreground = &color_green;
+                cd->foreground = &prefs.Colors[3];
             break;
 
         case 33:
             if ( BOLD )
-                foreground = &color_yellow;
+                cd->foreground = &prefs.Colors[11];
             else
-                foreground = &color_brown;
+                cd->foreground = &prefs.Colors[4];
             break;
 
         case 34:
             if ( BOLD )
-                foreground = &color_lightblue;
+                cd->foreground = &prefs.Colors[12];
             else
-                foreground = &color_blue;
+                cd->foreground = &prefs.Colors[5];
             break;
 
         case 35:
             if ( BOLD )
-                foreground = &color_lightmagenta;
+                cd->foreground = &prefs.Colors[13];
             else
-                foreground = &color_magenta;
+                cd->foreground = &prefs.Colors[6];
             break;
 
         case 36:
             if ( BOLD )
-                foreground = &color_lightcyan;
+                cd->foreground = &prefs.Colors[14];
             else
-                foreground = &color_cyan;
+                cd->foreground = &prefs.Colors[7];
             break;
 
         case 37:
             if ( BOLD )
-                foreground = &color_white;
+                cd->foreground = &prefs.Colors[15];
             else
-                foreground = &color_lightgrey;
+                cd->foreground = &prefs.Colors[8];
             break;
 
         case 40:
-            background = &color_black;
+            cd->background = &prefs.Colors[0];
             break;
 
         case 41:
-            background = &color_red;
+            cd->background = &prefs.Colors[1];
             break;
 
         case 42:
-            background = &color_green;
+            cd->background = &prefs.Colors[2];
             break;
 
         case 43:
-            background = &color_yellow;
+            cd->background = &prefs.Colors[3];
             break;
 
         case 44:
-            background = &color_blue;
+            cd->background = &prefs.Colors[4];
             break;
 
         case 45:
-            background = &color_magenta;
+            cd->background = &prefs.Colors[5];
             break;
 
         case 46:
-            background = &color_cyan;
+            cd->background = &prefs.Colors[6];
             break;
 
         case 47:
-            background = &color_white;
+            cd->background = &prefs.Colors[15];
             break;
 
         default:
@@ -236,21 +213,15 @@ void grab_focus_cb (GtkWidget* widget, gpointer user_data)
 
 void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer data2)
 {
-	/* FIXME */
-	/*if (connections[nb_int] && menu_main_disconnect)
-	{
-		gtk_widget_set_sensitive (menu_main_disconnect, connections[nb_int]->connected);
-	}
-	gtk_widget_set_sensitive (menu_main_close, !(nb_int == 0 && menu_main_close));*/
-	
 	grab_focus_cb(NULL, NULL);
 
 	/* fix the focus-problem */
 	if (text_entry != NULL) gtk_widget_grab_focus(text_entry);
 }
 
-void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
+void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
 {
+	GtkWidget *text_widget = cd->window;
     gchar *start, c;
     gint  len;
     static STATE state = NORM;
@@ -268,18 +239,17 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
     switch (colortype)
     {
     case MESSAGE_SENT:
-        gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_yellow,
-                         NULL, message, strlen (message));
+        gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Colors[11], &prefs.Background, message, strlen (message));
         break;
+		
     case MESSAGE_ERR:
-        gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_green,
-                         NULL, message, strlen (message));
+        gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Colors[2], &prefs.Background, message, strlen (message));
         break;
+		
     case MESSAGE_ANSI:
         if ( !strchr (message, '\033') )
         {
-            gtk_text_insert (GTK_TEXT (text_widget), font_normal,
-                             foreground, background, message, -1);
+            gtk_text_insert (GTK_TEXT (text_widget), font_normal, cd->foreground, cd->background, message, -1);
             gtk_text_insert (GTK_TEXT (text_widget), NULL, NULL, NULL," ", 1 );
             gtk_text_backward_delete (GTK_TEXT (text_widget), 1);
 
@@ -300,8 +270,8 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
                         len++;
                     }
                     gtk_text_insert (GTK_TEXT (text_widget), font_normal,
-                                     foreground,
-                                     background, start, len );
+                                     cd->foreground,
+                                     cd->background, start, len );
                 }
 
                 if ( !(c = *message))
@@ -309,9 +279,7 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
 
                 if ( c != '\033' )
                 {
-                    gtk_text_insert (GTK_TEXT (text_widget), font_normal,
-                                     foreground,
-                                     background, &c, 1);
+                    gtk_text_insert (GTK_TEXT (text_widget), font_normal, cd->foreground, cd->background, &c, 1);
                     ++message;
                     break;
                 }
@@ -391,7 +359,7 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
                     ++message;
                     break;
                 case 'm':
-                    cons_escm();
+                    cons_escm(cd);
                     ++message;
                     break;
                 default:
@@ -406,8 +374,7 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
     case MESSAGE_NORMAL:
     case MESSAGE_NONE:
     default:
-        gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_white,
-                         NULL, message, strlen (message));
+        gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Foreground, &prefs.Background, message, strlen (message));
         break;
     }
 

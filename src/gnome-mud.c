@@ -45,7 +45,6 @@ int main (gint argc, char *argv[])
   
 	load_prefs   (); /* load preferences */
 	load_profiles(); /* load connections and profiles */
-	load_colors  (); /* load colors */
 	init_window  ();
  
 #ifdef USE_PYTHON

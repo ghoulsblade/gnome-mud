@@ -1,3 +1,39 @@
+Fri Feb  1 09:19:36 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* po/POTFILES.in: removed color.c
+	* po/*.po: make update-po
+
+	* src/color.c: removed.
+
+	* src/gnome-mud.c (main): Removed load_colors().
+
+	* src/gnome-mud.h (connection_data): Added foreground/background.
+	(system_data): Added Foreground/Background and Colors[16].
+	
+	* src/init.c (init_window): Use colors from prefs instead of
+	extern variables.
+
+	* src/modules_api (plugin_add_connection_text): Changed behaviour
+	of textfield_add()
+
+	* src/net.c: Changed calls to textfield_add.
+	Use colors from prefs instead of extern variables.
+
+	* src/prefs.c (prefs_load_color): Added.
+	(prefs_save_color): Added.
+	(load_prefs): Loading of colors added.
+	(save_prefs): Saving of colors added.
+	(prefs_copy_color): Added.
+	(copy_preferences): Now takes another argument if allocate colors.
+	(prefs_select_color_cb): Added.
+	(prefs_set_color): Added.
+	(prefs_color_frame): Added.
+	(prefs_window): Added color frame. Removed old frame.
+	
+	* src/python.c: textfield_add fixed.
+
+	* src/window.c: Changed from extern colors to prefs.
+
 Sun Jan 27 03:43:21 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* po/POTFILES.in: removed wizard.c.

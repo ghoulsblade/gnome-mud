@@ -116,7 +116,7 @@ static PyObject *pyConnection_print(pyConnection_ConnectionObject *self, PyObjec
 	if (!PyArg_ParseTuple(args, "s", &data))
 		return NULL;
 
-	textfield_add (self->connection->window, data, MESSAGE_ANSI);
+	textfield_add (self->connection, data, MESSAGE_ANSI);
 
 	Py_INCREF(Py_None);
     

@@ -41,11 +41,76 @@ extern GList 	*EntryHistory;
 SYSTEM_DATA prefs;
 SYSTEM_DATA pre_prefs;
 
+struct color_struct 
+{
+	gchar    *name;
+	gchar    *def;
+};
+
+const struct color_struct c_structs[C_MAX] =
+{
+	{ "color_black",        "0,0,0"             },
+	{ "color_red",          "32896,0,0"         },
+	{ "color_green",        "0,32896,0"         },
+	{ "color_brown",        "32896,32896,0"     },
+	{ "color_blue",         "0,0,32896"         },
+	{ "color_magenta",      "32896,0,32896"     },
+	{ "color_cyan",         "0,32896,32896"     },
+	{ "color_lightgrey",    "32896,32896,32896" },
+	{ "color_grey",         "16448,16448,16448" },
+	{ "color_lightred",     "65535,0,0"         },
+	{ "color_lightgreen",   "0,65535,0"         },
+	{ "color_yellow",       "65535,65535,0"     },
+	{ "color_lightblue",    "0,0,65535"         },
+	{ "color_lightmagenta", "65535,0,65535"     },
+	{ "color_lightcyan",    "0,65535,65535"     },
+	{ "color_white",        "65535,65535,65535" }
+};
+
+static void prefs_load_color(GdkColor *color, gchar *prefs, gchar *name, gchar *def)
+{
+	GdkColormap *cmap = gdk_colormap_get_system();
+
+	gchar *str  = g_strconcat("/gnome-mud/", prefs, "/", name, "=", def, NULL);
+	gchar *conf = gnome_config_get_string(str);
+	gint   red, green, blue;
+
+	if (sscanf(conf, "%d,%d,%d", &red, &green, &blue) == 3)
+	{
+		color->red   = red;
+		color->green = green;
+		color->blue  = blue;
+		
+		if (!gdk_colormap_alloc_color(cmap, color, TRUE, TRUE))
+		{
+			g_warning(_("Couldn't allocate color"));
+		}
+	}
+	else
+	{
+		g_warning(_("Font %s Loading Error"), prefs);
+	}
+
+	g_free(str);
+}
+
+static void prefs_save_color(GdkColor *color, gchar *prefs, gchar *name)
+{
+	gchar key[1024];
+	gchar value[20];
+
+	g_snprintf(key, 1024, "/gnome-mud/%s/%s", prefs, name);
+	g_snprintf(value, 20, "%d,%d,%d", color->red, color->green, color->blue);
+
+	gnome_config_set_string(key, value);
+}
+
 void load_prefs ( void )
 {
 	struct stat file_stat;
 	gchar dirname[256], buf[256];
-
+	gint i;
+	
 	/*
 	 * Check for ~/.gnome-mud
 	 */
@@ -81,6 +146,20 @@ void load_prefs ( void )
 	prefs.History     = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
 
 	/*
+	 * Fore-/Background Colors
+	 */
+	prefs_load_color(&prefs.Foreground, "Preferences", "Foreground", "65535,65535,65535");
+	prefs_load_color(&prefs.Background, "Preferences", "Background", "0,0,0");
+
+	/*
+	 * Other Colors
+	 */
+	for (i = 0; i < C_MAX; i++)
+	{
+		prefs_load_color(&prefs.Colors[i], "Preferences", c_structs[i].name, c_structs[i].def);
+	}
+	
+	/*
 	 * Command history
 	 */
 	{
@@ -104,6 +183,8 @@ void load_prefs ( void )
 
 void save_prefs ( void )
 {
+	gint  i; 
+
 	gnome_config_set_bool  ("/gnome-mud/Preferences/EchoText",    prefs.EchoText);
 	gnome_config_set_bool  ("/gnome-mud/Preferences/KeepText",    prefs.KeepText);
 	gnome_config_set_bool  ("/gnome-mud/Preferences/AutoSave",    prefs.AutoSave);
@@ -112,12 +193,29 @@ void save_prefs ( void )
 	gnome_config_set_string("/gnome-mud/Preferences/FontName",    prefs.FontName);
 	gnome_config_set_string("/gnome-mud/Preferences/MudListFile", prefs.MudListFile);
 	gnome_config_set_int   ("/gnome-mud/Preferences/History",     prefs.History);
+
+	prefs_save_color(&prefs.Foreground, "Preferences", "Foreground");
+	prefs_save_color(&prefs.Background, "Preferences", "Background");
+
+	for (i = 0; i < C_MAX; i++)
+	{
+		prefs_save_color(&prefs.Colors[i], "Preferences", c_structs[i].name);
+	}
 	
 	gnome_config_sync();
 }
 
-static void copy_preferences(SYSTEM_DATA *target, SYSTEM_DATA *prefs)
+static void prefs_copy_color(GdkColor *a, GdkColor *b)
 {
+	a->red   = b->red;
+	a->green = b->green;
+	a->blue  = b->blue;
+}
+
+static void copy_preferences(SYSTEM_DATA *target, SYSTEM_DATA *prefs, gboolean alloc_col)
+{
+	gint i;
+	
 	target->EchoText    = prefs->EchoText;
 	target->KeepText    = prefs->KeepText;
 	target->AutoSave    = prefs->AutoSave;
@@ -126,6 +224,27 @@ static void copy_preferences(SYSTEM_DATA *target, SYSTEM_DATA *prefs)
 	target->CommDev     = g_strdup(prefs->CommDev);     g_free(target->MudListFile);
 	target->MudListFile = g_strdup(prefs->MudListFile);
 	target->History     = prefs->History;
+
+	prefs_copy_color(&target->Foreground, &prefs->Foreground);
+	prefs_copy_color(&target->Background, &prefs->Background);
+
+	for (i = 0; i < C_MAX; i++)
+	{
+		prefs_copy_color(&target->Colors[i], &prefs->Colors[i]);
+	}
+	
+	if (alloc_col)
+	{
+		GdkColormap *cmap = gdk_colormap_get_system();
+
+		gdk_color_alloc(cmap, &target->Foreground);
+		gdk_color_alloc(cmap, &target->Background);
+
+		for (i = 0; i < C_MAX; i++)
+		{
+			gdk_color_alloc(cmap, &target->Colors[i]);
+		}
+	}
 }
 
 static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)
@@ -194,18 +313,32 @@ static void prefs_checkbox_echo_cb(GtkWidget *widget, GnomePropertyBox *box)
 
 static void prefs_select_font_cb(GnomeFontPicker *fontpicker, gchar *font, gpointer data)
 {
-  if (font != NULL) {
-    g_free(pre_prefs.FontName);
-    pre_prefs.FontName = g_strdup(font);
+	if (font != NULL)
+	{
+		g_free(pre_prefs.FontName);
+		pre_prefs.FontName = g_strdup(font);
     
-    gnome_property_box_changed((GnomePropertyBox *) data);
-  }
+		gnome_property_box_changed((GnomePropertyBox *) data);
+	}
+}
+
+static void prefs_select_color_cb(GnomeColorPicker *colorpicker, guint r, guint g, guint b, guint alpha, GdkColor *color)
+{
+	if (colorpicker != NULL)
+	{
+		GnomePropertyBox *box = gtk_object_get_data(GTK_OBJECT(colorpicker), "prefs_window");
+		gnome_property_box_changed(box);
+		
+		color->red = r;
+		color->blue = b;
+		color->green = g;
+	}
 }
 
 static void prefs_apply_cb(GnomePropertyBox *propertybox, gint page, gpointer data)
 {
   if (page == -1) {
-    copy_preferences(&prefs, &pre_prefs);
+    copy_preferences(&prefs, &pre_prefs, TRUE);
     
     font_normal = gdk_font_load(prefs.FontName);
 
@@ -213,27 +346,137 @@ static void prefs_apply_cb(GnomePropertyBox *propertybox, gint page, gpointer da
   }
 }
 
+static void prefs_set_color(GtkWidget *color_picker, gint color)
+{
+    GdkColor *this_color = &prefs.Colors[color];
+
+	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(color_picker), this_color->red, this_color->green, this_color->blue, 0);
+}
+
+GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
+{
+	GtkWidget *table_colorfont;
+	GtkWidget *label_palette;
+	GtkWidget *label_background;
+	GtkWidget *label_foreground;
+	GtkWidget *picker_foreground;
+	GtkWidget *picker_background;
+	GtkWidget *picker_font;
+	GtkWidget *table2;
+	GtkWidget *label_font;
+	gint i, j, k;
+
+	table_colorfont = gtk_table_new (4, 2, FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (table_colorfont), 8);
+	gtk_table_set_row_spacings (GTK_TABLE (table_colorfont), 4);
+
+	label_font = gtk_label_new (_("Font:"));
+	gtk_widget_show (label_font);
+	gtk_table_attach (GTK_TABLE (table_colorfont), label_font, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (label_font), 1, 0.5);
+	gtk_misc_set_padding (GTK_MISC (label_font), 8, 0);
+
+	picker_font = gnome_font_picker_new ();
+	gtk_widget_show (picker_font);
+	gtk_table_attach (GTK_TABLE (table_colorfont), picker_font, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gnome_font_picker_set_preview_text (GNOME_FONT_PICKER (picker_font), _("The quick brown fox jumps over the lazy dog"));
+	gnome_font_picker_set_mode (GNOME_FONT_PICKER (picker_font), GNOME_FONT_PICKER_MODE_FONT_INFO);
+	gnome_font_picker_fi_set_use_font_in_label (GNOME_FONT_PICKER (picker_font), TRUE, 14);
+	if (!g_strcasecmp(prefs.FontName, "fixed"))
+	{
+		gnome_font_picker_set_font_name(GNOME_FONT_PICKER(picker_font), "-misc-fixed-medium-r-semicondensed-*-*-120-*-*-c-*-iso8859-1");
+	}
+	else
+	{
+		gnome_font_picker_set_font_name(GNOME_FONT_PICKER(picker_font), prefs.FontName);
+	}
+	
+	label_palette = gtk_label_new (_("Color palette:"));
+	gtk_widget_show (label_palette);
+	gtk_table_attach (GTK_TABLE (table_colorfont), label_palette, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (label_palette), 1, 0.5);
+	gtk_misc_set_padding (GTK_MISC (label_palette), 8, 0);
+
+	label_background = gtk_label_new (_("Background color:"));
+	gtk_widget_show (label_background);
+	gtk_table_attach (GTK_TABLE (table_colorfont), label_background, 0, 1, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (label_background), 1, 0.5);
+	gtk_misc_set_padding (GTK_MISC (label_background), 8, 0);
+
+	label_foreground = gtk_label_new (_("Foreground color:"));
+	gtk_widget_show (label_foreground);
+	gtk_table_attach (GTK_TABLE (table_colorfont), label_foreground, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (label_foreground), 1, 0.5);
+	gtk_misc_set_padding (GTK_MISC (label_foreground), 8, 0);
+
+	picker_foreground = gnome_color_picker_new ();
+	gtk_widget_show (picker_foreground);
+	gtk_table_attach (GTK_TABLE (table_colorfont), picker_foreground, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(picker_foreground), prefs.Foreground.red, prefs.Foreground.green, prefs.Foreground.blue, 0);
+  
+	picker_background = gnome_color_picker_new ();
+	gtk_widget_show (picker_background);
+	gtk_table_attach (GTK_TABLE (table_colorfont), picker_background, 1, 2, 2, 3, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(picker_background), prefs.Background.red, prefs.Background.green, prefs.Background.blue, 0);
+  
+	table2 = gtk_table_new (2, 8, FALSE);
+	gtk_widget_show (table2);
+	gtk_table_attach (GTK_TABLE (table_colorfont), table2, 1, 2, 3, 4, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
+
+	for (i = 0, j = 0, k = 0; i < C_MAX; i++)
+	{
+		GtkWidget *picker = gnome_color_picker_new();
+		
+		prefs_set_color(picker, i);
+		gtk_table_attach(GTK_TABLE(table2), picker, j, j + 1, k, k + 1, GTK_FILL, 0, 0, 0);
+		gtk_widget_show(picker);
+
+		if (j++ == 7)
+		{
+			j = 0;
+			k = 1;
+		}
+
+		gtk_object_set_data(GTK_OBJECT(picker), "prefs_window", prefs_window);
+		gtk_signal_connect(GTK_OBJECT(picker),  "color-set",    prefs_select_color_cb, (gpointer) &pre_prefs.Colors[i]);
+	}
+	
+	/*
+	 * Signals
+	 */
+	gtk_signal_connect(GTK_OBJECT(picker_font),       "font-set",   prefs_select_font_cb, (gpointer) prefs_window);
+
+	gtk_object_set_data(GTK_OBJECT(picker_foreground), "prefs_window", prefs_window);
+	gtk_object_set_data(GTK_OBJECT(picker_background), "prefs_window", prefs_window);
+	
+	gtk_signal_connect(GTK_OBJECT(picker_foreground), "color-set",  prefs_select_color_cb, (gpointer) &pre_prefs.Foreground);
+	gtk_signal_connect(GTK_OBJECT(picker_background), "color-set",  prefs_select_color_cb, (gpointer) &pre_prefs.Background);
+	
+	return table_colorfont;
+}
+
+
 void window_prefs (GtkWidget *widget, gpointer data)
 {
   static GtkWidget *prefs_window;
   
-  GtkWidget *vbox1, *vbox2;
+  GtkWidget *vbox2;
   GtkWidget *hbox1;
   GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton_freeze;
   GtkWidget *label1, *label2;
-  GtkWidget *fontpicker;
   GtkWidget *entry_divider, *entry_history, *entry_mudlistfile;
   gchar      history[10];
 
   GtkTooltips *tooltip;
 
-  if (prefs_window != NULL) {
+  if (prefs_window != NULL)
+  {
     gdk_window_raise(prefs_window->window);
     gdk_window_show(prefs_window->window);
     return;
   }
 
-  copy_preferences(&pre_prefs, &prefs);
+  copy_preferences(&pre_prefs, &prefs, FALSE);
   
   prefs_window = gnome_property_box_new();
   gtk_window_set_policy(GTK_WINDOW(prefs_window), FALSE, FALSE, FALSE);
@@ -242,64 +485,6 @@ void window_prefs (GtkWidget *widget, gpointer data)
   
   tooltip = gtk_tooltips_new();
 
-  /*
-  ** BEGIN PAGE ONE
-  */
-  vbox1 = gtk_vbox_new (TRUE, 0);
-  gtk_widget_show (vbox1);
-  
-  checkbutton_echo = gtk_check_button_new_with_label (_("Echo the text sent?"));
-  gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_echo), prefs.EchoText);
-  gtk_widget_show (checkbutton_echo);
-  gtk_box_pack_start (GTK_BOX (vbox1), checkbutton_echo, FALSE, FALSE, 0);
-  gtk_tooltips_set_tip (tooltip, checkbutton_echo,
-			_("With this toggled on, all the text you type and "
-			  "enter will be echoed on the connection so you can "
-			  "control what you are sending."),
-			NULL);
-  gtk_signal_connect(GTK_OBJECT(checkbutton_echo), "toggled",
-		     prefs_checkbox_echo_cb, (gpointer) prefs_window);
-
-  checkbutton_keep = gtk_check_button_new_with_label (_("Keep the text entered?"));
-  gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_keep), prefs.KeepText);
-  gtk_widget_show (checkbutton_keep);
-  gtk_box_pack_start (GTK_BOX (vbox1), checkbutton_keep, FALSE, FALSE, 0);
-  gtk_tooltips_set_tip (tooltip, checkbutton_keep,
-			_("With this toggled on, the text you have entered "
-			  "and sent to the connection, will be left in the "
-			  "entry box but selected. Turn this off to remove "
-			  "the text after it has been sent."),
-			NULL);
-  gtk_signal_connect(GTK_OBJECT(checkbutton_keep), "toggled",
-		     prefs_checkbox_keep_cb, (gpointer) prefs_window);
-  
-  fontpicker = gnome_font_picker_new();
-  gtk_widget_show (fontpicker);
-
-  if (!g_strcasecmp(prefs.FontName, "fixed"))
-    gnome_font_picker_set_font_name(GNOME_FONT_PICKER(fontpicker), "-misc-fixed-medium-r-semicondensed-*-*-120-*-*-c-*-iso8859-1");
-  else
-    gnome_font_picker_set_font_name(GNOME_FONT_PICKER(fontpicker), prefs.FontName);
-
-  gnome_font_picker_set_mode(GNOME_FONT_PICKER(fontpicker), GNOME_FONT_PICKER_MODE_FONT_INFO);
-  gnome_font_picker_fi_set_show_size(GNOME_FONT_PICKER (fontpicker), FALSE);
-  gnome_font_picker_fi_set_use_font_in_label(GNOME_FONT_PICKER (fontpicker), TRUE, 12);  
-  gtk_box_pack_start (GTK_BOX (vbox1), fontpicker, FALSE, FALSE, 0);  
-  gtk_tooltips_set_tip (tooltip, fontpicker,
-			_("Use this button to open the font selector to "
-			  "choose what font you will use."),
-			NULL);
-  gtk_signal_connect (GTK_OBJECT(fontpicker), "font-set", prefs_select_font_cb, (gpointer) prefs_window);
-
-  label1 = gtk_label_new (_("Appearance"));
-  gtk_widget_show (label1); 
-  
-  gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window),
-				 vbox1, label1);
-  /*
-  ** END PAGE ONE
-  */
-
 
   /*
   ** BEGIN PAGE TWO
@@ -307,6 +492,29 @@ void window_prefs (GtkWidget *widget, gpointer data)
   vbox2 = gtk_vbox_new (TRUE, 0);
   gtk_widget_show (vbox2);
 
+  checkbutton_echo = gtk_check_button_new_with_label (_("Echo the text sent?"));
+  gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_echo), prefs.EchoText);
+  gtk_widget_show (checkbutton_echo);
+  gtk_box_pack_start (GTK_BOX (vbox2), checkbutton_echo, FALSE, FALSE, 0);
+  gtk_tooltips_set_tip (tooltip, checkbutton_echo,
+			_("With this toggled on, all the text you type and "
+			  "enter will be echoed on the connection so you can "
+			  "control what you are sending."),
+			NULL);
+  gtk_signal_connect(GTK_OBJECT(checkbutton_echo), "toggled", prefs_checkbox_echo_cb, (gpointer) prefs_window);
+
+  checkbutton_keep = gtk_check_button_new_with_label (_("Keep the text entered?"));
+  gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_keep), prefs.KeepText);
+  gtk_widget_show (checkbutton_keep);
+  gtk_box_pack_start (GTK_BOX (vbox2), checkbutton_keep, FALSE, FALSE, 0);
+  gtk_tooltips_set_tip (tooltip, checkbutton_keep,
+			_("With this toggled on, the text you have entered "
+			  "and sent to the connection, will be left in the "
+			  "entry box but selected. Turn this off to remove "
+			  "the text after it has been sent."),
+			NULL);
+  gtk_signal_connect(GTK_OBJECT(checkbutton_keep), "toggled", prefs_checkbox_keep_cb, (gpointer) prefs_window);
+ 
   checkbutton_freeze = gtk_check_button_new_with_label (_("Freeze/Thaw?"));
   gtk_tooltips_set_tip (tooltip, checkbutton_freeze,
 			_("Using this, text will draw faster but it will not "
@@ -372,5 +580,13 @@ void window_prefs (GtkWidget *widget, gpointer data)
   ** END PAGE TWO
   */
 
+  vbox2 = prefs_color_frame(prefs_window);
+  gtk_widget_show(vbox2);
+  
+  label2 = gtk_label_new (_("Color and Fonts"));
+  gtk_widget_show(label2);
+
+  gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window), vbox2, label2);
+  
   gtk_widget_show(prefs_window);
 }

@@ -40,11 +40,6 @@ static void do_disconnect  (GtkWidget *, gpointer);
 extern gchar        *host;
 extern gchar        *port;
 extern SYSTEM_DATA   prefs;
-extern GdkColor     *foreground;
-extern GdkColor     *background;
-extern GdkColor     color_lightgrey;
-extern GdkColor     color_white;
-extern GdkColor     color_black;
 
 /* Global Variables */
 CONNECTION_DATA *main_connection;
@@ -54,10 +49,6 @@ GtkWidget       *text_entry;
 #ifdef USE_PYGTK
 GtkWidget *box_user;
 #endif
-
-/* FIXME */
-GtkWidget       *menu_option_colors;
-/* END FIXME */
 
 GtkWidget       *window;
 GdkFont         *font_normal;
@@ -559,8 +550,6 @@ static GnomeUIInfo plugin_menu[] = {
 };
 
 static GnomeUIInfo settings_menu[] = {
-  GNOMEUIINFO_ITEM_STOCK(N_("Colors..."), NULL, window_color, GNOME_STOCK_MENU_BLANK),
-  GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Auto Mapper..."), NULL, window_automap, GNOME_STOCK_MENU_BLANK),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_SUBTREE(N_("Plugins"), plugin_menu),
@@ -630,6 +619,8 @@ void init_window ()
   main_connection->notebook = 0;
   main_connection->profile = profiledata_find("Default");
   main_connection->window = gtk_text_new (NULL, NULL);
+  main_connection->foreground = &prefs.Foreground;
+  main_connection->background = &prefs.Background;
   GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_connection->window), GTK_CAN_FOCUS);
   gtk_widget_set_usize (main_connection->window, 500, 300);
   gtk_signal_connect (GTK_OBJECT (main_connection->window), "focus-in-event", GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
@@ -639,9 +630,6 @@ void init_window ()
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(main_connection->vscrollbar), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->vscrollbar, TRUE, TRUE, 0);
   gtk_container_add(GTK_CONTAINER(main_connection->vscrollbar), main_connection->window);
-  
-  foreground = &color_white;
-  background = &color_black;
   
   combo = gtk_combo_new();
   text_entry = GTK_COMBO(combo)->entry;
@@ -660,17 +648,14 @@ void init_window ()
   gtk_widget_show_all (window);
   
   gtk_widget_realize (main_connection->window);
-  gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &color_black);
+  gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &prefs.Background);
  
   g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\n"), VERSION, __TIME__, __DATE__);
-  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
-		   &color_lightgrey, NULL, buf, -1);
-  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
-		   &color_lightgrey, NULL, 
+  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, buf, -1);
+  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, 
 		   _("Distributed under the terms of the GNU General Public License.\n"), -1);
 #ifdef USE_PYTHON
   g_snprintf(buf, 1023, _("\nPython version %s\n\n"), Py_GetVersion());
-  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
-		   &color_lightgrey, NULL, buf, -1);
+  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, buf, -1);
 #endif
 }

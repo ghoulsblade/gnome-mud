@@ -4,7 +4,6 @@
 # Package source files
 src/gnome-mud.c
 src/data.c
-src/color.c
 src/init.c
 src/keybind.c
 src/map.c
