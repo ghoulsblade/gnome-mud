@@ -53,11 +53,11 @@ AMCL 0.6.0	(05/03/1999)
 - Color chooser! Choose what colors you want to use with what colorcode.
 - AMCL also comes with triggers, please test all these things out.
 
-AMCL 0.5.2
+AMCL 0.5.2	(20/10/1998)
 
 - Only bugfixes.
 
-AMCL 0.5.1
+AMCL 0.5.1	(19/10/1998)
 
 - GNOME! If you want it, AMCL supports it. Nothing really special about it
   so far, just the menu bar and about window. More will come, like ability
@@ -69,21 +69,21 @@ AMCL 0.5.1
   all will autosave when you press close. Good if you forget to press save
   normally.
 
-AMCL 0.5.0.
+AMCL 0.5.0.	(18/10/1998)
 
 - Mostly bugfixes.
 - AMCL now creates ~/.amcl if that doesn't exist so you don't have to do
   that by hand.
 
-AMCL 0.4.2
+AMCL 0.4.2	(17/09/1998)
 
 - Only bugfixes.
 
-AMCL 0.4.1
+AMCL 0.4.1	(16/09/1998)
 
 - Minor bugfixes.
 
-AMCL 0.4.0
+AMCL 0.4.0	(14/09/1998)
 
 - The code that reads from the connection and print it on the screen have
   been redone and is a lot faster then before, hopefully every ANSI codes
@@ -100,3 +100,11 @@ AMCL 0.4.0
   on the mud after connection have been made.
 - For AutoLogin to work, you must have entered both playername and password,
   you also must have commit this by pressing modify.
+
+AMCL 0.3.0	(16/08/1998)
+
+- Unknown changes.
+
+AMCL 0.2.0	(28/07/1998)
+
+- Unknown changes.
