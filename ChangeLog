@@ -1,3 +1,15 @@
+Thu Aug 30 09:55:43 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/gnome-mud.h: Added window_profile_edit()
+
+	* src/init.c: Added "Profiles" to toolbarmenu.
+
+	* src/profiles.c (load_profiles): Fixed crash that appeared   
+	when running AMCL first time without config.
+	(window_profile_edit): Added better editor for profiles.
+
+	* po/*.po: make update-po, with profiles.c included.
+												
 Mon Aug 27 18:43:58 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* po/es.po: minor typo fix.
