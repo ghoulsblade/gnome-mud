@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME-MUD 0.8.0\n"
 "POT-Creation-Date: 2002-02-21 14:34+0100\n"
-"PO-Revision-Date: 2002-02-01 10:22+0100\n"
+"PO-Revision-Date: 2002-02-22 08:27+0100\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -103,7 +103,7 @@ msgstr "Port:"
 
 #: src/init.c:278
 msgid "*** Internal error: no such connection.\n"
-msgstr ""
+msgstr "*** Internt fel: ingen anslutning.\n"
 
 #: src/init.c:298
 msgid "Robin Ericsson, main developer"
@@ -170,7 +170,7 @@ msgstr "GNOME-Mud"
 
 #: src/init.c:325
 msgid "(C) 1998-2002 Robin Ericsson"
-msgstr ""
+msgstr "(C) 1998-2002 Robin Ericsson"
 
 #: src/init.c:327
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
@@ -193,9 +193,8 @@ msgid "Disconnect"
 msgstr "Koppla från"
 
 #: src/init.c:583 src/init.c:595
-#, fuzzy
 msgid "Reconnect"
-msgstr "Anslut"
+msgstr "Återanslut"
 
 #: src/init.c:585
 msgid "Exit"
@@ -207,18 +206,17 @@ msgstr "Anslutnings Lista..."
 
 #: src/init.c:591
 msgid "MudList Listing..."
-msgstr ""
+msgstr "MudList lista..."
 
 #: src/init.c:597
 msgid "Start Logging..."
-msgstr ""
+msgstr "Starta Loggning..."
 
 #: src/init.c:598
 msgid "Stop Logging"
-msgstr ""
+msgstr "Stoppa Loggning..."
 
 #: src/init.c:599
-#, fuzzy
 msgid "Save Buffer..."
 msgstr "Spara log..."
 
@@ -301,35 +299,34 @@ msgstr "Fånga"
 #: src/log.c:55
 #, c-format
 msgid "*** Already logging to %s. Close that log first.\n"
-msgstr ""
+msgstr "*** Loggar redan till %s. Stäng logfilen först.\n"
 
 #: src/log.c:61
 msgid "Open log"
-msgstr ""
+msgstr "Öppna log"
 
 #: src/log.c:74
 msgid "*** No log is open in this window to be closed.\n"
-msgstr ""
+msgstr "*** Ingen logfil i detta fönstret är öppen.\n"
 
 #: src/log.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "*** Couldn't open %s.\n"
-msgstr "*** Anslutning avslutad.\n"
+msgstr "*** Kunda inte öppna %s.\n"
 
 #: src/log.c:115
 #, c-format
 msgid "*** Logging to %s.\n"
-msgstr ""
+msgstr "*** Loggar till %s.\n"
 
 #: src/log.c:176
 #, c-format
 msgid "*** Stopped logging to %s.\n"
-msgstr ""
+msgstr "*** Stoppade loggning till %s.\n"
 
 #: src/log.c:205
-#, fuzzy
 msgid "*** Could not open file for writing.\n"
-msgstr "Filen är skrivskyddad..."
+msgstr "*** Kan inte öppna för att skriva till filen.\n"
 
 #: src/log.c:220
 msgid "Please select a log file..."
@@ -397,9 +394,8 @@ msgid "GNOME-Mud AutoMapper"
 msgstr "GNOME-Mud KartGenererare"
 
 #: src/modules.c:195
-#, fuzzy
 msgid "Plugin Information"
-msgstr "Plugin Information..."
+msgstr "Plugin Information"
 
 #: src/modules.c:211
 msgid "Plugin Name:"
@@ -476,7 +472,7 @@ msgstr "Anslut till mud"
 
 #: src/mudlist.c:434
 msgid "Import and close"
-msgstr ""
+msgstr "Importera och stäng"
 
 #: src/mudlist.c:441
 msgid "Go to webpage of the mud"
@@ -491,19 +487,17 @@ msgid "*** Connection closed.\n"
 msgstr "*** Anslutning avslutad.\n"
 
 #: src/net.c:203
-#, fuzzy
 msgid "*** Can't connect - you didn't specify a host.\n"
 msgstr "*** Kan inte ansluta - du angav ingen adress\n"
 
 #: src/net.c:211
-#, fuzzy
 msgid "*** No port specified - assuming port 23.\n"
 msgstr "*** Ingen port - antar port 23\n"
 
 #: src/net.c:227
-#, fuzzy, c-format
+#, c-format
 msgid "*** Making connection to %s, port %s.\n"
-msgstr "*** Försöker ansluta till %s, port %s\n"
+msgstr "*** Försöker ansluta till %s, port %s.\n"
 
 #: src/net.c:256
 msgid "*** Connection established.\n"
@@ -550,14 +544,12 @@ msgstr "Förgrunds färg"
 
 #. Bold foreground label and picker
 #: src/prefs.c:466
-#, fuzzy
 msgid "Bold foreground color:"
-msgstr "Förgrunds färg"
+msgstr "Fet förgrunds färg:"
 
 #: src/prefs.c:540
-#, fuzzy
 msgid "GNOME-Mud Preferences"
-msgstr "GNOME-Mud Profiler"
+msgstr "GNOME-Mud Inställningar"
 
 #: src/prefs.c:554
 msgid "Echo the text sent?"
@@ -605,13 +597,15 @@ msgstr ""
 
 #: src/prefs.c:591
 msgid "Disable Systemkeys?"
-msgstr ""
+msgstr "Stäng av systemalias?"
 
 #: src/prefs.c:593
 msgid ""
 "GNOME-Mud ships with a few built-in keybinds. These keybinds can be "
 "overridden by own keybinds, or they can be disabled by toggling this checkbox"
 msgstr ""
+"GNOME-Mud kommer med några inbyggda alias. Dessa alias kan överanvändas "
+"eller de kan bli avstängda genom denna checkbox"
 
 #: src/prefs.c:607
 msgid "Command divide char:"
@@ -623,13 +617,15 @@ msgstr "Kommando historik:"
 
 #: src/prefs.c:640
 msgid "Terminal type:"
-msgstr ""
+msgstr "Terminaltyp:"
 
 #: src/prefs.c:650
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
 msgstr ""
+"GNOME-Mud kommer att försöka sända terminaltyp (som ANSI el. VT100) om "
+"mudden så önskar. Detta option sätter terminaltypen som skickas."
 
 #: src/prefs.c:660
 msgid "MudList file:"
@@ -731,17 +727,3 @@ msgstr "GNOME-Mud Popup Meddelande"
 msgid "Ok"
 msgstr "Ok"
 
-#~ msgid "David Zanetti, bugfixes"
-#~ msgstr "David Zanetti, bugfixar"
-
-#~ msgid "Will Schenk, bugfixes"
-#~ msgstr "Will Schenk, bugfixar"
-
-#~ msgid "desaster, bugfixes"
-#~ msgstr "desaster, bugfixar"
-
-#~ msgid "Robert Brady, color selection"
-#~ msgstr "Robert Braby, färg väljaren"
-
-#~ msgid "Staffan Thomèn and the creators of gEdit - module API"
-#~ msgstr "Staffan Thomèn and gEdit folket för plugin API't"
