@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Mud\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-07 00:45+0100\n"
-"PO-Revision-Date: 2005-03-07 00:45+0100\n"
+"POT-Creation-Date: 2005-03-08 08:25+0100\n"
+"PO-Revision-Date: 2005-03-08 08:24+0100\n"
 "Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -75,9 +75,9 @@ msgstr ""
 "Die Vorgabefarbe für den Text als Farbangabe (im HTML-Stil, mit Hex-Ziffern "
 "oder als Farbname, wie z.B, »red« (Rot)."
 
-#: ../gnome-mud.schemas.in.h:10
-msgid "Directionbindings"
-msgstr "Richtungsbindungen"
+#: ../gnome-mud.schemas.in.h:10 ../ui/directions.glade.h:2
+msgid "Directional keybindings"
+msgstr "Tastenkombinationen der Richtungen"
 
 #: ../gnome-mud.schemas.in.h:11
 msgid ""
@@ -757,7 +757,7 @@ msgstr "NW"
 msgid "Up"
 msgstr "Rauf"
 
-#: ../src/map.c:1754 ../src/map.c:3588 ../ui/directions.glade.h:2
+#: ../src/map.c:1754 ../src/map.c:3588 ../ui/directions.glade.h:3
 msgid "Down"
 msgstr "Runter"
 
@@ -1272,13 +1272,9 @@ msgstr "GNOME Mud"
 msgid "*"
 msgstr "*"
 
-#: ../ui/directions.glade.h:3
+#: ../ui/directions.glade.h:4
 msgid "East"
 msgstr "Ost"
-
-#: ../ui/directions.glade.h:4
-msgid "Gnome-mud"
-msgstr "GNOME Mud"
 
 #: ../ui/directions.glade.h:5
 msgid "Look"
@@ -1311,3 +1307,6 @@ msgstr "Südwest"
 #: ../ui/directions.glade.h:13
 msgid "West"
 msgstr "West"
+
+#~ msgid "Gnome-mud"
+#~ msgstr "GNOME Mud"
