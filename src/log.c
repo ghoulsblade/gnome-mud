@@ -52,13 +52,13 @@ void window_menu_file_start_logging_cb (GtkWidget *widget, gpointer data)
   g_return_if_fail (cd) ;
 
   if (cd->logging) {
-    g_snprintf(buf, 255, "*** Already logging to %s. Close that log first.\n",
+    g_snprintf(buf, 255, _("*** Already logging to %s. Close that log first.\n"),
       cd->log_filename) ;
     textfield_add(cd, buf, MESSAGE_ERR) ;
     return ;
   }
 
-  do_log_filename_window("Open log") ;
+  do_log_filename_window(_("Open log")) ;
 } /* window_menu_file_start_logging_cb */
 
 void window_menu_file_stop_logging_cb (GtkWidget *widget, gpointer data)
@@ -71,7 +71,7 @@ void window_menu_file_stop_logging_cb (GtkWidget *widget, gpointer data)
   g_return_if_fail (cd) ;
 
   if (!cd->logging) {
-    textfield_add(cd, "*** No log is open in this window to be closed.\n",
+    textfield_add(cd, _("*** No log is open in this window to be closed.\n"),
       MESSAGE_ERR) ;
     return ;
   }
@@ -100,7 +100,7 @@ void file_selection_cb_open
 
   cd->log = fopen(cd->log_filename, "a") ;
   if (!cd->log) {
-    g_snprintf(buf, 255, "*** Couldn't open %s.\n", cd->log_filename) ;
+    g_snprintf(buf, 255, _("*** Couldn't open %s.\n"), cd->log_filename) ;
     textfield_add(cd, buf, MESSAGE_ERR) ;
 
     stop_logging_connection(cd) ;
@@ -112,7 +112,7 @@ void file_selection_cb_open
       localtime(&t)) ;
     fputs(buf, cd->log) ;
 
-    g_snprintf(buf, 255, "*** Logging to %s.\n", cd->log_filename) ;
+    g_snprintf(buf, 255, _("*** Logging to %s.\n"), cd->log_filename) ;
     textfield_add(cd, buf, MESSAGE_SYSTEM) ;
   }
 
@@ -173,7 +173,7 @@ void stop_logging_connection(CONNECTION_DATA *cn) {
     fputs(buf, cn->log) ;
 
     fclose(cn->log) ;
-    g_snprintf(buf, 255, "*** Stopped logging to %s.\n", cn->log_filename) ;
+    g_snprintf(buf, 255, _("*** Stopped logging to %s.\n"), cn->log_filename) ;
     textfield_add(cn, buf, MESSAGE_SYSTEM) ;
     cn->log = NULL ;
   }
@@ -202,7 +202,7 @@ static void window_menu_file_save_log_file_ok_cb
 
         if ((fp = fopen(filename, "w")) == NULL)
         {
-		textfield_add(cd, "*** Could not open file for writing.\n",
+		textfield_add(cd, _("*** Could not open file for writing.\n"),
 			MESSAGE_ERR) ;
                 return;
         }

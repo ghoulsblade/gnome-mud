@@ -19,7 +19,6 @@
 #include "config.h"
 #include <gdk/gdkkeysyms.h>
 #include <gnome.h>
-#include <libintl.h>
 #include <stdio.h>
 
 #ifdef USE_PYTHON
@@ -276,7 +275,7 @@ static void window_menu_file_reconnect (GtkWidget *widget, gpointer data)
 
 	if (!cd)
 	{
-		textfield_add(main_connection, "*** Internal error: no such connection.\n", MESSAGE_ERR);
+		textfield_add(main_connection, _("*** Internal error: no such connection.\n"), MESSAGE_ERR);
 		return;
 	}
 
@@ -323,7 +322,8 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
   }
   
   about = gnome_about_new (_("GNOME-Mud"), VERSION,
-			   "(C) 1998-2002 Robin Ericsson",
+			   /* latin1 translators can use the copyright symbol here, see man latin1(7) */
+			   _("(C) 1998-2002 Robin Ericsson"),
 			   (const char **)authors,
 			   _("A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."),
 /*			   _("Send bug reports to: amcl-devel@lists.sourceforge.net"), */

@@ -29,7 +29,6 @@
 
 #include <errno.h>
 #include <gnome.h>
-#include <libintl.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>

@@ -19,7 +19,6 @@
 #ifdef __MODULE__
 #include "config.h"
 #include <gnome.h>
-#include <libintl.h>
 #include <stdio.h>
 
 #include "gnome-mud.h"

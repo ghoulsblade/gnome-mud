@@ -26,7 +26,6 @@
 #include <netinet/in.h>
 
 #include <errno.h>
-#include <libintl.h>
 #include <netdb.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -225,7 +224,7 @@ void open_connection (CONNECTION_DATA *connection)
         port = g_strdup("23");
     }
 
-    g_snprintf (buf, 2047, _("*** Making connection to %s, port %s\n"),
+    g_snprintf (buf, 2047, _("*** Making connection to %s, port %s.\n"),
 	connection->host, connection->port);
     textfield_add (connection, buf, MESSAGE_SYSTEM);
 

@@ -6,6 +6,7 @@ src/gnome-mud.c
 src/data.c
 src/init.c
 src/keybind.c
+src/log.c
 src/map.c
 src/modules.c
 src/modules_api.c

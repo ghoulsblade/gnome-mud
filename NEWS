@@ -8,15 +8,18 @@ GNOME-Mud 0.9.0 (UNRELEASED)
 - Python scripting support (requires Python >= 2.0).
 - MudConnect lists support. You can download MudConnect.com's mud list
   from http://www.mudconnect.com/zmud/mudlist.txt.
+- Updated to gettext 0.10.40.
 - Mouse wheel and Page Up/Down support in the main window.
 - Font/Color support rewritten.
 - Fixed compilation on non-glibc systems.
 - Fixed the printing of ASCII junk at the end of telnet packets
   when connected to certain MUDs.
+- Terminal setting support.
+- Lots of bugfixes.
 - Fixed the MCCP segfault, hopefully.
-- Translation updates.
-- Nested alias now works, with a maximum depth of 5
-- Reconnect option on menu
+- Nested alias now works, with a maximum depth of 5.
+- Reconnect option on menu.
+- Translation updates (ca, es).
 
 GNOME-Mud 0.8.0 (08/11/2001)
 

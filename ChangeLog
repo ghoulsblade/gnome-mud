@@ -1,3 +1,22 @@
+Thu Feb 21 14:55:39 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* NEWS: updated.
+
+	* src/data.c: removed duplicate libintl.h includes.
+	* src/init.c: likewise.
+	* src/modules.c: likewise.
+	* src/modules_api.c: likewise.
+	* src/net.c: likewise.
+	* src/prefs.c: likewise.
+
+	* src/init.c: added a few missing gettext calls.
+	* src/log.c: added gettext calls to translatable strings.
+
+	* po/POTFILES.in: added src/log.c.
+
+	* po/ca.po, po/es.po: Updated translations.
+	* po/de.po, po/fr.po, po/sv.po: update-po.
+
 Mon Feb 18 12:16:41 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Added 2 new patches from Vashti, one adds a reconnect feature.

@@ -21,7 +21,6 @@
 
 #include <gnome.h>
 #include <sys/types.h>
-#include <libintl.h>
 #include <regex.h>
 #include <stdio.h>
 #include <string.h>
