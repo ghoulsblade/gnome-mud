@@ -218,7 +218,7 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
     textfield_add (connection, _("*** Connection closed.\n"), MESSAGE_SYSTEM);
     connection->connected = FALSE;
 
-    image = gtk_image_new_from_file(PIXMAPSDIR "/connection-offline.png");
+    image = gtk_image_new_from_file(GMPIXMAPSDIR "/connection-offline.png");
     label = gtk_label_new(connection->host);
 
     box_label = gtk_hbox_new (FALSE, 0);
