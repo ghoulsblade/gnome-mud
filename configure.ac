@@ -20,7 +20,7 @@ AC_DEFINE(GETTEXT_PACKAGE, "gnome-mud", [Gettext domain name])
 GETTEXT_PACKAGE=gnome-mud
 AC_SUBST(GETTEXT_PACKAGE)
 AC_PROG_INTLTOOL([0.23])
-ALL_LINGUAS="az ca cs de en_CA en_GB es fr hr mk ml nl pl pt pt_BR sr sr@Latn sv tr"
+ALL_LINGUAS="az ca cs de en_CA en_GB es fr hr mk ml nl pa pl pt pt_BR sr sr@Latn sv tr"
 AM_GLIB_GNU_GETTEXT
 
 dnl gconf tests
