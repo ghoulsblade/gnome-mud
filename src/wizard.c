@@ -54,11 +54,13 @@ static GList *wizard_connection_list2;
 
 void free_connection_data (CONNECTION_DATA *c)
 {
-  mudcompress_delete(c->mccp);
-  gtk_timeout_remove(c->mccp_timer);
-  g_free (c->host);
-  g_free (c->port);
-  g_free (c);
+#ifdef ENABLE_MCCP
+	mudcompress_delete(c->mccp);
+	gtk_timeout_remove(c->mccp_timer);
+#endif
+	g_free (c->host);
+	g_free (c->port);
+	g_free (c);
 }
 
 void free_wizard_data ( WIZARD_DATA *w )

@@ -1,3 +1,11 @@
+Fri Oct 19 10:59:35 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/init.c [do_close]: Fixed small bug which occured if you
+	closed a notebook-tag somewhere before the last tab.
+
+	* src/wizard.c [free_connection_data]: Added #ifdef ENABLE_MCCP
+	so that we are not removing non-existing timers.
+
 Fri Oct 19 09:26:15 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* gnome-mud.desktop: Added translation into swedish.

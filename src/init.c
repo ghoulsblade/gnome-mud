@@ -43,8 +43,9 @@ extern GdkColor     color_white;
 extern GdkColor     color_black;
 
 /* Global Variables */
+#define MAX_CONNECTIONS 16
 CONNECTION_DATA *main_connection;
-CONNECTION_DATA *connections[15];
+CONNECTION_DATA *connections[MAX_CONNECTIONS];
 GtkWidget       *main_notebook;
 GtkWidget       *text_entry;
 
@@ -395,20 +396,30 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 
 static void do_close (GtkWidget *widget, gpointer data)
 {
-  CONNECTION_DATA *cd;
-  gint number;
+	CONNECTION_DATA *cd;
+	gint number, i;
 
-  number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
+	number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
 
-  cd = connections[number];
+	cd = connections[number];
 
-  if (cd != main_connection) {
-    if (cd->connected)
-      disconnect (NULL, cd);
+	if (cd != main_connection)
+	{
+		if (cd->connected)
+		{
+			disconnect (NULL, cd);
+		}
     
-    gtk_notebook_remove_page (GTK_NOTEBOOK (main_notebook), number);
-    free_connection_data (cd);
-  }
+		gtk_notebook_remove_page (GTK_NOTEBOOK (main_notebook), number);
+
+		free_connection_data (cd);
+
+		for (i = number; i < (MAX_CONNECTIONS - 1);)
+		{
+			int old = i++;
+			connections[old] = connections[i];
+		}
+	}
 }
 
 static void do_disconnect (GtkWidget *widget, gpointer data)
