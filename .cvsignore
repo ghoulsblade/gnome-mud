@@ -21,3 +21,4 @@ stamp-h.in
 notes
 gnome-mud.lsm
 gnome-mud-*.tar.gz
+mkinstalldirs

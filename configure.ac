@@ -8,6 +8,7 @@ AM_INIT_AUTOMAKE(gnome-mud, 0.9.99.0)
 AM_CONFIG_HEADER(config.h:config.h.in)
 
 ALL_LINGUAS="es sv de ca fr"
+AM_GNU_GETTEXT_VERSION(0.11.5)
 
 dnl Checks for programs.
 AC_PROG_CC
