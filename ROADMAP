@@ -19,10 +19,11 @@ feel free to suggest features, contribute, or comment.
 	+ several characters per host
 * Rewrite font/color support
 * Right-click menu for connection-tabs
+* Make better use for gtk_object_(get|set)_data
 
 0.10.0
 
-* Use GTK+ unstable's splitscreen feature
+* Use splitscreen feature from next version (1.4/2.0) of GTK
 * Get more speed in ANSI
 * Support for TELNET codes [PARTLY DONE]
 * MSP, Mud Sound Protocol (Is there many muds using this?)

@@ -1,3 +1,7 @@
+Thu Oct 25 15:04:56 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Added one entry, and changed another.
+
 Thu Oct 25 13:05:43 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/profiles.c (profilelist_new_cb): Close this window when 
