@@ -265,7 +265,7 @@ static void about_window (GtkWidget *widget, gpointer data)
   GtkWidget *hrefbox;
 
   const gchar *authors[] = {
-	_("Robin Ericsson, Main developer"),
+	_("Robin Ericsson, main developer"),
 	_("David Zanetti, bugfixes"),
 	_("Ben Gertzfield, creation of rcfiles for AMCL"),
 	_("Will Schenk, bugfixes"),
@@ -278,10 +278,11 @@ static void about_window (GtkWidget *widget, gpointer data)
 	/* if your charset doesn't support o with dieresis (ö) just use o */
 	_("Jörgen Kosche, focus-bugs patches, de.po maintainer"),
 	_("Jeroen Ruigrok, various code cleanups and fixes"),
-	_("Jorge Garcia, various code cleanups and fixes"),
+	/* if your charset doesn't support i with acute (í) just use i */
+	_("Jorge García, various code cleanups and fixes"),
 	_("Jordi Mallach, official Debian package, i18n support, "
 		  "ca.po & es.po maintainer"),
-	/* if your charset doesn't support e circumflex (è), just use e */
+	/* if your charset doesn't support e with circumflex (è), just use e */
 	_("Staffan Thomèn and the creators of gEdit - module API"),
 	NULL};
 

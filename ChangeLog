@@ -1,3 +1,7 @@
+Thu Oct  4 15:46:02 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c: tiny typo fixes.
+
 Thu Oct  4 15:29:56 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c: merged AUTHORS into the gnome_about dialog. Marked
