@@ -2,7 +2,7 @@ dnl Process this file with
 dnl aclocal; automake; autoconf to produce a configure script.
 
 PACKAGE=gnome-mud
-VERSION=0.7.5
+VERSION=0.7.99
 AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
 AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
 AC_SUBST(PACKAGE)
@@ -11,8 +11,8 @@ ALL_LINGUAS="es sv de ca fr"
 
 AC_INIT(src/gnome-mud.c)
 
-AM_INIT_AUTOMAKE(gnome-mud, 0.7.5)
-AM_CONFIG_HEADER(src/config.h)
+AM_INIT_AUTOMAKE(gnome-mud, 0.7.99)
+AM_CONFIG_HEADER(config.h)
 
 dnl Pick up the GNOME macros
 AM_ACLOCAL_INCLUDE(macros)
