@@ -302,6 +302,7 @@ PROFILE_DATA *profiledata_find(gchar *profile)
 
 static void profilelist_new_input_cb(gchar *string, gpointer data)
 {
+	PROFILE_DATA *pd;
 	gchar *text[1];
 	GList *t;
 	
@@ -321,6 +322,13 @@ static void profilelist_new_input_cb(gchar *string, gpointer data)
 	text[0] = string;
 	gtk_clist_append(GTK_CLIST(data), text);
 	ProfilesList = g_list_append(ProfilesList, g_strdup(string));
+
+	pd = g_malloc0(sizeof(PROFILE_DATA));
+	pd->name 		= g_strdup(string);
+	pd->alias		= (GtkCList *) gtk_clist_new(2);
+	pd->variables	= (GtkCList *) gtk_clist_new(2);
+	pd->triggers	= (GtkCList *) gtk_clist_new(2);
+	ProfilesData = g_list_append(ProfilesData, (gpointer) pd);
 }
 
 static void profilelist_new_cb(GtkWidget *widget, gpointer data)
