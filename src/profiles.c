@@ -496,6 +496,14 @@ static void profilelist_clist_fill(gchar *profile_name, GtkCList *clist)
 	gtk_clist_append(clist, text);
 }
 
+static void profilelist_cleanup (GtkWidget *widget, GtkWidget *data)
+{
+	if (GTK_IS_WIDGET(data))
+	{
+		gtk_widget_destroy(data);
+	}
+}
+
 static void profilelist_dialog (GtkWidget *label)
 {
 	static GtkWidget *dialog;
@@ -570,7 +578,7 @@ static void profilelist_dialog (GtkWidget *label)
 	gtk_signal_connect_object(GTK_OBJECT(button_ok), "clicked", gtk_widget_destroy, (gpointer) dialog);
 	gtk_signal_connect_object(GTK_OBJECT(button_cancel), "clicked", gtk_widget_destroy, (gpointer) dialog);
 
-	gtk_signal_connect_object(GTK_OBJECT(label->parent->parent), "destroy", gtk_widget_destroy, (gpointer) dialog);
+	gtk_signal_connect(GTK_OBJECT(label->parent->parent), "destroy", profilelist_cleanup, (gpointer) dialog);
 	gtk_signal_connect(GTK_OBJECT(dialog), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &dialog);
 	
 	gtk_widget_show(dialog);

@@ -22,7 +22,7 @@ feel free to suggest features, contribute, or comment.
 * Right-click menu for connection-tabs
 * Make better use for gtk_object_(get|set)_data
 * Cleanup of .c-files, better names on functions, etc...
-* Fix error when closing wizardwindow after using profilewindow
+* Fix error when closing wizardwindow after using profilewindow [DONE]
 * Scriptingsupport (python) [AS GOOD AS DONE]
 * Page Up, Page Down and Mousewheel support [DONE]
 
