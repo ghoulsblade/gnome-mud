@@ -742,7 +742,7 @@ void main_window ()
   gtk_widget_show_all (window);
   
   gtk_widget_realize (main_connection->window);
-/*  gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &prefs.Background);*/
+  gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &prefs.Background);
  
   g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\n"), VERSION, __TIME__, __DATE__);
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, buf, -1);
