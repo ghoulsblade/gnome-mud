@@ -8,6 +8,6 @@ Comment[ca]=El client de MUD de GNOME
 Comment[es]=El cliente de MUD de GNOME
 Comment[sv]=GNOMEs MUD Klient
 Exec=gnome-mud
-Icon=/usr/share/pixmaps/gnome-gmush.png
+Icon=gnome-gmush.png
 Terminal=0
 Type=Games
