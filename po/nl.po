@@ -1114,9 +1114,10 @@ msgstr ""
 msgid "Connect"
 msgstr "Verbinden"
 
+#. GRUT modified this item
 #: src/profiles.c:1164
 msgid "Profiles"
-msgstr "_Profielen:"
+msgstr "Profielen"
 
 #: src/profiles.c:1173
 msgid "GNOME-Mud Profiles"
