@@ -684,7 +684,9 @@ void init_window ()
   gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box_h_low, label);
   
   main_connection = g_malloc0( sizeof (CONNECTION_DATA));
+#ifdef ENABLE_MCCP
   main_connection->mccp = mudcompress_new();
+#endif /* ENABLE_MCCP */
   main_connection->notebook = 0;
   main_connection->profile = profiledata_find("Default");
   main_connection->window = gtk_text_new (NULL, NULL);

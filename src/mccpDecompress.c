@@ -10,6 +10,7 @@
  *
  */
 
+#ifdef ENABLE_MCCP
 /* Modified: 20000530 */
 
 /* See mccpDecompress.h for API information */
@@ -419,3 +420,5 @@ int mudcompress_v2(mc_state *state)
 {
     return (state->stream != NULL && state->got_v2);
 }
+
+#endif /* ENABLE_MCCP */
