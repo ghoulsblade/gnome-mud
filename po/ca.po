@@ -1,13 +1,13 @@
 # Catalan Messages for the GNOME-Mud Client.
-# Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
-# Jordi Mallach <jordi@sindominio.net>, 2000, 2001, 2002.
+# Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+# Jordi Mallach <jordi@sindominio.net>, 2000, 2001, 2002, 2003.
 # $Id$
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.1\n"
-"POT-Creation-Date: 2003-04-02 10:33+0200\n"
-"PO-Revision-Date: 2002-06-25 14:30+0200\n"
+"Project-Id-Version: 0.10.0\n"
+"POT-Creation-Date: 2003-04-03 19:51+0200\n"
+"PO-Revision-Date: 2003-04-03 19:52+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 #: src/gnome-mud.c:50
 #, c-format
 msgid "Failed to init GConf: %s"
-msgstr ""
+msgstr "No s'ha pogut iniciar GConf: %s"
 
 #: src/data.c:244
 msgid "No void characters allowed."
@@ -31,7 +31,7 @@ msgstr "Accions"
 #: src/data.c:250
 #, c-format
 msgid "Character '%c' not allowed."
-msgstr "Caràcter '%c' no permés."
+msgstr "El caràcter '%c' no és permés."
 
 #: src/data.c:257 src/data.c:264
 #, c-format
@@ -52,12 +52,12 @@ msgstr "Àlies"
 msgid "Replacement"
 msgstr "Substitució"
 
-#: src/data.c:343 src/profiles.c:1180 gnome-mud.schemas.in.h:26
+#: src/data.c:343 src/profiles.c:1219 gnome-mud.schemas.in.h:30
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:350 src/profiles.c:1173 gnome-mud.schemas.in.h:27
+#: src/data.c:350 src/profiles.c:1212 gnome-mud.schemas.in.h:31
 msgid "Variables"
 msgstr "Variables"
 
@@ -72,7 +72,6 @@ msgstr ""
 "window_data: s'està tractant d'accedir a una regió de dades indefinida: %d"
 
 #: src/data.c:370
-#, fuzzy
 msgid "GNOME-Mud Configuration Centre"
 msgstr "Centre de Configuració del GNOME-Mud"
 
@@ -80,44 +79,27 @@ msgstr "Centre de Configuració del GNOME-Mud"
 msgid "Do you really want to quit?"
 msgstr "Esteu segur de voler sortir?"
 
-#: src/init.c:126 src/init.c:557
+#: src/init.c:126 src/init.c:570
 msgid "Connect..."
 msgstr "Connecta..."
 
-#: src/init.c:138 src/profiles.c:903
+#: src/init.c:138 src/profiles.c:942
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:144 src/profiles.c:923
+#: src/init.c:144 src/profiles.c:962
 msgid "Port:"
 msgstr "Port:"
 
 #: src/init.c:192
-#, fuzzy
 msgid "*** Internal error: no such connection.\n"
-msgstr "*** Error intern: no existeix eixa connexió.\n"
-
-#: src/init.c:211
-msgid "Robin Ericsson <lobbin@localhost.nu>"
-msgstr ""
-
-#: src/init.c:212 src/init.c:217
-msgid "Jordi Mallach <jordi@sindominio.net>"
-msgstr ""
-
-#: src/init.c:213 src/init.c:218
-msgid "Petter E. Stokke <gibreel@project23.no>"
-msgstr ""
-
-#: src/init.c:214
-msgid "Rachael Munns <vashti@dream.org.uk>"
-msgstr ""
+msgstr "*** Error intern: no existeix la connexió.\n"
 
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
 #: src/init.c:223
 msgid "translator_credits"
-msgstr ""
+msgstr "Jordi Mallach <jordi@sindominio.net>"
 
 #: src/init.c:234 gnome-mud.desktop.in.h:1
 msgid "GNOME-Mud"
@@ -125,115 +107,126 @@ msgstr "GNOME-Mud"
 
 #. latin1 translators can use the copyright symbol here, see man latin1(7)
 #: src/init.c:236
-msgid "(C) 1998-2002 Robin Ericsson"
-msgstr "© 1998-2002 Robin Ericsson"
+msgid "(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
+msgstr "© 1998, 1999, 2000, 2001 2002, 2003 Robin Ericsson"
 
 #: src/init.c:237
-#, fuzzy
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
-msgstr ""
-"Un client per a MUD (Multi-User Dungeon) per a les biblioteques GTK+/GNOME."
+msgstr "Un client MUD (Multi-User Dungeon) per al GNOME.\n"
 
 #: src/init.c:250
-#, fuzzy
 msgid "GNOME-Mud home page"
 msgstr "Pàgina principal del GNOME-Mud"
 
-#: src/init.c:553
+#: src/init.c:566
 msgid "Wizard..."
 msgstr "Assistent..."
 
-#: src/init.c:555
+#: src/init.c:568
 msgid "Profiles..."
 msgstr "Perfils..."
 
-#: src/init.c:559
+#: src/init.c:572
 msgid "Disconnect"
 msgstr "Desconnecta"
 
-#: src/init.c:561
+#: src/init.c:574
 msgid "Reconnect"
 msgstr "Reconnecta"
 
-#: src/init.c:563
+#: src/init.c:576
 msgid "Exit"
 msgstr "Surt"
 
-#: src/init.c:568
+#: src/init.c:581
 msgid "Connection _Wizard..."
 msgstr "_Assistent de Connexions..."
 
-#: src/init.c:569
+#: src/init.c:582
 msgid "_MudList Listing..."
 msgstr "Llistes de la _MudList..."
 
-#: src/init.c:571
+#: src/init.c:584
 msgid "C_onnect..."
 msgstr "_Connecta..."
 
-#: src/init.c:572
+#: src/init.c:585
 msgid "_Disconnect"
 msgstr "_Desconnecta"
 
-#: src/init.c:573
+#: src/init.c:586
 msgid "_Reconnect"
 msgstr "_Reconnecta"
 
-#: src/init.c:575
+#: src/init.c:588
 msgid "S_tart Logging..."
 msgstr "Come_nça un log..."
 
-#: src/init.c:576
+#: src/init.c:589
 msgid "Sto_p Logging"
 msgstr "D_eixa de fer log"
 
-#: src/init.c:577
+#: src/init.c:590
 msgid "_Save Buffer..."
 msgstr "De_sa el búfer..."
 
-#: src/init.c:579
+#: src/init.c:592
 msgid "_Close Window"
 msgstr "_Tanca finestra"
 
-#: src/init.c:587
+#: src/init.c:600
 msgid "_Plugin Information..."
 msgstr "_Informació sobre Connectors..."
 
-#: src/init.c:592
+#: src/init.c:605
 msgid "Auto _Mapper..."
 msgstr "_Automapejador..."
 
-#: src/init.c:594
+#: src/init.c:607
 msgid "P_lugins"
 msgstr "_Connectors"
 
-#: src/init.c:648
+#: src/init.c:614
+msgid "User Manual"
+msgstr "Manual de l'usuari"
+
+#: src/init.c:615
+msgid "Display the GNOME-Mud User Manual"
+msgstr "Mostra el manual d'usuari del GNOME-Mud"
+
+#: src/init.c:619
+msgid "Plugin API Manual"
+msgstr "Manual de l'API de connectors"
+
+#: src/init.c:620
+msgid "Display the GNOME-Mud Plugin API Manual"
+msgstr "Mostra el manual de l'API de connectors de GNOME-Mud"
+
+#: src/init.c:669
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:671
+#: src/init.c:692
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versió %s (compilat %s, %s)\n"
 
-#: src/init.c:673
-#, fuzzy
+#: src/init.c:694
 msgid "Distributed under the terms of the GNU General Public Licence.\n"
 msgstr "Distribuït sota els termes de la Llicència Pública General GNU.\n"
 
-#: src/init.c:675
-#, fuzzy, c-format
+#: src/init.c:696
+#, c-format
 msgid ""
 "\n"
 "Python version %s\n"
 msgstr ""
 "\n"
 "Versió de Python %s\n"
-"\n"
 
 #: src/keybind.c:147
 msgid "You must use capture first!"
-msgstr ""
+msgstr "Heu d'utilitzar «captura» abans!"
 
 #: src/keybind.c:160
 msgid "Can't add an existing key."
@@ -244,9 +237,8 @@ msgid "Incomplete fields."
 msgstr "Camps incomplets."
 
 #: src/keybind.c:308
-#, fuzzy
 msgid "GNOME-Mud Key Binding Centre"
-msgstr "Centre d'Assignació de Tecles del GNOME-Mud"
+msgstr "Centre d'assignació de tecles del GNOME-Mud"
 
 #: src/keybind.c:325
 msgid "Key"
@@ -265,7 +257,7 @@ msgid "Capture"
 msgstr "Captura"
 
 #: src/log.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "*** Already logging to %s. Close that log first.\n"
 msgstr "*** Ja s'està fent log en %s. Tanqueu aquest log primer.\n"
 
@@ -274,7 +266,6 @@ msgid "Open log"
 msgstr "Obre log"
 
 #: src/log.c:76
-#, fuzzy
 msgid "*** No log is open in this window to be closed.\n"
 msgstr "*** No hi ha cap log obert en aquesta finestra per a tancar.\n"
 
@@ -461,7 +452,7 @@ msgstr "*** No es pot connectar - no s'ha especificat cap servidor.\n"
 
 #: src/net.c:193
 msgid "*** No port specified - assuming port 23.\n"
-msgstr "*** No s'ha especificat cap port - asumint port 23.\n"
+msgstr "*** No s'ha especificat cap port - s'asumeix el port 23.\n"
 
 #: src/net.c:208
 #, c-format
@@ -469,9 +460,9 @@ msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** S'està realitzant la connexió a %s, port %s.\n"
 
 #: src/net.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "*** Trying %s port %s...\n"
-msgstr "*** S'està desant el log en %s.\n"
+msgstr "*** S'està provant de connectar a %s, port %s...\n"
 
 #: src/net.c:259
 msgid "*** Connection established.\n"
@@ -480,7 +471,7 @@ msgstr "*** Connexió establida.\n"
 #: src/prefs.c:224 src/prefs.c:340
 #, c-format
 msgid "Palette had %d entries instead of %d\n"
-msgstr ""
+msgstr "La paleta tenia %d entrades en comptes de %d\n"
 
 #: src/prefs.c:286
 #, c-format
@@ -494,135 +485,138 @@ msgstr "%s no existeix i NO es pot crear: %s"
 
 #: src/prefs.c:530
 msgid "Font:"
-msgstr "Font:"
+msgstr "Tipus de lletra:"
 
 #: src/prefs.c:538
 msgid "Main font that is used on all open connections."
-msgstr ""
+msgstr "Font principal que s'utilitza en totes les connexions obertes."
 
 #: src/prefs.c:541
 msgid "The quick brown fox jumps over the lazy dog"
 msgstr "A la taula i al llit, al primer crit"
 
 #: src/prefs.c:545
-#, fuzzy
 msgid "Colour palette:"
 msgstr "Paleta de colors:"
 
 #: src/prefs.c:551
-#, fuzzy
 msgid "Background colour:"
 msgstr "Color de fons:"
 
 #: src/prefs.c:557
-#, fuzzy
 msgid "Foreground colour:"
-msgstr "Color de les fonts:"
+msgstr "Color del text:"
 
 #: src/prefs.c:565
 msgid ""
-"Default foreground color used when the connection doesn't tell us to use "
-"another font."
+"Default foreground colour used when the connection doesn't request the use "
+"of a specific colour."
 msgstr ""
+"El color del text per defecte utilitzat quan la connexió no especifica l'ús "
+"d'un altre color."
 
-#: src/prefs.c:573
+#: src/prefs.c:574
 msgid ""
-"Default background color used when the connection doesn't tell us to use "
-"another font."
+"Default background colour used when the connection doesn't request the use "
+"of a specific colour."
 msgstr ""
+"El color de fons per defecte utilitzat quan la connexió no especifica l'ús "
+"d'un altre color."
 
-#: src/prefs.c:588
-msgid "Change the color of a specific color that the mud tells us to use."
-msgstr ""
+#: src/prefs.c:590
+msgid "Change the colour of a specific colour that the MUD requests to use."
+msgstr "Canvia el color d'un color específic que el MUD demane utilitzar."
 
-#: src/prefs.c:630
+#: src/prefs.c:632
 msgid "on top"
-msgstr ""
+msgstr "amunt"
 
-#: src/prefs.c:630
+#: src/prefs.c:632
 msgid "on the right"
-msgstr ""
+msgstr "a la dreta"
 
-#: src/prefs.c:630
+#: src/prefs.c:632
 msgid "at the bottom"
-msgstr ""
+msgstr "avall"
 
-#: src/prefs.c:630
+#: src/prefs.c:632
 msgid "on the left"
-msgstr ""
+msgstr "a l'esquerra"
 
-#: src/prefs.c:649
+#: src/prefs.c:651
 msgid "GNOME-Mud Preferences"
 msgstr "Preferències del GNOME-Mud"
 
-#: src/prefs.c:663
+#: src/prefs.c:665
 msgid "Functionality"
 msgstr "Funcionalitats"
 
-#: src/prefs.c:669
-msgid "Echo the text sent?"
-msgstr "Fer eco del texte enviat?"
+#: src/prefs.c:671
+msgid "_Echo the text sent"
+msgstr "_Mostra el text enviat"
 
-#: src/prefs.c:673 gnome-mud.schemas.in.h:32
+#: src/prefs.c:675 gnome-mud.schemas.in.h:15
 msgid ""
-"With this toggled on, all the text you type and enter will be echoed on the "
-"connection so you can control what you are sending."
+"If enabled, all the text typed in will be echoed in the terminal, making it "
+"easier to control what is sent."
 msgstr ""
-"Amb aquesta opció activada, a tot el texte que s'envii se li farà eco en la "
-"connexió per a que es puga control·lar el que s'està enviant."
+"Si s'habilita, tot el text que s'envii es mostrarà en la terminal, fent més "
+"fàcil el control del que s'està enviant."
 
-#: src/prefs.c:680
-msgid "Keep the text entered?"
-msgstr "Mantindre el texte introduït?"
+#: src/prefs.c:682
+msgid "_Keep the text entered"
+msgstr "_Mantin el text introduït"
 
-#: src/prefs.c:684 gnome-mud.schemas.in.h:33
+#: src/prefs.c:686 gnome-mud.schemas.in.h:16
 msgid ""
-"With this toggled on, the text you have entered and sent to the connection, "
-"will be left in the entry box but selected. Turn this off to remove the text "
-"after it has been sent."
+"If enabled, the text that is sent to the connection will be left as a "
+"selection in the entry box. Otherwise, the text entry box will be cleared "
+"after each text input."
 msgstr ""
-"Amb aquesta opció activada, el texte que introduiu en la connexió es quedarà "
-"en el camp de introducció de comandes, pero seleccionat. Desactiveu l'opció "
-"per a esborrar el texte una vegada s'haja enviat."
+"Si s'habilita, el text que introduïu en la connexió es quedarà en forma de "
+"selecció en el camp d'entrada. Si no, el camp d'entrada de text es netejarà "
+"després de cada introducció de text."
 
-#: src/prefs.c:691
-msgid "Disable Systemkeys?"
-msgstr "Deshabilitar les tecles del sistema?"
+#: src/prefs.c:693
+msgid "Disable System Keys"
+msgstr "Deshabilita les tecles del sistema"
 
-#: src/prefs.c:695 gnome-mud.schemas.in.h:12
+#: src/prefs.c:697 gnome-mud.schemas.in.h:14
 msgid ""
-"GNOME-Mud ships with a few built-in keybinds. These keybinds can be "
-"overridden by own keybinds, or they can be disabled by toggling this checkbox"
+"If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
+"overridden by custom keybinds, or they can be disabled completely with this "
+"option."
 msgstr ""
-"GNOME-Mud ve amb algunes assignacions de tecles per defecte. Aquestes "
-"assignacions poden reemplaçar-se amb les teues pròpies assignacions, o poden "
-"ser deshabilitades per complet marcant aquesta casella."
+"Si s'habilita, GNOME-Mud oferirà algunes assignacions de tecles internes. "
+"Aquestes assignacions es poden reemplaçar amb les vostres assignacions "
+"personalitzades, o poden ser deshabilitades per complet amb aquesta opció."
 
-#: src/prefs.c:704
-msgid "Command divide char:"
+#: src/prefs.c:706
+msgid "Command division character:"
 msgstr "Caràcter de divisió d'ordres:"
 
-#: src/prefs.c:709
+#: src/prefs.c:711
 msgid ""
-"This character is used to separed commands sent to the mud. Example ';', "
-"will let the user input \"w;look\" be sent to the mud at 2 separate commands."
+"The character used to divide commands sent to the mud. For example, \";\", "
+"will let the string \"w;look\" be sent to the mud as 2 separate commands."
 msgstr ""
+"El caràcter que utilitza per a dividir les ordres enviades al MUD. Per "
+"exemple, «;» farà que la cadena «w;look» s'envie al MUD com dos ordres "
+"separades."
 
-#: src/prefs.c:718
+#: src/prefs.c:721
 msgid "Command history:"
 msgstr "Historia d'ordres:"
 
-#: src/prefs.c:724
-#, fuzzy
-msgid "This is the number of entries to be saved in the command history"
-msgstr ""
-"Aquest és el nom de la connexió que apareixerà a la llista de connexions."
+#: src/prefs.c:727
+msgid "The number of entries to be saved in the command history."
+msgstr "El nom de la connexió que apareixerà a la llista de connexions."
 
-#: src/prefs.c:732
+#: src/prefs.c:735
 msgid "Terminal type:"
 msgstr "Tipus de terminal:"
 
-#: src/prefs.c:739 gnome-mud.schemas.in.h:13
+#: src/prefs.c:742 gnome-mud.schemas.in.h:12
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
@@ -630,336 +624,334 @@ msgstr ""
 "GNOME-Mud tractarà de transmetre un tipus de terminal (com ANSI o VT100) si "
 "el MUD demana un. Aquesta opció estableix el tipus de terminal que s'enviarà."
 
-#: src/prefs.c:747
+#: src/prefs.c:750
 msgid "MudList file:"
 msgstr "Fitxer amb la MudList:"
 
-#: src/prefs.c:750
-msgid "Select a MudList File"
-msgstr "Seleccioneu un fitxer de MudList"
+#: src/prefs.c:753
+msgid "Select a MudList File..."
+msgstr "Seleccioneu un fitxer de MudList..."
 
-#: src/prefs.c:752
-msgid "Mudlist file to be used for the mudlist functionality"
+#: src/prefs.c:755
+msgid "Mudlist file to be used for the mudlist functionality."
 msgstr ""
+"El fitxer de MudList que utilitzarà per a la funcionalitat de llistat de MUD."
 
-#: src/prefs.c:760
-#, fuzzy
+#: src/prefs.c:764
 msgid "Colour and Fonts"
 msgstr "Colors i fonts"
 
-#: src/prefs.c:768
-#, fuzzy
-msgid "Apperence"
+#: src/prefs.c:772
+msgid "Appearance"
 msgstr "Apariència"
 
-#: src/prefs.c:777
+#: src/prefs.c:781
 msgid "Tabs are located:"
-msgstr ""
+msgstr "Les pestanyes es troben:"
 
-#: src/prefs.c:790
+#: src/prefs.c:794
 msgid ""
-"This settings tell where to place the connection tabs that are used the "
-"change active connection"
+"This settings defines where to place the connection tabs that are used the "
+"change active connection."
 msgstr ""
+"Aquesta configuració estableix on apareixen les pestanyes de connexions que "
+"s'utilitzen per a canviar la connexió activa."
 
-#: src/prefs.c:800
+#: src/prefs.c:805
 msgid "Scrollback:"
-msgstr ""
+msgstr "Desplaçament:"
 
-#: src/prefs.c:806
-msgid "How many lines will be saved in the scrollback"
-msgstr ""
+#: src/prefs.c:811
+msgid "Number of lines to save in the scrollback."
+msgstr "Número de línies a desar en el desplaçament."
 
-#: src/prefs.c:810
-#, fuzzy
+#: src/prefs.c:815
 msgid "lines"
-msgstr "Àlies"
+msgstr "línies"
 
-#: src/prefs.c:816
-msgid "Scroll on output"
-msgstr ""
+#: src/prefs.c:821
+msgid "S_croll on output"
+msgstr "_Desplaça en sortida"
 
-#: src/prefs.c:818
+#: src/prefs.c:823
 msgid ""
-"Should the connection scroll to bottom on output or stay at the current "
-"position (if scrolled back)"
+"If enabled, the terminal will scroll to the bottom if new output appears in "
+"the connection when the terminal was scrolled back."
 msgstr ""
+"Si s'habilita, el terminal es desplaçarà avall si apareix text nou en la "
+"connexió quan el terminal estava desplaçat cap enrere."
 
-#: src/profiles.c:248
+#: src/profiles.c:283
 msgid "New profile"
 msgstr "Nou perfil"
 
-#: src/profiles.c:251
+#: src/profiles.c:286
 msgid "Name of new profile:"
 msgstr "Nom del nou perfil:"
 
-#: src/profiles.c:462
+#: src/profiles.c:497
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: Llista de perfils"
 
-#: src/profiles.c:629 src/profiles.c:1000
+#: src/profiles.c:667 src/profiles.c:1039
 msgid "Default"
 msgstr "Predeterminats"
 
-#: src/profiles.c:809 src/profiles.c:1149
+#: src/profiles.c:848 src/profiles.c:1188
 msgid "Delete"
 msgstr "Elimina"
 
-#: src/profiles.c:826
+#: src/profiles.c:865
 msgid "GNOME-Mud Connections"
 msgstr "Connexions del GNOME-Mud"
 
-#: src/profiles.c:860
+#: src/profiles.c:899
 msgid "Mud"
 msgstr "Mud"
 
-#: src/profiles.c:866
+#: src/profiles.c:905
 msgid "Character"
 msgstr "Personatge"
 
-#: src/profiles.c:879
+#: src/profiles.c:918
 msgid " Mud Information "
 msgstr " Informació sobre el Mud "
 
-#: src/profiles.c:895
+#: src/profiles.c:934
 msgid "Title:"
 msgstr "Títol:"
 
-#: src/profiles.c:939
+#: src/profiles.c:978
 msgid " Character Information "
 msgstr " Informació sobre el personatge "
 
-#: src/profiles.c:955
+#: src/profiles.c:994
 msgid "Character:"
 msgstr "Personatge:"
 
-#: src/profiles.c:963
+#: src/profiles.c:1002
 msgid "Password:"
 msgstr "Contrasenya:"
 
-#: src/profiles.c:984
+#: src/profiles.c:1023
 msgid " Profile Information "
 msgstr "Informació de perfils"
 
-#: src/profiles.c:1010
+#: src/profiles.c:1049
 msgid "Select Profile"
 msgstr "Seleccionar perfil"
 
-#: src/profiles.c:1026
+#: src/profiles.c:1065
 msgid "Fetch from mudlist"
 msgstr "Importa de mudlist"
 
-#: src/profiles.c:1078
+#: src/profiles.c:1117
 msgid "Connect"
 msgstr "Connecta"
 
-#: src/profiles.c:1117
+#: src/profiles.c:1156
 msgid "Profiles"
 msgstr "Perfils"
 
-#: src/profiles.c:1127
+#: src/profiles.c:1166
 msgid "GNOME-Mud Profiles"
 msgstr "Perfils del GNOME-Mud"
 
-#: src/profiles.c:1141
+#: src/profiles.c:1180
 msgid "New"
 msgstr "Nou"
 
-#: src/profiles.c:1142
-#, fuzzy
+#: src/profiles.c:1181
 msgid "Create a new profile"
-msgstr "Nom del nou perfil:"
+msgstr "Crea un nou perfil"
 
-#: src/profiles.c:1149
-#, fuzzy
+#: src/profiles.c:1188
 msgid "Delete a profile"
-msgstr "Seleccionar perfil"
+msgstr "Elimina un perfil"
 
-#: src/profiles.c:1166 gnome-mud.schemas.in.h:3
+#: src/profiles.c:1205 gnome-mud.schemas.in.h:3
 msgid "Aliases"
 msgstr "Àlies"
 
-#: src/profiles.c:1166
-#, fuzzy
+#: src/profiles.c:1205
 msgid "Set aliases"
-msgstr "Àlies"
+msgstr "Estableix àlies"
 
-#: src/profiles.c:1173
-#, fuzzy
+#: src/profiles.c:1212
 msgid "Set variables"
-msgstr "Variables"
+msgstr "Estableix variables"
 
-#: src/profiles.c:1180
-#, fuzzy
+#: src/profiles.c:1219
 msgid "Set triggers"
-msgstr "Triggers"
+msgstr "Estableix triggers"
 
-#: src/profiles.c:1197 gnome-mud.schemas.in.h:16
+#: src/profiles.c:1236 gnome-mud.schemas.in.h:18
 msgid "Keybinds"
 msgstr "Tecles"
 
-#: src/profiles.c:1197
-#, fuzzy
+#: src/profiles.c:1236
 msgid "Set keybinds"
-msgstr "Tecles"
+msgstr "Estableix tecles"
 
-#: src/profiles.c:1214
+#: src/profiles.c:1253
 msgid "Close"
 msgstr "Tanca"
 
-#: src/profiles.c:1214
-#, fuzzy
+#: src/profiles.c:1253
 msgid "Close the window"
-msgstr "_Tanca finestra"
+msgstr "Tanca la finestra"
 
 #: gnome-mud.desktop.in.h:2
 msgid "The GNOME MUD Client"
 msgstr "El client de MUD del GNOME"
 
 #: gnome-mud.schemas.in.h:1
-msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\""
+msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
 msgstr ""
+"Un nom de font de Pango, com per exemple «Sans 12» o «Monospace Bold 14»."
 
 #: gnome-mud.schemas.in.h:2
 msgid ""
 "A character that is used to split commands in a string like \"w;w;w;l\", "
-"which will be sent to the mud as 4 separate commands"
+"which will be sent to the MUD as 4 separate commands."
 msgstr ""
+"El caràcter que utilitza per a dividir les ordres en una cadena com «w;w;w;"
+"l», que s'enviarà al MUD com quatre ordres diferents."
 
 #: gnome-mud.schemas.in.h:4
-#, fuzzy
-msgid "Color palette"
-msgstr "Paleta de colors:"
+msgid "Colour palette"
+msgstr "Paleta de colors"
 
 #: gnome-mud.schemas.in.h:5
-#, fuzzy
 msgid "Command Divider"
-msgstr "Caràcter de divisió d'ordres:"
+msgstr "Divisor d'ordres"
 
 #: gnome-mud.schemas.in.h:6
-msgid "Default color of the background"
-msgstr ""
+msgid "Default colour of the background"
+msgstr "Color per defecte del fons"
 
 #: gnome-mud.schemas.in.h:7
 msgid ""
-"Default color of the background, as a color specification (can be HTML-style "
-"hex digits, or a color name such as \"red\")."
+"Default colour of the background, as a colour specification (can be HTML-"
+"style hex digits, or a colour name such as \"red\")."
 msgstr ""
+"El color per defecte del fons, com una especificació de color (pot ser "
+"dígits en hexadecimal a l'estil HTML o un nom de color com «red»)."
 
 #: gnome-mud.schemas.in.h:8
-msgid "Default color of the text"
-msgstr ""
+msgid "Default colour of the text"
+msgstr "El color per defecte del text"
 
 #: gnome-mud.schemas.in.h:9
 msgid ""
-"Default color of the text, as a color specification (can be HTML-style hex "
-"digits, or a color name such as \"red\")."
+"Default colour of the text, as a colour specification (can be HTML-style hex "
+"digits, or a colour name such as \"red\")."
 msgstr ""
+"El color per defecte del text, com una especificació de color (pot ser "
+"dígits en hexadecimal a l'estil HTML o un nom de color com «red»)."
 
 #: gnome-mud.schemas.in.h:10
-#, fuzzy
 msgid "Font"
-msgstr "Font:"
+msgstr "Font"
 
 #: gnome-mud.schemas.in.h:11
 msgid ""
-"GNOME-Mud have a 16-color palette that connected muds can use. This is that "
-"palette, in the form of a color-separated list of color names. Color names "
-"should be in hex format e.g. \"#FF00FF\""
+"GNOME-Mud has a 16-colour palette that MUDs can use. It must be specified in "
+"the form of a colon-separated list of colour names. Colour names should be "
+"in hex format e.g. \"#FF00FF\"."
 msgstr ""
+"GNOME-Mud té una paleta de 16 colors que els MUD poden utilitzar. S'ha "
+"d'especificar en la forma d'una llista de noms de colors, separats per dos "
+"punts. Els noms dels colors han d'estar en format hexadecimal, com per "
+"exemple «#FF00FF»."
 
-#: gnome-mud.schemas.in.h:14
+#: gnome-mud.schemas.in.h:13
 msgid "How meny entries to keep in the command history"
-msgstr ""
-
-#: gnome-mud.schemas.in.h:15
-msgid "If true, whenever there's new output will scroll to the bottom."
-msgstr ""
+msgstr "Quantes entrades mantindre en la història d'ordres"
 
 #: gnome-mud.schemas.in.h:17
-msgid "Last log dir"
+msgid ""
+"If enabled, whenever there's new output the terminal will be scrolled to the "
+"bottom."
 msgstr ""
-
-#: gnome-mud.schemas.in.h:18
-#, fuzzy
-msgid "List of profiles"
-msgstr "Seleccionar perfil"
+"Si s'habilita, quan es produisca nova eixida, el terminal es desplaçarà cap "
+"avall."
 
 #: gnome-mud.schemas.in.h:19
-msgid ""
-"List of profiles known to gnome-mud. The list contains strings naming "
-"subdirectories relative to /apps/gnome-mud/profiles."
-msgstr ""
+msgid "Last log dir"
+msgstr "Últim directori de registres"
 
 #: gnome-mud.schemas.in.h:20
-#, fuzzy
-msgid "Mudlist file"
-msgstr "Fitxer amb la MudList:"
+msgid "List of connections"
+msgstr "Llista de connexions"
 
 #: gnome-mud.schemas.in.h:21
-msgid "Number of lines to keep in scrollback"
+msgid ""
+"List of connections known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/connections."
 msgstr ""
+"Llista de connexions conegudes per GNOME-Mud. La llista conté cadenes amb "
+"els noms dels subdirectoris rel·latius a /apps/gnome-mud/connections."
 
 #: gnome-mud.schemas.in.h:22
+msgid "List of profiles"
+msgstr "Llista de perfils"
+
+#: gnome-mud.schemas.in.h:23
+msgid ""
+"List of profiles known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/profiles."
+msgstr "Llista de perfils coneguts per GNOME-Mud. Aquesta llista conté cadenes amb els noms dels subdirectoris rel·latius a /apps/gnome-mud/profiles."
+
+#: gnome-mud.schemas.in.h:24
+msgid "Mudlist file"
+msgstr "Fitxer de Mudlist"
+
+#: gnome-mud.schemas.in.h:25
+msgid "Number of lines to keep in scrollback"
+msgstr "Número de línies a desar en el desplaçament"
+
+#: gnome-mud.schemas.in.h:26
 msgid ""
 "Number of scrollback lines to keep around. You can scroll back in the "
 "terminal by this number of lines; lines that don't fit in the scrollback are "
 "discarded."
 msgstr ""
+"Número de línies de desplaçament a desar. Podeu desplaçar cap enrere el "
+"terminal aquest número de línies; les línies que no caben en el desplaçament "
+"es descarten."
 
-#: gnome-mud.schemas.in.h:23
+#: gnome-mud.schemas.in.h:27
 msgid "Tab location"
-msgstr ""
+msgstr "Ubicació de les pestanyes"
 
-#: gnome-mud.schemas.in.h:24
-#, fuzzy
+#: gnome-mud.schemas.in.h:28
 msgid "Terminal type"
-msgstr "Tipus de terminal:"
+msgstr "Tipus de terminal"
 
-#: gnome-mud.schemas.in.h:25
+#: gnome-mud.schemas.in.h:29
 msgid ""
 "The location of the connection tabs. Valid options are \"left\", \"right\", "
 "\"top\" and \"bottom\"."
 msgstr ""
+"La ubicació de les pestanyes de connexions. Les opcions vàlides són «left», "
+"«right», «top» i «bottom»."
 
-#: gnome-mud.schemas.in.h:28
+#: gnome-mud.schemas.in.h:32
 msgid "Whether to echo sent text to the connection"
-msgstr ""
+msgstr "Si s'ha de mostrar el text enviat a la connexió"
 
-#: gnome-mud.schemas.in.h:29
+#: gnome-mud.schemas.in.h:33
 msgid "Whether to enable or disable the system keys"
-msgstr ""
+msgstr "Si s'han d'habilitar les tecles del sistema"
 
-#: gnome-mud.schemas.in.h:30
-msgid "Whether to keep text sent to the connect"
-msgstr ""
+#: gnome-mud.schemas.in.h:34
+msgid "Whether to keep text sent to the connection"
+msgstr "Si s'ha de mantindre el text enviat a la connexió."
 
-#: gnome-mud.schemas.in.h:31
+#: gnome-mud.schemas.in.h:35
 msgid "Whether to scroll to the bottom when there's new output"
-msgstr ""
-
-#~ msgid "Add"
-#~ msgstr "Afegeix"
-
-#~ msgid "Quit?"
-#~ msgstr "Sortir?"
-
-#~ msgid "GNOME-Mud Popup Message"
-#~ msgstr "Missatge del GNOME-Mud"
-
-#~ msgid "Ok"
-#~ msgstr "Accepta"
-
-#, fuzzy
-#~ msgid "Couldn't allocate colour"
-#~ msgstr "No s'ha pogut fixar el color"
-
-#~ msgid "Font %s Loading Error"
-#~ msgstr "Error al carregar la font %s"
-
-#, fuzzy
-#~ msgid "Bold foreground colour:"
-#~ msgstr "Color de fons fort:"
+msgstr "Si s'ha de desplaçar avall quan es produeix nova sortida."
 
 #~ msgid "Freeze/Thaw?"
 #~ msgstr "Congelar/Descongelar?"
@@ -972,147 +964,6 @@ msgstr ""
 #~ "Amb aquesta opció activada, el texte es dibuixarà mes rapid però no "
 #~ "dibuixarà tots els caràcters, només cadenes completes. Açò pot ser "
 #~ "especialment beneficiós en MUDs amb molts colors diferents."
-
-#~ msgid "Robin Ericsson, main developer"
-#~ msgstr "Robin Ericsson, desenvolupador principal"
-
-#~ msgid "Ben Gertzfield, creation of rcfiles for AMCL"
-#~ msgstr "Ben Gertzfield, creació de fitxers rc per AMCL"
-
-#~ msgid "Paul Cameron, compile fixes, automapper"
-#~ msgstr "Paul Cameron, arreglos de compilació, automapejador"
-
-#~ msgid "Bret Robideaux, action/trigger module"
-#~ msgstr "Bret Robideaux, mòdul d'accions/triggers"
-
-#~ msgid "Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"
-#~ msgstr ""
-#~ "Maxim Kiselev, assignació de tecles, salvat de colors, divisió d'ordres, "
-#~ "arreglos"
-
-#~ msgid "Benjamin Curtis, recognition of TELNET codes and replies"
-#~ msgstr "Benjamin Curtis, reconeiximent de codis i respostes TELNET"
-
-#~ msgid "Jorgen Kosche, focus-bugs patches, de.po maintainer"
-#~ msgstr ""
-#~ "Jörgen Kosche, pedaços per errades del foc de finestres, mantenidor del "
-#~ "de.po"
-
-#~ msgid "Jeroen Ruigrok, various code cleanups and fixes"
-#~ msgstr "Jeroen Ruigrok, neteja del codi i arreglos"
-
-#~ msgid "Jorge Garcia, various code cleanups and fixes"
-#~ msgstr "Jorge García, neteja del codi i arreglos"
-
-#~ msgid ""
-#~ "Jordi Mallach, official Debian package, i18n support, ca.po & es.po "
-#~ "maintainer"
-#~ msgstr ""
-#~ "Jordi Mallach, paquet Debian oficial, suport d'i18n, mantenidor de ca.po "
-#~ "i es.po"
-
-#~ msgid "Martin Quinson, fr.po maintainer"
-#~ msgstr "Martin Quinson, mantenidor de fr.po"
-
-#~ msgid "Petter E. Stokke, Python scripting support"
-#~ msgstr "Petter E. Stokke, suport per a scripting amb Python"
-
-#~ msgid "Vashti, default keypad bindings, telnet support patches"
-#~ msgstr ""
-#~ "Vashti, configuració del teclat numèric, pedaços de suport de telnet"
-
-#~ msgid "GNOME-Mud _manual"
-#~ msgstr "_Manual del GNOME-Mud"
-
-#~ msgid "Open the GNOME-Mud manual"
-#~ msgstr "Obre el manual del GNOME-Mud"
-
-#~ msgid "David Zanetti, bugfixes"
-#~ msgstr "David Zanetti, arreglos"
-
-#~ msgid "Will Schenk, bugfixes"
-#~ msgstr "Will Schenk, arreglos"
-
-#~ msgid "desaster, bugfixes"
-#~ msgstr "desaster, arreglos"
-
-#~ msgid "Robert Brady, color selection"
-#~ msgstr "Robert Brady, selecció de colors"
-
-#~ msgid "Staffan Thomen and the creators of gEdit - module API"
-#~ msgstr "Staffan Thomèn i els creadors de gEdit - API de mòduls"
-
-#~ msgid "GNOME-Mud Color Chooser"
-#~ msgstr "Seleccionador de Colors del GNOME-Mud"
-
-#~ msgid "Cancel"
-#~ msgstr "Cancel·la"
-
-#~ msgid "Apply"
-#~ msgstr "Aplica"
-
-#~ msgid "Can't load font... %s Using default.\n"
-#~ msgstr "No es pot carregar la font... %s Utilitzant predeterminada.\n"
-
-#~ msgid "Colors..."
-#~ msgstr "Colors..."
-
-#~ msgid ""
-#~ "Use this button to open the font selector to choose what font you will "
-#~ "use."
-#~ msgstr ""
-#~ "Utilitzeu aquest botó per a obrir el selector de fonts per a triar la "
-#~ "font que vulgau gastar."
-
-#~ msgid "No selection made"
-#~ msgstr "No hi ha cap selecció"
-
-#~ msgid "Your connection doesn't have a name."
-#~ msgstr "La vostra connexió no te nom."
-
-#~ msgid ""
-#~ "At the moment, everything but the name can be changed.\n"
-#~ "If you need to change the name of the connection, you'll have to recreate "
-#~ "it."
-#~ msgstr ""
-#~ "De moment, es pot canviar tot excepte el nom.\n"
-#~ "Si necessiteu canviar el nom de la connexió, tindreu que recrearla."
-
-#~ msgid "Can't add an existing connection."
-#~ msgstr "No es pot afegir una connexió ja existent."
-
-#~ msgid "Connections"
-#~ msgstr "Connexions"
-
-#~ msgid "GNOME-Mud Connection Wizard"
-#~ msgstr "Assistent de Connexions del GNOME-Mud"
-
-#~ msgid "Connection Name:"
-#~ msgstr "Nom de la connexió"
-
-#~ msgid ""
-#~ "\n"
-#~ "Host:"
-#~ msgstr ""
-#~ "\n"
-#~ "Servidor:"
-
-#~ msgid "This is the host where the MUD you will connect to is located."
-#~ msgstr "Aquest és el servidor on es troba el MUD al que voleu connectar."
-
-#~ msgid ""
-#~ "\n"
-#~ "Port:"
-#~ msgstr ""
-#~ "\n"
-#~ "Port:"
-
-#~ msgid ""
-#~ "This is the port on the host that the MUD is located on. The default port "
-#~ "is 23 (telnet)."
-#~ msgstr ""
-#~ "Aquest és el port del servidor a través del qual escolta el MUD. El port "
-#~ "per defecte és el 23 (telnet)."
 
 #~ msgid ""
 #~ "Should GNOME-Mud login to this MUD automatically? Player Name and "
