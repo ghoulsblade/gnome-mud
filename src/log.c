@@ -96,7 +96,7 @@ void file_selection_cb_open
   cd->log_filename =
     g_strdup(gtk_file_selection_get_filename(GTK_FILE_SELECTION(fs))) ;
 
-  gconf_client_set_string(gconf_client, "/apps/gnome-mud/last_log_dir", cd->log_filename, NULL);
+  gconf_client_set_string(gconf_client, "/apps/gnome-mud/functionality/last_log_dir", cd->log_filename, NULL);
   
   cd->log = fopen(cd->log_filename, "a") ;
   if (!cd->log) {
@@ -192,7 +192,7 @@ static void window_menu_file_save_log_file_ok_cb
 	gint number = gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook));
 	const gchar *filename = gtk_file_selection_get_filename( GTK_FILE_SELECTION(file_selector) );
 
-	gconf_client_set_string(gconf_client, "/apps/gnome-mud/last_log_dir", filename, NULL);
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/functionality/last_log_dir", filename, NULL);
 	
 	cd = connections[number];
 

@@ -49,7 +49,7 @@ static void profile_gconf_sync_list()
 		list = g_slist_append(list, ((PROFILE_DATA *) entry->data)->name);
 	}
 
-	gconf_client_set_list(gconf_client, "/apps/gnome-mud/profile_list", GCONF_VALUE_STRING, list, NULL);
+	gconf_client_set_list(gconf_client, "/apps/gnome-mud/profiles/list", GCONF_VALUE_STRING, list, NULL);
 }
 
 static void profile_gconf_sync_connection_list()
@@ -74,7 +74,7 @@ static void profile_gconf_sync_connection_list()
 		}
 	}
 
-	gconf_client_set_list(gconf_client, "/apps/gnome-mud/connection_list", GCONF_VALUE_STRING, list, NULL);
+	gconf_client_set_list(gconf_client, "/apps/gnome-mud/connections/list", GCONF_VALUE_STRING, list, NULL);
 }
 
 static void profile_gconf_sync_wizard(WIZARD_DATA2 *wd)
@@ -171,7 +171,7 @@ void load_profiles()
 	GSList *profiles, *connections;
 	GSList *entry;
 		
-	profiles = gconf_client_get_list(gconf_client, "/apps/gnome-mud/profile_list", GCONF_VALUE_STRING, NULL);
+	profiles = gconf_client_get_list(gconf_client, "/apps/gnome-mud/profiles/list", GCONF_VALUE_STRING, NULL);
 
 	for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
 	{
@@ -190,7 +190,7 @@ void load_profiles()
 	/*
 	 * Wizard
 	 */
-	connections = gconf_client_get_list(gconf_client, "/apps/gnome-mud/connection_list", GCONF_VALUE_STRING, NULL);
+	connections = gconf_client_get_list(gconf_client, "/apps/gnome-mud/connections/list", GCONF_VALUE_STRING, NULL);
 
 #define LOAD(Name, Value) \
 		g_snprintf(buf, 1024, "/apps/gnome-mud/connections/%s/%s", (gchar *) entry->data, Name); \

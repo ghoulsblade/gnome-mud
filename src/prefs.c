@@ -85,7 +85,7 @@ void update_gconf_from_unusual_exits()
 		iter = g_stpcpy(iter, ";");
 	}
 	
-	gconf_client_set_string(gconf_client, "/apps/gnome-mud/unusual_exits", entry, NULL);
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/mapper/unusual_exits", entry, NULL);
 	g_free(entry);
 }
 
@@ -298,7 +298,7 @@ static void prefs_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *
 			automap_config->unusual_exits = NULL;
 		}
 		
-		gchar* p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/unusual_exits", NULL);
+		gchar* p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/mapper/unusual_exits", NULL);
 		if (p)
 		{
 			gchar** unusual_exits;
@@ -363,18 +363,18 @@ void load_prefs ( void )
 		}
 	}
 
-#define	GCONF_GET_STRING(entry, variable)                                                  \
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/" #entry, NULL);            \
+#define	GCONF_GET_STRING(entry, subdir, variable)                                          \
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/" #subdir "/" #entry, NULL);\
 	prefs.variable = g_strdup(p);
 
-#define GCONF_GET_BOOLEAN(entry, variable)                                                 \
-	prefs.variable = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/" #entry, NULL);
+#define GCONF_GET_BOOLEAN(entry, subdir, variable)                                         \
+	prefs.variable = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/" #subdir "/" #entry, NULL);
 
-#define GCONF_GET_INT(entry, variable)                                                     \
-	prefs.variable = gconf_client_get_int(gconf_client, "/apps/gnome-mud/" #entry, NULL);
+#define GCONF_GET_INT(entry, subdir, variable)                                             \
+	prefs.variable = gconf_client_get_int(gconf_client, "/apps/gnome-mud/" #subdir "/" #entry, NULL);
 	
-#define GCONF_GET_COLOR(entry, variable)                                                   \
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/" #entry, NULL);            \
+#define GCONF_GET_COLOR(entry, subdir, variable)                                           \
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/" #subdir "/" #entry, NULL);\
 	if (p && gdk_color_parse(p, &color))                                                   \
 	{                                                                                      \
 		prefs.variable = color;                                                            \
@@ -382,22 +382,22 @@ void load_prefs ( void )
 
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud", prefs_gconf_changed, NULL, NULL, NULL);
 
-	GCONF_GET_STRING(font, 				FontName); 
-	GCONF_GET_STRING(commdev, 			CommDev);
-	GCONF_GET_BOOLEAN(echo,     		EchoText);
-	GCONF_GET_BOOLEAN(keeptext,			KeepText);
-	GCONF_GET_BOOLEAN(system_keys,		DisableKeys);
-	GCONF_GET_STRING(terminal_type,		TerminalType);
-	GCONF_GET_STRING(mudlist_file,		MudListFile);
-	GCONF_GET_COLOR(foreground_color,	Foreground);
-	GCONF_GET_COLOR(background_color,	Background);
-	GCONF_GET_BOOLEAN(scroll_on_output,	ScrollOnOutput);
-	GCONF_GET_INT(scrollback_lines,		Scrollback);
-	GCONF_GET_STRING(tab_location,		TabLocation);
-	GCONF_GET_INT(history_count,		History);
+	GCONF_GET_STRING(font, 				ui,				FontName); 
+	GCONF_GET_COLOR(foreground_color,	ui,				Foreground);
+	GCONF_GET_COLOR(background_color,	ui,				Background);
+	GCONF_GET_INT(scrollback_lines,		ui,				Scrollback);
+	GCONF_GET_STRING(tab_location,		ui,				TabLocation);
+	GCONF_GET_STRING(commdev, 			functionality,	CommDev);
+	GCONF_GET_BOOLEAN(echo,     		functionality,	EchoText);
+	GCONF_GET_BOOLEAN(keeptext,			functionality,	KeepText);
+	GCONF_GET_BOOLEAN(system_keys,		functionality,	DisableKeys);
+	GCONF_GET_STRING(terminal_type,		functionality,	TerminalType);
+	GCONF_GET_STRING(mudlist_file,		functionality,	MudListFile);
+	GCONF_GET_BOOLEAN(scroll_on_output,	functionality,	ScrollOnOutput);
+	GCONF_GET_INT(history_count,		functionality,	History);
 		
 	/* palette */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/palette", NULL);
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/ui/palette", NULL);
 
 	gtk_color_selection_palette_from_string(p, &colors, &n_colors);
 	if (n_colors < C_MAX)
@@ -408,7 +408,7 @@ void load_prefs ( void )
 	g_free(colors);
 
 	/* last log dir */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/last_log_dir", NULL);
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/functionality/last_log_dir", NULL);
 
 	if (!g_ascii_strncasecmp(p, "", sizeof("")))
 	{
@@ -421,7 +421,7 @@ void load_prefs ( void )
 
 #ifndef WITHOUT_MAPPER
 	/* load automapper prefs : unusual_exits */
-	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/unusual_exits", NULL);
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/mapper/unusual_exits", NULL);
 	automap_config = g_malloc0(sizeof(AutoMapConfig));
 	if (p)
 	{
@@ -470,61 +470,61 @@ static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)
 {
 	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
 
-	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/keeptext", value, NULL);
+	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/functionality/keeptext", value, NULL);
 }
 
 static void prefs_checkbutton_disablekeys_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
 	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
 
-	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/system_keys", value, NULL);
+	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/functionality/system_keys", value, NULL);
 }
 
 static void prefs_entry_terminal_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
 	const gchar *s = gtk_entry_get_text(GTK_ENTRY(widget));
 
-	gconf_client_set_string(gconf_client, "/apps/gnome-mud/terminal_type", s, NULL);
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/functionality/terminal_type", s, NULL);
 }
 
 static void prefs_entry_history_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
 	gint value = (gint) gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
 
-	gconf_client_set_int(gconf_client, "/apps/gnome-mud/history_count", value, NULL);
+	gconf_client_set_int(gconf_client, "/apps/gnome-mud/functionality/history_count", value, NULL);
 }
 
 static void prefs_entry_mudlistfile_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
 	const gchar *s = gtk_entry_get_text(GTK_ENTRY(widget));
 
-	gconf_client_set_string(gconf_client, "/apps/gnome-mud/mudlist_file", s, NULL);
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/functionality/mudlist_file", s, NULL);
 }
 
 static void prefs_entry_divide_cb (GtkWidget *widget, GnomePropertyBox *box)
 {
 	const gchar *s = gtk_entry_get_text(GTK_ENTRY(widget));
 
-	gconf_client_set_string(gconf_client, "/apps/gnome-mud/commdev", s, NULL);
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/functionality/commdev", s, NULL);
 }
 
 static void prefs_checkbox_echo_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
 	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
 
-	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/echo", value, NULL);
+	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/functionality/echo", value, NULL);
 }
 
 static void prefs_scroll_output_changed_cb(GtkWidget *widget, gpointer data)
 {
 	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
 
-	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/scroll_on_output", value, NULL);
+	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/functionality/scroll_on_output", value, NULL);
 }
 
 static void prefs_select_font_cb(GnomeFontPicker *fontpicker, gchar *font, gpointer data)
 {
-	gconf_client_set_string(gconf_client, "/apps/gnome-mud/font", font, NULL);
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/ui/font", font, NULL);
 }
 
 static void prefs_select_fg_color_cb(GnomeColorPicker *colorpicker, guint r, guint g, guint b, guint alpha, gpointer data)
@@ -540,7 +540,7 @@ static void prefs_select_fg_color_cb(GnomeColorPicker *colorpicker, guint r, gui
 		gchar *s;
 
 		s = color_to_string(&color);
-		gconf_client_set_string(gconf_client, "/apps/gnome-mud/foreground_color", s, NULL);
+		gconf_client_set_string(gconf_client, "/apps/gnome-mud/ui/foreground_color", s, NULL);
 	}
 }
 
@@ -557,7 +557,7 @@ static void prefs_select_bg_color_cb(GnomeColorPicker *colorpicker, guint r, gui
 		gchar *s;
 
 		s = color_to_string(&color);
-		gconf_client_set_string(gconf_client, "/apps/gnome-mud/background_color", s, NULL);
+		gconf_client_set_string(gconf_client, "/apps/gnome-mud/ui/background_color", s, NULL);
 	}
 }
 
@@ -571,7 +571,7 @@ static void prefs_select_palette_cb(GnomeColorPicker *colorpicker, guint r, guin
 	prefs.Colors[i].blue  = b;
 
 	s = gtk_color_selection_palette_to_string(prefs.Colors, C_MAX);
-	gconf_client_set_string(gconf_client, "/apps/gnome-mud/palette", s, NULL);
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/ui/palette", s, NULL);
 }
 
 static void prefs_set_color(GtkWidget *color_picker, gint color)
@@ -587,22 +587,22 @@ static void prefs_tab_location_changed_cb(GtkOptionMenu *option, gpointer data)
 	
 	selected = gtk_option_menu_get_history(option);
 
-	gconf_client_set_string(gconf_client, "/apps/gnome-mud/tab_location", tab_location_by_name(selected), NULL);
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/ui/tab_location", tab_location_by_name(selected), NULL);
 }
 
 static void prefs_scrollback_value_changed_cb(GtkWidget *button, gpointer data)
 {
 	gint value = (gint) gtk_spin_button_get_value(GTK_SPIN_BUTTON(button));
 
-	gconf_client_set_int(gconf_client, "/apps/gnome-mud/scrollback_lines", value, NULL);
+	gconf_client_set_int(gconf_client, "/apps/gnome-mud/ui/scrollback_lines", value, NULL);
 }
 
 #ifndef WITHOUT_MAPPER
 static void prefs_unusual_exits_cb(GtkWidget *entry, gpointer data)
 {
-	gchar* text = gtk_entry_get_text(GTK_ENTRY(entry));
+	const gchar* text = gtk_entry_get_text(GTK_ENTRY(entry));
 
-	gconf_client_set_string(gconf_client, "/apps/gnome-mud/unusual_exits", text, NULL);
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/mapper/unusual_exits", text, NULL);
 }
 
 #endif
@@ -949,7 +949,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
 
 	tmp = gtk_entry_new();
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
-	gtk_entry_set_text(GTK_ENTRY(tmp), gconf_client_get_string(gconf_client, "/apps/gnome-mud/unusual_exits", NULL));
+	gtk_entry_set_text(GTK_ENTRY(tmp), gconf_client_get_string(gconf_client, "/apps/gnome-mud/mapper/unusual_exits", NULL));
 	gtk_tooltips_set_tip(tooltip, tmp, 
 			 _("If you use the automapper, you may want "
 			   "to specify here some unusual movement "

@@ -1,9 +1,9 @@
 <gconfschemafile>
 	<schemalist>
-		<!-- Global settings -->
+		<!-- user interface settings -->
 		<schema>
-			<key>/schemas/apps/gnome-mud/font</key>
-			<applyto>/apps/gnome-mud/font</applyto>
+			<key>/schemas/apps/gnome-mud/ui/font</key>
+			<applyto>/apps/gnome-mud/ui/font</applyto>
 			<owner>gnome-mud</owner>
 			<type>string</type>
 			<default>monospace 12</default>
@@ -17,102 +17,8 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/commdev</key>
-			<applyto>/apps/gnome-mud/commdev</applyto>
-			<owner>gnome-mud</owner>
-			<type>string</type>
-			<default>;</default>
-			<locale name="C">
-				<short>Command Divider</short>
-				<long>
-				 A character that is used to split commands
-				 in a string like "w;w;w;l", which will be
-				 sent to the MUD as 4 separate commands.
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/echo</key>
-			<applyto>/apps/gnome-mud/echo</applyto>
-			<owner>gnome-mud</owner>
-			<type>bool</type>
-			<default>true</default>
-			<locale name="C">
-				<short>Whether to echo sent text to the connection</short>
-				<long>
-				 If enabled, all the text typed in will be
-				 echoed in the terminal, making it easier to
-				 control what is sent.
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/keeptext</key>
-			<applyto>/apps/gnome-mud/keeptext</applyto>
-			<owner>gnome-mud</owner>
-			<type>bool</type>
-			<default>false</default>
-			<locale name="C">
-				<short>Whether to keep text sent to the connection</short>
-				<long>
-				 If enabled, the text that is sent to the
-				 connection will be left as a selection in the
-				 entry box. Otherwise, the text entry box will
-				 be cleared after each text input.
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/system_keys</key>
-			<applyto>/apps/gnome-mud/system_keys</applyto>
-			<owner>gnome-mud</owner>
-			<type>bool</type>
-			<default>false</default>
-			<locale name="C">
-				<short>Whether to enable or disable the system keys</short>
-				<long>
-				 If enabled, GNOME-Mud will offer a few
-				 built-in keybinds. They can be overridden by
-				 custom keybinds, or they can be disabled
-				 completely with this option.
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/terminal_type</key>
-			<applyto>/apps/gnome-mud/terminal_type</applyto>
-			<owner>gnome-mud</owner>
-			<type>string</type>
-			<default>ansi</default>
-			<locale name="C">
-				<short>Terminal type</short>
-				<long>
-				 GNOME-Mud will attempt to transmit a terminal
-				 type (like ANSI or VT100) if the MUD requests
-				 one. This option sets the terminal type that
-				 will be sent.
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/mudlist_file</key>
-			<applyto>/apps/gnome-mud/mudlist_file</applyto>
-			<owner>gnome-mud</owner>
-			<type>string</type>
-			<default></default>
-			<locale name="C">
-				<short>Mudlist file</short>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/background_color</key>
-			<applyto>/apps/gnome-mud/background_color</applyto>
+			<key>/schemas/apps/gnome-mud/ui/background_color</key>
+			<applyto>/apps/gnome-mud/ui/background_color</applyto>
 			<owner>gnome-mud</owner>
 			<type>string</type>
 			<default>#000000</default>
@@ -127,8 +33,8 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/foreground_color</key>
-			<applyto>/apps/gnome-mud/foreground_color</applyto>
+			<key>/schemas/apps/gnome-mud/ui/foreground_color</key>
+			<applyto>/apps/gnome-mud/ui/foreground_color</applyto>
 			<owner>gnome-mud</owner>
 			<type>string</type>
 			<default>#FFFFDD</default>
@@ -143,8 +49,8 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/palette</key>
-			<applyto>/apps/gnome-mud/palette</applyto>
+			<key>/schemas/apps/gnome-mud/ui/palette</key>
+			<applyto>/apps/gnome-mud/ui/palette</applyto>
 			<owner>gnome-mud</owner>
 			<type>string</type>
 			<default>#000000:#AA0000:#00AA00:#AA5500:#0000AA:#AA00AA:#00AAAA:#AAAAAA:#555555:#FF5555:#55FF55:#FFFF55:#5555FF:#FF55FF:#55FFFF:#FFFFFF</default>
@@ -161,8 +67,8 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/tab_location</key>
-			<applyto>/apps/gnome-mud/tab_location</applyto>
+			<key>/schemas/apps/gnome-mud/ui/tab_location</key>
+			<applyto>/apps/gnome-mud/ui/tab_location</applyto>
 			<owner>gnome-mud</owner>
 			<type>string</type>
 			<default>bottom</default>
@@ -177,19 +83,8 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/last_log_dir</key>
-			<applyto>/apps/gnome-mud/last_log_dir</applyto>
-			<owner>gnome-mud</owner>
-			<type>string</type>
-			<default></default>
-			<locale name="C">
-				<short>Last log dir</short>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/scrollback_lines</key>
-			<applyto>/apps/gnome-mud/scrollback_lines</applyto>
+			<key>/schemas/apps/gnome-mud/ui/scrollback_lines</key>
+			<applyto>/apps/gnome-mud/ui/scrollback_lines</applyto>
 			<owner>gnome-mud</owner>
 			<type>int</type>
 			<default>500</default>
@@ -203,10 +98,105 @@
 				</long>
 			</locale>
 		</schema>
-		
+	
+		<!-- functionality settings -->
 		<schema>
-			<key>/schemas/apps/gnome-mud/scroll_on_output</key>
-			<applyto>/apps/gnome-mud/scroll_on_output</applyto>
+			<key>/schemas/apps/gnome-mud/functionality/commdev</key>
+			<applyto>/apps/gnome-mud/functionality/commdev</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>;</default>
+			<locale name="C">
+				<short>Command Divider</short>
+				<long>
+				 A character that is used to split commands
+				 in a string like "w;w;w;l", which will be
+				 sent to the MUD as 4 separate commands.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/echo</key>
+			<applyto>/apps/gnome-mud/functionality/echo</applyto>
+			<owner>gnome-mud</owner>
+			<type>bool</type>
+			<default>true</default>
+			<locale name="C">
+				<short>Whether to echo sent text to the connection</short>
+				<long>
+				 If enabled, all the text typed in will be
+				 echoed in the terminal, making it easier to
+				 control what is sent.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/keeptext</key>
+			<applyto>/apps/gnome-mud/functionality/keeptext</applyto>
+			<owner>gnome-mud</owner>
+			<type>bool</type>
+			<default>false</default>
+			<locale name="C">
+				<short>Whether to keep text sent to the connection</short>
+				<long>
+				 If enabled, the text that is sent to the
+				 connection will be left as a selection in the
+				 entry box. Otherwise, the text entry box will
+				 be cleared after each text input.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/system_keys</key>
+			<applyto>/apps/gnome-mud/functionality/system_keys</applyto>
+			<owner>gnome-mud</owner>
+			<type>bool</type>
+			<default>false</default>
+			<locale name="C">
+				<short>Whether to enable or disable the system keys</short>
+				<long>
+				 If enabled, GNOME-Mud will offer a few
+				 built-in keybinds. They can be overridden by
+				 custom keybinds, or they can be disabled
+				 completely with this option.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/terminal_type</key>
+			<applyto>/apps/gnome-mud/functionality/terminal_type</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>ansi</default>
+			<locale name="C">
+				<short>Terminal type</short>
+				<long>
+				 GNOME-Mud will attempt to transmit a terminal
+				 type (like ANSI or VT100) if the MUD requests
+				 one. This option sets the terminal type that
+				 will be sent.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/mudlist_file</key>
+			<applyto>/apps/gnome-mud/functionality/mudlist_file</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default></default>
+			<locale name="C">
+				<short>Mudlist file</short>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/scroll_on_output</key>
+			<applyto>/apps/gnome-mud/functionality/scroll_on_output</applyto>
 			<owner>gnome-mud</owner>
 			<type>bool</type>
 			<default>false</default>
@@ -220,8 +210,8 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/history_count</key>
-			<applyto>/apps/gnome-mud/history_count</applyto>
+			<key>/schemas/apps/gnome-mud/functionality/history_count</key>
+			<applyto>/apps/gnome-mud/functionality/history_count</applyto>
 			<owner>gnome-mud</owner>
 			<type>int</type>
 			<default>10</default>
@@ -231,8 +221,19 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/profile_list</key>
-			<applyto>/apps/gnome-mud/profile_list</applyto>
+			<key>/schemas/apps/gnome-mud/functionality/last_log_dir</key>
+			<applyto>/apps/gnome-mud/functionality/last_log_dir</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default></default>
+			<locale name="C">
+				<short>Last log dir</short>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/profiles/list</key>
+			<applyto>/apps/gnome-mud/profiles/list</applyto>
 			<owner>gnome-mud</owner>
 			<type>list</type>
 			<list_type>string</list_type>
@@ -248,8 +249,8 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/connection_list</key>
-			<applyto>/apps/gnome-mud/connection_list</applyto>
+			<key>/schemas/apps/gnome-mud/connections/list</key>
+			<applyto>/apps/gnome-mud/connections/list</applyto>
 			<owner>gnome-mud</owner>
 			<type>list</type>
 			<list_type>string</list_type>
@@ -265,8 +266,8 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/unusual_exits</key>
-			<applyto>/apps/gnome-mud/unusual_exits</applyto>
+			<key>/schemas/apps/gnome-mud/mapper/unusual_exits</key>
+			<applyto>/apps/gnome-mud/mapper/unusual_exits</applyto>
 			<owner>gnome-mud</owner>
 			<type>string</type>
 			<default>path;in;out;town;farm;gates;gate;cave;valley;ruins;enter;hole;cottage</default>

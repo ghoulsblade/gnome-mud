@@ -1,3 +1,7 @@
+Wed May 28 10:43:31 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Restructuring of gconf keys.	
+
 Tue May 20 12:41:44 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* gnome-mud.schemas.in: Grammar fixes.

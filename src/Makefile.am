@@ -12,7 +12,7 @@ gnome_mud_SOURCES = data.c init.c keybind.c map.c map-link.c \
                     net.c prefs.c window.c modules.c modules_api.c \
                     modules.h modules_api.h gnome-mud.h telnet.c \
 		    mccpDecompress.c mccpDecompress.h profiles.c python.c \
-		    mudlist.c log.c
+		    mudlist.c log.c map.h
 gnome_mud_LDADD   = gnome-mud.o $(GMUD_LIBS) $(Z_LIBS)
 
 gnome-mud.o: gnome-mud.c
