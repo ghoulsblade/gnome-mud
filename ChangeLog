@@ -1,3 +1,9 @@
+Tue Oct 16 14:55:22 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* po/sv.po: Translation fixes.
+
+	* README: Updated a bit.
+
 Tue Oct 16 13:48:00 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.in: really commit po/ fixes.

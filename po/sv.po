@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME-MUD 0.8.0\n"
 "POT-Creation-Date: 2001-10-09 16:32+0200\n"
-"PO-Revision-Date: 2001-10-09 16:40+0200\n"
+"PO-Revision-Date: 2001-10-16 14:55+0200\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -567,7 +567,7 @@ msgstr "Funktionalitet"
 
 #: src/profiles.c:328
 msgid "Name of new profile:"
-msgstr ""
+msgstr "Namn på nya profilen:"
 
 #: src/profiles.c:502
 msgid "GNOME-Mud: Profilelist"

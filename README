@@ -4,21 +4,21 @@ This program is under GPL. See file COPYING for details.
 1. What is it?
 
     It is a client for connecting to MUD's (Multi User Dungeon), written
-for X-Windows using the the GIMP ToolKit (GTK+). Some code used from 
-Bezerk, Xwhois, LinPopUp.
+    for X-Windows using the the GIMP ToolKit (GTK+). Some code used from 
+    Bezerk, Xwhois.
 
     Latest version of GNOME-Mud can always be found at
     <URL:http://amcl.sourceforge.net/>
 
 
-2. Requirements
+2. Requirements.
 
     A c-compiler :), and the GTK+ (the GIMP ToolKit) which can be found
-at ftp://ftp.gimp.org/pub/gtk. GNOME-Mud requires the newest version of GTK+,
-currently 1.2.X due to bugs in the text widget and GNOME.
+    at ftp://ftp.gimp.org/pub/gtk. GNOME-Mud requires the newest version of GTK+,
+    currently 1.2.X due to bugs in the text widget and GNOME.
 
     GNOME-Mud has been reported to compile and run on the following platforms,
-if you have a platform not included here, send me a mail to report.
+    if you have a platform not included here, send me a mail to report.
 
     - Linux 2.0, 2.1, 2.2
     - FreeBSD 3.x-STABLE, 4.0-STABLE
@@ -28,27 +28,40 @@ if you have a platform not included here, send me a mail to report.
     - GTK+ 1.2.4, 1.2.6, 1.2.7
 
 
-3. Compiling
+3. Compiling.
 
     Fastest way to do it:
 	
     ./configure --help
     ./configure
     make
-    strip src/gnomemud (if you want a smaller binary)
     make install (optional, just copy it if you don't want to install)
 
 
 4. Mailing-lists.
 
     User mailing-list:
-	- amcl-users@lists.sourceforge.net
+        - amcl-users@lists.sourceforge.net
 
     Devel mailing-list (where bugs, feature requests, etc should be mailed...)
-	- amcl-devel@lists.sourceforge.net
+        - amcl-devel@lists.sourceforge.net
+
+5. Contributing.
+
+    Please do! :)
+
+    You can hack away as much as you like. If you make something you think would be
+    useful for others, please send me a patch, either via sourceforge or devel
+    mailing-list.
+
+    Things that is in constant need of contrib is:
+
+    * translations, only a handfull languages are supported at this time
+    * documentation
+    * ... what would you like?
 
 
-5. Contacting
+6. Contacting.
 
-Robin Ericsson
-lobbin@localhost.nu
+    Robin Ericsson
+    lobbin@localhost.nu
