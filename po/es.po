@@ -1,14 +1,13 @@
 # Spanish Messages for the GNOME-Mud Client.
-# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
-# Jordi Mallach <jordi@debian.org>, 2000, 2001.
+# Copyright (C) 2000, 2001, 2002 Free Software Foundation, Inc.
+# Jordi Mallach <jordi@debian.org>, 2000, 2001, 2002.
 # $Id$
 #
-#: src/modules.c:298
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mud 0.8.0\n"
-"POT-Creation-Date: 2002-01-08 14:10+0100\n"
-"PO-Revision-Date: 2001-10-29 12:12+0100\n"
+"Project-Id-Version: gnome-mud 0.8.0-CVS\n"
+"POT-Creation-Date: 2002-01-09 01:17+0100\n"
+"PO-Revision-Date: 2001-01-09 01:25+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -212,7 +211,7 @@ msgstr "Staffan Thomèn y los creadores de gEdit - API para módulos"
 
 #: src/init.c:297
 msgid "Petter E. Stokke, Python scripting support"
-msgstr ""
+msgstr "Petter E. Stokke, soporte para scripting en Python"
 
 #: src/init.c:307
 msgid "GNOME-Mud"
@@ -228,11 +227,11 @@ msgstr "Página web de GNOME-Mud"
 
 #: src/init.c:460
 msgid "Could not open file for writing..."
-msgstr ""
+msgstr "No se ha podido abrir el fichero para escritura..."
 
 #: src/init.c:476
 msgid "Please select a log file..."
-msgstr ""
+msgstr "Por favor, selecciona un fichero de log..."
 
 #: src/init.c:498
 msgid "Wizard..."
@@ -256,7 +255,7 @@ msgstr "Asistente de Conexiones..."
 
 #: src/init.c:515
 msgid "Save log..."
-msgstr ""
+msgstr "Guardar log..."
 
 #: src/init.c:516
 msgid "Close Window"
@@ -306,6 +305,9 @@ msgid ""
 "Python version %s\n"
 "\n"
 msgstr ""
+"\n"
+"Versión de Python %s\n"
+"\n"
 
 #: src/keybind.c:142
 msgid "Can't add an existing key."
