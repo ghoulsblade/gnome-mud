@@ -1,3 +1,12 @@
+1999-07-30  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/net.c (action_send_to_conneciton): Now takes a connection
+	as argument to make it support multiple connections.
+	(send_to_connection): Ditto.
+
+	* src/wizard.c (free_connection_data): GtkWidget *window, does
+	not need to be freed.
+
 1999-07-29  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/amcl.h: New global (CONNECTION_DATA *connections[15]) added.

@@ -131,7 +131,7 @@ static gchar *alias_check (gchar *buf, gchar *word, gchar *foo)
  * I needed a separate way to send triggered actions to game, without
  * messing up the players command line or adding to his history.
  */
-static void action_send_to_connection (gchar *entry_text)
+static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 {
     gchar *temp_entry;
     gchar *word;
@@ -149,12 +149,10 @@ static void action_send_to_connection (gchar *entry_text)
     if ( !sent )
         sent = temp_entry;
 
-    //if ( connected )
-    //{
-        /* error checking here */
-      /* FIXME */
-      //send (sockfd, sent, strlen (sent), 0);
-    //}
+    if (connection->connected) {
+      /* error checking here */
+      send (connection->sockfd, sent, strlen (sent), 0);
+    }
 
     if ( sent != temp_entry )
         g_free (sent);
@@ -219,7 +217,6 @@ void open_connection (CONNECTION_DATA *connection)
     if ( !(strcmp (connection->host, "\0")) )
     {
         sprintf (buf, "*** Can't connect - you didn't specify a host\n");
-        /* FIXME */
         textfield_add (connection->window, buf, MESSAGE_ERR);
         return;
     }
@@ -227,13 +224,11 @@ void open_connection (CONNECTION_DATA *connection)
     if ( !(strcmp(connection->port, "\0")) )
     {
         sprintf (buf, "*** No port specified - assuming port 23\n");
-        /* FIXME */
         textfield_add (connection->window, buf, MESSAGE_NORMAL);
         port = "23\0";
     }
 
     sprintf (buf, "*** Making connection to %s, port %s\n", connection->host, connection->port);
-    /* FIXME */
     textfield_add (connection->window, buf, MESSAGE_NORMAL);
 
 
@@ -245,7 +240,6 @@ void open_connection (CONNECTION_DATA *connection)
 
     if ( ( connection->sockfd = socket (AF_INET, SOCK_STREAM, 0)) == -1 )
     {
-        /* FIXME */
         textfield_add (connection->window, strerror(errno), MESSAGE_ERR);
         return;
     }
@@ -258,12 +252,10 @@ void open_connection (CONNECTION_DATA *connection)
     if (connect (connection->sockfd, (struct sockaddr *)&their_addr,
                  sizeof (struct sockaddr)) == -1 )
     {
-        /* FIXME */
         textfield_add (connection->window, strerror(errno), MESSAGE_ERR);
         return;
     }
 
-    /* FIXME */
     textfield_add (connection->window, "*** Connection established.\n", MESSAGE_NORMAL);
 
     connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ,
@@ -310,93 +302,83 @@ void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCon
      */
     if ( check_actions (buf, triggered_action) )
     {
-        action_send_to_connection (triggered_action);
+        action_send_to_connection (triggered_action, connection);
     }
 }
 
 void send_to_connection (GtkWidget *widget, gpointer data)
 {
-    extern GList *EntryHistory;
-    GList *tmp;
-    ALIAS_DATA *alias;
-    gchar *entry_text;
-    gchar *temp_entry;
-    gchar *word;
-    gchar *foo;
-    gchar *sent=0;
+  CONNECTION_DATA *cd;
+  gint number;
 
-    entry_text = gtk_entry_get_text (GTK_ENTRY (text_entry));
+  extern GList *EntryHistory;
+  GList *tmp;
+  ALIAS_DATA *alias;
+  gchar *entry_text;
+  gchar *temp_entry;
+  gchar *word;
+  gchar *foo;
+  gchar *sent=0;
+  
+  number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
+  cd = connections[number];
 
-    EntryHistory = g_list_append (EntryHistory, g_strdup (entry_text));
-
-    if ( g_list_length (EntryHistory) > 10 )
-    {
-        gchar *temp;
-
-        temp = (gchar *) EntryHistory->data;
-
-        EntryHistory = g_list_remove (EntryHistory, EntryHistory->data);
-        g_free (temp);
+  entry_text = gtk_entry_get_text (GTK_ENTRY (text_entry));
+  
+  EntryHistory = g_list_append (EntryHistory, g_strdup (entry_text));
+  
+  if ( g_list_length (EntryHistory) > 10 ) {
+    gchar *temp;
+    
+    temp = (gchar *) EntryHistory->data;
+    
+    EntryHistory = g_list_remove (EntryHistory, EntryHistory->data);
+    g_free (temp);
+  }
+  
+  temp_entry = g_malloc0 (strlen (entry_text) + 2);
+  word       = g_malloc0 (strlen (entry_text) + 2);
+  foo        = g_malloc0 (strlen (entry_text) + 2);
+  strcat (temp_entry, entry_text);
+  strcat (temp_entry, "\n");
+  sscanf (temp_entry, "%s %[^\n]", word, foo);
+  
+  for ( tmp = g_list_first (alias_list2); tmp != NULL; tmp = tmp->next ) {
+    if ( tmp->data != NULL ) {
+      alias = (ALIAS_DATA *) tmp->data;
+      
+      if ( alias->alias && !strcmp (word, alias->alias) ) {
+	sent = g_malloc0(strlen(alias->replace)+strlen(foo)+3);
+	sprintf (sent, "%s %s\n", alias->replace, foo);
+	break;
+      }
     }
+  }
 
-    temp_entry = g_malloc0 (strlen (entry_text) + 2);
-    word       = g_malloc0 (strlen (entry_text) + 2);
-    foo        = g_malloc0 (strlen (entry_text) + 2);
-    strcat (temp_entry, entry_text);
-    strcat (temp_entry, "\n");
-    sscanf (temp_entry, "%s %[^\n]", word, foo);
+  if( !sent )
+    sent = temp_entry;
+  
+  if (cd->connected) {
+    /* error checking here */
+    send (cd->sockfd, sent, strlen (sent), 0);
+  }
 
-    for ( tmp = g_list_first (alias_list2); tmp != NULL; tmp = tmp->next )
-    {
-        if ( tmp->data != NULL )
-        {
-            alias = (ALIAS_DATA *) tmp->data;
-
-            if ( alias->alias && !strcmp (word, alias->alias) )
-            {
-                sent = g_malloc0(strlen(alias->replace)+strlen(foo)+3);
-                sprintf (sent, "%s %s\n", alias->replace, foo);
-                break;
-            }
-        }
-    }
-    /*for ( alias = alias_list; alias != NULL; alias = alias->next )
-    {
-        if ( alias->alias && !strcmp (word, alias->alias) )
-        {
-            sent = g_malloc0(strlen(alias->replace)+strlen(foo)+3);
-            sprintf (sent, "%s %s\n", alias->replace, foo);
-            break;
-        }
-    }*/
-
-    if( !sent )
-      sent = temp_entry;
-
-    //if ( connected )
-    //{
-        /* error checking here */
-      /* FIXME */
-      //send (sockfd, sent, strlen (sent), 0);
-    //}
-
-    if ( echo && prefs.EchoText)
-    {
-        /* FIXME */
-        textfield_add (main_connection->window, sent, MESSAGE_SENT);
-    }
-
-    if ( prefs.KeepText )
-        gtk_entry_select_region (GTK_ENTRY (text_entry), 0,
-                                 GTK_ENTRY (text_entry)->text_length);
-    else
-        gtk_entry_set_text (GTK_ENTRY (text_entry), "");
-
-    if( sent != temp_entry )
-      g_free( sent );
-    g_free (temp_entry);
-    g_free (word);
-    g_free (foo);
+  if ( echo && prefs.EchoText) {
+    textfield_add (cd->window, sent, MESSAGE_SENT);
+  }
+  
+  if ( prefs.KeepText )
+    gtk_entry_select_region (GTK_ENTRY (text_entry), 0,
+			     GTK_ENTRY (text_entry)->text_length);
+  else
+    gtk_entry_set_text (GTK_ENTRY (text_entry), "");
+  
+  if( sent != temp_entry )
+    g_free( sent );
+  
+  g_free (temp_entry);
+  g_free (word);
+  g_free (foo);
 }
 
 void connection_send (gchar *message)

@@ -47,7 +47,6 @@ void free_connection_data (CONNECTION_DATA *c)
 {
   g_free (c->host);
   g_free (c->port);
-  g_free (c->window);
   g_free (c);
 }
 
