@@ -1,15 +1,15 @@
 # Czech translation of gnome-mud
-# Copyright (C) 2003, 2004 gnome-mud'S COPYRIGHT HOLDER
-# Copyright (C) 2003, 2004 Miloslav Trmac <mitr@volny.cz>
+# Copyright (C) 2003, 2004, 2005 gnome-mud'S COPYRIGHT HOLDER
+# Copyright (C) 2003, 2004, 2005 Miloslav Trmac <mitr@volny.cz>
 # This file is distributed under the same license as the gnome-mud package.
-# Miloslav Trmac <mitr@volny.cz>, 2003, 2004.
+# Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-12 03:49+0100\n"
-"PO-Revision-Date: 2004-02-12 15:37+0100\n"
+"POT-Creation-Date: 2005-03-05 11:38+0100\n"
+"PO-Revision-Date: 2005-03-05 13:30+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: gnome-mud.desktop.in.h:1 src/init.c:270
+#: gnome-mud.desktop.in.h:1 src/init.c:271
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
@@ -39,7 +39,7 @@ msgstr ""
 "což\n"
 "bude MUD odesláno jako 4 oddělené příkazy."
 
-#: gnome-mud.schemas.in.h:3 src/profiles.c:1212
+#: gnome-mud.schemas.in.h:3 src/profiles.c:1258
 msgid "Aliases"
 msgstr "Aliasy"
 
@@ -76,16 +76,20 @@ msgstr ""
 "ve stylu HTML nebo název barvy, např. \"red\")."
 
 #: gnome-mud.schemas.in.h:10
+msgid "Directionbindings"
+msgstr "Klávesové zkratky směru"
+
+#: gnome-mud.schemas.in.h:11
 msgid ""
 "File where the mud list will be read from to be used in the MudList dialog."
 msgstr ""
 "Soubor, odkud bude čten seznam mudů, který bude použit v dialogu MudList."
 
-#: gnome-mud.schemas.in.h:11
+#: gnome-mud.schemas.in.h:12
 msgid "Font"
 msgstr "Písmo"
 
-#: gnome-mud.schemas.in.h:12
+#: gnome-mud.schemas.in.h:13
 msgid ""
 "GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in "
 "the form of a colon-separated list of color names. Color names should be in "
@@ -95,7 +99,7 @@ msgstr ""
 "zadána ve tvaru dvojtečkou oddělovaného seznamu názvů barev. Názvy barev by "
 "měly být v šestnáctkovém formátu, např. \"#FF00FF\"."
 
-#: gnome-mud.schemas.in.h:13 src/prefs.c:850
+#: gnome-mud.schemas.in.h:14 src/prefs.c:850
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
@@ -103,19 +107,19 @@ msgstr ""
 "GNOME-Mud se pokusí poslat typ terminálu (např. ANSI nebo VT100), pokud o to "
 "MUD požádá. Noto nastavení určuje typ terminálu, který bude odeslán."
 
-#: gnome-mud.schemas.in.h:14
+#: gnome-mud.schemas.in.h:15
 msgid "How many entries to keep in the command history"
 msgstr "Kolik položek udržovat v historii příkazů"
 
-#: gnome-mud.schemas.in.h:15
+#: gnome-mud.schemas.in.h:16
 msgid "How many entries to keep in the command history."
 msgstr "Kolik položek udržovat v historii příkazů."
 
-#: gnome-mud.schemas.in.h:16
+#: gnome-mud.schemas.in.h:17
 msgid "How often in seconds gnome-mud should flush logfiles."
 msgstr "Jak často (v sekundách) by měl gnome-mud zapisovat soubory záznamů."
 
-#: gnome-mud.schemas.in.h:17 src/prefs.c:804
+#: gnome-mud.schemas.in.h:18 src/prefs.c:804
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
 "overridden by custom keybindings, or they can be disabled completely with "
@@ -125,7 +129,7 @@ msgstr ""
 "zkratek. Mohou být změněny vlastními zkratkami nebo mohou být úplně zakázány "
 "tímto nastavením."
 
-#: gnome-mud.schemas.in.h:18 src/prefs.c:782
+#: gnome-mud.schemas.in.h:19 src/prefs.c:782
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
@@ -133,7 +137,7 @@ msgstr ""
 "Je-li povoleno, bude všechen napsaný text v terminálu zopakován, což "
 "usnadňuje kontrolu nad tím, co bude odesláno."
 
-#: gnome-mud.schemas.in.h:19 src/prefs.c:793
+#: gnome-mud.schemas.in.h:20 src/prefs.c:793
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
@@ -142,22 +146,22 @@ msgstr ""
 "Je-li povoleno, bude odeslaný text ponechán jako výběr ve vstupním poli. V "
 "opačném případě bude vstupní pole po každém zadání textu vymazáno."
 
-#: gnome-mud.schemas.in.h:20
+#: gnome-mud.schemas.in.h:21
 msgid ""
 "If enabled, whenever there's new output the terminal will be scrolled to the "
 "bottom."
 msgstr ""
 "Je-li povoleno, bude terminál posunut dospod, kdykoli se objeví nový výstup."
 
-#: gnome-mud.schemas.in.h:21 src/profiles.c:1243
+#: gnome-mud.schemas.in.h:22 src/profiles.c:1289
 msgid "Keybindings"
 msgstr "Klávesové zkratky"
 
-#: gnome-mud.schemas.in.h:22
+#: gnome-mud.schemas.in.h:23
 msgid "Last log file"
 msgstr "Poslední soubor záznamu"
 
-#: gnome-mud.schemas.in.h:23
+#: gnome-mud.schemas.in.h:24
 msgid ""
 "List of commands which will be treated as movement commands by the "
 "automapper. A semicolon is used to separate each command."
@@ -165,11 +169,11 @@ msgstr ""
 "Seznam příkazů, které budou automapovačem považovány za příkazy pohybu. Pro "
 "oddělování příkazů se používá středník."
 
-#: gnome-mud.schemas.in.h:24
+#: gnome-mud.schemas.in.h:25
 msgid "List of connections"
 msgstr "Seznam spojení"
 
-#: gnome-mud.schemas.in.h:25
+#: gnome-mud.schemas.in.h:26
 msgid ""
 "List of connections known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/connections."
@@ -177,15 +181,15 @@ msgstr ""
 "Seznam spojení známých v GNOME-Mud. Seznam obsahuje řetězce názvů "
 "podadresářů relativně k /apps/gnome-mud/connections."
 
-#: gnome-mud.schemas.in.h:26
+#: gnome-mud.schemas.in.h:27
 msgid "List of movement commands"
 msgstr "Seznam příkazů pohybu"
 
-#: gnome-mud.schemas.in.h:27
+#: gnome-mud.schemas.in.h:28
 msgid "List of profiles"
 msgstr "Seznam profilů"
 
-#: gnome-mud.schemas.in.h:28
+#: gnome-mud.schemas.in.h:29
 msgid ""
 "List of profiles known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/profiles."
@@ -193,19 +197,19 @@ msgstr ""
 "Seznam profilů známých v GNOME-Mud. Seznam obsahuje řetězce názvů "
 "podadresářů relativně k /apps/gnome-mud/profiles."
 
-#: gnome-mud.schemas.in.h:29
+#: gnome-mud.schemas.in.h:30
 msgid "Log flush interval"
 msgstr "Interval zapisování záznamů"
 
-#: gnome-mud.schemas.in.h:30
+#: gnome-mud.schemas.in.h:31
 msgid "Mudlist file"
 msgstr "Soubor Mudlist"
 
-#: gnome-mud.schemas.in.h:31
+#: gnome-mud.schemas.in.h:32
 msgid "Number of lines to keep in scrollback"
 msgstr "Počet odrolovaných řádků, které si pamatovat"
 
-#: gnome-mud.schemas.in.h:32
+#: gnome-mud.schemas.in.h:33
 msgid ""
 "Number of scrollback lines to keep around. You can scroll back in the "
 "terminal by this number of lines; lines that don't fit in the scrollback are "
@@ -214,19 +218,19 @@ msgstr ""
 "Počet odrolovaných řádků, které ponechat. V terminálu se můžete posunout "
 "zpět o tento počet řádků; řádky, které se nevejdou, jsou zahozeny."
 
-#: gnome-mud.schemas.in.h:33
+#: gnome-mud.schemas.in.h:34
 msgid "Tab location"
 msgstr "Umístění záložek"
 
-#: gnome-mud.schemas.in.h:34
+#: gnome-mud.schemas.in.h:35
 msgid "Terminal type"
 msgstr "Typ terminálu"
 
-#: gnome-mud.schemas.in.h:35
+#: gnome-mud.schemas.in.h:36
 msgid "The file that was last used to save a mudlog in."
 msgstr "Soubor, do kterého se naposledy ukládal mudlog."
 
-#: gnome-mud.schemas.in.h:36
+#: gnome-mud.schemas.in.h:37
 msgid ""
 "The location of the connection tabs. Valid options are \"left\", \"right\", "
 "\"top\" and \"bottom\"."
@@ -234,28 +238,28 @@ msgstr ""
 "Umístění záložek připojení. Platné možnosti jsou \"left\", \"right\", \"top"
 "\" a \"bottom\"."
 
-#: gnome-mud.schemas.in.h:37 src/data.c:346 src/profiles.c:1226
+#: gnome-mud.schemas.in.h:38 src/data.c:346 src/profiles.c:1272
 msgid "Triggers"
 msgstr "Podmínky"
 
 #. vars
-#: gnome-mud.schemas.in.h:38 src/data.c:353 src/profiles.c:1219
+#: gnome-mud.schemas.in.h:39 src/data.c:353 src/profiles.c:1265
 msgid "Variables"
 msgstr "Proměnné"
 
-#: gnome-mud.schemas.in.h:39
+#: gnome-mud.schemas.in.h:40
 msgid "Whether to echo sent text to the connection"
 msgstr "Jestli opakovat odeslaný text"
 
-#: gnome-mud.schemas.in.h:40
+#: gnome-mud.schemas.in.h:41
 msgid "Whether to enable or disable the system keys"
 msgstr "Jestli povolit klávesy systému"
 
-#: gnome-mud.schemas.in.h:41
+#: gnome-mud.schemas.in.h:42
 msgid "Whether to keep text sent to the connection"
 msgstr "Jestli ponechávat odeslaný text"
 
-#: gnome-mud.schemas.in.h:42
+#: gnome-mud.schemas.in.h:43
 msgid "Whether to scroll to the bottom when there's new output"
 msgstr "Jestli se posunout dolů při novém výstupu"
 
@@ -335,168 +339,168 @@ msgstr ""
 msgid "Failed to init GConf: %s"
 msgstr "Nemohu inicializovat GConf: %s"
 
-#: src/init.c:93
+#: src/init.c:94
 msgid "Do you really want to quit?"
 msgstr "Opravdu chcete skončit?"
 
-#: src/init.c:143 src/init.c:673
+#: src/init.c:144 src/init.c:677
 msgid "Connect..."
 msgstr "Připojit..."
 
-#: src/init.c:155 src/profiles.c:950
+#: src/init.c:156 src/profiles.c:995
 msgid "Host:"
 msgstr "Počítač:"
 
-#: src/init.c:161 src/profiles.c:970
+#: src/init.c:162 src/profiles.c:1015
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:215
+#: src/init.c:216
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Interní chyba: takové spojení neexistuje.\n"
 
-#: src/init.c:256
+#: src/init.c:257
 msgid "Artwork by:"
 msgstr "Grafika od:"
 
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:266
+#: src/init.c:267
 msgid "translator_credits"
 msgstr "Miloslav Trmač <mitr@volny.cz>"
 
-#: src/init.c:272
+#: src/init.c:273
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Klient Multi-User Dungeon (MUD) pro GNOME.\n"
 
-#: src/init.c:284
+#: src/init.c:285
 msgid "GNOME-Mud home page"
 msgstr "Domovská stránka GNOME-Mud"
 
-#: src/init.c:623 src/init.c:653
+#: src/init.c:627 src/init.c:657
 #, c-format
 msgid "There was an error displaying help: %s"
 msgstr "Při zobrazování nápovědy došlo k chybě: %s"
 
-#: src/init.c:669
+#: src/init.c:673
 msgid "Wizard..."
 msgstr "Průvodce..."
 
-#: src/init.c:669
+#: src/init.c:673
 msgid "Open the Connection Wizard"
 msgstr "Otevřít Průvodce připojením"
 
-#: src/init.c:671
+#: src/init.c:675
 msgid "Profiles..."
 msgstr "Profily..."
 
-#: src/init.c:671
+#: src/init.c:675
 msgid "Manage user profiles"
 msgstr "Spravovat profily uživatelů"
 
-#: src/init.c:673
+#: src/init.c:677
 msgid "Connect to a mud"
 msgstr "Připojit se k MUD"
 
-#: src/init.c:675
+#: src/init.c:679
 msgid "Disconnect"
 msgstr "Odpojit"
 
-#: src/init.c:675
+#: src/init.c:679
 msgid "Disconnect from the mud"
 msgstr "Odpojit od MUD"
 
-#: src/init.c:677
+#: src/init.c:681
 msgid "Reconnect"
 msgstr "Znovu připojit"
 
-#: src/init.c:677
+#: src/init.c:681
 msgid "Reconnect to the mud"
 msgstr "Znovu se připojit k MUD"
 
-#: src/init.c:679
+#: src/init.c:683
 msgid "Exit"
 msgstr "Konec"
 
-#: src/init.c:679
+#: src/init.c:683
 msgid "Quit GNOME-Mud"
 msgstr "Ukončit GNOME-Mud"
 
-#: src/init.c:684
+#: src/init.c:688
 msgid "Connection _Wizard..."
 msgstr "P_růvodce připojením..."
 
-#: src/init.c:685
+#: src/init.c:689
 msgid "_MudList Listing..."
 msgstr "Seznam _MudList..."
 
-#: src/init.c:687
+#: src/init.c:691
 msgid "C_onnect..."
 msgstr "_Připojit..."
 
-#: src/init.c:688
+#: src/init.c:692
 msgid "_Disconnect"
 msgstr "_Odpojit"
 
-#: src/init.c:689
+#: src/init.c:693
 msgid "_Reconnect"
 msgstr "_Znovu připojit"
 
-#: src/init.c:691
+#: src/init.c:695
 msgid "S_tart Logging..."
 msgstr "Z_ačít zaznamenávat..."
 
-#: src/init.c:692
+#: src/init.c:696
 msgid "Sto_p Logging"
 msgstr "Př_estat zaznamenávat..."
 
-#: src/init.c:693
+#: src/init.c:697
 msgid "_Save Buffer..."
 msgstr "_Uložit buffer..."
 
-#: src/init.c:695
+#: src/init.c:699
 msgid "_Close Window"
 msgstr "_Zavřít okno"
 
-#: src/init.c:703
+#: src/init.c:707
 msgid "_Plugin Information..."
 msgstr "_Informace o zásuvných modulech..."
 
-#: src/init.c:709
+#: src/init.c:713
 msgid "Auto _Mapper..."
 msgstr "Auto_mapovač..."
 
-#: src/init.c:712
+#: src/init.c:716
 msgid "P_lugins"
 msgstr "Zásuvné _moduly"
 
-#: src/init.c:719
+#: src/init.c:723
 msgid "User Manual"
 msgstr "Příručka uživatele"
 
-#: src/init.c:720
+#: src/init.c:724
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Zobrazit Příručku uživatele GNOME-Mud"
 
-#: src/init.c:724
+#: src/init.c:728
 msgid "Plugin API Manual"
 msgstr "Manuál API zásuvných modulů"
 
-#: src/init.c:725
+#: src/init.c:729
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "Zobrazit Manuál API zásuvných modulů GNOME-Mud"
 
 #. Do we really need this now?
-#: src/init.c:781
+#: src/init.c:785
 msgid "Main"
 msgstr "Hlavní"
 
-#: src/init.c:817
+#: src/init.c:821
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud verze %s (přeložena dne %s, %s)\n"
 
-#: src/init.c:819
+#: src/init.c:823
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Šířeno pod podmínkami GNU General Public License.\n"
 
@@ -569,71 +573,71 @@ msgid "Please select a log file..."
 msgstr "Zvolte prosím soubor záznamu..."
 
 #. Free the create_link_data structure
-#: src/map.c:567
+#: src/map.c:568
 msgid "Ready."
 msgstr "Připraven."
 
-#: src/map.c:568
+#: src/map.c:569
 msgid "Canceled."
 msgstr "Přerušeno."
 
-#: src/map.c:604
+#: src/map.c:605
 msgid "A link already exists here!"
 msgstr "Odkaz zde již existuje!"
 
 #. Create the hint label
-#: src/map.c:656 src/map.c:3548 src/map.c:3551
+#: src/map.c:657 src/map.c:3551 src/map.c:3554
 msgid "Ready"
 msgstr "Připraven"
 
-#: src/map.c:657
+#: src/map.c:658
 msgid "Link created"
 msgstr "Odkaz vytvořen"
 
-#: src/map.c:661
+#: src/map.c:662
 msgid "Can't create a node here"
 msgstr "Zde nemohu vytvořit uzel"
 
-#: src/map.c:892
+#: src/map.c:893
 msgid "New Map"
 msgstr "Nová mapa"
 
 #. Translator: "path" means "line of travel", ie "road"
-#: src/map.c:901
+#: src/map.c:902
 msgid "Creating a path"
 msgstr "Vytvářím cestu"
 
 #. The radio button (new map)
-#: src/map.c:909
+#: src/map.c:910
 msgid "Path lead to a new map"
 msgstr "Cesta vede na novou mapu"
 
-#: src/map.c:916
+#: src/map.c:917
 msgid "New map"
 msgstr "Nová mapa"
 
 #. The radio button (default)
-#: src/map.c:933
+#: src/map.c:934
 msgid "Path follows an already existing path:"
 msgstr "Cesta následuje existující cestu:"
 
-#: src/map.c:952
+#: src/map.c:953
 msgid "Create"
 msgstr "Vytvořit"
 
-#: src/map.c:1115
+#: src/map.c:1117
 msgid "Enter in a path"
 msgstr "Zadejte cestu"
 
-#: src/map.c:1122
+#: src/map.c:1124
 msgid "Create a new path:"
 msgstr "Vytvořit novou cestu:"
 
-#: src/map.c:1139
+#: src/map.c:1141
 msgid "Enter in existing path:"
 msgstr "Zadejte existující cestu:"
 
-#: src/map.c:1190
+#: src/map.c:1192
 msgid ""
 "This node has already 8 links. Destroy one of these before trying to create "
 "a new one"
@@ -641,28 +645,28 @@ msgstr ""
 "Tento uzel již má 8 odkazů. Zrušte jeden z nich před pokusem vytvořit další"
 
 #. Change the automap state
-#: src/map.c:1197
+#: src/map.c:1199
 msgid "Enter to finish, Esc to quit"
 msgstr "Dokončete stisknutím Enter, skončete stisknutím Esc"
 
-#: src/map.c:1198
+#: src/map.c:1200
 msgid "Use move buttons to build the link."
 msgstr "Sestavte odkaz použitím tlačítek pohybu."
 
-#: src/map.c:1376
+#: src/map.c:1378
 msgid "Zoom In"
 msgstr "Zvětšit"
 
-#: src/map.c:1377
+#: src/map.c:1379
 msgid "Zoom Out"
 msgstr "Zmenšit"
 
-#: src/map.c:1378
+#: src/map.c:1380
 msgid "Configure Automap"
 msgstr "Nastavit automapu"
 
 #. Teleport here
-#: src/map.c:1418
+#: src/map.c:1420
 msgid "Teleport here"
 msgstr "Teleportovat sem"
 
@@ -672,113 +676,113 @@ msgstr "Teleportovat sem"
 #. gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
 #. gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
 #. Create new link
-#: src/map.c:1428
+#: src/map.c:1430
 msgid "Create new link"
 msgstr "Vytvořit nový odkaz"
 
 #. Translator: this is an action, not a key
-#: src/map.c:1435
+#: src/map.c:1437
 msgid "Enter"
 msgstr "Vstoupit"
 
 #. Can easily be optimised ... but why bother ?
 #. Translator: "N" means "North" here
 #. Create button directions
-#: src/map.c:1736 src/map.c:3576
+#: src/map.c:1738 src/map.c:3579
 msgid "N"
 msgstr "S"
 
 #. Translator: "NE" means "Northeast" here
-#: src/map.c:1738 src/map.c:3577
+#: src/map.c:1740 src/map.c:3580
 msgid "NE"
 msgstr "SV"
 
 #. Translator: "E" means "East" here
-#: src/map.c:1740 src/map.c:3578
+#: src/map.c:1742 src/map.c:3581
 msgid "E"
 msgstr "E"
 
 #. Translator: "SE" means "Southeast" here
-#: src/map.c:1742 src/map.c:3579
+#: src/map.c:1744 src/map.c:3582
 msgid "SE"
 msgstr "JV"
 
 #. Translator: "S" means "South" here
-#: src/map.c:1744 src/map.c:3580
+#: src/map.c:1746 src/map.c:3583
 msgid "S"
 msgstr "J"
 
 #. Translator: "SW" means "Southwest" here
-#: src/map.c:1746 src/map.c:3581
+#: src/map.c:1748 src/map.c:3584
 msgid "SW"
 msgstr "JZ"
 
 #. Translator: "W" means "West" here
-#: src/map.c:1748 src/map.c:3582
+#: src/map.c:1750 src/map.c:3585
 msgid "W"
 msgstr "Z"
 
 #. Translator: "NW" means "Northwest" here
-#: src/map.c:1750 src/map.c:3583
+#: src/map.c:1752 src/map.c:3586
 msgid "NW"
 msgstr "SZ"
 
-#: src/map.c:1751 src/map.c:3584
+#: src/map.c:1753 src/map.c:3587 ui/directions.glade.h:12
 msgid "Up"
 msgstr "Nahoru"
 
-#: src/map.c:1752 src/map.c:3585
+#: src/map.c:1754 src/map.c:3588 ui/directions.glade.h:2
 msgid "Down"
 msgstr "Dolů"
 
-#: src/map.c:1753 src/map.c:3573
+#: src/map.c:1755 src/map.c:3576
 msgid "Remove"
 msgstr "Odstranit"
 
 #. Some buttons
-#: src/map.c:1754 src/map.c:3571
+#: src/map.c:1756 src/map.c:3574
 msgid "Load"
 msgstr "Načíst"
 
-#: src/map.c:1755 src/map.c:3572
+#: src/map.c:1757 src/map.c:3575
 msgid "Save"
 msgstr "Uložit"
 
-#: src/map.c:2802
+#: src/map.c:2805
 msgid "Load map"
 msgstr "Načíst mapu"
 
-#: src/map.c:2802
+#: src/map.c:2805
 msgid "Save map"
 msgstr "Uložit mapu"
 
-#: src/map.c:3051
+#: src/map.c:3054
 msgid "No link existed in that direction"
 msgstr "V tom směru neexistoval odkaz"
 
-#: src/map.c:3057
+#: src/map.c:3060
 msgid "Cannot break links to a node going up or down"
 msgstr "Nemohu přerušit odkaz na uzel vedoucí nahoru nebo dolů"
 
 #. It would seem this node already has a connection to here, That's
 #. * possible so we need to inform the user that his move is illegal.
 #.
-#: src/map.c:3166
+#: src/map.c:3169
 msgid "Destination node has already a connection here"
 msgstr "Cílový uzel již má spojení sem"
 
-#: src/map.c:3315
+#: src/map.c:3318
 msgid "Can't create a link to another floor!"
 msgstr "Nemohu vytvořit odkaz na jiné patro!"
 
-#: src/map.c:3321
+#: src/map.c:3324
 msgid "There is already a link here!"
 msgstr "Sem již vede odkaz!"
 
 #. Set the title
 #. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
 #. gtk_window_set_title(GTK_WINDOW(automap->window), name);
-#: src/map.c:3456
+#: src/map.c:3459
 msgid "GNOME-Mud AutoMapper"
 msgstr "Automapovač GNOME-Mud"
 
@@ -1096,116 +1100,124 @@ msgstr ""
 "příkazy pohybu. Pokud použijete jeden z nich, automapovač vytvoří cestu na "
 "jinou mapu. Pro oddělení různých příkazů použijte středník."
 
-#: src/profiles.c:301
+#: src/profiles.c:328
 msgid "New profile"
 msgstr "Nový profil"
 
-#: src/profiles.c:304
+#: src/profiles.c:331
 msgid "Name of new profile:"
 msgstr "Název nového profilu:"
 
-#: src/profiles.c:506
+#: src/profiles.c:551
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: Seznam profilů"
 
-#: src/profiles.c:675 src/profiles.c:1047
+#: src/profiles.c:720 src/profiles.c:1092
 msgid "Default"
 msgstr "Implicitní"
 
-#: src/profiles.c:856 src/profiles.c:1195
+#: src/profiles.c:901 src/profiles.c:1241
 msgid "Delete"
 msgstr "Odstranit"
 
-#: src/profiles.c:872
+#: src/profiles.c:917
 msgid "GNOME-Mud Connections"
 msgstr "Spojení GNOME-Mud"
 
-#: src/profiles.c:906
+#: src/profiles.c:951
 msgid "Mud"
 msgstr "MUD"
 
 #. Translators: this is the name of your player
-#: src/profiles.c:913
+#: src/profiles.c:958
 msgid "Character"
 msgstr "Postava"
 
-#: src/profiles.c:926
+#: src/profiles.c:971
 msgid "Mud information"
 msgstr "Informace o MUDu"
 
-#: src/profiles.c:942
+#: src/profiles.c:987
 msgid "Title:"
 msgstr "Název:"
 
-#: src/profiles.c:986
+#: src/profiles.c:1031
 msgid "Character information"
 msgstr "Informace o postavě"
 
-#: src/profiles.c:1002
+#: src/profiles.c:1047
 msgid "Character:"
 msgstr "Postava:"
 
-#: src/profiles.c:1010
+#: src/profiles.c:1055
 msgid "Password:"
 msgstr "Heslo:"
 
-#: src/profiles.c:1031
+#: src/profiles.c:1076
 msgid "Profile information"
 msgstr "Informace o profilu"
 
-#: src/profiles.c:1057
+#: src/profiles.c:1102
 msgid "Select Profile"
 msgstr "Vybrat profil"
 
-#: src/profiles.c:1073
+#: src/profiles.c:1118
 msgid "Fetch from mudlist"
 msgstr "Získat z mudlistu"
 
-#: src/profiles.c:1125
+#: src/profiles.c:1170
 msgid "Connect"
 msgstr "Připojit"
 
-#: src/profiles.c:1164
+#: src/profiles.c:1210
 msgid "Profiles"
 msgstr "Profily"
 
-#: src/profiles.c:1173
+#: src/profiles.c:1219
 msgid "GNOME-Mud Profiles"
 msgstr "Profily GNOME-Mud"
 
-#: src/profiles.c:1187
+#: src/profiles.c:1233
 msgid "New"
 msgstr "Nový"
 
-#: src/profiles.c:1188
+#: src/profiles.c:1234
 msgid "Create a new profile"
 msgstr "Vytvořit nový profil"
 
-#: src/profiles.c:1195
+#: src/profiles.c:1241
 msgid "Delete a profile"
 msgstr "Odstranit profil"
 
-#: src/profiles.c:1212
+#: src/profiles.c:1258
 msgid "Set aliases"
 msgstr "Nastavit aliasy"
 
-#: src/profiles.c:1219
+#: src/profiles.c:1265
 msgid "Set variables"
 msgstr "Nastavit proměnné"
 
-#: src/profiles.c:1226
+#: src/profiles.c:1272
 msgid "Set triggers"
 msgstr "Nastavit podmínky"
 
-#: src/profiles.c:1243
+#: src/profiles.c:1289
 msgid "Set keybindings"
 msgstr "Nastavit klávesové zkratky"
 
-#: src/profiles.c:1260
+#: src/profiles.c:1296
+msgid "Directions"
+msgstr "Směry"
+
+#: src/profiles.c:1296
+msgid "Set directions"
+msgstr "Nastavit směry"
+
+#: src/profiles.c:1313
 msgid "Close"
 msgstr "Zavřít"
 
-#: src/profiles.c:1260
+#: src/profiles.c:1313
 msgid "Close the window"
 msgstr "Zavřít okno"
 
@@ -1224,3 +1236,47 @@ msgstr "U_končit"
 #: src/tray.c:158
 msgid "GNOME Mud"
 msgstr "GNOME Mud"
+
+#: ui/directions.glade.h:1
+msgid "*"
+msgstr "*"
+
+#: ui/directions.glade.h:3
+msgid "East"
+msgstr "Východ"
+
+#: ui/directions.glade.h:4
+msgid "Gnome-mud"
+msgstr "Gnome-mud"
+
+#: ui/directions.glade.h:5
+msgid "Look"
+msgstr "Dívat se"
+
+#: ui/directions.glade.h:6
+msgid "North"
+msgstr "Sever"
+
+#: ui/directions.glade.h:7
+msgid "Northeast"
+msgstr "Severovýchod"
+
+#: ui/directions.glade.h:8
+msgid "Northwest"
+msgstr "Severozápad"
+
+#: ui/directions.glade.h:9
+msgid "South"
+msgstr "Jih"
+
+#: ui/directions.glade.h:10
+msgid "Southeast"
+msgstr "Jihovýchod"
+
+#: ui/directions.glade.h:11
+msgid "Southwest"
+msgstr "Jihozápad"
+
+#: ui/directions.glade.h:13
+msgid "West"
+msgstr "Západ"
