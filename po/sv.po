@@ -95,7 +95,7 @@ msgstr "Anslut..."
 
 #: src/init.c:214 src/profiles.c:958
 msgid "Host:"
-msgstr "Adress"
+msgstr "Adress:"
 
 #: src/init.c:221 src/profiles.c:978
 msgid "Port:"
@@ -162,7 +162,7 @@ msgstr "Petter E. Stokke, Python scriptstöd"
 
 #: src/init.c:314
 msgid "Vashti, default keypad bindings, telnet support patches"
-msgstr ""
+msgstr "Vashti, piltangent mappning, telnet patchar"
 
 #: src/init.c:324
 msgid "GNOME-Mud"
@@ -693,7 +693,7 @@ msgstr "Välj Profil"
 
 #: src/profiles.c:1109
 msgid "Fetch from mudlist"
-msgstr ""
+msgstr "Hämta från mudlista"
 
 #: src/profiles.c:1126
 msgid "Connect"
