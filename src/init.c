@@ -387,6 +387,8 @@ static void do_disconnect (GtkWidget *widget, gpointer data)
 static GnomeUIInfo toolbar_menu[] = {
   GNOMEUIINFO_ITEM_STOCK(N_("Wizard..."), NULL, window_profiles,   GNOME_STOCK_PIXMAP_NEW),
   GNOMEUIINFO_SEPARATOR,
+  GNOMEUIINFO_ITEM_STOCK(N_("Profiles..."), NULL, window_profile_edit, GNOME_STOCK_PIXMAP_PREFERENCES),
+  GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, connect_window, GNOME_STOCK_PIXMAP_OPEN),
   GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, do_disconnect,  GNOME_STOCK_PIXMAP_CLOSE),
   GNOMEUIINFO_SEPARATOR,
@@ -412,9 +414,6 @@ static GnomeUIInfo plugin_menu[] = {
   GNOMEUIINFO_END
 };
 
-/*
-** FIXME, where is color menu?
-*/
 static GnomeUIInfo settings_menu[] = {
   GNOMEUIINFO_ITEM_DATA(N_("Alias..."), NULL, window_data, GINT_TO_POINTER(0), NULL),
   GNOMEUIINFO_ITEM_DATA(N_("Variables..."), NULL, window_data, GINT_TO_POINTER(2), NULL),
