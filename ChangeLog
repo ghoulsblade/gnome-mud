@@ -1,3 +1,29 @@
+2004-02-25  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Removed entries.
+
+	* src/mud-connection-view.c (mud_connection_view_finalize): Close
+	connection before unref the object.
+
+	* src/mud-window.c [_MudWindowPrivate]: Added current_view and
+	nr_of_tabs.
+	(mud_window_add_connection_view): Added checks for whether the 
+	standard label should be removed and whether to display the tabs.
+	(mud_window_get_current_view): Removed.
+	(mud_window_remove_connection_view): Added.
+	(mud_window_disconnect_cb): Removed mud_window_get_current_view().
+	(mud_window_reconnect_cb): Ditto.
+	(mud_window_textentry_keypress): Ditto.
+	(mud_window_closewindow_cb): Added.
+	(mud_window_notebook_page_changed): Added.
+	(mud_window_textentry_activate): Added.
+	(mud_window_init): Added signals for close window, switch-notebook-page,
+	and also reset nr_of_tabs.
+	(mud_window_finalize): Added todo warning.
+
+	* ui/main.glade [main_window]: Changed name of closewindow widget.
+	Removed tabs from notebook.
+
 2004-02-23  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mud-connection-view.c (mud_connection_view_reconnect): Added.

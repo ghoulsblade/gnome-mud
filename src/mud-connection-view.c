@@ -198,6 +198,7 @@ mud_connection_view_finalize (GObject *object)
 
 	connection_view = MUD_CONNECTION_VIEW(object);
 
+	gnetwork_connection_close(GNETWORK_CONNECTION(connection_view->connection));
 	g_object_unref(connection_view->connection);
 	g_free(connection_view->priv);
 

@@ -24,9 +24,12 @@ struct _MudWindowPrivate
 	GtkWidget *textentry;
 
 	GtkWidget *blank_label;
+	GtkWidget *current_view;
 
 	gchar *host;
 	gchar *port;
+
+	gint nr_of_tabs;
 };
 
 static int
@@ -44,59 +47,77 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view)
 	
 	g_assert(window != NULL);
 	g_assert(view != NULL);
+
+	if (window->priv->nr_of_tabs++ == 0)
+	{
+		gtk_notebook_remove_page(GTK_NOTEBOOK(window->priv->notebook), 0);
+	}
 	
 	nr = gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), mud_connection_view_get_viewport(view), NULL);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(window->priv->notebook), nr);
-}
 
-static MudConnectionView*
-mud_window_get_current_view(MudWindow *window)
-{
-	GtkWidget *child;
-	MudConnectionView *view;
-	gint current;
-
-	current = gtk_notebook_get_current_page(GTK_NOTEBOOK(window->priv->notebook));
-	child = gtk_notebook_get_nth_page(GTK_NOTEBOOK(window->priv->notebook), current);
-	view = g_object_get_data(G_OBJECT(child), "connection-view");
-	return view;
+	if (window->priv->nr_of_tabs > 1)
+	{
+		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(window->priv->notebook), TRUE);
+	}
 }
 
 static void
+mud_window_remove_connection_view(MudWindow *window, gint nr)
+{
+	g_object_unref(window->priv->current_view);
+	gtk_notebook_remove_page(GTK_NOTEBOOK(window->priv->notebook), nr);
+	
+	if (--window->priv->nr_of_tabs < 2)
+	{
+		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(window->priv->notebook), FALSE);
+	}
+
+	if (window->priv->nr_of_tabs == 0)
+	{
+		gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), window->priv->blank_label, NULL);
+	}
+}
+static void
 mud_window_disconnect_cb(GtkWidget *widget, MudWindow *window)
 {
-	MudConnectionView *view;
-
-	view = mud_window_get_current_view(window);
-	mud_connection_view_disconnect(view);
+	mud_connection_view_disconnect(MUD_CONNECTION_VIEW(window->priv->current_view));
 }
 
 static void
 mud_window_reconnect_cb(GtkWidget *widget, MudWindow *window)
 {
-	MudConnectionView *view;
+	mud_connection_view_reconnect(MUD_CONNECTION_VIEW(window->priv->current_view));
+}
 
-	view = mud_window_get_current_view(window);
-	mud_connection_view_reconnect(view);
+static void
+mud_window_closewindow_cb(GtkWidget *widget, MudWindow *window)
+{
+	if (window->priv->nr_of_tabs > 0)
+	{
+		gint nr = gtk_notebook_get_current_page(GTK_NOTEBOOK(window->priv->notebook));
+
+		mud_window_remove_connection_view(window, nr);
+	}
 }
 
 static gboolean
 mud_window_textentry_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *window)
 {
-	MudConnectionView *view;
-	view = mud_window_get_current_view(window);
 
 	return FALSE;
 }
 
 static void
+mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gint arg, MudWindow *window)
+{
+	window->priv->current_view = g_object_get_data(G_OBJECT(gtk_notebook_get_nth_page(notebook, arg)), "connection-view");
+}
+
+static void
 mud_window_textentry_activate(GtkWidget *widget, MudWindow *window)
 {
-	MudConnectionView *view;
-	view = mud_window_get_current_view(window);
-	g_message("%x", view);
-
-	mud_connection_view_send(view, gtk_entry_get_text(GTK_ENTRY(widget)));
+	mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), gtk_entry_get_text(GTK_ENTRY(widget)));
 }
 
 static void
@@ -210,14 +231,19 @@ mud_window_init (MudWindow *window)
 	/* connect reconnect buttons */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_reconnect"), "activate", G_CALLBACK(mud_window_reconnect_cb), window);
 	g_signal_connect(glade_xml_get_widget(glade, "toolbar_reconnect"), "clicked", G_CALLBACK(mud_window_reconnect_cb), window);
+
+	/* connect close window button */
+	g_signal_connect(glade_xml_get_widget(glade, "menu_closewindow"), "activate", G_CALLBACK(mud_window_closewindow_cb), window);
 	
 	/* other objects */
 	window->priv->notebook = glade_xml_get_widget(glade, "notebook");
+	g_signal_connect(window->priv->notebook, "switch-page", G_CALLBACK(mud_window_notebook_page_change), window);
 
 	window->priv->textentry = glade_xml_get_widget(glade, "text_entry");
 	g_signal_connect(window->priv->textentry, "key_press_event", G_CALLBACK(mud_window_textentry_keypress), window);
 	g_signal_connect(window->priv->textentry, "activate", G_CALLBACK(mud_window_textentry_activate), window);
-	
+
+	window->priv->nr_of_tabs = 0;
 	window->priv->blank_label = glade_xml_get_widget(glade, "startup_label");
 	g_object_ref(window->priv->blank_label);
 	
@@ -246,6 +272,7 @@ mud_window_finalize (GObject *object)
 
 	window = MUD_WINDOW(object);
 
+	g_warning("I need to unreference all existing MudConnectionView's over here...");
 	g_free(window->priv);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
