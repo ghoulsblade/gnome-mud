@@ -56,6 +56,7 @@ GtkWidget *menu_option_alias;
 GtkWidget *menu_option_mapper;
 GtkWidget *menu_option_colors;
 GtkWidget *menu_option_action;
+GtkWidget *menu_option_keys;
 GtkWidget *window;
 /*
  * Colors...
@@ -82,146 +83,8 @@ GdkFont  *font_normal;
 GdkFont  *font_fixed;
 
 GList *EntryHistory = NULL;
-
-/* from bezerk */
-gushort convert_color (guint c)
-{
-    if ( c == 0 )
-        return 0;
-    c *= 257;
-
-    return (c > 0xffff) ? 0xffff : c;
-}
-
-/* from bezerk */
-void extract_color (GdkColor *color, guint red, guint green, guint blue)
-{
-    color->red   = convert_color (red);
-    color->green = convert_color (green);
-    color->blue  = convert_color (blue);
-}
-
-int from_hex (const char *what)
-{
-    int temp;
-
-    if (what[0] > '9')
-        temp = what[0] - ('a' + 10);
-    else
-        temp = what[0] - '0';
-
-    temp *= 16;
-    
-    if (what[1] > '9')
-        temp += what[1] - ('a' + 10);
-    else
-        temp += what[1] - '0';
-
-    return temp;
-}
-
-void grab_color (GdkColor *color, const char *col)
-{
-    color->red   = convert_color (from_hex (col+1));
-    color->green = convert_color (from_hex (col+3));
-    color->blue  = convert_color (from_hex (col+5));
-}
-
-/* from bezerk */
-void init_colors ()
-{
-    cmap = gdk_colormap_get_system ();
-    
-    grab_color (&color_white, "#ffffff");
-    if (!gdk_color_alloc(cmap, &color_white)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color (&color_black, "#000000");
-    if (!gdk_color_alloc(cmap, &color_black)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color (&color_blue, "#000080");
-    if (!gdk_color_alloc(cmap, &color_blue)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_green, "#008000");
-    if (!gdk_color_alloc(cmap, &color_green)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_red, "#800000");
-    if (!gdk_color_alloc(cmap, &color_red)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_brown, "#808000");
-    if (!gdk_color_alloc(cmap, &color_brown)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_magenta, "#800080");
-    if (!gdk_color_alloc(cmap, &color_magenta)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_lightred, "#ff0000");
-    if (!gdk_color_alloc(cmap, &color_lightred)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_yellow, "#ffff00");
-    if (!gdk_color_alloc(cmap, &color_yellow)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_lightgreen, "#00ff00");
-    if (!gdk_color_alloc(cmap, &color_lightgreen)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_cyan, "#008080");
-    if (!gdk_color_alloc(cmap, &color_cyan)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_lightcyan, "#00ffff");
-    if (!gdk_color_alloc(cmap, &color_lightcyan)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_lightblue, "#0000ff");
-    if (!gdk_color_alloc(cmap, &color_lightblue)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_lightmagenta, "#ff00ff");
-    if (!gdk_color_alloc(cmap, &color_lightmagenta)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_grey, "#404040");
-    if (!gdk_color_alloc(cmap, &color_grey)) {
-        g_warning("couldn't allocate color");
-    }
-
-    grab_color(&color_lightgrey, "#808080");
-    if (!gdk_color_alloc(cmap, &color_lightgrey)) {
-        g_warning("couldn't allocate color");
-    }
-
-    if ( ( font_normal = gdk_font_load (prefs.FontName) ) == NULL )
-    {
-        g_warning ("Can't load font... %s Using default.\n", prefs.FontName);
-        g_free ( prefs.FontName );
-        prefs.FontName = g_strdup ("fixed");
-        save_prefs ();
-    }
-
-    font_fixed = gdk_font_load("fixed");
-}
+GList *EntryCurr    = NULL;
+bool   Keyflag      = TRUE;
 
 void close_window (GtkWidget *widget, gpointer data)
 {
@@ -372,50 +235,71 @@ GList *text_entry_find (gchar *text)
 
 int text_entry_key_press_cb (GtkEntry *entry, GdkEventKey *event, gpointer data)
 {
-    GList *li;
-
+  CONNECTION_DATA *cd;
+  gint   number;
+  GList *li;
+  KEYBIND_DATA *scroll = KB_head;
+  
+  number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
+  cd = connections[number];
+  
     if ( event->state & GDK_CONTROL_MASK )
     {
     }
     else
-    {
+    {if (EntryCurr)
         switch ( event->keyval )
         {
         case GDK_Page_Up:
         case GDK_Page_Down:
             
         case GDK_Up:
-        case GDK_KP_Up:
-            li = text_entry_find (gtk_entry_get_text (GTK_ENTRY (text_entry)));
-            if ( li )
-                li = li->prev;
-            if ( li )
-            {
-                gtk_entry_set_text (GTK_ENTRY (text_entry), (gchar *) li->data);
-                gtk_entry_select_region (GTK_ENTRY (text_entry), 0,
-                                         GTK_ENTRY (text_entry)->text_length);
-            }
-            gtk_signal_emit_stop_by_name (GTK_OBJECT (entry), "key_press_event");
-            return TRUE;
-            break;
+	  //case GDK_KP_Up:
+	  if (EntryCurr->prev) {
+	    li = EntryCurr->prev;
+	    
+	    if ( !prefs.KeepText && Keyflag) li = li->next;
+	    EntryCurr = li;
+	    gtk_entry_set_text (GTK_ENTRY (text_entry), (gchar *) li->data);
+	    gtk_entry_set_position (GTK_ENTRY (text_entry) ,GTK_ENTRY (text_entry)->text_length);
+	    gtk_entry_select_region (GTK_ENTRY (text_entry), 0,
+				     GTK_ENTRY (text_entry)->text_length);
+	    Keyflag = FALSE;
+	  }
+	  gtk_signal_emit_stop_by_name (GTK_OBJECT (entry), "key_press_event");
+	  return TRUE;
+	  break;
 
         case GDK_Down:
-        case GDK_KP_Down:
-            li = text_entry_find (gtk_entry_get_text (GTK_ENTRY (text_entry)));
-            if ( li )
-                li = li->next;
-            if ( li )
-            {
-                gtk_entry_set_text (GTK_ENTRY (text_entry), (gchar *) li->data);
-                gtk_entry_select_region (GTK_ENTRY (text_entry), 0,
-                                         GTK_ENTRY (text_entry)->text_length);
-            }
-            gtk_signal_emit_stop_by_name (GTK_OBJECT (entry), "key_press_event");
-            return TRUE;
-            break;
+	  //case GDK_KP_Down:
+	  if (EntryCurr->next) {
+	    li = EntryCurr->next;
+	    EntryCurr = li;
+	    gtk_entry_set_text (GTK_ENTRY (text_entry), (gchar *) li->data);
+	    gtk_entry_set_position (GTK_ENTRY (text_entry) ,GTK_ENTRY (text_entry)->text_length);
+	    gtk_entry_select_region (GTK_ENTRY (text_entry), 0,
+				     GTK_ENTRY (text_entry)->text_length);
+	  } else {
+	    EntryCurr = g_list_last (EntryHistory);
+	    gtk_entry_set_text (GTK_ENTRY (text_entry), "");
+	  }            
+	  gtk_signal_emit_stop_by_name (GTK_OBJECT (entry), "key_press_event");
+	  return TRUE;
+	  break;
         }
     }
 
+    for( scroll = KB_head ;scroll != NULL; scroll = scroll->next)
+      if ( (scroll->state) == ((event->state)&12) && 
+	   (scroll->keyv) == (event->keyval) )
+	{
+	  connection_send(cd, scroll->data);
+	  connection_send(cd, "\n");
+	  gtk_signal_emit_stop_by_name (GTK_OBJECT (entry), "key_press_event");
+	  return TRUE;	  
+	}
+    
+    
     return FALSE;
 }
 
@@ -483,6 +367,8 @@ void init_window ()
 
     GtkWidget *separator;
     GtkWidget *v_scrollbar;
+
+    font_fixed = gdk_font_load("fixed");
 
     /* init widgets */
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -574,6 +460,11 @@ void init_window ()
     gtk_signal_connect (GTK_OBJECT (menu_option_action), "activate",
                         GTK_SIGNAL_FUNC (window_action), NULL);
 
+    menu_option_keys = gtk_menu_item_new_with_label ("Keys...");
+    gtk_menu_append (GTK_MENU (menu_option_menu), menu_option_keys);
+    gtk_signal_connect (GTK_OBJECT (menu_option_keys), "activate",
+                        GTK_SIGNAL_FUNC (window_keybind), NULL);
+    
     menu_plugin = gtk_menu_item_new_with_label ("Plugins");
     gtk_menu_bar_append (GTK_MENU_BAR (menu_bar), menu_plugin);
 
@@ -675,6 +566,7 @@ void init_window ()
     gtk_widget_show (menu_option_mapper  );
     gtk_widget_show (menu_option_colors  );
     gtk_widget_show (menu_option_action  );
+    gtk_widget_show (menu_option_keys    );
     gtk_widget_show (menu_plugin         );
     gtk_widget_show (menu_option         );
     gtk_widget_show (menu_help           );

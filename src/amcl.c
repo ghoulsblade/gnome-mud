@@ -29,33 +29,36 @@ static char const rcsid[] =
 
 int main (gint argc, char *argv[])
 {
-    struct sigaction act;
+  char buf[500];
+  struct sigaction act;
+  
+  memset(&act, 0, sizeof(act));
+  
+  gtk_init (&argc, &argv);
+  gdk_init (&argc, &argv);
+  
+  act.sa_handler = SIG_DFL;
+  sigaction(SIGSEGV, &act, NULL);
+  
+  init_uid();
+  
+  load_aliases();
+  load_actions();
+  load_prefs  ();
+  load_wizard ();
+  load_colors ();
+  init_window ();
+  
+  /* FIXME */
+  g_snprintf(buf, 500, "%s/.amcl/plugins/", uid_info->pw_dir);
+  init_modules(buf);
+  init_modules(PKGDATADIR);
+  
+  gtk_main ( );
 
-    memset(&act, 0, sizeof(act));
-
-    gtk_init (&argc, &argv);
-    gdk_init (&argc, &argv);
-
-    act.sa_handler = SIG_DFL;
-    sigaction(SIGSEGV, &act, NULL);
-    
-    init_uid();
-
-    load_aliases();
-    load_actions();
-    load_prefs  ();
-    load_wizard ();
-    init_colors ();
-    init_window ();
-
-    init_modules("./plugins/");
-
-    /* FIXME */
-    init_modules("/home/lobbin/.amcl/plugins/");
-    init_modules(PKGDATADIR);
-
-    gtk_main ( );
-    gdk_exit (0);
-
-    return 0;
+  save_plugins();
+  
+  gdk_exit (0);
+  
+  return 0;
 }

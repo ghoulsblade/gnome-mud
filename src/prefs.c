@@ -83,6 +83,7 @@ void load_prefs ( )
 
     prefs.EchoText = prefs.KeepText = TRUE;
     prefs.AutoSave = FALSE;
+    prefs.CommDev  = g_strdup (";");
     prefs.FontName = g_strdup ("fixed");
     
     g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
@@ -119,6 +120,12 @@ void load_prefs ( )
                 prefs.KeepText = FALSE;
         }
 
+	if ( !strcmp (pref, "CommDev") ) {
+	  gchar *s;
+	  if (s = strstr(value, "\""))
+	    prefs.CommDev[0] = s[1];
+	}
+	
         if ( !strcmp (pref, "AutoSave") )
         {
             if ( !strcmp (value, "On") )
@@ -177,6 +184,8 @@ void save_prefs (GtkWidget *button, gpointer data)
     if ( prefs.Freeze )
         fprintf (fp, "Freeze On\n");
 
+    fprintf(fp, "CommDev \"%c\"\n", prefs.CommDev[0]);
+
     if ( strlen (prefs.FontName) > 0 )
         fprintf (fp, "FontName %s\n", prefs.FontName);
     
@@ -205,6 +214,13 @@ void prefs_freeze_cb (GtkWidget *widget, GtkWidget *check_freeze)
         prefs.Freeze = TRUE;
     else
         prefs.Freeze = FALSE;
+}
+
+void prefs_devide_cb (GtkWidget *widget, GtkWidget *entry_devide)
+{
+  gchar *s;
+  s = gtk_entry_get_text(GTK_ENTRY(entry_devide));
+  if (s) prefs.CommDev[0] = s[0];  
 }
 
 void check_callback (GtkWidget *widget, GtkWidget *check_button)
@@ -237,6 +253,7 @@ void prefs_select_font_callback (GtkWidget *button, gpointer data)
     fontw = gtk_font_selection_dialog_new ("Font Selection...");
     gtk_font_selection_dialog_set_preview_text (GTK_FONT_SELECTION_DIALOG (fontw),
                                                 "How about this font?");
+    gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG (fontw),"fixed");
 
     gtk_signal_connect (GTK_OBJECT (GTK_FONT_SELECTION_DIALOG (fontw)->ok_button),
                                "clicked", (GtkSignalFunc) prefs_font_selected,
@@ -268,6 +285,9 @@ void window_prefs (GtkWidget *widget, gpointer data)
     GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *hbox_font;
+    GtkWidget *hbox_devide;
+    GtkWidget *entry_devide;
+    GtkWidget *label;
     GtkWidget *button_close;
     GtkWidget *button_select_font;
     GtkWidget *separator;
@@ -343,6 +363,22 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_widget_show (check_freeze);
     gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (check_freeze), prefs.Freeze);
 
+    hbox_devide = gtk_hbox_new (TRUE, 0);
+    gtk_container_add (GTK_CONTAINER (vbox), hbox_devide);
+    gtk_widget_show (hbox_devide);
+    
+    label = gtk_label_new ("   Command devide char");
+    gtk_box_pack_start (GTK_BOX (hbox_devide), label, TRUE, FALSE, 0);
+    gtk_widget_show (label);
+    
+    entry_devide = gtk_entry_new_with_max_length (1);
+    gtk_entry_set_text (GTK_ENTRY (entry_devide), prefs.CommDev);
+    gtk_box_pack_start (GTK_BOX (hbox_devide), entry_devide, TRUE, FALSE, 0);
+    gtk_widget_set_usize(GTK_WIDGET(entry_devide),30,23);
+    gtk_widget_show (entry_devide);
+    gtk_signal_connect (GTK_OBJECT (entry_devide), "changed",
+                        GTK_SIGNAL_FUNC (prefs_devide_cb), entry_devide);
+    
     hbox_font = gtk_hbox_new (FALSE, 0);
     gtk_container_add (GTK_CONTAINER (vbox), hbox_font);
     gtk_widget_show (hbox_font);

@@ -27,6 +27,7 @@
 #include <gtk/gtk.h>
 #include <dirent.h>
 #include <errno.h>
+#include <stdio.h>
 
 #include "amcl.h"
 #include "modules.h"
@@ -251,48 +252,77 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_widget_show(window1);
 }
 
-int init_modules(char *path)
+void save_plugins()
 {
-    DIR            *directory;
-    struct dirent  *direntity;
-    gint            dirn;
-    gchar          *shortname;
+  PLUGIN_OBJECT *p;
+  GList         *t;  
+  FILE          *fp;
+  gchar          filename[500];
+  
+  //  g_snprintf(filename, 500, "%s%s", uid_info->pw_dir, "/.amcl");
 
-    if ((directory = opendir(path)) == NULL)
-    {
-        g_message("Plugin error (%s): %s", path, strerror(errno));
-        return FALSE;
-    }
+  if (check_amcl_dir(filename) != 0)
+    return;
 
-    while ((direntity = readdir(directory)))
-    {
-        PLUGIN_OBJECT *plugin;
-        gchar *suffix;
-        
-        if (strrchr(direntity->d_name, '/'))
-            shortname = (gchar *) strrchr(direntity->d_name, '/') + 1;
-        else
-            shortname = direntity->d_name;
+  //g_snprintf(filename, 500, "%s%s", uid_info->pw_dir, "/.amcl/plugins");
 
-        if (!strcmp(shortname, ".") || !strcmp(shortname, ".."))
-            continue;
-
-        suffix = (gchar *) strrchr(direntity->d_name, '.');
-        if (!suffix || strcmp(suffix, ".plugin"))
-            continue;
-
-        g_message("Loading plugin description from `%s'.", direntity->d_name);
-
-        plugin = plugin_query(direntity->d_name, path);
-        if (!plugin)
-            continue;
-
-        plugin_register(plugin);
+  if ((fp = fopen(filename, "w")) != NULL) {
+    for (t = g_list_first(Plugin_list); t != NULL; t = t->next) {
+      
+      if (t->data != NULL) {
+	p = (PLUGIN_OBJECT *) t->data;
+	
+	if (p->enabeled == TRUE) {
+	  fprintf(fp, p->name);
+	  fprintf(fp, p->info->plugin_name);
+	}
+      }
     }
     
-    closedir(directory);
+    fclose (fp);
+  }
+}
 
-    return TRUE;
+int init_modules(char *path)
+{
+  DIR            *directory;
+  struct dirent  *direntity;
+  gint            dirn;
+  gchar          *shortname;
+  
+  if ((directory = opendir(path)) == NULL) {
+    g_message("Plugin error (%s): %s", path, strerror(errno));
+    return FALSE;
+  }
+  
+  while ((direntity = readdir(directory))) {
+    PLUGIN_OBJECT *plugin;
+    gchar *suffix;
+    
+    if (strrchr(direntity->d_name, '/'))
+      shortname = (gchar *) strrchr(direntity->d_name, '/') + 1;
+    else
+      shortname = direntity->d_name;
+    
+    if (!strcmp(shortname, ".") || !strcmp(shortname, ".."))
+      continue;
+    
+    suffix = (gchar *) strrchr(direntity->d_name, '.');
+    if (!suffix || strcmp(suffix, ".plugin"))
+      continue;
+    
+    g_message("Loading plugin description from `%s'.", direntity->d_name);
+    
+    plugin = plugin_query(direntity->d_name, path);
+    if (!plugin)
+      continue;
+    
+    plugin_register(plugin);
+  }
+  
+  closedir(directory);
+  
+  return TRUE;
 }
 
 PLUGIN_OBJECT *plugin_query (gchar *plugin_name, gchar *plugin_path)

@@ -36,6 +36,7 @@ typedef struct alias_data      ALIAS_DATA;
 typedef struct action_data     ACTION_DATA;
 typedef struct wizard_data     WIZARD_DATA;
 typedef struct system_data     SYSTEM_DATA;
+typedef struct keybind_data    KEYBIND_DATA;
 typedef        gint            bool;
 
 /*
@@ -69,6 +70,7 @@ struct system_data {
     bool       AutoSave;
     bool       Freeze;
     gchar     *FontName;
+    gchar     *CommDev;
 };
 
 struct wizard_data {
@@ -80,6 +82,13 @@ struct wizard_data {
     gchar      *playername;
     gchar      *password;
     bool       autologin;
+};
+
+struct keybind_data {
+    gint	 state;
+    gint	 keyv;
+    gchar	 *data;
+    KEYBIND_DATA *next;
 };
 
 /*
@@ -106,6 +115,9 @@ void  insert_aliases  ( GtkWidget *clist                   );
 /* color.c */
 void  create_color_box( void                               );
 void  window_color    ( GtkWidget *widget, gpointer data   );
+void  save_colors     ( void				   );	
+void  load_colors     ( void				   );
+void  load_color_to_c_structs ( void			   );
 
 /* dialog.c */
 void  doc_dialog      ( GtkWidget *widget, gint index      );
@@ -115,6 +127,11 @@ void  init_window     ( void                               );
 void  init_colors     ( void                               );
 void  destroy         ( GtkWidget *widget                  );
 void  close_window    ( GtkWidget *widget, gpointer data   );
+
+/* keybind.c */
+void window_keybind   ( void				   );
+void save_keys	      ( void				   );	
+void load_keys	      ( void				   );
 
 /* map.c */
 void  window_automap  ( GtkWidget *widget, gpointer data   );
@@ -178,6 +195,7 @@ extern GtkWidget *menu_option_prefs;
 extern GtkWidget *menu_option_alias;
 extern GtkWidget *menu_option_colors;
 extern GtkWidget *menu_option_action;
+extern GtkWidget *menu_option_keys;
 extern GtkWidget *window;
 extern GtkWidget *color_window;
 
@@ -203,6 +221,9 @@ extern GdkColor *background;
 extern GdkFont  *font_normal;
 extern GdkFont  *font_fixed;
 extern GdkFont  *font_bold;
+
+/* keybind.c */
+extern KEYBIND_DATA *KB_head;
 
 /* misc.c */
 extern struct passwd *uid_info;

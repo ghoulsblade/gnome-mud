@@ -214,8 +214,11 @@ WIZARD_DATA *wizard_get_wizard_data ( gchar *text )
 
 void wizard_close_window ()
 {
-    gtk_widget_set_sensitive (menu_main_wizard, TRUE);
-    gtk_widget_destroy (wizard_window);
+  if (prefs.AutoSave)
+    save_wizard();
+  
+  gtk_widget_set_sensitive (menu_main_wizard, TRUE);
+  gtk_widget_destroy (wizard_window);
 }
 
 void wizard_clist_append (WIZARD_DATA *w, GtkCList *clist)

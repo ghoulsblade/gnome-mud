@@ -64,6 +64,8 @@ static char const rcsid[] =
 /*
  * Global Variables
  */
+extern bool Keyflag;
+/* FIXME */
 bool  echo;
 gchar *host, *port;
 extern GList *alias_list2;
@@ -137,6 +139,7 @@ static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *conne
     gchar *word;
     gchar *foo;
     gchar *sent=0;
+    gint   i = 0;
 
     temp_entry = g_malloc0 (strlen (entry_text) + 2);
     word       = g_malloc0 (strlen (entry_text) + 2);
@@ -149,6 +152,9 @@ static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *conne
     if ( !sent )
         sent = temp_entry;
 
+    for(;sent[i]!=0;i++)
+      if(sent[i] == prefs.CommDev[0]) sent[i] = '\n';
+    
     if (connection->connected) {
       /* error checking here */
       send (connection->sockfd, sent, strlen (sent), 0);
@@ -320,6 +326,7 @@ void send_to_connection (GtkWidget *widget, gpointer data)
   gint number;
 
   extern GList *EntryHistory;
+  extern GList *EntryCurr;
   GList *tmp;
   ALIAS_DATA *alias;
   gchar *entry_text;
@@ -327,22 +334,37 @@ void send_to_connection (GtkWidget *widget, gpointer data)
   gchar *word;
   gchar *foo;
   gchar *sent=0;
-  
+  gint   i=0;
+
+  Keyflag = TRUE;
   number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
   cd = connections[number];
 
   entry_text = gtk_entry_get_text (GTK_ENTRY (text_entry));
+  EntryCurr = g_list_last (EntryHistory);
+
+  if (entry_text[0] == '\0') 
+    {
+      send (cd->sockfd, "\n", 1, 0);
+      textfield_add(cd->window, "\n",MESSAGE_SENT);
+      return;
+    }
   
-  EntryHistory = g_list_append (EntryHistory, g_strdup (entry_text));
-  
-  if ( g_list_length (EntryHistory) > 10 ) {
-    gchar *temp;
-    
-    temp = (gchar *) EntryHistory->data;
-    
-    EntryHistory = g_list_remove (EntryHistory, EntryHistory->data);
-    g_free (temp);
-  }
+  if ( !EntryCurr || strcmp (EntryCurr->data, entry_text))
+    {
+      EntryHistory = g_list_append (EntryHistory, g_strdup (entry_text));
+      
+      
+      if ( g_list_length (EntryHistory) > 10 )
+	{
+	  gchar *temp;
+	  temp = (gchar *) EntryHistory->data;
+	  
+	  EntryHistory = g_list_remove (EntryHistory, EntryHistory->data);
+	  g_free (temp);
+	}
+    }
+  EntryCurr = g_list_last (EntryHistory);
   
   temp_entry = g_malloc0 (strlen (entry_text) + 2);
   word       = g_malloc0 (strlen (entry_text) + 2);
@@ -365,6 +387,9 @@ void send_to_connection (GtkWidget *widget, gpointer data)
 
   if( !sent )
     sent = temp_entry;
+
+  for(;sent[i]!=0;i++)
+    if(sent[i] == prefs.CommDev[0]) sent[i] = '\n';
   
   if (cd->connected) {
     /* error checking here */
@@ -391,5 +416,18 @@ void send_to_connection (GtkWidget *widget, gpointer data)
 
 void connection_send (CONNECTION_DATA *connection, gchar *message)
 {
+  gint i=0;
+  
+  gchar *sent = g_strdup (message);
+  
+  for(;sent[i]!=0;i++)
+    if(sent[i] == prefs.CommDev[0]) sent[i] = '\n';
+  
+  if ( echo && prefs.EchoText)
+    { 
+      textfield_add (connection->window, message, MESSAGE_SENT);
+    }
+  
   send (connection->sockfd, message, strlen (message), 0);
+  free(sent);
 }
