@@ -63,6 +63,7 @@ static void open_connection (CONNECTION_DATA *);
 static void action_send_to_connection (gchar *, CONNECTION_DATA *);
 static void read_from_connection (CONNECTION_DATA *, gint,
                                   GdkInputCondition);   
+static void print_error (CONNECTION_DATA *connection, const gchar *error) ;
 
 /* Global Variables */
 extern bool             Keyflag;
@@ -184,7 +185,13 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
     connection->mccp = mudcompress_new();
 #endif /* ENABLE_MCCP */
     gdk_input_remove (connection->data_ready);
-    textfield_add (connection, _("*** Connection closed.\n"), MESSAGE_NORMAL);
+
+    if (connection->logging)
+    {
+		stop_logging_connection (connection) ;
+    }
+
+    textfield_add (connection, _("*** Connection closed.\n"), MESSAGE_SYSTEM);
     connection->connected = FALSE;
 }
 
@@ -204,7 +211,7 @@ static void open_connection (CONNECTION_DATA *connection)
     if ( !(strcmp(connection->port, "\0")) )
     {
         sprintf (buf, _("*** No port specified - assuming port 23\n"));
-        textfield_add (connection, buf, MESSAGE_NORMAL);
+        textfield_add (connection, buf, MESSAGE_SYSTEM);
 		if (connection->port[0] != '\0')
 		{
 			g_free(connection->port);
@@ -219,20 +226,18 @@ static void open_connection (CONNECTION_DATA *connection)
     }
 
     sprintf (buf, _("*** Making connection to %s, port %s\n"), connection->host, connection->port);
-    textfield_add (connection, buf, MESSAGE_NORMAL);
+    textfield_add (connection, buf, MESSAGE_SYSTEM);
 
     /* strerror(3) */
     if ( ( he = gethostbyname (connection->host) ) == NULL )
     {
-    	gchar buf2[2048];
-    	g_snprintf(buf2, 2048, "%s\n", hstrerror(h_errno));
-    	textfield_add(connection, buf2, MESSAGE_ERR);
+	print_error(connection, hstrerror(h_errno)) ;
         return;
     }
 
     if ( ( connection->sockfd = socket (AF_INET, SOCK_STREAM, 0)) == -1 )
     {
-        textfield_add (connection, strerror(errno), MESSAGE_ERR);
+	print_error(connection, strerror(errno)) ;
         return;
     }
 
@@ -244,11 +249,11 @@ static void open_connection (CONNECTION_DATA *connection)
     if (connect (connection->sockfd, (struct sockaddr *)&their_addr,
                  sizeof (struct sockaddr)) == -1 )
     {
-        textfield_add (connection, strerror(errno), MESSAGE_ERR);
+	print_error (connection, strerror(errno)) ;
         return;
     }
 
-    textfield_add (connection, _("*** Connection established.\n"), MESSAGE_NORMAL);
+    textfield_add (connection, _("*** Connection established.\n"), MESSAGE_SYSTEM);
 
     connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ,
 					   GTK_SIGNAL_FUNC(read_from_connection),
@@ -271,7 +276,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
    
 	if ( (numbytes = recv (connection->sockfd, buf, 2048, 0) ) == - 1 )
 	{
-		textfield_add (connection, strerror( errno), MESSAGE_ERR);
+		print_error (connection, strerror(errno)) ;
 		disconnect (NULL, connection);
 		return;
 	}
@@ -447,7 +452,6 @@ void connection_send (CONNECTION_DATA *connection, gchar *message)
  *              1 - the number of bytes to send.
  *              2.. - a variable length list of bytes to send.
  */
-
 void connection_send_telnet_control (CONNECTION_DATA *connection, int len, ...)
 {
 	int i;
@@ -463,4 +467,12 @@ void connection_send_telnet_control (CONNECTION_DATA *connection, int len, ...)
 
 	va_end (ap);
 } /* connection_send_telnet_control */
+
+static void print_error (CONNECTION_DATA *cd, const gchar *error)
+{
+	gchar buf[256] ;
+
+	g_snprintf(buf, 255, "*** %s.\n", error);
+	textfield_add (cd, buf, MESSAGE_ERR);
+} /* print_error */
 

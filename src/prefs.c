@@ -145,6 +145,10 @@ void load_prefs ( void )
 	prefs.TerminalType = gnome_config_get_string("/gnome-mud/Preferences/TerminalType=ansi");
 	prefs.FontName    = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
 	prefs.MudListFile = gnome_config_get_string("/gnome-mud/Preferences/MudListFile=");
+
+	g_snprintf(buf, 255, "/gnome-mud/Preferences/LastLogDir=%s/", g_get_home_dir());
+	prefs.LastLogDir  = gnome_config_get_string(buf);
+
 	prefs.History     = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
 
 	/*
@@ -196,6 +200,7 @@ void save_prefs ( void )
 	gnome_config_set_string("/gnome-mud/Preferences/TerminalType", prefs.TerminalType);
 	gnome_config_set_string("/gnome-mud/Preferences/FontName",    prefs.FontName);
 	gnome_config_set_string("/gnome-mud/Preferences/MudListFile", prefs.MudListFile);
+	gnome_config_set_string("/gnome-mud/Preferences/LastLogDir",  prefs.LastLogDir);
 	gnome_config_set_int   ("/gnome-mud/Preferences/History",     prefs.History);
 
 	prefs_save_color(&prefs.Foreground, "Preferences", "Foreground");
@@ -220,16 +225,17 @@ static void prefs_copy(SYSTEM_DATA *target, SYSTEM_DATA *prefs, gboolean alloc_c
 {
 	gint i;
 	
-	target->EchoText    = prefs->EchoText;
-	target->KeepText    = prefs->KeepText;
-	target->AutoSave    = prefs->AutoSave;
-	target->DisableKeys = prefs->DisableKeys;
-	target->Freeze      = prefs->Freeze;                g_free(target->FontName);
-	target->FontName    = g_strdup(prefs->FontName);    g_free(target->CommDev);
-	target->CommDev     = g_strdup(prefs->CommDev);     g_free(target->MudListFile);
-	target->MudListFile = g_strdup(prefs->MudListFile); g_free(target->TerminalType);
-	target->TerminalType = g_strdup(prefs->TerminalType);
-	target->History     = prefs->History;
+	target->EchoText     = prefs->EchoText;
+	target->KeepText     = prefs->KeepText;
+	target->AutoSave     = prefs->AutoSave;
+	target->DisableKeys  = prefs->DisableKeys;
+	target->Freeze       = prefs->Freeze;                 g_free(target->FontName);
+	target->FontName     = g_strdup(prefs->FontName);     g_free(target->CommDev);
+	target->CommDev      = g_strdup(prefs->CommDev);      g_free(target->MudListFile);
+	target->MudListFile  = g_strdup(prefs->MudListFile);  g_free(target->TerminalType);
+	target->TerminalType = g_strdup(prefs->TerminalType); g_free(target->LastLogDir);
+	target->LastLogDir   = g_strdup(prefs->LastLogDir);
+	target->History      = prefs->History;
 
 	prefs_copy_color(&target->Foreground, &prefs->Foreground);
 	prefs_copy_color(&target->Background, &prefs->Background);

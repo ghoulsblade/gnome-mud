@@ -48,6 +48,7 @@ typedef enum { NORM, ESC, SQUARE, PARMS } STATE;
 extern GtkWidget       *menu_main_disconnect;
 extern GtkWidget       *menu_main_close;
 extern CONNECTION_DATA *connections[15];
+extern GtkWidget       *main_notebook;
 extern GtkWidget       *text_entry;
 extern GdkFont         *font_normal;
 extern SYSTEM_DATA      prefs;
@@ -222,8 +223,9 @@ void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer 
 void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
 {
 	GtkWidget *text_widget = cd->window;
-    gchar *start, c;
+    gchar *start, *logtmp, c;
     gint  len;
+	gint       i;
     static STATE state = NORM;
 
     if ( message[0] == '\0' )
@@ -236,6 +238,15 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
         gtk_text_freeze (GTK_TEXT (text_widget));
     }
     
+	i = gtk_notebook_get_current_page (GTK_NOTEBOOK(main_notebook));
+	if (connections[i]->logging
+		&& colortype != MESSAGE_ANSI
+		&& colortype != MESSAGE_ERR
+		&& colortype != MESSAGE_SYSTEM)
+	{
+		fputs(message, connections[i]->log);
+	}
+
     switch (colortype)
     {
     case MESSAGE_SENT:
@@ -252,6 +263,11 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
             gtk_text_insert (GTK_TEXT (text_widget), font_normal, cd->foreground, cd->background, message, -1);
             gtk_text_insert (GTK_TEXT (text_widget), NULL, NULL, NULL," ", 1 );
             gtk_text_backward_delete (GTK_TEXT (text_widget), 1);
+
+	    if (connections[i]->logging)
+	    {
+		fputs(message, connections[i]->log);
+	    }
 
             break;
         }
@@ -272,6 +288,15 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
                     gtk_text_insert (GTK_TEXT (text_widget), font_normal,
                                      cd->foreground,
                                      cd->background, start, len );
+
+		    if (connections[i]->logging)
+		    {
+			logtmp = g_malloc (len + 1);
+			strncpy(logtmp, start, len);
+			logtmp[len] = '\0';
+			fputs (logtmp, connections[i]->log);
+			g_free (logtmp);
+                    }
                 }
 
                 if ( !(c = *message))
@@ -281,6 +306,12 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
                 {
                     gtk_text_insert (GTK_TEXT (text_widget), font_normal, cd->foreground, cd->background, &c, 1);
                     ++message;
+
+		    if (connections[i]->logging)
+		    {
+			fputc(c, connections[i]->log);
+                    }
+
                     break;
                 }
 
@@ -373,6 +404,7 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
         
     case MESSAGE_NORMAL:
     case MESSAGE_NONE:
+    case MESSAGE_SYSTEM:
     default:
         gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Foreground, &prefs.Background, message, strlen (message));
         break;
@@ -385,3 +417,4 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
         gtk_text_backward_delete (GTK_TEXT (text_widget), 1);
     }
 }
+

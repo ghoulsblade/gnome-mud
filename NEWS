@@ -3,7 +3,8 @@ NEWS for veteran GNOME-Mud users
 
 GNOME-Mud 0.9.0 (UNRELEASED)
 
-- GNOME-Mud can now save mud logs.
+- GNOME-Mud can now do session recording (logging in realtime), and
+  save session log to file.
 - Python scripting support (requires Python >= 2.0).
 - MudConnect lists support. You can download MudConnect.com's mud list
   from http://www.mudconnect.com/zmud/mudlist.txt.

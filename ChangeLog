@@ -1,3 +1,21 @@
+Mon Feb 11 08:50:34 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Added new patch from Vashti
+	lets you turn session recording (logging in real time) on and off
+    from the file menu.
+
+	* moves the existing logging code into the same file as the new code,
+	and renames the option on the menu so as to avoid confusion.
+
+	* adds a new message type to textfield_add (MESSAGE_SYSTEM)
+	which is used for non-error system messages.
+
+	* prettifies a few places where strerror(errno) was printed to
+	the window.
+
+	* explicitly closes all open connections and logfiles on
+	program exit.
+
 Mon Feb 11 08:34:56 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/net.c (pre_process): Fixed formatting of source to be more

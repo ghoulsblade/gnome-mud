@@ -29,6 +29,7 @@
 #define MESSAGE_ANSI    2
 #define MESSAGE_NONE    3
 #define MESSAGE_SENT    4
+#define MESSAGE_SYSTEM	5
 
 /*
  * Maximum number of connections possible
@@ -62,14 +63,17 @@ typedef        gint            bool;
 struct connection_data 
 {
 	PROFILE_DATA	*profile;
+	FILE			*log;
 	mc_state		*mccp;
 	gint			 mccp_timer;
 	gchar			*host;
 	gchar			*port;
+	gchar			*log_filename;
 	gint			 data_ready;
 	gint			 sockfd;
 	gint			 connected;
 	gint			 notebook;
+	gint			 logging;
 	gboolean		 echo;
 	GtkWidget		*window;
 	GtkWidget		*vscrollbar;
@@ -87,6 +91,7 @@ struct system_data {
 	gchar     *CommDev;
 	gchar     *TerminalType;
 	gchar     *MudListFile;
+	gchar     *LastLogDir;
 	gint       History;
 	GdkColor   Foreground;
 	GdkColor   Background;
@@ -163,6 +168,12 @@ void  load_color_to_c_structs ( void			   );
 
 /* keybind.c */
 void window_keybind   ( PROFILE_DATA *		   );
+
+/* log.c */
+void  window_menu_file_start_logging_cb ( GtkWidget *widget, gpointer data );
+void  window_menu_file_stop_logging_cb  ( GtkWidget *widget, gpointer data );
+void  window_menu_file_save_buffer_cb   ( GtkWidget *widget, gpointer data );
+void  stop_logging_connection           ( CONNECTION_DATA *connection      );
 
 /* map.c */
 void  window_automap  ( GtkWidget *widget, gpointer data   );

@@ -56,6 +56,9 @@ extern GList *ProfilesList;
 extern GList *ProfilesData;
 extern GList *Profiles;
 
+/* Local prototypes */
+static void window_menu_file_close (GtkWidget *widget, gpointer data) ;
+
 void close_window (GtkWidget *widget, gpointer data)
 {
   gtk_widget_destroy (GTK_WIDGET (data));
@@ -65,7 +68,7 @@ void destroy (GtkWidget *widget)
 {
   GtkWidget *dialog;
   GtkWidget *label;
-  gint retval;
+  gint i, retval;
 
   dialog = gnome_dialog_new(N_("Quit?"), 
 			    GNOME_STOCK_BUTTON_YES,
@@ -85,6 +88,18 @@ void destroy (GtkWidget *widget)
     	gnome_dialog_close(GNOME_DIALOG(dialog));
     	return;
   }  
+
+  /* Close all windows except main */
+  
+  for (i = MAX_CONNECTIONS ; i != 0 ; i--)
+  {
+	if (connections[i])
+	{
+		gtk_notebook_set_page(GTK_NOTEBOOK(main_notebook),
+			connections[i]->notebook) ;
+		window_menu_file_close (NULL, NULL);
+	}
+  }
 
   if (EntryHistory != NULL)
   {
@@ -497,13 +512,13 @@ static void window_menu_file_close (GtkWidget *widget, gpointer data)
 
 	cd = connections[number];
 
+	if (cd->connected)
+	{
+		disconnect (NULL, cd);
+	}
+
 	if (cd != main_connection)
 	{
-		if (cd->connected)
-		{
-			disconnect (NULL, cd);
-		}
-    
 		gtk_notebook_remove_page (GTK_NOTEBOOK (main_notebook), number);
 
 		free_connection_data (cd);
@@ -530,51 +545,6 @@ static void window_menu_file_disconnect (GtkWidget *widget, gpointer data)
   }
 }
 
-static void window_menu_file_save_log_file_ok_cb(GtkWidget *widget, GtkFileSelection *file_selector)
-{
-	FILE *fp;
-	CONNECTION_DATA *cd;
-	gchar *textdata;
-	
-	gint   number	= gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook));
-	gchar *filename = gtk_file_selection_get_filename(GTK_FILE_SELECTION(file_selector));
-
-	cd = connections[number];
-
-	if ((fp = fopen(filename, "w")) == NULL)
-	{
-		popup_window(_("Could not open file for writing..."));
-		return;
-	}
-
-	textdata = gtk_editable_get_chars(GTK_EDITABLE(cd->window), 0, -1);
-	fputs(textdata, fp);	
-	g_free(textdata);
-	
-	fclose(fp);
-}
-
-static void window_menu_file_save_log_cb (GtkWidget *widget, gpointer data)
-{
-	gint  size = strlen(g_get_home_dir()) + 10;
-	gchar *homedir;
-	
-	GtkWidget *file_selector = gtk_file_selection_new(_("Please select a log file..."));
-
-	homedir = g_malloc0(sizeof(gchar *) * size);
-	g_snprintf(homedir, size, "%s/", g_get_home_dir());
-	
-	gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector), homedir);
-	g_free(homedir);
-
-	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(file_selector)->ok_button), "clicked", GTK_SIGNAL_FUNC(window_menu_file_save_log_file_ok_cb), file_selector);
-	gtk_signal_connect_object(GTK_OBJECT(GTK_FILE_SELECTION(file_selector)->ok_button), "clicked",
-							  GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) file_selector);
-	gtk_signal_connect_object(GTK_OBJECT(GTK_FILE_SELECTION(file_selector)->cancel_button), "clicked",
-							  GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) file_selector);
-	gtk_widget_show(file_selector);
-}
-
 static void window_menu_help_manual_activate_cb(GtkMenuItem *menuitem)
 {
 	gnome_help_goto(NULL, "ghelp:gnome-mud");
@@ -599,7 +569,10 @@ static GnomeUIInfo file_menu[] = {
   GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, window_menu_file_connect, GNOME_STOCK_MENU_OPEN),
   GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, window_menu_file_disconnect, GNOME_STOCK_MENU_CLOSE),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Save log..."), NULL, window_menu_file_save_log_cb, GNOME_STOCK_MENU_SAVE),
+  GNOMEUIINFO_ITEM_STOCK(N_("Start Logging..."), NULL, window_menu_file_start_logging_cb, GNOME_STOCK_MENU_NEW),
+  GNOMEUIINFO_ITEM_STOCK(N_("Stop Logging"), NULL, window_menu_file_stop_logging_cb, GNOME_STOCK_MENU_CLOSE),
+  GNOMEUIINFO_ITEM_STOCK(N_("Save Buffer..."), NULL, window_menu_file_save_buffer_cb, GNOME_STOCK_MENU_SAVE),
+  GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Close Window"), NULL, window_menu_file_close, GNOME_STOCK_MENU_BLANK),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_MENU_EXIT_ITEM(destroy, NULL),
