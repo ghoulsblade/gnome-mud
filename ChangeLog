@@ -1,3 +1,7 @@
+Mon Jul  1 12:29:15 CEST 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* po/sv.po: updated.
+
 Tue Jun 25 14:31:25 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/prefs (window_prefs): i18nized a string.
