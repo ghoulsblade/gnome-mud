@@ -64,6 +64,11 @@ void close_window (GtkWidget *widget, gpointer data)
   gtk_widget_destroy (GTK_WIDGET (data));
 }
 
+static gboolean dialog_close_cb(GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+	return TRUE;
+}
+
 void destroy (GtkWidget *widget)
 {
   GtkWidget *dialog;
@@ -75,6 +80,7 @@ void destroy (GtkWidget *widget)
 			    GNOME_STOCK_BUTTON_NO,
 			    NULL);
   gnome_dialog_set_parent(GNOME_DIALOG(dialog), GTK_WINDOW(window));
+  g_signal_connect(G_OBJECT(dialog), "delete_event", GTK_SIGNAL_FUNC(dialog_close_cb), NULL);
 
   label = gtk_label_new(_("Do you really want to quit?"));
   gtk_widget_show(label);

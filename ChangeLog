@@ -1,3 +1,7 @@
+Tue Feb 18 15:22:32 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/init.c: Fixed bug #539661
+
 Tue Feb 18 11:36:21 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Added patch from Petter which adds support for python-gtk2
