@@ -1,3 +1,7 @@
+Tue Sep 26 10:12:18 CEST 2000  Robin Ericsson  <robin@noname4us.com>
+
+	* README: included OpenBSD in list of successful builds.
+
 Thu Sep 11 02:44:29 CEST 2000 Jordi Mallach <jordi@debian.org>
 	* po/es.po: updated strings.
 

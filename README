@@ -23,6 +23,7 @@ if you have a platform not included here, send me a mail to report.
     - i386
         - Linux 2.0, 2.1, 2.2
         - FreeBSD 3.x-STABLE, 4.0-STABLE
+	- OpenBSD 2.7
 
     - GTK+ 1.2.4, 1.2.6, 1.2.7
 
