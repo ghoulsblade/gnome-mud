@@ -1,13 +1,13 @@
 # Swedish Translation for the AMCL MUD Client.
 # Copyright (C) 2000, 2001 Free Software Foundation, Inc.
-# Robin Ericsson <lobbin@localhost.nu>, 2000, 2001.
+# Robin Ericsson <lobbin@localhost.nu>, 2000-2002
 #
 #: src/modules.c:298
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME-MUD 0.8.0\n"
-"POT-Creation-Date: 2002-01-08 14:10+0100\n"
-"PO-Revision-Date: 2001-12-22 14:23+0100\n"
+"POT-Creation-Date: 2002-01-11 15:16+0100\n"
+"PO-Revision-Date: 2002-01-11 15:32+0100\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -123,7 +123,7 @@ msgstr "Avsluta?"
 msgid "Do you really want to quit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/init.c:204 src/init.c:502 src/init.c:512
+#: src/init.c:204 src/init.c:502 src/init.c:513
 msgid "Connect..."
 msgstr "Anslut..."
 
@@ -238,7 +238,7 @@ msgstr "Wizard..."
 msgid "Profiles..."
 msgstr "Profiler..."
 
-#: src/init.c:503 src/init.c:513
+#: src/init.c:503 src/init.c:514
 msgid "Disconnect"
 msgstr "Koppla från"
 
@@ -250,58 +250,65 @@ msgstr "Avsluta"
 msgid "Connection Wizard..."
 msgstr "Anslutnings Lista..."
 
-#: src/init.c:515
+#: src/init.c:511
+msgid "MudList Listing..."
+msgstr ""
+
+#: src/init.c:516
 msgid "Save log..."
 msgstr "Spara log..."
 
-#: src/init.c:516
+#: src/init.c:517
 msgid "Close Window"
 msgstr "Stäng fönster"
 
-#: src/init.c:524
+#: src/init.c:525
 msgid "Plugin Information..."
 msgstr "Plugin Information..."
 
-#: src/init.c:529
+#: src/init.c:530
 msgid "Colors..."
 msgstr "Färger..."
 
-#: src/init.c:531
+#: src/init.c:532
 msgid "Auto Mapper..."
 msgstr "Kart Genererare..."
 
-#: src/init.c:533
+#: src/init.c:534
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:540
+#: src/init.c:541
 msgid "GNOME-Mud manual"
 msgstr "GNOME-Mud manual"
 
-#: src/init.c:540
+#: src/init.c:541
 msgid "Open the GNOME-Mud manual"
 msgstr "Öppna GNOME-Mud manualen"
 
-#: src/init.c:592
+#: src/init.c:593
 msgid "Main"
 msgstr "Arkiv"
 
-#: src/init.c:635
+#: src/init.c:636
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud version %s (kompilerad %s, %s)\n"
 
-#: src/init.c:640
+#: src/init.c:641
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuerad under GNU General Public License.\n"
 
-#: src/init.c:642
+#: src/init.c:643
 #, c-format
 msgid ""
 "\n"
 "Python version %s\n"
 "\n"
 msgstr ""
+"\n"
+"Python version %s\n"
+"\n"
 
 #: src/keybind.c:142
 msgid "Can't add an existing key."
@@ -437,24 +444,56 @@ msgstr "Fel i registrering av data %s: %s"
 msgid "Error getting plugin from handle."
 msgstr "Fel i att ta reda på plugin handle."
 
-#: src/net.c:181
+#: src/mudlist.c:252
+msgid "Could not open MudList file for reading"
+msgstr "Kan inte öppna MudList fil för läsning"
+
+#: src/mudlist.c:258
+msgid "GNOME-Mud MudList"
+msgstr "GNOME-Mud MudList"
+
+#: src/mudlist.c:268
+msgid "Mud Name :"
+msgstr "Mud Namn :"
+
+#: src/mudlist.c:282
+msgid "Codebase :"
+msgstr "Codebase :"
+
+#: src/mudlist.c:296
+msgid "Telnet Address :"
+msgstr "Telnet Adress :"
+
+#: src/mudlist.c:310
+msgid "Connect to the mud"
+msgstr "Anslut till mud"
+
+#: src/mudlist.c:316
+msgid "Go to webpage of the mud"
+msgstr "Hemsida till mud"
+
+#: src/mudlist.c:323
+msgid "Description :"
+msgstr "Beskrivning : "
+
+#: src/net.c:180
 msgid "*** Connection closed.\n"
 msgstr "*** Anslutning avslutad.\n"
 
-#: src/net.c:193
+#: src/net.c:192
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** Kan inte ansluta - du angav ingen adress\n"
 
-#: src/net.c:200
+#: src/net.c:199
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** Ingen port - antar port 23\n"
 
-#: src/net.c:215
+#: src/net.c:214
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Försöker ansluta till %s, port %s\n"
 
-#: src/net.c:245
+#: src/net.c:244
 msgid "*** Connection established.\n"
 msgstr "*** Anslutning etablerad.\n"
 
@@ -468,11 +507,11 @@ msgstr "%s finns redan, och är inte en katalog!"
 msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s finns inte, och kan INTE skapas: %s"
 
-#: src/prefs.c:238
+#: src/prefs.c:251
 msgid "Echo the text sent?"
 msgstr "Skriva ut sänd data?"
 
-#: src/prefs.c:243
+#: src/prefs.c:256
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
@@ -481,11 +520,11 @@ msgstr ""
 "så\n"
 "du kan se vad du skickar."
 
-#: src/prefs.c:250
+#: src/prefs.c:263
 msgid "Keep the text entered?"
 msgstr "Spara inskriven text?"
 
-#: src/prefs.c:255
+#: src/prefs.c:268
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
 "will be left in the entry box but selected. Turn this off to remove the text "
@@ -497,7 +536,7 @@ msgstr ""
 "texten \n"
 "efter den har blivit skickad."
 
-#: src/prefs.c:276
+#: src/prefs.c:289
 msgid ""
 "Use this button to open the font selector to choose what font you will use."
 msgstr ""
@@ -505,15 +544,15 @@ msgstr ""
 "lätt\n"
 "välja en användbar font."
 
-#: src/prefs.c:281
+#: src/prefs.c:294
 msgid "Appearance"
 msgstr "Utseende"
 
-#: src/prefs.c:297
+#: src/prefs.c:310
 msgid "Freeze/Thaw?"
 msgstr "Freeze/Thaw?"
 
-#: src/prefs.c:299
+#: src/prefs.c:312
 msgid ""
 "Using this, text will draw faster but it will not draw every character, only "
 "whole strings. This will probably make displays a lot faster if you are "
@@ -524,15 +563,19 @@ msgstr ""
 "att rita bokstav för bokstav, utan bara hela rader. Detta kan snabba upp en\n"
 "MUD med mycket färger."
 
-#: src/prefs.c:315
+#: src/prefs.c:328
 msgid "Command divide char:"
 msgstr "Kommando uppdelnings tecken:"
 
-#: src/prefs.c:327
+#: src/prefs.c:339
 msgid "Command history:"
 msgstr "Kommando historik:"
 
-#: src/prefs.c:340
+#: src/prefs.c:355
+msgid "MudList file:"
+msgstr ""
+
+#: src/prefs.c:367
 msgid "Functionality"
 msgstr "Funktionalitet"
 
@@ -715,6 +758,3 @@ msgstr ""
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr "Detta är spelarens lösenord. Att användas med AutoLogin."
-
-#~ msgid "(C) 1998-2001 Robin Ericsson"
-#~ msgstr "(C) 1998-2001 Robin Ericsson"

@@ -76,6 +76,7 @@ struct system_data {
   bool       Freeze;
   gchar     *FontName;
   gchar     *CommDev;
+  gchar     *MudListFile;
   gint       History;
 };
 
@@ -158,6 +159,9 @@ void  init_uid        ( void                               );
 void  do_plugin_information (GtkWidget *w, gpointer data   );
 int   init_modules    ( char *path                         );
 void  save_plugins    ( void                               );
+
+/* mudlist.c */
+void  window_mudlist  ( void                               );
 
 /* prefs.c */
 void  load_prefs      ( void                               );

@@ -11,7 +11,7 @@ feel free to suggest features, contribute, or comment.
 
 * AutoReconnect
 * Nested alias [AS GOOD AS DONE]
-* Import of Mud Connectfiles
+* Import of Mud Connectfiles [AS GOOD AS DONE]
 * Save logfiles of mud-traffic [DONE]
 * Copy/Paste from clipboard
 * Rewrite connection wizard... [MOSTLY DONE]
@@ -43,5 +43,6 @@ Unplanned
 * Fix Speedwalking in AutoMapper
 * User defineable buttonbar
 * Customizable statusline
-* Tab completion
+* Tab completion, and separate history for each connection
+* Make it run on Windows
 

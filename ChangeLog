@@ -1,3 +1,23 @@
+Fri Jan 11 14:58:10 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Updated mudconnect
+
+	* po/POTFILES.in: Added mudlist.c
+	* po/*.po: Updated translations.
+
+	* src/gnome-mud.h [system_data]: Added MudListFile.
+	(window_mudlist): Added.
+	
+	* src/init.c [file_menu]: Added MudList to menu.
+
+	* src/mudlist.c: Added.
+
+	* src/prefs.c (load_prefs): Added MudListFile preference.
+	(save_prefs): Ditto.
+	(copy_preferences): Ditto.
+	(prefs_entry_mudlistfile_cb): Added callback.
+	(window_prefs): Added gnomefileentry for mudlist file.
+
 Wed Jan  9 01:27:37 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* po/{ca,es}.po: Updated translations.

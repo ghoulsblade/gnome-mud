@@ -508,6 +508,7 @@ static GnomeUIInfo toolbar_menu[] = {
 
 static GnomeUIInfo file_menu[] = {
   GNOMEUIINFO_MENU_NEW_ITEM(N_("Connection Wizard..."), NULL, window_profiles, NULL),
+  GNOMEUIINFO_MENU_NEW_ITEM(N_("MudList Listing..."), NULL, window_mudlist, NULL),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, connect_window, GNOME_STOCK_MENU_OPEN),
   GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, do_disconnect, GNOME_STOCK_MENU_CLOSE),

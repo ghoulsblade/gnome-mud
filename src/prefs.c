@@ -72,12 +72,13 @@ void load_prefs ( void )
 	/*
 	 * Get general parameters
 	 */
-	prefs.EchoText = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
-	prefs.KeepText = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
-	prefs.Freeze   = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
-	prefs.CommDev  = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
-	prefs.FontName = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
-	prefs.History  = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
+	prefs.EchoText    = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
+	prefs.KeepText    = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
+	prefs.Freeze      = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
+	prefs.CommDev     = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
+	prefs.FontName    = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
+	prefs.MudListFile = gnome_config_get_string("/gnome-mud/Preferences/MudListFile=");
+	prefs.History     = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
 
 	/*
 	 * Command history
@@ -103,26 +104,28 @@ void load_prefs ( void )
 
 void save_prefs ( void )
 {
-	gnome_config_set_bool  ("/gnome-mud/Preferences/EchoText", prefs.EchoText);
-	gnome_config_set_bool  ("/gnome-mud/Preferences/KeepText", prefs.KeepText);
-	gnome_config_set_bool  ("/gnome-mud/Preferences/AutoSave", prefs.AutoSave);
-	gnome_config_set_bool  ("/gnome-mud/Preferences/Freeze",   prefs.Freeze);
-	gnome_config_set_string("/gnome-mud/Preferences/CommDev",  prefs.CommDev);
-	gnome_config_set_string("/gnome-mud/Preferences/FontName", prefs.FontName);
-	gnome_config_set_int   ("/gnome-mud/Preferences/History",  prefs.History);
+	gnome_config_set_bool  ("/gnome-mud/Preferences/EchoText",    prefs.EchoText);
+	gnome_config_set_bool  ("/gnome-mud/Preferences/KeepText",    prefs.KeepText);
+	gnome_config_set_bool  ("/gnome-mud/Preferences/AutoSave",    prefs.AutoSave);
+	gnome_config_set_bool  ("/gnome-mud/Preferences/Freeze",      prefs.Freeze);
+	gnome_config_set_string("/gnome-mud/Preferences/CommDev",     prefs.CommDev);
+	gnome_config_set_string("/gnome-mud/Preferences/FontName",    prefs.FontName);
+	gnome_config_set_string("/gnome-mud/Preferences/MudListFile", prefs.MudListFile);
+	gnome_config_set_int   ("/gnome-mud/Preferences/History",     prefs.History);
 	
 	gnome_config_sync();
 }
 
 static void copy_preferences(SYSTEM_DATA *target, SYSTEM_DATA *prefs)
 {
-	target->EchoText = prefs->EchoText;
-	target->KeepText = prefs->KeepText;
-	target->AutoSave = prefs->AutoSave;
-	target->Freeze   = prefs->Freeze;             g_free(target->FontName);
-	target->FontName = g_strdup(prefs->FontName); g_free(target->CommDev);
-	target->CommDev  = g_strdup(prefs->CommDev);
-	target->History  = prefs->History;
+	target->EchoText    = prefs->EchoText;
+	target->KeepText    = prefs->KeepText;
+	target->AutoSave    = prefs->AutoSave;
+	target->Freeze      = prefs->Freeze;                g_free(target->FontName);
+	target->FontName    = g_strdup(prefs->FontName);    g_free(target->CommDev);
+	target->CommDev     = g_strdup(prefs->CommDev);     g_free(target->MudListFile);
+	target->MudListFile = g_strdup(prefs->MudListFile);
+	target->History     = prefs->History;
 }
 
 static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)
@@ -154,6 +157,18 @@ static void prefs_entry_history_cb(GtkWidget *widget, GnomePropertyBox *box)
     pre_prefs.History = atoi(s);
     gnome_property_box_changed(box);
   }
+}
+
+static void prefs_entry_mudlistfile_cb(GtkWidget *widget, GnomePropertyBox *box)
+{
+	gchar *s;
+
+	s = gtk_entry_get_text(GTK_ENTRY(widget));
+	if (s)
+	{
+		pre_prefs.MudListFile = g_strdup(s);
+		gnome_property_box_changed(box);
+	}
 }
 
 static void prefs_entry_divide_cb (GtkWidget *widget, GnomePropertyBox *box)
@@ -207,7 +222,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
   GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton_freeze;
   GtkWidget *label1, *label2;
   GtkWidget *fontpicker;
-  GtkWidget *entry_divider, *entry_history;
+  GtkWidget *entry_divider, *entry_history, *entry_mudlistfile;
   gchar      history[10];
 
   GtkTooltips *tooltip;
@@ -222,11 +237,9 @@ void window_prefs (GtkWidget *widget, gpointer data)
   
   prefs_window = gnome_property_box_new();
   gtk_window_set_policy(GTK_WINDOW(prefs_window), FALSE, FALSE, FALSE);
-  gtk_signal_connect(GTK_OBJECT(prefs_window), "destroy",
-		     GTK_SIGNAL_FUNC(gtk_widget_destroyed), &prefs_window);
-  gtk_signal_connect(GTK_OBJECT(prefs_window), "apply",
-		     GTK_SIGNAL_FUNC(prefs_apply_cb), NULL);
-
+  gtk_signal_connect(GTK_OBJECT(prefs_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &prefs_window);
+  gtk_signal_connect(GTK_OBJECT(prefs_window), "apply",   GTK_SIGNAL_FUNC(prefs_apply_cb), NULL);
+  
   tooltip = gtk_tooltips_new();
 
   /*
@@ -321,8 +334,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
   gtk_widget_show (entry_divider);
   gtk_box_pack_start (GTK_BOX (hbox1), entry_divider, FALSE, TRUE, 0);
   gtk_widget_set_usize (entry_divider, 15, -2);
-  gtk_signal_connect(GTK_OBJECT(entry_divider), "changed",
-		     GTK_SIGNAL_FUNC(prefs_entry_divide_cb), (gpointer) prefs_window);
+  gtk_signal_connect(GTK_OBJECT(entry_divider), "changed", GTK_SIGNAL_FUNC(prefs_entry_divide_cb), (gpointer) prefs_window);
 
   label1 = gtk_label_new(_("Command history:"));
   gtk_widget_show(label1);
@@ -334,8 +346,23 @@ void window_prefs (GtkWidget *widget, gpointer data)
   gtk_widget_show(entry_history);
   gtk_box_pack_start(GTK_BOX(hbox1), entry_history, FALSE, TRUE, 0);
   gtk_widget_set_usize(entry_history, 35, -2);
-  gtk_signal_connect(GTK_OBJECT(entry_history), "changed",
-		     GTK_SIGNAL_FUNC(prefs_entry_history_cb), (gpointer) prefs_window);
+  gtk_signal_connect(GTK_OBJECT(entry_history), "changed", GTK_SIGNAL_FUNC(prefs_entry_history_cb), (gpointer) prefs_window);
+
+	hbox1 = gtk_hbox_new(FALSE, 0);
+	gtk_widget_show(hbox1);
+	gtk_box_pack_start(GTK_BOX(vbox2), hbox1, TRUE, TRUE, 5);
+	
+	label1 = gtk_label_new(_("MudList file:"));
+	gtk_widget_show(label1);
+	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
+ 
+	entry_mudlistfile = gnome_file_entry_new(NULL, "MudList File...");
+	gtk_entry_set_text(GTK_ENTRY(gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(entry_mudlistfile))), prefs.MudListFile);
+	gtk_widget_show(entry_mudlistfile);
+	gtk_box_pack_start(GTK_BOX(hbox1), entry_mudlistfile, FALSE, TRUE, 0);
+	gtk_signal_connect(GTK_OBJECT(gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(entry_mudlistfile))),
+					   "changed",
+					   GTK_SIGNAL_FUNC(prefs_entry_mudlistfile_cb), (gpointer) prefs_window);
 
   label2 = gtk_label_new (_("Functionality"));
   gtk_widget_show (label2); 
