@@ -16,7 +16,7 @@ msgstr ""
 
 #: src/data.c:237
 msgid "No void characters allowed."
-msgstr "No se permiten carácteres vacios."
+msgstr "No se permiten carácteres vacíos."
 
 #. if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
 #: src/data.c:242 src/data.c:336
