@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>3 GnomeMud module</title>
+<META NAME="description" CONTENT="3 GnomeMud module">
+<META NAME="keywords" CONTENT="gnome-mud">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="STYLESHEET" href="gnome-mud.css">
+<LINK REL="next" HREF="node6.html">
+<LINK REL="previous" HREF="node3.html">
+<LINK REL="up" HREF="gnome-mud.html">
+<LINK REL="next" HREF="node5.html">
+</head>
+<body>
+<DIV CLASS="navigation">
+<table align="center" width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td><A HREF="node3.html"><img src="icons/previous.gif"
+border="0" height="32"
+  alt="Previous Page" width="32"></A></td>
+<td><A HREF="gnome-mud.html"><img src="icons/up.gif"
+border="0" height="32"
+  alt="Up One Level" width="32"></A></td>
+<td><A HREF="node5.html"><img src="icons/next.gif"
+border="0" height="32"
+  alt="Next Page" width="32"></A></td>
+<td align="center" width="100%">GNOME-Mud Python API</td>
+<td><A href="contents.html"><img src="icons/contents.gif"
+border="0" height="32"
+  alt="Contents" width="32"></A></td>
+<td><img src="icons/blank.gif"
+  border="0" height="32"
+  alt="" width="32"></td>
+<td><img src="icons/blank.gif"
+  border="0" height="32"
+  alt="" width="32"></td>
+</tr></table>
+<b class="navlabel">Previous:</b> <a class="sectref" HREF="node3.html">2 Basics</A>
+<b class="navlabel">Up:</b> <a class="sectref" HREF="gnome-mud.html">GNOME-Mud Python API</A>
+<b class="navlabel">Next:</b> <a class="sectref" HREF="node5.html">3.1 Connection class</A>
+<br><hr>
+</DIV>
+<!--End of Navigation Panel-->
+<H1><A NAME="SECTION000400000000000000000">
+3 <tt class="module">GnomeMud</tt> module</A>
+</H1>
+
+<P>
+
+
+<P>
+The <tt class="module">GnomeMud</tt> module provides access to the GNOME-Mud scripting API. Normally, a script would
+call <tt class="function">register_input_handler()</tt> and <tt class="function">register_output_handler()</tt> as needed to register
+callback functions, possibly adding some widgets using <tt class="function">add_user_widget()</tt> if using <tt class="module">PyGTK</tt>,
+and then have no further use of this module.
+
+<P>
+<dl><dt><b><a name='l2h-2'><tt class='function'>add_user_widget</tt></a></b>(<var>widget, expand=TRUE, fill=TRUE, padding=5</var>)
+<dd>
+Adds a GTK+ widget, created by <tt class="module">PyGTK</tt>, to the GNOME-Mud application window. The parameters are passed
+more or less directly to <tt class="cfunction">gtk_box_pack_start()</tt>, and the meaning of <var>expand</var>, <var>fill</var> and <var>padding</var>
+is to be found in the GTK+ documentation.
+
+<P>
+You would commonly use this function to build status displays or action buttons.
+
+<P>
+<b>Note:</b> The <var>widget</var> parameter must refer to a genuine <tt class="module">PyGTK</tt> widget. The function will only check
+to ensure it is passed a Python object, and then blithely go on to assume it is the correct type of Python object.
+The effect of passing a different kind of object to the function is undefined, although GTK+ can generally be trusted
+to spot the error. However, Python will be completely unaware of the incident and assume everything proceeded in a
+correct manner.
+
+<P>
+This function is only available if GNOME-Mud has been compiled with <tt class="module">PyGTK</tt> support.
+</dl>
+
+<P>
+<dl><dt><b><a name='l2h-3'><tt class='function'>connection</tt></a></b>()
+<dd>
+Returns a <tt class="class">Connection</tt> object for the currently active connection, meaning the connection tab
+being currently displayed in the GNOME-Mud application window. This is useful for printing some
+descriptive text during script initialisation, or displaying some especially urgent text to the user
+from a callback function.
+</dl>
+
+<P>
+<dl><dt><b><a name='l2h-4'><tt class='function'>register_input_handler</tt></a></b>(<var>function</var>)
+<dd>
+Registers a callback function for input received from a MUD connection. The callback function is passed two
+parameters: a <tt class="class">Connection</tt> object referring to the connection on which the input was received, and
+a string containing the actual input. The return value of the function may be a string, which is then
+further processed by GNOME-Mud as if it were the actual data received from the connection, or any other
+type of Python object, in which case GNOME-Mud is passed the original string. Thus, you are able to modify
+the data received on a socket before GNOME-Mud at large sees it, allowing you to gag input or perform text
+substitutions.
+</dl>
+
+<P>
+<dl><dt><b><a name='l2h-5'><tt class='function'>register_output_handler</tt></a></b>(<var>function</var>)
+<dd>
+Registers a callback function for data being sent to a MUD connection.&nbsp;This works similarly to the callback
+functions for <tt class="function">register_input_handler()</tt> above, but applies to text entered by the user, or caused by
+triggers or key bindings. It does <i>not</i> apply to data sent by Python scripts using the <tt class="method">send()</tt> method
+provided by the <tt class="class">Connection</tt> class.
+</dl>
+
+<P>
+<dl><dt><b><a name='l2h-6'><tt class='function'>version</tt></a></b>()
+<dd>
+This function simply returns the GNOME-Mud version that is running, as a string.
+</dl>
+
+<P>
+
+<p><hr>
+
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html60"
+  HREF="node5.html">3.1 <tt class="class">Connection</tt> class</A>
+</UL>
+<!--End of Table of Child-Links-->
+
+<DIV CLASS="navigation">
+<p><hr>
+<table align="center" width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td><A HREF="node3.html"><img src="icons/previous.gif"
+border="0" height="32"
+  alt="Previous Page" width="32"></A></td>
+<td><A HREF="gnome-mud.html"><img src="icons/up.gif"
+border="0" height="32"
+  alt="Up One Level" width="32"></A></td>
+<td><A HREF="node5.html"><img src="icons/next.gif"
+border="0" height="32"
+  alt="Next Page" width="32"></A></td>
+<td align="center" width="100%">GNOME-Mud Python API</td>
+<td><A href="contents.html"><img src="icons/contents.gif"
+border="0" height="32"
+  alt="Contents" width="32"></A></td>
+<td><img src="icons/blank.gif"
+  border="0" height="32"
+  alt="" width="32"></td>
+<td><img src="icons/blank.gif"
+  border="0" height="32"
+  alt="" width="32"></td>
+</tr></table>
+<b class="navlabel">Previous:</b> <a class="sectref" HREF="node3.html">2 Basics</A>
+<b class="navlabel">Up:</b> <a class="sectref" HREF="gnome-mud.html">GNOME-Mud Python API</A>
+<b class="navlabel">Next:</b> <a class="sectref" HREF="node5.html">3.1 Connection class</A>
+<hr>
+<span class="release-info">Release 0.8.99, documentation updated on November 16, 2001.</span>
+</DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

@@ -22,6 +22,10 @@
 #include <libintl.h>
 #include <stdio.h>
 
+#ifdef USE_PYTHON
+#include <Python.h>
+#endif
+
 #include "gnome-mud.h"
 
 static char const rcsid[] = 
@@ -43,11 +47,13 @@ extern GdkColor     color_white;
 extern GdkColor     color_black;
 
 /* Global Variables */
-#define MAX_CONNECTIONS 16
 CONNECTION_DATA *main_connection;
 CONNECTION_DATA *connections[MAX_CONNECTIONS];
 GtkWidget       *main_notebook;
 GtkWidget       *text_entry;
+#ifdef USE_PYGTK
+GtkWidget *box_user;
+#endif
 
 /* FIXME */
 GtkWidget       *menu_option_colors;
@@ -288,6 +294,7 @@ static void about_window (GtkWidget *widget, gpointer data)
 	_("Martin Quinson, fr.po maintainer"),
 	/* if your charset doesn't support e with circumflex (è), just use e */
 	_("Staffan Thomèn and the creators of gEdit - module API"),
+	_("Petter E. Stokke, Python scripting support"),
 	NULL};
 
  
@@ -556,7 +563,6 @@ void init_window ()
   char  buf[1024];
   
   font_fixed = gdk_font_load("fixed");
-  /* accel_group = gtk_accel_group_new (); */
 
   window = gnome_app_new("gnome-mud", "GNOME Mud");
   gtk_widget_realize(window);
@@ -567,43 +573,14 @@ void init_window ()
   gnome_app_create_menus(GNOME_APP(window), main_menu);
   gnome_app_create_toolbar(GNOME_APP(window), toolbar_menu);
   
-  /* Accels menu - we have to redefine if they are not good enought */
-/*   menu_main_accels    = gtk_menu_ensure_uline_accel_group(GTK_MENU (menu_main_menu)); */
-/*   menu_options_accels = gtk_menu_ensure_uline_accel_group(GTK_MENU (menu_option_menu)); */
-/*   menu_plugins_accels = gtk_menu_ensure_uline_accel_group(GTK_MENU (menu_plugin_menu)); */
-  
-/*   gtk_widget_add_accelerator (menu_main_wizard,     "activate", accel_group, */
-/* 			      GDK_Z, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_main_connect,    "activate", accel_group, */
-/* 			      GDK_N, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_main_disconnect, "activate", accel_group, */
-/* 			      GDK_D, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_main_close,      "activate", accel_group, */
-/* 			      GDK_W, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_main_quit,       "activate", accel_group, */
-/* 			      GDK_Q, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_option_alias,    "activate", accel_group, */
-/* 			      GDK_A, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_option_vars,    "activate", accel_group, */
-/* 			      GDK_V, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_option_prefs,    "activate", accel_group,  */
-/* 			      GDK_P, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_option_mapper,   "activate", accel_group,  */
-/* 			      GDK_M, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_option_colors,   "activate", accel_group,  */
-/* 			      GDK_C, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_option_action,   "activate", accel_group,  */
-/* 			      GDK_T, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_option_keys,     "activate", accel_group,  */
-/* 			      GDK_K, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_widget_add_accelerator (menu_plugin_info,     "activate", accel_group,  */
-/* 			      GDK_U, GDK_MOD1_MASK, GTK_ACCEL_VISIBLE); */
-/*   gtk_window_add_accel_group (GTK_WINDOW (window), accel_group); */
-  /* end accels */
+#ifdef USE_PYGTK
+  box_user = gtk_hbox_new(FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box_main), box_user, TRUE, TRUE, 0);
+#endif
   
   box_main2 = gtk_hbox_new (FALSE, 0);
   gtk_box_pack_start (GTK_BOX (box_main), box_main2, TRUE, TRUE, 5);
-  
+
   main_notebook = gtk_notebook_new();
   GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_notebook), GTK_CAN_FOCUS);
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK (main_notebook), GTK_POS_BOTTOM);
@@ -661,4 +638,9 @@ void init_window ()
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
 		   &color_lightgrey, NULL, 
 		   _("Distributed under the terms of the GNU General Public License.\n"), -1);
+#ifdef USE_PYTHON
+  g_snprintf(buf, 1023, _("\nPython version %s\n\n"), Py_GetVersion());
+  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
+		   &color_lightgrey, NULL, buf, -1);
+#endif
 }

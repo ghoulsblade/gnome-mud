@@ -25,13 +25,12 @@ Jordi Mallach <jordi@debian.org>         - official Debian package,
                                            internationalization support,
                                            ca.po & es.po maintainer, docs.
 Benjamin Geiger <bgeiger@ithink.net>     - various code cleanups and fixes
-Martin Quinson <Martin.Quinson@ens-lyon.fr>
-					 - fr.po maintainer.
+Martin Quinson                           - fr.po maintainer.
+Petter E. Stokke                         -Python scripting support
 
-
-ANSI code
----------
-The developers of CanCan95
+ANSI cod 
+-------- 
+tokke, Python scripting support
 http://www.sparta.lu.se/cancan95.html
 
 MODULE API

@@ -1,3 +1,14 @@
+Tue Jan  8 09:31:31 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Added patch from Petter E. Stokke that enables pythons
+	scripting support.
+
+	* ROADMAP: Moved pythonsupport to done section.
+
+	* AUTHORS: Added Petter E. Stokke
+
+	* po/*.po: make update-po
+
 Sat Jan  5 02:51:40 CET 2002  Jordi Mallach  <jordi@debian.org>
 
 	* gnome-mud.1: renaming leftovers.

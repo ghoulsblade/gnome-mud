@@ -252,84 +252,99 @@ static void open_connection (CONNECTION_DATA *connection)
 
 static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCondition condition)
 {
-  gchar  buf[3000];
-  gchar  *triggered_action;
-  gint   numbytes;
-  gchar *m;
-  gint   i, len;
-  GList *t;
+	gchar  buf[3000];
+	gchar  *triggered_action;
+	gint   numbytes;
+	gchar *m;
+	gint   i, len;
+	GList *t;
+	gchar *mccp_buffer = NULL;
 #ifdef ENABLE_MCCP
-  gchar *mccp_buffer = NULL, *string;
-  gint   mccp_i;
+	gchar *string;
+	gint   mccp_i;
 #endif
    
-  if ( (numbytes = recv (connection->sockfd, buf, 2048, 0) ) == - 1 ) {
-    textfield_add (connection->window, strerror( errno), MESSAGE_ERR);
-    disconnect (NULL, connection);
-    return;
-  }
+	if ( (numbytes = recv (connection->sockfd, buf, 2048, 0) ) == - 1 )
+	{
+		textfield_add (connection->window, strerror( errno), MESSAGE_ERR);
+		disconnect (NULL, connection);
+		return;
+	}
   
-  buf[numbytes] = '\0';
+	buf[numbytes] = '\0';
   
-  /*
-   * Sometimes we get here even though there isn't any data to read
-   * from the socket..
-   *
-   * found by Michael Stevens
-   */
-  if ( numbytes == 0 ) {
-    disconnect (NULL, connection);
-    return;
-  }
+	if ( numbytes == 0 )
+	{
+		disconnect (NULL, connection);
+		return;
+	}
   
 #ifdef ENABLE_MCCP
-  mudcompress_receive(connection->mccp, buf, numbytes);
-  while((mccp_i = mudcompress_pending(connection->mccp)) > 0) {
-    mccp_buffer = g_malloc0(mccp_i);
-    mudcompress_get(connection->mccp, mccp_buffer, mccp_i);
+	mudcompress_receive(connection->mccp, buf, numbytes);
+	while((mccp_i = mudcompress_pending(connection->mccp)) > 0)
+	{
+		mccp_buffer = g_malloc0(mccp_i);
+		mudcompress_get(connection->mccp, mccp_buffer, mccp_i);
 #else
-#define mccp_buffer buf
+    mccp_buffer = g_strdup(buf);
 #endif
     
-    for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next) {
-      PLUGIN_DATA *pd;
+		for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next)
+		{
+			PLUGIN_DATA *pd;
       
-      if (t->data != NULL) {
-	pd = (PLUGIN_DATA *) t->data;
+			if (t->data != NULL)
+			{
+				pd = (PLUGIN_DATA *) t->data;
 	
-	if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN)) {
-	  (* pd->datafunc) (pd->plugin, connection, mccp_buffer, GPOINTER_TO_INT(pd->plugin->handle));
-	}
-      }
-    }
+				if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN))
+				{
+	  				(* pd->datafunc) (pd->plugin, connection, mccp_buffer, GPOINTER_TO_INT(pd->plugin->handle));
+				}
+      		}
+    	}
     
-    for (i = len = 0; mccp_buffer[i] !='\0'; mccp_buffer[len++] = mccp_buffer[i++])
-      if (mccp_buffer[i] == '\r') i++;
-    mccp_buffer[len] = mccp_buffer[i];
+    	for (i = len = 0; mccp_buffer[i] !='\0'; mccp_buffer[len++] = mccp_buffer[i++])
+      		if (mccp_buffer[i] == '\r') i++;
     
-    /* Changes by Benjamin Curtis */
-    len = pre_process(mccp_buffer, connection);
-    m   = (gchar *) malloc(len + 2);
-    memcpy(m, mccp_buffer, len + 1);
+		mccp_buffer[len] = mccp_buffer[i];
     
-    textfield_add (connection->window, m, MESSAGE_ANSI);
-    
-    /* Added by Bret Robideaux (fayd@alliances.org)
-     * OK, this seems like a good place to handle checking for action triggers
-     */
-    if ((triggered_action = check_actions (connection->profile->triggers, mccp_buffer)))
-        action_send_to_connection (triggered_action, connection);
-    
-    
-#ifdef ENABLE_MCCP
-    g_free(mccp_buffer);
-  }
-   string = (gchar *) mudcompress_response(connection->mccp);
+    	/* Changes by Benjamin Curtis */
+    	len = pre_process(mccp_buffer, connection);
 
-  if (string != NULL) {
-    send (connection->sockfd, string, strlen(string), 0);
-  }
-  g_free(string);
+#ifdef USE_PYTHON
+    	mccp_buffer = python_process_input(connection, mccp_buffer);
+#endif
+
+		/* Is all this mucking about with len really necessary? I hope not, because
+		 * I've replaced it with a simple g_strdup(). It broke when Python modified
+		 * the mccp_buffer, because the length of the string would change between
+		 * pre_process() above and the commented code below. g_strdup() doesn't mind
+		 * this at all. I just hope I'm not missing anything crucial.
+	    m   = (gchar *) malloc(len + 2);
+	    memcpy(m, mccp_buffer, len + 1);
+		 */
+		m = g_strdup(mccp_buffer);
+		textfield_add (connection->window, m, MESSAGE_ANSI);
+
+		/* Added by Bret Robideaux (fayd@alliances.org)
+		 * OK, this seems like a good place to handle checking for action triggers
+		 */
+		if ((triggered_action = check_actions (connection->profile->triggers, mccp_buffer)))
+			action_send_to_connection (triggered_action, connection);
+    
+		g_free(mccp_buffer);
+#ifdef ENABLE_MCCP
+	}
+   
+	string = (gchar *) mudcompress_response(connection->mccp);
+
+	if (string != NULL)
+	{
+		send (connection->sockfd, string, strlen(string), 0);
+ 	}
+	
+	g_free(string);
 #endif  
 }
 
@@ -361,7 +376,7 @@ void send_to_connection (GtkWidget *text_entry, gpointer data)
   }
 
   action_send_to_connection(g_strdup (entry_text), cd);
-  
+
   gtk_combo_set_popdown_strings((GtkCombo *) data, EntryHistory);
 
   gtk_list_select_item(GTK_LIST(((GtkCombo *) data)->list), g_list_length(EntryHistory)-1);
@@ -375,24 +390,47 @@ void send_to_connection (GtkWidget *text_entry, gpointer data)
   }
 }
 
-void connection_send (CONNECTION_DATA *connection, gchar *message)
+void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo)
 {
     gint i;
     gchar *sent;
   
     if (connection->connected)
     {
-        sent = g_strdup (message);
-        for(i=0;sent[i]!=0;i++) {
-	  if(sent[i] == prefs.CommDev[0]) {
-	    sent[i] = '\n';
-	  }
+		sent = g_strdup (message);
+
+		for(i=0;sent[i]!=0;i++)
+		{
+	 		if(sent[i] == prefs.CommDev[0])
+			{
+	    		sent[i] = '\n';
+	  		}
+		}
+
+		if (prefs.EchoText && echo)
+			textfield_add (connection->window, sent, MESSAGE_SENT);
+
+		send (connection->sockfd, sent, strlen (sent), 0);
+		g_free(sent);
 	}
-
-	if (prefs.EchoText)
-            textfield_add (connection->window, sent, MESSAGE_SENT);
-
-        send (connection->sockfd, sent, strlen (sent), 0);
-        g_free(sent);
-    }
 }
+
+void connection_send (CONNECTION_DATA *connection, gchar *message)
+{
+	gchar *sent = g_strdup(message);
+	gint i;
+
+	for(i=0;sent[i]!=0;i++)
+	{
+		if(sent[i] == prefs.CommDev[0])
+		{
+	    	sent[i] = '\n';
+		}
+    }
+#ifdef USE_PYTHON
+    sent = python_process_output(connection, sent);
+#endif
+    connection_send_data(connection, sent, 1);
+    g_free(sent);
+}
+

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.8.0\n"
-"POT-Creation-Date: 2001-11-06 18:13+0100\n"
+"POT-Creation-Date: 2002-01-08 09:32+0100\n"
 "PO-Revision-Date: 2001-10-29 12:12+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -48,12 +48,12 @@ msgstr "Alias"
 msgid "Replacement"
 msgstr "Sustitución"
 
-#: src/data.c:301 src/profiles.c:1146
+#: src/data.c:301 src/profiles.c:1192
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:309 src/profiles.c:1138
+#: src/data.c:309 src/profiles.c:1184
 msgid "Variables"
 msgstr "Variables"
 
@@ -74,12 +74,12 @@ msgstr "Centro de Configuración de GNOME-Mud"
 msgid "Add"
 msgstr "Añadir"
 
-#: src/data.c:379 src/keybind.c:359 src/profiles.c:805 src/profiles.c:1112
+#: src/data.c:379 src/keybind.c:359 src/profiles.c:849 src/profiles.c:1158
 #: src/wizard.c:468
 msgid "Delete"
 msgstr "Borrar"
 
-#: src/data.c:383 src/keybind.c:363 src/profiles.c:1182 src/wizard.c:495
+#: src/data.c:383 src/keybind.c:363 src/profiles.c:1228 src/wizard.c:495
 msgid "Close"
 msgstr "Cerrar"
 
@@ -107,7 +107,7 @@ msgstr "Aplicar"
 msgid "Save"
 msgstr "Salvar"
 
-#: src/color.c:335 src/profiles.c:628 src/profiles.c:994
+#: src/color.c:335 src/profiles.c:630 src/profiles.c:1040
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -116,84 +116,84 @@ msgstr "Predeterminado"
 msgid "Can't load font... %s Using default.\n"
 msgstr "No se puede cargar la fuente... %s Usando predeterminada.\n"
 
-#: src/init.c:79
+#: src/init.c:85
 msgid "Quit?"
 msgstr "Salir?"
 
-#: src/init.c:85
+#: src/init.c:91
 msgid "Do you really want to quit?"
 msgstr "De verdad quieres salir?"
 
-#: src/init.c:198 src/init.c:460 src/init.c:470
+#: src/init.c:204 src/init.c:502 src/init.c:512
 msgid "Connect..."
 msgstr "Conectar..."
 
 #
-#: src/init.c:209 src/profiles.c:897
+#: src/init.c:215 src/profiles.c:943
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:216 src/profiles.c:917
+#: src/init.c:222 src/profiles.c:963
 msgid "Port:"
 msgstr "Puerto:"
 
-#: src/init.c:271
+#: src/init.c:277
 msgid "Robin Ericsson, main developer"
 msgstr "Robin Ericsson, desarrollador principal"
 
-#: src/init.c:272
+#: src/init.c:278
 msgid "David Zanetti, bugfixes"
 msgstr "David Zanetti, arreglos"
 
-#: src/init.c:273
+#: src/init.c:279
 msgid "Ben Gertzfield, creation of rcfiles for AMCL"
 msgstr "Ben Gertzfield, creación de ficheros rc para AMCL"
 
-#: src/init.c:274
+#: src/init.c:280
 msgid "Will Schenk, bugfixes"
 msgstr "Will Schenk, arreglos"
 
-#: src/init.c:275
+#: src/init.c:281
 msgid "desaster, bugfixes"
 msgstr "desaster, arreglos"
 
-#: src/init.c:276
+#: src/init.c:282
 msgid "Paul Cameron, compile fixes, automapper"
 msgstr "Paul Cameron, arreglos de compilación, automapeador"
 
-#: src/init.c:277
+#: src/init.c:283
 msgid "Robert Brady, color selection"
 msgstr "Robert Brady, selección de color"
 
-#: src/init.c:278
+#: src/init.c:284
 msgid "Bret Robideaux, action/trigger module"
 msgstr "Bret Robideaux, módulo de acciones/triggers"
 
-#: src/init.c:279
+#: src/init.c:285
 msgid "Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"
 msgstr ""
 "Maxim Kiselev, asignación de teclas, salvado de color, divisor de comandos, "
 "arreglos"
 
-#: src/init.c:280
+#: src/init.c:286
 msgid "Benjamin Curtis, recognition of TELNET codes and replies"
 msgstr "Benjamin Curtis, reconocimiento de códigos TELNET y respuestas"
 
 #. if your charset doesn't support o with dieresis (ö) just use o
-#: src/init.c:282
+#: src/init.c:288
 msgid "Jörgen Kosche, focus-bugs patches, de.po maintainer"
 msgstr "Jörgen Kosche, parches para foco de ventanas, mantenedor de de.po "
 
-#: src/init.c:283
+#: src/init.c:289
 msgid "Jeroen Ruigrok, various code cleanups and fixes"
 msgstr "Jeroen Ruigrok, limpieza de código y arreglos"
 
 #. if your charset doesn't support i with acute (í) just use i
-#: src/init.c:285
+#: src/init.c:291
 msgid "Jorge García, various code cleanups and fixes"
 msgstr "Jorge García, limpieza de código y arreglos"
 
-#: src/init.c:286
+#: src/init.c:292
 msgid ""
 "Jordi Mallach, official Debian package, i18n support, ca.po & es.po "
 "maintainer"
@@ -201,91 +201,115 @@ msgstr ""
 "Jordi Mallach, paquete oficial de Debian, soporte de i18n, mantenedor de ca."
 "po y es.po"
 
-#: src/init.c:288
+#: src/init.c:294
 msgid "Martin Quinson, fr.po maintainer"
 msgstr "Martin Quinson, mantenedor de fr.po"
 
 #. if your charset doesn't support e with circumflex (è), just use e
-#: src/init.c:290
+#: src/init.c:296
 msgid "Staffan Thomèn and the creators of gEdit - module API"
 msgstr "Staffan Thomèn y los creadores de gEdit - API para módulos"
 
-#: src/init.c:300
+#: src/init.c:297
+msgid "Petter E. Stokke, Python scripting support"
+msgstr ""
+
+#: src/init.c:307
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
-#: src/init.c:301
+#: src/init.c:308
 msgid "(C) 1998-2001 Robin Ericsson"
 msgstr "(C) 1998-2001 Robin Ericsson"
 
-#: src/init.c:303
+#: src/init.c:310
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
 msgstr "Un cliente de MUD (Multi-User Dungeon) para las librerías GTK+/GNOME."
 
-#: src/init.c:316
+#: src/init.c:323
 msgid "GNOME-Mud homepage"
 msgstr "Página web de GNOME-Mud"
 
-#: src/init.c:456
+#: src/init.c:460
+msgid "Could not open file for writing..."
+msgstr ""
+
+#: src/init.c:476
+msgid "Please select a log file..."
+msgstr ""
+
+#: src/init.c:498
 msgid "Wizard..."
 msgstr "Asistente..."
 
-#: src/init.c:458
+#: src/init.c:500
 msgid "Profiles..."
 msgstr "Perfiles..."
 
-#: src/init.c:461 src/init.c:471
+#: src/init.c:503 src/init.c:513
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: src/init.c:463
+#: src/init.c:505
 msgid "Exit"
 msgstr "Salir"
 
-#: src/init.c:468
+#: src/init.c:510
 msgid "Connection Wizard..."
 msgstr "Asistente de Conexiones..."
 
-#: src/init.c:473
+#: src/init.c:515
+msgid "Save log..."
+msgstr ""
+
+#: src/init.c:516
 msgid "Close Window"
 msgstr "Cerrar Ventana"
 
-#: src/init.c:481
+#: src/init.c:524
 msgid "Plugin Information..."
 msgstr "Información sobre Conectores..."
 
-#: src/init.c:486
+#: src/init.c:529
 msgid "Colors..."
 msgstr "Colores..."
 
-#: src/init.c:488
+#: src/init.c:531
 msgid "Auto Mapper..."
 msgstr "Auto Mapeador..."
 
-#: src/init.c:490
+#: src/init.c:533
 msgid "Plugins"
 msgstr "Conectores"
 
-#: src/init.c:497
+#: src/init.c:540
 msgid "GNOME-Mud manual"
 msgstr "Manual de GNOME-Mud"
 
-#: src/init.c:497
+#: src/init.c:540
 msgid "Open the GNOME-Mud manual"
 msgstr "Abrir el manual de GNOME-Mud"
 
-#: src/init.c:579
+#: src/init.c:592
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:622
+#: src/init.c:635
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versión %s (compilado %s, %s)\n"
 
-#: src/init.c:627
+#: src/init.c:640
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuído bajo los términos de la Licencia Pública General GNU.\n"
+
+#: src/init.c:642
+#, c-format
+msgid ""
+"\n"
+"Python version %s\n"
+"\n"
+msgstr ""
 
 #: src/keybind.c:142
 msgid "Can't add an existing key."
@@ -421,24 +445,24 @@ msgstr "Error de registro de datos %s: %s"
 msgid "Error getting plugin from handle."
 msgstr "Error en el manejo del conector."
 
-#: src/net.c:159
+#: src/net.c:181
 msgid "*** Connection closed.\n"
 msgstr "*** Conexión cerrada.\n"
 
-#: src/net.c:171
+#: src/net.c:193
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** No se puede conectar - no has especificado ningún servidor\n"
 
-#: src/net.c:178
+#: src/net.c:200
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** No se ha especificado un puerto - asumiendo puerto 23\n"
 
-#: src/net.c:193
+#: src/net.c:215
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Realizando conexión a %s, puerto %s\n"
 
-#: src/net.c:223
+#: src/net.c:245
 msgid "*** Connection established.\n"
 msgstr "*** Conexión establecida.\n"
 
@@ -515,75 +539,75 @@ msgstr "Historial de comandos:"
 msgid "Functionality"
 msgstr "Funcionalidades"
 
-#: src/profiles.c:343
+#: src/profiles.c:342
 msgid "Name of new profile:"
 msgstr "Nombre del nuevo perfil:"
 
-#: src/profiles.c:520
+#: src/profiles.c:521
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: lista de perfiles"
 
-#: src/profiles.c:822
+#: src/profiles.c:866
 msgid "GNOME-Mud Connections"
 msgstr "Conexiones de GNOME-Mud"
 
-#: src/profiles.c:854
+#: src/profiles.c:900
 msgid "Mud"
 msgstr "Mud"
 
-#: src/profiles.c:860
+#: src/profiles.c:906
 msgid "Character"
 msgstr "Personaje"
 
-#: src/profiles.c:873
+#: src/profiles.c:919
 msgid " Mud Information "
 msgstr " Información sobre el Mud "
 
-#: src/profiles.c:889
+#: src/profiles.c:935
 msgid "Title:"
 msgstr "Título:"
 
-#: src/profiles.c:933
+#: src/profiles.c:979
 msgid " Character Information "
 msgstr " Información sobre el personaje "
 
-#: src/profiles.c:949
+#: src/profiles.c:995
 msgid "Character:"
 msgstr "Personaje:"
 
-#: src/profiles.c:957
+#: src/profiles.c:1003
 msgid "Password:"
 msgstr "Password:"
 
-#: src/profiles.c:978
+#: src/profiles.c:1024
 msgid " Profile Information "
 msgstr " Información sobre el perfil "
 
-#: src/profiles.c:1004
+#: src/profiles.c:1050
 msgid "Select Profile"
 msgstr "Seleccionar fuente"
 
-#: src/profiles.c:1040 src/wizard.c:493
+#: src/profiles.c:1086 src/wizard.c:493
 msgid "Connect"
 msgstr "Conectar"
 
-#: src/profiles.c:1079
+#: src/profiles.c:1125
 msgid "Profiles"
 msgstr "Perfiles"
 
-#: src/profiles.c:1089
+#: src/profiles.c:1135
 msgid "GNOME-Mud Profiles"
 msgstr "Perfil de GNOME-Mud"
 
-#: src/profiles.c:1104
+#: src/profiles.c:1150
 msgid "New"
 msgstr "Nuevo"
 
-#: src/profiles.c:1130
+#: src/profiles.c:1176
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1164
+#: src/profiles.c:1210
 msgid "Keybinds"
 msgstr "Teclas"
 

@@ -30,3 +30,10 @@
 
 /* session management ? */
 #undef HAVE_LIBSM
+
+/* Python scripting */
+#undef USE_PYTHON
+
+/* PyGTK support */
+#undef USE_PYGTK
+

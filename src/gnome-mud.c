@@ -23,6 +23,10 @@
 #include <pwd.h>
 #include <signal.h>
 
+#ifdef USE_PYTHON
+#include <Python.h>
+#endif
+
 #include "gnome-mud.h"
 
 static char const rcsid[] =
@@ -43,7 +47,14 @@ int main (gint argc, char *argv[])
 	load_profiles(); /* load connections and profiles */
 	load_colors  (); /* load colors */
 	init_window  ();
-  
+ 
+#ifdef USE_PYTHON
+	Py_SetProgramName(argv[0]);
+	Py_Initialize();
+	PySys_SetArgv(argc, argv);
+	python_init();
+#endif
+
 	g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
 	init_modules(buf);
 	init_modules(PKGDATADIR);
@@ -51,6 +62,10 @@ int main (gint argc, char *argv[])
 	gtk_main();
 	gnome_config_sync();
 
+#ifdef USE_PYTHON
+	python_end();
+	Py_Finalize();
+#endif
 	gdk_exit (0);
 
 	return 0;

@@ -49,6 +49,12 @@
 /* session management ? */
 #undef HAVE_LIBSM
 
+/* Python scripting */
+#undef USE_PYTHON
+
+/* PyGTK support */
+#undef USE_PYGTK
+
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT
 
@@ -196,11 +202,20 @@
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H
 
+/* Define if you have the db library (-ldb).  */
+#undef HAVE_LIBDB
+
 /* Define if you have the nsl library (-lnsl).  */
 #undef HAVE_LIBNSL
 
+/* Define if you have the pthread library (-lpthread).  */
+#undef HAVE_LIBPTHREAD
+
 /* Define if you have the socket library (-lsocket).  */
 #undef HAVE_LIBSOCKET
+
+/* Define if you have the util library (-lutil).  */
+#undef HAVE_LIBUTIL
 
 /* Name of package */
 #undef PACKAGE

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>4 Example GNOME-Mud script</title>
+<META NAME="description" CONTENT="4 Example GNOME-Mud script">
+<META NAME="keywords" CONTENT="gnome-mud">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="STYLESHEET" href="gnome-mud.css">
+<LINK REL="next" href="about.html">
+<LINK REL="previous" href="module-GnomeMud.html">
+<LINK REL="up" HREF="gnome-mud.html">
+<LINK REL="next" href="about.html">
+</head>
+<body>
+<DIV CLASS="navigation">
+<table align="center" width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td><A HREF="node5.html"><img src="icons/previous.gif"
+border="0" height="32"
+  alt="Previous Page" width="32"></A></td>
+<td><A HREF="gnome-mud.html"><img src="icons/up.gif"
+border="0" height="32"
+  alt="Up One Level" width="32"></A></td>
+<td><A href="about.html"><img src="icons/next.gif"
+border="0" height="32"
+  alt="Next Page" width="32"></A></td>
+<td align="center" width="100%">GNOME-Mud Python API</td>
+<td><A href="contents.html"><img src="icons/contents.gif"
+border="0" height="32"
+  alt="Contents" width="32"></A></td>
+<td><img src="icons/blank.gif"
+  border="0" height="32"
+  alt="" width="32"></td>
+<td><img src="icons/blank.gif"
+  border="0" height="32"
+  alt="" width="32"></td>
+</tr></table>
+<b class="navlabel">Previous:</b> <a class="sectref" HREF="node5.html">3.1 Connection class</A>
+<b class="navlabel">Up:</b> <a class="sectref" HREF="gnome-mud.html">GNOME-Mud Python API</A>
+<b class="navlabel">Next:</b> <a class="sectref" href="about.html">About this document ...</A>
+<br><hr>
+</DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION000500000000000000000">
+4 Example GNOME-Mud script</A>
+</H1>
+Below is a simple example script that will replace occurrences of the text ``foo'' with ``bar'' in both
+MUD input and user commands, as well as printing the obligatory text to the display upon initialisation to identify
+its presence.
+
+<P>
+<dl><dd><pre class="verbatim">
+import GnomeMud
+
+def replace_foo(conn, data):
+    return data.replace("foo","bar")
+
+conn = GnomeMud.connection()
+conn.write("Hello, world!\n")
+GnomeMud.register_input_handler(replace_foo)
+GnomeMud.register_output_handler(replace_foo)
+</pre></dl>
+
+<P>
+
+<DIV CLASS="navigation">
+<p><hr>
+<table align="center" width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td><A HREF="node5.html"><img src="icons/previous.gif"
+border="0" height="32"
+  alt="Previous Page" width="32"></A></td>
+<td><A HREF="gnome-mud.html"><img src="icons/up.gif"
+border="0" height="32"
+  alt="Up One Level" width="32"></A></td>
+<td><A href="about.html"><img src="icons/next.gif"
+border="0" height="32"
+  alt="Next Page" width="32"></A></td>
+<td align="center" width="100%">GNOME-Mud Python API</td>
+<td><A href="contents.html"><img src="icons/contents.gif"
+border="0" height="32"
+  alt="Contents" width="32"></A></td>
+<td><img src="icons/blank.gif"
+  border="0" height="32"
+  alt="" width="32"></td>
+<td><img src="icons/blank.gif"
+  border="0" height="32"
+  alt="" width="32"></td>
+</tr></table>
+<b class="navlabel">Previous:</b> <a class="sectref" HREF="node5.html">3.1 Connection class</A>
+<b class="navlabel">Up:</b> <a class="sectref" HREF="gnome-mud.html">GNOME-Mud Python API</A>
+<b class="navlabel">Next:</b> <a class="sectref" href="about.html">About this document ...</A>
+<hr>
+<span class="release-info">Release 0.8.99, documentation updated on November 16, 2001.</span>
+</DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

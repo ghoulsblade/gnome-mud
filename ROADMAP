@@ -23,6 +23,7 @@ feel free to suggest features, contribute, or comment.
 * Make better use for gtk_object_(get|set)_data
 * Cleanup of .c-files, better names on functions, etc...
 * Fix error when closing wizardwindow after using profilewindow
+* Scriptingsupport (python) [AS GOOD AS DONE]
 
 0.10.0
 
@@ -42,6 +43,5 @@ Unplanned
 * Fix Speedwalking in AutoMapper
 * User defineable buttonbar
 * Customizable statusline
-* Scriptingsupport (perl/python)
 * Tab completion
 

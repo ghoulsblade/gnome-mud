@@ -31,6 +31,11 @@
 #define MESSAGE_SENT    4
 
 /*
+ * Maximum number of connections possible
+ */
+#define MAX_CONNECTIONS 16
+
+/*
  * Save file version
  */
 #define WIZARD_SAVEFILE_VERSION 1
@@ -126,6 +131,7 @@ CONNECTION_DATA	*make_connection (gchar *, gchar *, gchar *);
 void		 disconnect (GtkWidget *, CONNECTION_DATA *);
 void		 send_to_connection (GtkWidget *, gpointer);
 void		 connection_send (CONNECTION_DATA *, gchar *);
+void		 connection_send_data (CONNECTION_DATA *, gchar *, int);
 
 /* init.c */
 void		 init_window (void);
@@ -167,13 +173,19 @@ void		  profiledata_savekeys(gchar *, KEYBIND_DATA *		   );
 void  		  window_profiles ( void							   );
 void		  window_profile_edit ( void						   );
 
+/* python.c */
+void   python_init     ( void                                        );
+void   python_end      ( void                                        );
+gchar *python_process_input( CONNECTION_DATA *, gchar *              );
+gchar *python_process_output( CONNECTION_DATA *, gchar *             );
+
 /* telnet.c */
 gint  pre_process     ( char *buf, CONNECTION_DATA *connection       );
 
 /* window.c */
 void  popup_window    ( const gchar *message                         );
 void  switch_page_cb  ( GtkNotebook *, gpointer, guint, gpointer     );
-void	grab_focus_cb   ( GtkWidget* widget, gpointer user_data        );
+void  grab_focus_cb   ( GtkWidget* widget, gpointer user_data        );
 void  textfield_add   ( GtkWidget *widget, gchar *me, gint colortype );
 
 /* wizard.c */
