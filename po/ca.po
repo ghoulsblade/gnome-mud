@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2001-08-30 09:59+0200\n"
+"POT-Creation-Date: 2001-10-04 14:00+0200\n"
 "PO-Revision-Date: 2000-09-28 17:35+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -15,72 +15,72 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/data.c:237
+#: src/data.c:196
 msgid "No void characters allowed."
 msgstr "No es permeten caràcters buïts."
 
-#. if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
-#: src/data.c:242 src/data.c:354
+#. actions
+#: src/data.c:200 src/data.c:300
 msgid "Actions"
 msgstr "Accions"
 
-#: src/data.c:244
+#: src/data.c:202
 #, c-format
 msgid "Character '%c' not allowed."
 msgstr "Carácter '%c' no permés."
 
-#: src/data.c:251 src/data.c:258
+#: src/data.c:209 src/data.c:216
 #, c-format
 msgid "%s too big."
 msgstr "%s massa gran."
 
-#: src/data.c:265
+#: src/data.c:223
 #, c-format
 msgid "Can't duplicate %s."
 msgstr "No es pot duplicar %s."
 
 #. alias
-#: src/data.c:345
+#: src/data.c:291
 msgid "Alias"
 msgstr "Alias"
 
-#: src/data.c:346
+#: src/data.c:292
 msgid "Replacement"
 msgstr "Substitució"
 
-#: src/data.c:355 src/profiles.c:935
+#: src/data.c:301 src/profiles.c:984
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:363 src/profiles.c:927
+#: src/data.c:309 src/profiles.c:976
 msgid "Variables"
 msgstr "Variables"
 
-#: src/data.c:364
+#: src/data.c:310
 msgid "Values"
 msgstr "Valors"
 
-#: src/data.c:372
+#: src/data.c:318
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
 msgstr "window_data: tractan de accedir a una regió de dades indefinida: %d"
 
-#: src/data.c:385
+#: src/data.c:330
 #, fuzzy
 msgid "GNOME-Mud Configuration Center"
 msgstr "Centre de Alias de AMCL"
 
-#: src/data.c:430 src/keybind.c:420 src/wizard.c:572
+#: src/data.c:374 src/keybind.c:420 src/wizard.c:572
 msgid "Add"
 msgstr "Anyadir"
 
-#: src/data.c:435 src/keybind.c:427 src/profiles.c:302 src/profiles.c:602
-#: src/profiles.c:901 src/wizard.c:574
+#: src/data.c:379 src/keybind.c:427 src/profiles.c:651 src/profiles.c:950
+#: src/wizard.c:574
 msgid "Delete"
 msgstr "Esborrar"
 
-#: src/data.c:439 src/keybind.c:435 src/wizard.c:601
+#: src/data.c:383 src/keybind.c:435 src/wizard.c:601
 msgid "Close"
 msgstr "Tancar"
 
@@ -109,7 +109,7 @@ msgstr "Aplicar"
 msgid "Save"
 msgstr "Salvar"
 
-#: src/color.c:334 src/profiles.c:429 src/profiles.c:791
+#: src/color.c:334 src/profiles.c:478 src/profiles.c:840
 msgid "Default"
 msgstr "Predeterminats"
 
@@ -131,11 +131,11 @@ msgstr ""
 msgid "Connect..."
 msgstr "Conectar..."
 
-#: src/init.c:206 src/profiles.c:694
+#: src/init.c:206 src/profiles.c:743
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:213 src/profiles.c:714
+#: src/init.c:213 src/profiles.c:763
 msgid "Port:"
 msgstr "Port:"
 
@@ -181,49 +181,36 @@ msgid "Plugin Information..."
 msgstr "Informació sobre Conectors"
 
 #: src/init.c:418
-msgid "Alias..."
-msgstr "Alias..."
-
-#: src/init.c:419
-#, fuzzy
-msgid "Variables..."
-msgstr "Variables"
-
-#: src/init.c:420
-msgid "Actions/Triggers..."
-msgstr "Accions/Triggers"
-
-#: src/init.c:421
 #, fuzzy
 msgid "Keybinds..."
 msgstr "Tecles..."
 
-#: src/init.c:422
+#: src/init.c:419
 msgid "Colors..."
 msgstr "Colors..."
 
-#: src/init.c:424
+#: src/init.c:421
 #, fuzzy
 msgid "Auto Mapper"
 msgstr "Auto Mapeador"
 
-#: src/init.c:426
+#: src/init.c:423
 msgid "Plugins"
 msgstr "Conectors"
 
-#: src/init.c:433
+#: src/init.c:430
 msgid "README"
 msgstr ""
 
-#: src/init.c:434
+#: src/init.c:431
 msgid "AUTHORS"
 msgstr ""
 
-#: src/init.c:514
+#: src/init.c:511
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:560
+#: src/init.c:557
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït baix els termins de la Llicencia Pública General GNU.\n"
 
@@ -586,86 +573,86 @@ msgstr "Comanda"
 msgid "Functionality"
 msgstr ""
 
-#: src/profiles.c:217
+#: src/profiles.c:216
 msgid "Name of new profile:"
 msgstr ""
 
-#: src/profiles.c:301 src/profiles.c:893
-msgid "New"
-msgstr ""
-
-#: src/profiles.c:318
+#: src/profiles.c:372
 #, fuzzy
 msgid "GNOME-Mud: Profilelist"
 msgstr "Missatge de AMCL"
 
-#: src/profiles.c:619
+#: src/profiles.c:668
 #, fuzzy
 msgid "GNOME-Mud Connections"
 msgstr "Asistent de Conexions de AMCL"
 
-#: src/profiles.c:651
+#: src/profiles.c:700
 msgid "Mud"
 msgstr ""
 
-#: src/profiles.c:657
+#: src/profiles.c:706
 msgid "Character"
 msgstr ""
 
-#: src/profiles.c:670
+#: src/profiles.c:719
 #, fuzzy
 msgid " Mud Information "
 msgstr "Informació de Conectors de AMCL"
 
-#: src/profiles.c:686
+#: src/profiles.c:735
 msgid "Title:"
 msgstr ""
 
-#: src/profiles.c:730
+#: src/profiles.c:779
 msgid " Character Information "
 msgstr ""
 
-#: src/profiles.c:746
+#: src/profiles.c:795
 msgid "Character:"
 msgstr ""
 
-#: src/profiles.c:754
+#: src/profiles.c:803
 #, fuzzy
 msgid "Password:"
 msgstr ""
 "\n"
 "Password:"
 
-#: src/profiles.c:775
+#: src/profiles.c:824
 #, fuzzy
 msgid " Profile Information "
 msgstr "Informació de Conectors de AMCL"
 
-#: src/profiles.c:801
+#: src/profiles.c:850
 #, fuzzy
 msgid "Select Profile"
 msgstr "Sel·leccionar font"
 
-#: src/profiles.c:837 src/wizard.c:599
+#: src/profiles.c:886 src/wizard.c:599
 msgid "Connect"
 msgstr "Conectar"
 
-#: src/profiles.c:875
+#: src/profiles.c:924
 #, fuzzy
 msgid "Profiles"
 msgstr "Sel·leccionar font"
 
-#: src/profiles.c:878
+#: src/profiles.c:927
 #, fuzzy
 msgid "GNOME-Mud Profiles"
 msgstr "Missatge de AMCL"
 
-#: src/profiles.c:919
+#: src/profiles.c:942
+msgid "New"
+msgstr ""
+
+#: src/profiles.c:968
 #, fuzzy
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:953
+#: src/profiles.c:1002
 #, fuzzy
 msgid "Keybinds"
 msgstr "Tecles..."
@@ -795,6 +782,16 @@ msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr ""
 "Aquest és el password del teu jugador en el MUD. Utilitzable amb AutoLogin."
+
+#~ msgid "Alias..."
+#~ msgstr "Alias..."
+
+#, fuzzy
+#~ msgid "Variables..."
+#~ msgstr "Variables"
+
+#~ msgid "Actions/Triggers..."
+#~ msgstr "Accions/Triggers"
 
 #~ msgid "Connection Wizard..."
 #~ msgstr "Asistent de Conexions..."

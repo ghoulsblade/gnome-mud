@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2001-08-30 09:59+0200\n"
+"POT-Creation-Date: 2001-10-04 14:00+0200\n"
 "PO-Revision-Date: 2000-12-27 14:26+0100\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: de <de@li.org>\n"
@@ -15,71 +15,71 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: src/data.c:237
+#: src/data.c:196
 msgid "No void characters allowed."
 msgstr ""
 
-#. if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
-#: src/data.c:242 src/data.c:354
+#. actions
+#: src/data.c:200 src/data.c:300
 msgid "Actions"
 msgstr "Aktion"
 
-#: src/data.c:244
+#: src/data.c:202
 #, c-format
 msgid "Character '%c' not allowed."
 msgstr ""
 
-#: src/data.c:251 src/data.c:258
+#: src/data.c:209 src/data.c:216
 #, c-format
 msgid "%s too big."
 msgstr "%s zu gross."
 
-#: src/data.c:265
+#: src/data.c:223
 #, c-format
 msgid "Can't duplicate %s."
 msgstr ""
 
 #. alias
-#: src/data.c:345
+#: src/data.c:291
 msgid "Alias"
 msgstr "Alias"
 
-#: src/data.c:346
+#: src/data.c:292
 msgid "Replacement"
 msgstr "Ersetzung"
 
-#: src/data.c:355 src/profiles.c:935
+#: src/data.c:301 src/profiles.c:984
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:363 src/profiles.c:927
+#: src/data.c:309 src/profiles.c:976
 msgid "Variables"
 msgstr ""
 
-#: src/data.c:364
+#: src/data.c:310
 msgid "Values"
 msgstr ""
 
-#: src/data.c:372
+#: src/data.c:318
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
 msgstr ""
 
-#: src/data.c:385
+#: src/data.c:330
 msgid "GNOME-Mud Configuration Center"
 msgstr ""
 
-#: src/data.c:430 src/keybind.c:420 src/wizard.c:572
+#: src/data.c:374 src/keybind.c:420 src/wizard.c:572
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: src/data.c:435 src/keybind.c:427 src/profiles.c:302 src/profiles.c:602
-#: src/profiles.c:901 src/wizard.c:574
+#: src/data.c:379 src/keybind.c:427 src/profiles.c:651 src/profiles.c:950
+#: src/wizard.c:574
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/data.c:439 src/keybind.c:435 src/wizard.c:601
+#: src/data.c:383 src/keybind.c:435 src/wizard.c:601
 msgid "Close"
 msgstr "Schliessen"
 
@@ -108,7 +108,7 @@ msgstr "Übernehmen"
 msgid "Save"
 msgstr "Speichern"
 
-#: src/color.c:334 src/profiles.c:429 src/profiles.c:791
+#: src/color.c:334 src/profiles.c:478 src/profiles.c:840
 msgid "Default"
 msgstr "Standard"
 
@@ -129,11 +129,11 @@ msgstr ""
 msgid "Connect..."
 msgstr "Verbinde..."
 
-#: src/init.c:206 src/profiles.c:694
+#: src/init.c:206 src/profiles.c:743
 msgid "Host:"
 msgstr "Rechner:"
 
-#: src/init.c:213 src/profiles.c:714
+#: src/init.c:213 src/profiles.c:763
 msgid "Port:"
 msgstr "Port:"
 
@@ -176,46 +176,34 @@ msgid "Plugin Information..."
 msgstr "Plugin Information..."
 
 #: src/init.c:418
-msgid "Alias..."
-msgstr "Alias..."
-
-#: src/init.c:419
-msgid "Variables..."
-msgstr ""
-
-#: src/init.c:420
-msgid "Actions/Triggers..."
-msgstr "Aktionen/Trigger..."
-
-#: src/init.c:421
 msgid "Keybinds..."
 msgstr "Makros..."
 
-#: src/init.c:422
+#: src/init.c:419
 msgid "Colors..."
 msgstr ""
 
-#: src/init.c:424
+#: src/init.c:421
 msgid "Auto Mapper"
 msgstr "Karte..."
 
-#: src/init.c:426
+#: src/init.c:423
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:433
+#: src/init.c:430
 msgid "README"
 msgstr ""
 
-#: src/init.c:434
+#: src/init.c:431
 msgid "AUTHORS"
 msgstr ""
 
-#: src/init.c:514
+#: src/init.c:511
 msgid "Main"
 msgstr "Allgemein"
 
-#: src/init.c:560
+#: src/init.c:557
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Verteilt unter den Bedingungen der GNU General Public License.\n"
 
@@ -574,84 +562,84 @@ msgstr ""
 msgid "Functionality"
 msgstr ""
 
-#: src/profiles.c:217
+#: src/profiles.c:216
 msgid "Name of new profile:"
 msgstr ""
 
-#: src/profiles.c:301 src/profiles.c:893
-msgid "New"
-msgstr ""
-
-#: src/profiles.c:318
+#: src/profiles.c:372
 #, fuzzy
 msgid "GNOME-Mud: Profilelist"
 msgstr "AMCL Benachrichtigung"
 
-#: src/profiles.c:619
+#: src/profiles.c:668
 #, fuzzy
 msgid "GNOME-Mud Connections"
 msgstr "AMCL Verbindungsassistent"
 
-#: src/profiles.c:651
+#: src/profiles.c:700
 msgid "Mud"
 msgstr ""
 
-#: src/profiles.c:657
+#: src/profiles.c:706
 msgid "Character"
 msgstr ""
 
-#: src/profiles.c:670
+#: src/profiles.c:719
 #, fuzzy
 msgid " Mud Information "
 msgstr "AMCL Plugin-Informationen"
 
-#: src/profiles.c:686
+#: src/profiles.c:735
 msgid "Title:"
 msgstr ""
 
-#: src/profiles.c:730
+#: src/profiles.c:779
 msgid " Character Information "
 msgstr ""
 
-#: src/profiles.c:746
+#: src/profiles.c:795
 msgid "Character:"
 msgstr ""
 
-#: src/profiles.c:754
+#: src/profiles.c:803
 #, fuzzy
 msgid "Password:"
 msgstr ""
 "\n"
 "Passwort:"
 
-#: src/profiles.c:775
+#: src/profiles.c:824
 #, fuzzy
 msgid " Profile Information "
 msgstr "AMCL Plugin-Informationen"
 
-#: src/profiles.c:801
+#: src/profiles.c:850
 msgid "Select Profile"
 msgstr ""
 
-#: src/profiles.c:837 src/wizard.c:599
+#: src/profiles.c:886 src/wizard.c:599
 msgid "Connect"
 msgstr "Verbinden"
 
-#: src/profiles.c:875
+#: src/profiles.c:924
 msgid "Profiles"
 msgstr ""
 
-#: src/profiles.c:878
+#: src/profiles.c:927
 #, fuzzy
 msgid "GNOME-Mud Profiles"
 msgstr "AMCL Benachrichtigung"
 
-#: src/profiles.c:919
+#: src/profiles.c:942
+msgid "New"
+msgstr ""
+
+#: src/profiles.c:968
 #, fuzzy
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:953
+#: src/profiles.c:1002
 #, fuzzy
 msgid "Keybinds"
 msgstr "Makros..."
@@ -781,6 +769,12 @@ msgstr ""
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr ""
+
+#~ msgid "Alias..."
+#~ msgstr "Alias..."
+
+#~ msgid "Actions/Triggers..."
+#~ msgstr "Aktionen/Trigger..."
 
 #~ msgid "Connection Wizard..."
 #~ msgstr "Verbindungsassistent"
