@@ -3,8 +3,9 @@ NEWS for veteran GNOME-Mud users
 
 GNOME-Mud 0.xx.x (Unreleased)
 
-- Wizard- and profilenames are now escape and can contain "space" and
+- Wizard and profilenames are now escape and can contain "space" and
   other characters. (Bug #117241) [Robin]
+- Fix segfaults in Connection Wizard.
 - New translations:
   + az [Metin Amiroff]
   + cs [Miroslav Trmac]
