@@ -37,17 +37,6 @@
 static char const rcsid[] =
     "$Id$";
 
-/* Local functions */
-static void	Command_list_fill(GtkCList *, PROFILE_DATA *);
-static void	on_KB_button_add_clicked (GtkButton *, PROFILE_DATA *);
-static void	on_KB_button_capt_clicked (GtkButton *, gpointer);
-static void	on_KB_button_delete_clicked (GtkButton *, gpointer);
-static gboolean	on_capt_entry_key_press_event (GtkWidget *, GdkEventKey *,
-					       gpointer);
-static void	on_clist_select_row (GtkCList *, gint, gint, GdkEvent *, PROFILE_DATA *);
-static void	on_clist_unselect_row (GtkCList *, gint, gint, GdkEvent *,
-				       gpointer);
-    
 extern SYSTEM_DATA  prefs;
 
 gint KB_state;
@@ -57,9 +46,7 @@ gint bind_list_row_counter  =  0;
 gint bind_list_selected_row = -1;
 
 
-static gboolean on_capt_entry_key_press_event (GtkWidget *widget,
-					       GdkEventKey *event,
-					       gpointer comm_entry)
+static gboolean keybind_capture_entry_keypress_event (GtkWidget *widget, GdkEventKey *event, gpointer comm_entry)
 {
 
 gint keyv = event->keyval;
@@ -109,7 +96,7 @@ if ((state&12)!=0)
   return FALSE;
 }
 
-static void on_KB_button_capt_clicked (GtkButton *button, gpointer user_data)
+static void keybind_button_capture_clicked_cb (GtkButton *button, gpointer user_data)
 {
 	GtkWidget *capt_entry = gtk_object_get_data(GTK_OBJECT(button), "capt_entry");
 	
@@ -118,7 +105,7 @@ static void on_KB_button_capt_clicked (GtkButton *button, gpointer user_data)
 	gtk_widget_grab_focus(GTK_WIDGET(capt_entry));
 }
 
-static void on_KB_button_add_clicked (GtkButton *button, PROFILE_DATA *pd)
+static void keybind_button_add_clicked_cb (GtkButton *button, PROFILE_DATA *pd)
 {
 	GtkWidget *capt_entry = gtk_object_get_data(GTK_OBJECT(button), "capt_entry");
 	GtkWidget *comm_entry = gtk_object_get_data(GTK_OBJECT(button), "comm_entry");
@@ -160,9 +147,9 @@ static void on_KB_button_add_clicked (GtkButton *button, PROFILE_DATA *pd)
 	}
 }
 
-static void on_KB_button_delete_clicked (GtkButton *button, gpointer clist)
+static void keybind_button_delete_clicked_cb (GtkButton *button, gpointer clist)
 {
-	PROFILE_DATA *profile = gtk_object_get_data(button, "profile");
+	PROFILE_DATA *profile = gtk_object_get_data(GTK_OBJECT(button), "profile");
 	
     gint i;
     KEYBIND_DATA *tmp = profile->kd, *tmp2 = NULL;
@@ -189,7 +176,7 @@ static void on_KB_button_delete_clicked (GtkButton *button, gpointer clist)
 	}
 }
 
-static void on_clist_select_row (GtkCList *clist, gint row, gint column, GdkEvent *event, PROFILE_DATA *pd)
+static void keybind_clist_select_row_cb (GtkCList *clist, gint row, gint column, GdkEvent *event, PROFILE_DATA *pd)
 {
   	GtkWidget *capt_entry = gtk_object_get_data(GTK_OBJECT(clist), "capt_entry");
 	GtkWidget *comm_entry = gtk_object_get_data(GTK_OBJECT(clist), "comm_entry");
@@ -214,17 +201,15 @@ static void on_clist_select_row (GtkCList *clist, gint row, gint column, GdkEven
     gtk_widget_set_sensitive ( KB_button_delete, TRUE);
 }
 
-static void on_clist_unselect_row (GtkCList *clist, gint row, gint column,
-				   GdkEvent *event, gpointer user_data)
+static void keybind_clist_unselect_row_cb (GtkCList *clist, gint row, gint column, GdkEvent *event, gpointer user_data)
 {
 	GtkWidget *KB_button_delete = gtk_object_get_data(GTK_OBJECT(clist), "KB_button_delete");
 	
     bind_list_selected_row=-1;
     gtk_widget_set_sensitive ( KB_button_delete, FALSE);
-
 }
 
-static void Command_list_fill(GtkCList *clist, PROFILE_DATA *pd)
+static void keybind_list_fill(GtkCList *clist, PROFILE_DATA *pd)
 {
 	KEYBIND_DATA *scroll = pd->kd; 
 	gchar *str[2];
@@ -385,12 +370,12 @@ void window_keybind (PROFILE_DATA *pd)
   gtk_object_set_data(GTK_OBJECT(KB_button_delete), "profile", pd);
   
   gtk_signal_connect(GTK_OBJECT(window_key_bind), "destroy", gtk_widget_destroyed, &window_key_bind);
-  gtk_signal_connect (GTK_OBJECT (clist), "select_row", GTK_SIGNAL_FUNC (on_clist_select_row), pd);
-  gtk_signal_connect (GTK_OBJECT (clist), "unselect_row", GTK_SIGNAL_FUNC (on_clist_unselect_row), NULL);
-  gtk_signal_connect (GTK_OBJECT (capt_entry), "key_press_event", GTK_SIGNAL_FUNC (on_capt_entry_key_press_event), comm_entry);
-  gtk_signal_connect (GTK_OBJECT (KB_button_capt), "clicked", GTK_SIGNAL_FUNC (on_KB_button_capt_clicked), NULL);
-  gtk_signal_connect (GTK_OBJECT (KB_button_add), "clicked", GTK_SIGNAL_FUNC (on_KB_button_add_clicked), pd);
-  gtk_signal_connect (GTK_OBJECT (KB_button_delete), "clicked", GTK_SIGNAL_FUNC (on_KB_button_delete_clicked), GTK_OBJECT(clist));
+  gtk_signal_connect (GTK_OBJECT (clist), "select_row", GTK_SIGNAL_FUNC (keybind_clist_select_row_cb), pd);
+  gtk_signal_connect (GTK_OBJECT (clist), "unselect_row", GTK_SIGNAL_FUNC (keybind_clist_unselect_row_cb), NULL);
+  gtk_signal_connect (GTK_OBJECT (capt_entry), "key_press_event", GTK_SIGNAL_FUNC (keybind_capture_entry_keypress_event), comm_entry);
+  gtk_signal_connect (GTK_OBJECT (KB_button_capt), "clicked", GTK_SIGNAL_FUNC (keybind_button_capture_clicked_cb), NULL);
+  gtk_signal_connect (GTK_OBJECT (KB_button_add), "clicked", GTK_SIGNAL_FUNC (keybind_button_add_clicked_cb), pd);
+  gtk_signal_connect (GTK_OBJECT (KB_button_delete), "clicked", GTK_SIGNAL_FUNC (keybind_button_delete_clicked_cb), GTK_OBJECT(clist));
   gtk_signal_connect_object(GTK_OBJECT (KB_button_close), "clicked", gtk_widget_destroy, GTK_OBJECT (window_key_bind));
   gtk_signal_connect(GTK_OBJECT (KB_button_close), "clicked", gtk_widget_destroyed, &window_key_bind);
 
@@ -398,7 +383,7 @@ void window_keybind (PROFILE_DATA *pd)
   
   gtk_widget_set_sensitive ( KB_button_delete, FALSE);
 
-  Command_list_fill(GTK_CLIST(clist), pd);  
+  keybind_list_fill(GTK_CLIST(clist), pd);
 
   gtk_widget_show(window_key_bind);    
 }

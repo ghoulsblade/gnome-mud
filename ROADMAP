@@ -18,7 +18,7 @@ feel free to suggest features, contribute, or comment.
 * Rewrite font/color support [DONE]
 * Right-click menu for connection-tabs
 * Make better use for gtk_object_(get|set)_data [DONE]
-* Cleanup of .c-files, better names on functions, etc...
+* Cleanup of .c-files, better names on functions, etc... [DONE]
 * Fix error when closing wizardwindow after using profilewindow [DONE]
 * Scriptingsupport (python) [DONE]
 * Page Up, Page Down and Mousewheel support [DONE]
@@ -42,7 +42,7 @@ feel free to suggest features, contribute, or comment.
 * IPv6 support
 
 
-Unplanned
+Long term future
 
 * Fix MCCP (crashes on a few muds)
 * Green/Red marker, so that you can see if tab is connected or not

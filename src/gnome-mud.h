@@ -148,7 +148,7 @@ void		 connection_send (CONNECTION_DATA *, gchar *);
 void		 connection_send_data (CONNECTION_DATA *, gchar *, int);
 
 /* init.c */
-void		 init_window (void);
+void		 main_window (void);
 void		 destroy (GtkWidget *);
 void		 close_window (GtkWidget *, gpointer);
 

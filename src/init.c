@@ -31,12 +31,6 @@
 static char const rcsid[] = 
 	"$Id$";
 
-/* Local functions */
-static void	about_window   (GtkWidget *, gpointer);
-static void	connect_window (GtkWidget *, gpointer);
-static void	do_close       (GtkWidget *, gpointer);
-static void do_disconnect  (GtkWidget *, gpointer);
-
 extern gchar        *host;
 extern gchar        *port;
 extern SYSTEM_DATA   prefs;
@@ -182,7 +176,7 @@ void destroy (GtkWidget *widget)
   gtk_main_quit ();
 }
 
-static void connect_window (GtkWidget *widget, gpointer data)
+static void window_menu_file_connect (GtkWidget *widget, gpointer data)
 {
   GtkWidget *dialog;
 
@@ -257,7 +251,7 @@ static void connect_window (GtkWidget *widget, gpointer data)
   }
 }
 
-static void about_window (GtkWidget *widget, gpointer data)
+static void window_menu_help_about (GtkWidget *widget, gpointer data)
 {
   static GtkWidget *about;
   GtkWidget *vbox;
@@ -494,7 +488,7 @@ void free_connection_data (CONNECTION_DATA *c)
 	g_free (c);
 }
 
-static void do_close (GtkWidget *widget, gpointer data)
+static void window_menu_file_close (GtkWidget *widget, gpointer data)
 {
 	CONNECTION_DATA *cd;
 	gint number, i;
@@ -522,7 +516,7 @@ static void do_close (GtkWidget *widget, gpointer data)
 	}
 }
 
-static void do_disconnect (GtkWidget *widget, gpointer data)
+static void window_menu_file_disconnect (GtkWidget *widget, gpointer data)
 {
   CONNECTION_DATA *cd;
   gint number;
@@ -536,7 +530,7 @@ static void do_disconnect (GtkWidget *widget, gpointer data)
   }
 }
 
-static void save_log_file_ok_cb(GtkWidget *widget, GtkFileSelection *file_selector)
+static void window_menu_file_save_log_file_ok_cb(GtkWidget *widget, GtkFileSelection *file_selector)
 {
 	FILE *fp;
 	CONNECTION_DATA *cd;
@@ -560,7 +554,7 @@ static void save_log_file_ok_cb(GtkWidget *widget, GtkFileSelection *file_select
 	fclose(fp);
 }
 
-static void save_log_cb (GtkWidget *widget, gpointer data)
+static void window_menu_file_save_log_cb (GtkWidget *widget, gpointer data)
 {
 	gint  size = strlen(g_get_home_dir()) + 10;
 	gchar *homedir;
@@ -573,7 +567,7 @@ static void save_log_cb (GtkWidget *widget, gpointer data)
 	gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector), homedir);
 	g_free(homedir);
 
-	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(file_selector)->ok_button), "clicked", GTK_SIGNAL_FUNC(save_log_file_ok_cb), file_selector);
+	gtk_signal_connect(GTK_OBJECT(GTK_FILE_SELECTION(file_selector)->ok_button), "clicked", GTK_SIGNAL_FUNC(window_menu_file_save_log_file_ok_cb), file_selector);
 	gtk_signal_connect_object(GTK_OBJECT(GTK_FILE_SELECTION(file_selector)->ok_button), "clicked",
 							  GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) file_selector);
 	gtk_signal_connect_object(GTK_OBJECT(GTK_FILE_SELECTION(file_selector)->cancel_button), "clicked",
@@ -591,8 +585,8 @@ static GnomeUIInfo toolbar_menu[] = {
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Profiles..."), NULL, window_profile_edit, GNOME_STOCK_PIXMAP_PREFERENCES),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, connect_window, GNOME_STOCK_PIXMAP_OPEN),
-  GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, do_disconnect,  GNOME_STOCK_PIXMAP_CLOSE),
+  GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, window_menu_file_connect, GNOME_STOCK_PIXMAP_OPEN),
+  GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, window_menu_file_disconnect,  GNOME_STOCK_PIXMAP_CLOSE),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Exit"), NULL, destroy, GNOME_STOCK_PIXMAP_EXIT),
   GNOMEUIINFO_END
@@ -602,11 +596,11 @@ static GnomeUIInfo file_menu[] = {
   GNOMEUIINFO_MENU_NEW_ITEM(N_("Connection Wizard..."), NULL, window_profiles, NULL),
   GNOMEUIINFO_MENU_NEW_ITEM(N_("MudList Listing..."), NULL, window_mudlist, NULL),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, connect_window, GNOME_STOCK_MENU_OPEN),
-  GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, do_disconnect, GNOME_STOCK_MENU_CLOSE),
+  GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, window_menu_file_connect, GNOME_STOCK_MENU_OPEN),
+  GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, window_menu_file_disconnect, GNOME_STOCK_MENU_CLOSE),
   GNOMEUIINFO_SEPARATOR,
-  GNOMEUIINFO_ITEM_STOCK(N_("Save log..."), NULL, save_log_cb, GNOME_STOCK_MENU_SAVE),
-  GNOMEUIINFO_ITEM_STOCK(N_("Close Window"), NULL, do_close, GNOME_STOCK_MENU_BLANK),
+  GNOMEUIINFO_ITEM_STOCK(N_("Save log..."), NULL, window_menu_file_save_log_cb, GNOME_STOCK_MENU_SAVE),
+  GNOMEUIINFO_ITEM_STOCK(N_("Close Window"), NULL, window_menu_file_close, GNOME_STOCK_MENU_BLANK),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_MENU_EXIT_ITEM(destroy, NULL),
   GNOMEUIINFO_END
@@ -632,7 +626,7 @@ static GnomeUIInfo help_menu[] = {
 		window_menu_help_manual_activate_cb, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_BOOK_BLUE, 0, 0, NULL 
 	},
-	GNOMEUIINFO_MENU_ABOUT_ITEM(about_window, NULL),
+	GNOMEUIINFO_MENU_ABOUT_ITEM(window_menu_help_about, NULL),
 	GNOMEUIINFO_END
 };
 
@@ -644,7 +638,7 @@ GnomeUIInfo main_menu[] = {
 };
 
 
-void init_window ()
+void main_window ()
 {
   GtkWidget *combo;
   GtkWidget *label;

@@ -1,3 +1,14 @@
+Mon Feb  4 13:13:21 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Updated
+
+	* src/gnome-mud.c: init_window renamed to main_window
+
+	* src/init.c: Renamed of alot of functions to more intelligent
+	names.
+	* src/keybind.c: Ditto.
+	* src/prefs.c: Renamed copy_preferences to prefs_copy.
+
 Mon Feb  4 11:58:14 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* ROADMAP: Updated

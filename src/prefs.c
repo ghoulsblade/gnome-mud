@@ -214,7 +214,7 @@ static void prefs_copy_color(GdkColor *a, GdkColor *b)
 	a->blue  = b->blue;
 }
 
-static void copy_preferences(SYSTEM_DATA *target, SYSTEM_DATA *prefs, gboolean alloc_col)
+static void prefs_copy(SYSTEM_DATA *target, SYSTEM_DATA *prefs, gboolean alloc_col)
 {
 	gint i;
 	
@@ -355,7 +355,7 @@ static void prefs_select_color_cb(GnomeColorPicker *colorpicker, guint r, guint 
 static void prefs_apply_cb(GnomePropertyBox *propertybox, gint page, gpointer data)
 {
   if (page == -1) {
-    copy_preferences(&prefs, &pre_prefs, TRUE);
+    prefs_copy(&prefs, &pre_prefs, TRUE);
     
     font_normal = gdk_font_load(prefs.FontName);
 
@@ -493,7 +493,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
     return;
   }
 
-  copy_preferences(&pre_prefs, &prefs, FALSE);
+  prefs_copy(&pre_prefs, &prefs, FALSE);
   
   prefs_window = gnome_property_box_new();
   gtk_window_set_title(GTK_WINDOW(prefs_window), _("GNOME-Mud Preferences"));

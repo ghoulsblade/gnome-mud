@@ -45,7 +45,7 @@ int main (gint argc, char *argv[])
   
 	load_prefs   (); /* load preferences */
 	load_profiles(); /* load connections and profiles */
-	init_window  ();
+	main_window  ();
  
 #ifdef USE_PYTHON
 	Py_SetProgramName(argv[0]);
