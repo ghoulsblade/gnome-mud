@@ -1,5 +1,11 @@
 2005-03-13  Robin Ericsson  <lobbin@localhost.nu>
 
+	* src/net.c (make_connection): Removed unused variable conn_id.
+	(read_from_connection): Changed string to const char* and to
+	_not_ free it, it's declared static in mccpDecompress.c.
+
+2005-03-11  Robin Ericsson  <lobbin@localhost.nu>
+
 	* src/gnome-mud.h [connection_data]: Added member naws.
 	Added a few prototypes.
 

@@ -144,7 +144,6 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 	GtkWidget		*image = NULL;
 	GtkWidget		*box;
 	GtkWidget		*box_label;
-	gint			conn_id;
 
 	static gint	c_id = 0;
 	
@@ -328,7 +327,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	gchar *mccp_buffer = NULL;
 	gchar *mccp_data;
 #ifdef ENABLE_MCCP
-	gchar *string;
+	const char  *string;
 	gint   mccp_i;
 #endif
    
@@ -417,14 +416,12 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 #ifdef ENABLE_MCCP
 	}
    
-	string = (gchar *) mudcompress_response(connection->mccp);
+	string = mudcompress_response(connection->mccp);
 
 	if (string != NULL)
 	{
 		send (connection->sockfd, string, strlen(string), 0);
  	}
-	
-	g_free(string);
 #endif  
 }
 
