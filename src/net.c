@@ -254,7 +254,7 @@ void open_connection (CONNECTION_DATA *connection)
     textfield_add (connection->window, "*** Connection established.\n", MESSAGE_NORMAL);
 
     connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ,
-					   read_from_connection,
+					   GTK_SIGNAL_FUNC(read_from_connection),
 					   (gpointer) connection);
     connection->connected = TRUE;
 
@@ -358,7 +358,7 @@ void send_to_connection (GtkWidget *widget, gpointer data)
     send (cd->sockfd, sent, strlen (sent), 0);
   }
 
-  if ( echo && prefs.EchoText) {
+  if (prefs.EchoText) {
     textfield_add (cd->window, sent, MESSAGE_SENT);
   }
   

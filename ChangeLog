@@ -1,3 +1,30 @@
+1999-08-10  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/modules.c (plugin_get_plugin_object): Get object from linked
+	list via the name.
+	(plugin_clist_select_row_cb): Callback function that updates the
+	entrys in info window.
+	(do_plugin_information): Window that displays information about the
+	plugins, name, author, version, etc. Here is also where you enable
+	the plugin.
+	(plugin_query): No knows what the entire path to the plugin is.
+
+	* src/amcl.c (main): Checks for modules in path ./plugins, ~/.amcl/plugins
+	and /usr/local/share/amcl, the last should be changeable via the configure
+	script.
+
+	* src/init.c (init_window): Added signal so do_plugin_information gets
+	started.
+
+	* src/modules.h (struct plugin_info): redesigned, plugin_startfunc
+	removed.
+
+	* src/net.c (make_connection): Finally got rid of that annoying
+	compilation warning.
+
+	* src/prefs.c (window_prefs): No idea in setting color of tooltip
+	when it is never used.
+
 1999-08-01  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/amcl.h (make_connection): Changed to CONNECTION_DATA

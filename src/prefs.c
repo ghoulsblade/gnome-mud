@@ -290,7 +290,6 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_widget_show (vbox);
 
     tooltip = gtk_tooltips_new ();
-    gtk_tooltips_set_colors (tooltip, &color_yellow, &color_black);
 
     check_button = gtk_check_button_new_with_label ("Echo the text sent?");
     gtk_box_pack_start (GTK_BOX (vbox), check_button, FALSE, TRUE, 0);

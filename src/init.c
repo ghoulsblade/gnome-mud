@@ -583,6 +583,8 @@ void init_window ()
 
     menu_plugin_info = gtk_menu_item_new_with_label ("Plugin Information");
     gtk_menu_append (GTK_MENU (menu_plugin_menu), menu_plugin_info);
+    gtk_signal_connect (GTK_OBJECT (menu_plugin_info), "activate",
+			GTK_SIGNAL_FUNC (do_plugin_information), NULL);
     gtk_widget_show (menu_plugin_info);
 
     menu_help = gtk_menu_item_new_with_label ("Help");

@@ -120,6 +120,7 @@ void  close_window    ( GtkWidget *widget, gpointer data   );
 void  window_automap  ( GtkWidget *widget, gpointer data   );
 
 /* modules.c */
+void  do_plugin_information (GtkWidget *w, gpointer data   );
 int   init_modules    ( char *path                         );
 
 /* net.c */

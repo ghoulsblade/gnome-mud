@@ -47,6 +47,8 @@ int main (gint argc, char *argv[])
     init_window ();
 
     init_modules("./plugins/");
+    init_modules("/home/lobbin/.amcl/plugins/");
+    init_modules("/usr/local/share/amcl/");
 
     gtk_main ( );
     gdk_exit (0);

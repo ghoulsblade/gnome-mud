@@ -25,28 +25,29 @@ typedef struct _plugin_object PLUGIN_OBJECT;
 typedef struct _plugin_info   PLUGIN_INFO;
 
 typedef void      (*plugin_initfunc) (PLUGIN_OBJECT *, gint);
-typedef gboolean (*plugin_startfunc) (PLUGIN_OBJECT *, gint);
 typedef void      (*plugin_menufunc) (GtkWidget *,     gint);
 
 /*
  * Structures
  */
 struct _plugin_info {
-    gchar            *plugin_name;
-    plugin_initfunc   init_function;
-    plugin_startfunc  start_function;
+  gchar            *plugin_name;
+  gchar            *plugin_author;
+  gchar            *plugin_version;
+  gchar            *plugin_descr;
+  plugin_initfunc   init_function;
 };
 
 struct _plugin_object {
-    void  *handle;
-    gchar *name;
-    gchar *filename;
-    void  *menu_item;
-    PLUGIN_INFO *info;
+  void     *handle;
+  gchar    *name;
+  gchar    *filename;
+  gboolean  enabeled;
+  PLUGIN_INFO *info;
 };
 
 /*
  * Functions
  */
-PLUGIN_OBJECT *plugin_query    (gchar * plugin_name              );
+PLUGIN_OBJECT *plugin_query    (gchar *plugin_name, gchar *pp    );
 void           plugin_register (PLUGIN_OBJECT *plugin            );
