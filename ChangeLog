@@ -1,3 +1,7 @@
+Wed Nov  7 10:54:39 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Branched into GNOMEMUD_0_8_BRANCH
+
 Wed Nov  7 09:42:31 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/init.c (window_menu_help_manual_activate_cb): Changed to
