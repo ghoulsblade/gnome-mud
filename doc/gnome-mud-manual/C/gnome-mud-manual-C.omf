@@ -22,7 +22,7 @@
      manual
     </type>
     <format mime="text/sgml"/>
-    <identifier url="gnome-mud.sgml"/>
+    <identifier url="gnome-mud-manual.sgml"/>
     <language code="C"/>
   </resource>
 </omf>
