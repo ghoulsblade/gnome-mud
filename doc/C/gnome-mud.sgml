@@ -1,9 +1,6 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.0//EN"[
-        <!-- if not using PNG graphic, replace reference above with
-             .....PUBLIC "-//OASIS//DTD DocBook V3.1//EN"[
-         -->
-<!ENTITY version "0.8.0"> <!-- replace with application version -->
-<!ENTITY date "10/20/2001"> <!-- date the manual was last updated -->
+<!ENTITY version "0.9.0"> <!-- replace with application version -->
+<!ENTITY date "02/07/2002"> <!-- date the manual was last updated -->
 ]>
 
 
@@ -113,7 +110,7 @@
      client to play Multi-User Dungeons, or MUDs.
     </para>
     <para>
-     Multi-User Dungeons are imaginary worlds and realms that exist in
+     Multi-User Dungeons are imaginary worlds and realms that exist on
      the Internet, where people connect and can perform a variety of
      actions. A MUD can be thought of a chat forum with a space
      dimension, as the users can move around and interact with other
@@ -128,11 +125,19 @@
      to the MUD server, and the server replies with the result of the action.
     </para>
     <para>
+    There are hundreds of MUDs available on the Internet, but there are some
+    sites that classify them and provide with detailed MUD lists, often
+    provided by the MUD maintainers.
+    <ulink url="http://www.mudconnect.com/" type="http">MudConnect.com</ulink>
+    is one of them, and GNOME-Mud has native support for their mudlist format.
+    </para>
+    <para>
      <application>GNOME-Mud</application> provides the user with a series
      of functionality that makes mudding somewhat easier. Most notably, the
-     ability to define `triggers', `aliases' and `character profiles' help
-     making usual tasks like connecting to different MUDs and typing common
-     names or commands more effective and fast.
+     ability to define `triggers', `aliases' and `character profiles', or
+     the MUD lists support help making usual tasks like connecting to
+     different MUDs and typing common names or commands more effective
+     and fast.
     </para>
     <para>
       To run <application>GNOME-Mud</application>, select
@@ -177,9 +182,10 @@
       <para>
         Starting <application>GNOME-Mud</application> opens the
         <interface>Main window</interface>, shown in <xref
-        linkend="main-window">. The window is at first empty.
+        linkend="main-window">. The window is at first mostly empty, just
+	showing some information about the
+	<application>GNOME-Mud</application> build you're running.
 
-        <!-- ==== Figure ==== -->
         <figure id="main-window">
 	  <title>GNOME-Mud Main Window</title>
 	  <screenshot>
@@ -188,7 +194,6 @@
 	    srccredit="Jordi Mallach">
 	  </screenshot>
 	</figure>
-    <!-- ==== End of Figure ==== -->
       </para>
 
 
@@ -210,12 +215,23 @@
 	  <interface>GNOME-Mud Connections</interface> dialog box.
 	  The <interface>Connection Wizard</interface> allows you to
 	  create different connections so you can store a list of
-	  "personalities". To create a connection, enter a descriptive
-	  title (such as Mudname - Character) in the
-	  <guilabel>Title</guilabel> field and fill in the MUD's information
-	  in the <guilabel>Host</guilabel> and <guilabel>Port</guilabel>
-	  fields (leaving <guilabel>Port</guilabel> blank will make it
-	  default to port 23). Enter the character information in the
+	  "personalities".
+	  <figure id="connections-window">
+	   <title>GNOME-Mud Connection Wizard</title>
+	   <screenshot>
+	    <screeninfo>GNOME-Mud Connection Wizard</screeninfo>
+	    <graphic fileref="figures/connections-window.png" format="png"
+	    srccredit="Jordi Mallach">
+	   </screenshot>
+	  </figure>
+	  To create a connection, enter a descriptive title (normally the
+	  MUD's full name) in the <guilabel>Title</guilabel> field and fill
+	  in the MUD's information in the <guilabel>Host</guilabel> and
+	  <guilabel>Port</guilabel> fields (leaving <guilabel>Port</guilabel>
+	  blank will make it default to port 23). You can also import those
+	  fields very easily using the <link linkend="mudlist">
+	  <interface>GNOME-Mud MudList</interface></link> and selecting a MUD
+	  from there. Enter the character information in the
 	  <guilabel>Character</guilabel> and <guilabel>Password</guilabel>
 	  (password is only required if you want to autolog into the MUD).
 	  If you want to bind the connection to a set of aliases, triggers,
@@ -257,6 +273,55 @@
 	  and the tab will disappear.
 	</para>
       </sect3>
+
+      <sect3 id="mudlist">
+        <title>MudList support</title>
+	<para>
+	 <application>GNOME-Mud</application> can read
+	 <ulink url="http://www.mudconnect.com/" type="http">
+	 MudConnect.com</ulink>'s MUD list, which is an extensive list of
+	 MUDs, with information about their codebase, host, port and including
+	 a description. There are two ways to use the <interface>GNOME-Mud
+	 MudList</interface>.
+	 <figure id="mudlist-window">
+	  <title>GNOME-Mud MudList</title>
+	  <screenshot>
+	   <screeninfo>GNOME-Mud MudList</screeninfo>
+	   <graphic fileref="figures/mudlist-window.png" format="png"
+	   srccredit="Jordi Mallach">
+	  </screenshot>
+	 </figure>
+	</para>
+	<para>
+	 The most common way is probably by opening it
+	 from the <link linkend="connecting"><interface>Connection Wizard
+	 </interface></link>. This will open the <interface>GNOME-Mud Mudlist
+	 </interface> in "import mode". You will find a list of MUDs at the
+	 left column of the dialog, ordered by codebase. If you expand a
+	 codebase, you'll get a list of the MUDs in that section. Click on
+	 a MUD to see the information displayed in the right side of the
+	 <interface>MudList</interface>.<guilabel>Mud Name</guilabel> is the
+	 full name of the MUD, <guilabel>Telnet Address</guilabel> is the host
+	 and port where it is located and <guilabel>Codebase</guilabel>
+	 describes what type of MUD it is. <guilabel>Description</guilabel>
+	 shows a more or less description of the selected MUD.
+	 In "import mode", there will be a <guibutton>Import and close
+	 </guibutton> button, which will fetch the MUD info and fill it into
+	 a new connection in the <interface>Connection Wizard</interface>.
+	 There's also a <guibutton>Go to webpage of the MUD</guibutton> button,
+	 which will point a web browser to the webpage defined in the mud list.
+	</para>
+	<para>
+	 Another way of using the MudList is exactly the opposite. Select
+	 <menuchoice>
+	   <guisubmenu>File</guisubmenu>
+	   <guimenuitem>MudList Listing...</guimenuitem>
+	 </menuchoice>
+	 and you'll get the same dialog as if opened from the
+	 <interface>Connection Wizard</interface>, only the <guibutton>Import
+	 and close</guibutton> button will be replaced by <guibutton>Connect
+	 to the mud</guibutton>.
+	</para>
 
       <sect3 id="disconnecting">
         <title>Disconnecting from MUDs</title>
@@ -519,28 +584,39 @@
       <para>
 	The menu bar, located at the top of the <interface>Main
 	Window</interface>, contains the following menus:
-       </para>
+      </para>
       <variablelist>
 	<varlistentry>
 	  <term><guimenu>File</guimenu></term>
 	  <listitem>
 	    <para>
-	       This menu contains:
-	       <itemizedlist>
+	      This menu contains:
+	      <itemizedlist>
 		<listitem>
 		  <para>
 	            <menuchoice>
 		      <guimenuitem>Connection Wizard...</guimenuitem>
-		     </menuchoice>
-	             &mdash; This starts the <link linkend="connecting">
-		     <interface>Connection Wizard</interface></link> dialog,
-		     which can be used to select to which MUD should
-		     <application>GNOME-Mud</application> connect.
-	           </para>
+		    </menuchoice>
+	            &mdash; This starts the <link linkend="connecting">
+		    <interface>Connection Wizard</interface></link> dialog,
+		    which can be used to select to which MUD should
+		    <application>GNOME-Mud</application> connect.
+	          </para>
 		</listitem>
 		<listitem>
 		  <para>
-	             <menuchoice>
+		    <menuchoice>
+		      <guimenuitem>MudList Listing...</guimenuitem>
+		    </menuchoice>
+		    &mdash; This opens the <link linkend="mudlist">
+		    <interface>MudList</interface> dialog</link>, which can
+		    be used to browse a list of MUDs and connect to them or
+		    add them to your MUD connections.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+	            <menuchoice>
 		      <guimenuitem>Connect...</guimenuitem>
 		    </menuchoice>
 	            &mdash; This opens the <interface>Quick Connect
@@ -550,13 +626,22 @@
 		</listitem>
 		<listitem>
 		  <para>
-	             <menuchoice>
+	            <menuchoice>
 		      <guimenuitem>Disconnect</guimenuitem>
 		    </menuchoice>
 	            &mdash; This disconnects you from the current connection.
 		    See <link linkend="disconnecting">Disconnecting from MUDs
 		    </link> for more info about this.
 	          </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>Save log...</guimenuitem>
+		    </menuchoice>
+		    &mdash; This permits you to save your current connection
+		    into a file. Useful to keep deathlogs or questlogs.
+		  </para>
 		</listitem>
 		<listitem>
 		  <para>
@@ -579,7 +664,7 @@
 	          </para>
 		</listitem>
 	      </itemizedlist>
-	  </para>
+	    </para>
 	  </listitem>
 	</varlistentry>
 
@@ -587,18 +672,8 @@
 	  <term><guimenu>Settings</guimenu></term>
 	  <listitem>
 	    <para>
-	   This menu contains:
+	      This menu contains:
 	   <itemizedlist>
-		<listitem>
-		  <para>
-	            <menuchoice>
-		      <guimenuitem>Colors...</guimenuitem>
-		    </menuchoice>
-	            &mdash; This opens the <interface>Color Chooser
-		    </interface>, which can be used to select the default
-		    font color for the connection window.
-	          </para>
-		</listitem>
 		<listitem>
 		  <para>
 	            <menuchoice>
@@ -611,7 +686,7 @@
 		</listitem>
 		<listitem>
 		  <para>
-	           <menuchoice>
+	            <menuchoice>
 		      <guimenuitem>Plugins</guimenuitem>
 		    </menuchoice>
 	            &mdash; This opens a submenu with the list of available
@@ -622,15 +697,17 @@
 		    creating your own should be pretty easy. An example of
 		    an useful plugin could be a graphical Health Points/Mana
 		    monitor.
-	        </para>
+	          </para>
 		</listitem>
 		<listitem>
 		  <para>
+		    <menuchoice>
 	             <guimenuitem>Preferences&hellip;</guimenuitem>
-	             &mdash; This opens the <link linkend="prefs">
-		     <interface>Preferences</interface></link>
-	             dialog, which is used configure different aspects of
-		     <application>GNOME-Mud</application>.
+		    </menuchoice>
+	            &mdash; This opens the <link linkend="prefs">
+		    <interface>Preferences</interface></link>
+	            dialog, which is used configure different aspects of
+		    <application>GNOME-Mud</application>.
 	          </para>
 		</listitem>
 	      </itemizedlist>
@@ -646,21 +723,24 @@
 	       <itemizedlist>
 		<listitem>
 		  <para>
-	             <guimenuitem>Manual</guimenuitem> &mdash; This
-    	              opens the <application>GNOME Help
-    	              Browser</application> and displays this manual.
+		    <menuchoice>
+		      <guimenuitem>Manual</guimenuitem>
+		    </menuchoice>
+		    &mdash; This opens the <application>GNOME Help
+    	            Browser</application> and displays this manual.
 	          </para>
 		</listitem>
-
 		<listitem>
 		  <para>
-	            <guimenuitem>About</guimenuitem> &mdash; This
-    	            opens the <interface>About</interface> dialog
-    	            which shows basic information about
+		    <menuchoice>
+		      <guimenuitem>About</guimenuitem>
+		    </menuchoice>
+		    &mdash; This opens the <interface>About</interface>
+		    dialog which shows basic information about
     	            <application>GNOME-Mud</application>, such as
     	            the author's name, the application version number,
 		    the names of several contributors to the project
-    	            and the URL of <application>GNOME-Mud</application>'s
+    	            and a link to<application>GNOME-Mud</application>'s
 		    Homepage.
 	          </para>
 		</listitem>
@@ -698,11 +778,7 @@
   </figure>
 
   <para>
-   The properties in the <guilabel>Appearance</guilabel> tab are:
-
-   <!--many people use itemizedlists in cases like this. Variablelists
-   are more appropriate -->
-
+    The properties in the <guilabel>Functionality</guilabel> tab are:
       <variablelist>
 	<varlistentry>
 	  <term> <guilabel>Echo the text sent?</guilabel></term>
@@ -718,47 +794,32 @@
 	  <term>Keep the text entered?</term>
 	  <listitem>
 	    <para>
-	    If this is set, the text you have entered and sent to the
-	    connection, will be left in the entry box but selected. Turn
-	    this off to remove the text after it has been sent.
-             </para>
+	      If this is set, the text you have entered and sent to the
+	      connection, will be left in the entry box but selected. Turn
+	      this off to remove the text after it has been sent.
+            </para>
 	  </listitem>
 	</varlistentry>
-	<varlistentry>
-	  <term>Font selection</term>
-	  <listitem>
-	    <para>
-	    Click here to open a font selection window to select the desired
-	    font to be used in the connection window.
-             </para>
-	  </listitem>
-	</varlistentry>
-      </variablelist>
-    </para>
-
-    <para>
-     The properties in the <guilabel>Functionality</guilabel> tab are:
-       <variablelist>
 	<varlistentry>
 	  <term>Freeze/Thaw?</term>
 	  <listitem>
 	    <para>
-	    If set, text will draw faster but it will not draw every
-	    character, only whole strings. This will probably make displays
-	    a lot faster if you are playing MUDs with a lot of different
-	    colours.
-             </para>
+	      If set, text will draw faster but it will not draw every
+	      character, only whole strings. This will probably make displays
+	      a lot faster if you are playing MUDs with a lot of different
+	      colours.
+            </para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
 	  <term>Command divide char</term>
 	  <listitem>
 	    <para>
-	    Insert the character you want to use to separate multi-command
-	    orders entered in the command line. For example, if set to ";",
-	    entering "north ; east" in the command line  will execute two
-	    independent commands "north", "east".
-             </para>
+	      Insert the character you want to use to separate multi-command
+	      orders entered in the command line. For example, if set to ";",
+	      entering "north ; east" in the command line  will execute two
+	      independent commands "north", "east".
+            </para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -767,6 +828,49 @@
 	    <para>
 	      This is the number of commands that <application>GNOME-Mud
 	      </application> will store in it's command history.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+    </para>
+
+    <para>
+      The properties in the <guilabel>Colors and Fonts</guilabel> tab are:
+      <variablelist>
+	<varlistentry>
+	  <term>Font</term>
+	  <listitem>
+	    <para>
+	     Click here to open a font selection window to select the desired
+	     font to be used in the connection window.
+            </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Foreground color</term>
+	  <listitem>
+	    <para>
+	     This will open a color chooser dialog that you can use to select
+	     the font color you want to use.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Background color</term>
+	  <listitem>
+	    <para>
+	     This will open the same dialog as before, but will select the
+	     foreground color of your font.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Color Palette</term>
+	  <listitem>
+	    <para>
+	      This is a series of buttons which lets you define your own
+	      colors for ANSI. Each color represents one ANSI color which
+	      you can redefine.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -799,8 +903,28 @@
  <sect1 id="bugs">
   <title>Known Bugs and Limitations</title>
   <para>
-  There are reported crashes when using the MCCP (MUD Client Compression
-  Protocol) in some MUD types.
+   GNOME-Mud will crash on some MUDs when MCCP (MUD Client Compression
+   Protocol) is compiled in. If you're playing in a LP MUD, it is recommended
+   to <emphasis>disable MCCP support</emphasis>.
+  </para>
+  <para>
+   8bit characters are sent correctly to the MUD but aren't shown well in
+   the connection window.
+  </para>
+  <para>
+   Some colors are bad defined. For example, yellow shows as dark blue and
+   bold black doesn't show at all.
+  </para>
+  <para>
+   Command history search won't show the last command when you press
+   the up-arrow key, but the command before the last.
+  </para>
+  <para>
+   The mapping support is still limited and must be used manually (you can't
+   map as you walk through the MUD).
+  </para>
+  <para>
+   And of course, there are no plugins available yet!
   </para>
  </sect1>
 
@@ -813,12 +937,12 @@
    <application>GNOME-Mud</application> was written by Robin Ericsson
    (<email>lobbin@localhost.nu</email>). To find more information about
    <application>GNOME-Mud</application>, please visit the <ulink
-   url="http://amcl.sourceforge.net" type="http">GNOME-Mud Web
+   url="http://amcl.sourceforge.net/" type="http">GNOME-Mud Web
    page</ulink>.  This manual was written by Jordi Mallach
    (<email>jordi@sindominio.net</email>).
   </para>
   <para>
-    If you have some comments or suggestions regarding this
+   If you have some comments or suggestions regarding this
    application, need help, or want to report a bug, plese contact us!
    Instructions for doing so are given in <ulink type="help"
    url="gnome-help:gnome-feedback"><citetitle>Reporting GNOME bugs and other
