@@ -3,6 +3,8 @@
 
 G_BEGIN_DECLS
 
+#include <gconf/gconf-client.h>
+
 #define MUD_TYPE_WINDOW             (mud_window_get_type ())
 #define MUD_WINDOW(object)          (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_WINDOW, MudWindow))
 #define MUD_WINDOW_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_WINDOW, MudWindowClass))
@@ -28,7 +30,7 @@ struct _MudWindowClass
 
 GType mud_window_get_type (void) G_GNUC_CONST;
 
-MudWindow* mud_window_new ();
+MudWindow* mud_window_new (GConfClient *client);
 
 G_END_DECLS
 

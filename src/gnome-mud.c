@@ -34,7 +34,6 @@
 static char const rcsid[] =
     "$Id$";
 
-/*
 gboolean gconf_sanity_check_string (GConfClient *client, const gchar* key)
 {
   gchar *string;
@@ -72,7 +71,7 @@ gboolean gconf_sanity_check_string (GConfClient *client, const gchar* key)
   g_free (string);
   return TRUE;
 }
-*/
+
 int main (gint argc, char *argv[])
 {
 	GConfClient  *gconf_client;
@@ -101,9 +100,9 @@ int main (gint argc, char *argv[])
 	
 	/* Start a GConf client */
 	gconf_client = gconf_client_get_default();
-	/*if (!gconf_sanity_check_string (gconf_client, "/apps/gnome-mud/functionality/terminal_type")) {
+	if (!gconf_sanity_check_string (gconf_client, "/apps/gnome-mud/functionality/terminal_type")) {
 		return 1;
-	}*/
+	}
 	gconf_client_add_dir(gconf_client, "/apps/gnome-mud", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 
 	gnome_window_icon_set_default_from_file (PIXMAPSDIR "/gnome-mud.png");
@@ -112,7 +111,7 @@ int main (gint argc, char *argv[])
 	//load_profiles(); /* load connections and profiles */
 	//main_window  ();
 
-	mud_window_new();
+	mud_window_new(gconf_client);
 	
 #ifdef USE_PYTHON
 	//Py_SetProgramName(argv[0]);

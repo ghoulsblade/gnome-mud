@@ -12,13 +12,16 @@
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 
-#include "mud-window.h"
 #include "mud-connection-view.h"
+#include "mud-preferences-window.h"
+#include "mud-window.h"
 
 static char const rcsid[] = "$Id: ";
 
 struct _MudWindowPrivate
 {
+	GConfClient *gconf_client;
+
 	GtkWidget *window;
 	GtkWidget *notebook;
 	GtkWidget *textentry;
@@ -118,6 +121,12 @@ static void
 mud_window_textentry_activate(GtkWidget *widget, MudWindow *window)
 {
 	mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), gtk_entry_get_text(GTK_ENTRY(widget)));
+}
+
+static void
+mud_window_preferences_cb(GtkWidget *widget, MudWindow *window)
+{
+	mud_preferences_window_new(window->priv->gconf_client);
 }
 
 static void
@@ -234,6 +243,9 @@ mud_window_init (MudWindow *window)
 
 	/* connect close window button */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_closewindow"), "activate", G_CALLBACK(mud_window_closewindow_cb), window);
+
+	/* preferences window button */
+	g_signal_connect(glade_xml_get_widget(glade, "menu_preferences"), "activate", G_CALLBACK(mud_window_preferences_cb), window);
 	
 	/* other objects */
 	window->priv->notebook = glade_xml_get_widget(glade, "notebook");
@@ -282,11 +294,12 @@ mud_window_finalize (GObject *object)
 }
 
 MudWindow*
-mud_window_new ()
+mud_window_new (GConfClient *client)
 {
 	MudWindow *window;
 
 	window = g_object_new(MUD_TYPE_WINDOW, NULL);
+	window->priv->gconf_client = client;
 
 	return window;
 }

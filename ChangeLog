@@ -1,3 +1,21 @@
+2004-04-07  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/Makefile.am: Added mud-preferences.[ch] and
+	mud-preferences-window.[ch]
+
+	* src/gnome-mud.c (main): Enabled gconf sanitycheck and pass gconf-
+	client to mud_window_new().
+
+	* src/mud-window.c [_MudWindowPrivate]: Added gconf_client.
+	(mud_window_preferences_cb): Added.
+	(mud_window_new): Store gconf-client in private data.
+
+	* src/mud-preferences.[ch]: Added.
+	* src/mud-preferences-window.[ch]: Added.
+
+	* ui/main.glade [main_window]: Added menuentry for preferences.
+	[preferences_window]: Added.
+
 2004-02-25  Robin Ericsson  <lobbin@localhost.nu>
 
 	* ROADMAP: Removed entries.
