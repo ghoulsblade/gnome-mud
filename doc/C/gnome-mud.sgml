@@ -561,6 +561,17 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
+	    <term>Reconnect</term>
+	    <listitem>
+	      <para>
+	        Reconnects to the current connection. If you loose the link
+		to the MUD, you can hit this to get reconnected again. If
+		the connection was open, it will close the current connection
+		and start a new one.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
 	    <term>Exit</term>
 	    <listitem>
 	      <para>
@@ -637,10 +648,43 @@
 		<listitem>
 		  <para>
 		    <menuchoice>
-		      <guimenuitem>Save log...</guimenuitem>
+		      <guimenuitem>Reconnect</guimenuitem>
+		    </menuchoice>
+		    &mdash; This will reconnect you to the current connection.
+		    If you loose the link to the MUD, you can hit this to get
+		    reconnected again. If the connection was open, it will
+		    close the current connection and start a new one.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>Start Logging...</guimenuitem>
+		    </menuchoice>
+		    &mdash; This will enable the recording of the currently
+		    selected connection. It will write all the output of a
+		    mudding session into the selected file.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>Stop Logging</guimenuitem>
+		    </menuchoice>
+		    &mdash; This stops the recording of a connection, if it
+		    had been previously started.
+		  </para>
+		</listitem>
+		<listitem>
+		  <para>
+		    <menuchoice>
+		      <guimenuitem>Save Buffer...</guimenuitem>
 		    </menuchoice>
 		    &mdash; This permits you to save your current connection
-		    into a file. Useful to keep deathlogs or questlogs.
+		    buffer into a file. Useful to keep deathlogs or questlogs.
+		    It will just take a 'snapshot' of past messages, writing
+		    it into the selected file. For real time logging, see
+		    'Start/Stop Logging'.
 		  </para>
 		</listitem>
 		<listitem>
@@ -812,6 +856,17 @@
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
+	  <term>Disable system keys</term>
+	  <listitem>
+	    <para>
+	      If set, <application>GNOME-Mud</application> will provide with
+	      some default keybinds, like for example direction aliases in
+	      the numeric keypad. These can always be overriden by user
+	      keybindings, or can be totally disabled from here.
+            </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
 	  <term>Command divide char</term>
 	  <listitem>
 	    <para>
@@ -852,6 +907,15 @@
 	    <para>
 	     This will open a color chooser dialog that you can use to select
 	     the font color you want to use.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>Bold foreground color</term>
+	  <listitem>
+	    <para>
+	     This will open a color chooser dialog that you can use to select
+	     the bold font color you want to use.
 	    </para>
 	  </listitem>
 	</varlistentry>
