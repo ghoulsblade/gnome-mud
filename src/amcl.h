@@ -143,6 +143,7 @@ void  switch_page_cb  ( GtkNotebook *, gpointer, guint, gpointer     );
 void  textfield_add   ( GtkWidget *widget, gchar *me, gint colortype );
 
 /* wizard.c */
+void  free_connection_data (CONNECTION_DATA *c             );
 void  load_wizard        ( void                            );
 void  add_wizard_connect ( gchar **entry, bool al, WD *w   );
 void  window_wizard      ( GtkWidget *widget,gpointer data );
@@ -156,7 +157,7 @@ void  window_wizard      ( GtkWidget *widget,gpointer data );
 
 /* init.c */
 extern CONNECTION_DATA *main_connection;
-extern GList *Connections;
+extern CONNECTION_DATA *connections[15];
 
 extern GtkWidget *main_notebook;
 extern GtkWidget *text_entry;
@@ -166,6 +167,7 @@ extern GtkWidget *menu_plugin_menu;
 extern GtkWidget *menu_main_wizard;
 extern GtkWidget *menu_main_connect;
 extern GtkWidget *menu_main_disconnect;
+extern GtkWidget *menu_main_close;
 extern GtkWidget *menu_option_prefs;
 extern GtkWidget *menu_option_alias;
 extern GtkWidget *menu_option_colors;

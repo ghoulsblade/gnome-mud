@@ -40,6 +40,7 @@ void    about_window   (GtkWidget *widget, gpointer data);
  * Global Variables
  */
 CONNECTION_DATA *main_connection;
+CONNECTION_DATA *connections[15];
 GtkWidget *main_notebook;
 GtkWidget *text_entry;
 GtkWidget *entry_host;
@@ -79,7 +80,6 @@ GdkColor color_lightgrey;
 GdkFont  *font_normal;
 
 GList *EntryHistory = NULL;
-GList *Connections = NULL;
 
 /* from bezerk */
 gushort convert_color (guint c)
@@ -417,6 +417,18 @@ int text_entry_key_press_cb (GtkEntry *entry, GdkEventKey *event, gpointer data)
 
 void do_close (GtkWidget *widget, gpointer data)
 {
+  CONNECTION_DATA *cd;
+  gint number;
+
+  number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
+
+  cd = connections[number];
+
+  if (cd->connected)
+    disconnect (NULL, cd);
+
+  gtk_notebook_remove_page (GTK_NOTEBOOK (main_notebook), number);
+  free_connection_data (cd);
 }
 
 void do_disconnect (GtkWidget *widget, gpointer data)
@@ -428,23 +440,11 @@ void do_disconnect (GtkWidget *widget, gpointer data)
   number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
   g_message ("Connection number is: %d.", number);
 
-  /* for (list == Connections; list != NULL; list = list->next) { */
-/*     if (list->data) { */
-/*       cd = (CONNECTION_DATA *) data; */
-      
-/*       if (cd->notebook = number) { */
-/* 	disconnect (NULL, cd); */
-/* 	break; */
-/*       } */
-/*     } */
-/*   } */
+  cd = connections[number];
+  disconnect (NULL, cd);
 
-  disconnect (NULL, main_connection);  
-  cd = main_connection;
-
-  if (!cd->connected)
+  if (!cd->connected && menu_main_disconnect)
     gtk_widget_set_sensitive (menu_main_disconnect, FALSE);
-
 }
 
 void init_window ()
@@ -513,10 +513,9 @@ void init_window ()
 
     menu_main_close = gtk_menu_item_new_with_label ("Close Window");
     gtk_menu_append (GTK_MENU (menu_main_menu), menu_main_close);
-    gtk_signal_connect_object (GTK_OBJECT (menu_main_close), "close",
+    gtk_signal_connect_object (GTK_OBJECT (menu_main_close), "activate",
 			       GTK_SIGNAL_FUNC (do_close), NULL);
     gtk_widget_show (menu_main_close);
-    gtk_widget_set_sensitive (menu_main_close, FALSE);
 
     separator = gtk_menu_item_new ();
     gtk_menu_append (GTK_MENU (menu_main_menu), separator);
@@ -616,8 +615,7 @@ void init_window ()
     main_connection->window = gtk_text_new (NULL, NULL);
     gtk_widget_set_usize (main_connection->window, 500, 320);
     gtk_widget_show (main_connection->window);
-    
-    Connections = g_list_append(Connections, (gpointer) main_connection);
+    connections[0] = main_connection;
     
     foreground = &color_white;
     background = &color_black;

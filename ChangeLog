@@ -1,3 +1,20 @@
+1999-07-29  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/amcl.h: New global (CONNECTION_DATA *connections[15]) added.
+
+	* src/init.c (do_close): New function. Close notebook page.
+	(do_disconnect): Support for multiple connections, now even
+	working.
+
+	* src/net.c (make_connection): Support for multiple connections,
+	now even working.
+
+	* src/window.c (switch_page_cb): Enable/disable close/disconnect
+	on the menu.
+
+	* src/wizard.c (free_connection_data): New function for clearing
+	a CONNECTION_DATA entry.
+
 1999-07-24  Robin Ericsson  <lobbin@localhost.nu>
 
 	* amcl.h (connection_data): Added notebook and sockfd entry.

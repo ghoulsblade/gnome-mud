@@ -208,6 +208,18 @@ void popup_window (const gchar *message)
 
 void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer data2)
 {
+  if (connections[nb_int] && menu_main_disconnect) {
+    if (connections[nb_int]->connected)
+      gtk_widget_set_sensitive (menu_main_disconnect, TRUE);
+    else
+      gtk_widget_set_sensitive (menu_main_disconnect, FALSE);
+  }
+
+  if (nb_int == 0 && menu_main_close)
+    gtk_widget_set_sensitive (menu_main_close, FALSE);
+  else
+    gtk_widget_set_sensitive (menu_main_close, TRUE);
+
   g_message ("NoteBook DEBUG: guint = %d", nb_int);
 }
 

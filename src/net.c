@@ -196,7 +196,7 @@ void make_connection (GtkWidget *widget, gpointer data)
     gtk_notebook_next_page (GTK_NOTEBOOK (main_notebook));
     connection->notebook = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
     g_message("NoteBook DEBUG: Current notebook page is: %d.", connection->notebook);
-    Connections = g_list_append (Connections, (gpointer) connection);
+    connections[connection->notebook] = connection;
   }
   
   open_connection (connection);
@@ -206,7 +206,6 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 {
     close (connection->sockfd);
     gdk_input_remove (connection->data_ready);
-    /* FIXME */
     textfield_add (connection->window, "*** Connection closed.\n", MESSAGE_NORMAL);
     connection->connected = FALSE;
 }
