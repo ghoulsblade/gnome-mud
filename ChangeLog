@@ -1,3 +1,8 @@
+Thu Oct 18 15:38:25 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* NEWS, ROADMAP: doc updates.
+
+
 Thu Oct 18 14:38:10 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/net.c [open_connection]: A little fix when not entering a 
@@ -20,7 +25,8 @@ Wed Oct 17 17:19:29 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 Wed Oct 17 15:53:40 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
-	* po/ca.po: tons of grammar fixes and updates to the Catalan translation.
+	* po/ca.po: tons of grammar fixes and updates to the Catalan
+	translation.
 
 Tue Oct 16 14:55:22 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 

@@ -17,6 +17,7 @@ feel free to suggest features, contribute, or comment.
 * Rewrite connection wizard... [MOSTLY DONE]
 	+ be able to ping host...
 	+ several characters per host
+* Rewrite font/color support
 
 
 0.10.0
