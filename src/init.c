@@ -286,6 +286,7 @@ static void about_window (GtkWidget *widget, gpointer data)
 	/* if your charset doesn't support e with circumflex (è), just use e */
 	_("Staffan Thomèn and the creators of gEdit - module API"),
 	_("Petter E. Stokke, Python scripting support"),
+	_("Vashti, default keypad bindings, telnet support patches"),
 	NULL};
 
  

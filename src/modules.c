@@ -192,6 +192,8 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   dialog1 = gnome_dialog_new (NULL, NULL);
   gtk_object_set_data (GTK_OBJECT (dialog1), "dialog1", dialog1);
   gtk_widget_set_usize (dialog1, 430, -2);
+ 
+  gtk_window_set_title(GTK_WINDOW(dialog1), _("Plugin Information"));
   gtk_window_set_policy (GTK_WINDOW (dialog1), FALSE, FALSE, FALSE);
 
   dialog_vbox1 = GNOME_DIALOG (dialog1)->vbox;

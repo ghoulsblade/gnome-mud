@@ -496,6 +496,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
   copy_preferences(&pre_prefs, &prefs, FALSE);
   
   prefs_window = gnome_property_box_new();
+  gtk_window_set_title(GTK_WINDOW(prefs_window), _("GNOME-Mud Preferences"));
   gtk_window_set_policy(GTK_WINDOW(prefs_window), FALSE, FALSE, FALSE);
   gtk_signal_connect(GTK_OBJECT(prefs_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &prefs_window);
   gtk_signal_connect(GTK_OBJECT(prefs_window), "apply",   GTK_SIGNAL_FUNC(prefs_apply_cb), NULL);

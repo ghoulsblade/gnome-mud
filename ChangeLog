@@ -1,3 +1,12 @@
+Mon Feb  4 09:50:38 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c (about_window): added Vashti.
+	* src/net.c (read_from_connection): Robin's fix to MCCP segfaults.
+	* src/prefs.c (window prefs): added title to preferences window.
+	* src/modules.c (do_plugin_information): likewise.
+	* po/{ca,es}.po: Updated translations.
+	* BUGS: removed old color dialog bug.
+
 Mon Feb  4 09:31:23 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* AUTHORS: added Vashti.

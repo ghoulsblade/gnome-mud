@@ -1,5 +1,4 @@
-BUGS - hopefully none :)
-========================
+GNOME-Mud BUGS
+==============
 
-- color chooser dialog spits gdk errors when it's opened. Not serious, but
-  annoying.
+

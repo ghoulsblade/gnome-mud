@@ -325,8 +325,10 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	    m   = (gchar *) malloc(len + 2);
 	    memcpy(m, mccp_buffer, len + 1);
 		 */
+	        /* this crashes gnome-mud
 		m = g_strdup(mccp_buffer);
-		textfield_add (connection, m, MESSAGE_ANSI);
+		*/
+		textfield_add (connection, mccp_buffer, MESSAGE_ANSI);
 
 		/* Added by Bret Robideaux (fayd@alliances.org)
 		 * OK, this seems like a good place to handle checking for action triggers
