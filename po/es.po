@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.8.99\n"
 "POT-Creation-Date: 2002-02-28 13:07+0100\n"
-"PO-Revision-Date: 2002-02-21 14:40+0100\n"
+"PO-Revision-Date: 2002-02-28 13:20+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -646,9 +646,8 @@ msgstr "Colores y fuentes"
 #. gtk_signal_connect_object(GTK_OBJECT(window), "destroy", gtk_widget_destroy, (gpointer) dialog);
 #. gtk_signal_connect(GTK_OBJECT(dialog), "destroy", gtk_widget_destroyed, &dialog);
 #: src/profiles.c:342
-#, fuzzy
 msgid "New profile"
-msgstr "Nombre del nuevo perfil:"
+msgstr "Nuevo perfil"
 
 #: src/profiles.c:345
 msgid "Name of new profile:"

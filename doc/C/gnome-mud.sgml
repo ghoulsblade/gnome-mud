@@ -1,6 +1,6 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.0//EN"[
 <!ENTITY version "0.9.0"> <!-- replace with application version -->
-<!ENTITY date "02/07/2002"> <!-- date the manual was last updated -->
+<!ENTITY date "02/26/2002"> <!-- date the manual was last updated -->
 ]>
 
 
@@ -21,8 +21,14 @@
 
   <articleinfo>
     <title>GNOME-Mud Manual</title>
+    <authorgroup>
+      <author>
+        <firstname>Jordi</firstname><surname>Mallach</surname>
+      </author>
+    </authorgroup>
     <copyright>
-      <year>2001, 2002</year>
+      <year>2001</year>
+      <year>2002</year>
       <holder>Jordi Mallach</holder>
     </copyright>
 
