@@ -1,3 +1,7 @@
+Mon Mar 11 07:56:18 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/net.c (read_from_connection): Fixed formatting errors.
+
 Fri Mar  1 17:49:22 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* README: typo fixes, and misc corrections.

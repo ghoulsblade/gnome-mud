@@ -319,16 +319,6 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
       		}
     	}
     
-    	for (i = len = 0; mccp_data[i] !='\0'; len++, i++)
-	{
-		mccp_data[len] = mccp_data[i];
-  		if (mccp_data[i] == '\r')
-		{
-			i++;
-		}
-	}
-	mccp_data[len] = mccp_data[i];
-    
     	len = pre_process(mccp_data, connection);
 
 #ifdef USE_PYTHON
