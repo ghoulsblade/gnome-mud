@@ -74,6 +74,7 @@ $(docname)/index.html: $(srcdir)/$(docname).sgml
 	 fi
 
 app-dist-hook: index.html
+	-$(mkinstalldirs) $(distdir)/$(docname)
 	-cp $(srcdir)/$(docname)/*.html $(distdir)/$(docname)
 	-for file in $(srcdir)/$(docname)/*.css; do \
 	  basefile=`echo $$file | sed -e  's,^.*/,,'`; \
@@ -84,6 +85,7 @@ app-dist-hook: index.html
 	 fi
 
 install-data-am: index.html omf
+	-$(mkinstalldirs) $(distdir)/$(docname)
 	-cp $(srcdir)/$(sgml_files) $(DESTDIR)$(docdir)
 	-for file in $(srcdir)/$(docname)/*.html $(srcdir)/$(docname)/*.css; do \
 	  basefile=`echo $$file | sed -e 's,^.*/,,'`; \
