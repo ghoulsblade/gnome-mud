@@ -82,10 +82,11 @@ gchar *host = "", *port = "";
 static void check_aliases(GString *string, CONNECTION_DATA *cd, gchar *t, gint level)
 {
 	gchar **a = g_strsplit (t," ", -1), *r;
+	gboolean checked = FALSE;
 
-	if (level > 5)
+	if (level > 0)
 	{
-		g_message("Maximum nested alias reached.");
+		//g_message("Maximum nested alias reached.");
 		append_word_to_command (string, t);
 		return;
 	}
@@ -94,9 +95,18 @@ static void check_aliases(GString *string, CONNECTION_DATA *cd, gchar *t, gint l
 	{
 		gchar *b = *a++;
 		
-		if ((r = check_alias (cd->profile->alias, b)))
+		if (!checked)
 		{
-			check_aliases(string, cd, r, level+1);
+			if ((r = check_alias (cd->profile->alias, b)))
+			{
+				check_aliases(string, cd, r, level+1);
+			}
+			else
+			{
+				append_word_to_command (string, b);
+			}
+
+			checked = TRUE;
 		}
 		else
 		{

@@ -1,3 +1,8 @@
+2003-12-18  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/net.c (check_aliases): Remove alias nesting.
+	Only check first word of input string for alises.
+
 2003-12-18  Jordi Mallach  <jordi@sindominio.net>
 
 	* gnome-mud.schemas.in: <menthaway> Oskuro: Wasn't Toto a band? ;-)
