@@ -42,7 +42,6 @@ extern GConfClient		*gconf_client;
 extern CONNECTION_DATA	*connections[MAX_CONNECTIONS];
 
 SYSTEM_DATA prefs;
-SYSTEM_DATA pre_prefs;
 
 struct color_struct 
 {
@@ -70,7 +69,7 @@ const struct color_struct c_structs[C_MAX] =
 	{ "color_white",        "65535,65535,65535" }
 };
 
-static void prefs_load_color(GdkColor *color, gchar *prefs, gchar *name, gchar *def)
+/*static void prefs_load_color(GdkColor *color, gchar *prefs, gchar *name, gchar *def)
 {
 	GdkColormap *cmap = gdk_colormap_get_system();
 
@@ -106,17 +105,41 @@ static void prefs_save_color(GdkColor *color, gchar *prefs, gchar *name)
 	g_snprintf(value, 20, "%d,%d,%d", color->red, color->green, color->blue);
 
 	gnome_config_set_string(key, value);
+}*/
+
+void prefs_commdev_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	g_free(prefs.CommDev);
+	prefs.CommDev = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));
+}
+
+void prefs_echo_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	prefs.EchoText = gconf_value_get_bool(gconf_entry_get_value(entry));
+}
+
+void prefs_keeptext_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	prefs.KeepText = gconf_value_get_bool(gconf_entry_get_value(entry));
+}
+
+void prefs_system_keys_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	prefs.DisableKeys = gconf_value_get_bool(gconf_entry_get_value(entry));
 }
 
 void prefs_fontname_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	gint i;
 
+	g_free(prefs.FontName);
+	prefs.FontName = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));
+	
 	for (i = 0; i < MAX_CONNECTIONS; i++)
 	{
 		if (connections[i] != NULL)
 		{
-			vte_terminal_set_font_from_string(VTE_TERMINAL(connections[i]->window), gconf_value_get_string(gconf_entry_get_value(entry)));
+			vte_terminal_set_font_from_string(VTE_TERMINAL(connections[i]->window), prefs.FontName);
 		}
 		else
 		{
@@ -129,7 +152,6 @@ void load_prefs ( void )
 {
 	struct stat file_stat;
 	gchar dirname[256], buf[256];
-	gint i;
 	gchar *p;
 	
 	/*
@@ -160,16 +182,32 @@ void load_prefs ( void )
 	prefs.FontName = g_strdup(p);
 
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/font", prefs_fontname_changed, NULL, NULL, NULL);
+
+	/* command divider */
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/commdev", NULL);
+	prefs.CommDev = g_strdup(p);
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/commdev", prefs_commdev_changed, NULL, NULL, NULL);
+
+	/* echo text */
+	prefs.EchoText = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/echo", NULL);
+	
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/echo", prefs_echo_changed, NULL, NULL, NULL);
+
+	/* keep text */
+	prefs.KeepText = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/keeptext", NULL);
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/keeptext", prefs_keeptext_changed, NULL, NULL, NULL);
+
+	/* disable keys */
+	prefs.DisableKeys = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/system_keys", NULL);
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/system_keys", prefs_system_keys_changed, NULL, NULL, NULL);
 	
 	/*
 	 * Get general parameters
 	 *
-	prefs.EchoText     = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
-	prefs.KeepText     = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
-	prefs.DisableKeys  = gnome_config_get_bool  ("/gnome-mud/Preferences/DisableKeys=false");
-	prefs.CommDev      = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
 	prefs.TerminalType = gnome_config_get_string("/gnome-mud/Preferences/TerminalType=ansi");
-	prefs.FontName     = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
 	prefs.MudListFile  = gnome_config_get_string("/gnome-mud/Preferences/MudListFile=");
 
 	g_snprintf(buf, 255, "/gnome-mud/Preferences/LastLogDir=%s/", g_get_home_dir());
@@ -211,7 +249,7 @@ void load_prefs ( void )
 
 void save_prefs ( void )
 {
-	extern CONNECTION_DATA *main_connection;
+	/*extern CONNECTION_DATA *main_connection;
 	gint  i; 
 
 	gnome_config_set_bool  ("/gnome-mud/Preferences/EchoText",    prefs.EchoText);
@@ -237,10 +275,10 @@ void save_prefs ( void )
 	gnome_config_sync();
 
 	// FIXME, this should iterate all open connections
-	vte_terminal_set_font_from_string(VTE_TERMINAL(main_connection->window), prefs.FontName);
+	vte_terminal_set_font_from_string(VTE_TERMINAL(main_connection->window), prefs.FontName);*/
 }
 
-static void prefs_copy_color(GdkColor *a, GdkColor *b)
+/*static void prefs_copy_color(GdkColor *a, GdkColor *b)
 {
 	a->red   = b->red;
 	a->green = b->green;
@@ -283,95 +321,75 @@ static void prefs_copy(SYSTEM_DATA *target, SYSTEM_DATA *prefs, gboolean alloc_c
 			gdk_color_alloc(cmap, &target->Colors[i]);
 		}
 	}
-}
+}*/
 
 static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)
 {
-    if ( GTK_TOGGLE_BUTTON (widget)->active )
-        pre_prefs.KeepText = TRUE;
-    else
-        pre_prefs.KeepText = FALSE;
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
 
-    gnome_property_box_changed(box);
+	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/keeptext", value, NULL);
 }
 
 static void prefs_checkbutton_disablekeys_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
-	if (GTK_TOGGLE_BUTTON(widget)->active)
-	{
-		pre_prefs.DisableKeys = TRUE;
-	}
-	else
-	{
-		pre_prefs.DisableKeys = FALSE;
-	}
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
 
-	gnome_property_box_changed(box);
+	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/system_keys", value, NULL);
 }
 
 static void prefs_entry_terminal_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
-	gchar *s;
+	/*gchar *s;
 
 	s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
 	if (s)
 	{
 		pre_prefs.TerminalType = s;
 		gnome_property_box_changed (box);
-	}
+	}*/
 }
 
 static void prefs_entry_history_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
-  gchar *s;
+  /*gchar *s;
 
   s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
   if (s) {
     pre_prefs.History = atoi(s);
     gnome_property_box_changed(box);
 	g_free(s);
-  }
+  }*/
 }
 
 static void prefs_entry_mudlistfile_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
-	gchar *s;
+	/*gchar *s;
 
 	s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
 	if (s)
 	{
 		pre_prefs.MudListFile = s;
 		gnome_property_box_changed(box);
-	}
+	}*/
 }
 
 static void prefs_entry_divide_cb (GtkWidget *widget, GnomePropertyBox *box)
 {
-	gchar *s;
-  
-	s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
-	if (s) {
-    	pre_prefs.CommDev = s;
-		gnome_property_box_changed(box);
-	}
+	const gchar *s = gtk_entry_get_text(GTK_ENTRY(widget));
+
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/commdev", s, NULL);
 }
 
 static void prefs_checkbox_echo_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
-  if ( GTK_TOGGLE_BUTTON (widget)->active )
-    pre_prefs.EchoText = TRUE;
-  else
-    pre_prefs.EchoText = FALSE;
-  
-  gnome_property_box_changed(box);
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
+
+	gconf_client_set_bool(gconf_client, "/apps/gnome-mud/echo", value, NULL);
 }
 
 static void prefs_select_font_cb(GnomeFontPicker *fontpicker, gchar *font, gpointer data)
 {
 	gconf_client_set_string(gconf_client, "/apps/gnome-mud/font", font, NULL);
-
-	g_free(prefs.FontName);
-	prefs.FontName = g_strdup(font);
 }
 
 static void prefs_select_color_cb(GnomeColorPicker *colorpicker, guint r, guint g, guint b, guint alpha, GdkColor *color)
@@ -387,14 +405,14 @@ static void prefs_select_color_cb(GnomeColorPicker *colorpicker, guint r, guint 
 	}
 }
 
-static void prefs_apply_cb(GnomePropertyBox *propertybox, gint page, gpointer data)
+/*static void prefs_apply_cb(GnomePropertyBox *propertybox, gint page, gpointer data)
 {
   if (page == -1) {
     prefs_copy(&prefs, &pre_prefs, TRUE);
     
     save_prefs();
   }
-}
+}*/
 
 static void prefs_set_color(GtkWidget *color_picker, gint color)
 {
@@ -495,7 +513,7 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 		}
 
 		gtk_object_set_data(GTK_OBJECT(picker), "prefs_window", prefs_window);
-		gtk_signal_connect(GTK_OBJECT(picker),  "color-set",    GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Colors[i]);
+		//gtk_signal_connect(GTK_OBJECT(picker),  "color-set",    GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Colors[i]);
 	}
 	
 	/*
@@ -507,9 +525,9 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	gtk_object_set_data(GTK_OBJECT(picker_boldforeground), "prefs_window", prefs_window);
 	gtk_object_set_data(GTK_OBJECT(picker_background), "prefs_window", prefs_window);
 	
-	gtk_signal_connect(GTK_OBJECT(picker_foreground), "color-set",  GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Foreground);
-	gtk_signal_connect(GTK_OBJECT(picker_boldforeground), "color-set", GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.BoldForeground);
-	gtk_signal_connect(GTK_OBJECT(picker_background), "color-set", GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Background);
+	//gtk_signal_connect(GTK_OBJECT(picker_foreground), "color-set",  GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Foreground);
+	//gtk_signal_connect(GTK_OBJECT(picker_boldforeground), "color-set", GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.BoldForeground);
+	//gtk_signal_connect(GTK_OBJECT(picker_background), "color-set", GTK_SIGNAL_FUNC(prefs_select_color_cb), (gpointer) &pre_prefs.Background);
 	
 	return table_colorfont;
 }
@@ -536,13 +554,13 @@ void window_prefs (GtkWidget *widget, gpointer data)
     return;
   }
 
-  prefs_copy(&pre_prefs, &prefs, FALSE);
+  //prefs_copy(&pre_prefs, &prefs, FALSE);
   
   prefs_window = gnome_property_box_new();
   gtk_window_set_title(GTK_WINDOW(prefs_window), _("GNOME-Mud Preferences"));
   gtk_window_set_policy(GTK_WINDOW(prefs_window), FALSE, FALSE, FALSE);
   gtk_signal_connect(GTK_OBJECT(prefs_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &prefs_window);
-  gtk_signal_connect(GTK_OBJECT(prefs_window), "apply",   GTK_SIGNAL_FUNC(prefs_apply_cb), NULL);
+  //gtk_signal_connect(GTK_OBJECT(prefs_window), "apply",   GTK_SIGNAL_FUNC(prefs_apply_cb), NULL);
   
   tooltip = gtk_tooltips_new();
 

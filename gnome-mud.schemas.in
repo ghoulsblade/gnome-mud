@@ -14,5 +14,69 @@
 				</long>
 			</locale>
 		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/commdev</key>
+			<applyto>/apps/gnome-mud/commdev</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>;</default>
+			<locale name="C">
+				<short>Command Divider</short>
+				<long>
+				 A character that is used to split commands in a string like "w;w;w;l",
+				 which will be sent to the mud as 4 separate commands
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/echo</key>
+			<applyto>/apps/gnome-mud/echo</applyto>
+			<owner>gnome-mud</owner>
+			<type>bool</type>
+			<default>true</default>
+			<locale name="C">
+				<short>Whether to echo sent text to the connection</short>
+				<long>
+				 With this toggled on, all the text you type and
+				 enter will be echoed on the connection so you can
+				 control what you are sending.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/keeptext</key>
+			<applyto>/apps/gnome-mud/keeptext</applyto>
+			<owner>gnome-mud</owner>
+			<type>bool</type>
+			<default>false</default>
+			<locale name="C">
+				<short>Whether to keep text sent to the connect</short>
+				<long>
+				 With this toggled on, the text you have entered
+				 and sent to the connection, will be left in the
+				 entry box but selected. Turn this off to remove
+				 the text after it has been sent.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/system_keys</key>
+			<applyto>/apps/gnome-mud/system_keys</applyto>
+			<owner>gnome-mud</owner>
+			<type>bool</type>
+			<default>false</default>
+			<locale name="C">
+				<short>Whether to enable or disable the system keys</short>
+				<long>
+				 GNOME-Mud ships with a few built-in keybinds.
+				 These keybinds can be overridden by own keybinds,
+				 or they can be disabled by toggling this checkbox
+				</long>
+			</locale>
+		</schema>
 	</schemalist>
 </gconfschemafile>

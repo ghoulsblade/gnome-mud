@@ -1,3 +1,22 @@
+Wed Feb 26 13:18:03 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* gnome-mud.schemas.in: Added keys commdev, echo, keeptext and
+	system_keys.
+
+	* src/prefs.c: Commented out several functions that was made
+	unused by using gconf.
+	(prefs_commdev_changed): Added.
+	(prefs_echo_changed): Added.
+	(prefs_keeptext_changed): Added.
+	(prefs_system_keys_changed): Added.
+	(prefs_fontname_changed): use the new prefs.FontName value.
+	(load_prefs): New code for keys commdev, echo, keeptext and
+	system_keys.
+	(prefs_checkbox_keep_cb): Changed to gconf.
+	(prefs_checkbutton_disablekeys_cb): Changed to gconf.
+	(prefs_entry_divide_cb): Changed to gconf.
+	(prefs_checkbox_echo_cb): Changed to gconf.
+
 Mon Feb 24 12:43:57 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* .cvsignore: Added gnome-mud.schemas
