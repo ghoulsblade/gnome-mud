@@ -356,7 +356,7 @@ void window_data (PROFILE_DATA *profile, gint z)
 			break;
 			
 		default:
-	   		g_warning(_("window_data: trying to access to undefined data range: %d"), z);
+	   		g_warning(_("%s: trying to access to undefined data range: %d"), "window_data", z);
 			return;
     }
 

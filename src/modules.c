@@ -260,7 +260,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
                     (GtkAttachOptions) (0), 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label4), 0, 0.5);
 
-  plugin_enable_check = gtk_check_button_new_with_label (_("Is Plugin Enabled?"));
+  plugin_enable_check = gtk_check_button_new_with_label (_("Enable plugin"));
   gtk_widget_ref (plugin_enable_check);
   gtk_object_set_data_full (GTK_OBJECT (dialog1), "plugin_enable_check", plugin_enable_check,
                             (GtkDestroyNotify) gtk_widget_unref);
