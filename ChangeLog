@@ -1,3 +1,9 @@
+Mon Nov  4 02:10:44 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c (window_menu_plugin_api_manual_activate_cb): new
+	function, create a GtkMenuItem for the plugin API.
+	Add it to help_menu.
+
 Mon Nov  4 01:26:13 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c (window_menu_help_manual_activate_cb): search for
