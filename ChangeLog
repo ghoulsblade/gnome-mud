@@ -1,3 +1,8 @@
+Mon Feb 11 08:34:56 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/net.c (pre_process): Fixed formatting of source to be more
+	readable.
+
 Thu Feb  7 04:00:27 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/C/gnome-mud.sgml: fixes and additions for 0.9.0 features.

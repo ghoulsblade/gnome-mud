@@ -43,196 +43,196 @@ extern SYSTEM_DATA prefs ;
 
 gint pre_process(char *buf, CONNECTION_DATA *connection)
 {
-  unsigned char *from, *to, option, subneg;
-  int len;
+	unsigned char *from, *to, option, subneg;
+	int len;
   
-  subneg = len = 0 ;
+	subneg = len = 0 ;
 
-  from = (unsigned char *)buf;
-  to   = (unsigned char *)buf;
+	from = (unsigned char *)buf;
+	to   = (unsigned char *)buf;
   
-  while (*from) {
-    switch(*from) {
+	while (*from)
+	{
+		switch(*from)
+		{
+			/* got a telnet control char */
+			case IAC: /* switch for telnet control */
+				from++;
+				switch(*from++)
+				{
+					/* IP kill connection */
+					case IP: /* IP control */
+						disconnect(NULL,NULL);
+						return 0;
+						break;
+	
+					/* prompt processing stuff */
+					case GA: /* Go ahead (prompt) */
+						*to++ = '\0';
+						len++;
+						break;
+	
+					case EOR: /* EOR (prompt) */
+						*to++ = '\0';
+						len++;
+						break;
+	
+					case SB: /* SB (subnegotiation) */
+						switch (*from++)
+						{
+							case TELOPT_TTYPE:
+								if ( (*from++) == TELQUAL_SEND )
+								{
+									subneg = TELOPT_TTYPE ;
+								}
+								break ;
+
+							default:
+								break ;
+						}
+						break;
+
+					case SE: /* SE (end subnegotiation) */
+						switch (subneg)
+						{
+							case TELOPT_TTYPE:
+								{
+									int pos;
+									unsigned char pkt[64] = { IAC, SB, TELOPT_TTYPE, TELQUAL_IS };
+			
+									/* if strlen(TERM) > 50 you have issues */
+									strncpy(&pkt[4], (unsigned char *)prefs.TerminalType, 80);
+
+									pos = (4 + strlen(prefs.TerminalType)) - 1;
+									pkt[pos + 1] = IAC;
+									pkt[pos + 2] = SE;
+
+									write(connection->sockfd, &pkt, pos + 3);
+								}
+								break;
+
+							default:
+							break ;
+						}
+
+						subneg = 0 ;
+						break ;
+
+					/* WILL processing */
+					case WILL: /* WILL control */
+						switch(*from++)
+						{
+							case TELOPT_ECHO:
+								connection_send_telnet_control(connection, 3, IAC, DO, TELOPT_ECHO);
+								break;
+	  
+							case TELOPT_SGA: /* suppress GA */
+								connection_send_telnet_control(connection, 3, IAC, DONT, TELOPT_SGA);
+								break;
+  
+							case TELOPT_EOR:
+								connection_send_telnet_control(connection, 3, IAC, DO, TELOPT_EOR);
+								break;
+						}
+						break;
+	
+					/* WONT processing ... */
+					case WONT: /* WONT control */
+						switch(*from++)
+						{
+							case TELOPT_ECHO:
+								connection_send_telnet_control(connection, 3, IAC, DONT, TELOPT_ECHO);
+								break;
+  
+							case TELOPT_SGA:
+								break;
+	  
+							case TELOPT_EOR:
+								connection_send_telnet_control(connection, 3, IAC, DONT, TELOPT_EOR);
+								break;
+						}
+						break;
+	
+					/* DO processing ... received request to do something ... */
+					case DO:
+						option = *from;
+
+						switch(*from++)
+						{
+							case TELOPT_ECHO:
+								if (connection->echo == FALSE)
+								{
+									connection->echo = TRUE;
+									connection_send_telnet_control(connection, 3, IAC, WILL, TELOPT_ECHO);
+								}
+								break;
+	  
+							case TELOPT_SGA:
+								connection_send_telnet_control(connection, 3, IAC, WONT, TELOPT_SGA);
+								break;
+	  
+							case TELOPT_EOR:
+								connection_send_telnet_control(connection, 3, IAC, WILL, TELOPT_EOR);
+								break;
+	  
+							case TELOPT_TTYPE:
+								connection_send_telnet_control(connection, 3, IAC, WILL, TELOPT_TTYPE);
+								break ;
+
+							default:
+								connection_send_telnet_control(connection, 3, IAC, WONT, option) ;
+								break;
+						}
+						break;
+	
+					/* DONT processing ... received request not to do something ... */
+					case DONT:
+						switch(*from++)
+						{
+							case TELOPT_ECHO:
+								if (connection->echo == TRUE)
+								{
+									connection->echo = FALSE;
+									connection_send_telnet_control(connection, 3, IAC, WONT, TELOPT_ECHO);
+								}
+								break;
+	  
+							case TELOPT_SGA:
+								break;
+	  
+							case TELOPT_EOR:
+								connection_send_telnet_control(connection, 3, IAC, WONT, TELOPT_EOR);
+								break;
+						}
+						break;
+	
+				}
+				break;
       
-      /* got a telnet control char */
-    case IAC: /* switch for telnet control */
-      from++;
-      switch(*from++) {
-	
-	/* IP kill connection */
-      case IP: /* IP control */
-	disconnect(NULL,NULL);
-	return 0;
-	break;
-	
-	/* prompt processing stuff */
-      case GA: /* Go ahead (prompt) */
-	*to++ = '\0';
-	len++;
-	break;
-	
-      case EOR: /* EOR (prompt) */
-	*to++ = '\0';
-	len++;
-	break;
-	
-      case SB: /* SB (subnegotiation) */
-	switch (*from++) {
-		case TELOPT_TTYPE:
-			if ( (*from++) == TELQUAL_SEND ) {
-				subneg = TELOPT_TTYPE ;
-			}
-			break ;
-
-		default:
-			break ;
-	}
-	break;
-
-      case SE: /* SE (end subnegotiation) */
-	switch (subneg) {
-		case TELOPT_TTYPE:
-			{
-				int pos;
-				unsigned char pkt[64]
-					= { IAC, SB, TELOPT_TTYPE, TELQUAL_IS };
-
-				/* if strlen(TERM) > 50 you have issues */
-				strncpy(&pkt[4],
-					(unsigned char *)prefs.TerminalType,
-					50);
-
-				pos = (4 + strlen(prefs.TerminalType)) - 1;
-				pkt[pos + 1] = IAC;
-				pkt[pos + 2] = SE;
-
-				write(connection->sockfd, &pkt, pos + 3);
-			}
-			break;
-
-		default:
-			break ;
-	}
-	subneg = 0 ;
-	break ;
-
-	/* WILL processing */
-      case WILL: /* WILL control */
-	switch(*from++) {
-	case TELOPT_ECHO:
-		connection_send_telnet_control(connection, 3,
-			IAC, DO, TELOPT_ECHO);
-		break;
-	  
-	case TELOPT_SGA: /* suppress GA */
-		connection_send_telnet_control(connection, 3,
-			IAC, DONT, TELOPT_SGA);
-		break;
-	  
-	case TELOPT_EOR:
-		connection_send_telnet_control(connection, 3,
-			IAC, DO, TELOPT_EOR);
-		break;
-	}
-	break;
-	
-	/* WONT processing ... */
-      case WONT: /* WONT control */
-	switch(*from++) {
-	case TELOPT_ECHO:
-		connection_send_telnet_control(connection, 3,
-			IAC, DONT, TELOPT_ECHO);
-		break;
-  
-	case TELOPT_SGA:
-		break;
-	  
-	case TELOPT_EOR:
-		connection_send_telnet_control(connection, 3,
-			IAC, DONT, TELOPT_EOR);
-		break;
-	}
-	break;
-	
-     /* DO processing ... received request to do something ... */
-      case DO:
-	option = *from;
-
-	switch(*from++) {
-	case TELOPT_ECHO:
-		if (connection->echo == FALSE) {
-			connection->echo = TRUE;
-			connection_send_telnet_control(connection, 3,
-				IAC, WILL, TELOPT_ECHO);
+			case '\r':
+				if (*(from+1)!='\n')
+				{
+					len++;
+					*to++='\n';
+				}
+				from++;
+				break;
+				
+			case '\n':
+				if (*(from+1)=='\r') from++;
+				len++;
+				*to++='\n';
+				from++;
+				break;
+				
+			default:
+				len++;
+				*to++ = *from++;
+				break;
 		}
-		break;
-	  
-	case TELOPT_SGA:
-		connection_send_telnet_control(connection, 3,
-			IAC, WONT, TELOPT_SGA);
-		break;
-	  
-	case TELOPT_EOR:
-		connection_send_telnet_control(connection, 3,
-			IAC, WILL, TELOPT_EOR);
-		break;
-	  
-	case TELOPT_TTYPE:
-		connection_send_telnet_control(connection, 3,
-			IAC, WILL, TELOPT_TTYPE);
-		break ;
-
-	default:
-		connection_send_telnet_control(connection, 3,
-			IAC, WONT, option) ;
-		break;
 	}
-	break;
 	
-	/* DONT processing ... received request not to do something ... */
-      case DONT:
-	switch(*from++) {
-	case TELOPT_ECHO:
-		if (connection->echo == TRUE) {
-			connection->echo = FALSE;
-			connection_send_telnet_control(connection, 3,
-				IAC, WONT, TELOPT_ECHO);
-		}
-		break;
-	  
-	case TELOPT_SGA:
-		break;
-	  
-	case TELOPT_EOR:
-		connection_send_telnet_control(connection, 3,
-			IAC, WONT, TELOPT_EOR);
-		break;
-	}
-	break;
-	
-      }
-      break;
-      
-    case '\r':
-      if (*(from+1)!='\n') {
-	len++;
-	*to++='\n';
-      }
-      from++;
-      break;
-    case '\n':
-      if (*(from+1)=='\r') from++;
-      len++;
-      *to++='\n';
-      from++;
-      break;
-    default:
-      len++;
-      *to++ = *from++;
-      break;
-    }
-  }
-  *to++=0;
+	*to++=0;
   
-  return len;
+	return len;
 }
