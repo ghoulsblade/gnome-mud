@@ -8,6 +8,10 @@ GNOME-Mud 0.10.5  (xx/xx/xxxx)
 - Show connection status in the connection tabs [Nuno Sousa]
 - Add a notification area icon to hide/show main window and to notify
   new incoming data [Nuno Sousa]
+- Fixed PyGTK support [Adam Luchjenbroers]
+- Fixed old-standing bug when exiting gnome-mud using the window manager
+  close button [Robin]
+- Added a HP/mana monitor python plugin [Adam Luchjenbroers]
 
 GNOME-Mud 0.10.4a (02/01/2004)
 

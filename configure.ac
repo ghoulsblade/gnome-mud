@@ -218,6 +218,7 @@ AC_OUTPUT([
   src/Makefile
   src/pixmaps/Makefile
   plugins/Makefile
+  plugins/python/Makefile
   po/Makefile.in
 ])
 

@@ -1,9 +1,17 @@
-2003-01-18  Jordi Mallach  <jordi@sindominio.net>
+2004-01-20  Jordi Mallach  <jordi@sindominio.net>
+
+	* plugins/python/HPinfo.py: New plugin from Adam Luchjenbroers.
+	* plugins/python/Makefile.am (EXTRA_DIST): Add HPinfo.py.
+	* configure.in (AC_OUTPUT): Add plugins/python/Makefile.
+
+	* NEWS: Updated.
+
+2004-01-18  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/python.c (pymud_pygtk_add_widget): Add missing gtk_widget_show()
 	call to fix PyGTK support. Patch from Adam Luchjenbroers.
 
-2003-01-13  Robin Ericsson  <lobbin@localhost.nu>
+2004-01-13  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/gnome-mud.h (destroy): Changed proto.
 
@@ -13,7 +21,7 @@
 
 	* src/tray.c (destroy): Removed proto already existing in gnome.mud.h.
 
-2003-01-09  Jordi Mallach  <jordi@sindominio.net>
+2004-01-09  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: Remove call to AM_GNU_GETTEXT_VERSION, which confuses
 	aclocal on some distros.
@@ -22,22 +30,22 @@
 	gtk_box_pack_start(). Patch from Aravi. (This code is currently
 	disabled).
 
-2003-01-09  Jordi Mallach  <jordi@sindominio.net>
+2004-01-09  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/net.c: Fix the path for connection status icons.
 
-2003-01-09  Jordi Mallach  <jordi@sindominio.net>
+2004-01-09  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/tray.c (tray_menu): Show/Hide labels were inverted.
 	
 	* src/pixmaps/Makefile.am: Embarrasing error...
 
-2003-01-09  Jordi Mallach  <jordi@sindominio.net>
+2004-01-09  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/tray.c (tray_menu): Add mnemonics for menu items, change
 	"Exit" to "Quit". Added separator.
 
-2003-01-09  Jordi Mallach  <jordi@sindominio.net>
+2004-01-09  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/map.c (path_type_dialog): Fix compile warning.
 
