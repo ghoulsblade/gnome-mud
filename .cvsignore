@@ -31,6 +31,7 @@ stamp-h*
 stamp-h.in
 notes
 gnome-mud.lsm
+gnome-mud.spec
 gnome-mud-*.tar.gz
 mkinstalldirs
 gnome-mud.desktop
