@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.8.0\n"
-"POT-Creation-Date: 2001-10-29 02:27+0100\n"
+"POT-Creation-Date: 2001-11-05 16:06+0100\n"
 "PO-Revision-Date: 2001-10-29 12:12+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -124,7 +124,7 @@ msgstr "Salir?"
 msgid "Do you really want to quit?"
 msgstr "De verdad quieres salir?"
 
-#: src/init.c:198 src/init.c:444 src/init.c:454
+#: src/init.c:198 src/init.c:445 src/init.c:455
 msgid "Connect..."
 msgstr "Conectar..."
 
@@ -201,77 +201,81 @@ msgstr ""
 "Jordi Mallach, paquete oficial de Debian, soporte de i18n, mantenedor de ca."
 "po y es.po"
 
+#: src/init.c:288
+msgid "Martin Quinson, fr.po maintainer"
+msgstr "Martin Quinson, mantenedor de fr.po"
+
 #. if your charset doesn't support e with circumflex (è), just use e
-#: src/init.c:289
+#: src/init.c:290
 msgid "Staffan Thomèn and the creators of gEdit - module API"
 msgstr "Staffan Thomèn y los creadores de gEdit - API para módulos"
 
-#: src/init.c:299
+#: src/init.c:300
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
-#: src/init.c:300
+#: src/init.c:301
 msgid "(C) 1998-2001 Robin Ericsson"
 msgstr "(C) 1998-2001 Robin Ericsson"
 
-#: src/init.c:302
+#: src/init.c:303
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
 msgstr "Un cliente de MUD (Multi-User Dungeon) para las librerías GTK+/GNOME."
 
-#: src/init.c:315
+#: src/init.c:316
 msgid "GNOME-Mud homepage"
 msgstr "Página web de GNOME-Mud"
 
-#: src/init.c:440
+#: src/init.c:441
 msgid "Wizard..."
 msgstr "Asistente..."
 
-#: src/init.c:442
+#: src/init.c:443
 msgid "Profiles..."
 msgstr "Perfiles..."
 
-#: src/init.c:445 src/init.c:455
+#: src/init.c:446 src/init.c:456
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: src/init.c:447
+#: src/init.c:448
 msgid "Exit"
 msgstr "Salir"
 
-#: src/init.c:452
+#: src/init.c:453
 msgid "Connection Wizard..."
 msgstr "Asistente de Conexiones..."
 
-#: src/init.c:457
+#: src/init.c:458
 msgid "Close Window"
 msgstr "Cerrar Ventana"
 
-#: src/init.c:465
+#: src/init.c:466
 msgid "Plugin Information..."
 msgstr "Información sobre Conectores..."
 
-#: src/init.c:470
+#: src/init.c:471
 msgid "Colors..."
 msgstr "Colores..."
 
-#: src/init.c:472
+#: src/init.c:473
 msgid "Auto Mapper..."
 msgstr "Auto Mapeador..."
 
-#: src/init.c:474
+#: src/init.c:475
 msgid "Plugins"
 msgstr "Conectores"
 
-#: src/init.c:559
+#: src/init.c:561
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:602
+#: src/init.c:604
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versión %s (compilado %s, %s)\n"
 
-#: src/init.c:607
+#: src/init.c:609
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuído bajo los términos de la Licencia Pública General GNU.\n"
 

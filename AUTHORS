@@ -23,8 +23,10 @@ Jeroen Ruigrok <asmodai@wxs.nl>          - various code cleanups and fixes
 Jorge Garcia <Jorge.Garcia@uv.es>        - various code cleanups and fixes
 Jordi Mallach <jordi@debian.org>         - official Debian package,
                                            internationalization support,
-                                           es.po maintainer.
+                                           ca.po & es.po maintainer, docs.
 Benjamin Geiger <bgeiger@ithink.net>     - various code cleanups and fixes
+Martin Quinson <Martin.Quinson@ens-lyon.fr>
+					 - fr.po maintainer.
 
 
 ANSI code

@@ -10,7 +10,11 @@ GNOME-Mud 0.8.0 [UNRELEASED]
 - Help dialogs "AUTHORS" and "README" removed, please see "ABOUT" or the
   documents shipped with the package.
 - Manpage added (gnome-mud.6)
-- GNOME-Mud Manual added (GNOME Help format).
+- GNOME-Mud Manual added (GNOME Help format). Note: you won't see a link
+  to this manual in the Help menu if you installed gnome-mud from a tar.gz
+  into /usr/local and the core of the gnome installation is in /usr. This
+  is a known limitation in gnome-libs, and affects the panel's .desktop
+  files too.
 - French Translation.
 - Catalan, Spanish and Swedish updates.
 - Many bugfixes.

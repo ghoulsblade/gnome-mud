@@ -1,3 +1,14 @@
+Mon Nov  5 16:49:34 CET 2001  Jordi Mallach <jordi@sindominio.net>
+
+	* src/init.c: Robin's patch for the Manual link in the help
+	menu.
+
+	* po/{ca,es,fr}.po: updated About entry.
+
+	* NEWS: added note about the GNOME limitation described below.
+
+	* AUTHORS: added Martin Quinson, updated myself.
+
 Mon Nov  5 16:43:04 CET 2001  Jordi Mallach <jordi@sindominio.net>
 
 	* doc/C/topic.dat: added, file with the title of the manual
