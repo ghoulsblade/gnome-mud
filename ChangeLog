@@ -1,3 +1,17 @@
+Wed Oct  3 13:18:50 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/data.c (save_data, load_data, data_button_delete):    
+	Removed sensitivity of button_save, which is not in use
+	anymore.
+
+	* src/profiles.c (profilelist_new_input_cb): Use live ProfileList,
+	do not use temporary.
+	(profilelist_new_cb): append clist with gnome_dialog call.
+	(profilelist_delete_cb): Check and delete from right ProfileList
+	and CList.
+	(window_profile_edit): Added a few signal for button new/delete    
+	and CList.
+
 Thu Sep 13 11:44:41 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Small changes to README.
