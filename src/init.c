@@ -246,7 +246,7 @@ static void connect_window (GtkWidget *widget, gpointer data)
     	host = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry_host)));
     	port = g_strdup(gtk_entry_get_text((GtkEntry *) entry_port));
     
-    	make_connection(host, port);
+    	make_connection(host, port, "Default");
 
     	gnome_dialog_close(GNOME_DIALOG(dialog));
     	break;

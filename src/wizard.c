@@ -283,7 +283,7 @@ void wizard_button_connect (GtkWidget *button, gpointer data)
   
   w = wizard_get_wizard_data(word);
   
-  cd = make_connection (w->hostname, w->port);
+  cd = make_connection (w->hostname, w->port, "Default");
   
   if ( cd && cd->connected) 
   {

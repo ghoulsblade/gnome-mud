@@ -547,7 +547,7 @@ static void connections_button_connect_cb(GtkButton *button, gpointer data)
 
 		wd = connections_find(name, player);
 
-		cd = make_connection(wd->hostname, wd->port);
+		cd = make_connection(wd->hostname, wd->port, wd->profile);
 
 		if (cd && cd->connected)
 		{

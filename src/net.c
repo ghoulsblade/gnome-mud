@@ -93,9 +93,10 @@ static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *conne
     g_strfreev(a);
 }
 
-CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter)
+CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 {
   CONNECTION_DATA *connection;
+  PROFILE_DATA	  *pd;
   GtkWidget       *label;
   GtkWidget       *box;
 
@@ -118,6 +119,12 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter)
   g_free(connection->host); g_free(connection->port);
   connection->host = g_strdup(hoster);
   connection->port = g_strdup(porter);
+
+  if ((pd = profiledata_find(profile)) == NULL)
+  {
+	  pd = profiledata_find("Default");
+  }
+  connection->profile = pd;
 
   if (main_connection != connection) {
     box = gtk_hbox_new(FALSE, 0);
