@@ -10,7 +10,7 @@ Will Schenk <chilly@psu.edu>             - buffer overflow in send_to_connection
 desaster <desaster@sci.fi>               - small fix for resizing main window
 Paul Cameron <thrase@progsoc.uts.edu.au> - compile fix for gtk >= 1.1.3 and 
                                            the wonderfull automapper
-Robert Brady <rwb197@ecs.soton.ac.uk>    - the color selection dialog
+Abigail Brady <morwen@evilmagic.org>     - the color selection dialog
 Bret Robideaux <fayd@alliances.org>      - the action/trigger module
 Maxim Kiselev <max@hostel.nstu.ru>       - keybindings, colorsaving,
                                            command-divider and several bugfixes.
