@@ -1,3 +1,7 @@
+Thu Oct 18 16:36:21 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/sv.po: updated.
+
 Thu Oct 18 16:28:52 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/wizard.c: fixed typos (conection -> connection).

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME-MUD 0.8.0\n"
 "POT-Creation-Date: 2001-10-18 16:24+0200\n"
-"PO-Revision-Date: 2001-10-16 14:55+0200\n"
+"PO-Revision-Date: 2001-10-18 16:35+0200\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -265,7 +265,7 @@ msgstr "Arkiv"
 #: src/init.c:591
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
-msgstr ""
+msgstr "GNOME-Mud version %s (kompilerad %s, %s)\n"
 
 #: src/init.c:596
 msgid "Distributed under the terms of the GNU General Public License.\n"
@@ -747,22 +747,3 @@ msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr "Detta är spelarens lösenord. Att användas med AutoLogin."
 
-#~ msgid "Keybinds..."
-#~ msgstr "Tangenter..."
-
-#~ msgid "README"
-#~ msgstr "LÄSMIG"
-
-#~ msgid "AUTHORS"
-#~ msgstr "Inblandade"
-
-#~ msgid ""
-#~ "Welcome to GNOME-Mud Version %s\n"
-#~ "Compiled by %s on %s the %s at %s\n"
-#~ "Using %s and %s.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Välkommen till GNOME-Mud Version %s\n"
-#~ "Kompilerad av %s på %s den %s kl. %s\n"
-#~ "tillsammans med %s och %s.\n"
-#~ "\n"
