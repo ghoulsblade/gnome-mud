@@ -1,3 +1,11 @@
+2004-02-11  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/window.c (terminal_feed): Revert last patch, doesn't work well.
+	* src/net.c (connection_send_data): Patch from
+	Juliano Ravasi Ferraz <jferraz@linkway.com.br>, convert all input
+	text to the current locale before sending. Solves bad display on
+	non-UTF-8 muds. Fixes bug #133517.
+
 2004-02-11  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/window.c (terminal_feed): Convert vte-feed-buffer from utf-8

@@ -152,20 +152,11 @@ void terminal_feed(GtkWidget *widget, gchar *data)
 {
 	gint rlen = strlen(data);
 	gchar buf[rlen*2];
-	gchar *local;
 
 	g_stpcpy(buf, data);
 	str_replace(buf, "\r", "");
 	str_replace(buf, "\n", "\n\r");
-
-	local = g_locale_from_utf8(buf, -1, NULL, NULL, NULL);
-	if (!local)
-	{
-		g_warning(_("Couldn't convert text input"));
-		return;
-	}
 	
-	vte_terminal_feed(VTE_TERMINAL(widget), local, strlen(local));
-	g_free(local);
+	vte_terminal_feed(VTE_TERMINAL(widget), buf, strlen(buf));
 }
 

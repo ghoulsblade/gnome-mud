@@ -448,7 +448,13 @@ void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo
     
 	if (connection->connected)
 	{
-		sent = g_strdup (message);
+		sent = g_locale_from_utf8 (message, -1, NULL, NULL, NULL);
+
+		if (!sent)
+		{
+			print_error(connection, _("Couldn't convert text input"));
+			return;
+		}
 
 #ifdef USE_PYTHON
 	    sent = python_process_output(connection, sent);
