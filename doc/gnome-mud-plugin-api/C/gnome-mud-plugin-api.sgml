@@ -1,0 +1,401 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.0//EN"[
+<!ENTITY version "0.9.1">
+<!ENTITY date "05/06/2002">
+<!ENTITY CODE SYSTEM "monitor.py">
+]>
+
+<article id="index" lang="en">
+
+  <articleinfo>
+   <title>GNOME-Mud Plugin API</title>
+   <authorgroup>
+    <author>
+     <firstname>Petter</firstname>
+     <othername>E.</othername>
+     <surname>Stokke</surname>
+    </author>
+    <author>
+     <firstname>Jordi</firstname>
+     <surname>Mallach</surname>
+    </author>
+    </authorgroup>
+    <copyright>
+      <year>2002</year>
+      <holder>Petter E. Stokke</holder>
+      <holder>Jordi Mallach</holder>
+    </copyright>
+
+  <!-- translators: uncomment this:
+
+  <copyright>
+   <year>2000</year>
+   <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+  </copyright>
+
+   -->
+
+    <legalnotice id="legalnotice">
+     <para>
+      Permission is granted to copy, distribute and/or modify this document
+      under the terms of the <ulink type="help"
+      url="gnome-help:fdl"><citetitle>GNU Free Documentation
+      License</citetitle></ulink>, Version 1.1 or any later version
+      published by the Free Software Foundation with no Invariant Sections,
+      no Front-Cover Texts, and no Back-Cover Texts.  A copy of the license
+      can be found <ulink type="help" url="gnome-help:fdl">here</ulink>.
+     </para>
+    </legalnotice>
+    <releaseinfo>
+     This manual describes version &version; of GNOME-Mud's Plugin API. It
+     was last updated on &date;.
+    </releaseinfo>
+
+  </articleinfo>
+
+  <sect1 id="intro">
+    <title>Introduction</title>
+    <para>
+     <application>GNOME-Mud</application> is an specialized telnet
+     client to play Multi-User Dungeons, or <acronym>MUD</acronym>s.
+    </para>
+    <para>
+     <application>GNOME-Mud</application> provides the user with a series
+     of functionality that makes mudding somewhat easier. Most notably, the
+     ability to define `triggers', `aliases' and `character profiles', or
+     the MUD lists support help making usual tasks like connecting to
+     different MUDs and typing common names or commands more effective
+     and fast.
+    </para>
+    <para>
+     <application>GNOME-Mud</application> has a plugin interface which allows
+     users to extend the functionality of the client, and to perform more
+     complex tasks. Currently, GNOME-Mud supports plugins written in C and
+     Python. This manual only describes the Python interface and assumes the
+     reader is familiar with basic Python programming. Tutorials and additional
+     documentation are available on the
+     <ulink url="http://www.python.org" type="http">Python Web page</ulink>.
+     The C interface will be described in later versions.
+    </para>
+    <para>
+  </sect1>
+
+
+ <!-- ================ Usage ================================ -->
+ <!-- This section should describe basic usage of the application. -->
+
+  <sect1 id="python-api">
+   <title>GNOME-Mud's Python plugin interface</title>
+
+   <sect2 id="python-basics">
+    <title>Basic usage</title>
+    <para>
+     When <application>GNOME-Mud</application> launches, it scans the
+     <filename class="directory">$HOME/.gnome-mud</filename> directory for
+     Python scripts, ie. files ending with the
+     <filename>.py</filename> suffix, and loads each script found in turn.
+     Each script should import the <classname>GnomeMud</classname> module,
+     which provides all the API functions necessary for writing useful scripts.
+    </para>
+   </sect2>
+   <sect2 id="python-gnomemud-module">
+     <title><classname>GnomeMud</classname> module</title>
+     <para>
+      The <classname>GnomeMud</classname> module provides access to the
+      <application>GNOME-Mud</application> scripting API. Normally, a script
+      would <function>register_input_handler()</function> and
+      <function>register_output_handler()</function> as needed to register
+      callback functions, possibly adding some widgets using
+      <function>add_user_widget()</function> if using
+      <classname>PyGTK</classname>, and then have no further use of this
+      module.
+     </para>
+     <variablelist>
+      <varlistentry>
+       <term>
+        <funcsynopsis>
+         <funcprototype>
+          <funcdef><function>add_user_widget</function></funcdef>
+	  <paramdef><parameter>widget</parameter></paramdef>
+	  <paramdef><parameter>expand=TRUE</parameter></paramdef>
+	  <paramdef><parameter>fill=TRUE</parameter></paramdef>
+	  <paramdef><parameter>padding=5</parameter></paramdef>
+         </funcprototype>
+        </funcsynopsis>
+       </term>
+      <listitem>
+       <para>
+       </para>
+        <para>
+         Adds a GTK+ widget, created by <classname>PyGTK</classname>, to the
+	 <application>GNOME-Mud</application> application window. The
+	 parameters are passed more or less directly to
+	 <function>gtk_box_pack_start()</function>, and the meaning of
+	 <varname>expand</varname>, <varname>fill</varname> and
+	 <varname>padding</varname> is to be found in the GTK+ documentation.
+        </para>
+        <para>
+         You would commonly use this function to build status displays or
+	 action buttons.
+        </para>
+        <note>
+	 <para>
+          The <varname>widget</varname> parameter must refer to a genuine
+	  <classname>PyGTK</classname> widget. The function will only check to
+	  ensure it is passed a Python object, and then blithely go on to assume
+	  it is the correct type of Python object. The effect of passing a
+	  different kind of object to the function is undefined, although GTK+
+	  can generally be trusted to spot the error. However, Python will be
+	  completely unaware of the incident and assume everything proceeded in
+	  a correct manner.
+	 </para>
+        </note>
+        <para>
+         This function is only available if <application>GNOME-Mud</application>
+         has been compiled with <classname>PyGTK</classname> support.
+        </para>
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+       <term>
+       <funcsynopsis>
+        <funcprototype>
+         <funcdef><function>connection</function></funcdef>
+	 <paramdef></paramdef>
+        </funcprototype>
+       </funcsynopsis>
+       </term>
+      <listitem>
+        <para>
+	 Returns a <classname>Connection</classname> object for the currently
+	 active connection, meaning the connection tab being currently
+	 displayed in the <application>GNOME-Mud</application> application
+	 window. This is useful for printing some descriptive text during
+	 script initialisation, or displaying some especially urgent text to
+	 the user from a callback function.
+        </para>
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+       <term>
+       <funcsynopsis>
+        <funcprototype>
+	 <funcdef><function>register_input_handler</function></funcdef>
+	 <paramdef></paramdef>
+	</funcprototype>
+       </funcsynopsis>
+       </term>
+      <listitem>
+	<para>
+	 Registers a callback function for input received from a
+	 <acronym>MUD</acronym> connection. The callback function is passed
+	 two parameters: a <classname>Connection</classname> object referring to
+	 the connection on which the input was received, and a string
+	 containing the actual input. The return value of the function may be
+	 a string, which is then further processed by
+	 <application>GNOME-Mud</application> as if it were the actual data
+	 received from the connection, or any other type of Python object, in
+	 which case <application>GNOME-Mud</application> is passed the original
+	 string. Thus, you are able to modify the data received on a socket
+	 before <application>GNOME-Mud</application> at large sees it,
+	 allowing you to gag input or perform text substitutions.
+	</para>
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+       <term>
+       <funcsynopsis>
+        <funcprototype>
+         <funcdef><function>register_output_handler</function></funcdef>
+	 <paramdef></paramdef>
+        </funcprototype>
+       </funcsynopsis>
+        </term>
+      <listitem>
+        <para>
+         Registers a callback function for data being sent to a
+         <acronym>MUD</acronym> connection. This works similarly to the callback
+         functions for <function>register_input_handler()</function> above, but
+         applies to text entered by the user, or caused by triggers or key
+         bindings. It does <emphasis>not</emphasis> apply to data sent by Python
+         scripts using the <methodname>send()</methodname> method provided by
+         the <classname>Connection</classname> class.
+        </para>
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+       <term>
+       <funcsynopsis>
+        <funcprototype>
+         <funcdef><function>version</function></funcdef>
+	 <paramdef></paramdef>
+	</funcprototype>
+       </funcsynopsis>
+       </term>
+       <listitem>
+	<para>
+	 This function simply returns the <application>GNOME-Mud</application>
+	 version that is running, as a string.
+	</para>
+      </listitem>
+      </varlistentry>
+     </variablelist>
+     
+     <sect3 id="python-connection-class">
+       <title><classname>Connection</classname> class</title>
+       <para>
+        <classname>Connection</classname> is an interface class for a
+	<application>GNOME-Mud</application> connection, meaning a socket
+	connection to a <acronym>MUD</acronym> and its corresponding text
+	display. It is normally used for sending data to the socket through
+	the <methodname>send()</methodname> method and printing to the display
+	using the <methodname>write()</methodname> method.
+       </para>
+       <variablelist>
+        <varlistentry>
+	 <term>
+	  <classname>Connection</classname>
+	 </term>
+        <listitem>
+	 <para>
+	  The <classname>Connection</classname> class has no constructor;
+	  instances of this class are created by
+	  <application>GNOME-Mud</application> and passed to the callback
+	  functions as needed, or accessed through the
+	  <classname>GnomeMud</classname>} module's
+	  <function>connection()</function> function.
+	 </para>
+	</listitem>
+	</varlistentry>
+	<varlistentry>
+	 <term>
+	  <exceptionname>ConnectionError</exceptionname>
+	 </term>
+	<listitem>
+	 <para>
+	  This exception is raised by <methodname>send</methodname> if a
+	  script is trying to write to a <classname>Connection</classname>
+	  class that is not actually connected to a socket.
+	 </para>
+	</listitem>
+	</varlistentry>
+	<varlistentry>
+	 <term>
+	  <funcsynopsis>
+	   <funcprototype>
+	    <funcdef><function>send</function></funcdef>
+	    <paramdef><parameter>data</parameter></paramdef>
+	    <paramdef><parameter>echo=1</parameter></paramdef>
+	   </funcprototype>
+	  </funcsynopsis>
+	 </term>
+	<listitem>
+	 <para>
+	  Sends the string <varname>data</varname> to the connection, echoing
+	  it to the display if <varname>echo</varname> is true and the user
+	  has requested echoing in the <application>GNOME-Mud</application>
+	  configuration.
+	 </para>
+	 <para>
+	  <exceptionname>ConnectionError</exceptionname> will be raised if this
+	  method is called on a <classname>Connection</classname> object that
+	  is not actually connected to a socket (as determined by the
+	  <parameter>connected</parameter> member).
+	 <para>
+	</listitem>
+	</varlistentry>
+	<varlistentry>
+	 <term>
+	  <funcsynopsis>
+	   <funcprototype>
+	    <funcdef><function>write</function></funcdef>
+	    <paramdef><parameter>data</parameter></paramdef>
+	   </funcprototype>
+	  </funcsynopsis>
+	 </term>
+	<listitem>
+	 <para>
+	  Writes the string <varname>data</varname> to the display. It may
+	  contain ANSI formatting codes.
+	 </para>
+	</listitem>
+	</varlistentry>
+	<varlistentry>
+	 <term>
+	  <parameter>connected</parameter>
+	 </term>
+	<listitem>
+	 <para>
+	  An integer which is true if the <classname>Connection</classname>
+	  instance is connected to a socket, and false otherwise. An attempt
+	  to <methodname>send()</methodname> data to an unconnected
+	  <classname>Connection</classname> will result in the
+	  <exceptionname>ConnectionError</exceptionname> exception being
+	  raised.
+	 </para>
+	</listitem>
+	</varlistentry>
+	<varlistentry>
+	 <term>
+	  <parameter>host</parameter>
+	 </term>
+	<listitem>
+	 <para>
+	  A string containing the host address of the remote end of the
+	  connection.
+	 </para>
+	</listitem>
+	</varlistentry>
+	<varlistentry>
+	 <term>
+	  <parameter>port</parameter>
+	 </term>
+	<listitem>
+	 <para>
+	  A string containing the TCP port of the remote end of the connection.
+	 </para>
+	</listitem>
+	</varlistentry>
+	<varlistentry>
+	 <term>
+	  <classname>profile</classname>
+	 </term>
+	 <listitem>
+	  <para>
+	   A string containing the name of the
+	   <application>GNOME-Mud</application> profile that is active for this
+	   connection.
+	 </para>
+	</listitem>
+	</varlistentry>
+       </variablelist>
+     </sect3>
+
+   </sect2>
+
+  </sect1>
+
+  <sect1 id="c-api">
+    <title>GNOME-Mud's C plugin interface</title>
+    <para>
+     <emphasis>FIXME</emphasis>: needs to be written.
+    </para>
+  </sect1>
+
+  <appendix id="python-example">
+   <title>Python script example</title>
+   <para><filename>monitor.py</filename></para>
+   <para>
+    The following is an example script which will report your
+    health and mana periodically.
+   </para>
+   <para>
+    <programlisting>&CODE;</programlisting>
+   </para>
+  </appendix>
+  <appendix id="c-example">
+   <title>C script example</title>
+   <para>
+    <emphasis>FIXME</emphasis>: needs to be written.
+   </para>
+  </appendix>
+</article>

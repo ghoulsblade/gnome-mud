@@ -173,7 +173,10 @@ AC_OUTPUT([
   intl/Makefile
   po/Makefile.in
   doc/Makefile
-  doc/C/Makefile
+  doc/gnome-mud-manual/Makefile
+  doc/gnome-mud-manual/C/Makefile
+  doc/gnome-mud-plugin-api/Makefile
+  doc/gnome-mud-plugin-api/C/Makefile
   ])
 
 if test "x$enable_warnings" = "xyes"; then

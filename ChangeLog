@@ -1,3 +1,12 @@
+Tue May  7 16:04:59 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* Completely revamped doc/.
+	* doc/C: moved to doc/gnome-mud-manual/C/.
+	* doc/python: rewritten in DocBook, moved to
+	doc/gnome-mud-plugin-api/C.
+	* configure.in: changes for new layout.
+	* config.h.in: removed.
+
 Fri Mar 15 19:39:52 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/C/Makefile.am: oops, fixed typo in previous commit.
