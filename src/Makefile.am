@@ -22,8 +22,6 @@ games_PROGRAMS = gnome-mud
 gnome_mud_SOURCES =		\
 	gnome-mud.c \
 	gnome.mud.h \
-	mud-connection.c \
-	mud-connection.h \
 	mud-connection-view.c \
 	mud-connection-view.h \
 	mud-window.c \

@@ -4,8 +4,7 @@
 G_BEGIN_DECLS
 
 #include <gtk/gtkwidget.h>
-
-#include "mud-connection.h"
+#include <libgnetwork/gnetwork.h>
 
 #define MUD_TYPE_CONNECTION_VIEW               (mud_connection_view_get_type ())
 #define MUD_CONNECTION_VIEW(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_CONNECTION_VIEW, MudConnectionView))
@@ -24,7 +23,7 @@ struct _MudConnectionView
 
 	MudConnectionViewPrivate *priv;
 
-	MudConnection *connection;
+	GNetworkTcpConnection *connection;
 };
 
 struct _MudConnectionViewClass
@@ -32,11 +31,19 @@ struct _MudConnectionViewClass
 	GObjectClass parent_class;
 };
 
+enum MudConnectionColorType
+{
+	Error,
+	Normal,
+	Sent,
+	System
+};
+
 GType mud_connection_view_get_type (void) G_GNUC_CONST;
 
-MudConnectionView* mud_connection_view_new ();
-MudConnectionView* mud_connection_view_new_with_params (const gchar *hostname, const gint port);
+MudConnectionView* mud_connection_view_new (const gchar *hostname, const gint port);
 GtkWidget* mud_connection_view_get_viewport (MudConnectionView *view);
+void mud_connection_view_disconnect ();
 
 G_END_DECLS
 

@@ -39,14 +39,37 @@ mud_window_close(GtkWidget *widget, MudWindow *window)
 void
 mud_window_add_connection_view(MudWindow *window, MudConnectionView *view)
 {
-	GtkWidget *child;
+	gint nr;
 	
 	g_assert(window != NULL);
 	g_assert(view != NULL);
 	
-	gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), mud_connection_view_get_viewport(view), NULL);
+	nr = gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), mud_connection_view_get_viewport(view), NULL);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(window->priv->notebook), nr);
 }
 
+static MudConnectionView*
+mud_window_get_current_view(MudWindow *window)
+{
+	GtkWidget *child;
+	MudConnectionView *view;
+	gint current;
+
+	current = gtk_notebook_get_current_page(GTK_NOTEBOOK(window->priv->notebook));
+	child = gtk_notebook_get_nth_page(GTK_NOTEBOOK(window->priv->notebook), current);
+	view = g_object_get_data(G_OBJECT(child), "connection-view");
+	return view;
+}
+
+static void
+mud_window_disconnect_cb(GtkWidget *widget, MudWindow *window)
+{
+	MudConnectionView *view;
+
+	view = mud_window_get_current_view(window);
+	mud_connection_view_disconnect(view);
+}
+	
 static void
 mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 {
@@ -85,12 +108,11 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 			iport = 23;
 		}
 		
-		view = mud_connection_view_new_with_params (host, iport);
+		view = mud_connection_view_new(host, iport);
 		mud_window_add_connection_view(window, view);
-		
-		gtk_widget_destroy(dialog);
 	}
 
+	gtk_widget_destroy(dialog);
 	g_object_unref(glade);
 }
 
@@ -151,6 +173,10 @@ mud_window_init (MudWindow *window)
 	/* connect connect buttons */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_connect"), "activate", G_CALLBACK(mud_window_connect_dialog), window);
 	g_signal_connect(glade_xml_get_widget(glade, "toolbar_connect"), "clicked", G_CALLBACK(mud_window_connect_dialog), window);
+
+	/* connect disconnect buttons */
+	g_signal_connect(glade_xml_get_widget(glade, "menu_disconnect"), "activate", G_CALLBACK(mud_window_disconnect_cb), window);
+	g_signal_connect(glade_xml_get_widget(glade, "toolbar_disconnect"), "clicked", G_CALLBACK(mud_window_disconnect_cb), window);
 
 	/* other objects */
 	window->priv->notebook = glade_xml_get_widget(glade, "notebook");

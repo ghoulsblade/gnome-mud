@@ -1,3 +1,34 @@
+2004-02-19  Robin Ericsson  <lobbin@localhost.nu>
+
+	* configure.ac: Added check for libnetwork.
+
+	* src/Makefile.am, src/mud-connection.c, src/mud-connection.h: Removed.
+
+	* src/mud-connection-view.c [_MudConnectionViewPrivate]: Added scrollbar
+	and box.
+	(mud_connection_view_str_replace): Added.
+	(mud_connection_view_feed_text): Added.
+	(mud_connection_view_add_text): Added.
+	(mud_connection_view_init): Added the terminal and scrollbar to a box.
+	(mud_connection_view_received_cb): Added.
+	(mud_connection_view_send_cb): Added.
+	(mud_connection_view_notify_cb): Added.
+	(mud_connection_view_error_cb): Added.
+	(mud_connection_view_disconnect): Added.
+	(mud_connection_view_new_with_params): Moved into _new().
+
+	* src/mud-connection-view.h [_MudConnection]: Changed connection from 
+	MudConnection to GNetworkTcpConnection.
+	[MudConnectionColorType]: Added.
+
+	* src/mud-window.c (mud_window_add_connection_view): Set newly created
+	page active.
+	(mud_window_get_current_view): Added.
+	(mud_window_disconnect_cb): Added.
+	(mud_window_init): Connected disconnected buttons.
+
+	* ui/main.glade: Changed name of disconnect buttons.
+
 2004-02-18  Robin Ericsson  <lobbin@localhost.nu>
 
 	* First commit on glade-branch.

@@ -101,7 +101,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="disconnect1">
+		    <widget class="GtkImageMenuItem" id="menu_disconnect">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Disconnect</property>
 		      <property name="use_underline">True</property>
@@ -316,7 +316,7 @@
 	      </child>
 
 	      <child>
-		<widget class="button" id="button4">
+		<widget class="button" id="toolbar_disconnect">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Disconnect from the mud</property>
 		  <property name="label" translatable="yes">Disconnect</property>
