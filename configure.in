@@ -74,7 +74,7 @@ AC_C_INLINE
 
 dnl Checks for library functions.
 AC_CHECK_FUNC(bzero)
-AC_CHECK_FUNCS(socket strdup strerror strstr)
+AC_CHECK_FUNCS(mkdir socket strdup strerror strstr)
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)

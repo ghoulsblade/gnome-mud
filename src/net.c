@@ -146,8 +146,11 @@ static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *conne
     if (connection->connected) {
       /* error checking here */
       send (connection->sockfd, sent, strlen (sent), 0);
+      if (prefs.EchoText) {
+	textfield_add (connection->window, sent, MESSAGE_SENT);
+      }
     }
-
+    
     if ( sent != temp_entry )
         g_free (sent);
 

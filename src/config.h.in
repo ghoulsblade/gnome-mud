@@ -15,6 +15,9 @@
 /* Define if you have the dlopen function.  */
 #undef HAVE_DLOPEN
 
+/* Define if you have the mkdir function.  */
+#undef HAVE_MKDIR
+
 /* Define if you have the socket function.  */
 #undef HAVE_SOCKET
 

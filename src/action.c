@@ -21,6 +21,7 @@
 
 #include <gtk/gtk.h>
 #include <ctype.h>
+#include <regex.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -182,19 +183,33 @@ int check_actions (gchar *incoming, gchar *outgoing)
 
 int match_line (gchar *trigger, gchar *incoming)
 {
+  int reg_return;
+  regex_t preg;
+
+  regcomp(&preg, (char*) trigger, REG_NOSUB);
+  reg_return = regexec(&preg, incoming, 1, NULL, 0);
+  regfree(&preg);
+  
+  if (reg_return == 0) {
+    return 1;
+  }
+  /*
     int len = 0;
+    
     gchar *iptr;
-
-
+    
     if (!trigger || *trigger) return 0;
-
+    
     iptr = incoming;
     len = strlen (trigger);
-
+    
     while (*iptr)
-	if (!strncmp(trigger, iptr++, len))
-	    return 1;
-    return 0;
+    if (!strncmp(trigger, iptr++, len)) {
+      return 1;
+    }
+  */
+    
+  return 0;
 }
 
 void action_button_add_cb (GtkWidget *button, gpointer data)

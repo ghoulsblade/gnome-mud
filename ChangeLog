@@ -1,3 +1,11 @@
+Sat Jul  8 17:48:47 2000  Robin Ericsson  <lobbin@localhost.nu>
+
+	* action.c [match_line]: now checking triggers via regex
+	instead of the old strncmp().
+
+	* net.c [action_send_to_connection]: if prefs.EchoText is set,
+	then echo the text sent be actions aswell.
+
 Mon Jul 3 20:52:37 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
 
 	* AUTHORS: Add my email address.  Fix text to fit 80 column
