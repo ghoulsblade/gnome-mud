@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.8.0\n"
-"POT-Creation-Date: 2001-10-09 16:32+0200\n"
+"POT-Creation-Date: 2001-10-10 17:17+0200\n"
 "PO-Revision-Date: 2001-10-04 16:03+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -48,12 +48,12 @@ msgstr "Alias"
 msgid "Replacement"
 msgstr "Sustitución"
 
-#: src/data.c:301 src/profiles.c:1122
+#: src/data.c:301 src/profiles.c:1130
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:309 src/profiles.c:1114
+#: src/data.c:309 src/profiles.c:1122
 msgid "Variables"
 msgstr "Variables"
 
@@ -74,12 +74,12 @@ msgstr "Centro de Configuración de GNOME-Mud"
 msgid "Add"
 msgstr "Añadir"
 
-#: src/data.c:379 src/keybind.c:416 src/profiles.c:781 src/profiles.c:1088
+#: src/data.c:379 src/keybind.c:416 src/profiles.c:789 src/profiles.c:1096
 #: src/wizard.c:574
 msgid "Delete"
 msgstr "Borrar"
 
-#: src/data.c:383 src/keybind.c:420 src/profiles.c:1158 src/wizard.c:601
+#: src/data.c:383 src/keybind.c:420 src/profiles.c:1166 src/wizard.c:601
 msgid "Close"
 msgstr "Cerrar"
 
@@ -107,7 +107,7 @@ msgstr "Aplicar"
 msgid "Save"
 msgstr "Salvar"
 
-#: src/color.c:334 src/profiles.c:608 src/profiles.c:970
+#: src/color.c:334 src/profiles.c:616 src/profiles.c:978
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -129,11 +129,11 @@ msgid "Connect..."
 msgstr "Conectar..."
 
 #
-#: src/init.c:207 src/profiles.c:873
+#: src/init.c:207 src/profiles.c:881
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:214 src/profiles.c:893
+#: src/init.c:214 src/profiles.c:901
 msgid "Port:"
 msgstr "Puerto:"
 
@@ -239,7 +239,7 @@ msgid "Exit"
 msgstr "Salir"
 
 #: src/init.c:440
-msgid "Connection Wizard2(tm)"
+msgid "Connection Wizard"
 msgstr "Asistente de Conexiones"
 
 #: src/init.c:445
@@ -251,34 +251,27 @@ msgid "Plugin Information..."
 msgstr "Información sobre Conectores..."
 
 #: src/init.c:458
-msgid "Keybinds..."
-msgstr "Teclas..."
-
-#: src/init.c:459
 msgid "Colors..."
 msgstr "Colores..."
 
-#: src/init.c:461
+#: src/init.c:460
 msgid "Auto Mapper"
 msgstr "Auto Mapeador..."
 
-#: src/init.c:463
+#: src/init.c:462
 msgid "Plugins"
 msgstr "Conectores"
 
-#: src/init.c:470
-msgid "README"
-msgstr "LEEME"
-
-#: src/init.c:471
-msgid "AUTHORS"
-msgstr "AUTORES"
-
-#: src/init.c:551
+#: src/init.c:547
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:597
+#: src/init.c:590
+#, c-format
+msgid "GNOME-Mud version %s (compiled %s, %s)\n"
+msgstr "GNOME-Mud versión %s (compilado %s, %s)\n"
+
+#: src/init.c:595
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuído bajo los términos de la Licencia Pública General GNU.\n"
 
@@ -573,90 +566,77 @@ msgstr "Historial de comandos:"
 msgid "Functionality"
 msgstr "Funcionalidades"
 
-#: src/profiles.c:328
+#: src/profiles.c:336
 msgid "Name of new profile:"
 msgstr "Nombre del nuevo perfil:"
 
-#: src/profiles.c:502
+#: src/profiles.c:510
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: lista de perfiles"
 
-#: src/profiles.c:798
+#: src/profiles.c:806
 msgid "GNOME-Mud Connections"
 msgstr "Conexiones de GNOME-Mud"
 
-#: src/profiles.c:830
+#: src/profiles.c:838
 msgid "Mud"
 msgstr "Mud"
 
-#: src/profiles.c:836
+#: src/profiles.c:844
 msgid "Character"
 msgstr "Personaje"
 
-#: src/profiles.c:849
+#: src/profiles.c:857
 msgid " Mud Information "
 msgstr " Información sobre el Mud "
 
-#: src/profiles.c:865
+#: src/profiles.c:873
 msgid "Title:"
 msgstr "Título:"
 
-#: src/profiles.c:909
+#: src/profiles.c:917
 msgid " Character Information "
 msgstr " Información sobre el personaje "
 
-#: src/profiles.c:925
+#: src/profiles.c:933
 msgid "Character:"
 msgstr "Personaje:"
 
-#: src/profiles.c:933
+#: src/profiles.c:941
 msgid "Password:"
 msgstr "Password:"
 
-#: src/profiles.c:954
+#: src/profiles.c:962
 msgid " Profile Information "
 msgstr " Información sobre el perfil "
 
-#: src/profiles.c:980
+#: src/profiles.c:988
 msgid "Select Profile"
 msgstr "Seleccionar fuente"
 
-#: src/profiles.c:1016 src/wizard.c:599
+#: src/profiles.c:1024 src/wizard.c:599
 msgid "Connect"
 msgstr "Conectar"
 
-#: src/profiles.c:1055
+#: src/profiles.c:1063
 msgid "Profiles"
 msgstr "Perfiles"
 
-#: src/profiles.c:1065
+#: src/profiles.c:1073
 msgid "GNOME-Mud Profiles"
 msgstr "Perfil de GNOME-Mud"
 
-#: src/profiles.c:1080
+#: src/profiles.c:1088
 msgid "New"
 msgstr "Nuevo"
 
-#: src/profiles.c:1106
+#: src/profiles.c:1114
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1140
+#: src/profiles.c:1148
 msgid "Keybinds"
 msgstr "Teclas"
-
-#: src/version.c:36
-#, c-format
-msgid ""
-"Welcome to GNOME-Mud Version %s\n"
-"Compiled by %s on %s the %s at %s\n"
-"Using %s and %s.\n"
-"\n"
-msgstr ""
-"Bienvenido a GNOME-Mud Versión %s\n"
-"Compilado por %s en %s el %s a las %s\n"
-"Usando %s y %s.\n"
-"\n"
 
 #: src/window.c:207
 msgid "GNOME-Mud Popup Message"
@@ -766,6 +746,26 @@ msgstr ""
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr "Este es el password de tu jugador en el MUD. Utilizable con AutoLogin."
+
+#~ msgid "Keybinds..."
+#~ msgstr "Teclas..."
+
+#~ msgid "README"
+#~ msgstr "LEEME"
+
+#~ msgid "AUTHORS"
+#~ msgstr "AUTORES"
+
+#~ msgid ""
+#~ "Welcome to GNOME-Mud Version %s\n"
+#~ "Compiled by %s on %s the %s at %s\n"
+#~ "Using %s and %s.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Bienvenido a GNOME-Mud Versión %s\n"
+#~ "Compilado por %s en %s el %s a las %s\n"
+#~ "Usando %s y %s.\n"
+#~ "\n"
 
 #~ msgid "GNOME-Mud Mapper - map%d"
 #~ msgstr "Mapeador de GNOME-Mud - mapa %d"
