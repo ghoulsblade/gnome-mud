@@ -1,3 +1,10 @@
+Wed Oct 10 09:16:13 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/init.c: Removed keybinds from the menu.
+
+	* src/profiles.c (profiledata_find): When creating a new profile,
+	also create lists and profile information.
+
 Tue Oct  9 16:08:42 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/gnome-mud.c (main): Commented out some signaling, removed
