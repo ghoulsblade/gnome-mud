@@ -101,12 +101,14 @@ void tray_menu()
         menu = gtk_menu_new();
 
         if (window_invisible == FALSE)
-                entry = gtk_menu_item_new_with_label(_("Show window"));
+                entry = gtk_menu_item_new_with_mnemonic(_("_Show window"));
         else
-                entry = gtk_menu_item_new_with_label(_("Hide window"));
+                entry = gtk_menu_item_new_with_mnemonic(_("_Hide window"));
         g_signal_connect(G_OBJECT(entry), "activate", G_CALLBACK(window_toggle), NULL);
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
-        entry = gtk_menu_item_new_with_label(_("Exit"));
+	entry = gtk_separator_menu_item_new ();
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
+        entry = gtk_menu_item_new_with_mnemonic(_("_Quit"));
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
         g_signal_connect(G_OBJECT(entry), "activate", G_CALLBACK(window_exit), NULL);
 
