@@ -17,7 +17,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#  include <config.h>
+#  include "config.h"
 #endif
 
 #include <gtk/gtk.h>
@@ -34,6 +34,19 @@
 static char const rcsid[] =
     "$Id$";
 
+/* Local functions */
+static void	Command_list_fill(GtkCList *);
+static void	on_KB_button_add_clicked (GtkButton *, gpointer);
+static void	on_KB_button_capt_clicked (GtkButton *, gpointer);
+static void	on_KB_button_delete_clicked (GtkButton *, gpointer);
+static gboolean	on_capt_entry_key_press_event (GtkWidget *, GdkEventKey *,
+					       gpointer);
+static void	on_clist_select_row (GtkCList *, gint, gint, GdkEvent *,
+				     gpointer);
+static void	on_clist_unselect_row (GtkCList *, gint, gint, GdkEvent *,
+				       gpointer);
+static void	on_window_destroy (GtkObject *);
+    
 GtkWidget *capt_entry;
 GtkWidget *comm_entry;
 GtkWidget *KB_button_delete;
@@ -115,10 +128,9 @@ void on_window_destroy (GtkObject *widget)
   gtk_widget_destroy(GTK_WIDGET(widget));
 }
 
-gboolean
-on_capt_entry_key_press_event          (GtkWidget       *widget,
-                                        GdkEventKey     *event,
-                                        gpointer         comm_entry)
+static gboolean on_capt_entry_key_press_event (GtkWidget *widget,
+					       GdkEventKey *event,
+					       gpointer comm_entry)
 {
 
 gint keyv = event->keyval;
@@ -168,9 +180,7 @@ if ((state&12)!=0)
   return FALSE;
 }
 
-void
-on_KB_button_capt_clicked                     (GtkButton       *button,
-                                        gpointer         user_data)
+static void on_KB_button_capt_clicked (GtkButton *button, gpointer user_data)
 {
  gtk_entry_set_text(GTK_ENTRY(capt_entry),"");
  GTK_WIDGET_SET_FLAGS (capt_entry, GTK_CAN_FOCUS);
@@ -178,9 +188,7 @@ on_KB_button_capt_clicked                     (GtkButton       *button,
 }
 
 
-void
-on_KB_button_add_clicked                     (GtkButton       *button,
-                                        gpointer	clist)
+static void on_KB_button_add_clicked (GtkButton *button, gpointer clist)
 {
 gchar *list[2];
 gint i = 0;
@@ -219,9 +227,7 @@ if (list[0][0] && list[1][0])
 }
 
 
-void
-on_KB_button_delete_clicked                     (GtkButton       *button,
-                                        gpointer         clist)
+static void on_KB_button_delete_clicked (GtkButton *button, gpointer clist)
 {
     gint i;
     KEYBIND_DATA *tmp = KB_head, *tmp2 = NULL;
@@ -250,12 +256,8 @@ on_KB_button_delete_clicked                     (GtkButton       *button,
 }
 
 
-void
-on_clist_select_row                    (GtkCList        *clist,
-                                        gint             row,
-                                        gint             column,
-                                        GdkEvent        *event,
-                                        gpointer         user_data)
+static void on_clist_select_row (GtkCList *clist, gint row, gint column,
+				 GdkEvent *event, gpointer user_data)
 {
     gchar *text;
     gint i = 0;
@@ -282,19 +284,15 @@ on_clist_select_row                    (GtkCList        *clist,
 
 
 
-void
-on_clist_unselect_row                  (GtkCList        *clist,
-                                        gint             row,
-                                        gint             column,
-                                        GdkEvent        *event,
-                                        gpointer         user_data)
+static void on_clist_unselect_row (GtkCList *clist, gint row, gint column,
+				   GdkEvent *event, gpointer user_data)
 {
     bind_list_selected_row=-1;
     gtk_widget_set_sensitive ( KB_button_delete, FALSE);
 
 }
 
-void Command_list_fill(GtkCList *clist)
+static void Command_list_fill(GtkCList *clist)
 {
     KEYBIND_DATA *scroll = KB_head;
     gchar *str[2];

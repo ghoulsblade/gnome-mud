@@ -19,6 +19,7 @@
 #ifndef __AMCL_H__
 #define __AMCL_H__
 
+#include <stdio.h>
 /*
  * Different type of message, so I'll know what color to use.
  */
@@ -106,18 +107,22 @@ struct keybind_data {
 #define CD CONNECTION_DATA
 
 /* action.c */
-void  load_actions    ( void                               );
+/*
 void  save_actions    ( GtkWidget *button, gpointer data   );
 void  add_action      ( gchar *trigger, gchar *action      );
 void  insert_actions  ( ACTION_DATA *a, GtkCList *clist    );
-int   check_actions   ( gchar *incoming, gchar *outgoing   );
+*/
+void  load_actions    (                                    );
+int   check_actions   ( gchar *, gchar *                   );
 void  window_action   ( GtkWidget *widget, gpointer data   );
 
 /* alias.c */
 void  load_aliases    ( void                               );
+/*
 void  save_aliases    ( GtkWidget *button, gpointer data   );
 void  add_alias       ( gchar *alias, gchar *replacement   );
-void  insert_aliases  ( GtkWidget *clist                   );
+void  insert_aliases  ( ALIAS_DATA *a, GtkCList *clist     );
+*/
 
 /* color.c */
 void  create_color_box( void                               );
@@ -149,6 +154,7 @@ void  init_uid        ( void                               );
 /* modules.c */
 void  do_plugin_information (GtkWidget *w, gpointer data   );
 int   init_modules    ( char *path                         );
+void  save_plugins    ( void                               );
 
 /* net.c */
 CD   *make_connection ( gchar *host, gchar *port            );
@@ -162,8 +168,12 @@ void  connection_send ( CONNECTION_DATA *cd, gchar *message );
 
 /* prefs.c */
 void  load_prefs      ( void                               );
+void  save_prefs      ( GtkWidget *widget, gpointer data   );
 void  window_prefs    ( GtkWidget *widget, gpointer data   );
-int   check_amcl_dir  ( gchar *dirname                     );
+FILE *open_file       ( gchar *filename, gchar *mode       );
+
+/* telnet.c */
+char *pre_process     ( char *buf, CONNECTION_DATA *connection       );
 
 /* window.c */
 void  window_alias    ( GtkWidget *widget, gpointer data             );
@@ -178,10 +188,12 @@ void  load_wizard        ( void                            );
 void  add_wizard_connect ( gchar **entry, bool al, WD *w   );
 void  window_wizard      ( GtkWidget *widget,gpointer data );
 
+/* version.c */
+char * get_version_info (char *buf);
+
 #undef AD
 #undef WD
 #undef CD
-
 /*
  * Variables declared somewhere else...
  */

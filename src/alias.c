@@ -39,10 +39,11 @@ GtkWidget  *textreplace;
 GtkWidget  *alias_window;
 gint        alias_selected_row    = -1;
 
-static void		 alias_button_delete_cb (GtkWidget *button,
-						 gpointer data);
+/* Local functions */
+static void		 alias_button_add_cb (GtkWidget *, gpointer);
+static void		 alias_button_delete_cb (GtkWidget *, gpointer);
 static void	 	 alias_close_window (GtkWindow *button);
-static ALIAS_DATA        *alias_get_alias_data (gchar *text, GList *alias_list2);
+static ALIAS_DATA       *alias_get_alias_data (gchar *text, GList *alias_list2);
 static void		 alias_selection_made (GtkWidget *clist, gint row,
 					       gint column,
 					       GdkEventButton *event,
@@ -51,8 +52,6 @@ static void		 alias_unselection_made (GtkWidget *clist, gint row,
 						 gint column,
 						 GdkEventButton *event,
 						 gpointer data);
-
-void	alias_button_add (GtkWidget *button, gpointer data);
 
 void add_alias (gchar *alias, gchar *replace)
 {

@@ -65,17 +65,9 @@ void load_wizard ()
 {
     WIZARD_DATA *w = NULL;
     FILE *fp;
-    gchar filename[255] = "";
     gchar line[1024];
 
-    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
-    if (check_amcl_dir (filename) != 0)
-        return;
-
-    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/connections");
-
-    if ( ( fp = fopen (filename, "r") ) == NULL )
-        return;
+    if (!(fp = open_file ("connections", "r"))) return;
 
     while ( fgets (line, 1024, fp) != NULL )
     {
@@ -145,7 +137,7 @@ void load_wizard ()
     }
     /* end */    
 
-    fclose (fp);
+    if (fp) fclose (fp);
 }
 
 void save_wizard ()
@@ -153,21 +145,8 @@ void save_wizard ()
     GList       *tmp;
     WIZARD_DATA *w;
     FILE *fp;
-    gchar filename[255] = "";
-    gchar buf[250];
 
-    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
-    if (check_amcl_dir (filename) != 0)
-        return;
-
-    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/connections");
-
-    if ( ( fp = fopen (filename, "w") ) == NULL )
-    {
-        g_snprintf (buf, 250, "You must create the directory %s/.amcl before you save.", uid_info->pw_dir);
-        popup_window (buf);
-        return;
-    }
+    if (!(fp = open_file ("connections", "w"))) return;
 
     fprintf(fp, "Version %d\n", WIZARD_SAVEFILE_VERSION);
     for ( tmp = wizard_connection_list2; tmp != NULL; tmp = tmp->next )
@@ -193,8 +172,7 @@ void save_wizard ()
         w = NULL;
     }
 
-    fclose (fp);
-    chmod (filename,S_IREAD|S_IWRITE);
+    if (fp) fclose (fp);
 }
 
 WIZARD_DATA *wizard_get_wizard_data ( gchar *text )
@@ -308,9 +286,8 @@ void wizard_button_connect (GtkWidget *button, gpointer data)
   
   cd = make_connection (w->hostname, w->port);
   
-  if ( cd && cd->connected ) {
-    gchar buf[256];
-    
+  if ( cd && cd->connected) 
+  {
     if (  w->autologin && w->playername && w->password ) {
       connection_send (cd, w->playername);
       connection_send (cd, "\n");
@@ -385,9 +362,7 @@ void wizard_button_modify (GtkWidget *button, gpointer data)
 void wizard_button_add (GtkWidget *button, gpointer data)
 {
     WIZARD_DATA *w;
-    gchar *text[5];
     gchar *texta[1];
-    bool  autol;
 
     texta[0] = gtk_entry_get_text (GTK_ENTRY (wizard_entry_name));
 
@@ -444,7 +419,6 @@ void wizard_check_callback (GtkWidget *widget, GtkWidget *check_button)
 
 void window_wizard (GtkWidget *widget, gpointer data)
 {
-    WIZARD_DATA *w;
 
     GtkWidget *hbox;
     GtkWidget *hbox2;

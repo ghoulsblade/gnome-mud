@@ -19,6 +19,7 @@
 #include "config.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #ifdef HAVE_TELNET_H
 #include <telnet.h>
@@ -37,7 +38,7 @@ char *pre_process(char *buf, CONNECTION_DATA *connection)
 {
   unsigned char *from, *to;
   char pling[3];
-  int len=0,i,test;
+  int len=0;
   
   from = (unsigned char *)buf;
   to   = (unsigned char *)buf;
@@ -71,7 +72,7 @@ char *pre_process(char *buf, CONNECTION_DATA *connection)
       case WILL: /* WILL control */
 	switch(*from++) {
 	case TELOPT_ECHO:
-	  if (connection->echo = TRUE) { 
+	  if (connection->echo == TRUE) { 
 	    connection->echo = FALSE; 
 	    write(connection->sockfd,"\377\375\001",3);
 	  }
@@ -91,7 +92,7 @@ char *pre_process(char *buf, CONNECTION_DATA *connection)
       case WONT: /* WONT control */
 	switch(*from++) {
 	case TELOPT_ECHO:
-	  if (connection->echo = FALSE) {
+	  if (connection->echo == FALSE) {
 	    connection->echo = TRUE;
 	    write(connection->sockfd,"\377\376\001",3);
 	  }
@@ -110,7 +111,7 @@ char *pre_process(char *buf, CONNECTION_DATA *connection)
       case DO:
 	switch(*from) {
 	case TELOPT_ECHO:
-	  if (connection->echo = FALSE) {
+	  if (connection->echo == FALSE) {
 	    write(connection->sockfd,"\377\373\001",3);
 	    from++;
 	  }
@@ -138,7 +139,7 @@ char *pre_process(char *buf, CONNECTION_DATA *connection)
       case DONT:
 	switch(*from++) {
 	case TELOPT_ECHO:
-	  if (connection->echo = TRUE) {
+	  if (connection->echo == TRUE) {
 	    connection->echo = FALSE;
 	    write(connection->sockfd,"\377\374\001",3);
 	  }

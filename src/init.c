@@ -23,20 +23,17 @@
 
 #include "amcl.h"
 
-static char const rcsid[] = "$Id$";
+static char const rcsid[] = 
+	"$Id$";
 
-/*
- * Local Functions
- */
-gushort convert_color  (guint color);
-void    extract_color  (GdkColor *color,
-                        guint red,
-                        guint green,
-                        guint blue);
-void    connect_window (GtkWidget *widget, gpointer data);
-void    about_window   (GtkWidget *widget, gpointer data);
-void    do_connection  (GtkWidget *widget, gpointer data);
-
+/* Local functions */
+static void	about_window   (GtkWidget *, gpointer);
+static void	connect_window (GtkWidget *, gpointer);
+static void	do_close       (GtkWidget *, gpointer);
+static void     do_connection  (GtkWidget *, gpointer);
+static void     do_disconnect  (GtkWidget *, gpointer);
+/*static GList   *text_entry_find(gchar *, gpointer data);*/
+static int	text_entry_key_press_cb (GtkEntry *, GdkEventKey *, gpointer);
 /*
  * Global Variables
  */
@@ -97,7 +94,7 @@ void destroy (GtkWidget *widget)
     gtk_main_quit ();
 }
 
-void connect_window (GtkWidget *widget, gpointer data)
+static void connect_window (GtkWidget *widget, gpointer data)
 {
     GtkWidget *window;
     GtkWidget *label;
@@ -168,7 +165,7 @@ void connect_window (GtkWidget *widget, gpointer data)
     gtk_widget_show (window);
 }
 
-void about_window (GtkWidget *widget, gpointer data)
+static void about_window (GtkWidget *widget, gpointer data)
 {
     GtkWidget *label;
     GtkWidget *button;
@@ -218,7 +215,8 @@ void about_window (GtkWidget *widget, gpointer data)
     gtk_widget_show (a_window);
 }
 
-GList *text_entry_find (gchar *text, gpointer data)
+/*
+static GList *text_entry_find (gchar *text, gpointer data)
 {
     GList *list;
 
@@ -233,8 +231,10 @@ GList *text_entry_find (gchar *text, gpointer data)
 
     return NULL;
 }
+*/
 
-int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gpointer data)
+static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, 
+				    gpointer data)
 {
   CONNECTION_DATA *cd;
   gint   number;
@@ -256,7 +256,7 @@ int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gpointer 
         case GDK_Page_Down:
             
         case GDK_Up:
-	  //case GDK_KP_Up:
+	  /*case GDK_KP_Up:*/
 	  if (EntryCurr->prev)
 	  {
 	    li = EntryCurr->prev;
@@ -274,7 +274,7 @@ int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gpointer 
 	  break;
 
         case GDK_Down:
-	  //case GDK_KP_Down:
+	  /*case GDK_KP_Down:*/
 	  if (EntryCurr->next) {
 	    li = EntryCurr->next;
 	    EntryCurr = li;
@@ -306,9 +306,8 @@ int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gpointer 
     return FALSE;
 }
 
-void do_connection (GtkWidget *widget, gpointer data)
+static void do_connection (GtkWidget *widget, gpointer data)
 {
-
   g_free(host); g_free(port);
   host = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_host)));
   port = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_port)));  
@@ -316,7 +315,7 @@ void do_connection (GtkWidget *widget, gpointer data)
   make_connection(host,port);
 }
 
-void do_close (GtkWidget *widget, gpointer data)
+static void do_close (GtkWidget *widget, gpointer data)
 {
   CONNECTION_DATA *cd;
   gint number;
@@ -332,7 +331,7 @@ void do_close (GtkWidget *widget, gpointer data)
   free_connection_data (cd);
 }
 
-void do_disconnect (GtkWidget *widget, gpointer data)
+static void do_disconnect (GtkWidget *widget, gpointer data)
 {
   CONNECTION_DATA *cd;
   gint number;
@@ -368,7 +367,6 @@ void init_window ()
     GtkWidget *menu_help_authors;
 
     GtkWidget *separator;
-    GtkWidget *v_scrollbar;
 
     font_fixed = gdk_font_load("fixed");
 

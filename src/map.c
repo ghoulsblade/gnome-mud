@@ -239,25 +239,51 @@ GList *MapList = NULL;
 
 AutoMap *auto_map_new(void);
 Map *map_new(void);
-void redraw_map (AutoMap *automap);
-void draw_map (AutoMap *automap);
-static void draw_nodes (AutoMap *automap, struct win_scale *ws,
+void redraw_map (AutoMap *);
+void draw_map (AutoMap *);
 
-MapNode *start, MapNode *parent, GHashTable *hash);
-static void draw_selected(AutoMap *automap, struct win_scale *ws);
-static void undraw_selected(AutoMap *automap, struct win_scale *ws);
-void move_player(AutoMap *automap, guint type);
-static void scrollbar_adjust(AutoMap *automap);
-static void remove_map(Map *map);
-static void get_nodes(GHashTable *hash, Map *map, int *n);
-static void new_automap_with_node(void);
-static void load_automap_from_file(gchar *filename, AutoMap *automap);
-static void draw_player(AutoMap *automap, struct win_scale *ws, MapNode *node);
-static void draw_dot(AutoMap *automap, struct win_scale *ws, MapNode *node);
-static void blit_nodes(AutoMap *automap, struct win_scale *ws, MapNode *nodelist[]);
-void node_goto(AutoMap *automap, struct win_scale *ws, MapNode *dest);
+/* Local functions */
+static void		 blit_nodes (AutoMap *, struct win_scale *,
+				     MapNode *[]);
+static void		 draw_dot (AutoMap *, struct win_scale *, MapNode *);
+static void		 draw_nodes (AutoMap *, struct win_scale *, MapNode *,
+				     MapNode *, GHashTable *);
+static void		 draw_player (AutoMap *, struct win_scale *, MapNode *);
+static void		 draw_selected (AutoMap *, struct win_scale *);
+static void		 file_sel_cancel_cb (GtkWidget *, void *[]);
+static void		 file_sel_delete_event (GtkWidget *, GdkEventAny *,
+					        void *[]);
+static void		 file_sel_ok_cb (GtkWidget *, void *[]);
+static void		 fill_node_path (SPVertex *, MapNode *, GHashTable *,
+					 GList **);
+static void		 free_maps (AutoMap *);
+static gboolean		 free_node_count (MapNode *, guint8 *, gpointer);
+static gboolean		 free_nodes (MapNode *, GList *, GList **);
+static gboolean		 free_vertexes (MapNode *, SPVertex *, gpointer);
+static void		 get_nodes (GHashTable *, Map *, int *);
+static gboolean		 is_numeric (gchar *);
+static void		 load_automap_from_file (gchar *, AutoMap *);
+static struct win_scale	*map_coords (AutoMap *);
+static void		 move_player (AutoMap *, guint);
+static void		 node_break (AutoMap *, guint);
+static void		 new_automap_with_node (void);
+static gint		 node_comp (MapNode *, MapNode *);
+static void		 node_goto (AutoMap *, struct win_scale *, MapNode *);
+static guint		 node_hash (MapNode *);
+static void		 remove_map (Map *);
+static gboolean		 remove_node (MapNode *, guint *, void *);
+static void		 remove_player_node (AutoMap *);
+static void		 remove_selected (AutoMap *);
+static void		 scrollbar_adjust(AutoMap *);
+static void		 scrollbar_value_changed (GtkAdjustment *, AutoMap *);
+static gint		 sp_compare (SPVertex *, SPVertex *);
+static void		 undraw_selected (AutoMap *, struct win_scale *);
+       void		 window_automap (GtkWidget *, gpointer);
+static void		 write_node (MapNode *, guint *, void *[]);
 
-struct win_scale *map_coords(AutoMap *automap)
+
+
+static struct win_scale *map_coords (AutoMap *automap)
 {
     static struct win_scale ws;
 
@@ -296,18 +322,18 @@ gboolean in_rectangle (gint x, gint y, Rectangle *rectangle)
             y >= rectangle->y && y <= rectangle->y + rectangle->height);
 }
 
-guint node_hash(MapNode *a)
+static guint node_hash (MapNode *a)
 {
     return (guint)(a->x << 16 | a->y);
 }
 
-gint node_comp(MapNode *a, MapNode *b)
+static gint node_comp (MapNode *a, MapNode *b)
 {
     return a->x == b->x && a->y == b->y;
 }
 
 static inline
-void node_hash_prepend(GHashTable *hash, MapNode *node)
+void node_hash_prepend (GHashTable *hash, MapNode *node)
 {
     GList *list = g_hash_table_lookup(hash, node);
     list = g_list_prepend(list, node);
@@ -315,7 +341,7 @@ void node_hash_prepend(GHashTable *hash, MapNode *node)
 }
 
 static inline
-void node_hash_remove(GHashTable *hash, MapNode *node)
+void node_hash_remove (GHashTable *hash, MapNode *node)
 {
     GList *list = g_hash_table_lookup(hash, node);
     list = g_list_remove(list, node);
@@ -326,8 +352,8 @@ void node_hash_remove(GHashTable *hash, MapNode *node)
         g_hash_table_remove(hash, node);
 }
 
-static gint
-expose_event(GtkWidget *widget, GdkEventExpose *event, AutoMap *automap)
+static gint expose_event (GtkWidget *widget, GdkEventExpose *event,
+			 AutoMap *automap)
 {
     gdk_draw_pixmap(automap->draw_area->window,
                     automap->draw_area->style->fg_gc[GTK_WIDGET_STATE (automap->draw_area)],
@@ -341,7 +367,7 @@ expose_event(GtkWidget *widget, GdkEventExpose *event, AutoMap *automap)
     return TRUE; /* Terminate signal */
 }
 
-void remove_selected(AutoMap *automap)
+static void remove_selected (AutoMap *automap)
 {
     undraw_selected(automap, map_coords(automap));
     g_list_free(automap->selected);
@@ -358,10 +384,9 @@ void remove_selected(AutoMap *automap)
  * 2) If the hash table 'global' is not passed, then all nodes will
  *    be searched. If the starting node is found, it is returned.
  */
-static
-MapNode *connected_node_in_list (Map *map, MapNode *node,
-                                 GHashTable *hash,
-                                 GHashTable *global)
+static MapNode *connected_node_in_list (Map *map, MapNode *node,
+					GHashTable *hash,
+					GHashTable *global)
 {
     int i;
     GList *puck;
@@ -396,7 +421,7 @@ MapNode *connected_node_in_list (Map *map, MapNode *node,
     return NULL;
 }
 
-void remove_player_node(AutoMap *automap)
+static void remove_player_node (AutoMap *automap)
 {
     /* Removing the node the current player is on is a little
      * tricky ...
@@ -535,7 +560,7 @@ void remove_player_node(AutoMap *automap)
 }
 
 static gint
-key_press_event(GtkWidget *widget, GdkEventKey *event, AutoMap *automap)
+key_press_event (GtkWidget *widget, GdkEventKey *event, AutoMap *automap)
 {
 
     switch (event->keyval)
@@ -621,7 +646,7 @@ key_press_event(GtkWidget *widget, GdkEventKey *event, AutoMap *automap)
 }
 
 static gint
-key_release_event(GtkWidget *widget, GdkEventKey *event, AutoMap *automap)
+key_release_event (GtkWidget *widget, GdkEventKey *event, AutoMap *automap)
 {
 
     switch (event->keyval)
@@ -636,7 +661,7 @@ key_release_event(GtkWidget *widget, GdkEventKey *event, AutoMap *automap)
 }
 
 static gint
-button_press_event(GtkWidget *widget, GdkEventButton *event, AutoMap *automap)
+button_press_event (GtkWidget *widget, GdkEventButton *event, AutoMap *automap)
 {
 
     GList *puck;
@@ -728,8 +753,8 @@ button_press_event(GtkWidget *widget, GdkEventButton *event, AutoMap *automap)
     return FALSE; /* Propogate signal */
 }
 
-static void undraw_hollow_rectangle(AutoMap *automap,
-                                    gint x, gint y, gint width, gint height)
+static void undraw_hollow_rectangle (AutoMap *automap, gint x, gint y,
+				     gint width, gint height)
 {
 
     /* Redraw the pixmap over the old selection box */
@@ -764,8 +789,8 @@ static void undraw_hollow_rectangle(AutoMap *automap,
                     automap->pixmap, x + width, y, x + width, y, 1, height + 1);
 }
 
-static gint
-button_release_event(GtkWidget *widget, GdkEventButton *event, AutoMap *automap)
+static gint button_release_event (GtkWidget *widget, GdkEventButton *event,
+				  AutoMap *automap)
 {
 
     struct win_scale *ws = map_coords(automap);
@@ -812,8 +837,8 @@ button_release_event(GtkWidget *widget, GdkEventButton *event, AutoMap *automap)
     return FALSE; /* Propogate signal */
 }
 
-static gint
-motion_notify_event(GtkWidget *widget, GdkEventMotion *event, AutoMap *automap)
+static gint motion_notify_event (GtkWidget *widget, GdkEventMotion *event,
+				 AutoMap *automap)
 {
 
     gint32 x, y;
@@ -917,7 +942,7 @@ motion_notify_event(GtkWidget *widget, GdkEventMotion *event, AutoMap *automap)
     return TRUE; /* Terminate */
 }
 
-static void scrollbar_adjust(AutoMap *automap)
+static void scrollbar_adjust (AutoMap *automap)
 {
 
     struct win_scale *ws = map_coords(automap);
@@ -974,8 +999,8 @@ static void scrollbar_adjust(AutoMap *automap)
     redraw_map(automap);
 }
 
-static gint
-configure_event(GtkWidget *widget, GdkEventConfigure *event, AutoMap *automap)
+static gint configure_event (GtkWidget *widget, GdkEventConfigure *event,
+			     AutoMap *automap)
 {
 
     /* Check if the pixmap exists */
@@ -1007,7 +1032,7 @@ configure_event(GtkWidget *widget, GdkEventConfigure *event, AutoMap *automap)
     return TRUE; /* Terminate */
 }
 
-static inline guint get_direction_type(char *text)
+static inline guint get_direction_type (char *text)
 {
     /* Can easily be optimised ... but why bother ? */
 
@@ -1031,7 +1056,7 @@ static inline guint get_direction_type(char *text)
     exit(1); /* Shut GCC up */
 }
 
-static inline void node_reposition(guint type, guint *x, guint *y)
+static inline void node_reposition (guint type, guint *x, guint *y)
 {
     switch(type) {
     case NORTH:             (*y)++; return;
@@ -1133,9 +1158,8 @@ gboolean adjust (struct win_scale *ws, Rectangle *rect)
     return TRUE;
 }
 
-static
-void draw_line(AutoMap *automap, struct win_scale *ws,
-               MapNode *node1, MapNode *node2)
+static void draw_line (AutoMap *automap, struct win_scale *ws,
+		       MapNode *node1, MapNode *node2)
 {
 
     /* nodewidth is the distance from the nodes centre, to the nodes
@@ -1173,8 +1197,7 @@ void draw_line(AutoMap *automap, struct win_scale *ws,
                   automap->draw_area->style->black_gc, p1.x, p1.y, p2.x, p2.y);
 }
 
-static
-void draw_dot(AutoMap *automap, struct win_scale *ws, MapNode *node)
+static void draw_dot (AutoMap *automap, struct win_scale *ws, MapNode *node)
 {
 
     /* nodewidth is the distance from the nodes centre, to the nodes
@@ -1236,8 +1259,8 @@ void draw_dot(AutoMap *automap, struct win_scale *ws, MapNode *node)
     }
 }
 
-static
-void blit_nodes(AutoMap *automap, struct win_scale *ws, MapNode *nodelist[])
+static void blit_nodes (AutoMap *automap, struct win_scale *ws,
+			MapNode *nodelist[])
 {
 
     /* nodewidth is the distance from the nodes centre, to the nodes
@@ -1287,8 +1310,8 @@ void blit_nodes(AutoMap *automap, struct win_scale *ws, MapNode *nodelist[])
     }
 }
 
-static
-void blank_nodes(AutoMap *automap, struct win_scale *ws, MapNode *nodelist[])
+static void blank_nodes (AutoMap *automap, struct win_scale *ws,
+			 MapNode *nodelist[])
 {
 
     /* nodewidth is the distance from the nodes centre, to the nodes
@@ -1337,8 +1360,7 @@ void blank_nodes(AutoMap *automap, struct win_scale *ws, MapNode *nodelist[])
     }
 }
 
-static
-void draw_selected(AutoMap *automap, struct win_scale *ws)
+static void draw_selected (AutoMap *automap, struct win_scale *ws)
 {
     gint16 radius = 5; /* ceil (sqrt (3*3 + 3*3)) */
     GList *list_start, *puck;
@@ -1386,8 +1408,7 @@ void draw_selected(AutoMap *automap, struct win_scale *ws)
     gdk_gc_destroy(gc);
 }
 
-static
-void undraw_selected(AutoMap *automap, struct win_scale *ws)
+static void undraw_selected (AutoMap *automap, struct win_scale *ws)
 {
     gint16 radius = 5; /* ceil (sqrt (3*3 + 3*3)) */
     GList *list_start, *puck;
@@ -1438,8 +1459,7 @@ void undraw_selected(AutoMap *automap, struct win_scale *ws)
     }
 }
 
-static
-void draw_player(AutoMap *automap, struct win_scale *ws, MapNode *node)
+static void draw_player (AutoMap *automap, struct win_scale *ws, MapNode *node)
 {
     gint16 radius = 5; /* ceil (sqrt (3*3 + 3*3)) */
     Point p = { node->x, node->y };
@@ -1458,8 +1478,8 @@ void draw_player(AutoMap *automap, struct win_scale *ws, MapNode *node)
     }
 }
 
-static
-void clear_block(AutoMap *automap, struct win_scale *ws, gint x, gint y)
+static void clear_block (AutoMap *automap, struct win_scale *ws, gint x,
+			 gint y)
 {
     guint half = ws->mapped_unit / 2;
     Point p = { x, y };
@@ -1478,9 +1498,8 @@ void clear_block(AutoMap *automap, struct win_scale *ws, gint x, gint y)
     }
 }
 
-static
-void draw_nodes (AutoMap *automap, struct win_scale *ws,
-                 MapNode *start, MapNode *parent, GHashTable *hash)
+static void draw_nodes (AutoMap *automap, struct win_scale *ws,
+			MapNode *start, MapNode *parent, GHashTable *hash)
 {
     int i;
     MapNode *next;
@@ -1602,7 +1621,7 @@ void draw_nodes (AutoMap *automap, struct win_scale *ws,
  * pixmaps and copying scrollbars, drawing selected items
  * etc etc
  */
-void redraw_map(AutoMap *automap)
+void redraw_map (AutoMap *automap)
 {
     GList *puck;
 
@@ -1633,7 +1652,8 @@ void redraw_map(AutoMap *automap)
     draw_selected(automap, map_coords(automap));
 }
 
-gboolean free_node_count (MapNode *key, guint8 *count, gpointer user_data)
+static gboolean free_node_count (MapNode *key, guint8 *count,
+				 gpointer user_data)
 {
     free(count);
     return TRUE;
@@ -1671,7 +1691,7 @@ void draw_map (AutoMap *automap)
         draw_player(automap, ws, automap->player);
 }
 
-static void get_node(GHashTable *hash, MapNode *node, gint *n)
+static void get_node (GHashTable *hash, MapNode *node, gint *n)
 {
     gint *num = g_malloc(sizeof(gint));
     gint i;
@@ -1702,7 +1722,7 @@ static void get_node(GHashTable *hash, MapNode *node, gint *n)
     }
 }
 
-static void get_nodes(GHashTable *hash, Map *map, int *n)
+static void get_nodes (GHashTable *hash, Map *map, int *n)
 {
     GList *puck;
 
@@ -1717,7 +1737,7 @@ static void get_nodes(GHashTable *hash, Map *map, int *n)
     }
 }
 
-void write_node(MapNode *node, guint *num, void *data[2])
+static void write_node (MapNode *node, guint *num, void *data[2])
 {
     FILE *file = data[0];
     GHashTable *hash = data[1];
@@ -1736,13 +1756,13 @@ void write_node(MapNode *node, guint *num, void *data[2])
     fputs("\n", file);
 }
 
-gboolean remove_node(MapNode *node, guint *num, void *data)
+static gboolean remove_node (MapNode *node, guint *num, void *data)
 {
     g_free(num);
     return TRUE;
 }
 
-static void save_maps(gchar *filename, AutoMap *automap)
+static void save_maps (gchar *filename, AutoMap *automap)
 {
     GHashTable *hash;
     GList *puck;
@@ -1801,7 +1821,7 @@ static void save_maps(gchar *filename, AutoMap *automap)
     fclose(file);
 }
 
-gboolean free_nodes(MapNode *key, GList *value, GList **maps)
+static gboolean free_nodes (MapNode *key, GList *value, GList **maps)
 {
     MapNode *node, *next;
     GList *puck, *map_link;
@@ -1835,7 +1855,7 @@ gboolean free_nodes(MapNode *key, GList *value, GList **maps)
     return TRUE;
 }
 
-void free_maps(AutoMap *automap)
+static void free_maps (AutoMap *automap)
 {
     GList *list = g_list_prepend(NULL, automap->map);
     Map *map;
@@ -1865,7 +1885,7 @@ void free_maps(AutoMap *automap)
     /* automap->in_selection_box should be NULL here, hence ignore */
 }
 
-void file_sel_ok_cb(GtkWidget *widget, void *ptr[])
+static void file_sel_ok_cb (GtkWidget *widget, void *ptr[])
 {
     guint type = (guint)ptr[0];
     AutoMap *automap = ptr[1];
@@ -1936,19 +1956,20 @@ void file_sel_ok_cb(GtkWidget *widget, void *ptr[])
     g_free(ptr);
 }
 
-void file_sel_cancel_cb(GtkWidget *widget, void *ptr[])
+static void file_sel_cancel_cb (GtkWidget *widget, void *ptr[])
 {
     gtk_widget_destroy(GTK_WIDGET(ptr[2]));
     g_free(ptr);
 }
 
-void file_sel_delete_event(GtkWidget *widget, GdkEventAny *event, void *ptr[])
+static void file_sel_delete_event (GtkWidget *widget, GdkEventAny *event,
+				   void *ptr[])
 {
     gtk_widget_destroy(GTK_WIDGET(ptr[2]));
     g_free(ptr);
 }
 
-static void button_cb(GtkWidget *widget, AutoMap *automap)
+static void button_cb (GtkWidget *widget, AutoMap *automap)
 {
     GtkWidget *find;
     gchar *text = GTK_LABEL( GTK_BIN(widget)->child )->label, dir[256], *home;
@@ -2017,9 +2038,7 @@ static void button_cb(GtkWidget *widget, AutoMap *automap)
     return;
 }
 
-static
-gint can_reach_node(MapNode *current, MapNode *dest,
-                    GHashTable *hash)
+static gint can_reach_node (MapNode *current, MapNode *dest, GHashTable *hash)
 {
     int i;
 
@@ -2042,13 +2061,13 @@ gint can_reach_node(MapNode *current, MapNode *dest,
     return FALSE;
 }
 
-gint sp_compare(SPVertex *insert, SPVertex *listnode)
+static gint sp_compare (SPVertex *insert, SPVertex *listnode)
 {
     return insert->working - listnode->working;
 }
 
-void fill_node_path (SPVertex *cvertex, MapNode *dest,
-                     GHashTable *hash, GList **list)
+static void fill_node_path (SPVertex *cvertex, MapNode *dest,
+			    GHashTable *hash, GList **list)
 {
     gint i;
     MapNode *next;
@@ -2098,13 +2117,14 @@ void fill_node_path (SPVertex *cvertex, MapNode *dest,
     }
 }
 
-gboolean free_vertexes (MapNode *key, SPVertex *vertex, gpointer user_data)
+static gboolean free_vertexes (MapNode *key, SPVertex *vertex,
+			       gpointer user_data)
 {
     g_free(vertex);
     return TRUE;
 }
 
-void node_goto(AutoMap *automap, struct win_scale *ws, MapNode *dest)
+static void node_goto (AutoMap *automap, struct win_scale *ws, MapNode *dest)
 {
     GHashTable *hash;
     GList *list = NULL, *puck;
@@ -2215,7 +2235,7 @@ void node_goto(AutoMap *automap, struct win_scale *ws, MapNode *dest)
     g_list_free(list);
 }
 
-void node_break(AutoMap *automap, guint type)
+static void node_break (AutoMap *automap, guint type)
 {
     MapNode *this = automap->player;
     MapNode *next = automap->player->connections[type].node;
@@ -2280,7 +2300,7 @@ void node_break(AutoMap *automap, guint type)
     g_hash_table_destroy(hash);
 }
 
-void move_player(AutoMap *automap, guint type)
+static void move_player (AutoMap *automap, guint type)
 {
     MapNode *this = automap->player;
     MapNode *next = automap->player->connections[type].node;
@@ -2459,8 +2479,8 @@ void move_player(AutoMap *automap, guint type)
     }
 }
 
-void
-scrollbar_value_changed(GtkAdjustment *adjustment, AutoMap *automap)
+static void scrollbar_value_changed (GtkAdjustment *adjustment,
+				     AutoMap *automap)
 {
     GtkAdjustment *vsb, *hsb;
     gint redraw = 0;
@@ -2492,10 +2512,8 @@ scrollbar_value_changed(GtkAdjustment *adjustment, AutoMap *automap)
         redraw_map(automap);
 }
 
-static
-gint enter_notify_event (GtkWidget *widget,
-                         GdkEventCrossing *event,
-                         AutoMap *automap)
+static gint enter_notify_event (GtkWidget *widget, GdkEventCrossing *event,
+				AutoMap *automap)
 {
     gtk_window_set_focus (GTK_WINDOW(automap->window), automap->draw_area);
 
@@ -2508,16 +2526,14 @@ gint enter_notify_event (GtkWidget *widget,
     return TRUE;
 }
 
-static
-gint leave_notify_event (GtkWidget *widget,
-                         GdkEventCrossing *event,
-                         AutoMap *automap)
+static gint leave_notify_event (GtkWidget *widget, GdkEventCrossing *event,
+                         	AutoMap *automap)
 {
     gdk_key_repeat_restore();
     return TRUE;
 }
 
-AutoMap *auto_map_new(void)
+AutoMap *auto_map_new (void)
 {
     AutoMap *automap = g_malloc0(sizeof(AutoMap));
     GtkWidget *hbox, *updownvbox, *loadsavevbox, *vbox, *sep;
@@ -2535,8 +2551,8 @@ AutoMap *auto_map_new(void)
     automap->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
     /* Set the title */
-    //g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
-    //gtk_window_set_title(GTK_WINDOW(automap->window), name);
+    /*g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));*/
+    /*gtk_window_set_title(GTK_WINDOW(automap->window), name);*/
     gtk_window_set_title (GTK_WINDOW(automap->window), "Amcl AutoMapper");
 
     /* Create the drawing window and allocate its colours */
@@ -2731,7 +2747,7 @@ AutoMap *auto_map_new(void)
     return automap;
 }
 
-Map *map_new(void)
+Map *map_new (void)
 {
     Map *map;
     char name[10];
@@ -2762,7 +2778,7 @@ Map *map_new(void)
     return map;
 }
 
-static void remove_map(Map *map)
+static void remove_map (Map *map)
 {
     if (map->nodelist) g_list_free(map->nodelist);
 
@@ -2776,7 +2792,7 @@ void window_automap (GtkWidget *button, gpointer data)
     new_automap_with_node ();
 }
 
-static void new_automap_with_node(void)
+static void new_automap_with_node (void)
 {
     AutoMap *automap;
     Map *map;
@@ -2814,7 +2830,7 @@ static void new_automap_with_node(void)
     gtk_widget_show(automap->window);
 }
 
-static gchar *get_token(gchar *text, gchar *token)
+static gchar *get_token (gchar *text, gchar *token)
 {
     while (isspace(*text) || *text == ',') text++;
     if (*text == 0)
@@ -2831,7 +2847,7 @@ static gchar *get_token(gchar *text, gchar *token)
     return text;
 }
 
-gboolean is_numeric(gchar *token)
+static gboolean is_numeric (gchar *token)
 {
     for (; *token != 0; token++) {
         gchar c = *token;
@@ -2844,7 +2860,7 @@ gboolean is_numeric(gchar *token)
     return TRUE;
 }
 
-static void load_automap_from_file(gchar *filename, AutoMap *automap)
+static void load_automap_from_file (gchar *filename, AutoMap *automap)
 {
     FILE *file;
     gchar buf[256], token[256], *bptr, *mapname;

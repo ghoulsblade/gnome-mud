@@ -26,7 +26,7 @@
 #include <netdb.h>
 #include <string.h>
 #include <unistd.h>
-
+#include <stdlib.h>
 /*
  * Added by Michael Stevens
  */
@@ -325,7 +325,7 @@ void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCon
     }
 }
 
-void send_to_connection (GtkWidget *widget, gpointer data)
+void send_to_connection (GtkWidget *text_entry, gpointer data)
 {
   CONNECTION_DATA *cd;
   gint number;

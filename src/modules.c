@@ -126,7 +126,6 @@ void plugin_clist_select_row_cb (GtkWidget *w, gint r, gint c, GdkEventButton *e
 {
   PLUGIN_OBJECT *p;
   gchar *text;
-  GtkCellType smisk;
 
   plugin_selected_row = r;
   gtk_clist_get_text((GtkCList *) data, r, c, &text);
@@ -287,41 +286,29 @@ void save_plugins()
   PLUGIN_OBJECT *p;
   GList         *t;  
   FILE          *fp;
-  gchar          filename[500];
   
-  g_snprintf(filename, 500, "%s%s", uid_info->pw_dir, "/.amcl");
+  if (!(fp = open_file ("plugins_info", "w"))) return;
 
-  if (check_amcl_dir(filename) != 0)
-    return;
-
-  g_snprintf(filename, 500, "%s%s", uid_info->pw_dir, "/.amcl/plugins_info");
-
-  if ((fp = fopen(filename, "w")) != NULL) {
-    for (t = g_list_first(Plugin_list); t != NULL; t = t->next) {
-      
-      if (t->data != NULL) {
+  for (t = g_list_first(Plugin_list); t != NULL; t = t->next)
+  {
+     if (t->data != NULL)
+     {
 	p = (PLUGIN_OBJECT *) t->data;
-	
-	if (p->enabeled == TRUE) {
+	if (p->enabeled == TRUE)
 	  fprintf(fp, p->name);
-	}
-      }
-    }
-    
-    fclose (fp);
+     }
   }
+  if (fp) fclose (fp);
 }
 
 int init_modules(char *path)
 {
   DIR            *directory;
   struct dirent  *direntity;
-  gint            dirn;
   gchar          *shortname;
-  gchar           filename[255];
 
-  g_snprintf(filename, sizeof(filename), "%s%s", uid_info->pw_dir, "/.amcl/plugins_info");
-  plugin_information = fopen(filename, "r");
+  /* Why we open this file if we are not going to use??? */
+  plugin_information = open_file("plugins_info","r");
 
   if ((directory = opendir(path)) == NULL) {
     g_message("Plugin error (%s): %s", path, strerror(errno));
@@ -372,7 +359,7 @@ PLUGIN_OBJECT *plugin_query (gchar *plugin_name, gchar *plugin_path)
     } else {
         if ((new_plugin->info = dlsym(new_plugin->handle,"amcl_plugin_info")) == NULL)
         {
-            g_message ("Error, not an AMCL module: %s.", plugin_name, dlerror());
+            g_message ("Error, %s not an AMCL module: %s.", plugin_name, dlerror());
             goto error;
         }
         new_plugin->filename = g_strdup (filename);

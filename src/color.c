@@ -21,6 +21,7 @@
 #include <glib.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <string.h>
 
@@ -29,6 +30,22 @@
 static char const rcsid[] =
     "$Id$";
 
+/* Local functions */
+static void	color_apply_pressed (void);
+static void	color_cancel_pressed (void);
+static void	color_ok_pressed (void);
+static void	color_radio_clicked (GtkWidget *);
+static gushort	convert_color (guint);
+static void	copy_color_from_selector_to_array (void);
+static void	copy_color_from_array_to_selector (void);
+static int	from_hex (const char *);
+static void	grab_color (GdkColor *, const char *);
+static void	load_colors_default (void);
+static void	on_load_pressed (void);
+static void	update_gdk_colors (void);
+
+/* External functions */
+void save_prefs	(GtkWidget *button, gpointer data);
 
 #define C_MAX 16
 
@@ -117,7 +134,7 @@ double colors[C_MAX][3] = {
     { 0.0, 0.0, 0.0 }
 };
 
-gushort convert_color (guint c)
+static gushort convert_color (guint c)
 {
     if ( c == 0 )
         return 0;
@@ -126,20 +143,20 @@ gushort convert_color (guint c)
     return (c > 0xffff) ? 0xffff : c;
 }
 
-int from_hex (const char *what)
+static int from_hex (const char *what)
 {
    return (what[0] - ((what[0] > '9')?('a'+10):'0'))*16 +
           (what[1] - ((what[1] > '9')?('a'+10):'0'));
 }
 
-void grab_color (GdkColor *color, const char *col)
+static void grab_color (GdkColor *color, const char *col)
 {
     color->red   = convert_color (from_hex (col+1));
     color->green = convert_color (from_hex (col+3));
     color->blue  = convert_color (from_hex (col+5));
 }
 
-void load_color_to_c_structs ()
+void load_color_to_c_structs (void)
 {
     gint i;
     cmap = gdk_colormap_get_system();
@@ -150,7 +167,7 @@ void load_color_to_c_structs ()
     }
 }
 
-void load_colors_default ()
+static void load_colors_default (void)
 {
     gint i;
     for (i = 0; i < C_MAX; i++)
@@ -159,19 +176,19 @@ void load_colors_default ()
 
 }
 
-void copy_color_from_selector_to_array ()
+static void copy_color_from_selector_to_array (void)
 {
     gtk_color_selection_get_color (GTK_COLOR_SELECTION (color_widget),
                                    current_color);
 }
 
-void copy_color_from_array_to_selector ()
+static void copy_color_from_array_to_selector (void)
 {
     gtk_color_selection_set_color (GTK_COLOR_SELECTION (color_widget),
                                    current_color);
 }
 
-void on_load_pressed ()
+static void on_load_pressed (void)
 {
     gint i;
     load_colors_default();
@@ -187,7 +204,7 @@ void on_load_pressed ()
     copy_color_from_array_to_selector();
 }
 
-void update_gdk_colors()
+void update_gdk_colors (void)
 {
     int i;
 
@@ -201,19 +218,19 @@ void update_gdk_colors()
     }
 }
 
-void color_apply_pressed ()
+void color_apply_pressed (void)
 {
     copy_color_from_selector_to_array ();
     update_gdk_colors ();
 }
  
-void color_cancel_pressed ()
+void color_cancel_pressed (void)
 {
     gtk_widget_set_sensitive (menu_option_colors, TRUE);
     gtk_widget_destroy (color_window);
 }
  
-void color_ok_pressed ()
+void color_ok_pressed (void)
 {
     color_apply_pressed();
     if ( prefs.AutoSave ) 

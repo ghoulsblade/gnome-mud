@@ -1,3 +1,28 @@
+Wed Jun 28 22:58:32 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
+
+	* src/action.c: Proper prototyping.
+
+	* src/alias.c: Do _real_ function prototyping.
+
+	* src/color.c: Add string.h for strdup(), proper prototyping,
+	be consistent in comment character usage.
+
+	* src/init.c: Be consistent with rcsid[], proper prototyping,
+	be consistent in comment character usage, remove unused
+	variables.
+
+	* src/keybind.c: Use include with quotation marks since we want
+	to search for config.h in the local directory, not system defined
+	ones, proper prototyping, remove unused variables, make sure
+	function definitions are consistent.
+
+	* src/map.c: include stdlib.h for free(), proper prototyping,
+	make sure function definitions are consistent, be consistent in
+	comment character usage.
+
+	* src/window.c: remove alias_button_add() prototype since it is not
+	needed there.
+
 Wed Jun 28 03:00:00 CEST 2000  Jorge Garcia  <Jorge.Garcia@uv.es>
 
         * Cleaned unused variables in almost all .c files

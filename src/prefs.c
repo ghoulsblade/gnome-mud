@@ -39,39 +39,57 @@ GtkWidget   *prefs_window;
 GtkWidget   *prefs_button_save;
 GtkWidget   *entry_fontname;
 
-int check_amcl_dir (gchar *dirname)
+FILE *open_file (gchar *filename, gchar *mode)
 {
   struct stat file_stat;
-  int return_val = 0;
   gchar buf[256];
-  
-  if ( stat (dirname, &file_stat) == 0) { /* can we stat ~/.amcl? */
-    if ( !(S_ISDIR(file_stat.st_mode))) { /* if it's not a directory */
-      g_snprintf (buf, 256, "%s already exists and is not a directory!", dirname);
-      popup_window (buf);
-      return_val = -1;
+  gchar dirname[256];
+  FILE *fd;
+
+  /* check for ~/.amcl dir ... */
+  g_snprintf (dirname, 255, "%s/.amcl", g_get_home_dir());
+  if ( stat (dirname, &file_stat) == 0) /* can we stat ~/.amcl? */
+  {
+    if ( !(S_ISDIR(file_stat.st_mode))) /* if it's not a directory */
+    {
+	g_snprintf (buf, 255, "%s already exists and is not a directory!", dirname);
+        popup_window (buf);
+	return NULL;
     }
-  } else { /* it must not exist */
-    //g_snprintf (buf, 256, "%s does not exist, Creating it as a directory.", dirname);
-    //popup_window (buf);
-    
-    if ((mkdir (dirname, 0777)) == 0) { /* this isn't dangerous, umask modifies it */
-      //g_snprintf (buf, 256, "%s created.", dirname);
-      //popup_window (buf);
-    } else {
-      g_snprintf (buf, 256, "%s NOT created: %s", dirname, strerror (errno));
+  } 
+  else  /* it must not exist */
+    if ((mkdir (dirname, 0777)) == 0) /* this isn't dangerous, umask modifies it */
+    {
+    	//popup_window (buf);
+     } else {
+      g_snprintf (buf, 255, "%s does not exist and can NOT be created: %s", dirname, strerror(errno));
       popup_window (buf);
-      return_val = errno;
+      return NULL;
     }
+
+  if (!filename || filename == "") return NULL;
+
+  g_snprintf (buf, 255, "%s/%s", dirname, filename);
+  if (!(fd = fopen (buf, mode)))
+  {
+	if (mode == "w")
+	{
+	    g_snprintf (dirname, 255, "%s can NOT be opened in write mode.", buf);
+	    popup_window (dirname);
+	}
+	else
+		if (/*mode == "r" &&*/ stat(buf, &file_stat) == 0)
+		{
+		    g_snprintf (dirname, 255, "%s exists and can NOT be opened in read mode.", buf);
+		    popup_window (dirname);
+		}
   }
-  
-  return (return_val);
+  return fd;
 }
 
 void load_prefs ( )
 {
     FILE *fp;
-    gchar filename[255] = "";
     gchar line[255];
 
     prefs.EchoText = prefs.KeepText = TRUE;
@@ -79,16 +97,7 @@ void load_prefs ( )
     prefs.CommDev  = g_strdup (";");
     prefs.FontName = g_strdup ("fixed");
     
-    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
-    if (check_amcl_dir (filename) != 0)
-        return;
-
-    g_snprintf (filename, 254, "%s%s", uid_info->pw_dir, "/.amcl/preferences");
-    
-    fp = fopen (filename, "r");
-
-    if ( fp == NULL )
-        return;
+    if (!(fp = open_file ("preferences", "r"))) return;
 
     while ( fgets (line, 80, fp) != NULL )
     {
@@ -115,7 +124,7 @@ void load_prefs ( )
 
 	if ( !strcmp (pref, "CommDev") ) {
 	  gchar *s;
-	  if (s = strstr(value, "\""))
+	  if ((s = strstr(value, "\"")))
 	    prefs.CommDev[0] = s[1];
 	}
 	
@@ -146,24 +155,9 @@ void load_prefs ( )
 
 void save_prefs (GtkWidget *button, gpointer data)
 {
-    gchar filename[256] = "";
     FILE *fp;
-    gchar buf[256];
 
-    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
-    if (check_amcl_dir (filename) != 0)
-        return;
-
-    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/preferences");
-
-    fp = fopen (filename, "w");
-
-    if ( fp == NULL )
-    {
-        sprintf (buf, "You must create the directory %s/.amcl before you can save.", uid_info->pw_dir);
-        popup_window (buf);
-        return;
-    }
+    if (!(fp = open_file ("preferences", "w"))) return;
 
     if ( prefs.EchoText )
         fprintf (fp, "EchoText On\n");
@@ -182,7 +176,7 @@ void save_prefs (GtkWidget *button, gpointer data)
     if ( strlen (prefs.FontName) > 0 )
         fprintf (fp, "FontName %s\n", prefs.FontName);
     
-    fclose (fp);
+    if (fp) fclose (fp);
 }
 
 void check_text_toggle (GtkWidget *widget, GtkWidget *button)

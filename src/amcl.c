@@ -29,7 +29,6 @@ static char const rcsid[] =
 
 int main (gint argc, char *argv[])
 {
-  gchar filename[255];
   char buf[500];
   struct sigaction act;
   
@@ -43,14 +42,6 @@ int main (gint argc, char *argv[])
   
   init_uid();
   
-  g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
-  if (check_amcl_dir (filename) != 0)
-    return;
-
-  g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/plugins");
-  if (check_amcl_dir(filename) != 0)
-    return;
-
   load_aliases(); /* load aliases */
   load_actions(); /* load "on" actions */
   load_prefs  (); /* load preferences */

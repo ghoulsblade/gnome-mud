@@ -40,10 +40,9 @@ GtkWidget   *textaction;
 GtkWidget   *action_window;
 gint         action_selected_row    = -1;
 
-/* internal function */
-static void		 action_button_add (GtkWidget *button, gpointer data);
-static void		 action_button_delete_cb (GtkWidget *button,
-					          gpointer data);
+/* Local functions */
+static void		 action_button_add_cb (GtkWidget *, gpointer);
+static void		 action_button_delete_cb (GtkWidget *,  gpointer);
 static void		 action_close_window (GtkWidget *button);
 static ACTION_DATA       *action_get_action_data (gchar *text, GList *action_list2);
 static void		 action_selection_made (GtkWidget *clist, gint row,

@@ -39,7 +39,6 @@ static char const rcsid[] = "$Id$";
 /*
  * Local functions
  */
-void alias_button_add     (GtkWidget *button, gpointer data);
 void alias_button_delete  (GtkWidget *button, gpointer data);
 
 typedef enum { NORM, ESC, SQUARE, PARMS } STATE;
