@@ -138,6 +138,34 @@ set_CommDev(MudPreferences *prefs, const gchar *candidate)
 	return FALSE;
 }
 
+static gboolean
+set_History(MudPreferences *prefs, const gint candidate)
+{
+	if (candidate >= 1 && candidate != prefs->preferences.History)
+	{
+		prefs->preferences.History = candidate;
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}
+
+static gboolean
+set_Scrollback(MudPreferences *prefs, const gint candidate)
+{
+	if (candidate >= 1 && candidate != prefs->preferences.Scrollback)
+	{
+		prefs->preferences.Scrollback = candidate;
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}
+
 static void
 mud_preferences_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
@@ -173,7 +201,17 @@ else if (strcmp(key, KName) == 0)                   \
 			setting = gconf_value_get_string(val);  \
 			                                        \
 		mask.FName = set_##FName(prefs, setting);
-				
+#define UPDATE_INTEGER(KName, FName, Preset)        \
+	}                                               \
+else if (strcmp(key, KName) == 0)                   \
+	{                                               \
+		gint setting = (Preset);                    \
+                                                    \
+		if (val && val->type == GCONF_VALUE_INT)    \
+			setting = gconf_value_get_int(val);     \
+				                                    \
+		mask.FName = set_##FName(prefs, setting);
+		
 
 	
 	if (0)
@@ -185,9 +223,13 @@ else if (strcmp(key, KName) == 0)                   \
 		UPDATE_BOOLEAN("scroll_on_output",	ScrollOnOutput,	FALSE);
 		UPDATE_STRING("commdev",			CommDev,		";");
 		UPDATE_STRING("terminal_type",		TerminalType,	"ansi");
+		UPDATE_INTEGER("history_count",		History,		10);
+		UPDATE_INTEGER("scrollback_lines",	Scrollback,		500);
 	}
 	
-	
+#undef UPDATE_BOOLEAN
+#undef UPDATE_STRING
+#undef UPDATE_INTEGER
 	g_message("Message from gconf...");
 
 	g_signal_emit(G_OBJECT(prefs), signal_changed, 0, &mask);
@@ -251,6 +293,26 @@ mud_preferences_set_terminal (MudPreferences *prefs, const gchar *value)
 	gconf_client_set_string(prefs->priv->gconf_client,
 							"/apps/gnome-mud/functionality/terminal_type",
 							value, NULL);
+}
+
+void
+mud_preferences_set_history(MudPreferences *prefs, const gint value)
+{
+	RETURN_IF_NOTIFYING(prefs);
+
+	gconf_client_set_int(prefs->priv->gconf_client,
+						 "/apps/gnome-mud/functionality/history_count",
+						 value, NULL);
+}
+
+void
+mud_preferences_set_scrollback(MudPreferences *prefs, const gint value)
+{
+	RETURN_IF_NOTIFYING(prefs);
+
+	gconf_client_set_int(prefs->priv->gconf_client,
+						 "/apps/gnome-mud/ui/scrollback_lines",
+						 value, NULL);
 }
 
 const GList*

@@ -1,3 +1,23 @@
+2004-06-28  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c (mud_preferences_window_set_preferences):
+	Changed the way spinbuttons are set.
+	(mud_preferences_window_history_cb): Added.
+	(mud_preferences_window_scrollback_cb): Added.
+	(mud_preferences_window_update_history): Added.
+	(mud_preferences_window_update_scrollback): Added.
+	(mud_preferences_window_changed_cb): Added history and scrollback.
+
+	* src/mud-preferences.c (set_History): Added.
+	(set_Scrollback): Added.
+	(mud_preferences_gconf_changed): Added UPDATE_INTEGER.
+	(mud_preferences_set_history): Added.
+	(mud_preferences_set_scrollback): Added.
+
+	* src/mud-preferences.h [MudPreferenceMask]: Added History and Scrollback,
+
+	* ui/main.glade: Changed max on scrollback from 100 to 1000.
+
 2004-06-24  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mud-preferences.c (mud_preferences_gconf_changed):

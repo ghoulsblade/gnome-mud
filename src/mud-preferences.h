@@ -34,6 +34,8 @@ typedef struct
 	unsigned int ScrollOnOutput : 1;
 	unsigned int CommDev : 1;
 	unsigned int TerminalType : 1;
+	unsigned int History : 1;
+	unsigned int Scrollback : 1;
 } MudPreferenceMask;
 
 struct _MudPreferencesClass
@@ -54,6 +56,8 @@ void mud_preferences_set_disablekeys (MudPreferences *prefs, gboolean value);
 void mud_preferences_set_scrolloutput (MudPreferences *prefs, gboolean value);
 void mud_preferences_set_commdev (MudPreferences *prefs, const gchar *value);
 void mud_preferences_set_terminal (MudPreferences *prefs, const gchar *value);
+void mud_preferences_set_history (MudPreferences *prefs, const gint value);
+void mud_preferences_set_scrollback (MudPreferences *prefs, const gint value);
 
 G_END_DECLS
 
