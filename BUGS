@@ -1,9 +1,2 @@
 BUGS - hopefully none :)
 ========================
-
-1. It may crash with this message:
-    ** ERROR **: file gtktext.c: line XXXX (advance_mark_n): "n > 0"
-
-   This is something with the GTK+, I've saw this occasionally in 1.0.4
-and 1.1.1. Best is to use >= 1.0.5 or 1.1.2 depending if you are using
-development GTK or not.

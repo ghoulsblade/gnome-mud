@@ -1,4 +1,50 @@
 AMCL PLUGIN API
 ===============
 
-How to use.
+Ok, this is how a plugin is supposed to work. ;)
+
+When the plugin is loaded a structure called amcl_plugin_info is
+read. And, if a init-funktion is defined, it is called.
+
+How to make them then?
+
+1. Check out my small test.plugin app.
+2. #define __MODULE__
+3. #include modules_api.h from AMCL source code.
+4. You need one structure called amcl_plugin_info, and
+   it should look a little like this:
+
+   PLUGIN_INFO amcl_plugin_info = {
+	"Name of plugin",
+	"Author of plugin",
+	"Version of plugin",
+	"Small description of plugin.",
+	init-function
+   };
+
+5. A init-function should look like this:
+
+   void init_function(PLUGIN_OBJECT *plugin, gint context);
+
+   plugin is the object of your plugin, and context is the
+   the unique number for you plugin. the context can also
+   be found in (gint) plugin->handle. Be sure to keep track
+   of this number.
+
+
+Current plugin-specific functions:
+	plugin_popup_message(gchar *message);
+		- Opens a dialog window with message.
+	plugin_add_connection_text(CONNECTION_DATA *c, chat *t, gint ct);
+		- Send text t to connect c, if NULL, then to the current
+		  selected connection. ct can be used to set which type
+		  of message it is so proper colour can be displayed when
+		  displaying the message.
+	plugin_register_menu(gint context, gchar *name, gchar function);
+		- Register a menuitem with name for running function
+		  when selected.
+	plugin_register_data_incoming(gint context, gchar function);
+		- Registers function for recieving incoming data.
+	plugin_register_data_outgoing(gint context, gchar function);
+		- Registers function for getting the data before it
+		  is sent out.

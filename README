@@ -1,4 +1,4 @@
-Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
 This program is under GPL. See file COPYING for details.
 AMCL = A simple Mud CLient
 
@@ -20,7 +20,7 @@ currently 1.2.X due to bugs in the text widget.
     AMCL has been reported to compile and run on the following platforms,
 if you have a platform not included here, send me a mail to report.
 
-    - Linux 2.0, 2.1, 2.0
+    - Linux 2.0, 2.1, 2.2
     - FreeBSD 3.x-STABLE
 
     - GTK+ 1.2.4, 1.2.6

@@ -1,3 +1,18 @@
+Wed Feb 23 17:00:19 2000  Robin Ericsson  <lobbin@localhost.nu>
+
+	* AUTHORS: Added Maxim Kiselev.
+
+	* BUGS: This file should be empty for now ;)
+
+	* NEWS: News about version 0.7.
+
+	* PLUGIN.API: Useful information about the plugin api now
+	added.
+
+	* README, TODO, amcl.lsm: Minor changes for 0.7.
+
+	* AMCL-0.7-RELEASE!
+
 Mon Jan  3 20:50:22 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* README: Fixed up a little bit.

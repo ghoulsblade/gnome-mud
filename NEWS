@@ -9,6 +9,9 @@ Save the colors, finally you can save your favorite color settings.
 
 Command queue, send several command in one row.
 
+Multiple simultanious connections. Now you can connect to several
+muds within one AMCL.
+
 And of course, bugfixes, and many more bugs to be found. ;)
 
 --- Since 0.5.2
