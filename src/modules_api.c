@@ -48,7 +48,7 @@ gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
   GtkSignalFunc  sig_function;
 
   if ((sig_function = (GtkSignalFunc) dlsym ((void *) handle, function)) == NULL) {
-    g_message (_("Error register menu: %s"), dlerror());
+    g_message (_("Error while registering the menu: %s"), dlerror());
     return FALSE;
   }
 
@@ -68,7 +68,7 @@ gboolean plugin_register_data (gint handle, gchar *function, PLUGIN_DATA_DIRECTI
   plugin_datafunc  datafunc;
 
   if ((datafunc = (plugin_datafunc) dlsym ((void *) handle, function)) == NULL) {
-    g_message (_("Error register for data %s: %s"), dir == PLUGIN_DATA_IN ? "incoming" : "outgoing",
+    g_message (_("Error while registering for data %s: %s"), dir == PLUGIN_DATA_IN ? "incoming" : "outgoing",
 	       dlerror());
     return FALSE;
   }
@@ -76,7 +76,7 @@ gboolean plugin_register_data (gint handle, gchar *function, PLUGIN_DATA_DIRECTI
   data = g_new0(PLUGIN_DATA, 1);
 
   if ((data->plugin = plugin_get_plugin_object_by_handle(handle)) == NULL)
-    g_message(_("Error getting plugin from handle."));
+    g_message(_("Error while getting plugin from handle."));
 
   data->datafunc = datafunc;
   data->dir      = dir;

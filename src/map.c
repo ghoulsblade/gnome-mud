@@ -1431,7 +1431,7 @@ static gint button_press_event (GtkWidget *widget, GdkEventButton *event, AutoMa
 
 			/* Enter in */
 			if (automap->player == clicked_node)
-			{
+			{	/* Translator: this is an action, not a key */
 				enter_item = gtk_menu_item_new_with_label(_("Enter"));
 				gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), enter_item);
 				gtk_signal_connect(GTK_OBJECT(enter_item), "activate", GTK_SIGNAL_FUNC(on_enter_item_activated), data);

@@ -216,7 +216,7 @@
 			<type>int</type>
 			<default>10</default>
 			<locale name="C">
-				<short>How meny entries to keep in the command history</short>	
+				<short>How many entries to keep in the command history</short>	
 			</locale>
 		</schema>
 

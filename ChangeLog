@@ -1,3 +1,10 @@
+2003-09-01  Jordi Mallach  <jordi@sindominio.net>
+
+	* gnome-mud.schemas.in: Fix typo.
+	* src/modules_api: fix up a few wrong sentences.
+	* src/map.c: Add translator comment.
+	Thanks to Danilo Å| egan for the suggestions.
+
 2003-09-01  Danilo Å egan  <dsegan@gmx.net>
 
 	* configure.ac: Added "sr" and "sr@Latn" to ALL_LINGUAS.
