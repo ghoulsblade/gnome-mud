@@ -10,6 +10,7 @@ GNOME-Mud 0.8.0 [UNRELEASED]
 - Help dialogs "AUTHORS" and "README" removed, please see "ABOUT" or the
   documents shipped with the package.
 - Manpage added (gnome-mud.6)
+- GNOME-Mud Manual added (GNOME Help format).
 - French Translation.
 - Catalan, Spanish and Swedish updates.
 - Many bugfixes.
