@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.10.2\n"
+"Project-Id-Version: 0.10.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-11 12:31+0200\n"
-"PO-Revision-Date: 2003-07-11 12:31+0200\n"
+"POT-Creation-Date: 2003-09-02 20:00+0200\n"
+"PO-Revision-Date: 2003-09-02 20:00+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr ""
 "El caràcter que utilitza per a dividir les ordres en una cadena com «w;w;w;"
 "l», que s'enviarà al MUD com quatre ordres diferents."
 
-#: gnome-mud.schemas.in.h:3 src/profiles.c:1203
+#: gnome-mud.schemas.in.h:3 src/profiles.c:1220
 msgid "Aliases"
 msgstr "Àlies"
 
@@ -97,8 +97,8 @@ msgstr ""
 "el MUD demana un. Aquesta opció estableix el tipus de terminal que s'enviarà."
 
 #: gnome-mud.schemas.in.h:13
-msgid "How meny entries to keep in the command history"
-msgstr "Quantes entrades mantindre en la història d'ordres"
+msgid "How many entries to keep in the command history"
+msgstr "Quantes entrades s'han de mantindre a la història d'ordres"
 
 #: gnome-mud.schemas.in.h:14 src/prefs.c:799
 msgid ""
@@ -136,7 +136,7 @@ msgstr ""
 "Si s'habilita, quan es produisca nova eixida, el terminal es desplaçarà cap "
 "avall."
 
-#: gnome-mud.schemas.in.h:18 src/profiles.c:1234
+#: gnome-mud.schemas.in.h:18 src/profiles.c:1251
 msgid "Keybindings"
 msgstr "Assignacions de tecles"
 
@@ -214,12 +214,12 @@ msgstr ""
 "La ubicació de les pestanyes de connexions. Les opcions vàlides són «left», "
 "«right», «top» i «bottom»."
 
-#: gnome-mud.schemas.in.h:32 src/data.c:344 src/profiles.c:1217
+#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1234
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: gnome-mud.schemas.in.h:33 src/data.c:351 src/profiles.c:1210
+#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1227
 msgid "Variables"
 msgstr "Variables"
 
@@ -239,49 +239,49 @@ msgstr "Si s'ha de mantindre el text enviat a la connexió."
 msgid "Whether to scroll to the bottom when there's new output"
 msgstr "Si s'ha de desplaçar avall quan es produeix nova sortida."
 
-#: src/data.c:245
+#: src/data.c:247
 msgid "No void characters allowed."
 msgstr "No es permeten caràcters buïts."
 
 #. actions
-#: src/data.c:249 src/data.c:343
+#: src/data.c:251 src/data.c:345
 msgid "Actions"
 msgstr "Accions"
 
-#: src/data.c:251
+#: src/data.c:253
 #, c-format
 msgid "Character '%c' not allowed."
 msgstr "El caràcter «%c» no és permés."
 
-#: src/data.c:258 src/data.c:265
+#: src/data.c:260 src/data.c:267
 #, c-format
 msgid "%s too big."
 msgstr "%s és massa gran."
 
-#: src/data.c:272
+#: src/data.c:274
 #, c-format
 msgid "Can't duplicate %s."
 msgstr "No es pot duplicar %s."
 
 #. alias
-#: src/data.c:335
+#: src/data.c:337
 msgid "Alias"
 msgstr "Àlies"
 
-#: src/data.c:336
+#: src/data.c:338
 msgid "Replacement"
 msgstr "Substitució"
 
-#: src/data.c:352
+#: src/data.c:354
 msgid "Values"
 msgstr "Valors"
 
-#: src/data.c:359
+#: src/data.c:361
 #, c-format
 msgid "%s: trying to access to undefined data range: %d"
 msgstr "%s: s'està tractant d'accedir a una regió de dades indefinida: %d"
 
-#: src/data.c:371
+#: src/data.c:373
 msgid "GNOME-Mud Configuration Center"
 msgstr "Centre de Configuració del GNOME-Mud"
 
@@ -294,15 +294,15 @@ msgstr "No s'ha pogut iniciar GConf: %s"
 msgid "Do you really want to quit?"
 msgstr "Esteu segur de voler sortir?"
 
-#: src/init.c:142 src/init.c:641
+#: src/init.c:142 src/init.c:640
 msgid "Connect..."
 msgstr "Connecta..."
 
-#: src/init.c:154 src/profiles.c:941
+#: src/init.c:154 src/profiles.c:958
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:160 src/profiles.c:961
+#: src/init.c:160 src/profiles.c:978
 msgid "Port:"
 msgstr "Port:"
 
@@ -316,169 +316,169 @@ msgstr "*** Error intern: no existeix la connexió.\n"
 msgid "translator_credits"
 msgstr "Jordi Mallach <jordi@sindominio.net>"
 
-#: src/init.c:251
+#: src/init.c:250
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Un client MUD (Multi-User Dungeon) per al GNOME.\n"
 
-#: src/init.c:263
+#: src/init.c:262
 msgid "GNOME-Mud home page"
 msgstr "Pàgina principal del GNOME-Mud"
 
-#: src/init.c:591 src/init.c:621
+#: src/init.c:590 src/init.c:620
 #, c-format
 msgid "There was an error displaying help: %s"
 msgstr "S'ha produït un error en mostrar l'ajuda: %s"
 
-#: src/init.c:637
+#: src/init.c:636
 msgid "Wizard..."
 msgstr "Assistent..."
 
-#: src/init.c:637
+#: src/init.c:636
 msgid "Open the Connection Wizard"
 msgstr "Obre l'Assistent de connexions"
 
-#: src/init.c:639
+#: src/init.c:638
 msgid "Profiles..."
 msgstr "Perfils..."
 
-#: src/init.c:639
+#: src/init.c:638
 msgid "Manage user profiles"
 msgstr "Gestiona els perfils d'usuari"
 
-#: src/init.c:641
+#: src/init.c:640
 msgid "Connect to a mud"
 msgstr "Connecta a un mud"
 
-#: src/init.c:643
+#: src/init.c:642
 msgid "Disconnect"
 msgstr "Desconnecta"
 
-#: src/init.c:643
+#: src/init.c:642
 msgid "Disconnect from the mud"
 msgstr "Desconnecta del mud"
 
-#: src/init.c:645
+#: src/init.c:644
 msgid "Reconnect"
 msgstr "Reconnecta"
 
-#: src/init.c:645
+#: src/init.c:644
 msgid "Reconnect to the mud"
 msgstr "Reconnecta al mud"
 
-#: src/init.c:647
+#: src/init.c:646
 msgid "Exit"
 msgstr "Surt"
 
-#: src/init.c:647
+#: src/init.c:646
 msgid "Quit GNOME-Mud"
 msgstr "Surt de GNOME-Mud"
 
-#: src/init.c:652
+#: src/init.c:651
 msgid "Connection _Wizard..."
 msgstr "_Assistent de connexions..."
 
-#: src/init.c:653
+#: src/init.c:652
 msgid "_MudList Listing..."
 msgstr "Llistes de la _MudList..."
 
-#: src/init.c:655
+#: src/init.c:654
 msgid "C_onnect..."
 msgstr "C_onnecta..."
 
-#: src/init.c:656
+#: src/init.c:655
 msgid "_Disconnect"
 msgstr "_Desconnecta"
 
-#: src/init.c:657
+#: src/init.c:656
 msgid "_Reconnect"
 msgstr "_Reconnecta"
 
-#: src/init.c:659
+#: src/init.c:658
 msgid "S_tart Logging..."
 msgstr "Come_nça un registre..."
 
-#: src/init.c:660
+#: src/init.c:659
 msgid "Sto_p Logging"
 msgstr "D_eixa de registrar"
 
-#: src/init.c:661
+#: src/init.c:660
 msgid "_Save Buffer..."
 msgstr "De_sa el búfer..."
 
-#: src/init.c:663
+#: src/init.c:662
 msgid "_Close Window"
 msgstr "_Tanca la finestra"
 
-#: src/init.c:671
+#: src/init.c:670
 msgid "_Plugin Information..."
 msgstr "_Informació sobre connectors..."
 
-#: src/init.c:677
+#: src/init.c:676
 msgid "Auto _Mapper..."
 msgstr "_Automapejador..."
 
-#: src/init.c:680
+#: src/init.c:679
 msgid "P_lugins"
 msgstr "_Connectors"
 
-#: src/init.c:687
+#: src/init.c:686
 msgid "User Manual"
 msgstr "Manual de l'usuari"
 
-#: src/init.c:688
+#: src/init.c:687
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Mostra el manual d'usuari del GNOME-Mud"
 
-#: src/init.c:692
+#: src/init.c:691
 msgid "Plugin API Manual"
 msgstr "Manual de l'API de connectors"
 
-#: src/init.c:693
+#: src/init.c:692
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "Mostra el manual de l'API de connectors de GNOME-Mud"
 
-#: src/init.c:744
+#: src/init.c:743
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:767
+#: src/init.c:766
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versió %s (compilat %s, %s)\n"
 
-#: src/init.c:769
+#: src/init.c:768
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït sota els termes de la Llicència Pública General GNU.\n"
 
-#: src/keybind.c:147
+#: src/keybind.c:149
 msgid "You must use capture first!"
 msgstr "Heu d'utilitzar «captura» abans!"
 
-#: src/keybind.c:160
+#: src/keybind.c:162
 msgid "Can't add an existing key."
 msgstr "No es pot afegir una tecla ja existent."
 
-#: src/keybind.c:187
+#: src/keybind.c:189
 msgid "Incomplete fields."
 msgstr "Camps incomplets."
 
-#: src/keybind.c:309
+#: src/keybind.c:311
 msgid "GNOME-Mud Keybinding Center"
 msgstr "Centre d'assignació de tecles del GNOME-Mud"
 
-#: src/keybind.c:326
+#: src/keybind.c:328
 msgid "Key"
 msgstr "Tecla"
 
-#: src/keybind.c:329 src/keybind.c:346 src/keybind.c:364
+#: src/keybind.c:331 src/keybind.c:348 src/keybind.c:366
 msgid "Command"
 msgstr "Ordre"
 
-#: src/keybind.c:342
+#: src/keybind.c:344
 msgid "Bind"
 msgstr "Assigna"
 
-#: src/keybind.c:358 src/keybind.c:379
+#: src/keybind.c:360 src/keybind.c:381
 msgid "Capture"
 msgstr "Captura"
 
@@ -627,6 +627,7 @@ msgstr "Teleporta ací"
 msgid "Create new link"
 msgstr "Crea un nou enllaç"
 
+#. Translator: this is an action, not a key
 #: src/map.c:1435
 msgid "Enter"
 msgstr "Entra"
@@ -772,16 +773,16 @@ msgstr "S'està registrant el connector «%s» amb el nom «%s»."
 
 #: src/modules_api.c:51
 #, c-format
-msgid "Error register menu: %s"
-msgstr "Error de registre de menú: %s"
+msgid "Error while registering the menu: %s"
+msgstr "S'ha produït un error en registrar el menú: %s"
 
 #: src/modules_api.c:71
 #, c-format
-msgid "Error register for data %s: %s"
-msgstr "Error de registre de dades %s: %s"
+msgid "Error while registering data %s: %s"
+msgstr "S'ha produït un error en registrar les dades %s: %s"
 
 #: src/modules_api.c:79
-msgid "Error getting plugin from handle."
+msgid "Error while getting plugin from handle."
 msgstr "S'ha produït un error en obtindre el connector des de la nansa."
 
 #: src/mudlist.c:404
@@ -1042,116 +1043,116 @@ msgstr ""
 "moviment inusuals. Quan s'utilitza una d'aquestes, l'automapejador crearà un "
 "camí a un altre mapa. Utilitzeu dos punts per a separar les diferents ordres."
 
-#: src/profiles.c:283
+#: src/profiles.c:300
 msgid "New profile"
 msgstr "Nou perfil"
 
-#: src/profiles.c:286
+#: src/profiles.c:303
 msgid "Name of new profile:"
 msgstr "Nom del nou perfil:"
 
-#: src/profiles.c:496
+#: src/profiles.c:513
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: Llista de perfils"
 
-#: src/profiles.c:666 src/profiles.c:1038
+#: src/profiles.c:683 src/profiles.c:1055
 msgid "Default"
 msgstr "Predeterminats"
 
-#: src/profiles.c:847 src/profiles.c:1186
+#: src/profiles.c:864 src/profiles.c:1203
 msgid "Delete"
 msgstr "Elimina"
 
-#: src/profiles.c:863
+#: src/profiles.c:880
 msgid "GNOME-Mud Connections"
 msgstr "Connexions del GNOME-Mud"
 
-#: src/profiles.c:897
+#: src/profiles.c:914
 msgid "Mud"
 msgstr "Mud"
 
 #. Translators: this is the name of your player
-#: src/profiles.c:904
+#: src/profiles.c:921
 msgid "Character"
 msgstr "Personatge"
 
-#: src/profiles.c:917
+#: src/profiles.c:934
 msgid "Mud information"
 msgstr "Informació sobre el mud"
 
-#: src/profiles.c:933
+#: src/profiles.c:950
 msgid "Title:"
 msgstr "Títol:"
 
-#: src/profiles.c:977
+#: src/profiles.c:994
 msgid "Character information"
 msgstr "Informació sobre el personatge"
 
-#: src/profiles.c:993
+#: src/profiles.c:1010
 msgid "Character:"
 msgstr "Personatge:"
 
-#: src/profiles.c:1001
+#: src/profiles.c:1018
 msgid "Password:"
 msgstr "Contrasenya:"
 
-#: src/profiles.c:1022
+#: src/profiles.c:1039
 msgid "Profile information"
 msgstr "Informació de perfils"
 
-#: src/profiles.c:1048
+#: src/profiles.c:1065
 msgid "Select Profile"
 msgstr "Seleccioneu un perfil"
 
-#: src/profiles.c:1064
+#: src/profiles.c:1081
 msgid "Fetch from mudlist"
 msgstr "Importa de mudlist"
 
-#: src/profiles.c:1116
+#: src/profiles.c:1133
 msgid "Connect"
 msgstr "Connecta"
 
-#: src/profiles.c:1155
+#: src/profiles.c:1172
 msgid "Profiles"
 msgstr "Perfils"
 
-#: src/profiles.c:1164
+#: src/profiles.c:1181
 msgid "GNOME-Mud Profiles"
 msgstr "Perfils del GNOME-Mud"
 
-#: src/profiles.c:1178
+#: src/profiles.c:1195
 msgid "New"
 msgstr "Nou"
 
-#: src/profiles.c:1179
+#: src/profiles.c:1196
 msgid "Create a new profile"
 msgstr "Crea un nou perfil"
 
-#: src/profiles.c:1186
+#: src/profiles.c:1203
 msgid "Delete a profile"
 msgstr "Elimina un perfil"
 
-#: src/profiles.c:1203
+#: src/profiles.c:1220
 msgid "Set aliases"
 msgstr "Estableix àlies"
 
-#: src/profiles.c:1210
+#: src/profiles.c:1227
 msgid "Set variables"
 msgstr "Estableix variables"
 
-#: src/profiles.c:1217
+#: src/profiles.c:1234
 msgid "Set triggers"
 msgstr "Estableix triggers"
 
-#: src/profiles.c:1234
+#: src/profiles.c:1251
 msgid "Set keybindings"
 msgstr "Estableix assignacions de tecles"
 
-#: src/profiles.c:1251
+#: src/profiles.c:1268
 msgid "Close"
 msgstr "Tanca"
 
-#: src/profiles.c:1251
+#: src/profiles.c:1268
 msgid "Close the window"
 msgstr "Tanca la finestra"
 
