@@ -4,8 +4,8 @@
 
 #include <glib-object.h>
 
+#include "gconf-helper.h"
 #include "mud-preferences.h"
-#include "mud-profile.h"
 
 static char const rcsid[] = "$Id: ";
 
@@ -73,6 +73,13 @@ mud_preferences_finalize (GObject *object)
 	g_list_free(preferences->priv->profile_list);
 	g_free(preferences->priv);
 
+	g_free(preferences->preferences.FontName);	
+	g_free(preferences->preferences.TabLocation);	
+	g_free(preferences->preferences.CommDev);	
+	g_free(preferences->preferences.TerminalType);	
+	g_free(preferences->preferences.MudListFile);
+	g_free(preferences->preferences.LastLogDir);
+	
 	g_message("finalizing preferences...\n");
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
 	parent_class->finalize(object);
@@ -117,6 +124,8 @@ mud_preferences_new (GConfClient *client)
 	{
 		prefs = g_object_new(MUD_TYPE_PREFERENCES, NULL);
 		prefs->priv->gconf_client = client;
+
+		gm_gconf_load_preferences(client, &prefs->preferences);
 	}
 
 	mud_preferences_load_profiles(prefs);

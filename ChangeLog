@@ -1,3 +1,25 @@
+2004-06-17  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/Makefile.am: Added gconf-helper.[ch].
+
+	* src/mud-preferences-window.c (mud_preferences_window_init):
+	Connected to response signal.
+	(mud_preferences_window_fill_profiles): Added global preferences.
+	(mud_preferences_response_cb): Added.
+
+	* src/mud-preferences.c (mud_preferences_finalize): Free values
+	from properties.
+	(mud_preferenes_new): Load preferences.
+
+	* src/mud-preferences.h [_MudPreferences]: Added preferences
+	member.
+
+	* src/mud-profile.h [_MudPrefs]: Added.
+	[_MudProfile]: Added preferences member.
+
+	* ui/main.glade [preferences-window]: Changed responsetype of 
+	button to GTK_RESPONSE_CLOSE.
+
 2004-06-16  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mud-preferences-window.c [MudPreferencesWindowPrivate]:

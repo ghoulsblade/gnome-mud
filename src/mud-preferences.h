@@ -4,6 +4,7 @@
 G_BEGIN_DECLS
 
 #include <gconf/gconf-client.h>
+#include "mud-profile.h"
 
 #define MUD_TYPE_PREFERENCES              (mud_preferences_get_type ())
 #define MUD_PREFERENCES(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_PREFERENCES, MudPreferences))
@@ -21,6 +22,8 @@ struct _MudPreferences
 	GObject parent_instance;
 
 	MudPreferencesPrivate *priv;
+
+	MudPrefs preferences;
 };
 
 struct _MudPreferencesClass

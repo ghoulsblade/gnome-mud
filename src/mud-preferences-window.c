@@ -52,6 +52,7 @@ static void mud_preferences_window_class_init     (MudPreferencesWindowClass *pr
 static void mud_preferences_window_finalize       (GObject *object);
 static void mud_preferences_tree_selection_cb     (GtkTreeSelection *selection, MudPreferencesWindow *window);
 static void mud_preferences_show_tab              (MudPreferencesWindow *window, gint tab);
+static gboolean mud_preferences_response_cb       (GtkWidget *dialog, GdkEvent *Event, MudPreferencesWindow *window);
 
 GType
 mud_preferences_window_get_type (void)
@@ -101,6 +102,9 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(dialog), TRUE);
 	gtk_window_present(GTK_WINDOW(dialog));
 
+	g_signal_connect(G_OBJECT(dialog), "response", 
+					 G_CALLBACK(mud_preferences_response_cb), preferences);
+	
 	g_object_unref(G_OBJECT(glade));
 }
 
@@ -147,6 +151,13 @@ mud_preferences_window_fill_profiles (MudPreferencesWindow *window)
 													  "text", TITLE_COLUMN,
 													  NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(window->priv->treeview), column);
+
+	gtk_tree_store_append(store, &iter, NULL);
+	gtk_tree_store_set(store, &iter,
+					   TITLE_COLUMN, _("Preferences"),
+					   DATA_COLUMN, NULL,
+					   TYPE_COLUMN, GINT_TO_POINTER(COLUMN_PREFERENCES),
+					   -1);
 	
 	list = mud_preferences_get_profiles(window->priv->prefs);
 	for (entry = (GList *) list; entry != NULL; entry = g_list_next(entry))
@@ -223,6 +234,15 @@ mud_preferences_show_tab(MudPreferencesWindow *window, gint tab)
 	}
 }
 
+static gboolean
+mud_preferences_response_cb(GtkWidget *dialog, GdkEvent *event, MudPreferencesWindow *window)
+{
+	gtk_widget_destroy(dialog);
+	g_object_unref(window);
+	
+	return FALSE;
+}
+
 MudPreferencesWindow*
 mud_preferences_window_new (MudPreferences *preferences)
 {
@@ -232,7 +252,7 @@ mud_preferences_window_new (MudPreferences *preferences)
 	prefs->priv->prefs = preferences;
 
 	mud_preferences_window_fill_profiles(prefs);
-	
+
 	return prefs;
 }
 

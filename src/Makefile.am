@@ -20,6 +20,8 @@ gamesdir = $(prefix)/games
 games_PROGRAMS = gnome-mud
 
 gnome_mud_SOURCES =		\
+	gconf-helper.c \
+	gconf-helper.h \
 	gnome-mud.c \
 	gnome.mud.h \
 	mud-connection-view.c \
