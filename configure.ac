@@ -21,7 +21,6 @@ GETTEXT_PACKAGE=gnome-mud
 AC_SUBST(GETTEXT_PACKAGE)
 AC_PROG_INTLTOOL([0.23])
 ALL_LINGUAS="az ca cs de es fr hr mk ml nl pl pt sr sr@Latn sv tr"
-AM_GNU_GETTEXT_VERSION(0.11.5)
 AM_GLIB_GNU_GETTEXT
 
 dnl gconf tests

@@ -274,7 +274,7 @@ static PyObject *pymud_pygtk_add_widget (PyObject *self, PyObject *args)
 		return NULL;
 
 	Py_INCREF(widget);
-	gtk_box_pack_start (GTK_BOX (box_user), GTK_WIDGET(pygobject_get(widget)), (gboolean)expand, (gboolean)fill, (guint)padding);
+	gtk_box_pack_start (GTK_BOX (box_user), GTK_WIDGET(widget->obj), (gboolean)expand, (gboolean)fill, (guint)padding);
 
 	Py_INCREF(Py_None);
 	return Py_None;

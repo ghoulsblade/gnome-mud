@@ -1,5 +1,14 @@
 2003-01-09  Jordi Mallach  <jordi@sindominio.net>
 
+	* configure.ac: Remove call to AM_GNU_GETTEXT_VERSION, which confuses
+	aclocal on some distros.
+
+	* python.c (pymud_version): Pass correct arguments to
+	gtk_box_pack_start(). Patch from Aravi. (This code is currently
+	disabled).
+
+2003-01-09  Jordi Mallach  <jordi@sindominio.net>
+
 	* src/net.c: Fix the path for connection status icons.
 
 2003-01-09  Jordi Mallach  <jordi@sindominio.net>
