@@ -340,7 +340,10 @@ static void profilelist_new_input_cb(gchar *string, gpointer data)
 static void profilelist_new_cb(GtkWidget *widget, gpointer data)
 {
 	GtkWidget *window = widget->parent->parent->parent;
-	gnome_request_dialog(FALSE, _("Name of new profile:"), "", 50, profilelist_new_input_cb, data, GTK_WINDOW(window));
+	GtkWidget *dialog = gnome_request_dialog(FALSE, _("Name of new profile:"), "", 50, profilelist_new_input_cb, data, GTK_WINDOW(window));
+
+	gtk_signal_connect_object(GTK_OBJECT(window), "destroy", gtk_widget_destroy, (gpointer) dialog);
+	gtk_signal_connect(GTK_OBJECT(dialog), "destroy", gtk_widget_destroyed, &dialog);
 }
 
 static void profilelist_delete_cb(GtkWidget *widget, gpointer data)
@@ -564,6 +567,8 @@ static void profilelist_dialog (GtkWidget *label)
 	gtk_signal_connect(GTK_OBJECT(button_ok), "clicked", GTK_SIGNAL_FUNC(profilelist_button_ok_cb), (gpointer) label);
 	gtk_signal_connect_object(GTK_OBJECT(button_ok), "clicked", gtk_widget_destroy, (gpointer) dialog);
 	gtk_signal_connect_object(GTK_OBJECT(button_cancel), "clicked", gtk_widget_destroy, (gpointer) dialog);
+
+	gtk_signal_connect_object(GTK_OBJECT(label->parent->parent), "destroy", gtk_widget_destroy, (gpointer) dialog);
 	gtk_signal_connect(GTK_OBJECT(dialog), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &dialog);
 	
 	gtk_widget_show(dialog);
