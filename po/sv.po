@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME-MUD 0.8.0\n"
-"POT-Creation-Date: 2002-02-21 14:34+0100\n"
+"POT-Creation-Date: 2002-02-28 13:07+0100\n"
 "PO-Revision-Date: 2002-02-22 08:27+0100\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -47,12 +47,12 @@ msgstr "Alias"
 msgid "Replacement"
 msgstr "Ersättning"
 
-#: src/data.c:300 src/profiles.c:1239
+#: src/data.c:300 src/profiles.c:1265
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:308 src/profiles.c:1231
+#: src/data.c:308 src/profiles.c:1257
 msgid "Variables"
 msgstr "Variabler"
 
@@ -73,11 +73,11 @@ msgstr "GNOME-Mud Inställnings Center"
 msgid "Add"
 msgstr "Lägg till"
 
-#: src/data.c:378 src/keybind.c:351 src/profiles.c:864 src/profiles.c:1205
+#: src/data.c:378 src/keybind.c:351 src/profiles.c:890 src/profiles.c:1231
 msgid "Delete"
 msgstr "Ta bort"
 
-#: src/data.c:382 src/keybind.c:355 src/profiles.c:1275
+#: src/data.c:382 src/keybind.c:355 src/profiles.c:1301
 msgid "Close"
 msgstr "Stäng"
 
@@ -89,15 +89,15 @@ msgstr "Avsluta?"
 msgid "Do you really want to quit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/init.c:203 src/init.c:579 src/init.c:593
+#: src/init.c:203 src/init.c:580 src/init.c:594
 msgid "Connect..."
 msgstr "Anslut..."
 
-#: src/init.c:214 src/profiles.c:958
+#: src/init.c:214 src/profiles.c:984
 msgid "Host:"
 msgstr "Adress:"
 
-#: src/init.c:221 src/profiles.c:978
+#: src/init.c:221 src/profiles.c:1004
 msgid "Port:"
 msgstr "Port:"
 
@@ -168,96 +168,97 @@ msgstr "Vashti, piltangent mappning, telnet patchar"
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
-#: src/init.c:325
+#. latin1 translators can use the copyright symbol here, see man latin1(7)
+#: src/init.c:326
 msgid "(C) 1998-2002 Robin Ericsson"
 msgstr " © 1998-2002 Robin Ericsson"
 
-#: src/init.c:327
+#: src/init.c:328
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
 msgstr "En MUD-klient byggd på GTK+/GNOME libbar."
 
-#: src/init.c:340
+#: src/init.c:341
 msgid "GNOME-Mud homepage"
 msgstr "GNOME-Mud hemsida"
 
-#: src/init.c:575
+#: src/init.c:576
 msgid "Wizard..."
 msgstr "Wizard..."
 
-#: src/init.c:577
+#: src/init.c:578
 msgid "Profiles..."
 msgstr "Profiler..."
 
-#: src/init.c:581 src/init.c:594
+#: src/init.c:582 src/init.c:595
 msgid "Disconnect"
 msgstr "Koppla från"
 
-#: src/init.c:583 src/init.c:595
+#: src/init.c:584 src/init.c:596
 msgid "Reconnect"
 msgstr "Återanslut"
 
-#: src/init.c:585
+#: src/init.c:586
 msgid "Exit"
 msgstr "Avsluta"
 
-#: src/init.c:590
+#: src/init.c:591
 msgid "Connection Wizard..."
 msgstr "Anslutnings Lista..."
 
-#: src/init.c:591
+#: src/init.c:592
 msgid "MudList Listing..."
 msgstr "MudList lista..."
 
-#: src/init.c:597
+#: src/init.c:598
 msgid "Start Logging..."
 msgstr "Starta Loggning..."
 
-#: src/init.c:598
+#: src/init.c:599
 msgid "Stop Logging"
 msgstr "Stoppa Loggning..."
 
-#: src/init.c:599
+#: src/init.c:600
 msgid "Save Buffer..."
 msgstr "Spara log..."
 
-#: src/init.c:601
+#: src/init.c:602
 msgid "Close Window"
 msgstr "Stäng fönster"
 
-#: src/init.c:609
+#: src/init.c:610
 msgid "Plugin Information..."
 msgstr "Plugin Information..."
 
-#: src/init.c:614
+#: src/init.c:615
 msgid "Auto Mapper..."
 msgstr "Kart Genererare..."
 
-#: src/init.c:616
+#: src/init.c:617
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:623
+#: src/init.c:624
 msgid "GNOME-Mud manual"
 msgstr "GNOME-Mud manual"
 
-#: src/init.c:623
+#: src/init.c:624
 msgid "Open the GNOME-Mud manual"
 msgstr "Öppna GNOME-Mud manualen"
 
-#: src/init.c:675
+#: src/init.c:676
 msgid "Main"
 msgstr "Arkiv"
 
-#: src/init.c:716
+#: src/init.c:717
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud version %s (kompilerad %s, %s)\n"
 
-#: src/init.c:719
+#: src/init.c:720
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuerad under GNU General Public License.\n"
 
-#: src/init.c:721
+#: src/init.c:722
 #, c-format
 msgid ""
 "\n"
@@ -639,91 +640,98 @@ msgstr "Funktionalitet"
 msgid "Color and Fonts"
 msgstr "Färg och Font"
 
-#: src/profiles.c:335
+#. GtkWidget *dialog = gnome_request_dialog(FALSE, _("Name of new profile:"), "", 50, profilelist_new_input_cb, data, GTK_WINDOW(window));
+#.
+#. gtk_signal_connect_object(GTK_OBJECT(window), "destroy", gtk_widget_destroy, (gpointer) dialog);
+#. gtk_signal_connect(GTK_OBJECT(dialog), "destroy", gtk_widget_destroyed, &dialog);
+#: src/profiles.c:342
+msgid "New profile"
+msgstr "Ny profil"
+
+#: src/profiles.c:345
 msgid "Name of new profile:"
 msgstr "Namn på nya profilen:"
 
-#: src/profiles.c:522
+#: src/profiles.c:548
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: Profil-lista"
 
-#: src/profiles.c:686 src/profiles.c:1055
+#: src/profiles.c:712 src/profiles.c:1081
 msgid "Default"
 msgstr "Standard"
 
-#: src/profiles.c:881
+#: src/profiles.c:907
 msgid "GNOME-Mud Connections"
 msgstr "GNOME-Mud Anslutningar"
 
-#: src/profiles.c:915
+#: src/profiles.c:941
 msgid "Mud"
 msgstr "Mud"
 
-#: src/profiles.c:921
+#: src/profiles.c:947
 msgid "Character"
 msgstr "Karaktär"
 
-#: src/profiles.c:934
+#: src/profiles.c:960
 msgid " Mud Information "
 msgstr "Mud Information "
 
-#: src/profiles.c:950
+#: src/profiles.c:976
 msgid "Title:"
 msgstr "Titel:"
 
-#: src/profiles.c:994
+#: src/profiles.c:1020
 msgid " Character Information "
 msgstr " Karaktär Information "
 
-#: src/profiles.c:1010
+#: src/profiles.c:1036
 msgid "Character:"
 msgstr "Karaktär:"
 
-#: src/profiles.c:1018
+#: src/profiles.c:1044
 msgid "Password:"
 msgstr "Lösenord:"
 
-#: src/profiles.c:1039
+#: src/profiles.c:1065
 msgid " Profile Information "
 msgstr " Profil Information "
 
-#: src/profiles.c:1065
+#: src/profiles.c:1091
 msgid "Select Profile"
 msgstr "Välj Profil"
 
-#: src/profiles.c:1109
+#: src/profiles.c:1135
 msgid "Fetch from mudlist"
 msgstr "Hämta från mudlista"
 
-#: src/profiles.c:1126
+#: src/profiles.c:1152
 msgid "Connect"
 msgstr "Anslut"
 
-#: src/profiles.c:1172
+#: src/profiles.c:1198
 msgid "Profiles"
 msgstr "Profiler"
 
-#: src/profiles.c:1182
+#: src/profiles.c:1208
 msgid "GNOME-Mud Profiles"
 msgstr "GNOME-Mud Profiler"
 
-#: src/profiles.c:1197
+#: src/profiles.c:1223
 msgid "New"
 msgstr "Ny"
 
-#: src/profiles.c:1223
+#: src/profiles.c:1249
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1257
+#: src/profiles.c:1283
 msgid "Keybinds"
 msgstr "Tangenter"
 
-#: src/window.c:153
+#: src/window.c:150
 msgid "GNOME-Mud Popup Message"
 msgstr "GNOME-Mud Popup Meddelande"
 
-#: src/window.c:168
+#: src/window.c:165
 msgid "Ok"
 msgstr "Ok"
-

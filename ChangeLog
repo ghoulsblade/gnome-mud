@@ -1,3 +1,16 @@
+Thu Feb 28 13:04:48 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* po/{es, de, ca, fr}.po: make update-po
+	* po/sv.po: added one missing string.
+	
+	* src/net.c (connection_send_telnet_control): Compile fix for
+	bug #523666.
+
+	* src/profiles.c (profilelist_new_input_cb): Renamed to
+	profilelist_new_profile
+	(profilelist_new_cb): Changed gnome_request_dialog to
+	gnome_dialog.
+
 Wed Feb 27 14:54:35 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* po/sv.po: added two missing strings.

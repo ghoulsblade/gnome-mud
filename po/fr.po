@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.8.99\n"
-"POT-Creation-Date: 2002-02-26 19:41+0100\n"
+"POT-Creation-Date: 2002-02-28 13:07+0100\n"
 "PO-Revision-Date: 2002-02-27 14:01+0100\n"
 "Last-Translator: Martin Quinson <martin.quinson@ens-lyon.fr>\n"
 "Language-Team: Debian French translators <debian-l10n-french@lists.debian."
@@ -49,12 +49,12 @@ msgstr "Alias"
 msgid "Replacement"
 msgstr "Remplacement"
 
-#: src/data.c:300 src/profiles.c:1239
+#: src/data.c:300 src/profiles.c:1265
 msgid "Triggers"
 msgstr "Déclencheurs"
 
 #. vars
-#: src/data.c:308 src/profiles.c:1231
+#: src/data.c:308 src/profiles.c:1257
 msgid "Variables"
 msgstr "Variables"
 
@@ -76,11 +76,11 @@ msgstr "Centre de configuration de GNOME-Mud"
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/data.c:378 src/keybind.c:351 src/profiles.c:864 src/profiles.c:1205
+#: src/data.c:378 src/keybind.c:351 src/profiles.c:890 src/profiles.c:1231
 msgid "Delete"
 msgstr "Effacer"
 
-#: src/data.c:382 src/keybind.c:355 src/profiles.c:1275
+#: src/data.c:382 src/keybind.c:355 src/profiles.c:1301
 msgid "Close"
 msgstr "Fermer"
 
@@ -96,11 +96,11 @@ msgstr "Voulez vous réellement quitter ?"
 msgid "Connect..."
 msgstr "Connexion..."
 
-#: src/init.c:214 src/profiles.c:958
+#: src/init.c:214 src/profiles.c:984
 msgid "Host:"
 msgstr "Hôte :"
 
-#: src/init.c:221 src/profiles.c:978
+#: src/init.c:221 src/profiles.c:1004
 msgid "Port:"
 msgstr "Port :"
 
@@ -648,83 +648,92 @@ msgstr "Fonctionnalité"
 msgid "Color and Fonts"
 msgstr "Couleur et polices"
 
-#: src/profiles.c:335
+#. GtkWidget *dialog = gnome_request_dialog(FALSE, _("Name of new profile:"), "", 50, profilelist_new_input_cb, data, GTK_WINDOW(window));
+#.
+#. gtk_signal_connect_object(GTK_OBJECT(window), "destroy", gtk_widget_destroy, (gpointer) dialog);
+#. gtk_signal_connect(GTK_OBJECT(dialog), "destroy", gtk_widget_destroyed, &dialog);
+#: src/profiles.c:342
+#, fuzzy
+msgid "New profile"
+msgstr "Nom du nouveau profile :"
+
+#: src/profiles.c:345
 msgid "Name of new profile:"
 msgstr "Nom du nouveau profile :"
 
-#: src/profiles.c:522
+#: src/profiles.c:548
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: Liste des Profiles"
 
-#: src/profiles.c:686 src/profiles.c:1055
+#: src/profiles.c:712 src/profiles.c:1081
 msgid "Default"
 msgstr "Par défaut"
 
-#: src/profiles.c:881
+#: src/profiles.c:907
 msgid "GNOME-Mud Connections"
 msgstr "Assistant de connexion GNOME-Mud"
 
-#: src/profiles.c:915
+#: src/profiles.c:941
 msgid "Mud"
 msgstr "Mud"
 
-#: src/profiles.c:921
+#: src/profiles.c:947
 msgid "Character"
 msgstr "Personnage"
 
-#: src/profiles.c:934
+#: src/profiles.c:960
 msgid " Mud Information "
 msgstr " Informations le mud "
 
-#: src/profiles.c:950
+#: src/profiles.c:976
 msgid "Title:"
 msgstr "Titre :"
 
-#: src/profiles.c:994
+#: src/profiles.c:1020
 msgid " Character Information "
 msgstr " Informations sur le personnage "
 
-#: src/profiles.c:1010
+#: src/profiles.c:1036
 msgid "Character:"
 msgstr "Personnage :"
 
-#: src/profiles.c:1018
+#: src/profiles.c:1044
 msgid "Password:"
 msgstr "Mot de passe :"
 
-#: src/profiles.c:1039
+#: src/profiles.c:1065
 msgid " Profile Information "
 msgstr " Informations sur les profiles "
 
-#: src/profiles.c:1065
+#: src/profiles.c:1091
 msgid "Select Profile"
 msgstr "Choisir un profile"
 
-#: src/profiles.c:1109
+#: src/profiles.c:1135
 msgid "Fetch from mudlist"
 msgstr "Télécharger depuis la liste des muds"
 
-#: src/profiles.c:1126
+#: src/profiles.c:1152
 msgid "Connect"
 msgstr "Connecter"
 
-#: src/profiles.c:1172
+#: src/profiles.c:1198
 msgid "Profiles"
 msgstr "Profiles"
 
-#: src/profiles.c:1182
+#: src/profiles.c:1208
 msgid "GNOME-Mud Profiles"
 msgstr "Profiles GNOME-Mud"
 
-#: src/profiles.c:1197
+#: src/profiles.c:1223
 msgid "New"
 msgstr "Nouveau"
 
-#: src/profiles.c:1223
+#: src/profiles.c:1249
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1257
+#: src/profiles.c:1283
 msgid "Keybinds"
 msgstr "Racourcis"
 

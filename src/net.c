@@ -471,7 +471,7 @@ void connection_send_telnet_control (CONNECTION_DATA *connection, int len, ...)
 	va_start (ap, len);
 
 	for (i = 0 ; i <= (len - 1); i++)
-		pkt[i] = va_arg (ap, unsigned char);
+		pkt[i] = va_arg (ap, int);
 
 	write (connection->sockfd, pkt, i);
 

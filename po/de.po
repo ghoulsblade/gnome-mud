@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2002-02-21 14:34+0100\n"
+"POT-Creation-Date: 2002-02-28 13:07+0100\n"
 "PO-Revision-Date: 2000-12-27 14:26+0100\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: de <de@li.org>\n"
@@ -48,12 +48,12 @@ msgstr "Alias"
 msgid "Replacement"
 msgstr "Ersetzung"
 
-#: src/data.c:300 src/profiles.c:1239
+#: src/data.c:300 src/profiles.c:1265
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:308 src/profiles.c:1231
+#: src/data.c:308 src/profiles.c:1257
 msgid "Variables"
 msgstr ""
 
@@ -74,11 +74,11 @@ msgstr ""
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: src/data.c:378 src/keybind.c:351 src/profiles.c:864 src/profiles.c:1205
+#: src/data.c:378 src/keybind.c:351 src/profiles.c:890 src/profiles.c:1231
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/data.c:382 src/keybind.c:355 src/profiles.c:1275
+#: src/data.c:382 src/keybind.c:355 src/profiles.c:1301
 msgid "Close"
 msgstr "Schliessen"
 
@@ -90,15 +90,15 @@ msgstr "Ende?"
 msgid "Do you really want to quit?"
 msgstr ""
 
-#: src/init.c:203 src/init.c:579 src/init.c:593
+#: src/init.c:203 src/init.c:580 src/init.c:594
 msgid "Connect..."
 msgstr "Verbinde..."
 
-#: src/init.c:214 src/profiles.c:958
+#: src/init.c:214 src/profiles.c:984
 msgid "Host:"
 msgstr "Rechner:"
 
-#: src/init.c:221 src/profiles.c:978
+#: src/init.c:221 src/profiles.c:1004
 msgid "Port:"
 msgstr "Port:"
 
@@ -168,101 +168,102 @@ msgstr ""
 msgid "GNOME-Mud"
 msgstr "AMCL Kartenzeichner"
 
-#: src/init.c:325
+#. latin1 translators can use the copyright symbol here, see man latin1(7)
+#: src/init.c:326
 msgid "(C) 1998-2002 Robin Ericsson"
 msgstr ""
 
-#: src/init.c:327
+#: src/init.c:328
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
 msgstr ""
 
-#: src/init.c:340
+#: src/init.c:341
 #, fuzzy
 msgid "GNOME-Mud homepage"
 msgstr "AMCL Benachrichtigung"
 
-#: src/init.c:575
+#: src/init.c:576
 msgid "Wizard..."
 msgstr ""
 
-#: src/init.c:577
+#: src/init.c:578
 msgid "Profiles..."
 msgstr ""
 
-#: src/init.c:581 src/init.c:594
+#: src/init.c:582 src/init.c:595
 msgid "Disconnect"
 msgstr "Verbindung unterbrechen"
 
-#: src/init.c:583 src/init.c:595
+#: src/init.c:584 src/init.c:596
 #, fuzzy
 msgid "Reconnect"
 msgstr "Verbinden"
 
-#: src/init.c:585
+#: src/init.c:586
 msgid "Exit"
 msgstr ""
 
-#: src/init.c:590
+#: src/init.c:591
 msgid "Connection Wizard..."
 msgstr "Verbindungsassistent"
 
-#: src/init.c:591
+#: src/init.c:592
 msgid "MudList Listing..."
 msgstr ""
 
-#: src/init.c:597
+#: src/init.c:598
 msgid "Start Logging..."
 msgstr ""
 
-#: src/init.c:598
+#: src/init.c:599
 #, fuzzy
 msgid "Stop Logging"
 msgstr "Autologin?"
 
-#: src/init.c:599
+#: src/init.c:600
 msgid "Save Buffer..."
 msgstr ""
 
-#: src/init.c:601
+#: src/init.c:602
 msgid "Close Window"
 msgstr "Schliesse Fenster"
 
-#: src/init.c:609
+#: src/init.c:610
 msgid "Plugin Information..."
 msgstr "Plugin Information..."
 
-#: src/init.c:614
+#: src/init.c:615
 #, fuzzy
 msgid "Auto Mapper..."
 msgstr "Karte..."
 
-#: src/init.c:616
+#: src/init.c:617
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:623
+#: src/init.c:624
 #, fuzzy
 msgid "GNOME-Mud manual"
 msgstr "AMCL Kartenzeichner"
 
-#: src/init.c:623
+#: src/init.c:624
 msgid "Open the GNOME-Mud manual"
 msgstr ""
 
-#: src/init.c:675
+#: src/init.c:676
 msgid "Main"
 msgstr "Allgemein"
 
-#: src/init.c:716
+#: src/init.c:717
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr ""
 
-#: src/init.c:719
+#: src/init.c:720
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Verteilt unter den Bedingungen der GNU General Public License.\n"
 
-#: src/init.c:721
+#: src/init.c:722
 #, c-format
 msgid ""
 "\n"
@@ -646,102 +647,110 @@ msgstr ""
 msgid "Color and Fonts"
 msgstr ""
 
-#: src/profiles.c:335
+#. GtkWidget *dialog = gnome_request_dialog(FALSE, _("Name of new profile:"), "", 50, profilelist_new_input_cb, data, GTK_WINDOW(window));
+#.
+#. gtk_signal_connect_object(GTK_OBJECT(window), "destroy", gtk_widget_destroy, (gpointer) dialog);
+#. gtk_signal_connect(GTK_OBJECT(dialog), "destroy", gtk_widget_destroyed, &dialog);
+#: src/profiles.c:342
+msgid "New profile"
+msgstr ""
+
+#: src/profiles.c:345
 msgid "Name of new profile:"
 msgstr ""
 
-#: src/profiles.c:522
+#: src/profiles.c:548
 #, fuzzy
 msgid "GNOME-Mud: Profilelist"
 msgstr "AMCL Benachrichtigung"
 
-#: src/profiles.c:686 src/profiles.c:1055
+#: src/profiles.c:712 src/profiles.c:1081
 msgid "Default"
 msgstr "Standard"
 
-#: src/profiles.c:881
+#: src/profiles.c:907
 #, fuzzy
 msgid "GNOME-Mud Connections"
 msgstr "AMCL Verbindungsassistent"
 
-#: src/profiles.c:915
+#: src/profiles.c:941
 msgid "Mud"
 msgstr ""
 
-#: src/profiles.c:921
+#: src/profiles.c:947
 msgid "Character"
 msgstr ""
 
-#: src/profiles.c:934
+#: src/profiles.c:960
 #, fuzzy
 msgid " Mud Information "
 msgstr "AMCL Plugin-Informationen"
 
-#: src/profiles.c:950
+#: src/profiles.c:976
 msgid "Title:"
 msgstr ""
 
-#: src/profiles.c:994
+#: src/profiles.c:1020
 msgid " Character Information "
 msgstr ""
 
-#: src/profiles.c:1010
+#: src/profiles.c:1036
 msgid "Character:"
 msgstr ""
 
-#: src/profiles.c:1018
+#: src/profiles.c:1044
 #, fuzzy
 msgid "Password:"
 msgstr ""
 "\n"
 "Passwort:"
 
-#: src/profiles.c:1039
+#: src/profiles.c:1065
 #, fuzzy
 msgid " Profile Information "
 msgstr "AMCL Plugin-Informationen"
 
-#: src/profiles.c:1065
+#: src/profiles.c:1091
 msgid "Select Profile"
 msgstr ""
 
-#: src/profiles.c:1109
+#: src/profiles.c:1135
 msgid "Fetch from mudlist"
 msgstr ""
 
-#: src/profiles.c:1126
+#: src/profiles.c:1152
 msgid "Connect"
 msgstr "Verbinden"
 
-#: src/profiles.c:1172
+#: src/profiles.c:1198
 msgid "Profiles"
 msgstr ""
 
-#: src/profiles.c:1182
+#: src/profiles.c:1208
 #, fuzzy
 msgid "GNOME-Mud Profiles"
 msgstr "AMCL Benachrichtigung"
 
-#: src/profiles.c:1197
+#: src/profiles.c:1223
 msgid "New"
 msgstr ""
 
-#: src/profiles.c:1223
+#: src/profiles.c:1249
 #, fuzzy
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1257
+#: src/profiles.c:1283
 #, fuzzy
 msgid "Keybinds"
 msgstr "Makros..."
 
-#: src/window.c:153
+#: src/window.c:150
 #, fuzzy
 msgid "GNOME-Mud Popup Message"
 msgstr "AMCL Benachrichtigung"
 
-#: src/window.c:168
+#: src/window.c:165
 msgid "Ok"
 msgstr "Ok"
 
