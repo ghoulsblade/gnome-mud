@@ -1,3 +1,25 @@
+Tue Jul 11 02:16:04 CEST 2000  Jorge Garcia <Jorge.Garcia@uv.es>
+
+	* Moved most global variables from init.c to proper files and
+          same about extern declarations.
+	
+	* src/alias.c: Added check_aliases with same structure of
+          check_actions.
+	
+	* src/amcl.h: Removed comented header functions and declaration of
+          extern global variables.
+        
+	* src/init.c: Removed comented functions. Added key accelerators to
+          basic menu items.
+	
+        * src/net.c: Removed redundant code and some minor optimizations
+          [str_replace]: Absorved by read_from_connection and optimized
+          [alias_check]: Absorved data from action_send_to_connection and
+          check_aliases (src/alias.c)
+          [connection_send]: Minor optimization.
+          [action_send_to_connection]: Now calls connection_send.
+          [send_to_connection]: Now calls action_send_to_connection.
+
 Sat Jul  8 17:48:47 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* action.c [match_line]: now checking triggers via regex
