@@ -1,3 +1,7 @@
+Fri Feb  1 13:17:35 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* intl/Makefile.in: temporary fix for non-glibc systems.
+
 Fri Feb  1 10:42:42 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/Makefile.in: color.c removed.
