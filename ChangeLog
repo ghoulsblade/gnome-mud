@@ -1,3 +1,35 @@
+2004-06-23  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c [_MudPreferencesWindowPrivate]:
+	Added scrollback, lines, font, foreground, background and color
+	widgets.
+	(mud_preferences_window_init): Binded a few more widgets.
+	(mud_preferences_window_set_preferences): Change the way
+	toggle-buttons are set, also set the last missing widgets.
+	(mud_preferences_window_disablekeys_cb): Added.
+	(mud_preferences_window_srolloutput_cb): Added.
+	(mud_preferences_window_keeptext_cb): Added.
+	(mud_preferences_window_echotext_cb): Added.
+	(mud_preferences_window_changed_cb): Added.
+	(mud_preferences_window_update_keeptext): Added.
+	(mud_preferences_window_update_echotext): Added.
+	(mud_preferences_window_new): Connected to signal changed
+	from MudPreferences.
+
+	* src/mud-preferences.c [_MudPreferencesPrivate]: Added
+	prefs_signal and in_notification_count.
+	(mud_preferences_init): Init variables.
+	(mud_preferences_class_init): Create signal "changed".
+	(mud_preferences_gconf_changed): Added.
+	(mud_preferences_set_keeptext): Added.
+	(mud_preferences_set_echotext): Added.
+	(mud_preferences_new): Added gconf notify.
+
+	* src/mud-preferences.h [MudPreferenceMask]: Added.
+	[_MudPreferenceClass]: Added changed callback.
+
+	* ui/main.glade: Renamed color-pick-widgets.
+
 2004-06-21  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mud-connection-view (mud_connection_view_disconnect):

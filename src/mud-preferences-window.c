@@ -16,6 +16,8 @@
 #include <gtk/gtktreeviewcolumn.h>
 #include <glib-object.h>
 #include <glib/gi18n.h>
+#include <libgnomeui/gnome-color-picker.h>
+#include <libgnomeui/gnome-font-picker.h>
 
 #include "mud-preferences-window.h"
 #include "mud-profile.h"
@@ -32,11 +34,19 @@ struct _MudPreferencesWindowPrivate
 	GtkWidget *cb_echo;
 	GtkWidget *cb_keep;
 	GtkWidget *cb_disable;
+	GtkWidget *cb_scrollback;
 
 	GtkWidget *entry_commdev;
 	GtkWidget *entry_terminal;
 	
 	GtkWidget *sb_history;
+	GtkWidget *sb_lines;
+
+	GtkWidget *fp_font;
+
+	GtkWidget *cp_foreground;
+	GtkWidget *cp_background;
+	GtkWidget *colors[C_MAX];
 };
 
 enum
@@ -66,6 +76,14 @@ static void mud_preferences_window_tree_selection_cb  (GtkTreeSelection *selecti
 static void mud_preferences_window_show_tab           (MudPreferencesWindow *window, gint tab);
 static gboolean mud_preferences_window_response_cb    (GtkWidget *dialog, GdkEvent *Event, MudPreferencesWindow *window);
 static void mud_preferences_window_set_preferences    (MudPreferencesWindow *window);
+static void mud_preferences_window_echo_cb            (GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_keeptext_cb        (GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_disablekeys_cb     (GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_scrolloutput_cb    (GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_changed_cb         (MudPreferences *prefs, MudPreferenceMask *mask, MudPreferencesWindow *window);
+
+static void mud_preferences_window_update_echotext    (MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_keeptext    (MudPreferencesWindow *window, MudPrefs *preferences);
 
 GType
 mud_preferences_window_get_type (void)
@@ -100,6 +118,7 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 {
 	GladeXML *glade;
 	GtkWidget *dialog;
+	gint i;
 	
 	preferences->priv = g_new0(MudPreferencesWindowPrivate, 1);
 
@@ -114,11 +133,25 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 	preferences->priv->cb_echo = glade_xml_get_widget(glade, "cb_echo");
 	preferences->priv->cb_keep = glade_xml_get_widget(glade, "cb_keep");
 	preferences->priv->cb_disable = glade_xml_get_widget(glade, "cb_system");
+	preferences->priv->cb_scrollback = glade_xml_get_widget(glade, "cb_scrollback");
 
 	preferences->priv->entry_commdev = glade_xml_get_widget(glade, "entry_commdev");
 	preferences->priv->entry_terminal = glade_xml_get_widget(glade, "entry_terminal");
 	
 	preferences->priv->sb_history = glade_xml_get_widget(glade, "sb_history");
+	preferences->priv->sb_lines = glade_xml_get_widget(glade, "sb_lines");
+
+	preferences->priv->fp_font = glade_xml_get_widget(glade, "fp_font");
+
+	preferences->priv->cp_foreground = glade_xml_get_widget(glade, "cp_foreground");
+	preferences->priv->cp_background = glade_xml_get_widget(glade, "cp_background");
+	for (i = 0; i < C_MAX; i++)
+	{
+		gchar buf[24];
+
+		g_snprintf(buf, 24, "cp%d", i);
+		preferences->priv->colors[i] = glade_xml_get_widget(glade, buf);
+	}
 	
 	gtk_widget_show_all(dialog);
 	
@@ -270,11 +303,15 @@ mud_preferences_window_response_cb(GtkWidget *dialog, GdkEvent *event, MudPrefer
 static void
 mud_preferences_window_set_preferences(MudPreferencesWindow *window)
 {
+	gint i;
 	MudPreferences *prefs = window->priv->prefs;
 
-#define SET_TOGGLE_STATE(widget, pref) \
+#define SET_TOGGLE_STATE(widget, pref, callback) \
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->widget), \
-								prefs->preferences.pref);
+								prefs->preferences.pref); \
+	g_signal_connect(G_OBJECT(window->priv->widget), "toggled", \
+					 G_CALLBACK(callback), \
+					 window);
 #define SET_EDIT_TEXT(widget, pref) \
 	gtk_entry_set_text(GTK_ENTRY(window->priv->widget), \
 					   prefs->preferences.pref);
@@ -282,16 +319,96 @@ mud_preferences_window_set_preferences(MudPreferencesWindow *window)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(window->priv->widget), \
 							  prefs->preferences.pref);
 
-	SET_TOGGLE_STATE(cb_echo, EchoText);
-	SET_TOGGLE_STATE(cb_keep, KeepText);
-	SET_TOGGLE_STATE(cb_disable, DisableKeys);
+	mud_preferences_window_update_echotext(window, &prefs->preferences);
+	g_signal_connect(G_OBJECT(window->priv->cb_echo), "toggled",
+					 G_CALLBACK(mud_preferences_window_echo_cb),
+					 window);
+
+	mud_preferences_window_update_keeptext(window, &prefs->preferences);
+	g_signal_connect(G_OBJECT(window->priv->cb_keep), "toggled",
+					 G_CALLBACK(mud_preferences_window_keeptext_cb),
+					 window);
+	
+	SET_TOGGLE_STATE(cb_disable, DisableKeys, mud_preferences_window_disablekeys_cb);
+	SET_TOGGLE_STATE(cb_scrollback, ScrollOnOutput, mud_preferences_window_scrolloutput_cb);
 	SET_EDIT_TEXT(entry_commdev, CommDev);
 	SET_EDIT_TEXT(entry_terminal, TerminalType);
 	SET_SPIN_BUTTON(sb_history, History);
+	SET_SPIN_BUTTON(sb_lines, Scrollback);
 
+	gnome_font_picker_set_font_name(GNOME_FONT_PICKER(window->priv->fp_font),
+									prefs->preferences.FontName);
+	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->cp_foreground),
+							   prefs->preferences.Foreground.red,
+							   prefs->preferences.Foreground.green,
+							   prefs->preferences.Foreground.blue, 0);
+	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->cp_background),
+							   prefs->preferences.Background.red,
+							   prefs->preferences.Background.green,
+							   prefs->preferences.Background.blue, 0);
+
+	for (i = 0; i < C_MAX; i++)
+	{
+		gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->colors[i]),
+								   prefs->preferences.Colors[i].red,
+								   prefs->preferences.Colors[i].green,
+								   prefs->preferences.Colors[i].blue,
+								   0);
+	}
+	
 #undef SET_SPIN_BUTTON
 #undef SET_EDIT_TEXT
 #undef SET_TOGGLE_STATE
+}
+
+static void
+mud_preferences_window_disablekeys_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{
+}
+
+static void
+mud_preferences_window_scrolloutput_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{
+}
+
+static void
+mud_preferences_window_keeptext_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{	
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
+
+	mud_preferences_set_keeptext(window->priv->prefs, value);
+}
+
+static void
+mud_preferences_window_echo_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
+
+	mud_preferences_set_echotext(window->priv->prefs, value);
+}
+
+static void
+mud_preferences_window_changed_cb(MudPreferences *preferences, MudPreferenceMask *mask, MudPreferencesWindow *window)
+{
+	MudPreferences *prefs = window->priv->prefs;
+	g_message("and preferences-window knows about it too");
+
+	if (mask->EchoText)
+		mud_preferences_window_update_echotext(window, &prefs->preferences);
+	if (mask->KeepText)
+		mud_preferences_window_update_keeptext(window, &prefs->preferences);
+}
+
+static void
+mud_preferences_window_update_keeptext(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->cb_keep), preferences->KeepText);
+}
+
+static void
+mud_preferences_window_update_echotext(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->cb_echo), preferences->EchoText);
 }
 
 MudPreferencesWindow*
@@ -301,6 +418,11 @@ mud_preferences_window_new (MudPreferences *preferences)
 
 	prefs = g_object_new(MUD_TYPE_PREFERENCES_WINDOW, NULL);
 	prefs->priv->prefs = preferences;
+
+	g_signal_connect(G_OBJECT(preferences),
+					 "changed",
+					 G_CALLBACK(mud_preferences_window_changed_cb),
+					 prefs);
 
 	mud_preferences_window_fill_profiles(prefs);
 

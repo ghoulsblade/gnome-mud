@@ -26,15 +26,26 @@ struct _MudPreferences
 	MudPrefs preferences;
 };
 
+typedef struct
+{
+	unsigned int EchoText : 1;
+	unsigned int KeepText : 1;
+} MudPreferenceMask;
+
 struct _MudPreferencesClass
 {
 	GObjectClass parent_class;
+
+	void (* changed) (MudPreferences *prefs, MudPreferenceMask *mask, gpointer data);
 };
 
 GType mud_preferences_get_type (void) G_GNUC_CONST;
 
 MudPreferences* mud_preferences_new (GConfClient *client);
 const GList *mud_preferences_get_profiles (MudPreferences *prefs);
+
+void mud_preferences_set_echotext (MudPreferences *prefs, gboolean value);
+void mud_preferences_set_keeptext (MudPreferences *prefs, gboolean value);
 
 G_END_DECLS
 

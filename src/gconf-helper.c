@@ -60,8 +60,6 @@ void gm_gconf_load_preferences(GConfClient *gconf_client, MudPrefs *prefs)
 		prefs->variable = color;                                                            \
 	}
 
-	//FIXME gconf_client_notify_add(gconf_client, "/apps/gnome-mud", prefs_gconf_changed, NULL, NULL, NULL);
-
 	GCONF_GET_STRING(font, 				ui,				FontName); 
 	GCONF_GET_COLOR(foreground_color,	ui,				Foreground);
 	GCONF_GET_COLOR(background_color,	ui,				Background);

@@ -2,23 +2,33 @@
 #  include "config.h"
 #endif
 
+#include <gconf/gconf-client.h>
 #include <glib-object.h>
+#include <string.h>
 
 #include "gconf-helper.h"
 #include "mud-preferences.h"
 
 static char const rcsid[] = "$Id: ";
 
+static guint signal_changed;
+
 struct _MudPreferencesPrivate
 {
 	GConfClient		*gconf_client;
 
 	GList *profile_list;
+
+	guint prefs_signal;
+	gint in_notification_count;
 };
 
-static void mud_preferences_init        (MudPreferences *preferences);
-static void mud_preferences_class_init  (MudPreferencesClass *preferences);
-static void mud_preferences_finalize    (GObject *object);
+static void mud_preferences_init          (MudPreferences *preferences);
+static void mud_preferences_class_init    (MudPreferencesClass *preferences);
+static void mud_preferences_finalize      (GObject *object);
+static void mud_preferences_gconf_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data);
+
+#define RETURN_IF_NOTIFYING(prefs) if ((prefs)->priv->in_notification_count) return
 
 GType
 mud_preferences_get_type (void)
@@ -52,6 +62,8 @@ static void
 mud_preferences_init (MudPreferences *preferences)
 {
 	preferences->priv = g_new0(MudPreferencesPrivate, 1);
+
+	preferences->priv->in_notification_count = 0;
 }
 
 static void
@@ -60,6 +72,15 @@ mud_preferences_class_init (MudPreferencesClass *klass)
 	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
 	object_class->finalize = mud_preferences_finalize;
+
+	signal_changed = 
+	g_signal_new("changed",
+				 G_OBJECT_CLASS_TYPE(object_class),
+				 G_SIGNAL_RUN_LAST,
+				 G_STRUCT_OFFSET(MudPreferencesClass, changed),
+				 NULL, NULL,
+				 g_cclosure_marshal_VOID__POINTER,
+				 G_TYPE_NONE, 1, G_TYPE_POINTER);
 }
 
 static void
@@ -83,6 +104,67 @@ mud_preferences_finalize (GObject *object)
 	g_message("finalizing preferences...\n");
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
 	parent_class->finalize(object);
+}
+
+static void
+mud_preferences_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	MudPreferences *prefs = MUD_PREFERENCES(data);
+	MudPreferenceMask mask;
+	GConfValue *val;
+	gchar *key;
+
+	val = gconf_entry_get_value(entry);
+	key = g_path_get_basename(gconf_entry_get_key(entry));
+
+#define UPDATE_BOOLEAN(KName, FName, Preset)      \
+	}                                             \
+else if (strcmp(key, KName) == 0)                 \
+	{                                             \
+		gboolean setting = (Preset);              \
+		                                          \
+		if (val && val->type == GCONF_VALUE_BOOL) \
+			setting = gconf_value_get_bool(val);  \
+		                                          \
+		if (setting != prefs->preferences.FName)  \
+		{                                         \
+			mask.FName = TRUE;                    \
+			prefs->preferences.FName = setting;   \
+		}
+		
+
+	
+	if (0)
+	{
+		;
+		UPDATE_BOOLEAN("echo",		EchoText,	TRUE);
+		UPDATE_BOOLEAN("keeptext",	KeepText,	FALSE);
+	}
+	
+	
+	g_message("Message from gconf...");
+
+	g_signal_emit(G_OBJECT(prefs), signal_changed, 0, &mask);
+}
+
+void
+mud_preferences_set_keeptext (MudPreferences *prefs, gboolean value)
+{
+	RETURN_IF_NOTIFYING(prefs);
+
+	gconf_client_set_bool(prefs->priv->gconf_client,
+						  "/apps/gnome-mud/functionality/keeptext",
+						  value, NULL);
+}
+
+void
+mud_preferences_set_echotext (MudPreferences *prefs, gboolean value)
+{
+	RETURN_IF_NOTIFYING(prefs);
+
+	gconf_client_set_bool(prefs->priv->gconf_client, 
+						  "/apps/gnome-mud/functionality/echo",
+						  value, NULL);
 }
 
 const GList*
@@ -126,6 +208,10 @@ mud_preferences_new (GConfClient *client)
 		prefs->priv->gconf_client = client;
 
 		gm_gconf_load_preferences(client, &prefs->preferences);
+
+		gconf_client_notify_add(client, "/apps/gnome-mud", 
+								mud_preferences_gconf_changed, 
+								prefs, NULL, NULL);
 	}
 
 	mud_preferences_load_profiles(prefs);
