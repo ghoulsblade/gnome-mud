@@ -168,6 +168,7 @@ void		  load_profiles   (	void							   );
 PROFILE_DATA *profiledata_find( gchar *							   );
 void  		  profiledata_save( gchar *, GtkCList *, gchar *	   );
 void  		  window_profiles ( void							   );
+void		  window_profile_edit ( void						   );
 
 /* telnet.c */
 char *pre_process     ( char *buf, CONNECTION_DATA *connection       );
