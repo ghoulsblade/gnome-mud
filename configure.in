@@ -49,9 +49,9 @@ AC_ARG_ENABLE(mccp, [  --enable-mccp           enable MCCP (Mud Client Compressi
 	      enable_mccp="yes", enable_mccp="no")
 
 dnl Check whether to include Python support
-AC_ARG_ENABLE(python,
-[  --disable-python        disable use of python scripting],
-        python=$enableval, python=yes)
+AC_ARG_WITH(python,
+[  --without-python        disable use of python scripting],
+        python=$withval, python=python)
 
 dnl Init GNOME
 GNOME_INIT
@@ -88,8 +88,8 @@ AC_CHECK_HEADERS(fcntl.h strings.h unistd.h)
 AC_CHECK_HEADERS(telnet.h arpa/telnet.h)
 
 dnl Checks for Python
-if test "$python" = yes; then
-	AC_PATH_PROG(pythonpath, python)
+if test "$python" != no; then
+	AC_PATH_PROG(pythonpath, $python)
 	if test "_$pythonpath" = _ ; then
 		python=no
 	else
@@ -135,7 +135,7 @@ fi
 
 dnl python is usually linked against -lm on solaris
 if test "$system" = "SunOS"; then
-	if test "$python" = "yes"; then
+	if test "$python" != "no"; then
 		if test -z "`echo "$LIBS" | grep '\-lm ' 2>/dev/null`" ; then
 			LIBS="$LIBS -lm"
 		fi

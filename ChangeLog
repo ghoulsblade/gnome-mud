@@ -1,3 +1,8 @@
+Sun Feb 24 02:40:42 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.in: changed python detection script so you can
+	specify a diferent python binary. Patch from Gergely Nagy.
+
 Sat Feb 23 22:32:59 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/C/gnome-mud.sgml: added descriptions for latest features.
