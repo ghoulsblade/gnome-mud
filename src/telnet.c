@@ -237,6 +237,7 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 
 			case SB:
 				connection->telnet_subneg = data;
+				connection->telnet_state = 0;
 				break;
 		}
 
