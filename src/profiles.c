@@ -462,7 +462,7 @@ static void profilelist_button_ok_cb(GtkWidget *widget, GtkWidget *label)
 
 static void profilelist_unselect_row_cb(GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
 {
-	switch ((int) data)
+	switch (GPOINTER_TO_INT(data))
 	{
 		case 0:
 			selected = -1;
@@ -476,7 +476,7 @@ static void profilelist_unselect_row_cb(GtkCList *clist, gint row, gint column, 
 
 static void profilelist_select_row_cb(GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
 {
-	switch ((int) data)
+	switch (GPOINTER_TO_INT(data))
 	{
 		case 0:
 			selected = row;

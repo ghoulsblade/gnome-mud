@@ -79,7 +79,7 @@ PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
     if (t->data != NULL) {
       p = (PLUGIN_OBJECT *) t->data;
 
-      if ((int) p->handle == handle)
+      if (GPOINTER_TO_INT(p->handle) == handle)
 	return p;
     }
   }
@@ -89,19 +89,23 @@ PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
 
 PLUGIN_OBJECT static *plugin_get_plugin_object_by_name (gchar *name)
 {
-  PLUGIN_OBJECT *p;
-  GList         *t;
+	PLUGIN_OBJECT *p;
+	GList         *t;
 
-  for (t = g_list_first(Plugin_list); t != NULL; t = t->next) {
-    if (t->data != NULL) {
-      p = (PLUGIN_OBJECT *) t->data;
+	for (t = g_list_first(Plugin_list); t != NULL; t = t->next)
+	{
+		if (t->data != NULL)
+		{
+			p = (PLUGIN_OBJECT *) t->data;
       
-      if (!strcmp (p->info->plugin_name, name))
-	return p;
-    }
-  }
+			if (!strcmp (p->info->plugin_name, name))
+			{
+				return p;
+			}
+		}
+	}
     
-  return NULL;
+	return NULL;
 }
 
 static void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
@@ -442,7 +446,7 @@ void plugin_register(PLUGIN_OBJECT *plugin)
     Plugin_list = g_list_append(Plugin_list, (gpointer) plugin);
     
     if (plugin->info->init_function) {
-      plugin->info->init_function(NULL, (gint) plugin->handle);
+      plugin->info->init_function(NULL, GPOINTER_TO_INT(plugin->handle));
     }
 }
 #endif

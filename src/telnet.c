@@ -34,7 +34,7 @@ static char const rcsid[] =
     "$Id$";
 
 /* Added by Benjamin Curtis, Code Swiped from TUsh by Simon Marsh */
-char *pre_process(char *buf, CONNECTION_DATA *connection)
+gint pre_process(char *buf, CONNECTION_DATA *connection)
 {
   unsigned char *from, *to;
   char pling[3];
@@ -172,5 +172,5 @@ char *pre_process(char *buf, CONNECTION_DATA *connection)
   }
   *to++=0;
   
-  return (gchar *) len;
+  return len;
 }

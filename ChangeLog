@@ -1,3 +1,12 @@
+Fri Oct 26 14:04:49 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/gnome-mud.h (pre_process): Returns gint instead of char*.
+	* src/telnet.c (pre_process): Ditto.
+
+	* src/map.c: Changed (void *) casting to glib macros to remove
+	warnings on alpha systems.
+	* src/modules.c, src/net.c, src/profiles.c: Ditto.
+
 Thu Oct 25 17:19:49 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* po/*.po: Updated

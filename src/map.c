@@ -1902,7 +1902,7 @@ static void free_maps (AutoMap *automap)
 
 static void file_sel_ok_cb (GtkWidget *widget, void *ptr[])
 {
-    guint type = (guint)ptr[0];
+    guint type = GPOINTER_TO_UINT(ptr[0]);
     AutoMap *automap = ptr[1];
     GtkFileSelection *find = GTK_FILE_SELECTION(ptr[2]);
     gchar *filename = gtk_file_selection_get_filename(find);
@@ -2013,7 +2013,7 @@ static void button_cb (GtkWidget *widget, AutoMap *automap)
 
         find = gtk_file_selection_new(type == LOAD ? "Load map" : "Save map");
 
-        ptr[0] = (void *)type;
+        ptr[0] = GUINT_TO_POINTER(type);
         ptr[1] = automap;
         ptr[2] = find;
 
@@ -3019,7 +3019,7 @@ static void load_automap_from_file (gchar *filename, AutoMap *automap)
         map = puck->data;
 
         for (inner = map->nodelist; inner != NULL; inner = inner->next)
-            inner->data = g_ptr_array_index(arr, (gint)inner->data);
+            inner->data = g_ptr_array_index(arr, GPOINTER_TO_INT(inner->data));
     }
 
     /* Pass 2, part 2:
@@ -3034,10 +3034,10 @@ static void load_automap_from_file (gchar *filename, AutoMap *automap)
         for (o = 0; o < 10; o++)
             if (node->connections[o].node != NULL)
                 node->connections[o].node =
-                    g_ptr_array_index(arr, (gint)node->connections[o].node - 1);
+                    g_ptr_array_index(arr, GPOINTER_TO_INT(node->connections[o].node) - 1);
     }
 
-    automap->player = g_ptr_array_index(arr, (gint)automap->player);
+    automap->player = g_ptr_array_index(arr, GPOINTER_TO_INT(automap->player));
     g_ptr_array_free(arr, TRUE);
     g_list_free(maps);
 

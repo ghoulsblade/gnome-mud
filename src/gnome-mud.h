@@ -168,7 +168,7 @@ void  		  window_profiles ( void							   );
 void		  window_profile_edit ( void						   );
 
 /* telnet.c */
-char *pre_process     ( char *buf, CONNECTION_DATA *connection       );
+gint  pre_process     ( char *buf, CONNECTION_DATA *connection       );
 
 /* window.c */
 void  popup_window    ( const gchar *message                         );

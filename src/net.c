@@ -276,7 +276,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	pd = (PLUGIN_DATA *) t->data;
 	
 	if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN)) {
-	  (* pd->datafunc) (pd->plugin, connection, mccp_buffer, (gint) pd->plugin->handle);
+	  (* pd->datafunc) (pd->plugin, connection, mccp_buffer, GPOINTER_TO_INT(pd->plugin->handle));
 	}
       }
     }
@@ -286,7 +286,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
     mccp_buffer[len] = mccp_buffer[i];
     
     /* Changes by Benjamin Curtis */
-    len = (gint) pre_process(mccp_buffer, connection);
+    len = pre_process(mccp_buffer, connection);
     m   = (gchar *) malloc(len + 2);
     memcpy(m, mccp_buffer, len + 1);
     
