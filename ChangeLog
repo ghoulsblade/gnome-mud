@@ -1,3 +1,12 @@
+Sun Oct 21 23:46:55 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* doc/C/gnome-mud.sgml: first draft of the GNOME-Mud Manual.
+	It describes all the current features in GNOME-Mud, all the menu's,
+	dialogs and toolbars. And, I had to write it twice! (luckily, this
+	second version is so much better than the original).
+	* doc/C/main-window.png, doc/C/preferences-window,
+	doc/C/profiles-window.png: screenshots for the manual.
+
 Fri Oct 19 18:00:18 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/prefs.c: fixed typos.
