@@ -1,0 +1,29 @@
+ROADMAP
+=======
+
+Feature roadmap. It lists most fo the currently planned features and 
+details the schedule for release.
+
+These are not hard deadlines and things are subject to change. Please
+feel free to suggest features, contribute, or comment.
+
+0.9.0
+
+* AutoReconnect
+* Nested alias
+* Import of Mud Connectfiles
+* Save logfiles of mud-traffic
+* Copy/Paste from clipboard
+* Rewrite connection wizard... [MOSTLY DONE]
+	+ be able to ping host...
+	+ several characters per host
+
+
+0.10.0
+
+* Use GTK+ unstable's splitscreen feature
+* Get more speed in ANSI
+* Support for TELNET codes [PARTLY DONE]
+* MSP, Mud Sound Protocol (Is there many muds using this?)
+* SOCKS support
+
