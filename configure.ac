@@ -224,9 +224,6 @@ AC_MSG_RESULT([
 
 	MCCP support	: $HAVE_ZLIB
 	Mapper support	: $HAVE_MAPPER
-	Plugin support	: python=$python
-dnl	Compiler version: $CCVER
-	Compiler flags	: $CFLAGS
 ])
 
 if test -d $srcdir/CVS; then

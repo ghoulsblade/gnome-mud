@@ -1,3 +1,11 @@
+2003-06-31  Jordi Mallach  <jordi@sindominio.net>
+
+	* README: Update for new mailing list, bugzilla, etc.
+
+	* NEWS: Update for 0.10.2.
+
+	* configure.ac: Remove some silly stuff.
+
 2003-06-30  Abigail Brady  <morwen@evilmagic.org>
 
 	* src/telnet.c, src/init.c, src/gnome-mud.h: Fix telnet
