@@ -589,10 +589,11 @@ void init_window ()
   
   gtk_widget_realize (main_connection->window);
   gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &color_black);
-  
+ 
+  g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\n"), VERSION, __TIME__, __DATE__);
+  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
+		   &color_lightgrey, NULL, buf, -1);
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
 		   &color_lightgrey, NULL, 
 		   _("Distributed under the terms of the GNU General Public License.\n"), -1);
-  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
-		   &color_lightgrey, NULL, buf, -1);
 }

@@ -12,7 +12,7 @@ config.log
 config.status
 configure
 libtool
-stamp-h
+stamp-h*
 stamp-h.in
 amcl
 tca.*
