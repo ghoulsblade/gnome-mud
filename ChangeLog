@@ -1,3 +1,8 @@
+Mon Nov  5 13:20:16 CET 2001  Jordi Mallach <jordi@sindominio.net>
+
+	* po/fr.po: French update by Martin Quinson.
+	* src/init.c: added Martin to "About".
+
 Mon Oct 29 14:17:32 CET 2001  Jordi Mallach <jordi@sindominio.net>
 
 	* po/{ca,es}.po: minor fixes.

@@ -285,6 +285,7 @@ static void about_window (GtkWidget *widget, gpointer data)
 	_("Jorge García, various code cleanups and fixes"),
 	_("Jordi Mallach, official Debian package, i18n support, "
 		  "ca.po & es.po maintainer"),
+	_("Martin Quinson, fr.po maintainer"),
 	/* if your charset doesn't support e with circumflex (è), just use e */
 	_("Staffan Thomèn and the creators of gEdit - module API"),
 	NULL};
