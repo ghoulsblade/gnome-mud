@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+#
+# A demo Python script for Gnome-MUD with PyGTK which adds
+# a hello world button and some input/output filters along
+# with a status display to show health and mana levels for
+# a CD mudlib based LPmud.
 
 import GnomeMud,re,time
 from _gtk import *
@@ -35,7 +40,6 @@ def input(c,s):
 
 def output(c,s):
     if re.match("(?m)^(v|health)( |$)",s):
-        print "health!"
         glob.stat_gag = 0
     return s
 
@@ -67,11 +71,8 @@ box = gtk_hbox_new(FALSE,0)
 gtk_container_set_border_width(box, 5)
 gtk_container_add(frame, box)
 
-button = gtk_object_new(gtk_button_get_type(), {
-	'label': 'Hello World',
-	'visible': 1
-})
-gtk_signal_connect(button, "clicked", hello);
+button = gtk_button_new_with_label("Hello World")
+gtk_signal_connect(button, "clicked", hello)
 gtk_box_pack_start(box, button, FALSE, FALSE, 5)
 
 glob.d_phys = status("Physical",box)

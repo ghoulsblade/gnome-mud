@@ -161,7 +161,7 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
    	gtk_container_add(GTK_CONTAINER(connection->vscrollbar), connection->window);
 	
     gtk_widget_realize (connection->window);
-    /*gdk_window_set_background (GTK_TEXT (connection->window)->text_area, &prefs.Background);*/
+    /*FIXME gdk_window_set_background (GTK_TEXT (connection->window)->text_area, &prefs.Background);*/
     gtk_notebook_next_page (GTK_NOTEBOOK (main_notebook));
     connection->notebook = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
     connections[connection->notebook] = connection;
@@ -186,7 +186,7 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 #endif /* ENABLE_MCCP */
     gdk_input_remove (connection->data_ready);
 
-    textfield_add (connection, _("*** Connection closed.\n"), MESSAGE_SYSTEM);
+    textfield_add (connection, _("*** Connection closed.\r\n"), MESSAGE_SYSTEM);
     connection->connected = FALSE;
 }
 
@@ -198,17 +198,13 @@ void open_connection (CONNECTION_DATA *connection)
 
     if ( (!connection->host) || (!strcmp (connection->host, "\0")) )
     {
-        textfield_add (connection,
-		_("*** Can't connect - you didn't specify a host.\n"),
-		MESSAGE_ERR);
+        textfield_add (connection, _("*** Can't connect - you didn't specify a host.\r\n"), MESSAGE_ERR);
         return;
     }
 
     if ( (!connection->port) || (!strcmp(connection->port, "\0")) )
     {
-		textfield_add (connection,
-			_("*** No port specified - assuming port 23.\n"),
-			MESSAGE_SYSTEM);
+		textfield_add (connection, _("*** No port specified - assuming port 23.\r\n"), MESSAGE_SYSTEM);
 
 		if (connection->port[0] != '\0')
 		{
@@ -223,8 +219,7 @@ void open_connection (CONNECTION_DATA *connection)
         port = g_strdup("23");
     }
 
-    g_snprintf (buf, 2047, _("*** Making connection to %s, port %s.\n"),
-	connection->host, connection->port);
+    g_snprintf (buf, 2047, _("*** Making connection to %s, port %s.\r\n"), connection->host, connection->port);
     textfield_add (connection, buf, MESSAGE_SYSTEM);
 
     /* strerror(3) */
@@ -248,7 +243,7 @@ void open_connection (CONNECTION_DATA *connection)
         name,sizeof(name),portname,sizeof(portname),
         NI_NUMERICHOST | NI_NUMERICSERV);
 
-    snprintf(buf,2047,_("*** Trying %s port %s...\n"),name,port);
+    snprintf(buf,2047,_("*** Trying %s port %s...\r\n"),name,port);
     textfield_add (connection, buf, MESSAGE_SYSTEM);
   
     connection->sockfd = 
@@ -263,7 +258,7 @@ void open_connection (CONNECTION_DATA *connection)
     tmpaddr = tmpaddr->ai_next;
   } 
   freeaddrinfo(ans);
-  textfield_add (connection, _("*** Connection established.\n"), MESSAGE_SYSTEM);
+  textfield_add (connection, _("*** Connection established.\r\n"), MESSAGE_SYSTEM);
 
     connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ,
 					   GTK_SIGNAL_FUNC(read_from_connection),
@@ -330,7 +325,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
       		}
     	}
     
-    	len = pre_process(mccp_data, connection);
+    	//len = pre_process(mccp_data, connection);
 
 #ifdef USE_PYTHON
     	mccp_data = python_process_input(connection, mccp_data);
@@ -349,7 +344,6 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
        /* this crashes gnome-mud */
 	m = g_strdup(mccp_data);
 #endif
-
 	textfield_add (connection, mccp_data, MESSAGE_ANSI);
 
 	/* Added by Bret Robideaux (fayd@alliances.org)
@@ -444,7 +438,7 @@ static void print_error (CONNECTION_DATA *cd, const gchar *error)
 {
 	gchar buf[256] ;
 
-	g_snprintf(buf, 255, "*** %s.\n", error);
+	g_snprintf(buf, 255, "*** %s.\r\n", error);
 	textfield_add (cd, buf, MESSAGE_ERR);
 } /* print_error */
 

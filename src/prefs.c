@@ -34,7 +34,7 @@
 static char const rcsid[] =
     "$Id$";
 
-extern GdkFont  *font_normal;
+//FIXME extern GdkFont  *font_normal;
 extern GList 	*EntryHistory;
 extern GList	*EntryCurr;
 
@@ -185,7 +185,7 @@ void load_prefs ( void )
 	/*
 	 * Load font
 	 */
-	font_normal = gdk_font_load(prefs.FontName);
+	// FIXME font_normal = gdk_font_load(prefs.FontName);
 }
 
 void save_prefs ( void )
@@ -382,7 +382,7 @@ static void prefs_apply_cb(GnomePropertyBox *propertybox, gint page, gpointer da
   if (page == -1) {
     prefs_copy(&prefs, &pre_prefs, TRUE);
     
-    font_normal = gdk_font_load(prefs.FontName);
+    //FIXME font_normal = gdk_font_load(prefs.FontName);
 
     save_prefs();
   }
@@ -425,15 +425,7 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	gtk_table_attach (GTK_TABLE (table_colorfont), picker_font, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gnome_font_picker_set_preview_text (GNOME_FONT_PICKER (picker_font), _("The quick brown fox jumps over the lazy dog"));
 	gnome_font_picker_set_mode (GNOME_FONT_PICKER (picker_font), GNOME_FONT_PICKER_MODE_FONT_INFO);
-	gnome_font_picker_fi_set_use_font_in_label (GNOME_FONT_PICKER (picker_font), TRUE, 0);
-	if (!g_strcasecmp(prefs.FontName, "fixed"))
-	{
-		gnome_font_picker_set_font_name(GNOME_FONT_PICKER(picker_font), "-misc-fixed-medium-r-semicondensed-*-*-120-*-*-c-*-iso8859-1");
-	}
-	else
-	{
-		gnome_font_picker_set_font_name(GNOME_FONT_PICKER(picker_font), prefs.FontName);
-	}
+	gnome_font_picker_set_font_name(GNOME_FONT_PICKER(picker_font), prefs.FontName);
 	
 	label_palette = gtk_label_new (_("Colour palette:"));
 	gtk_widget_show (label_palette);

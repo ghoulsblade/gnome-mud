@@ -1,3 +1,11 @@
+Tue Feb 18 11:36:21 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Added patch from Petter which adds support for python-gtk2
+	
+	* src/init.c, log.c, net.c, window.c: initial support for vte
+
+	* src/precs.c (prefs_color_frame): Remove pango error.
+
 Tue Jan 14 13:45:40 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/profiles.c (connections_button_press_cb): Now returns

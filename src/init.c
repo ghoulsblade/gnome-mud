@@ -20,6 +20,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gnome.h>
 #include <stdio.h>
+#include <vte/vte.h>
 
 #ifdef USE_PYTHON
 #include <Python.h>
@@ -44,12 +45,12 @@ GtkWidget *box_user;
 #endif
 
 GtkWidget       *window;
-GdkFont         *font_normal;
-GdkFont         *font_fixed;
+/*FIXME GdkFont         *font_normal;
+GdkFont         *font_fixed;*/
 GList           *EntryHistory = NULL;
 GList           *EntryCurr    = NULL;
-bool             Keyflag      = TRUE;
-gboolean         KeyPress     = FALSE;
+gboolean         Keyflag      = TRUE;
+//gboolean		 KeyPress     = FALSE;
   
 extern GList *ProfilesList;
 extern GList *ProfilesData;
@@ -275,7 +276,7 @@ static void window_menu_file_reconnect (GtkWidget *widget, gpointer data)
 
 	if (!cd)
 	{
-		textfield_add(main_connection, _("*** Internal error: no such connection.\n"), MESSAGE_ERR);
+		textfield_add(main_connection, _("*** Internal error: no such connection.\r\n"), MESSAGE_ERR);
 		return;
 	}
 
@@ -673,84 +674,86 @@ GnomeUIInfo main_menu[] = {
 
 void main_window ()
 {
-  GtkWidget *label;
-  GtkWidget *box_main;
-  GtkWidget *box_main2;
-  GtkWidget *box_h_low;
-  char  buf[1024];
+	GtkWidget *label;
+	GtkWidget *box_main;
+	GtkWidget *box_main2;
+	GtkWidget *box_h_low;
+	char  buf[1024];
   
-  font_fixed = gdk_font_load("fixed");
+	//font_fixed = gdk_font_load("fixed");
 
-  window = gnome_app_new("gnome-mud", "GNOME Mud");
-  gtk_widget_realize(window);
-  gtk_signal_connect(GTK_OBJECT(window), "delete_event", GTK_SIGNAL_FUNC(destroy), NULL);
+	window = gnome_app_new("gnome-mud", "GNOME Mud");
+	gtk_widget_realize(window);
+	gtk_signal_connect(GTK_OBJECT(window), "delete_event", GTK_SIGNAL_FUNC(destroy), NULL);
   
-  box_main = gtk_vbox_new (FALSE, 0);
-  gnome_app_set_contents(GNOME_APP(window), box_main);
-  gnome_app_create_menus(GNOME_APP(window), main_menu);
-  gnome_app_create_toolbar(GNOME_APP(window), toolbar_menu);
+	box_main = gtk_vbox_new (FALSE, 0);
+	gnome_app_set_contents(GNOME_APP(window), box_main);
+	gnome_app_create_menus(GNOME_APP(window), main_menu);
+	gnome_app_create_toolbar(GNOME_APP(window), toolbar_menu);
   
 #ifdef USE_PYGTK
-  box_user = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start (GTK_BOX (box_main), box_user, FALSE, FALSE, 0);
+	box_user = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box_main), box_user, FALSE, FALSE, 0);
 #endif
   
-  box_main2 = gtk_hbox_new (FALSE, 0);
-  gtk_box_pack_start (GTK_BOX (box_main), box_main2, TRUE, TRUE, 5);
+	box_main2 = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (box_main), box_main2, TRUE, TRUE, 5);
 
-  main_notebook = gtk_notebook_new();
-  GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_notebook), GTK_CAN_FOCUS);
-  gtk_notebook_set_tab_pos(GTK_NOTEBOOK (main_notebook), GTK_POS_BOTTOM);
-  gtk_signal_connect (GTK_OBJECT (main_notebook), "switch-page",
-		      GTK_SIGNAL_FUNC (switch_page_cb), NULL);
-  gtk_box_pack_start (GTK_BOX (box_main2), main_notebook, TRUE, TRUE, 5);
+	main_notebook = gtk_notebook_new();
+	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_notebook), GTK_CAN_FOCUS);
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK (main_notebook), GTK_POS_BOTTOM);
+	gtk_signal_connect (GTK_OBJECT (main_notebook), "switch-page", GTK_SIGNAL_FUNC (switch_page_cb), NULL);
+	gtk_box_pack_start (GTK_BOX (box_main2), main_notebook, TRUE, TRUE, 5);
   
-  box_h_low = gtk_hbox_new (FALSE, 0);
-  label = gtk_label_new (_("Main"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box_h_low, label);
+	box_h_low = gtk_hbox_new (FALSE, 0);
+	label = gtk_label_new (_("Main"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box_h_low, label);
   
-  main_connection = g_malloc0( sizeof (CONNECTION_DATA));
+	main_connection = g_malloc0( sizeof (CONNECTION_DATA));
 #ifdef ENABLE_MCCP
-  main_connection->mccp = mudcompress_new();
+	main_connection->mccp = mudcompress_new();
 #endif /* ENABLE_MCCP */
-  main_connection->notebook = 0;
-  main_connection->profile = profiledata_find("Default");
-  main_connection->window = gtk_text_new (NULL, NULL);
-  main_connection->foreground = &prefs.Foreground;
-  main_connection->background = &prefs.Background;
-  GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_connection->window), GTK_CAN_FOCUS);
-  gtk_widget_set_usize (main_connection->window, 500, 300);
-  gtk_signal_connect (GTK_OBJECT (main_connection->window), "focus-in-event", GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
-  connections[0] = main_connection;
- 
-  main_connection->vscrollbar = gtk_scrolled_window_new(NULL, NULL);
+	main_connection->notebook = 0;
+	main_connection->profile = profiledata_find("Default");
+	main_connection->window = vte_terminal_new();
+	
+	main_connection->foreground = &prefs.Foreground;
+	main_connection->background = &prefs.Background;
+	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_connection->window), GTK_CAN_FOCUS);
+	gtk_widget_set_usize (main_connection->window, 500, 300);
+	gtk_signal_connect (GTK_OBJECT (main_connection->window), "focus-in-event", GTK_SIGNAL_FUNC (grab_focus_cb), NULL);
+	connections[0] = main_connection;
+
+	gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->window, TRUE, TRUE, 0);
+  
+/*  main_connection->vscrollbar = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(main_connection->vscrollbar), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->vscrollbar, TRUE, TRUE, 0);
-  gtk_container_add(GTK_CONTAINER(main_connection->vscrollbar), main_connection->window);
+  gtk_container_add(GTK_CONTAINER(main_connection->vscrollbar), main_connection->window);*/
 
-  text_entry = gtk_entry_new();
-  if (EntryHistory != NULL)
-  {
-	// FIXME
-	//gtk_combo_set_popdown_strings(GTK_COMBO(combo), EntryHistory);
-  }
-  gtk_box_pack_start(GTK_BOX(box_main), text_entry, FALSE, TRUE, 0);
-  gtk_signal_connect (GTK_OBJECT(text_entry), "key_press_event", GTK_SIGNAL_FUNC (text_entry_key_press_cb), NULL);
-  gtk_signal_connect(GTK_OBJECT(text_entry), "activate", GTK_SIGNAL_FUNC (text_entry_activate), NULL); 
-  gtk_widget_grab_focus (text_entry);
+	text_entry = gtk_entry_new();
+	if (EntryHistory != NULL)
+	{
+		// FIXME
+		//gtk_combo_set_popdown_strings(GTK_COMBO(combo), EntryHistory);
+	}
+	
+	gtk_box_pack_start(GTK_BOX(box_main), text_entry, FALSE, TRUE, 0);
+	gtk_signal_connect(GTK_OBJECT(text_entry), "key_press_event", GTK_SIGNAL_FUNC (text_entry_key_press_cb), NULL);
+	gtk_signal_connect(GTK_OBJECT(text_entry), "activate", GTK_SIGNAL_FUNC (text_entry_activate), NULL); 
+	gtk_widget_grab_focus (text_entry);
   
-  gtk_widget_show_all (window);
-  
-  gtk_widget_realize (main_connection->window);
-  gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &prefs.Background);
+	gtk_widget_show_all (window);
+	vte_terminal_set_font_from_string(VTE_TERMINAL(main_connection->window), prefs.FontName);
+	//FIXME gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &prefs.Background);
  
-  g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\n"), VERSION, __TIME__, __DATE__);
-  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, buf, -1);
-  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, 
-		   _("Distributed under the terms of the GNU General Public Licence.\n"), -1);
+	g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\r\n"), VERSION, __TIME__, __DATE__);
+	vte_terminal_feed(VTE_TERMINAL(main_connection->window), buf, strlen(buf));
+	vte_terminal_feed(VTE_TERMINAL(main_connection->window), 
+		_("Distributed under the terms of the GNU General Public Licence.\r\n"), -1);
 #ifdef USE_PYTHON
-  g_snprintf(buf, 1023, _("\nPython version %s\n\n"), Py_GetVersion());
-  gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, buf, -1);
+  	g_snprintf(buf, 1023, _("\r\nPython version %s\r\n"), Py_GetVersion());
+	vte_terminal_feed(VTE_TERMINAL(main_connection->window), buf, strlen(buf));
 #endif
 }
 

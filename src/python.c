@@ -262,14 +262,14 @@ static PyObject *pymud_version (PyObject *self, PyObject *args)
 #ifdef USE_PYGTK
 static PyObject *pymud_pygtk_add_widget (PyObject *self, PyObject *args)
 {
-	PyGtk_Object *widget;
+	PyGObject *widget;
 	int expand = TRUE, fill = TRUE, padding = 5;
 
 	if (!PyArg_ParseTuple(args, "O|iii", &widget, &expand, &fill, &padding))
 		return NULL;
 
 	Py_INCREF(widget);
-	gtk_box_pack_start (GTK_BOX (box_user), GTK_WIDGET(widget->obj), (gboolean)expand, (gboolean)fill, (guint)padding);
+	gtk_box_pack_start (GTK_BOX (box_user), GTK_WIDGET(pygobject_get(widget)), (gboolean)expand, (gboolean)fill, (guint)padding);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -408,7 +408,7 @@ void python_init()
 		fh = fopen(bar, "r");
 		if (fh)
 		{
-			PyRun_AnyFile(fh, foo);
+			PyRun_AnyFile(fh, bar);
 			fclose(fh);
 		}
 

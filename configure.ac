@@ -20,10 +20,12 @@ AM_GLIB_GNU_GETTEXT
 dnl pkg-config dep checks
 LIBGNOME_REQUIRED=2.0.0
 LIBGNOMEUI_REQUIRED=2.0.0
+VTE_REQUIRED=0.10.20
 
 dnl libgnome, libgnomeui needed for all utils
 PKG_CHECK_MODULES(GMUD, libgnome-2.0 >= $LIBGNOME_REQUIRED
-			libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED)
+						libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED
+						vte >= $VTE_REQUIRED)
 AC_SUBST(GMUD_CFLAGS)
 AC_SUBST(GMUD_LIBS)
 
@@ -134,7 +136,11 @@ if test "$python" != no; then
 				LIBS="$LIBS $PY_LIB_LOC $PY_LIBS"
 				
 				dnl PyGTK
-				AC_CHECK_HEADER(pygtk/pygtk.h, AC_DEFINE(USE_PYGTK, 1, [Define this if you want PyGtk support in Python scripts.]))
+				PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.13, [
+					AC_DEFINE(USE_PYGTK, 1, [Define this if you want PyGtk support in Python scripts.])
+					CFLAGS="$CFLAGS $PYGTK_CFLAGS"
+					LIBS="$LIBS $PYGTK_LIBS"
+				])
 			else
 				python=no
 				AC_MSG_RESULT([Can't find Python.h])

@@ -27,6 +27,7 @@
 #include <gtk/gtk.h>
 #include <gtk/gtktree.h>
 #include <libintl.h>
+#include <vte/vte.h>
 
 #ifdef HAVE_TELNET_H
 #include <telnet.h>
@@ -203,6 +204,9 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
 		fputs(message, connections[i]->log);
 	}
 
+	vte_terminal_feed(VTE_TERMINAL(text_widget), message, strlen(message));
+	return;
+	
     switch (colortype)
     {
     case MESSAGE_SENT:
