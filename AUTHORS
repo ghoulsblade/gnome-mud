@@ -26,11 +26,12 @@ Jordi Mallach <jordi@debian.org>         - official Debian package,
                                            ca.po & es.po maintainer, docs.
 Benjamin Geiger <bgeiger@ithink.net>     - various code cleanups and fixes
 Martin Quinson                           - fr.po maintainer.
-Petter E. Stokke                         -Python scripting support
+Petter E. Stokke                         - Python scripting support.
+Vashti <vashti@jml.net>                  - telnet support patches and keypad
+                                           bindings.
 
-ANSI cod 
+ANSI code 
 -------- 
-tokke, Python scripting support
 http://www.sparta.lu.se/cancan95.html
 
 MODULE API
