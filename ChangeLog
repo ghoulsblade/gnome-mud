@@ -1,3 +1,9 @@
+Mon Feb 25 12:37:39 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/net.c: patch by Vashti & Robin: fixes MCCP crash (really).
+	As a bonus effect, it causes some text corruption every now and
+	then.
+
 Sun Feb 24 02:40:42 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.in: changed python detection script so you can

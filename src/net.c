@@ -61,7 +61,7 @@ static char const rcsid[] =
 static void action_send_to_connection (gchar *, CONNECTION_DATA *);
 static void read_from_connection (CONNECTION_DATA *, gint, GdkInputCondition);   
 static void print_error (CONNECTION_DATA *connection, const gchar *error) ;
-static GString *append_word_to_command (GString *string, gchar *word);
+static void append_word_to_command (GString *string, gchar *word);
 
 /* Global Variables */
 extern bool             Keyflag;
@@ -293,12 +293,16 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	mudcompress_receive(connection->mccp, buf, numbytes);
 	while((mccp_i = mudcompress_pending(connection->mccp)) > 0)
 	{
+		gchar *mccp_data;
+
 		mccp_buffer = g_malloc0(mccp_i);
 		mudcompress_get(connection->mccp, mccp_buffer, mccp_i);
 #else
     mccp_buffer = g_strdup(buf);
 #endif
     
+		mccp_data = g_strdup(mccp_buffer);
+
 		for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next)
 		{
 			PLUGIN_DATA *pd;
@@ -309,43 +313,45 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	
 				if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN))
 				{
-	  				(* pd->datafunc) (pd->plugin, connection, mccp_buffer, GPOINTER_TO_INT(pd->plugin->handle));
+	  				(* pd->datafunc) (pd->plugin, connection, mccp_data, GPOINTER_TO_INT(pd->plugin->handle));
 				}
       		}
     	}
     
-    	for (i = len = 0; mccp_buffer[i] !='\0'; mccp_buffer[len++] = mccp_buffer[i++])
-      		if (mccp_buffer[i] == '\r') i++;
+    	for (i = len = 0; mccp_data[i] !='\0'; mccp_data[len++] = mccp_data[i++])
+      		if (mccp_data[i] == '\r') i++;
+	mccp_data[len] = mccp_data[i];
     
-		mccp_buffer[len] = mccp_buffer[i];
-    
-    	/* Changes by Benjamin Curtis */
-    	len = pre_process(mccp_buffer, connection);
+    	len = pre_process(mccp_data, connection);
 
 #ifdef USE_PYTHON
-    	mccp_buffer = python_process_input(connection, mccp_buffer);
+    	mccp_data = python_process_input(connection, mccp_data);
 #endif
 
-		/* Is all this mucking about with len really necessary? I hope not, because
-		 * I've replaced it with a simple g_strdup(). It broke when Python modified
-		 * the mccp_buffer, because the length of the string would change between
-		 * pre_process() above and the commented code below. g_strdup() doesn't mind
-		 * this at all. I just hope I'm not missing anything crucial.
-	    m   = (gchar *) malloc(len + 2);
-	    memcpy(m, mccp_buffer, len + 1);
-		 */
-	        /* this crashes gnome-mud
-		m = g_strdup(mccp_buffer);
-		*/
-		textfield_add (connection, mccp_buffer, MESSAGE_ANSI);
+	/* Is all this mucking about with len really necessary? I hope not, because
+	 * I've replaced it with a simple g_strdup(). It broke when Python modified
+	 * the mccp_buffer, because the length of the string would change between
+	 * pre_process() above and the commented code below. g_strdup() doesn't mind
+	 * this at all. I just hope I'm not missing anything crucial.
+	 */
+#if 0
+	m = malloc(len + 2);
+	memcpy(m, mccp_data, len + 1);
 
-		/* Added by Bret Robideaux (fayd@alliances.org)
-		 * OK, this seems like a good place to handle checking for action triggers
-		 */
-		if ((triggered_action = check_actions (connection->profile->triggers, mccp_buffer)))
-			action_send_to_connection (triggered_action, connection);
-    
-		g_free(mccp_buffer);
+       /* this crashes gnome-mud */
+	m = g_strdup(mccp_data);
+#endif
+
+	textfield_add (connection, mccp_data, MESSAGE_ANSI);
+
+	/* Added by Bret Robideaux (fayd@alliances.org)
+	 * OK, this seems like a good place to handle checking for action triggers
+	 */
+	if ((triggered_action = check_actions (connection->profile->triggers, mccp_data)))
+		action_send_to_connection (triggered_action, connection);
+   
+	g_free(mccp_data);
+	g_free(mccp_buffer);
 #ifdef ENABLE_MCCP
 	}
    
@@ -482,7 +488,7 @@ static void print_error (CONNECTION_DATA *cd, const gchar *error)
  *		   1 - the word to append.
  */
 
-static GString *append_word_to_command (GString *string, gchar *word)
+static void append_word_to_command (GString *string, gchar *word)
 {
 	if (!string->len)
 	{
