@@ -1,8 +1,8 @@
 Begin3
-Title:          AMCL
+Title:          GNOMEMUD
 Version:        0.7.5
 Entered-date:   19DEC2000
-Description:    AMCL is a simple mudclient designed for robustness, 
+Description:    GNOME-Mud is a simple mudclient designed for robustness, 
                 speed and trying to get those last mudders off the 
                 windows platform.
 Keywords:       amcl x11 games mud gtk moo mush gnome

@@ -5,7 +5,7 @@
 
 DIE=0
 
-PROG=AMCL
+PROG="GNOME-Mud"
         
 (autoconf --version) < /dev/null > /dev/null 2>&1 || {
         echo 

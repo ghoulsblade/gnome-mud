@@ -1,3 +1,14 @@
+Sat Jan 20 02:29:40 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Makefile.am, amcl-lsm, gnome-mud.lsm: renamed amcl.lsm 
+	to gnome-mud.lsm.
+	
+	* NEWS, PLUGIN.API, README, autogen.sh, configure.in: 
+	Changed AMCL to GNOME-Mud.
+
+	* src/amcl.c, src/gnome-mud.c, Makefile.am: amcl.c renamed
+	to gnome-mud.c
+
 Sun Jan 14 22:50:09 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/*: Renamed amcl.h to gnome-mud.h, and tried to change

@@ -1,20 +1,20 @@
-AMCL PLUGIN API
-===============
+GNOME-MUD PLUGIN API
+====================
 
 Ok, this is how a plugin is supposed to work. ;)
 
-When the plugin is loaded a structure called amcl_plugin_info is
+When the plugin is loaded a structure called gnomemud_plugin_info is
 read. And, if a init-funktion is defined, it is called.
 
 How to make them then?
 
 1. Check out my small test.plugin app.
 2. #define __MODULE__
-3. #include modules_api.h from AMCL source code.
-4. You need one structure called amcl_plugin_info, and
+3. #include modules_api.h from GNOME-Mud source code.
+4. You need one structure called gnomemud_plugin_info, and
    it should look a little like this:
 
-   PLUGIN_INFO amcl_plugin_info = {
+   PLUGIN_INFO gnomemud_plugin_info = {
 	"Name of plugin",
 	"Author of plugin",
 	"Version of plugin",

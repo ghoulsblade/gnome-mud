@@ -1,6 +1,5 @@
 Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
 This program is under GPL. See file COPYING for details.
-AMCL = A simple Mud CLient
 
 1. What is it?
 
@@ -8,16 +7,16 @@ AMCL = A simple Mud CLient
 for X-Windows using the the GIMP ToolKit (GTK+). Some code used from 
 Bezerk, Xwhois, LinPopUp.
 
-    Latest version of AMCL can always be found at
-    <URL:http://www.localhost.nu/apps/amcl/>
+    Latest version of GNOME-Mud can always be found at
+    <URL:http://amcl.sourceforge.net/>
 
 2. Requirements
 
     A c-compiler :), and the GTK+ (the GIMP ToolKit) which can be found
-at ftp://ftp.gimp.org/pub/gtk. AMCL requires the newest version of GTK+,
-currently 1.2.X due to bugs in the text widget.
+at ftp://ftp.gimp.org/pub/gtk. GNOME-Mud requires the newest version of GTK+,
+currently 1.2.X due to bugs in the text widget and GNOME.
 
-    AMCL has been reported to compile and run on the following platforms,
+    GNOME-Mud has been reported to compile and run on the following platforms,
 if you have a platform not included here, send me a mail to report.
 
     - i386
@@ -34,23 +33,16 @@ if you have a platform not included here, send me a mail to report.
     ./configure --help
     ./configure
     make
-    strip src/amcl (if you want a smaller binary)
+    strip src/gnomemud (if you want a smaller binary)
     make install (optional, just copy it if you don't want to install)
 
-4. Problems.
+4. Mailing-lists.
 
-    Mail me <lobbin@localhost.nu>. If this is a runtime bug, please 
-include information about how I can reproduce the bug. Also include your
-version of GTK+.
+    User mailing-list:
+	- amcl-users@lists.sourceforge.net
 
-  * The version of GTK+     - gtk-config --version
-
-    If it was a compiling bug, please include the following:
-
-  * The version of GTK+     - gtk-config --version
-  * System type/version     - uname -a
-  * Output of ./configure   - ./configure > temp-config.txt
-  * Output of make          - make > temp-make.txt
+    Devel mailing-list (where bugs, feature requests, etc should be mailed...)
+	- amcl-devel@lists.sourceforge.net
 
 5. Contacting
 
