@@ -1,3 +1,13 @@
+Sat Jun  9 18:17:24 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/Makefile.am: added LOCALEDIR to INCLUDES, so the
+	translated mo's can get installed wherever "datadir" points to.
+	* src/gnome-mud.c: removed the static LOCALEDIR define, and
+	removed the libintl.h include too. Every file including gnome.h
+	has libintl.h included already, so we need to wipe those of every
+	c source file, later.
+	* po/sv.po, po/fr.po: corrected charset and encoding definitions.
+
 Fri Jun  8 17:15:58 CEST 2001  Robin Ericsson  <robin@noname4us.com>
 
 	* src/color.c [(load|save)_colors): Removed old code for saving
