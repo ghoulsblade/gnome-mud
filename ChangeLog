@@ -1,3 +1,9 @@
+2004-01-03  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/modules_api.[ch], src/net.c: Reapply Quim's patch, with a pair
+	of changes suggested by Dani Carbonell to fix the potential
+	segfaults.
+
 2004-01-02  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/modules_api.[ch], src/net.c: Unapply plugin patch which was

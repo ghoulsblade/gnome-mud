@@ -117,17 +117,16 @@ static void check_aliases(GString *string, CONNECTION_DATA *cd, gchar *t, gint l
 
 void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 {
-	GString *alias = g_string_new("");
+	GString *alias = g_string_new ("");
 	gchar   *a;
 	GList* puck;
 	
-	check_aliases(alias, connection, entry_text, 0);
+	check_aliases (alias, connection, entry_text, 0);
 
-	a = g_strdup(alias->str);
-	g_string_free(alias, TRUE);
+	a = g_strconcat (alias->str, "\n", NULL);
+	g_string_free (alias, TRUE);
 	
-   	connection_send (connection, check_vars (connection->profile->variables, a));
-	connection_send (connection, "\n");
+	connection_send (connection, check_vars (connection->profile->variables, a));
 
 #ifndef WITHOUT_MAPPER	
 	for (puck = AutoMapList; puck!= NULL; puck = puck->next)
@@ -391,11 +390,24 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 
 void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo, gboolean secret)
 {
-    gint i;
-    gchar *sent;
+	gint i;
+	gchar *sent;
+	GList *t;
   
-    if (connection->connected)
-    {
+	for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next) {
+		PLUGIN_DATA *pd;
+     
+		if (t->data != NULL)
+		{
+			pd = (PLUGIN_DATA *) t->data;
+			if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_OUT)) {
+				(* pd->datafunc) (pd->plugin, connection, message, GPOINTER_TO_INT(pd->plugin->handle));
+	    		}
+		}
+	}
+    
+	if (connection->connected)
+	{
 		sent = g_strdup (message);
 
 #ifdef USE_PYTHON

@@ -35,6 +35,21 @@ void plugin_popup_message (gchar *message)
   popup_window (message);
 }
 
+void plugin_connection_send(CONNECTION_DATA *connection, gchar *text)
+{
+  gchar *s;
+
+  s = g_strconcat(text, "\n", NULL);
+
+  //connection->connected checked inside
+  if(connection == NULL || connection->window == NULL)
+    connection_send(main_connection, s);
+  else
+    connection_send(connection, s);
+
+  g_free(s);
+}
+
 void plugin_add_connection_text(CONNECTION_DATA *connection, gchar *message, gint color)
 {
   if (connection == NULL || connection->window == NULL)

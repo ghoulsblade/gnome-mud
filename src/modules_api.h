@@ -28,6 +28,6 @@ extern void     plugin_add_connection_text    (CONNECTION_DATA *c, gchar *t, gin
 extern gboolean plugin_register_menu          (gint h, gchar *name, gchar *function );
 extern gboolean plugin_register_data_incoming (gint h, gchar *function              );
 extern gboolean plugin_register_data_outgoing (gint h, gchar *function              );
-
+extern void	plugin_connection_send        (gchar *text                          );
 
 #endif /* __MODULE__ */
