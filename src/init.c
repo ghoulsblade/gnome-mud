@@ -613,7 +613,7 @@ static void window_menu_file_disconnect (GtkWidget *widget, gpointer data)
 
 static void window_menu_help_manual_activate_cb(GtkMenuItem *menuitem)
 {
-	gnome_help_goto(NULL, "ghelp:gnome-mud");
+	gnome_help_goto(NULL, "ghelp:gnome-mud-manual");
 }
 
 static GnomeUIInfo toolbar_menu[] = {

@@ -1,3 +1,8 @@
+Mon Nov  4 01:26:13 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c (window_menu_help_manual_activate_cb): search for
+	"gnome-mud-manual", not "gnome-mud". Thanks, Kevin Ryde.
+
 Tue Oct 29 20:12:21 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* Upgrade to GNU gettext 0.11.5.
