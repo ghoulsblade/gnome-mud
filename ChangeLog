@@ -1,3 +1,22 @@
+Thu Oct  4 13:56:33 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/data.c [own_data]: Removed some unused variables.
+	(load_data()/save_data()): Removed, no longer needed.
+	(window_data): Takes PROFILE_DATA * as argument instead of GtkWidget,
+	also all references to own_data.menu was removed.
+
+	* src/init.c: Removed alias/triggers/variables from menu.
+
+	* src/gnome-mud.h (window_data): Changed.
+
+	* src/profiles.c (profilelist_alias_cb): Callback for editing profiles
+	through old data_* function.
+	(profilelist_triggers_cb): ditto
+	(profilelist_variables_cb): ditto
+	(profilelist_(un)select_row_cb): Remade a little.
+	(profilelist_dialog): Removed some functionality.
+	(window_profile_edit): Added some signals.
+
 Wed Oct  3 13:18:50 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/data.c (save_data, load_data, data_button_delete):    

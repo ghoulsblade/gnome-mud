@@ -115,7 +115,8 @@ struct profile_data {
 
 /* data.c */
 void		 load_data (GtkCList *, gchar *);
-void		 window_data (GtkWidget *, gint);
+//void		 window_data (GtkWidget *, gint);
+void		 window_data(PROFILE_DATA *, gint);
 gchar		*check_actions (GtkCList *, gchar *);
 gchar		*check_alias (GtkCList *, gchar *);
 gchar		*check_vars (GtkCList *, gchar *);
