@@ -17,6 +17,8 @@ Maxim Kiselev <max@hostel.nstu.ru>       - keybindings, colorsaving, command-div
 Benjamin Curtis                          - recognition of TELNET codes and replies.
 Jörgen Kosche                            - a couple of focus-problem patches and alot
                                            of bugtesting and emails ;).
+Jeroen Ruigrok                           - various code cleanups and fixes
+Jorge Garcia                             - various code cleanups and fixes
 
 ANSI code
 ---------
