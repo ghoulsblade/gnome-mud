@@ -392,7 +392,7 @@ void python_init()
 	(void) Py_InitModule("GnomeMud", GnomeMudMethods);
 	init_pyConnection();
 
-	foo = g_strdup_printf("%s/.gnome-mud/", g_get_home_dir());
+	foo = g_strdup_printf("%s/.gnome-mud/plugins/", g_get_home_dir());
 	dir = opendir(foo);
 	if (!dir) { g_free(foo); return; }
 
