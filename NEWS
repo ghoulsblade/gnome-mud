@@ -1,6 +1,16 @@
 NEWS for veteran AMCL users
 ===========================
 
+--- Since 0.6.x
+
+Key binding. Bind your favorite keys to for example directions.
+
+Save the colors, finally you can save your favorite color settings.
+
+Command queue, send several command in one row.
+
+And of course, bugfixes, and many more bugs to be found. ;)
+
 --- Since 0.5.2
 
 AutoMapper! This is not tested and can't be used to walk through the mud

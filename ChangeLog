@@ -1,3 +1,49 @@
+Sat Nov 20 18:42:55 1999  Robin Ericsson  <lobbin@localhost.nu>
+
+	* NEWS: Added information about the news in version 0.7.0.
+	
+	* TODO: Added information about ongoing development and new
+	ideas.
+	
+	* src/amcl.c: removed comment
+	
+	* src/error.xpm, src/ok.xpm: added.
+	
+	* src/map.c: cleaned up a little bit.
+	
+	* src/modules.c: Plugin information now has a pixmap, red
+	or green depended of if module is enabled or disabled.
+
+Thu Nov 11 20:19:04 1999  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Added keybind.c to CVS.
+
+	* Makefile.am: Added subdir plugins.
+	* src/Makefile.am: Added keybind.c.
+
+	* src/amcl.c (main): init_colors() replace with load_colors().
+	* src/amcl.h (KEYBIND_DATA): structure and typedef added.
+	(SYSTEM_DATA): gchar *CommDev added.
+	Also some extern variables and function declares.
+
+	* src/color.c: Patch received from Maxim Kiselev. Added support for
+	saving colors.
+
+	* src/init.c: As above, some functions moved around.
+	(init_window): Added Key on the options menu.
+	(text_entry_key_press_cb): Maxim Kiselevs patch changed some here.
+
+	* src/modules.c: Just moved around things.
+
+	* src/net.c: Added things from Maxim again so multiple commands
+	can be sent right away.
+
+	* src/prefs.c: Added the ability to set what command char to the
+	above.
+
+	* src/wizard.c: If AutoSave is on, then it should save when closing
+	window.
+
 1999-09-24  Robin Ericsson  <lobbin@localhost.nu>
 
 	* README: Added info about that is compiles under FreeBSD 3.3-STABLE.

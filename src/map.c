@@ -325,27 +325,6 @@ void node_hash_remove(GHashTable *hash, MapNode *node)
         g_hash_table_remove(hash, node);
 }
 
-/*
-int main(int argc, char *argv[])
-{
-    struct sigaction act;
-
-    memset(&act, 0, sizeof(act));
-    gtk_init(&argc, &argv);
-    act.sa_handler = SIG_DFL;
-    sigaction(SIGSEGV, &act, NULL);
-
-    if (argc == 2) {
-        load_automap_from_file(argv[1], NULL);
-    } else {
-        new_automap_with_node();
-    }
-
-    gtk_main();
-
-    return 0;
-}*/
-
 static gint
 expose_event(GtkWidget *widget, GdkEventExpose *event, AutoMap *automap)
 {
@@ -2438,7 +2417,7 @@ void move_player(AutoMap *automap, guint type)
         }
     }
 
-    /* FIXME
+    /* FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
      * Here you would insert the command to send the direction of travel to the
      * mud
      */

@@ -23,14 +23,24 @@
 #ifndef __MODULES_C__
 #define __MODULES_C__
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#  include "config.h"
+#endif
+
 #include <gtk/gtk.h>
 #include <dirent.h>
 #include <errno.h>
 #include <stdio.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <string.h>
+#include <pwd.h>
 
 #include "amcl.h"
 #include "modules.h"
+
+#include "ok.xpm"
+#include "error.xpm"
 
 static char const rcsid[] =
     "$Id$";
@@ -43,6 +53,9 @@ GtkWidget *plugin_version_entry;
 GtkWidget *plugin_desc_entry;
 GtkWidget *plugin_enable_check;
 gint       plugin_selected_row;
+FILE      *plugin_information;
+static GdkPixmap *ok, *error;
+gint       amount;
 
 PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
 {
@@ -103,16 +116,19 @@ void plugin_clist_select_row_cb (GtkWidget *w, gint r, gint c, GdkEventButton *e
   gchar *text;
 
   plugin_selected_row = r;
-  gtk_clist_get_text ((GtkCList *) data, r, 0, &text);
+  /* FIXME */
+  gtk_clist_get_pixtext (GTK_CLIST(data), 0, 0, NULL, NULL, NULL, NULL);
 
-  p = plugin_get_plugin_object_by_name (text);
+  /*p = plugin_get_plugin_object_by_name (text);
 
   if (p != NULL) {
     gtk_entry_set_text (GTK_ENTRY (plugin_name_entry),    p->info->plugin_name);
     gtk_entry_set_text (GTK_ENTRY (plugin_author_entry),  p->info->plugin_author);
     gtk_entry_set_text (GTK_ENTRY (plugin_version_entry), p->info->plugin_version);
     gtk_entry_set_text (GTK_ENTRY (plugin_desc_entry),    p->info->plugin_descr);
-  }
+    if (p->enabeled)
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(plugin_enable_check),TRUE);
+      }*/
 }
 
 void plugin_clist_append (PLUGIN_OBJECT *p, GtkCList *clist)
@@ -123,7 +139,10 @@ void plugin_clist_append (PLUGIN_OBJECT *p, GtkCList *clist)
     text[0] = p->info->plugin_name;
 
     gtk_clist_append (GTK_CLIST (clist), text);
+    gtk_clist_set_pixtext (GTK_CLIST(clist), amount, 0, p->info->plugin_name, 5, ok, NULL);
   }
+
+  amount++;
 }
 
 void do_plugin_information(GtkWidget *widget, gpointer data)
@@ -140,6 +159,9 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   GtkWidget *label8;
   GtkWidget *label5;
   GtkWidget *label9;
+  static GdkBitmap *mask;
+
+  amount = 0;
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_object_set_data (GTK_OBJECT (window1), "window1", window1);
@@ -148,6 +170,16 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_window_set_policy (GTK_WINDOW (window1), TRUE, TRUE, FALSE);
   gtk_widget_set_usize (window1, 430, 275);
 
+  if (ok == NULL) {
+    ok = gdk_pixmap_create_from_xpm_d(window->window, &mask, &window->style->bg[GTK_STATE_NORMAL],
+				      (gchar **) ok_xpm);
+  }
+
+  if (error == NULL) {
+    error = gdk_pixmap_create_from_xpm_d(window->window, &mask, &window->style->bg[GTK_STATE_NORMAL],
+					 (gchar **) error_xpm);
+  }
+  
   hbox1 = gtk_hbox_new (FALSE, 0);
   gtk_object_set_data (GTK_OBJECT (window1), "hbox1", hbox1);
   gtk_widget_show (hbox1);
@@ -161,7 +193,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_signal_connect (GTK_OBJECT (clist1), "select_row", 
 		      GTK_SIGNAL_FUNC(plugin_clist_select_row_cb),
 		      (gpointer) clist1);
-
+  
   vbox1 = gtk_vbox_new (FALSE, 0);
   gtk_object_set_data (GTK_OBJECT (window1), "vbox1", vbox1);
   gtk_widget_show (vbox1);
@@ -259,12 +291,12 @@ void save_plugins()
   FILE          *fp;
   gchar          filename[500];
   
-  //  g_snprintf(filename, 500, "%s%s", uid_info->pw_dir, "/.amcl");
+  g_snprintf(filename, 500, "%s%s", uid_info->pw_dir, "/.amcl");
 
   if (check_amcl_dir(filename) != 0)
     return;
 
-  //g_snprintf(filename, 500, "%s%s", uid_info->pw_dir, "/.amcl/plugins");
+  g_snprintf(filename, 500, "%s%s", uid_info->pw_dir, "/.amcl/plugins_info");
 
   if ((fp = fopen(filename, "w")) != NULL) {
     for (t = g_list_first(Plugin_list); t != NULL; t = t->next) {
@@ -274,7 +306,6 @@ void save_plugins()
 	
 	if (p->enabeled == TRUE) {
 	  fprintf(fp, p->name);
-	  fprintf(fp, p->info->plugin_name);
 	}
       }
     }
@@ -289,7 +320,11 @@ int init_modules(char *path)
   struct dirent  *direntity;
   gint            dirn;
   gchar          *shortname;
-  
+  gchar           filename[255];
+
+  g_snprintf(filename, sizeof(filename), "%s%s", uid_info->pw_dir, "/.amcl/plugins_info");
+  plugin_information = fopen(filename, "r");
+
   if ((directory = opendir(path)) == NULL) {
     g_message("Plugin error (%s): %s", path, strerror(errno));
     return FALSE;
@@ -311,8 +346,6 @@ int init_modules(char *path)
     if (!suffix || strcmp(suffix, ".plugin"))
       continue;
     
-    g_message("Loading plugin description from `%s'.", direntity->d_name);
-    
     plugin = plugin_query(direntity->d_name, path);
     if (!plugin)
       continue;
@@ -320,6 +353,8 @@ int init_modules(char *path)
     plugin_register(plugin);
   }
   
+  if (plugin_information)
+    fclose(plugin_information);
   closedir(directory);
   
   return TRUE;
@@ -354,10 +389,27 @@ error:
     return NULL;
 }
 
+void plugin_check_enable(PLUGIN_OBJECT *plugin)
+{
+  gchar line[255];
+  
+  g_message ("Checking whether plugin should be enabled by default...");
+  
+  while ( fgets (line, 80, plugin_information) != NULL) {
+    if (!strcmp(line, plugin->name)) {
+      plugin->enabeled = TRUE;
+    }
+  }
+
+  rewind(plugin_information);
+}
+
 void plugin_register(PLUGIN_OBJECT *plugin)
 {
     g_message ("Registering plugin `%s'.", plugin->name);
     g_message ("Plug-in internal name is `%s'.", plugin->info->plugin_name);
+
+    plugin_check_enable(plugin);
 
     Plugin_list = g_list_append(Plugin_list, (gpointer) plugin);
     

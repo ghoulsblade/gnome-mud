@@ -49,7 +49,6 @@ int main (gint argc, char *argv[])
   load_colors ();
   init_window ();
   
-  /* FIXME */
   g_snprintf(buf, 500, "%s/.amcl/plugins/", uid_info->pw_dir);
   init_modules(buf);
   init_modules(PKGDATADIR);
