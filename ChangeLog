@@ -1,7 +1,12 @@
+Fri Oct 19 04:00:33 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* gnome-mud.desktop: make "gnome-gmush.png" our icon for now.
+
 Fri Oct 19 03:19:03 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* gnome-mud.desktop: added GNOME menu entry for gnome-mud.
 	It's missing an icon... artists around?
+
 	* Makefile.am: install .desktop file into the apps dir.
 
 Thu Oct 18 16:36:21 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
@@ -11,6 +16,7 @@ Thu Oct 18 16:36:21 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 Thu Oct 18 16:28:52 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/wizard.c: fixed typos (conection -> connection).
+
 	* po/{ca,es,sv}.po: fixed the generated fuzzy's.
 
 Thu Oct 18 15:38:25 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
