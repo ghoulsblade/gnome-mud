@@ -7,6 +7,7 @@
 	the general pixmapsdir.
 	* src/tray.c (tray_update_icon): Use the new tray icon.
 	* src/init.c (window_menu_help_about): Use new app icon.
+	* gnome-mud.desktop.in: Likewise.
 
 	* src/python.c: Placate silly warning.
 
