@@ -1,3 +1,12 @@
+Tue Jul 25 10:49:57 2000  Robin Ericsson  <robin@noname4us.com>
+
+	* acconfig.h: added #undef ENABLE_MCCP
+
+	* configure.in: Added --enable-mccp as option.
+
+	* src/net.c [open_connection,read_from_connection]: made some changes
+	so AMCL can compile with MCCP as it don't really seems to work right now.
+
 Thu Jul 20 17:20 2000  Jordi Mallach  <jordi@debian.org>
 	* Added internationalization support.
 	  + Added gettext calls to all strings. Affects action.c, amcl.c,

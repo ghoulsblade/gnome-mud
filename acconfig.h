@@ -24,3 +24,6 @@
 
 /* Define as 1 if you don't want Auto-Mapper support */
 #undef WITHOUT_MAPPER
+
+/* Define as 1 if we want to use MCCP */
+#undef ENABLE_MCCP

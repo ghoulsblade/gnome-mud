@@ -48,6 +48,10 @@ else
 fi
 AC_SUBST(CFLAGS)
 
+dnl Check whether to include MCCP code or not
+AC_ARG_ENABLE(mccp, [  --enable-mccp           enable MCCP (Mud Client Compression Protocol)],
+	      enable_mccp="yes", enable_mccp="no")
+
 dnl Checks for programs.
 AC_ISC_POSIX
 dnl AC_PROG_CC
@@ -90,6 +94,10 @@ AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
+if test "x$have_zlib" = "xyes" && test "x$enable_mccp" = "xyes"; then
+  AC_DEFINE(ENABLE_MCCP)
+fi
+
 AM_GNU_GETTEXT
 
 AC_OUTPUT(Makefile src/Makefile plugins/Makefile intl/Makefile po/Makefile.in)
@@ -102,7 +110,7 @@ else
   CFLAGS="$CFLAGS -O -pipe -Wall"
 fi
 
-if test "x$have_zlib" = "xyes"; then
+if test "x$have_zlib" = "xyes" && test "x$enable_mccp" = "xyes"; then
   echo 
   echo "Great! You have Zlib. Will enable MCCP (Mud Client Compression Protocol)"
   echo

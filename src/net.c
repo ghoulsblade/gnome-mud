@@ -158,24 +158,6 @@ CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
   return connection;
 }
 
-gint mccp_pendingresponse(gpointer data)
-{
-  CONNECTION_DATA *cd;
-  gchar *string;
-
-  cd = (CONNECTION_DATA *) data;
-  string = (gchar *) mudcompress_response(cd->mccp);
-  
-  if (string != NULL) {
-    if (mudcompress_compressing(cd->mccp))
-    send (cd->sockfd, string, strlen(string), 0);
-  }
-  
-  g_free(string);
-  
-  return TRUE;
-}
-
 void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 {
     close (connection->sockfd);
@@ -239,8 +221,6 @@ static void open_connection (CONNECTION_DATA *connection)
     connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ,
 					   GTK_SIGNAL_FUNC(read_from_connection),
 					   (gpointer) connection);
-    connection->mccp_timer = gtk_timeout_add(1000,(GtkFunction) mccp_pendingresponse,
-					     (gpointer) connection);
     connection->connected = TRUE;
 
     gtk_widget_set_sensitive (menu_main_disconnect, TRUE);
@@ -248,79 +228,85 @@ static void open_connection (CONNECTION_DATA *connection)
 
 static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCondition condition)
 {
-    gchar  buf[2048], *string;
-    gchar  triggered_action[85];
-    gint   numbytes;
-    gchar *m, *mccp_buffer = NULL;
-    gint   i, len, mccp_i;
-    GList *t;
+  gchar  buf[2048];
+  gchar  triggered_action[85];
+  gint   numbytes;
+  gchar *m;
+  gint   i, len;
+  GList *t;
+#ifdef ENABLE_MCCP
+  gchar *mccp_buffer = NULL, *string;
+  gint   mccp_i;
+#endif
     
-    if ( (numbytes = recv (connection->sockfd, buf, 2048, 0) ) == - 1 )
-    {
-        textfield_add (connection->window, strerror( errno), MESSAGE_ERR);
-        disconnect (NULL, connection);
-        return;
-    }
-
-    buf[numbytes] = '\0';
-
-    /*
-     * Sometimes we get here even though there isn't any data to read
-     * from the socket..
-     *
-     * found by Michael Stevens
-     */
-    if ( numbytes == 0 )
-    {
-        disconnect (NULL, connection);
-        return;
-    }
-
-    mudcompress_receive(connection->mccp, buf, numbytes);
-
-    while((mccp_i = mudcompress_pending(connection->mccp)) > 0) {
-      mccp_buffer = g_malloc0(mccp_i);
-      mudcompress_get(connection->mccp, mccp_buffer, mccp_i);
+  if ( (numbytes = recv (connection->sockfd, buf, 2048, 0) ) == - 1 ) {
+    textfield_add (connection->window, strerror( errno), MESSAGE_ERR);
+    disconnect (NULL, connection);
+    return;
+  }
+  
+  buf[numbytes] = '\0';
+  
+  /*
+   * Sometimes we get here even though there isn't any data to read
+   * from the socket..
+   *
+   * found by Michael Stevens
+   */
+  if ( numbytes == 0 ) {
+    disconnect (NULL, connection);
+    return;
+  }
+  
+#ifdef ENABLE_MCCP
+  mudcompress_receive(connection->mccp, buf, numbytes);
+  while((mccp_i = mudcompress_pending(connection->mccp)) > 0) {
+    mccp_buffer = g_malloc0(mccp_i);
+    mudcompress_get(connection->mccp, mccp_buffer, mccp_i);
+#else
+#define mccp_buffer buf
+#endif
     
-      for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next) {
-	PLUGIN_DATA *pd;
+    for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next) {
+      PLUGIN_DATA *pd;
+      
+      if (t->data != NULL) {
+	pd = (PLUGIN_DATA *) t->data;
 	
-	if (t->data != NULL) {
-	  pd = (PLUGIN_DATA *) t->data;
-	  
-	  if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN)) {
-	    (* pd->datafunc) (pd->plugin, connection, mccp_buffer, (gint) pd->plugin->handle);
-	  }
+	if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN)) {
+	  (* pd->datafunc) (pd->plugin, connection, mccp_buffer, (gint) pd->plugin->handle);
 	}
       }
-      
-      for (i = len = 0; mccp_buffer[i] !='\0'; mccp_buffer[len++] = mccp_buffer[i++])
-        if (mccp_buffer[i] == '\r') i++;
-      mccp_buffer[len] = mccp_buffer[i];
-      
-      /* Changes by Benjamin Curtis */
-      len = (gint) pre_process(mccp_buffer, connection);
-      m   = (gchar *) malloc(len + 2);
-      memcpy(m, mccp_buffer, len + 1);
-      
-      textfield_add (connection->window, m, MESSAGE_ANSI);
-      
-      /* Added by Bret Robideaux (fayd@alliances.org)
-       * OK, this seems like a good place to handle checking for action triggers
-       */
-      if ( check_actions (mccp_buffer, triggered_action) ) {
-	action_send_to_connection (triggered_action, connection);
-      }
-
-      g_free(mccp_buffer);
     }
-
-    string = (gchar *) mudcompress_response(connection->mccp);
-    if (string != NULL) {
-      send (connection->sockfd, string, strlen(string), 0);
+    
+    for (i = len = 0; mccp_buffer[i] !='\0'; mccp_buffer[len++] = mccp_buffer[i++])
+      if (mccp_buffer[i] == '\r') i++;
+    mccp_buffer[len] = mccp_buffer[i];
+    
+    /* Changes by Benjamin Curtis */
+    len = (gint) pre_process(mccp_buffer, connection);
+    m   = (gchar *) malloc(len + 2);
+    memcpy(m, mccp_buffer, len + 1);
+    
+    textfield_add (connection->window, m, MESSAGE_ANSI);
+    
+    /* Added by Bret Robideaux (fayd@alliances.org)
+     * OK, this seems like a good place to handle checking for action triggers
+     */
+    if ( check_actions (mccp_buffer, triggered_action) ) {
+      action_send_to_connection (triggered_action, connection);
     }
-    g_free(string);
+    
+#ifdef ENABLE_MCCP
+    g_free(mccp_buffer);
+  }
+   string = (gchar *) mudcompress_response(connection->mccp);
 
+  if (string != NULL) {
+    send (connection->sockfd, string, strlen(string), 0);
+  }
+  g_free(string);
+#endif  
 }
 
 void send_to_connection (GtkWidget *text_entry, gpointer data)
