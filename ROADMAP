@@ -28,4 +28,4 @@ feel free to suggest features, contribute, or comment.
 * Support for TELNET codes [PARTLY DONE]
 * MSP, Mud Sound Protocol (Is there many muds using this?)
 * SOCKS support
-
+* IPv6 support

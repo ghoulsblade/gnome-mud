@@ -1,3 +1,9 @@
+Mon Oct 29 02:22:52 CET 2001  Jordi Mallach <jordi@sindominio.net>
+
+	* NEWS: added notes about the manual.
+
+	* ROADMAP: request for IPv6 support.
+
 Mon Oct 29 02:17:11 CET 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/sgmldocs.make: fixed paths of screenshots and removed
