@@ -44,6 +44,33 @@ extern SYSTEM_DATA prefs ;
 
 /* Rewritten 2003 by Abigail Brady to be safe */
 
+static unsigned char *write_octet(unsigned char *p, unsigned char data)
+{
+  *p++ = data;
+  if (data==IAC)
+    *p++ = data;
+  return p;
+}
+
+void connection_send_naws(CONNECTION_DATA *connection)
+{
+	unsigned char pkt[3 + 2 + 8] = { IAC, SB, TELOPT_NAWS };
+ 	unsigned long h = vte_terminal_get_row_count(VTE_TERMINAL(connection->window)),
+    		      w = vte_terminal_get_column_count(VTE_TERMINAL(connection->window));
+  
+	unsigned char *p = pkt+3;
+
+  	p = write_octet(p, (unsigned char)(w >> 8));
+  	p = write_octet(p, (unsigned char)(w & 0xff));
+  	p = write_octet(p, (unsigned char)(h >> 8));
+  	p = write_octet(p, (unsigned char)(h & 0xff));
+
+	*p++ = IAC;
+	*p++ = SE;
+
+  	write(connection->sockfd, pkt, p - pkt);
+}
+
 gint pre_process(char *buf, CONNECTION_DATA *connection)
 {
 	unsigned char *from, *to;
@@ -52,13 +79,18 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 	from = to =(unsigned char *) buf;
 	fromlen = strlen(buf);
 
+	printf("Here.\n");
+
 	for(i = 0; i < fromlen; i++)
 	{
-		unsigned char data = from[i];
+	  	unsigned char data = from[i];
+
+	  	printf("State is %i, data is %i\n", connection->telnet_state, data);
 
 		switch(connection->telnet_state)
 		{
 				/* normal data mode */
+
 			case 0:
 				switch(data)
 				{
@@ -180,17 +212,7 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 
 					case TELOPT_NAWS:
 						connection_send_telnet_control(connection, 3, IAC, WILL, data);
-						{
-							unsigned char pkt[9] = { IAC, SB, TELOPT_NAWS, 0, 0, 0, 0, IAC, SE };
-							unsigned long h = vte_terminal_get_row_count(VTE_TERMINAL(connection->window)),
-						    	w = vte_terminal_get_column_count(VTE_TERMINAL(connection->window));
-						  
-						  	pkt[3] = (unsigned char)(w >> 8);
-						  	pkt[4] = (unsigned char)(w & 0xff);
-						  	pkt[5] = (unsigned char)(h >> 8);
-						  	pkt[6] = (unsigned char)(h & 0xff);
-						  	write(connection->sockfd, &pkt, 9);
-						}
+						connection_send_naws(connection);
 						break;
 				}
 				break;
@@ -224,5 +246,6 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 
 	}
 
+	*to = 0;
 	return to - (unsigned char *) buf;
 }

@@ -1,3 +1,10 @@
+2003-07-02  Abigail Brady  <morwen@evilmagic.org>
+
+	* src/telnet.c: Make it send out valid NAWS subnegs if our screen 
+	size happens to contain	255 in its serialisation.
+
+	* src/telnet.c: Null-terminate the output buffer. Oops.
+
 2003-06-31  Jordi Mallach  <jordi@sindominio.net>
 
 	* README: Update for new mailing list, bugzilla, etc.
