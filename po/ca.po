@@ -1,14 +1,14 @@
 # Catalan Messages for the GNOME-Mud client.
-# Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
 # This file is copyrighted under the same license as the gnome-mud package.
-# Jordi Mallach <jordi@sindominio.net>, 2000, 2001, 2002, 2003.
+# Jordi Mallach <jordi@sindominio.net>, 2000, 2001, 2002, 2003, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-09 21:01+0100\n"
-"PO-Revision-Date: 2004-01-09 14:47+0100\n"
+"POT-Creation-Date: 2004-02-11 15:44+0100\n"
+"PO-Revision-Date: 2004-02-11 15:46+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
-#: gnome-mud.desktop.in.h:1 src/init.c:264
+#: gnome-mud.desktop.in.h:1 src/init.c:270
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
@@ -342,164 +342,168 @@ msgstr ""
 msgid "Failed to init GConf: %s"
 msgstr "No s'ha pogut iniciar GConf: %s"
 
-#: src/init.c:94
+#: src/init.c:93
 msgid "Do you really want to quit?"
 msgstr "Esteu segur de voler sortir?"
 
-#: src/init.c:142 src/init.c:667
+#: src/init.c:143 src/init.c:673
 msgid "Connect..."
 msgstr "Connecta..."
 
-#: src/init.c:154 src/profiles.c:950
+#: src/init.c:155 src/profiles.c:950
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:160 src/profiles.c:970
+#: src/init.c:161 src/profiles.c:970
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:214
+#: src/init.c:215
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Error intern: no existeix la connexió.\n"
 
+#: src/init.c:256
+msgid "Artwork by:"
+msgstr "Treball artístic per:"
+
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:260
+#: src/init.c:266
 msgid "translator_credits"
 msgstr "Jordi Mallach <jordi@sindominio.net>"
 
-#: src/init.c:266
+#: src/init.c:272
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Un client MUD (Multi-User Dungeon) per al GNOME.\n"
 
-#: src/init.c:278
+#: src/init.c:284
 msgid "GNOME-Mud home page"
 msgstr "Pàgina principal del GNOME-Mud"
 
-#: src/init.c:617 src/init.c:647
+#: src/init.c:623 src/init.c:653
 #, c-format
 msgid "There was an error displaying help: %s"
 msgstr "S'ha produït un error en mostrar l'ajuda: %s"
 
-#: src/init.c:663
+#: src/init.c:669
 msgid "Wizard..."
 msgstr "Assistent..."
 
-#: src/init.c:663
+#: src/init.c:669
 msgid "Open the Connection Wizard"
 msgstr "Obre l'Assistent de connexions"
 
-#: src/init.c:665
+#: src/init.c:671
 msgid "Profiles..."
 msgstr "Perfils..."
 
-#: src/init.c:665
+#: src/init.c:671
 msgid "Manage user profiles"
 msgstr "Gestiona els perfils d'usuari"
 
-#: src/init.c:667
+#: src/init.c:673
 msgid "Connect to a mud"
 msgstr "Connecta a un mud"
 
-#: src/init.c:669
+#: src/init.c:675
 msgid "Disconnect"
 msgstr "Desconnecta"
 
-#: src/init.c:669
+#: src/init.c:675
 msgid "Disconnect from the mud"
 msgstr "Desconnecta del mud"
 
-#: src/init.c:671
+#: src/init.c:677
 msgid "Reconnect"
 msgstr "Reconnecta"
 
-#: src/init.c:671
+#: src/init.c:677
 msgid "Reconnect to the mud"
 msgstr "Reconnecta al mud"
 
-#: src/init.c:673
+#: src/init.c:679
 msgid "Exit"
 msgstr "Surt"
 
-#: src/init.c:673
+#: src/init.c:679
 msgid "Quit GNOME-Mud"
 msgstr "Surt de GNOME-Mud"
 
-#: src/init.c:678
+#: src/init.c:684
 msgid "Connection _Wizard..."
 msgstr "_Assistent de connexions..."
 
-#: src/init.c:679
+#: src/init.c:685
 msgid "_MudList Listing..."
 msgstr "Llistes de la _MudList..."
 
-#: src/init.c:681
+#: src/init.c:687
 msgid "C_onnect..."
 msgstr "C_onnecta..."
 
-#: src/init.c:682
+#: src/init.c:688
 msgid "_Disconnect"
 msgstr "_Desconnecta"
 
-#: src/init.c:683
+#: src/init.c:689
 msgid "_Reconnect"
 msgstr "_Reconnecta"
 
-#: src/init.c:685
+#: src/init.c:691
 msgid "S_tart Logging..."
 msgstr "Come_nça un registre..."
 
-#: src/init.c:686
+#: src/init.c:692
 msgid "Sto_p Logging"
 msgstr "D_eixa de registrar"
 
-#: src/init.c:687
+#: src/init.c:693
 msgid "_Save Buffer..."
 msgstr "De_sa el búfer..."
 
-#: src/init.c:689
+#: src/init.c:695
 msgid "_Close Window"
 msgstr "_Tanca la finestra"
 
-#: src/init.c:697
+#: src/init.c:703
 msgid "_Plugin Information..."
 msgstr "_Informació sobre connectors..."
 
-#: src/init.c:703
+#: src/init.c:709
 msgid "Auto _Mapper..."
 msgstr "_Automapejador..."
 
-#: src/init.c:706
+#: src/init.c:712
 msgid "P_lugins"
 msgstr "_Connectors"
 
-#: src/init.c:713
+#: src/init.c:719
 msgid "User Manual"
 msgstr "Manual de l'usuari"
 
-#: src/init.c:714
+#: src/init.c:720
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Mostra el manual d'usuari del GNOME-Mud"
 
-#: src/init.c:718
+#: src/init.c:724
 msgid "Plugin API Manual"
 msgstr "Manual de l'API de connectors"
 
-#: src/init.c:719
+#: src/init.c:725
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "Mostra el manual de l'API de connectors de GNOME-Mud"
 
 #. Do we really need this now?
-#: src/init.c:777
+#: src/init.c:781
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:813
+#: src/init.c:817
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud versió %s (compilat %s, %s)\n"
 
-#: src/init.c:815
+#: src/init.c:819
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït sota els termes de la Llicència Pública General GNU.\n"
 
@@ -875,31 +879,35 @@ msgstr "Vés a la pàgina web del mud"
 msgid "Description:"
 msgstr "Descripció:"
 
-#: src/net.c:218
+#: src/net.c:221
 msgid "*** Connection closed.\n"
 msgstr "*** S'ha tancat la connexió.\n"
 
-#: src/net.c:240
+#: src/net.c:243
 msgid "*** Can't connect - you didn't specify a host.\n"
 msgstr "*** No es pot connectar - no s'ha especificat cap servidor.\n"
 
-#: src/net.c:246
+#: src/net.c:249
 msgid "*** No port specified - assuming port 23.\n"
 msgstr "*** No s'ha especificat cap port - s'asumeix el port 23.\n"
 
-#: src/net.c:261
+#: src/net.c:264
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** S'està realitzant la connexió a %s, port %s.\n"
 
-#: src/net.c:286
+#: src/net.c:289
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr "*** S'està provant de connectar a %s, port %s...\n"
 
-#: src/net.c:313
+#: src/net.c:316
 msgid "*** Connection established.\n"
 msgstr "*** Connexió establerta.\n"
+
+#: src/net.c:455
+msgid "Couldn't convert text input"
+msgstr "No s'ha pogut convertir el text d'entrada"
 
 #: src/prefs.c:253 src/prefs.c:411
 #, c-format
@@ -1212,18 +1220,18 @@ msgstr "Tanca"
 msgid "Close the window"
 msgstr "Tanca la finestra"
 
-#: src/tray.c:104
+#: src/tray.c:101
 msgid "_Hide window"
 msgstr "_Amaga la finestra"
 
-#: src/tray.c:106
+#: src/tray.c:103
 msgid "_Show window"
 msgstr "Mo_stra la finestra"
 
-#: src/tray.c:111
+#: src/tray.c:108
 msgid "_Quit"
 msgstr "_Surt"
 
-#: src/tray.c:161
+#: src/tray.c:158
 msgid "GNOME Mud"
 msgstr "GNOME Mud"
