@@ -417,7 +417,7 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	gtk_container_set_border_width (GTK_CONTAINER (table), 5);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 3);
 
-	label_name = gtk_label_new (_("Mud Name :"));
+	label_name = gtk_label_new (_("Mud name:"));
 	gtk_widget_ref (label_name);
 	gtk_object_set_data_full (GTK_OBJECT (mudlist_window), "label_name", label_name, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (label_name);
@@ -431,7 +431,7 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	gtk_table_attach (GTK_TABLE (table), entry_name, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_entry_set_editable (GTK_ENTRY (entry_name), FALSE);
 
-	label_codebase = gtk_label_new (_("Codebase :"));
+	label_codebase = gtk_label_new (_("Codebase:"));
 	gtk_widget_ref (label_codebase);
 	gtk_object_set_data_full (GTK_OBJECT (mudlist_window), "label_codebase", label_codebase, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (label_codebase);
@@ -445,7 +445,7 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	gtk_table_attach (GTK_TABLE (table), entry_codebase, 1, 2, 3, 4, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_entry_set_editable (GTK_ENTRY (entry_codebase), FALSE);
 
-	label_telnet = gtk_label_new (_("Telnet Address :"));
+	label_telnet = gtk_label_new (_("Telnet address:"));
 	gtk_widget_show(label_telnet);
 	gtk_table_attach(GTK_TABLE(table), label_telnet, 1, 2, 4, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment(GTK_MISC(label_telnet), 0, 0.5);
@@ -480,7 +480,7 @@ void window_mudlist (GtkWidget *widget, gboolean wizard)
 	gtk_widget_set_sensitive(href_www, FALSE);
 	gtk_container_add(GTK_CONTAINER(box), href_www);
 	
-	label_desc = gtk_label_new (_("Description :"));
+	label_desc = gtk_label_new (_("Description:"));
 	gtk_widget_ref (label_desc);
 	gtk_object_set_data_full (GTK_OBJECT (mudlist_window), "label_desc", label_desc, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (label_desc);

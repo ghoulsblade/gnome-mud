@@ -897,6 +897,7 @@ void path_type_dialog(AutoMap* automap, const gchar* name)
 			
 	/* Setting the dialog */
 	dialog = gtk_dialog_new();
+	/* Translator: "path" means "line of travel", ie "road" */
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Creating a path"));
 	vbox = GTK_DIALOG(dialog)->vbox;
 
@@ -1731,13 +1732,21 @@ static inline guint get_direction_type (char *text)
 {
     /* Can easily be optimised ... but why bother ? */
 
+	 /* Translator: "N" means "North" here */
          if (!strcasecmp(text, _("N")     )) return NORTH;
+	 /* Translator: "NE" means "Northeast" here */
     else if (!strcasecmp(text, _("NE")    )) return NORTHEAST;
+	 /* Translator: "E" means "East" here */
     else if (!strcasecmp(text, _("E")     )) return EAST;
+	 /* Translator: "SE" means "Southeast" here */
     else if (!strcasecmp(text, _("SE")    )) return SOUTHEAST;
+	 /* Translator: "S" means "South" here */
     else if (!strcasecmp(text, _("S")     )) return SOUTH;
+	 /* Translator: "SW" means "Southwest" here */
     else if (!strcasecmp(text, _("SW")    )) return SOUTHWEST;
+	 /* Translator: "W" means "West" here */
     else if (!strcasecmp(text, _("W")     )) return WEST;
+	 /* Translator: "NW" means "Northwest" here */
     else if (!strcasecmp(text, _("NW")    )) return NORTHWEST;
     else if (!strcasecmp(text, _("Up")    )) return UP;
     else if (!strcasecmp(text, _("Down")  )) return DOWN;

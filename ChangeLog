@@ -1,14 +1,26 @@
+2003-07-11  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c (main_window): Fix another string with Commonwealth
+	English (Licence -> License).
+	(window_menu_help_about): Change the copyright symbol to UTF-8 and
+	unmark the string for translation. Fixes bug #117101.
+	* src/profiles.c, src/map.c: Add translator comments on messages that
+	can be misinterpreted. Fixes bug #117104.
+	* src/mudlist.c: Remove uneeded spaces from strings. Partially fixes
+	bug #117108.
+
 2003-07-10  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/data.c, src/keybind.c, src/prefs.c, gnome-mud.schemas.in:
 	Use American English instead of Commonwealth English for "Color" and
-	"Center".
+	"Center". Fixes bug #117100.
 	* src/log.c: Fix the construct of a message to make it not look weird.
-	* src/map.c: Fix typo.
-	* src/prefs.c: Fix typos.
+	Fixes bug #117102.
+	* src/map.c: Fix typo. Fixes bug #117103.
+	* src/prefs.c: Fix typos. Fixes bug #117107.
 	* src/keybind.c, src/prefs.c, src/profiles.c, gnome-mud.schemas.in:
-	Standarize the use of "keybinding" on all messages.
-	* gnome-mud.schemas.in: Use "directory", not "dir".
+	Standarize the use of "keybinding" on all messages. Fixes bug #117105.
+	* gnome-mud.schemas.in: Use "directory", not "dir". Fixes bug #117106.
 
 2003-07-09  Robin Ericsson  <lobbin@localhost.nu>
 

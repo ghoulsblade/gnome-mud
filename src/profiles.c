@@ -900,6 +900,7 @@ void window_profiles(void)
 	gtk_widget_show (label1);
 	gtk_clist_set_column_widget (GTK_CLIST (main_clist), 0, label1);
 
+	/* Translators: this is the name of your player */
 	label2 = gtk_label_new (_("Character"));
 	gtk_widget_ref (label2);
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "label2", label2, (GtkDestroyNotify) gtk_widget_unref);
@@ -913,7 +914,7 @@ void window_profiles(void)
 	gtk_widget_show (main_vbox);
 	gtk_box_pack_start (GTK_BOX (main_hbox), main_vbox, TRUE, TRUE, 0);
 
-	frame_info_mud = gtk_frame_new (_(" Mud Information "));
+	frame_info_mud = gtk_frame_new (_("Mud information"));
 	gtk_widget_ref (frame_info_mud);
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "frame_info_mud", frame_info_mud, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (frame_info_mud);
@@ -973,7 +974,7 @@ void window_profiles(void)
 	gtk_widget_set_usize (entry_info_mud_port, 40, -2);
 	gtk_signal_connect(GTK_OBJECT(entry_info_mud_port), "insert-text", GTK_SIGNAL_FUNC(connections_entry_info_mud_port_cb), NULL);
 			
-	frame_info_char = gtk_frame_new (_(" Character Information "));
+	frame_info_char = gtk_frame_new (_("Character information"));
 	gtk_widget_ref (frame_info_char);
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "frame_info_char", frame_info_char, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (frame_info_char);
@@ -1018,7 +1019,7 @@ void window_profiles(void)
 	gtk_table_attach (GTK_TABLE (table2), entry_info_char_password, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_entry_set_visibility(GTK_ENTRY(entry_info_char_password), FALSE);
 
-	frame_info_prof = gtk_frame_new (_(" Profile Information "));
+	frame_info_prof = gtk_frame_new (_("Profile information"));
 	gtk_widget_ref (frame_info_prof);
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "frame_info_prof", frame_info_prof, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (frame_info_prof);
