@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2001-06-19 20:57+0200\n"
+"POT-Creation-Date: 2001-08-30 09:59+0200\n"
 "PO-Revision-Date: 2000-09-30 17:50+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -19,7 +19,7 @@ msgid "No void characters allowed."
 msgstr "No se permiten carácteres vacíos."
 
 #. if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
-#: src/data.c:242 src/data.c:336
+#: src/data.c:242 src/data.c:354
 msgid "Actions"
 msgstr "Acciones"
 
@@ -39,81 +39,80 @@ msgid "Can't duplicate %s."
 msgstr "No se puede duplicar %s."
 
 #. alias
-#: src/data.c:327
+#: src/data.c:345
 msgid "Alias"
 msgstr "Alias"
 
-#: src/data.c:328
+#: src/data.c:346
 msgid "Replacement"
 msgstr "Sustitución"
 
-#: src/data.c:337
+#: src/data.c:355 src/profiles.c:935
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:344
+#: src/data.c:363 src/profiles.c:927
 msgid "Variables"
 msgstr "Variables"
 
-#: src/data.c:345
+#: src/data.c:364
 msgid "Values"
 msgstr "Valores"
 
-#: src/data.c:352
+#: src/data.c:372
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
 msgstr "window_data: tratando de acceder a una región de datos indefinida: %d"
 
-#: src/data.c:365
+#: src/data.c:385
 #, fuzzy
 msgid "GNOME-Mud Configuration Center"
 msgstr "Centro de Acciones de AMCL"
 
-#: src/data.c:410 src/keybind.c:420 src/wizard.c:572
+#: src/data.c:430 src/keybind.c:420 src/wizard.c:572
 msgid "Add"
 msgstr "Añadir"
 
-#: src/data.c:415 src/keybind.c:427 src/profiles.c:206 src/profiles.c:506
-#: src/wizard.c:574
+#: src/data.c:435 src/keybind.c:427 src/profiles.c:302 src/profiles.c:602
+#: src/profiles.c:901 src/wizard.c:574
 msgid "Delete"
 msgstr "Borrar"
 
-#: src/color.c:334 src/data.c:419 src/keybind.c:431 src/map.c:2663
-#: src/wizard.c:600
-msgid "Save"
-msgstr "Salvar"
-
-#: src/data.c:423 src/keybind.c:435 src/wizard.c:601
+#: src/data.c:439 src/keybind.c:435 src/wizard.c:601
 msgid "Close"
 msgstr "Cerrar"
 
-#: src/color.c:185
+#: src/color.c:184
 msgid "Couldn't allocate color"
 msgstr "No se pudo fijar el color"
 
-#: src/color.c:294
+#: src/color.c:295
 #, fuzzy
 msgid "GNOME-Mud Color Chooser"
 msgstr "Seleccionador de Colores de AMCL"
 
-#: src/color.c:331 src/window.c:222
+#: src/color.c:330 src/window.c:222
 msgid "Ok"
 msgstr "Ok"
 
-#: src/color.c:332
+#: src/color.c:331
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/color.c:333 src/wizard.c:573
+#: src/color.c:332 src/wizard.c:573
 msgid "Apply"
 msgstr "Aplicar"
 
-#: src/color.c:335 src/profiles.c:333 src/profiles.c:695
+#: src/color.c:333 src/keybind.c:431 src/map.c:2663 src/wizard.c:600
+msgid "Save"
+msgstr "Salvar"
+
+#: src/color.c:334 src/profiles.c:429 src/profiles.c:791
 msgid "Default"
 msgstr "Predeterminado"
 
-#: src/color.c:426
+#: src/color.c:420
 #, c-format
 msgid "Can't load font... %s Using default.\n"
 msgstr "No se puede cargar la fuente... %s Usando predeterminada.\n"
@@ -127,16 +126,16 @@ msgstr "Salir"
 msgid "Do you really want to quit?"
 msgstr ""
 
-#: src/init.c:195 src/init.c:390 src/init.c:401
+#: src/init.c:195 src/init.c:392 src/init.c:402
 msgid "Connect..."
 msgstr "Conectar..."
 
 #
-#: src/init.c:206 src/profiles.c:598
+#: src/init.c:206 src/profiles.c:694
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:213 src/profiles.c:618
+#: src/init.c:213 src/profiles.c:714
 msgid "Port:"
 msgstr "Puerto:"
 
@@ -154,76 +153,77 @@ msgstr ""
 msgid "Wizard..."
 msgstr "Variables..."
 
-#: src/init.c:391 src/init.c:402
+#: src/init.c:390
+#, fuzzy
+msgid "Profiles..."
+msgstr "Variables"
+
+#: src/init.c:393 src/init.c:403
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: src/init.c:393
+#: src/init.c:395
 msgid "Exit"
 msgstr ""
 
-#: src/init.c:398
-msgid "Connection Wizard..."
-msgstr "Asistente de Conexiones..."
-
-#: src/init.c:399
+#: src/init.c:400
 #, fuzzy
 msgid "Connection Wizard2(tm)"
 msgstr "Asistente de Conexiones..."
 
-#: src/init.c:404
+#: src/init.c:405
 msgid "Close Window"
 msgstr "Cerrar Ventana"
 
-#: src/init.c:412
+#: src/init.c:413
 #, fuzzy
 msgid "Plugin Information..."
 msgstr "Información sobre Conectores"
 
-#: src/init.c:420
+#: src/init.c:418
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:421
+#: src/init.c:419
 #, fuzzy
 msgid "Variables..."
 msgstr "Variables"
 
-#: src/init.c:422
+#: src/init.c:420
 msgid "Actions/Triggers..."
 msgstr "Acciones/Triggers..."
 
-#: src/init.c:423
+#: src/init.c:421
 #, fuzzy
 msgid "Keybinds..."
 msgstr "Teclas..."
 
-#: src/init.c:424
+#: src/init.c:422
 msgid "Colors..."
 msgstr "Colores..."
 
-#: src/init.c:426
+#: src/init.c:424
 #, fuzzy
 msgid "Auto Mapper"
 msgstr "Auto Mapeador..."
 
-#: src/init.c:428
+#: src/init.c:426
 msgid "Plugins"
 msgstr "Conectores"
 
-#: src/init.c:435
+#: src/init.c:433
 msgid "README"
 msgstr ""
 
-#: src/init.c:436
+#: src/init.c:434
 msgid "AUTHORS"
 msgstr ""
 
-#: src/init.c:516
+#: src/init.c:514
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:565
+#: src/init.c:560
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuído bajo los términos de la Licencia Pública General GNU.\n"
 
@@ -520,11 +520,11 @@ msgstr "NO se puede abrir %s en modo escritura."
 msgid "%s exists and can NOT be opened in read mode."
 msgstr "%s existe y NO se puede abrir en modo lectura."
 
-#: src/prefs.c:338
+#: src/prefs.c:255
 msgid "Echo the text sent?"
 msgstr "¿Hacer eco del texto mandado?"
 
-#: src/prefs.c:343
+#: src/prefs.c:260
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
@@ -532,11 +532,11 @@ msgstr ""
 "Con esta opción activada, a todo el texto que introduzcas se le hará eco en "
 "la conexión para que puedas controlar lo que estás mandando."
 
-#: src/prefs.c:350
+#: src/prefs.c:267
 msgid "Keep the text entered?"
 msgstr "¿Guardar el texto introducido?"
 
-#: src/prefs.c:355
+#: src/prefs.c:272
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
 "will be left in the entry box but seleceted. Turn this off to remove the "
@@ -546,23 +546,23 @@ msgstr ""
 "en el campo de introducción de comandos, pero seleccionado. Desactiva la "
 "opción para borrar el texto una vez ha sido mandado."
 
-#: src/prefs.c:376
+#: src/prefs.c:293
 msgid ""
 "Use this button to open the font selector to choose what font you will use."
 msgstr ""
 "Usa este botón para abrir el selector de fuentes para elegir la fuente que "
 "quieres usar."
 
-#: src/prefs.c:381
+#: src/prefs.c:298
 msgid "Apperence"
 msgstr ""
 
-#: src/prefs.c:397
+#: src/prefs.c:314
 #, fuzzy
 msgid "Freeze/Thaw?"
 msgstr "Congelar/Descongelar"
 
-#: src/prefs.c:399
+#: src/prefs.c:316
 msgid ""
 "Using this, text will draw faster but it will not draw every character, only "
 "whole strings. This will probably make displays a lot faster if you are "
@@ -572,83 +572,103 @@ msgstr ""
 "todos los carácteres, solo cadenas completas. Ésto puede ser especialmente "
 "beneficioso en MUDs con muchos colores diferentes."
 
-#: src/prefs.c:415
+#: src/prefs.c:332
 #, fuzzy
 msgid "Command divide char:"
 msgstr "   Carácter de división de comandos"
 
-#: src/prefs.c:427
+#: src/prefs.c:344
 #, fuzzy
 msgid "Command history:"
 msgstr "Comando"
 
-#: src/prefs.c:440
+#: src/prefs.c:357
 msgid "Functionality"
 msgstr ""
 
-#: src/profiles.c:121
+#: src/profiles.c:217
 msgid "Name of new profile:"
 msgstr ""
 
-#: src/profiles.c:205
+#: src/profiles.c:301 src/profiles.c:893
 msgid "New"
 msgstr ""
 
-#: src/profiles.c:222
+#: src/profiles.c:318
 #, fuzzy
 msgid "GNOME-Mud: Profilelist"
 msgstr "Mensaje de AMCL"
 
-#: src/profiles.c:523
+#: src/profiles.c:619
 #, fuzzy
 msgid "GNOME-Mud Connections"
 msgstr "Asistente de Conexiones de AMCL"
 
-#: src/profiles.c:555
+#: src/profiles.c:651
 msgid "Mud"
 msgstr ""
 
-#: src/profiles.c:561
+#: src/profiles.c:657
 msgid "Character"
 msgstr ""
 
-#: src/profiles.c:574
+#: src/profiles.c:670
 #, fuzzy
 msgid " Mud Information "
 msgstr "Información de Conectores de AMCL"
 
-#: src/profiles.c:590
+#: src/profiles.c:686
 msgid "Title:"
 msgstr ""
 
-#: src/profiles.c:634
+#: src/profiles.c:730
 msgid " Character Information "
 msgstr ""
 
-#: src/profiles.c:650
+#: src/profiles.c:746
 msgid "Character:"
 msgstr ""
 
-#: src/profiles.c:658
+#: src/profiles.c:754
 #, fuzzy
 msgid "Password:"
 msgstr ""
 "\n"
 "Password:"
 
-#: src/profiles.c:679
+#: src/profiles.c:775
 #, fuzzy
 msgid " Profile Information "
 msgstr "Información de Conectores de AMCL"
 
-#: src/profiles.c:705
+#: src/profiles.c:801
 #, fuzzy
 msgid "Select Profile"
 msgstr "Seleccionar fuente"
 
-#: src/profiles.c:741 src/wizard.c:599
+#: src/profiles.c:837 src/wizard.c:599
 msgid "Connect"
 msgstr "Conectar"
+
+#: src/profiles.c:875
+#, fuzzy
+msgid "Profiles"
+msgstr "Seleccionar fuente"
+
+#: src/profiles.c:878
+#, fuzzy
+msgid "GNOME-Mud Profiles"
+msgstr "Mensaje de AMCL"
+
+#: src/profiles.c:919
+#, fuzzy
+msgid "Aliases"
+msgstr "Alias"
+
+#: src/profiles.c:953
+#, fuzzy
+msgid "Keybinds"
+msgstr "Teclas..."
 
 #: src/version.c:36
 #, fuzzy, c-format
@@ -773,6 +793,9 @@ msgstr ""
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr "Este es el password de tu jugador en el MUD. Utilizable con AutoLogin."
+
+#~ msgid "Connection Wizard..."
+#~ msgstr "Asistente de Conexiones..."
 
 #, fuzzy
 #~ msgid "GNOME-Mud Internal Error: "
