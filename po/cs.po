@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-24 04:24+0100\n"
-"PO-Revision-Date: 2004-01-12 10:15+0100\n"
+"POT-Creation-Date: 2004-02-12 03:49+0100\n"
+"PO-Revision-Date: 2004-02-12 15:37+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: gnome-mud.desktop.in.h:1 src/init.c:265
+#: gnome-mud.desktop.in.h:1 src/init.c:270
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
@@ -339,7 +339,7 @@ msgstr "Nemohu inicializovat GConf: %s"
 msgid "Do you really want to quit?"
 msgstr "Opravdu chcete skončit?"
 
-#: src/init.c:143 src/init.c:668
+#: src/init.c:143 src/init.c:673
 msgid "Connect..."
 msgstr "Připojit..."
 
@@ -355,144 +355,148 @@ msgstr "Port:"
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Interní chyba: takové spojení neexistuje.\n"
 
+#: src/init.c:256
+msgid "Artwork by:"
+msgstr "Grafika od:"
+
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:261
+#: src/init.c:266
 msgid "translator_credits"
 msgstr "Miloslav Trmač <mitr@volny.cz>"
 
-#: src/init.c:267
+#: src/init.c:272
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "Klient Multi-User Dungeon (MUD) pro GNOME.\n"
 
-#: src/init.c:279
+#: src/init.c:284
 msgid "GNOME-Mud home page"
 msgstr "Domovská stránka GNOME-Mud"
 
-#: src/init.c:618 src/init.c:648
+#: src/init.c:623 src/init.c:653
 #, c-format
 msgid "There was an error displaying help: %s"
 msgstr "Při zobrazování nápovědy došlo k chybě: %s"
 
-#: src/init.c:664
+#: src/init.c:669
 msgid "Wizard..."
 msgstr "Průvodce..."
 
-#: src/init.c:664
+#: src/init.c:669
 msgid "Open the Connection Wizard"
 msgstr "Otevřít Průvodce připojením"
 
-#: src/init.c:666
+#: src/init.c:671
 msgid "Profiles..."
 msgstr "Profily..."
 
-#: src/init.c:666
+#: src/init.c:671
 msgid "Manage user profiles"
 msgstr "Spravovat profily uživatelů"
 
-#: src/init.c:668
+#: src/init.c:673
 msgid "Connect to a mud"
 msgstr "Připojit se k MUD"
 
-#: src/init.c:670
+#: src/init.c:675
 msgid "Disconnect"
 msgstr "Odpojit"
 
-#: src/init.c:670
+#: src/init.c:675
 msgid "Disconnect from the mud"
 msgstr "Odpojit od MUD"
 
-#: src/init.c:672
+#: src/init.c:677
 msgid "Reconnect"
 msgstr "Znovu připojit"
 
-#: src/init.c:672
+#: src/init.c:677
 msgid "Reconnect to the mud"
 msgstr "Znovu se připojit k MUD"
 
-#: src/init.c:674
+#: src/init.c:679
 msgid "Exit"
 msgstr "Konec"
 
-#: src/init.c:674
+#: src/init.c:679
 msgid "Quit GNOME-Mud"
 msgstr "Ukončit GNOME-Mud"
 
-#: src/init.c:679
+#: src/init.c:684
 msgid "Connection _Wizard..."
 msgstr "P_růvodce připojením..."
 
-#: src/init.c:680
+#: src/init.c:685
 msgid "_MudList Listing..."
 msgstr "Seznam _MudList..."
 
-#: src/init.c:682
+#: src/init.c:687
 msgid "C_onnect..."
 msgstr "_Připojit..."
 
-#: src/init.c:683
+#: src/init.c:688
 msgid "_Disconnect"
 msgstr "_Odpojit"
 
-#: src/init.c:684
+#: src/init.c:689
 msgid "_Reconnect"
 msgstr "_Znovu připojit"
 
-#: src/init.c:686
+#: src/init.c:691
 msgid "S_tart Logging..."
 msgstr "Z_ačít zaznamenávat..."
 
-#: src/init.c:687
+#: src/init.c:692
 msgid "Sto_p Logging"
 msgstr "Př_estat zaznamenávat..."
 
-#: src/init.c:688
+#: src/init.c:693
 msgid "_Save Buffer..."
 msgstr "_Uložit buffer..."
 
-#: src/init.c:690
+#: src/init.c:695
 msgid "_Close Window"
 msgstr "_Zavřít okno"
 
-#: src/init.c:698
+#: src/init.c:703
 msgid "_Plugin Information..."
 msgstr "_Informace o zásuvných modulech..."
 
-#: src/init.c:704
+#: src/init.c:709
 msgid "Auto _Mapper..."
 msgstr "Auto_mapovač..."
 
-#: src/init.c:707
+#: src/init.c:712
 msgid "P_lugins"
 msgstr "Zásuvné _moduly"
 
-#: src/init.c:714
+#: src/init.c:719
 msgid "User Manual"
 msgstr "Příručka uživatele"
 
-#: src/init.c:715
+#: src/init.c:720
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Zobrazit Příručku uživatele GNOME-Mud"
 
-#: src/init.c:719
+#: src/init.c:724
 msgid "Plugin API Manual"
 msgstr "Manuál API zásuvných modulů"
 
-#: src/init.c:720
+#: src/init.c:725
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "Zobrazit Manuál API zásuvných modulů GNOME-Mud"
 
 #. Do we really need this now?
-#: src/init.c:776
+#: src/init.c:781
 msgid "Main"
 msgstr "Hlavní"
 
-#: src/init.c:812
+#: src/init.c:817
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud verze %s (přeložena dne %s, %s)\n"
 
-#: src/init.c:814
+#: src/init.c:819
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Šířeno pod podmínkami GNU General Public License.\n"
 
@@ -867,31 +871,35 @@ msgstr "Jít na WWW stránku MUDu"
 msgid "Description:"
 msgstr "Popis:"
 
-#: src/net.c:218
+#: src/net.c:221
 msgid "*** Connection closed.\n"
 msgstr "*** Spojení uzavřeno.\n"
 
-#: src/net.c:240
+#: src/net.c:243
 msgid "*** Can't connect - you didn't specify a host.\n"
 msgstr "*** Nemohu se připojit - nezadali jste počítač.\n"
 
-#: src/net.c:246
+#: src/net.c:249
 msgid "*** No port specified - assuming port 23.\n"
 msgstr "*** Nezadán port - předpokládám port 23.\n"
 
-#: src/net.c:261
+#: src/net.c:264
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** Připojuji se k %s, port %s.\n"
 
-#: src/net.c:286
+#: src/net.c:289
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr "*** Zkouším %s port %s...\n"
 
-#: src/net.c:313
+#: src/net.c:316
 msgid "*** Connection established.\n"
 msgstr "*** Spojení navázáno.\n"
+
+#: src/net.c:455
+msgid "Couldn't convert text input"
+msgstr "Nemohu převést zadaný text"
 
 #: src/prefs.c:253 src/prefs.c:411
 #, c-format
