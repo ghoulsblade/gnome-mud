@@ -1,3 +1,7 @@
+Fri Oct 19 15:35:09 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Added some more entries.
+
 Fri Oct 19 14:23:53 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/net.c [open_connection]: Fixed a small bug I added a few
