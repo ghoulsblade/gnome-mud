@@ -17,9 +17,11 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include <signal.h>
+
 #include <pwd.h>
+#include <signal.h>
+
+#include <gtk/gtk.h>
 
 #include "amcl.h"
 
@@ -40,8 +42,6 @@ int main (gint argc, char *argv[])
   act.sa_handler = SIG_DFL;
   sigaction(SIGSEGV, &act, NULL);
   
-  init_uid();
-  
   load_aliases(); /* load aliases */
   load_actions(); /* load "on" actions */
   load_prefs  (); /* load preferences */
@@ -50,11 +50,11 @@ int main (gint argc, char *argv[])
   load_keys   (); /* load key bindings */
   init_window ();
   
-  g_snprintf(buf, 500, "%s/.amcl/plugins/", uid_info->pw_dir);
+  g_snprintf(buf, 500, "%s/.amcl/plugins/", g_get_home_dir());
   init_modules(buf);
-  //init_modules(PKGDATADIR);
+  /*init_modules(PKGDATADIR);*/
   
-  gtk_main ( );
+  gtk_main ();
 
   save_plugins();
   

@@ -1,6 +1,6 @@
 EXTRA_DIST     = amcl.c
 bin_PROGRAMS   = amcl
-amcl_SOURCES   = action.c alias.c color.c init.c keybind.c map.c misc.c \
+amcl_SOURCES   = action.c alias.c color.c init.c keybind.c map.c \
 		 net.c prefs.c window.c wizard.c dialog.c version.c \
                  modules.c modules_api.c modules.h modules_api.h amcl.h \
 		 readme_doc.h authors_doc.h telnet.c

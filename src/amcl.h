@@ -112,7 +112,7 @@ void  save_actions    ( GtkWidget *button, gpointer data   );
 void  add_action      ( gchar *trigger, gchar *action      );
 void  insert_actions  ( ACTION_DATA *a, GtkCList *clist    );
 */
-void  load_actions    (                                    );
+void  load_actions    ( void                               );
 int   check_actions   ( gchar *, gchar *                   );
 void  window_action   ( GtkWidget *widget, gpointer data   );
 
@@ -168,7 +168,7 @@ void  connection_send ( CONNECTION_DATA *cd, gchar *message );
 
 /* prefs.c */
 void  load_prefs      ( void                               );
-void  save_prefs      ( GtkWidget *widget, gpointer data   );
+void  save_prefs      ( void                               );
 void  window_prefs    ( GtkWidget *widget, gpointer data   );
 FILE *open_file       ( gchar *filename, gchar *mode       );
 

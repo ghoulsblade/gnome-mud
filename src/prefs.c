@@ -18,21 +18,32 @@
 
 #include "config.h"
 
-#include <gtk/gtk.h>
 #include <sys/stat.h>
+
 #include <errno.h>
 #include <fcntl.h>
+#include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pwd.h>
 #include <unistd.h>
+
+#include <gtk/gtk.h>
 
 #include "amcl.h"
 
 static char const rcsid[] =
     "$Id$";
 
+/* Local functions */
+static void	check_callback (GtkWidget *, GtkWidget *);
+static void	check_text_toggle (GtkWidget *, GtkWidget *);
+static void	prefs_autosave_cb (GtkWidget *, GtkWidget *);
+static void	prefs_close_window (void);
+static void	prefs_divide_cb (GtkWidget *, GtkWidget *);
+static void	prefs_font_selected (GtkWidget *, GtkFontSelectionDialog *);
+static void	prefs_freeze_cb (GtkWidget *, GtkWidget *);
+static void	prefs_select_font_callback (GtkWidget *, gpointer);
 
 SYSTEM_DATA prefs;
 GtkWidget   *prefs_window;
@@ -60,7 +71,7 @@ FILE *open_file (gchar *filename, gchar *mode)
   else  /* it must not exist */
     if ((mkdir (dirname, 0777)) == 0) /* this isn't dangerous, umask modifies it */
     {
-    	//popup_window (buf);
+    	/*popup_window (buf);*/
      } else {
       g_snprintf (buf, 255, "%s does not exist and can NOT be created: %s", dirname, strerror(errno));
       popup_window (buf);
@@ -87,7 +98,7 @@ FILE *open_file (gchar *filename, gchar *mode)
   return fd;
 }
 
-void load_prefs ( )
+void load_prefs ( void )
 {
     FILE *fp;
     gchar line[255];
@@ -104,7 +115,7 @@ void load_prefs ( )
         gchar pref[25];
         gchar value[250];
 
-        sscanf (line, "%s %[^\n]", pref, value);
+        if (sscanf (line, "%s %[^\n]", pref, value) != 2) continue;
 
         if ( !strcmp (pref, "EchoText") )
         {
@@ -113,7 +124,7 @@ void load_prefs ( )
             else
                 prefs.EchoText = FALSE;
         }
-
+        else
         if ( !strcmp (pref, "KeepText") )
         {
             if ( !strcmp (value, "On") )
@@ -121,25 +132,25 @@ void load_prefs ( )
             else
                 prefs.KeepText = FALSE;
         }
-
+        else
 	if ( !strcmp (pref, "CommDev") ) {
 	  gchar *s;
 	  if ((s = strstr(value, "\"")))
 	    prefs.CommDev[0] = s[1];
 	}
-	
+	else
         if ( !strcmp (pref, "AutoSave") )
         {
             if ( !strcmp (value, "On") )
                 prefs.AutoSave = TRUE;
         }
-
+        else
         if ( !strcmp (pref, "FontName") )
         {
             g_free (prefs.FontName);
             prefs.FontName = g_strdup (value);
         }
-
+        else
         if ( !strcmp (pref, "Freeze") )
         {
             if ( !strcmp (value, "On") )
@@ -150,10 +161,10 @@ void load_prefs ( )
     if ( !prefs.FontName )
         prefs.FontName = g_strdup ("fixed");
 
-    fclose (fp);
+    if (fp) fclose (fp);
 }
 
-void save_prefs (GtkWidget *button, gpointer data)
+void save_prefs ( void )
 {
     FILE *fp;
 
@@ -179,7 +190,7 @@ void save_prefs (GtkWidget *button, gpointer data)
     if (fp) fclose (fp);
 }
 
-void check_text_toggle (GtkWidget *widget, GtkWidget *button)
+static void check_text_toggle (GtkWidget *widget, GtkWidget *button)
 {
     if ( GTK_TOGGLE_BUTTON (button)->active )
         prefs.KeepText = TRUE;
@@ -187,7 +198,7 @@ void check_text_toggle (GtkWidget *widget, GtkWidget *button)
         prefs.KeepText = FALSE;
 }
 
-void prefs_autosave_cb (GtkWidget *widget, GtkWidget *check_autosave)
+static void prefs_autosave_cb (GtkWidget *widget, GtkWidget *check_autosave)
 {
     if ( GTK_TOGGLE_BUTTON (check_autosave)->active )
         prefs.AutoSave = TRUE;
@@ -195,7 +206,7 @@ void prefs_autosave_cb (GtkWidget *widget, GtkWidget *check_autosave)
         prefs.AutoSave = FALSE;
 }
 
-void prefs_freeze_cb (GtkWidget *widget, GtkWidget *check_freeze)
+static void prefs_freeze_cb (GtkWidget *widget, GtkWidget *check_freeze)
 {
     if ( GTK_TOGGLE_BUTTON (check_freeze)->active )
         prefs.Freeze = TRUE;
@@ -203,14 +214,14 @@ void prefs_freeze_cb (GtkWidget *widget, GtkWidget *check_freeze)
         prefs.Freeze = FALSE;
 }
 
-void prefs_divide_cb (GtkWidget *widget, GtkWidget *entry_divide)
+static void prefs_divide_cb (GtkWidget *widget, GtkWidget *entry_divide)
 {
   gchar *s;
   s = gtk_entry_get_text(GTK_ENTRY(entry_divide));
   if (s) prefs.CommDev[0] = s[0];  
 }
 
-void check_callback (GtkWidget *widget, GtkWidget *check_button)
+static void check_callback (GtkWidget *widget, GtkWidget *check_button)
 {
     if ( GTK_TOGGLE_BUTTON (check_button)->active )
         prefs.EchoText = TRUE;
@@ -218,7 +229,7 @@ void check_callback (GtkWidget *widget, GtkWidget *check_button)
         prefs.EchoText = FALSE;
 }
 
-void prefs_font_selected (GtkWidget *button, GtkFontSelectionDialog *fs)
+static void prefs_font_selected (GtkWidget *button, GtkFontSelectionDialog *fs)
 {
     gchar *temp;
 
@@ -235,7 +246,7 @@ void prefs_font_selected (GtkWidget *button, GtkFontSelectionDialog *fs)
     g_free (temp);
 }
 
-void prefs_select_font_callback (GtkWidget *button, gpointer data)
+static void prefs_select_font_callback (GtkWidget *button, gpointer data)
 {
     GtkWidget *fontw;
 
@@ -256,10 +267,10 @@ void prefs_select_font_callback (GtkWidget *button, gpointer data)
     gtk_widget_show (fontw);
 }
 
-void prefs_close_window ()
+static void prefs_close_window (void)
 {
     if ( prefs.AutoSave )
-        save_prefs(NULL, NULL);
+        save_prefs();
 
     gtk_widget_set_sensitive (menu_option_prefs, TRUE);
     gtk_widget_destroy (prefs_window);

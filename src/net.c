@@ -17,16 +17,20 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include <db.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
+
 #include <sys/types.h>
+#include <sys/socket.h>
+
+#include <netinet/in.h>
+
+#include <db.h>
 #include <errno.h>
 #include <netdb.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <stdlib.h>
+
+#include <gtk/gtk.h>
 /*
  * Added by Michael Stevens
  */
@@ -205,6 +209,7 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
     gdk_input_remove (connection->data_ready);
     textfield_add (connection->window, "*** Connection closed.\n", MESSAGE_NORMAL);
     connection->connected = FALSE;
+    gtk_widget_set_sensitive ((GtkWidget*)menu_main_disconnect, FALSE);
 }
 
 void open_connection (CONNECTION_DATA *connection)

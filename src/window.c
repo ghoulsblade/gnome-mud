@@ -18,12 +18,14 @@
 
 #include "config.h"
 
-#include <gdk/gdk.h>
-#include <gtk/gtk.h>
 #include <ctype.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include <gdk/gdk.h>
+#include <gtk/gtk.h>
+
 #include "amcl.h"
 
 #ifdef HAVE_TELNET_H
@@ -33,27 +35,24 @@
 #include <arpa/telnet.h>
 #endif
 
-static char const rcsid[] = "$Id$";
+static char const rcsid[] =
+	"$Id$";
 
 
-/*
- * Local functions
- */
-void alias_button_delete  (GtkWidget *button, gpointer data);
-
+/* Local functions */
+static void	cons_escm (void);
+	
 typedef enum { NORM, ESC, SQUARE, PARMS } STATE;
 
 
 
-/*
- * Global Variables
- */
+/* Global Variables */
 GdkColor  *foreground;
 GdkColor  *background;
 static gint parms[10], nparms;
 bool      BOLD = FALSE;
 
-static void cons_escm()
+static void cons_escm (void)
 {
     int i, p;
 
@@ -226,7 +225,7 @@ void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer 
 void grab_focus_cb (GtkWidget* widget, gpointer user_data)
 {
 	if (text_entry != NULL) gtk_widget_grab_focus(text_entry);
-} // grab_focus
+} /* grab_focus */
 
 void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
 {
@@ -398,7 +397,7 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
                 }
 
                 state = ESC;
-                //c = *++message;
+                /*c = *++message;*/
                 message++;
                 break;
 
@@ -410,7 +409,7 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
                 }
 
                 state = SQUARE;
-                //c = *++message;
+                /*c = *++message;*/
                 message++;
                 break;
 

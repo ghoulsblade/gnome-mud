@@ -43,13 +43,16 @@ gint         action_selected_row    = -1;
 /* Local functions */
 static void		 action_button_add_cb (GtkWidget *, gpointer);
 static void		 action_button_delete_cb (GtkWidget *,  gpointer);
-static void		 action_close_window (GtkWidget *button);
-static ACTION_DATA       *action_get_action_data (gchar *text, GList *action_list2);
-static void		 action_selection_made (GtkWidget *clist, gint row,
-						gint column,
-						GdkEventButton *event,
-						gpointer data);
-static int		 match_line (gchar *trigger, gchar *incoming);
+static void		 action_close_window (GtkWidget *);
+static ACTION_DATA	*action_get_action_data (gchar *, GList *);
+static void		 action_selection_made (GtkWidget *, gint , gint,
+						GdkEventButton *, gpointer);
+static void		 action_unselection_made (GtkWidget *, gint, gint,
+						  GdkEventButton *, gpointer);
+static void		 add_action (gchar *, gchar *);
+static void		 insert_actions (ACTION_DATA *, GtkCList *);
+static int		 match_line (gchar *, gchar *);
+static void		 save_actions (GtkWidget *, gpointer);
 
 void add_action (gchar *trigger, gchar *action)
 {
@@ -117,7 +120,7 @@ static ACTION_DATA *action_get_action_data (gchar *text, GList *action_list2)
     return NULL;
 }
 
-void insert_actions (ACTION_DATA *a, GtkCList *clist)
+static void insert_actions (ACTION_DATA *a, GtkCList *clist)
 {
     if ( a )
     {
@@ -149,7 +152,7 @@ void action_selection_made (GtkWidget *button, gint row, gint column,
     return;
 }
 
-void action_unselection_made (GtkWidget *clist, gint row, gint column,
+static void action_unselection_made (GtkWidget *clist, gint row, gint column,
 			      GdkEventButton *event, gpointer data)
 {
     action_selected_row = -1;

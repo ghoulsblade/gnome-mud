@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <string.h>
 
 #include "amcl.h"
 
@@ -43,9 +42,6 @@ static void	grab_color (GdkColor *, const char *);
 static void	load_colors_default (void);
 static void	on_load_pressed (void);
 static void	update_gdk_colors (void);
-
-/* External functions */
-void save_prefs	(GtkWidget *button, gpointer data);
 
 #define C_MAX 16
 
@@ -432,7 +428,7 @@ void load_colors ( void )
         g_warning ("Can't load font... %s Using default.\n", prefs.FontName);
         g_free ( prefs.FontName );
         prefs.FontName = g_strdup ("fixed");
-	save_prefs (NULL, NULL);
+	save_prefs ();
     }
 
     load_color_to_c_structs();

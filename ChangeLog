@@ -1,3 +1,50 @@
+Sun Jul 2 14:02:11 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
+
+	* src/amcl.c: Reorder include order.  Fix comments.
+	Fix cosmetics on gtk_main() calling.
+
+Sun Jul 2 13:31:23 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
+
+	* src/window.c: Reorder include order.  Proper prototyping.
+	Usage of C comment characters to be consistent with the rest.
+	Remove unnecessary prototype.  Divide rcsid[] over two lines.
+
+Sat Jul 1 09:24:28 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
+
+	* src/prefs.c: Reorder include order.  Proper prototyping.
+	Usage of C comment characters to be consistent with the rest.
+
+Sat Jul 1 03:01:00 CEST 2000 Jorge Garcia <Jorge.Garcia@uv.es>
+
+	* src/misc.c: deleted. No more uid_info used
+
+	* src/amcl.c: uid_info changed to g_get_home_dir()
+
+	* src/Makefile.am: removed misc.c
+
+	* src/net.c: disconnect(...) now deactivates "disconnect" button
+
+	* src/prefs.c: little optimization in load_prefs
+	changed save_prefs header to save_prefs( void )
+
+Fri Jun 30 22:07:16 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
+
+	* src/action.c: Proper prototyping.
+
+	* src/alias.c: Proper protoyping.  Seperate function declarations
+	from prototypes with 3 white lines, probably want to add a comment
+	delimiter there instead.
+
+	* src/amcl.h: Proper prototyping of load_actions().
+
+	* src/color.c: Remove double inclusion of <string.h>.  Remove
+	bogus function prototype since we include this with <amcl.h>.
+
+	* src/misc.c, src/net.c: Reorder include order, this should make
+	sure it will cause no compilation problems on most non-Linux
+	platforms now and in future.
+
+
 Wed Jun 28 22:58:32 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
 
 	* src/action.c: Proper prototyping.
