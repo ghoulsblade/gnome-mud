@@ -275,12 +275,8 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
 
   const gchar *authors[] = {
 	_("Robin Ericsson, main developer"),
-	_("David Zanetti, bugfixes"),
 	_("Ben Gertzfield, creation of rcfiles for AMCL"),
-	_("Will Schenk, bugfixes"),
-	_("desaster, bugfixes"),
 	_("Paul Cameron, compile fixes, automapper"),
-	_("Robert Brady, color selection"),
 	_("Bret Robideaux, action/trigger module"),
 	_("Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"),
 	_("Benjamin Curtis, recognition of TELNET codes and replies"),
@@ -293,7 +289,6 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
 		  "ca.po & es.po maintainer"),
 	_("Martin Quinson, fr.po maintainer"),
 	/* if your charset doesn't support e with circumflex (è), just use e */
-	_("Staffan Thomèn and the creators of gEdit - module API"),
 	_("Petter E. Stokke, Python scripting support"),
 	_("Vashti, default keypad bindings, telnet support patches"),
 	NULL};

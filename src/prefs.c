@@ -154,8 +154,9 @@ void load_prefs ( void )
 	/*
 	 * Fore-/Background Colors
 	 */
-	prefs_load_color(&prefs.Foreground, "Preferences", "Foreground", "65535,65535,65535");
-	prefs_load_color(&prefs.Background, "Preferences", "Background", "0,0,0");
+	prefs_load_color(&prefs.Foreground,     "Preferences", "Foreground",     "65535,65535,65535");
+	prefs_load_color(&prefs.BoldForeground, "Preferences", "BoldForeground", "65535,65535,65535");
+	prefs_load_color(&prefs.Background,     "Preferences", "Background",     "0,0,0");
 
 	/*
 	 * Other Colors
@@ -203,8 +204,9 @@ void save_prefs ( void )
 	gnome_config_set_string("/gnome-mud/Preferences/LastLogDir",  prefs.LastLogDir);
 	gnome_config_set_int   ("/gnome-mud/Preferences/History",     prefs.History);
 
-	prefs_save_color(&prefs.Foreground, "Preferences", "Foreground");
-	prefs_save_color(&prefs.Background, "Preferences", "Background");
+	prefs_save_color(&prefs.Foreground,     "Preferences", "Foreground");
+	prefs_save_color(&prefs.BoldForeground, "Preferences", "BoldForeground");
+	prefs_save_color(&prefs.Background,     "Preferences", "Background");
 
 	for (i = 0; i < C_MAX; i++)
 	{
@@ -237,8 +239,9 @@ static void prefs_copy(SYSTEM_DATA *target, SYSTEM_DATA *prefs, gboolean alloc_c
 	target->LastLogDir   = g_strdup(prefs->LastLogDir);
 	target->History      = prefs->History;
 
-	prefs_copy_color(&target->Foreground, &prefs->Foreground);
-	prefs_copy_color(&target->Background, &prefs->Background);
+	prefs_copy_color(&target->Foreground,     &prefs->Foreground);
+	prefs_copy_color(&target->BoldForeground, &prefs->BoldForeground);
+	prefs_copy_color(&target->Background,     &prefs->Background);
 
 	for (i = 0; i < C_MAX; i++)
 	{
@@ -396,15 +399,17 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	GtkWidget *table_colorfont;
 	GtkWidget *label_palette;
 	GtkWidget *label_background;
+	GtkWidget *label_boldforeground;
 	GtkWidget *label_foreground;
 	GtkWidget *picker_foreground;
+	GtkWidget *picker_boldforeground;
 	GtkWidget *picker_background;
 	GtkWidget *picker_font;
 	GtkWidget *table2;
 	GtkWidget *label_font;
 	gint i, j, k;
 
-	table_colorfont = gtk_table_new (4, 2, FALSE);
+	table_colorfont = gtk_table_new (5, 2, FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (table_colorfont), 8);
 	gtk_table_set_row_spacings (GTK_TABLE (table_colorfont), 4);
 
@@ -431,13 +436,13 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	
 	label_palette = gtk_label_new (_("Color palette:"));
 	gtk_widget_show (label_palette);
-	gtk_table_attach (GTK_TABLE (table_colorfont), label_palette, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_table_attach (GTK_TABLE (table_colorfont), label_palette, 0, 1, 4, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_palette), 1, 0.5);
 	gtk_misc_set_padding (GTK_MISC (label_palette), 8, 0);
 
 	label_background = gtk_label_new (_("Background color:"));
 	gtk_widget_show (label_background);
-	gtk_table_attach (GTK_TABLE (table_colorfont), label_background, 0, 1, 2, 3, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_table_attach (GTK_TABLE (table_colorfont), label_background, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_background), 1, 0.5);
 	gtk_misc_set_padding (GTK_MISC (label_background), 8, 0);
 
@@ -454,12 +459,25 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
   
 	picker_background = gnome_color_picker_new ();
 	gtk_widget_show (picker_background);
-	gtk_table_attach (GTK_TABLE (table_colorfont), picker_background, 1, 2, 2, 3, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_table_attach (GTK_TABLE (table_colorfont), picker_background, 1, 2, 3, 4, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(picker_background), prefs.Background.red, prefs.Background.green, prefs.Background.blue, 0);
   
+	/* Bold foreground label and picker */
+
+	label_boldforeground = gtk_label_new (_("Bold foreground color:"));
+	gtk_widget_show (label_boldforeground);
+	gtk_table_attach (GTK_TABLE (table_colorfont), label_boldforeground, 0, 1, 2, 3, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gtk_misc_set_alignment (GTK_MISC (label_boldforeground), 1, 0.5);
+	gtk_misc_set_padding (GTK_MISC (label_boldforeground), 8, 0);
+
+	picker_boldforeground = gnome_color_picker_new ();
+	gtk_widget_show (picker_boldforeground);
+	gtk_table_attach (GTK_TABLE (table_colorfont), picker_boldforeground, 1, 2, 2, 3, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
+	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER(picker_boldforeground), prefs.BoldForeground.red, prefs.BoldForeground.green, prefs.BoldForeground.blue, 0);
+
 	table2 = gtk_table_new (2, 8, FALSE);
 	gtk_widget_show (table2);
-	gtk_table_attach (GTK_TABLE (table_colorfont), table2, 1, 2, 3, 4, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
+	gtk_table_attach (GTK_TABLE (table_colorfont), table2, 1, 2, 4, 5, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (GTK_FILL), 0, 0);
 
 	for (i = 0, j = 0, k = 0; i < C_MAX; i++)
 	{
@@ -485,9 +503,11 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	gtk_signal_connect(GTK_OBJECT(picker_font),       "font-set",   prefs_select_font_cb, (gpointer) prefs_window);
 
 	gtk_object_set_data(GTK_OBJECT(picker_foreground), "prefs_window", prefs_window);
+	gtk_object_set_data(GTK_OBJECT(picker_boldforeground), "prefs_window", prefs_window);
 	gtk_object_set_data(GTK_OBJECT(picker_background), "prefs_window", prefs_window);
 	
 	gtk_signal_connect(GTK_OBJECT(picker_foreground), "color-set",  prefs_select_color_cb, (gpointer) &pre_prefs.Foreground);
+	gtk_signal_connect(GTK_OBJECT(picker_boldforeground), "color-set", prefs_select_color_cb, (gpointer) &pre_prefs.BoldForeground);
 	gtk_signal_connect(GTK_OBJECT(picker_background), "color-set",  prefs_select_color_cb, (gpointer) &pre_prefs.Background);
 	
 	return table_colorfont;

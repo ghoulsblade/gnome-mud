@@ -101,7 +101,7 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 									unsigned char pkt[64] = { IAC, SB, TELOPT_TTYPE, TELQUAL_IS };
 			
 									/* if strlen(TERM) > 50 you have issues */
-									strncpy(&pkt[4], (unsigned char *)prefs.TerminalType, 80);
+									strncpy(&pkt[4], (unsigned char *)prefs.TerminalType, 50);
 
 									pos = (4 + strlen(prefs.TerminalType)) - 1;
 									pkt[pos + 1] = IAC;

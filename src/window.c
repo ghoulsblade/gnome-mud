@@ -54,7 +54,11 @@ extern GdkFont         *font_normal;
 extern SYSTEM_DATA      prefs;
 
 static gint parms[10], nparms;
-bool      BOLD = FALSE;
+static gint nowcol = 0 ;
+bool        BOLD   = FALSE;
+
+static gint idx_colour[2][8] = { { 0, 1, 3,  4,  5,  6,  7,  8 },
+                                 { 8, 9, 10, 11, 12, 13, 14, 15 } } ;
 
 static void cons_escm (CONNECTION_DATA *cd)
 {
@@ -67,70 +71,22 @@ static void cons_escm (CONNECTION_DATA *cd)
         case 0: /* none */
 			cd->foreground = &prefs.Foreground;
 			cd->background = &prefs.Background;
-            BOLD       = FALSE;
+			nowcol = 0; /* default foreground colour */
+            BOLD   = FALSE;
             break;
+
         case 1:/* bold */
             BOLD = TRUE;
             break;
+
         case 4: /* underscore */
         case 5: /* blink */
         case 7: /* inverse */
             break;
 
-        case 30:
-            if ( BOLD )
-                cd->foreground = &prefs.Colors[8];
-            else
-                cd->foreground = &prefs.Colors[0];
-            break;
-
-        case 31:
-            if ( BOLD )
-                cd->foreground = &prefs.Colors[9];
-            else
-                cd->foreground = &prefs.Colors[1];
-            break;
-
-        case 32:
-            if ( BOLD )
-                cd->foreground = &prefs.Colors[10];
-            else
-                cd->foreground = &prefs.Colors[3];
-            break;
-
-        case 33:
-            if ( BOLD )
-                cd->foreground = &prefs.Colors[11];
-            else
-                cd->foreground = &prefs.Colors[4];
-            break;
-
-        case 34:
-            if ( BOLD )
-                cd->foreground = &prefs.Colors[12];
-            else
-                cd->foreground = &prefs.Colors[5];
-            break;
-
-        case 35:
-            if ( BOLD )
-                cd->foreground = &prefs.Colors[13];
-            else
-                cd->foreground = &prefs.Colors[6];
-            break;
-
-        case 36:
-            if ( BOLD )
-                cd->foreground = &prefs.Colors[14];
-            else
-                cd->foreground = &prefs.Colors[7];
-            break;
-
-        case 37:
-            if ( BOLD )
-                cd->foreground = &prefs.Colors[15];
-            else
-                cd->foreground = &prefs.Colors[8];
+        case 30: case 31: case 32: case 33:
+        case 34: case 35: case 36: case 37:
+            nowcol = p;
             break;
 
         case 40:
@@ -169,6 +125,18 @@ static void cons_escm (CONNECTION_DATA *cd)
             break;
         }
     }
+
+	if ( nowcol >= 30 && nowcol <= 37 )
+	{
+		int j ;
+
+		j = idx_colour[BOLD ? 1 : 0][nowcol - 30] ;
+        cd->foreground = &prefs.Colors[j] ;
+	}
+	else if ( BOLD && !nowcol )
+	{
+		cd->foreground = &prefs.BoldForeground;
+	}
 }
 
 void popup_window (const gchar *message)

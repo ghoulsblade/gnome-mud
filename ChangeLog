@@ -1,3 +1,19 @@
+Tue Feb 12 07:51:34 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Added patch from Vashti which fixes blackbold bug.
+
+	* AUTHORS: Added more information on Vashti
+	* ROADMAP: Added new idea
+
+	* src/gnome-mud.h (system_data): BoldForeGround added.
+	* src/init.c (window_menu_help_about): Removed some contributers,
+	although they still exist in AUTHORS.
+	* src/prefs.c (load_prefs): Added BoldForeground.
+	(prefs_color_frame): Likewise.
+	* src/telnet.c (pre_process): Bug fix, overriting memory which
+	would destroy buf and cd variable.
+	* src/window.c (con_escm): Changed by Vashti (see patch above)
+
 Mon Feb 11 14:50:34 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Forgot src/log.c.

@@ -12,7 +12,6 @@ feel free to suggest features, contribute, or comment.
 * Nested alias [AS GOOD AS DONE]
 * Import of Mud Connectfiles [DONE]
 * Save logfiles of mud-traffic [DONE]
-* Copy/Paste from clipboard
 * Rewrite connection wizard step 1 [DONE]
 	+ double click on entries to connect [DONE]
 * Rewrite font/color support [DONE]
@@ -44,6 +43,7 @@ feel free to suggest features, contribute, or comment.
 
 Long term future
 
+* Option for nr of lines to keep in buffer
 * Fix MCCP (crashes on a few muds)
 * Green/Red marker, so that you can see if tab is connected or not
 * Other marker on tab to show if using MCCP or not

@@ -94,6 +94,7 @@ struct system_data {
 	gchar     *LastLogDir;
 	gint       History;
 	GdkColor   Foreground;
+	GdkColor   BoldForeground;
 	GdkColor   Background;
 
 	GdkColor   Colors[16];

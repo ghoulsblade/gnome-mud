@@ -28,7 +28,8 @@ Benjamin Geiger <bgeiger@ithink.net>     - various code cleanups and fixes
 Martin Quinson                           - fr.po maintainer.
 Petter E. Stokke                         - Python scripting support.
 Vashti <vashti@jml.net>                  - telnet support patches and keypad
-                                           bindings.
+                                           bindings + several other patches
+										   and contributions.
 
 ANSI code 
 -------- 
