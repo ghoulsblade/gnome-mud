@@ -20,6 +20,7 @@ feel free to suggest features, contribute, or comment.
 * Rewrite font/color support
 * Right-click menu for connection-tabs
 * Make better use for gtk_object_(get|set)_data
+* Cleanup of .c-files, better names on functions, etc...
 
 0.10.0
 
@@ -29,3 +30,4 @@ feel free to suggest features, contribute, or comment.
 * MSP, Mud Sound Protocol (Is there many muds using this?)
 * SOCKS support
 * IPv6 support
+* GNOME 2.0
