@@ -49,8 +49,10 @@ void plugin_add_connection_text(CONNECTION_DATA *connection, gchar *message, gin
 gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
 {
   GtkSignalFunc  sig_function;
-  GtkWidget     *menu_place;
-  gint temp;
+
+  /* FIXME */
+/*   GtkWidget     *menu_place; */
+/*   gint temp; */
 
   if ((sig_function = (GtkSignalFunc) dlsym ((void *) handle, function)) == NULL) {
     g_message (_("Error register menu: %s"), dlerror());

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AMCL 0.8.0\n"
-"POT-Creation-Date: 2000-12-26 15:18+0100\n"
-"PO-Revision-Date: 2000-09-06 10:23+0200\n"
+"POT-Creation-Date: 2000-12-27 14:17+0100\n"
+"PO-Revision-Date: 2000-12-27 14:19+0100\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -114,23 +114,31 @@ msgstr "Standard"
 msgid "Can't load font... %s Using default.\n"
 msgstr "Kan inte ladda font... %s. Använder standard.\n"
 
-#: src/init.c:98 src/init.c:291 src/init.c:301
+#: src/init.c:85
+msgid "Quit?"
+msgstr "Avsluta?"
+
+#: src/init.c:91
+msgid "Do you really want to quit?"
+msgstr "Vill du verkligen avsluta?"
+
+#: src/init.c:133 src/init.c:326 src/init.c:336
 msgid "Connect..."
 msgstr "Anslut..."
 
-#: src/init.c:109
+#: src/init.c:144
 msgid "Host:"
 msgstr "Adress"
 
-#: src/init.c:116
+#: src/init.c:151
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:174
+#: src/init.c:209
 msgid "Gnome-Mud"
 msgstr "Gnome-Mud"
 
-#: src/init.c:177
+#: src/init.c:212
 msgid ""
 "Homepage: http://amcl.sourceforge.net \n"
 " \n"
@@ -140,67 +148,67 @@ msgstr ""
 " \n"
 "Skicka bugrapporter till: amcl-devel@lists.sourceforge.net"
 
-#: src/init.c:289
+#: src/init.c:324
 msgid "Wizard..."
 msgstr "Wizard..."
 
-#: src/init.c:292 src/init.c:302
+#: src/init.c:327 src/init.c:337
 msgid "Disconnect"
 msgstr "Koppla ifrån"
 
-#: src/init.c:294
+#: src/init.c:329
 msgid "Exit"
 msgstr "Avsluta"
 
-#: src/init.c:299
+#: src/init.c:334
 msgid "Connection Wizard..."
 msgstr "Anslutnings Wizard..."
 
-#: src/init.c:304
+#: src/init.c:339
 msgid "Close Window"
 msgstr "Stäng fönster"
 
-#: src/init.c:312
+#: src/init.c:347
 msgid "Plugin Information..."
 msgstr "Plugin Information..."
 
-#: src/init.c:317
+#: src/init.c:352
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:318
+#: src/init.c:353
 msgid "Variables..."
 msgstr "Variabler..."
 
-#: src/init.c:319
+#: src/init.c:354
 msgid "Actions/Triggers..."
 msgstr "Actions/Triggers..."
 
-#: src/init.c:320
+#: src/init.c:355
 msgid "Keybinds..."
 msgstr "Tangenter..."
 
-#: src/init.c:322
+#: src/init.c:357
 msgid "Auto Mapper"
 msgstr "Kart Genererare..."
 
-#: src/init.c:324
+#: src/init.c:359
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:331
+#: src/init.c:366
 msgid "README"
 msgstr "LÄSMIG"
 
-#: src/init.c:332
+#: src/init.c:367
 msgid "AUTHORS"
 msgstr "Inblandade"
 
-#: src/init.c:418
+#: src/init.c:453
 msgid "Main"
 msgstr "Arkiv"
 
-#: src/init.c:465
+#: src/init.c:502
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuerad under GNU General Public License.\n"
 
@@ -456,17 +464,17 @@ msgstr "Plug-in internt namn är `%s'."
 msgid "Running init-function..."
 msgstr "Kör init-funktion..."
 
-#: src/modules_api.c:56
+#: src/modules_api.c:58
 #, c-format
 msgid "Error register menu: %s"
 msgstr "Fel i registrering av meny: %s"
 
-#: src/modules_api.c:76
+#: src/modules_api.c:78
 #, c-format
 msgid "Error register for data %s: %s"
 msgstr "Fel i registrering av data %s: %s"
 
-#: src/modules_api.c:84
+#: src/modules_api.c:86
 msgid "Error getting plugin from handle."
 msgstr "Fel i att ta reda på plugin handle."
 
@@ -511,11 +519,11 @@ msgstr "%s can INTE öppnas för att kunna skrivas."
 msgid "%s exists and can NOT be opened in read mode."
 msgstr "%s finns, och kan INTE öppnas i läs läge."
 
-#: src/prefs.c:241
+#: src/prefs.c:251
 msgid "Echo the text sent?"
 msgstr "Skriva ut sänd data?"
 
-#: src/prefs.c:246
+#: src/prefs.c:256
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
@@ -524,11 +532,11 @@ msgstr ""
 "\n"
 "du kan se vad du skickar."
 
-#: src/prefs.c:253
+#: src/prefs.c:263
 msgid "Keep the text entered?"
 msgstr "Spara inskriven text?"
 
-#: src/prefs.c:258
+#: src/prefs.c:268
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
 "will be left in the entry box but seleceted. Turn this off to remove the "
@@ -540,7 +548,7 @@ msgstr ""
 "texten \n"
 "efter den har blivit skickad."
 
-#: src/prefs.c:279
+#: src/prefs.c:289
 msgid ""
 "Use this button to open the font selector to choose what font you will use."
 msgstr ""
@@ -548,15 +556,15 @@ msgstr ""
 "lätt\n"
 "välja en användbar font."
 
-#: src/prefs.c:284
+#: src/prefs.c:294
 msgid "Apperence"
 msgstr "Utseende"
 
-#: src/prefs.c:300
+#: src/prefs.c:310
 msgid "Freeze/Thaw?"
 msgstr "Freeze/Thaw?"
 
-#: src/prefs.c:302
+#: src/prefs.c:312
 msgid ""
 "Using this, text will draw faster but it will not draw every character, only "
 "whole strings. This will probably make displays a lot faster if you are "
@@ -567,15 +575,15 @@ msgstr ""
 "att rita bokstav för bokstav, utan bara hela rader. Detta kan snabba upp en\n"
 "MUD med mycket färger."
 
-#: src/prefs.c:318
+#: src/prefs.c:328
 msgid "Command divide char:"
 msgstr "Kommando uppdelnings tecken:"
 
-#: src/prefs.c:330
+#: src/prefs.c:340
 msgid "Command history:"
 msgstr "Kommando historik:"
 
-#: src/prefs.c:343
+#: src/prefs.c:353
 msgid "Functionality"
 msgstr "Funktionalitet"
 

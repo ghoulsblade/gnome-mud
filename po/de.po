@@ -1,13 +1,14 @@
 # German Messages for the AMCL MUD Client.
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Jörgen Kosche <mnementh@gmx.de>, 2000
+# Robin Ericsson <robin@localhost.nu>, 2000
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2000-12-26 15:18+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Jörgen Kosche <mnementh@gmx.de>\n"
+"POT-Creation-Date: 2000-12-27 14:17+0100\n"
+"PO-Revision-Date: 2000-12-27 14:26+0100\n"
+"Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -19,7 +20,6 @@ msgstr ""
 
 #. actions
 #: src/data.c:230 src/data.c:315
-#, fuzzy
 msgid "Actions"
 msgstr "Aktion"
 
@@ -29,9 +29,9 @@ msgid "Character '%c' not allowed."
 msgstr ""
 
 #: src/data.c:239 src/data.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "%s too big."
-msgstr "Alias zu gross."
+msgstr "%s zu gross."
 
 #: src/data.c:253
 #, c-format
@@ -48,9 +48,8 @@ msgid "Replacement"
 msgstr "Ersetzung"
 
 #: src/data.c:316
-#, fuzzy
 msgid "Triggers"
-msgstr "Trigger"
+msgstr "Triggers"
 
 #. vars
 #: src/data.c:322
@@ -67,9 +66,8 @@ msgid "window_data: trying to access to undefined data range: %d"
 msgstr ""
 
 #: src/data.c:340
-#, fuzzy
 msgid "AMCL Configuration Center"
-msgstr "AMCL Aktionszentrale"
+msgstr ""
 
 #: src/data.c:385 src/keybind.c:420 src/wizard.c:572
 msgid "Add"
@@ -97,12 +95,10 @@ msgid "AMCL Color Chooser"
 msgstr "AMCL Farb-Zentrale"
 
 #: src/color.c:333 src/window.c:222
-#, fuzzy
 msgid "Ok"
-msgstr "OK"
+msgstr "Ok"
 
 #: src/color.c:334
-#, fuzzy
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -111,7 +107,6 @@ msgid "Apply"
 msgstr "Übernehmen"
 
 #: src/color.c:337
-#, fuzzy
 msgid "Default"
 msgstr "Standard"
 
@@ -120,95 +115,98 @@ msgstr "Standard"
 msgid "Can't load font... %s Using default.\n"
 msgstr "Kann Zeichensatz nicht laden... %s Benutze Standard.\n"
 
-#: src/init.c:98 src/init.c:291 src/init.c:301
+#: src/init.c:85
+msgid "Quit?"
+msgstr "Ende?"
+
+#: src/init.c:91
+msgid "Do you really want to quit?"
+msgstr ""
+
+#: src/init.c:133 src/init.c:326 src/init.c:336
 msgid "Connect..."
 msgstr "Verbinde..."
 
-#: src/init.c:109
+#: src/init.c:144
 msgid "Host:"
 msgstr "Rechner:"
 
-#: src/init.c:116
+#: src/init.c:151
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:174
+#: src/init.c:209
 msgid "Gnome-Mud"
-msgstr ""
+msgstr "Gnome-Mud"
 
-#: src/init.c:177
+#: src/init.c:212
 msgid ""
 "Homepage: http://amcl.sourceforge.net \n"
 " \n"
 "Send bug reports to: amcl-devel@lists.sourceforge.net"
 msgstr ""
 
-#: src/init.c:289
-#, fuzzy
+#: src/init.c:324
 msgid "Wizard..."
-msgstr "Alias..."
+msgstr ""
 
-#: src/init.c:292 src/init.c:302
+#: src/init.c:327 src/init.c:337
 msgid "Disconnect"
 msgstr "Verbindung unterbrechen"
 
-#: src/init.c:294
+#: src/init.c:329
 msgid "Exit"
 msgstr ""
 
-#: src/init.c:299
+#: src/init.c:334
 msgid "Connection Wizard..."
 msgstr "Verbindungsassistent"
 
-#: src/init.c:304
+#: src/init.c:339
 msgid "Close Window"
 msgstr "Schliesse Fenster"
 
-#: src/init.c:312
-#, fuzzy
+#: src/init.c:347
 msgid "Plugin Information..."
-msgstr "Plugin Information"
+msgstr "Plugin Information..."
 
-#: src/init.c:317
+#: src/init.c:352
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:318
-#, fuzzy
+#: src/init.c:353
 msgid "Variables..."
-msgstr "Alias..."
+msgstr ""
 
-#: src/init.c:319
+#: src/init.c:354
 msgid "Actions/Triggers..."
 msgstr "Aktionen/Trigger..."
 
-#: src/init.c:320
-#, fuzzy
+#: src/init.c:355
 msgid "Keybinds..."
 msgstr "Makros..."
 
-#: src/init.c:322
-#, fuzzy
+#: src/init.c:357
 msgid "Auto Mapper"
 msgstr "Karte..."
 
-#: src/init.c:324
+#: src/init.c:359
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:331
+#: src/init.c:366
 msgid "README"
 msgstr ""
 
-#: src/init.c:332
+#: src/init.c:367
 msgid "AUTHORS"
 msgstr ""
 
-#: src/init.c:418
+#: src/init.c:453
 msgid "Main"
 msgstr "Allgemein"
 
-#: src/init.c:465
+#: src/init.c:502
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Verteilt unter den Bedingungen der GNU General Public License.\n"
 
@@ -464,17 +462,17 @@ msgstr "Interner name des Plugins ist `%s'."
 msgid "Running init-function..."
 msgstr "Startet Init-Funktion..."
 
-#: src/modules_api.c:56
+#: src/modules_api.c:58
 #, c-format
 msgid "Error register menu: %s"
 msgstr "Fehler bei der Registrierung eines Menüs: %s"
 
-#: src/modules_api.c:76
+#: src/modules_api.c:78
 #, c-format
 msgid "Error register for data %s: %s"
 msgstr ""
 
-#: src/modules_api.c:84
+#: src/modules_api.c:86
 msgid "Error getting plugin from handle."
 msgstr ""
 
@@ -519,11 +517,11 @@ msgstr "%s kann NICHT für Schreiben geöffnet werden."
 msgid "%s exists and can NOT be opened in read mode."
 msgstr "%s existiert und kann NICHT für Lesen geöffnet werden."
 
-#: src/prefs.c:241
+#: src/prefs.c:251
 msgid "Echo the text sent?"
 msgstr "Den gesendeten Text anzeigen?"
 
-#: src/prefs.c:246
+#: src/prefs.c:256
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
@@ -531,12 +529,11 @@ msgstr ""
 "Wenn diese Option angeschaltet ist, dann wird der Text, den man eingibst "
 "lokal ausgegeben, so dass man kontrollieren kann, was man sendet."
 
-#: src/prefs.c:253
-#, fuzzy
+#: src/prefs.c:263
 msgid "Keep the text entered?"
 msgstr "Den gesendeten Text anzeigen?"
 
-#: src/prefs.c:258
+#: src/prefs.c:268
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
 "will be left in the entry box but seleceted. Turn this off to remove the "
@@ -546,20 +543,20 @@ msgstr ""
 "Eingabezeile behalten, aber markiert.Um die Eingabezeile nach Absenden des "
 "Textes zu löschen, sollte man diese Option ausschalten."
 
-#: src/prefs.c:279
+#: src/prefs.c:289
 msgid ""
 "Use this button to open the font selector to choose what font you will use."
 msgstr "Benutze diesen Knopf, um den Schriftsatz via Dialog auszuwählen"
 
-#: src/prefs.c:284
+#: src/prefs.c:294
 msgid "Apperence"
 msgstr ""
 
-#: src/prefs.c:300
+#: src/prefs.c:310
 msgid "Freeze/Thaw?"
 msgstr ""
 
-#: src/prefs.c:302
+#: src/prefs.c:312
 msgid ""
 "Using this, text will draw faster but it will not draw every character, only "
 "whole strings. This will probably make displays a lot faster if you are "
@@ -570,17 +567,15 @@ msgstr ""
 "sondern komplette Strings.Das ist möglicherweise deutlich schneller, wenn "
 "das MUD viele unterschiedliche Farben benutzt."
 
-#: src/prefs.c:318
-#, fuzzy
+#: src/prefs.c:328
 msgid "Command divide char:"
 msgstr "Kommandoseparator"
 
-#: src/prefs.c:330
-#, fuzzy
+#: src/prefs.c:340
 msgid "Command history:"
-msgstr "Kommando"
+msgstr ""
 
-#: src/prefs.c:343
+#: src/prefs.c:353
 msgid "Functionality"
 msgstr ""
 
@@ -714,140 +709,3 @@ msgstr ""
 #: src/wizard.c:599
 msgid "Connect"
 msgstr "Verbinden"
-
-#~ msgid "AMCL Alias Center"
-#~ msgstr "AMCL Alias-Zentrale"
-
-#~ msgid "About"
-#~ msgstr "Über"
-
-#~ msgid "AMCL version "
-#~ msgstr "AMCL Version"
-
-#~ msgid "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
-#~ msgstr "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
-
-#~ msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
-#~ msgstr "Lizensiert unter der GNU GENERAL PUBLIC LICENSE (GPL)"
-
-#~ msgid "Quit"
-#~ msgstr "Ende"
-
-#~ msgid "Options"
-#~ msgstr "Optionen"
-
-#~ msgid "Preferences..."
-#~ msgstr "Voreinstellungen..."
-
-#~ msgid "Help"
-#~ msgstr "Hilfe"
-
-#~ msgid "Readme"
-#~ msgstr "Readme"
-
-#~ msgid "Authors"
-#~ msgstr "Autoren"
-
-#~ msgid "About..."
-#~ msgstr "Über..."
-
-#~ msgid "AMCL - Preferences"
-#~ msgstr "AMCL - Voreinstellungen"
-
-#, fuzzy
-#~ msgid "AutoSave?"
-#~ msgstr "Speichern"
-
-#~ msgid ""
-#~ "With this toggled on, Preferences, Connection Wizard and Aliases will be "
-#~ "saved automatically."
-#~ msgstr ""
-#~ "Wenn diese Option angeschaltet ist, werden alle Einstellungen "
-#~ "(Voreinstellungen, Verbindungsassistent, Aliase) automatisch gespeichert."
-
-#~ msgid ""
-#~ "This is the font that AMCL is using to print the text from the MUD. If the "
-#~ "font is unavailable when you start AMCL, the default font \"fixed.\" will be "
-#~ "used."
-#~ msgstr ""
-#~ "Dieser Schriftsatz wird benutzt, um den Text vom MUD auszugeben. Wenn dieser "
-#~ "Schriftsatz nicht gefunden werden kann, dann benutzt AMCL den "
-#~ "Standardschriftsatz \"fixed\""
-
-#~ msgid "Select font"
-#~ msgstr "Wähle Schriftsatz"
-
-#~ msgid "Homepage: http://www.localhost.nu/apps/amcl/"
-#~ msgstr "Homepage: http://www.localhost.nu/apps/amcl/"
-
-#~ msgid "Please complete the action first."
-#~ msgstr "Bitte zuerst die Aktion vervollständigen."
-
-#~ msgid "Trigger too big."
-#~ msgstr "Trigger zu gross."
-
-#~ msgid "Action too big."
-#~ msgstr "Aktion zu gross."
-
-#~ msgid "Can't have two actions for the same trigger... yet."
-#~ msgstr "Kann nicht zweimal dieselbe Aktion haben ... bis jetzt."
-
-#~ msgid "No selection made."
-#~ msgstr "Keine Auswahl aktiv."
-
-#~ msgid "Please complete the alias first."
-#~ msgstr "Bitte zuerst das Alias vervollständigen."
-
-#~ msgid "I can't make an alias of that."
-#~ msgstr "Ich kann kein Alias davon machen."
-
-#~ msgid "Replacement to big."
-#~ msgstr "Ersetzung zu gross."
-
-#~ msgid "Can't add an existing alias."
-#~ msgstr "Kann kein existierendes Alias hinzufügen."
-
-#~ msgid " Ok "
-#~ msgstr "OK"
-
-#~ msgid " Apply "
-#~ msgstr "Übernehmen"
-
-#~ msgid " Save "
-#~ msgstr "Speichern"
-
-#~ msgid "add"
-#~ msgstr "Hinzufügen"
-
-#~ msgid "close"
-#~ msgstr "Schliessen"
-
-#~ msgid "delete"
-#~ msgstr "Löschen"
-
-#~ msgid "save"
-#~ msgstr "Speichern"
-
-#~ msgid "  add   "
-#~ msgstr "Hinzufügen"
-
-#~ msgid " close  "
-#~ msgstr "Schliessen"
-
-#~ msgid " delete "
-#~ msgstr "Löschen"
-
-#~ msgid "  save  "
-#~ msgstr "Speichern"
-
-#~ msgid " save "
-#~ msgstr "Speichern"
-
-#~ msgid " close "
-#~ msgstr "Schliessen"
-
-#~ msgid "Use this together with PlayerName and AutoLogin."
-#~ msgstr "Benutze das in verbindung mit dem Spielernamen und Autologin."
-
-#~ msgid "apply"
-#~ msgstr "Übernehmen"

@@ -97,7 +97,20 @@ void load_prefs ( void )
   prefs.Freeze   = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
   prefs.CommDev  = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
   prefs.FontName = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
-  prefs.History  = gnome_config_get_int    ("/gnome-mud/Preferences/History=10");
+  prefs.History  = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
+
+  {
+    extern GList *EntryHistory;
+    gint  nr, i;
+    gchar **cmd_history;
+    gnome_config_get_vector("/gnome-mud/Data/CommandHistory", &nr, &cmd_history);
+
+    EntryHistory = g_list_append(EntryHistory, "");
+
+    for (i = 0; i < nr; i++) {
+      EntryHistory = g_list_append(EntryHistory, (gpointer) cmd_history[i]);
+    }
+  }
 
   font_normal = gdk_font_load(prefs.FontName);
 }
@@ -111,7 +124,6 @@ void save_prefs ( void )
   gnome_config_set_string("/gnome-mud/Preferences/CommDev",  prefs.CommDev);
   gnome_config_set_string("/gnome-mud/Preferences/FontName", prefs.FontName);
   gnome_config_set_int   ("/gnome-mud/Preferences/History",  prefs.History);
-
   gnome_config_sync();
 }
 
@@ -120,10 +132,8 @@ static void copy_preferences(SYSTEM_DATA *target, SYSTEM_DATA *prefs)
   target->EchoText = prefs->EchoText;
   target->KeepText = prefs->KeepText;
   target->AutoSave = prefs->AutoSave;
-  target->Freeze   = prefs->Freeze;
-  g_free(target->FontName);
-  target->FontName = g_strdup(prefs->FontName);
-  g_free(target->CommDev);
+  target->Freeze   = prefs->Freeze;             g_free(target->FontName);
+  target->FontName = g_strdup(prefs->FontName); g_free(target->CommDev);
   target->CommDev  = g_strdup(prefs->CommDev);
   target->History  = prefs->History;
 }

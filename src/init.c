@@ -78,10 +78,45 @@ void close_window (GtkWidget *widget, gpointer data)
 
 void destroy (GtkWidget *widget)
 {
-  if (widget == window) {
-    
-  }
+  GtkWidget *dialog;
+  GtkWidget *label;
+  gint retval;
 
+  dialog = gnome_dialog_new(N_("Quit?"), 
+			    GNOME_STOCK_BUTTON_YES,
+			    GNOME_STOCK_BUTTON_NO,
+			    NULL);
+  gnome_dialog_set_parent(GNOME_DIALOG(dialog), GTK_WINDOW(window));
+
+  label = gtk_label_new(_("Do you really want to quit?"));
+  gtk_widget_show(label);
+  gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialog)->vbox), label, FALSE, FALSE, 0);  
+
+  retval = gnome_dialog_run(GNOME_DIALOG(dialog));
+
+  switch (retval) {
+  case 1:
+    gnome_dialog_close(GNOME_DIALOG(dialog));
+    return;
+  }  
+
+  if (EntryHistory != NULL) {
+    GList *t;
+    gint   i;
+    gchar const *tt[g_list_length(EntryHistory)];
+    
+    for (t = g_list_first(EntryHistory), i = 0; t != NULL; t = t->next) {
+      gchar *tmp = (gchar *) t->data;
+
+      if (tmp[0] != '\0') {
+	tt[i] = (gchar *) t->data;
+	i++;
+      }
+    }
+    
+    gnome_config_set_vector("/gnome-mud/Data/CommandHistory", i, tt);
+  }
+  
   gtk_main_quit ();
 }
 
@@ -438,15 +473,17 @@ void init_window ()
   gtk_box_pack_start (GTK_BOX (box_h_low), main_connection->vscrollbar, 
 		      FALSE, FALSE, 0);
   
+  
+
   combo = gtk_combo_new();
   text_entry = GTK_COMBO(combo)->entry;
   gtk_combo_set_use_arrows(GTK_COMBO(combo), FALSE);
   gtk_combo_disable_activate(GTK_COMBO(combo));
+  if (EntryHistory != NULL)
+    gtk_combo_set_popdown_strings(GTK_COMBO(combo), EntryHistory);
   gtk_box_pack_start(GTK_BOX(box_main), combo, FALSE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT(text_entry), "key_press_event",
 		      GTK_SIGNAL_FUNC (text_entry_key_press_cb), NULL);
-/*   gtk_signal_connect (GTK_OBJECT(text_entry), "changed", */
-/* 		      GTK_SIGNAL_FUNC (text_entry_changed_cb), (gpointer) GTK_COMBO(combo)->list); */
   gtk_signal_connect(GTK_OBJECT(GTK_COMBO(combo)->list), "select-child",
 		     GTK_SIGNAL_FUNC (text_entry_select_child_cb), NULL);
   gtk_signal_connect(GTK_OBJECT(text_entry), "activate", 

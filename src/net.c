@@ -299,7 +299,6 @@ void send_to_connection (GtkWidget *text_entry, gpointer data)
   extern GList *EntryHistory;
   extern GList *EntryCurr;
   gchar *entry_text;
-  GList *t;
 
   Keyflag = TRUE;
   cd = connections[gtk_notebook_get_current_page 

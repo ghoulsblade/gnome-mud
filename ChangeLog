@@ -1,3 +1,16 @@
+Wed Dec 27 18:03:55 2000  Robin Ericsson  <lobbin@localhost.nu>
+
+	* TODO: removed some outdated stuff
+	* po/*.po: Made another update-po and edited the sv and de.po
+	* src/init.c [destroy]: Added yes/no question when quitting amcl.
+	Also saving the command history here.
+	* src/modules_api.c [plugin_register_menu]: Commented out some
+	variables.
+	* src/net.c: Removed some unused variables.
+	* src/prefs.c [save_prefs]: Save Command history as a vector.
+	* src/telnet.c: [pre_process]: changed == to =, as it wasn't
+	an if statement ;)
+
 Tue Dec 26 10:37:32 2000  Jordi Mallach  <jordi@sindominio.net>
 	* TODO: added some GNOME specific items.
 	* Moved some items to "Under Development".

@@ -1,9 +1,7 @@
-Things in TODO that are not done :)
-==================================
-- Rewrite most code into more generic gtk code (this is ongoing)
+Things that need to be done
+===========================
 - MSP, Mud Sound Protocol (Is there many muds using this?)
 - SOCKS support
-- An icon or something to use with GNOME and WM:s
 - AutoReconnect
 - Nested alias
 - Use GTK+ unstable's splitscreen feature

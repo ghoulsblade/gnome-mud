@@ -106,7 +106,7 @@ char *pre_process(char *buf, CONNECTION_DATA *connection)
 	switch(*from) {
 	case TELOPT_ECHO:
 	  if (connection->echo == FALSE) {
-	    connection->echo == TRUE;
+	    connection->echo = TRUE;
 	    write(connection->sockfd,"\377\373\001",3);
 	    from++;
 	  }

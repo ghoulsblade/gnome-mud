@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2000-12-26 15:18+0100\n"
+"POT-Creation-Date: 2000-12-27 14:17+0100\n"
 "PO-Revision-Date: 2000-09-28 17:35+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -116,95 +116,104 @@ msgstr "Predeterminats"
 msgid "Can't load font... %s Using default.\n"
 msgstr "No es pot carregar la font... %s Utilitzant predeterminada.\n"
 
-#: src/init.c:98 src/init.c:291 src/init.c:301
+#: src/init.c:85
+#, fuzzy
+msgid "Quit?"
+msgstr "Sortir"
+
+#: src/init.c:91
+msgid "Do you really want to quit?"
+msgstr ""
+
+#: src/init.c:133 src/init.c:326 src/init.c:336
 msgid "Connect..."
 msgstr "Conectar..."
 
-#: src/init.c:109
+#: src/init.c:144
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:116
+#: src/init.c:151
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:174
+#: src/init.c:209
 msgid "Gnome-Mud"
 msgstr ""
 
-#: src/init.c:177
+#: src/init.c:212
 msgid ""
 "Homepage: http://amcl.sourceforge.net \n"
 " \n"
 "Send bug reports to: amcl-devel@lists.sourceforge.net"
 msgstr ""
 
-#: src/init.c:289
+#: src/init.c:324
 #, fuzzy
 msgid "Wizard..."
 msgstr "Variables..."
 
-#: src/init.c:292 src/init.c:302
+#: src/init.c:327 src/init.c:337
 msgid "Disconnect"
 msgstr "Desconectar"
 
-#: src/init.c:294
+#: src/init.c:329
 msgid "Exit"
 msgstr ""
 
-#: src/init.c:299
+#: src/init.c:334
 msgid "Connection Wizard..."
 msgstr "Asistent de Conexions..."
 
-#: src/init.c:304
+#: src/init.c:339
 msgid "Close Window"
 msgstr "Tancar finestra"
 
-#: src/init.c:312
+#: src/init.c:347
 #, fuzzy
 msgid "Plugin Information..."
 msgstr "Informació sobre Conectors"
 
-#: src/init.c:317
+#: src/init.c:352
 msgid "Alias..."
 msgstr "Alias..."
 
-#: src/init.c:318
+#: src/init.c:353
 #, fuzzy
 msgid "Variables..."
 msgstr "Variables"
 
-#: src/init.c:319
+#: src/init.c:354
 msgid "Actions/Triggers..."
 msgstr "Accions/Triggers"
 
-#: src/init.c:320
+#: src/init.c:355
 #, fuzzy
 msgid "Keybinds..."
 msgstr "Tecles..."
 
-#: src/init.c:322
+#: src/init.c:357
 #, fuzzy
 msgid "Auto Mapper"
 msgstr "Auto Mapeador"
 
-#: src/init.c:324
+#: src/init.c:359
 msgid "Plugins"
 msgstr "Conectors"
 
-#: src/init.c:331
+#: src/init.c:366
 msgid "README"
 msgstr ""
 
-#: src/init.c:332
+#: src/init.c:367
 msgid "AUTHORS"
 msgstr ""
 
-#: src/init.c:418
+#: src/init.c:453
 msgid "Main"
 msgstr "Principal"
 
-#: src/init.c:465
+#: src/init.c:502
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït baix els termins de la Llicencia Pública General GNU.\n"
 
@@ -460,17 +469,17 @@ msgstr "El nom intern del conector és `%s'."
 msgid "Running init-function..."
 msgstr "Executant funció d'iniciació..."
 
-#: src/modules_api.c:56
+#: src/modules_api.c:58
 #, c-format
 msgid "Error register menu: %s"
 msgstr "Error de registre de menú: %s"
 
-#: src/modules_api.c:76
+#: src/modules_api.c:78
 #, c-format
 msgid "Error register for data %s: %s"
 msgstr "Error de registre de dades %s: %s"
 
-#: src/modules_api.c:84
+#: src/modules_api.c:86
 msgid "Error getting plugin from handle."
 msgstr "Error de manejament del conector."
 
@@ -515,11 +524,11 @@ msgstr "NO es pot obrir %s en modo escritura."
 msgid "%s exists and can NOT be opened in read mode."
 msgstr "%s existeix i NO es pot obrir en modo lectura."
 
-#: src/prefs.c:241
+#: src/prefs.c:251
 msgid "Echo the text sent?"
 msgstr "Fer eco del texte enviat?"
 
-#: src/prefs.c:246
+#: src/prefs.c:256
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
@@ -527,11 +536,11 @@ msgstr ""
 "Amb aquesta opció activada, a tot el texte que enviis se li farà eco en la "
 "conexió per a que pugues controlar lo que estàs enviant."
 
-#: src/prefs.c:253
+#: src/prefs.c:263
 msgid "Keep the text entered?"
 msgstr "Mantindre el texte introduït?"
 
-#: src/prefs.c:258
+#: src/prefs.c:268
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
 "will be left in the entry box but seleceted. Turn this off to remove the "
@@ -541,23 +550,23 @@ msgstr ""
 "quedarà en el camp de introducció de comandes, pero sel·leccionat. Desactiva "
 "la opció per a esborrar el texte una vegada hagi sigut enviat."
 
-#: src/prefs.c:279
+#: src/prefs.c:289
 msgid ""
 "Use this button to open the font selector to choose what font you will use."
 msgstr ""
 "Utilitza aquest botó per a obrir el selector de fonts per a elegir la font "
 "que vulguis gastar."
 
-#: src/prefs.c:284
+#: src/prefs.c:294
 msgid "Apperence"
 msgstr ""
 
-#: src/prefs.c:300
+#: src/prefs.c:310
 #, fuzzy
 msgid "Freeze/Thaw?"
 msgstr "Congelar/Descongelar"
 
-#: src/prefs.c:302
+#: src/prefs.c:312
 msgid ""
 "Using this, text will draw faster but it will not draw every character, only "
 "whole strings. This will probably make displays a lot faster if you are "
@@ -567,17 +576,17 @@ msgstr ""
 "dibuixarà tots els caràcters, soles cadenes completes. Açò pot ser "
 "especialment beneficiós en MUDs amb molts colors diferents."
 
-#: src/prefs.c:318
+#: src/prefs.c:328
 #, fuzzy
 msgid "Command divide char:"
 msgstr "Caràcter de divisió de comandes"
 
-#: src/prefs.c:330
+#: src/prefs.c:340
 #, fuzzy
 msgid "Command history:"
 msgstr "Comanda"
 
-#: src/prefs.c:343
+#: src/prefs.c:353
 msgid "Functionality"
 msgstr ""
 
@@ -723,9 +732,6 @@ msgstr "Conectar"
 
 #~ msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
 #~ msgstr "   Licenciat baix la LLICENCIA PÚBLICA GENERAL GNU (GPL)    "
-
-#~ msgid "Quit"
-#~ msgstr "Sortir"
 
 #~ msgid "Options"
 #~ msgstr "Opcions"
