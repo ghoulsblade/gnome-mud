@@ -1,3 +1,9 @@
+Sun Oct  1 03:40:32 CEST 2000  Jordi Mallach  <jordi@sindominio.net>
+	* src/prefs.c: fix for a compile error with Woody's CVS gcc.
+	* configure.in: add ca to ALL_LINGUAS.
+	* po/ca.po: Initial Catalan translation.
+	* po/es.po: More of the traditional small fixes.
+
 Tue Sep 26 10:12:18 CEST 2000  Robin Ericsson  <robin@noname4us.com>
 
 	* README: included OpenBSD in list of successful builds.

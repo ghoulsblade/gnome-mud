@@ -326,7 +326,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_widget_show (check_button);
     gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (check_button), prefs.EchoText);
 
-    check_text = gtk_check_button_new_with_label _(("Keep the text entered?"));
+    check_text = gtk_check_button_new_with_label (_("Keep the text entered?"));
     gtk_box_pack_start (GTK_BOX (vbox), check_text, FALSE, TRUE, 0);
     gtk_signal_connect (GTK_OBJECT (check_text), "toggled",
                         GTK_SIGNAL_FUNC (check_text_toggle),
@@ -341,7 +341,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_widget_show (check_text);
     gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (check_text), prefs.KeepText);
 
-    check_autosave = gtk_check_button_new_with_label _(("AutoSave?"));
+    check_autosave = gtk_check_button_new_with_label (_("AutoSave?"));
     gtk_box_pack_start (GTK_BOX (vbox), check_autosave, FALSE, TRUE, 0);
     gtk_signal_connect (GTK_OBJECT (check_autosave), "toggled",
                         GTK_SIGNAL_FUNC (prefs_autosave_cb), check_autosave);
@@ -353,7 +353,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_widget_show (check_autosave);
     gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (check_autosave), prefs.AutoSave);
     
-    check_freeze = gtk_check_button_new_with_label _(("Freeze/Thaw"));
+    check_freeze = gtk_check_button_new_with_label (_("Freeze/Thaw"));
     gtk_box_pack_start (GTK_BOX (vbox), check_freeze, FALSE, TRUE, 0);
     gtk_signal_connect (GTK_OBJECT (check_freeze), "toggled",
                         GTK_SIGNAL_FUNC (prefs_freeze_cb), check_freeze);

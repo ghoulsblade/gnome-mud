@@ -1,42 +1,43 @@
-# Spanish Messages for the AMCL MUD Client.
+# Catalan Messages for the AMCL MUD Client.
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Jordi Mallach <jordi@debian.org>, 2000
+# Jordi Mallach <jordi@sindominio.net>, 2000
 #
 #: src/init.c:172
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
 "POT-Creation-Date: 2000-09-30 22:59+0200\n"
-"PO-Revision-Date: 2000-09-30 17:50+0200\n"
+"PO-Revision-Date: 2000-09-28 17:35+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/data.c:227
 msgid "No void characters allowed."
-msgstr "No se permiten carácteres vacios."
+msgstr "No es permeten caràcters buïts."
 
 #. actions
 #: src/data.c:231 src/data.c:316
 msgid "Actions"
-msgstr "Acciones"
+msgstr "Accions"
 
 #: src/data.c:233
 #, c-format
 msgid "Character '%c' not allowed."
-msgstr "Carácter '%c' no permitido."
+msgstr "Carácter '%c' no permés."
 
 #: src/data.c:240 src/data.c:247
 #, c-format
 msgid "%s too big."
-msgstr "%s demasiado grande."
+msgstr "%s massa gran."
 
 #: src/data.c:254
 #, c-format
 msgid "Can't duplicate %s."
-msgstr "No se puede duplicar %s."
+msgstr "No es pot duplicar %s."
 
 #. alias
 #: src/data.c:309
@@ -45,7 +46,7 @@ msgstr "Alias"
 
 #: src/data.c:310
 msgid "Replacement"
-msgstr "Sustitución"
+msgstr "Substitució"
 
 #: src/data.c:317
 msgid "Triggers"
@@ -58,24 +59,24 @@ msgstr "Variables"
 
 #: src/data.c:324
 msgid "Values"
-msgstr "Valores"
+msgstr "Valors"
 
 #: src/data.c:330
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
-msgstr "window_data: tratando de acceder a una región de datos indefinida: %d"
+msgstr "window_data: tractan de accedir a una regió de dades indefinida: %d"
 
 #: src/data.c:341
 msgid "AMCL Alias Center"
-msgstr "Centro de Alias de AMCL"
+msgstr "Centre de Alias de AMCL"
 
 #: src/data.c:386 src/keybind.c:419 src/wizard.c:570
 msgid "Add"
-msgstr "Añadir"
+msgstr "Anyadir"
 
 #: src/data.c:391 src/keybind.c:426 src/wizard.c:572
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Esborrar"
 
 #: src/color.c:336 src/data.c:395 src/keybind.c:430 src/map.c:2663
 #: src/prefs.c:422 src/wizard.c:598
@@ -85,15 +86,15 @@ msgstr "Salvar"
 #: src/data.c:399 src/init.c:136 src/keybind.c:434 src/prefs.c:423
 #: src/wizard.c:599
 msgid "Close"
-msgstr "Cerrar"
+msgstr "Tancar"
 
 #: src/color.c:187
 msgid "Couldn't allocate color"
-msgstr "No se pudo fijar el color"
+msgstr "No s'ha pogut fixar el color"
 
 #: src/color.c:296
 msgid "AMCL Color Chooser"
-msgstr "Seleccionador de Colores de AMCL"
+msgstr "Sel·leccionador de Colors de AMCL"
 
 #: src/color.c:333 src/window.c:222
 msgid "Ok"
@@ -101,7 +102,7 @@ msgstr "Ok"
 
 #: src/color.c:334
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Cancel·lar"
 
 #: src/color.c:335 src/wizard.c:571
 msgid "Apply"
@@ -109,25 +110,24 @@ msgstr "Aplicar"
 
 #: src/color.c:337
 msgid "Default"
-msgstr "Predeterminado"
+msgstr "Predeterminats"
 
 #: src/color.c:453
 #, c-format
 msgid "Can't load font... %s Using default.\n"
-msgstr "No se puede cargar la fuente... %s Usando predeterminada.\n"
+msgstr "No es pot carregar la font... %s Utilitzant predeterminada.\n"
 
 #: src/init.c:96 src/init.c:387
 msgid "Connect..."
 msgstr "Conectar..."
 
-#
 #: src/init.c:107
 msgid "Host:"
 msgstr "Servidor:"
 
 #: src/init.c:119
 msgid "Port:"
-msgstr "Puerto:"
+msgstr "Port:"
 
 #: src/init.c:135 src/wizard.c:597
 msgid "Connect"
@@ -135,11 +135,11 @@ msgstr "Conectar"
 
 #: src/init.c:166
 msgid "About"
-msgstr "Acerca de"
+msgstr "A propòsit de"
 
 #: src/init.c:172
 msgid "AMCL version "
-msgstr "AMCL versión "
+msgstr "AMCL versió "
 
 #: src/init.c:176
 msgid "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
@@ -147,7 +147,7 @@ msgstr "Copyright © 1998-2000 Robin Ericsson <lobbin@localhost.nu>"
 
 #: src/init.c:180
 msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
-msgstr "   Licenciado bajo la LICENCIA PÚBLICA GENERAL GNU (GPL)    "
+msgstr "   Licenciat baix la LLICENCIA PÚBLICA GENERAL GNU (GPL)    "
 
 #: src/init.c:184
 msgid "Homepage: http://www.localhost.nu/apps/amcl/"
@@ -160,7 +160,7 @@ msgstr "Principal"
 
 #: src/init.c:380
 msgid "Connection Wizard..."
-msgstr "Asistente de Conexiones..."
+msgstr "Asistent de Conexions..."
 
 #: src/init.c:392
 msgid "Disconnect"
@@ -168,16 +168,16 @@ msgstr "Desconectar"
 
 #: src/init.c:399
 msgid "Close Window"
-msgstr "Cerrar Ventana"
+msgstr "Tancar finestra"
 
 #: src/init.c:406
 msgid "Quit"
-msgstr "Salir"
+msgstr "Sortir"
 
 #. Options menu
 #: src/init.c:412
 msgid "Options"
-msgstr "Opciones"
+msgstr "Opcions"
 
 #: src/init.c:418
 msgid "Alias..."
@@ -189,37 +189,37 @@ msgstr "Variables..."
 
 #: src/init.c:428
 msgid "Preferences..."
-msgstr "Preferencias..."
+msgstr "Preferències..."
 
 #: src/init.c:434
 msgid "Auto Mapper..."
-msgstr "Auto Mapeador..."
+msgstr "Auto Mapeador"
 
 #: src/init.c:440
 msgid "Colors..."
-msgstr "Colores..."
+msgstr "Colors..."
 
 #: src/init.c:445
 msgid "Actions/Triggers..."
-msgstr "Acciones/Triggers..."
+msgstr "Accions/Triggers"
 
 #: src/init.c:450
 msgid "Keys..."
-msgstr "Teclas..."
+msgstr "Tecles..."
 
 #. Plugins menu
 #: src/init.c:456
 msgid "Plugins"
-msgstr "Conectores"
+msgstr "Conectors"
 
 #: src/init.c:464
 msgid "Plugin Information"
-msgstr "Información sobre Conectores"
+msgstr "Informació sobre Conectors"
 
 #. Help menu
 #: src/init.c:470
 msgid "Help"
-msgstr "Ayuda"
+msgstr "Ajuda"
 
 #: src/init.c:477
 msgid "Readme"
@@ -227,27 +227,27 @@ msgstr "Readme"
 
 #: src/init.c:483
 msgid "Authors"
-msgstr "Autores"
+msgstr "Autors"
 
 #: src/init.c:491
 msgid "About..."
-msgstr "Acerca de..."
+msgstr "A propòsit de..."
 
 #: src/init.c:588
 msgid "Distributed under the terms of the GNU General Public License.\n"
-msgstr "Distribuído bajo los términos de la Licencia Pública General GNU.\n"
+msgstr "Distribuït baix els termins de la Llicencia Pública General GNU.\n"
 
 #: src/keybind.c:210
 msgid "Can't add an existing key."
-msgstr "No se puede añadir una tecla ya existente."
+msgstr "No es pot anyadir una tecla ja existent."
 
 #: src/keybind.c:231
 msgid "Incomplete fields."
-msgstr "Campos incompletos."
+msgstr "Camps incomplets."
 
 #: src/keybind.c:340
 msgid "AMCL Key Binding Center"
-msgstr "Centro de Asignación de Teclas de AMCL"
+msgstr "Centre de Asignació de Tecles de AMCL"
 
 #: src/keybind.c:365
 msgid "Key"
@@ -255,7 +255,7 @@ msgstr "Tecla"
 
 #: src/keybind.c:369 src/keybind.c:382 src/keybind.c:400
 msgid "Command"
-msgstr "Comando"
+msgstr "Comanda"
 
 #: src/keybind.c:378
 msgid "Bind"
@@ -268,12 +268,12 @@ msgstr "Capturar"
 #: src/map.c:698
 #, c-format
 msgid "Mouse is at (%d, %d)\n"
-msgstr "El ratón está en (%d, %d)\n"
+msgstr "El rató està en (%d, %d)\n"
 
 #: src/map.c:1075
 #, c-format
 msgid "node_reposition: invalid type(%s) passed to this function\n"
-msgstr "node_reposition: tipo(%s) inválido pasado a esta función\n"
+msgstr "node_reposition: tipo(%s) invàlid pasat a aquesta funció\n"
 
 #: src/map.c:1683
 #, c-format
@@ -283,17 +283,17 @@ msgstr "draw_map: error de g_malloc0: %s\n"
 #: src/map.c:1705
 #, c-format
 msgid "get_node: g_malloc error: %s\n"
-msgstr ""
+msgstr "get_node: error de g_malloc0: %s\n"
 
 #: src/map.c:1782
 #, c-format
 msgid "save_maps: Can't open %s for writing: %s\n"
-msgstr ""
+msgstr "save_maps: No es pot obrir %s per a escriure: %s\n"
 
 #: src/map.c:1905
 #, c-format
 msgid "file_sel_ok_cb: stat() error: %s\n"
-msgstr ""
+msgstr "file_sel_ok_cb: error a stat(): %s\n"
 
 #: src/map.c:1912
 #, c-format
@@ -375,11 +375,11 @@ msgstr "Auto Mapeador de AMCL"
 #. Some buttons
 #: src/map.c:2662
 msgid "Load"
-msgstr "Cargar"
+msgstr "Carregar"
 
 #: src/map.c:2664
 msgid "Remove"
-msgstr "Quitar"
+msgstr "Llevar"
 
 #. Create button directions
 #: src/map.c:2667
@@ -416,11 +416,11 @@ msgstr "NO"
 
 #: src/map.c:2675
 msgid "Up"
-msgstr "Arriba"
+msgstr "Dalt"
 
 #: src/map.c:2676
 msgid "Down"
-msgstr "Abajo"
+msgstr "Baix"
 
 #: src/map.c:2764 src/map.c:2773
 #, c-format
@@ -439,11 +439,11 @@ msgstr ""
 
 #: src/modules.c:177
 msgid "AMCL Plugin Information"
-msgstr "Información de Conectores de AMCL"
+msgstr "Informació de Conectors de AMCL"
 
 #: src/modules.c:202
 msgid "Plugin Name:"
-msgstr "Nombre del Conector:"
+msgstr "Nom del Conector:"
 
 #: src/modules.c:220
 msgid "Plugin Author:"
@@ -451,118 +451,118 @@ msgstr "Autor del Conector:"
 
 #: src/modules.c:237
 msgid "Plugin Version:"
-msgstr "Versión del Conector:"
+msgstr "Versió del Conector:"
 
 #: src/modules.c:254
 msgid "Plugin Description:"
-msgstr "Descripción del Conector:"
+msgstr "Descripció del Conector:"
 
 #: src/modules.c:271
 msgid " Is Plugin Enabled?"
-msgstr " ¿Está el conector activo?"
+msgstr " Està el conector actiu?"
 
 #: src/modules.c:358
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
-msgstr "Error en el manejo del conector (%s): %s."
+msgstr "Error en el manejament del conector (%s): %s."
 
 #: src/modules.c:363
 #, c-format
 msgid "Error, %s not an AMCL module: %s."
-msgstr "Error, %s no es un módulo de AMCL: %s."
+msgstr "Error, %s no es un conector de AMCL: %s."
 
 #: src/modules.c:382
 msgid "Checking whether plugin should be enabled by default..."
-msgstr "Comprobando si el conector debería ser activado por defecto..."
+msgstr "Comprobant si el conector deuría ser activat per defecte..."
 
 #: src/modules.c:395
 #, c-format
 msgid "Registering plugin `%s'."
-msgstr "Registrando el conector `%s'."
+msgstr "Registrant el conector `%s'."
 
 #: src/modules.c:396
 #, c-format
 msgid "Plug-in internal name is `%s'."
-msgstr "El nombre interno del conector es `%s'."
+msgstr "El nom intern del conector és `%s'."
 
 #: src/modules.c:404
 msgid "Running init-function..."
-msgstr "Ejecutando función de iniciación..."
+msgstr "Executant funció d'iniciació..."
 
 #: src/modules_api.c:53
 #, c-format
 msgid "Error register menu: %s"
-msgstr "Error de registro de menú: %s"
+msgstr "Error de registre de menú: %s"
 
 #: src/modules_api.c:72
 #, c-format
 msgid "Error register for data %s: %s"
-msgstr "Error de registro de datos %s: %s"
+msgstr "Error de registre de dades %s: %s"
 
 #: src/modules_api.c:80
 msgid "Error getting plugin from handle."
-msgstr "Error en el manejo del conector."
+msgstr "Error de manejament del conector."
 
 #: src/net.c:153
 msgid "*** Connection closed.\n"
-msgstr "*** Conexión cerrada.\n"
+msgstr "*** Conexió tancada.\n"
 
 #: src/net.c:166
 msgid "*** Can't connect - you didn't specify a host\n"
-msgstr "*** No se puede conectar - no has especificado ningún servidor\n"
+msgstr "*** No es pot conectar - no has especificat cap servidor \n"
 
 #: src/net.c:173
 msgid "*** No port specified - assuming port 23\n"
-msgstr "*** No se ha especificado un puerto - asumiendo puerto 23\n"
+msgstr "*** No s'ha especificat cap port - asumint port 23\n"
 
 #: src/net.c:178
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
-msgstr "*** Realizando conexión a %s, puerto %s\n"
+msgstr "*** Realitzant conexió a %s, port %s\n"
 
 #: src/net.c:205
 msgid "*** Connection established.\n"
-msgstr "*** Conexión establecida.\n"
+msgstr "*** Conexió establesa.\n"
 
 #: src/prefs.c:72
 #, c-format
 msgid "%s already exists and is not a directory!"
-msgstr "¡%s ya existe y no es un directorio!"
+msgstr "%s ja existeix i no és un directori!"
 
 #: src/prefs.c:82
 #, c-format
 msgid "%s does not exist and can NOT be created: %s"
-msgstr "%s no existe y NO se puede crear: %s"
+msgstr "%s no existeix i NO pot ser creat: %s"
 
 #: src/prefs.c:94
 #, c-format
 msgid "%s can NOT be opened in write mode."
-msgstr "NO se puede abrir %s en modo escritura."
+msgstr "NO es pot obrir %s en modo escritura."
 
 #: src/prefs.c:100
 #, c-format
 msgid "%s exists and can NOT be opened in read mode."
-msgstr "%s existe y NO se puede abrir en modo lectura."
+msgstr "%s existeix i NO es pot obrir en modo lectura."
 
 #: src/prefs.c:305
 msgid "AMCL - Preferences"
-msgstr "AMCL - Preferencias"
+msgstr "AMCL - Preferències"
 
 #: src/prefs.c:316
 msgid "Echo the text sent?"
-msgstr "¿Hacer eco del texto mandado?"
+msgstr "Fer eco del texte enviat?"
 
 #: src/prefs.c:321
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
 msgstr ""
-"Con esta opción activada, a todo el texto que introduzcas se le hará eco en "
-"la conexión para que puedas controlar lo que estás mandando."
+"Amb aquesta opció activada, a tot el texte que enviis se li farà eco en la "
+"conexió per a que pugues controlar lo que estàs enviant."
 
 #: src/prefs.c:329
 msgid "Keep the text entered?"
-msgstr "¿Guardar el texto introducido?"
+msgstr "Mantindre el texte introduït?"
 
 #: src/prefs.c:335
 msgid ""
@@ -570,21 +570,21 @@ msgid ""
 "will be left in the entry box but seleceted. Turn this off to remove the "
 "text after it has been sent."
 msgstr ""
-"Con esta opción activada, el texto que introduzcas en la conexión se quedará "
-"en el campo de introducción de comandos, pero seleccionado. Desactiva la "
-"opción para borrar el texto una vez ha sido mandado."
+"Amb aquesta opció activada, el texte que introdueixes en la conexió es "
+"quedarà en el camp de introducció de comandes, pero sel·leccionat. Desactiva "
+"la opció per a esborrar el texte una vegada hagi sigut enviat."
 
 #: src/prefs.c:344
 msgid "AutoSave?"
-msgstr "¿Salvar automáticamente?"
+msgstr "Salvar automàticament?"
 
 #: src/prefs.c:349
 msgid ""
 "With this toggled on, Preferences, Connection Wizard and Aliases will be "
 "saved automatically."
 msgstr ""
-"Con esta opción activada, las Preferencias, el Asistente de Conexiones y los "
-"Alias se salvarán automáticamente."
+"Amb aquesta opció activada, les Preferències, el Asistent de Conexions i els "
+"Alies es salvaràn automàticament."
 
 #: src/prefs.c:356
 msgid "Freeze/Thaw"
@@ -596,13 +596,13 @@ msgid ""
 "whole strings. This will probably make displays a lot faster if you are "
 "playing MUDs with a lot of different colours."
 msgstr ""
-"Con esta opción activada, el texto se dibujará más rápido pero no dibujará "
-"todos los carácteres, solo cadenas completas. Ésto puede ser especialmente "
-"beneficioso en MUDs con muchos colores diferentes."
+"Amb aquesta opció activada, el texte es dibuixarà mes rapid però no "
+"dibuixarà tots els caràcters, soles cadenes completes. Açò pot ser "
+"especialment beneficiós en MUDs amb molts colors diferents."
 
 #: src/prefs.c:374
 msgid "   Command divide char"
-msgstr "   Carácter de división de comandos"
+msgstr "Caràcter de divisió de comandes"
 
 #: src/prefs.c:394
 msgid ""
@@ -610,20 +610,20 @@ msgid ""
 "font is unavailable when you start AMCL, the default font \"fixed.\" will be "
 "used."
 msgstr ""
-"Esta es la fuente que AMCL utiliza para escribir el texto del MUD. Si la "
-"fuente no está disponible cuando inicies AMCL, se usará la fuente por "
-"defecto, \"fixed\""
+"Aquesta és la font que AMCL utilitza per a escriure el texte del MUD. Si la "
+"font no està disponible quan inicies AMCL, s'utilitzarà la font per defecte, "
+"\"fixed\""
 
 #: src/prefs.c:401
 msgid "Select font"
-msgstr "Seleccionar fuente"
+msgstr "Sel·leccionar font"
 
 #: src/prefs.c:407
 msgid ""
 "Use this button to open the font selector to choose what font you will use."
 msgstr ""
-"Usa este botón para abrir el selector de fuentes para elegir la fuente que "
-"quieres usar."
+"Utilitza aquest botó per a obrir el selector de fonts per a elegir la font "
+"que vulguis gastar."
 
 #: src/version.c:36
 #, c-format
@@ -633,56 +633,56 @@ msgid ""
 "Using %s and %s.\n"
 "\n"
 msgstr ""
-"Bienvenido a AMCL Versión %s\n"
-"Compilado por %s en %s el %s a las %s\n"
-"Usando %s y %s.\n"
+"Benvingut a AMCL Versió %s\n"
+"Compilat per %s en %s el %s a les %s\n"
+"Utilitzant %s i %s.\n"
 
 #: src/window.c:207
 msgid "AMCL Popup Message"
-msgstr "Mensaje de AMCL"
+msgstr "Missatge de AMCL"
 
 #: src/window.c:271
 msgid "AMCL Internal Error: "
-msgstr "Error interno de AMCL"
+msgstr "Error intern de AMCL"
 
 #: src/wizard.c:312
 msgid "No selection made"
-msgstr "No hay ninguna selección"
+msgstr "No hi ha cap sel·lecció"
 
 #: src/wizard.c:342 src/wizard.c:374
 msgid "Your connection doesn't have a name."
-msgstr "Tu conexión no tiene nombre."
+msgstr "La teva conexió no te nom."
 
 #: src/wizard.c:348
 msgid ""
 "At the moment, everything but the name can be changed.\n"
 "If you need to change the name of the connection, you'll have to recreate it."
 msgstr ""
-"De momento se puede cambiar todo excepto el nombre.\n"
-"Si necesitas cambiar el nombre de la conexión, tendrás que recrearla."
+"De moment, es pot canviar tot excepte el nom.\n"
+"Si necessites canviar el nom de la conexió, tindràs que recrearla."
 
 #: src/wizard.c:380
 msgid "Can't add an existing connection."
-msgstr "No se puede añadir una conexión ya existente."
+msgstr "No es pot anyadir una conexió ja existent."
 
 #: src/wizard.c:440
 msgid "Connections"
-msgstr "Conexiones"
+msgstr "Conexions"
 
 #: src/wizard.c:448
 msgid "AMCL Connection Wizard"
-msgstr "Asistente de Conexiones de AMCL"
+msgstr "Asistent de Conexions de AMCL"
 
 #: src/wizard.c:491
 msgid "Connection Name:"
-msgstr "Nombre de la conexión"
+msgstr "Nom de la conexió"
 
 #: src/wizard.c:499
 msgid ""
 "This is the name of the conection which will be displayed in the conection "
 "list."
 msgstr ""
-"Este es el nombre de la conexión que aparecerá en la lista de conexiones."
+"Aquest és el nom de la conexió que apareixerà a la llista de conexions."
 
 #: src/wizard.c:504
 msgid ""
@@ -694,7 +694,7 @@ msgstr ""
 
 #: src/wizard.c:511
 msgid "This is the host where the MUD you will connect to is located."
-msgstr "Este es el servidor donde se aloja el MUD al que te quieres conectar."
+msgstr "Aquest és el servidor on es troba el MUD al que et vols conectar."
 
 #: src/wizard.c:516
 msgid ""
@@ -702,27 +702,27 @@ msgid ""
 "Port:"
 msgstr ""
 "\n"
-"Puerto:"
+"Port:"
 
 #: src/wizard.c:523
 msgid ""
 "This is the port on the host that the MUD is located on. The default port is "
 "23 (telnet)."
 msgstr ""
-"Este es el puerto del servidor en el cual escucha el MUD. El puerto por "
-"defecto es el 23 (telnet)."
+"Aquest és el port del servidor a traves del qual escolta el MUD. El port per "
+"defecte és el 23 (telnet)."
 
 #: src/wizard.c:528
 msgid "Auto Login?"
-msgstr "¿Lógin automático?"
+msgstr "Login automàtic?"
 
 #: src/wizard.c:534
 msgid ""
 "Should AMCL login to this MUD automatically? Player Name and Password must "
 "be set to make this work."
 msgstr ""
-"¿Debe AMCL conectar a este MUD automáticamente? Para que esto funcione, "
-"Nombre del Jugador y Password deben estar fijados."
+"Deu AMCL conectar a aquest MUD automàticament? Per que açò funcione, cal que "
+"Nom del Jugador i Password estiguen fixats."
 
 #: src/wizard.c:541
 msgid ""
@@ -730,12 +730,13 @@ msgid ""
 "Player Name:"
 msgstr ""
 "\n"
-"Nombre del Jugador:"
+"Nom del Jugador:"
 
 #: src/wizard.c:548
 msgid "This is the player you login to the MUD with. For use with AutoLogin."
 msgstr ""
-"Este es el jugador con el que te conectas al MUD. Utilizable con AutoLogin."
+"Aquest és el jugador amb el que et conectes al MUD. Utilitzable amb "
+"AutoLogin."
 
 #: src/wizard.c:553
 msgid ""
@@ -748,34 +749,5 @@ msgstr ""
 #: src/wizard.c:561
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
-msgstr "Este es el password de tu jugador en el MUD. Utilizable con AutoLogin."
-
-#~ msgid "Please complete the action first."
-#~ msgstr "Por favor, primero completa la acción."
-
-#~ msgid "Trigger too big."
-#~ msgstr "Trigger demasiado grande."
-
-#~ msgid "Action too big."
-#~ msgstr "Acción demasiado grande."
-
-#~ msgid "Can't have two actions for the same trigger... yet."
-#~ msgstr "No se puede tener dos acciones para un mismo trigger... todavía."
-
-#~ msgid "No selection made."
-#~ msgstr "No hay ninguna selección."
-
-#~ msgid "AMCL Action Center"
-#~ msgstr "Centro de Acciones de AMCL"
-
-#~ msgid "Please complete the alias first."
-#~ msgstr "Por favor, primero completa el alias."
-
-#~ msgid "I can't make an alias of that."
-#~ msgstr "No puedo hacer un alias con eso."
-
-#~ msgid "Replacement to big."
-#~ msgstr "Sustitución demasiado grande."
-
-#~ msgid "Can't add an existing alias."
-#~ msgstr "No puedo añadir un alias ya existente."
+msgstr ""
+"Aquest és el password del teu jugador en el MUD. Utilitzable amb AutoLogin."
