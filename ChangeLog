@@ -1,3 +1,14 @@
+Tue Nov 27 18:33:07 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* README: Copied changed from BRANCH_0_8.
+
+	* ROADMAP: Added.
+
+	* src/net.c (check_aliases): Added to be able to do nested
+	aliases.
+	(action_sent_to_connection): Now calls check_aliases instead
+	of check_alias.
+
 Fri Nov 23 15:23:17 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Makefile.am: PLUGIN.API should be distributed in "HEAD" CVS

@@ -78,21 +78,43 @@ gchar *host = "", *port = "";
 /* Added by Bret Robideaux (fayd@alliences.org)
  * I needed a separate way to send triggered actions to game, without
  * messing up the players command line or adding to his history. */
+static gchar *check_aliases(CONNECTION_DATA *cd, gchar *t, gint level)
+{
+	gchar **a = g_strsplit (t," ", -1), *r;
+	gchar *retval;
+	gchar **c = a;
+
+	if (level > 5)
+	{
+		g_message("Maximum nested alias reached.");
+		return "";
+	}
+	
+	while(*a)
+	{
+		gchar *b = *a++;
+		
+        if ((r = check_alias (cd->profile->alias, b)))
+        {
+			g_free(b);
+            b = g_strdup(check_aliases(cd, r, level+1));
+        }
+	}
+ 
+	retval = g_strjoinv(" ", c);
+    g_strfreev(c);
+
+	return retval;
+}
+
 static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 {
-    gchar **a = g_strsplit (entry_text," ", 2), *r;
+	gchar *a;
 
-    if (*a)
-    {
-        if ((r = check_alias (connection->profile->alias, *a)))
-        {
-            g_free(*a);
-            *a = g_strdup(r);
-        }
-    }
-    connection_send (connection, check_vars (connection->profile->variables, g_strjoinv (" ", a)));
+	a = check_aliases(connection, entry_text, 0);
+	
+   	connection_send (connection, check_vars (connection->profile->variables, a));
     connection_send (connection, "\n");
-    g_strfreev(a);
 }
 
 CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
@@ -240,7 +262,7 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
   gchar *mccp_buffer = NULL, *string;
   gint   mccp_i;
 #endif
-    
+   
   if ( (numbytes = recv (connection->sockfd, buf, 2048, 0) ) == - 1 ) {
     textfield_add (connection->window, strerror( errno), MESSAGE_ERR);
     disconnect (NULL, connection);

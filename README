@@ -3,9 +3,9 @@ This program is under GPL. See file COPYING for details.
 
 1. What is it?
 
-    It is a client for connecting to MUD's (Multi User Dungeon), written
-    for X-Windows using the the GIMP ToolKit (GTK+). Some code used from 
-    Bezerk, Xwhois.
+    GNOME-Mud is a client for connecting to MUD's (Multi-User Dungeon), written
+    for X-Windows using the GIMP ToolKit (GTK+) and GNOME libraries. Some
+    code used from Bezerk, Xwhois.
 
     Latest version of GNOME-Mud can always be found at
     <URL:http://amcl.sourceforge.net/>
@@ -13,19 +13,22 @@ This program is under GPL. See file COPYING for details.
 
 2. Requirements.
 
-    A c-compiler :), and the GTK+ (the GIMP ToolKit) which can be found
-    at ftp://ftp.gimp.org/pub/gtk. GNOME-Mud requires the newest version of GTK+,
-    currently 1.2.X due to bugs in the text widget and GNOME.
+    A c-compiler :), the GTK+ (the GIMP ToolKit) which can be found
+    at ftp://ftp.gimp.org/pub/gtk and the GNOME libraries (gnome-libs package)
+    found at ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnome-libs.
+    GNOME-Mud requires GTK+ 1.2 or later.
+    While GNOME-Mud is an application designed to work under the GNOME
+    desktop, there's nothing that prevents you from using it in KDE or any
+    other window manager.
 
     GNOME-Mud has been reported to compile and run on the following platforms,
     if you have a platform not included here, send me a mail to report.
 
-    - Linux 2.0, 2.1, 2.2
-    - FreeBSD 3.x-STABLE, 4.0-STABLE
-    - OpenBSD 2.7
-    - Linux 2.2 on Powerbook G3
-
-    - GTK+ 1.2.4, 1.2.6, 1.2.7
+    - Linux (alpha, arm, hppa, ia32, ia64, m68k,
+    	     mips, powerpc, s390, sh, sparc)
+    - FreeBSD
+    - OpenBSD
+    - Hurd 0.2 (ia32)
 
 
 3. Compiling.
@@ -50,14 +53,14 @@ This program is under GPL. See file COPYING for details.
 
     Please do! :)
 
-    You can hack away as much as you like. If you make something you think would be
-    useful for others, please send me a patch, either via sourceforge or devel
-    mailing-list.
+    You can hack away as much as you like. If you make something you think
+    would be useful for others, please send me a patch, either via
+    sourceforge or devel mailing-list.
 
     Things that is in constant need of contrib is:
 
     * translations, only a handfull languages are supported at this time
-    * documentation
+    * useful plugins
     * ... what would you like?
 
 
