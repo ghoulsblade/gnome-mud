@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
-"Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2003-09-09 12:30+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-11 14:47+0100\n"
 "PO-Revision-Date: 2003-09-09 12:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Um caracter que será utilizado para separar comandos numa expressão tal como "
 "\"w;w;w;l\", que serão enviados para o MUD como 4 comandos separados."
 
-#: gnome-mud.schemas.in.h:3 src/profiles.c:1220
+#: gnome-mud.schemas.in.h:3 src/profiles.c:1212
 msgid "Aliases"
 msgstr "Atalhos"
 
@@ -134,7 +134,7 @@ msgstr ""
 "Se activo, sempre que existirem novas respostas a consola será rolada até ao "
 "fundo."
 
-#: gnome-mud.schemas.in.h:18 src/profiles.c:1251
+#: gnome-mud.schemas.in.h:18 src/profiles.c:1243
 msgid "Keybindings"
 msgstr "Atalhos teclado"
 
@@ -211,12 +211,12 @@ msgstr ""
 "A localização das abas de ligação. Opções válidas são \"left\", \"right\", "
 "\"top\" e \"bottom\"."
 
-#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1234
+#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1226
 msgid "Triggers"
 msgstr "Reactores"
 
 #. vars
-#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1227
+#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1219
 msgid "Variables"
 msgstr "Variáveis"
 
@@ -295,11 +295,11 @@ msgstr "Deseja mesmo sair?"
 msgid "Connect..."
 msgstr "Ligar..."
 
-#: src/init.c:154 src/profiles.c:958
+#: src/init.c:154 src/profiles.c:950
 msgid "Host:"
 msgstr "Servidor:"
 
-#: src/init.c:160 src/profiles.c:978
+#: src/init.c:160 src/profiles.c:970
 msgid "Port:"
 msgstr "Porto:"
 
@@ -1041,115 +1041,115 @@ msgstr ""
 "criar um caminho noutro mapa. Utilize um ponto e vírgula para separar os "
 "diferentes comandos."
 
-#: src/profiles.c:300
+#: src/profiles.c:301
 msgid "New profile"
 msgstr "Novo perfil"
 
-#: src/profiles.c:303
+#: src/profiles.c:304
 msgid "Name of new profile:"
 msgstr "Nome do novo perfil:"
 
-#: src/profiles.c:513
+#: src/profiles.c:506
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: Lista Perfis"
 
-#: src/profiles.c:683 src/profiles.c:1055
+#: src/profiles.c:675 src/profiles.c:1047
 msgid "Default"
 msgstr "Omissão"
 
-#: src/profiles.c:864 src/profiles.c:1203
+#: src/profiles.c:856 src/profiles.c:1195
 msgid "Delete"
 msgstr "Apagar"
 
-#: src/profiles.c:880
+#: src/profiles.c:872
 msgid "GNOME-Mud Connections"
 msgstr "Ligações GNOME-Mud"
 
-#: src/profiles.c:914
+#: src/profiles.c:906
 msgid "Mud"
 msgstr "Mud"
 
 #. Translators: this is the name of your player
-#: src/profiles.c:921
+#: src/profiles.c:913
 msgid "Character"
 msgstr "Personagem"
 
-#: src/profiles.c:934
+#: src/profiles.c:926
 msgid "Mud information"
 msgstr "Informação Mud"
 
-#: src/profiles.c:950
+#: src/profiles.c:942
 msgid "Title:"
 msgstr "Título:"
 
-#: src/profiles.c:994
+#: src/profiles.c:986
 msgid "Character information"
 msgstr "Informação personagem"
 
-#: src/profiles.c:1010
+#: src/profiles.c:1002
 msgid "Character:"
 msgstr "Personagem:"
 
-#: src/profiles.c:1018
+#: src/profiles.c:1010
 msgid "Password:"
 msgstr "Senha:"
 
-#: src/profiles.c:1039
+#: src/profiles.c:1031
 msgid "Profile information"
 msgstr "Informação perfil"
 
-#: src/profiles.c:1065
+#: src/profiles.c:1057
 msgid "Select Profile"
 msgstr "Seleccione Perfil"
 
-#: src/profiles.c:1081
+#: src/profiles.c:1073
 msgid "Fetch from mudlist"
 msgstr "Obter da lista mud"
 
-#: src/profiles.c:1133
+#: src/profiles.c:1125
 msgid "Connect"
 msgstr "Ligar"
 
-#: src/profiles.c:1172
+#: src/profiles.c:1164
 msgid "Profiles"
 msgstr "Perfis"
 
-#: src/profiles.c:1181
+#: src/profiles.c:1173
 msgid "GNOME-Mud Profiles"
 msgstr "Perfis GNOME-Mud"
 
-#: src/profiles.c:1195
+#: src/profiles.c:1187
 msgid "New"
 msgstr "Novo"
 
-#: src/profiles.c:1196
+#: src/profiles.c:1188
 msgid "Create a new profile"
 msgstr "Criar um novo perfil"
 
-#: src/profiles.c:1203
+#: src/profiles.c:1195
 msgid "Delete a profile"
 msgstr "Apagar um perfil"
 
-#: src/profiles.c:1220
+#: src/profiles.c:1212
 msgid "Set aliases"
 msgstr "Definir atalhos"
 
-#: src/profiles.c:1227
+#: src/profiles.c:1219
 msgid "Set variables"
 msgstr "Definir variáveis"
 
-#: src/profiles.c:1234
+#: src/profiles.c:1226
 msgid "Set triggers"
 msgstr "Definir reactores"
 
-#: src/profiles.c:1251
+#: src/profiles.c:1243
 msgid "Set keybindings"
 msgstr "Definir atalhos teclado"
 
-#: src/profiles.c:1268
+#: src/profiles.c:1260
 msgid "Close"
 msgstr "Fechar"
 
-#: src/profiles.c:1268
+#: src/profiles.c:1260
 msgid "Close the window"
 msgstr "Fechar a janela"

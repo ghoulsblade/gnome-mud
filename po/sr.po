@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
-"POT-Creation-Date: 2003-09-02 20:20+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-11 14:47+0100\n"
 "PO-Revision-Date: 2003-09-02 20:24+0200\n"
 "Last-Translator: Данило Шеган <dsegan@gmx.net>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -39,7 +39,7 @@ msgstr ""
 "Знак који се користи за дељење наредби у ниску налик на „w;w;w;l“, која ће "
 "бити послата MUD-у као 4 посебне наредбе."
 
-#: gnome-mud.schemas.in.h:3 src/profiles.c:1220
+#: gnome-mud.schemas.in.h:3 src/profiles.c:1212
 msgid "Aliases"
 msgstr "Надимци"
 
@@ -138,7 +138,7 @@ msgstr ""
 "Ако је укључено, када год има новог излаза, терминал ће вас пребацити на "
 "крај."
 
-#: gnome-mud.schemas.in.h:18 src/profiles.c:1251
+#: gnome-mud.schemas.in.h:18 src/profiles.c:1243
 msgid "Keybindings"
 msgstr "Везивања тастера"
 
@@ -215,12 +215,12 @@ msgstr ""
 "Распоред језичака за везе. Дозвољене могућности су „left“, „right“, „top“ и "
 "„bottom“."
 
-#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1234
+#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1226
 msgid "Triggers"
 msgstr "Окидачи"
 
 #. vars
-#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1227
+#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1219
 msgid "Variables"
 msgstr "Променљиве"
 
@@ -299,11 +299,11 @@ msgstr "Да ли заиста желите да изађете?"
 msgid "Connect..."
 msgstr "Повежи се..."
 
-#: src/init.c:154 src/profiles.c:958
+#: src/init.c:154 src/profiles.c:950
 msgid "Host:"
 msgstr "Сервер:"
 
-#: src/init.c:160 src/profiles.c:978
+#: src/init.c:160 src/profiles.c:970
 msgid "Port:"
 msgstr "Порт:"
 
@@ -1051,115 +1051,115 @@ msgstr ""
 "кретања. Када користите неку од њих, самомапирање ће направити путању до "
 "друге мапе. Користите тачка-зарез за раздвајање више наредби."
 
-#: src/profiles.c:300
+#: src/profiles.c:301
 msgid "New profile"
 msgstr "Нови скуп подешавања"
 
-#: src/profiles.c:303
+#: src/profiles.c:304
 msgid "Name of new profile:"
 msgstr "Име новог скупа подешавања:"
 
-#: src/profiles.c:513
+#: src/profiles.c:506
 msgid "GNOME-Mud: Profilelist"
 msgstr "Гном-MUD: Списак скупа подешавања"
 
-#: src/profiles.c:683 src/profiles.c:1055
+#: src/profiles.c:675 src/profiles.c:1047
 msgid "Default"
 msgstr "Подразумевано"
 
-#: src/profiles.c:864 src/profiles.c:1203
+#: src/profiles.c:856 src/profiles.c:1195
 msgid "Delete"
 msgstr "Обриши"
 
-#: src/profiles.c:880
+#: src/profiles.c:872
 msgid "GNOME-Mud Connections"
 msgstr "Гном-MUD везе"
 
-#: src/profiles.c:914
+#: src/profiles.c:906
 msgid "Mud"
 msgstr "MUD"
 
 #. Translators: this is the name of your player
-#: src/profiles.c:921
+#: src/profiles.c:913
 msgid "Character"
 msgstr "Лик"
 
-#: src/profiles.c:934
+#: src/profiles.c:926
 msgid "Mud information"
 msgstr "Подаци о MUD-у"
 
-#: src/profiles.c:950
+#: src/profiles.c:942
 msgid "Title:"
 msgstr "Наслов:"
 
-#: src/profiles.c:994
+#: src/profiles.c:986
 msgid "Character information"
 msgstr "Подаци о лику"
 
-#: src/profiles.c:1010
+#: src/profiles.c:1002
 msgid "Character:"
 msgstr "Лик:"
 
-#: src/profiles.c:1018
+#: src/profiles.c:1010
 msgid "Password:"
 msgstr "Лозинка:"
 
-#: src/profiles.c:1039
+#: src/profiles.c:1031
 msgid "Profile information"
 msgstr "Подаци о скупу подешавања"
 
-#: src/profiles.c:1065
+#: src/profiles.c:1057
 msgid "Select Profile"
 msgstr "Изаберите скуп подешавања"
 
-#: src/profiles.c:1081
+#: src/profiles.c:1073
 msgid "Fetch from mudlist"
 msgstr "Преузми из mudlist-а"
 
-#: src/profiles.c:1133
+#: src/profiles.c:1125
 msgid "Connect"
 msgstr "Повежи се"
 
-#: src/profiles.c:1172
+#: src/profiles.c:1164
 msgid "Profiles"
 msgstr "Скуп подешавања"
 
-#: src/profiles.c:1181
+#: src/profiles.c:1173
 msgid "GNOME-Mud Profiles"
 msgstr "Скупови Гном-MUD подешавања"
 
-#: src/profiles.c:1195
+#: src/profiles.c:1187
 msgid "New"
 msgstr "Нови"
 
-#: src/profiles.c:1196
+#: src/profiles.c:1188
 msgid "Create a new profile"
 msgstr "Направи нови скуп подешавања"
 
-#: src/profiles.c:1203
+#: src/profiles.c:1195
 msgid "Delete a profile"
 msgstr "Обриши скуп подешавања"
 
-#: src/profiles.c:1220
+#: src/profiles.c:1212
 msgid "Set aliases"
 msgstr "Постави надимке"
 
-#: src/profiles.c:1227
+#: src/profiles.c:1219
 msgid "Set variables"
 msgstr "Постави променљиве"
 
-#: src/profiles.c:1234
+#: src/profiles.c:1226
 msgid "Set triggers"
 msgstr "Постави догађаје"
 
-#: src/profiles.c:1251
+#: src/profiles.c:1243
 msgid "Set keybindings"
 msgstr "Постави пречице"
 
-#: src/profiles.c:1268
+#: src/profiles.c:1260
 msgid "Close"
 msgstr "Затвори"
 
-#: src/profiles.c:1268
+#: src/profiles.c:1260
 msgid "Close the window"
 msgstr "Затвори прозор"

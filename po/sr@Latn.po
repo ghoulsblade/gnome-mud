@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
-"POT-Creation-Date: 2003-09-02 20:20+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-11 14:47+0100\n"
 "PO-Revision-Date: 2003-09-02 20:24+0200\n"
 "Last-Translator: Danilo Šegan <dsegan@gmx.net>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3;    plural=n%10==1 && n%100!=11 ? 0 :    n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
@@ -39,7 +39,7 @@ msgstr ""
 "Znak koji se koristi za deljenje naredbi u nisku nalik na „w;w;w;l“, koja će "
 "biti poslata MUD-u kao 4 posebne naredbe."
 
-#: gnome-mud.schemas.in.h:3 src/profiles.c:1220
+#: gnome-mud.schemas.in.h:3 src/profiles.c:1212
 msgid "Aliases"
 msgstr "Nadimci"
 
@@ -96,8 +96,9 @@ msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
 msgstr ""
-"Gnom-MUD će pokušati da pošalje vrstu terminala (npr. ANSI ili VT100) ukoliko "
-"MUD to zahteva. Ova opcija postavlja vrstu terminala koja će biti poslata."
+"Gnom-MUD će pokušati da pošalje vrstu terminala (npr. ANSI ili VT100) "
+"ukoliko MUD to zahteva. Ova opcija postavlja vrstu terminala koja će biti "
+"poslata."
 
 #: gnome-mud.schemas.in.h:13
 msgid "How many entries to keep in the command history"
@@ -110,8 +111,8 @@ msgid ""
 "this option."
 msgstr ""
 "Ako je uključeno, Gnom-MUD će ponuditi nekoliko ugrađenih prečica sa "
-"tastature. Njih je moguće prevazići podešavanjem prečica po izboru ili se mogu "
-"potpuno isključiti pomoću ove opcije."
+"tastature. Njih je moguće prevazići podešavanjem prečica po izboru ili se "
+"mogu potpuno isključiti pomoću ove opcije."
 
 #: gnome-mud.schemas.in.h:15 src/prefs.c:780
 msgid ""
@@ -127,8 +128,8 @@ msgid ""
 "selection in the entry box. Otherwise, the text entry box will be cleared "
 "after each text input."
 msgstr ""
-"Ako je uključeno, tekst koji je poslat preko veze će ostati izabran u polju za "
-"unos. Inače, polje za unos će se očistiti posle svakog slanja."
+"Ako je uključeno, tekst koji je poslat preko veze će ostati izabran u polju "
+"za unos. Inače, polje za unos će se očistiti posle svakog slanja."
 
 #: gnome-mud.schemas.in.h:17
 msgid ""
@@ -138,7 +139,7 @@ msgstr ""
 "Ako je uključeno, kada god ima novog izlaza, terminal će vas prebaciti na "
 "kraj."
 
-#: gnome-mud.schemas.in.h:18 src/profiles.c:1251
+#: gnome-mud.schemas.in.h:18 src/profiles.c:1243
 msgid "Keybindings"
 msgstr "Vezivanja tastera"
 
@@ -151,8 +152,8 @@ msgid ""
 "List of commands which will be treated as movement commands by the "
 "automapper. A semicolon is used to separate each command."
 msgstr ""
-"Spisak naredbi koje će se smatrati naredbama kretanja u samomapiranju. Naredbe "
-"se razdvajaju tačka-zarezom."
+"Spisak naredbi koje će se smatrati naredbama kretanja u samomapiranju. "
+"Naredbe se razdvajaju tačka-zarezom."
 
 #: gnome-mud.schemas.in.h:21
 msgid "List of connections"
@@ -215,12 +216,12 @@ msgstr ""
 "Raspored jezičaka za veze. Dozvoljene mogućnosti su „left“, „right“, „top“ i "
 "„bottom“."
 
-#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1234
+#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1226
 msgid "Triggers"
 msgstr "Okidači"
 
 #. vars
-#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1227
+#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1219
 msgid "Variables"
 msgstr "Promenljive"
 
@@ -299,11 +300,11 @@ msgstr "Da li zaista želite da izađete?"
 msgid "Connect..."
 msgstr "Poveži se..."
 
-#: src/init.c:154 src/profiles.c:958
+#: src/init.c:154 src/profiles.c:950
 msgid "Host:"
 msgstr "Server:"
 
-#: src/init.c:160 src/profiles.c:978
+#: src/init.c:160 src/profiles.c:970
 msgid "Port:"
 msgstr "Port:"
 
@@ -1051,115 +1052,115 @@ msgstr ""
 "kretanja. Kada koristite neku od njih, samomapiranje će napraviti putanju do "
 "druge mape. Koristite tačka-zarez za razdvajanje više naredbi."
 
-#: src/profiles.c:300
+#: src/profiles.c:301
 msgid "New profile"
 msgstr "Novi skup podešavanja"
 
-#: src/profiles.c:303
+#: src/profiles.c:304
 msgid "Name of new profile:"
 msgstr "Ime novog skupa podešavanja:"
 
-#: src/profiles.c:513
+#: src/profiles.c:506
 msgid "GNOME-Mud: Profilelist"
 msgstr "Gnom-MUD: Spisak skupa podešavanja"
 
-#: src/profiles.c:683 src/profiles.c:1055
+#: src/profiles.c:675 src/profiles.c:1047
 msgid "Default"
 msgstr "Podrazumevano"
 
-#: src/profiles.c:864 src/profiles.c:1203
+#: src/profiles.c:856 src/profiles.c:1195
 msgid "Delete"
 msgstr "Obriši"
 
-#: src/profiles.c:880
+#: src/profiles.c:872
 msgid "GNOME-Mud Connections"
 msgstr "Gnom-MUD veze"
 
-#: src/profiles.c:914
+#: src/profiles.c:906
 msgid "Mud"
 msgstr "MUD"
 
 #. Translators: this is the name of your player
-#: src/profiles.c:921
+#: src/profiles.c:913
 msgid "Character"
 msgstr "Lik"
 
-#: src/profiles.c:934
+#: src/profiles.c:926
 msgid "Mud information"
 msgstr "Podaci o MUD-u"
 
-#: src/profiles.c:950
+#: src/profiles.c:942
 msgid "Title:"
 msgstr "Naslov:"
 
-#: src/profiles.c:994
+#: src/profiles.c:986
 msgid "Character information"
 msgstr "Podaci o liku"
 
-#: src/profiles.c:1010
+#: src/profiles.c:1002
 msgid "Character:"
 msgstr "Lik:"
 
-#: src/profiles.c:1018
+#: src/profiles.c:1010
 msgid "Password:"
 msgstr "Lozinka:"
 
-#: src/profiles.c:1039
+#: src/profiles.c:1031
 msgid "Profile information"
 msgstr "Podaci o skupu podešavanja"
 
-#: src/profiles.c:1065
+#: src/profiles.c:1057
 msgid "Select Profile"
 msgstr "Izaberite skup podešavanja"
 
-#: src/profiles.c:1081
+#: src/profiles.c:1073
 msgid "Fetch from mudlist"
 msgstr "Preuzmi iz mudlist-a"
 
-#: src/profiles.c:1133
+#: src/profiles.c:1125
 msgid "Connect"
 msgstr "Poveži se"
 
-#: src/profiles.c:1172
+#: src/profiles.c:1164
 msgid "Profiles"
 msgstr "Skup podešavanja"
 
-#: src/profiles.c:1181
+#: src/profiles.c:1173
 msgid "GNOME-Mud Profiles"
 msgstr "Skupovi Gnom-MUD podešavanja"
 
-#: src/profiles.c:1195
+#: src/profiles.c:1187
 msgid "New"
 msgstr "Novi"
 
-#: src/profiles.c:1196
+#: src/profiles.c:1188
 msgid "Create a new profile"
 msgstr "Napravi novi skup podešavanja"
 
-#: src/profiles.c:1203
+#: src/profiles.c:1195
 msgid "Delete a profile"
 msgstr "Obriši skup podešavanja"
 
-#: src/profiles.c:1220
+#: src/profiles.c:1212
 msgid "Set aliases"
 msgstr "Postavi nadimke"
 
-#: src/profiles.c:1227
+#: src/profiles.c:1219
 msgid "Set variables"
 msgstr "Postavi promenljive"
 
-#: src/profiles.c:1234
+#: src/profiles.c:1226
 msgid "Set triggers"
 msgstr "Postavi događaje"
 
-#: src/profiles.c:1251
+#: src/profiles.c:1243
 msgid "Set keybindings"
 msgstr "Postavi prečice"
 
-#: src/profiles.c:1268
+#: src/profiles.c:1260
 msgid "Close"
 msgstr "Zatvori"
 
-#: src/profiles.c:1268
+#: src/profiles.c:1260
 msgid "Close the window"
 msgstr "Zatvori prozor"

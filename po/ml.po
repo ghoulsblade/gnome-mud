@@ -6,7 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version:gnome-mud\n"
-"POT-Creation-Date: 2003-06-06 03:56+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-11 14:47+0100\n"
 "PO-Revision-Date: 2003-07-05 10:29+0530\n"
 "Last-Translator: FSF-India <locale@gnu.org.in>\n"
 "Language-Team: Malayalam <locale@gnu.org.in>\n"
@@ -32,7 +33,7 @@ msgid ""
 "which will be sent to the MUD as 4 separate commands."
 msgstr ""
 
-#: gnome-mud.schemas.in.h:3 src/profiles.c:1220
+#: gnome-mud.schemas.in.h:3 src/profiles.c:1212
 msgid "Aliases"
 msgstr ""
 
@@ -75,30 +76,30 @@ msgid ""
 "hex format e.g. \"#FF00FF\"."
 msgstr ""
 
-#: gnome-mud.schemas.in.h:12 src/prefs.c:845
+#: gnome-mud.schemas.in.h:12 src/prefs.c:848
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
 msgstr ""
 
 #: gnome-mud.schemas.in.h:13
-msgid "How meny entries to keep in the command history"
+msgid "How many entries to keep in the command history"
 msgstr ""
 
-#: gnome-mud.schemas.in.h:14 src/prefs.c:799
+#: gnome-mud.schemas.in.h:14 src/prefs.c:802
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
 "overridden by custom keybindings, or they can be disabled completely with "
 "this option."
 msgstr ""
 
-#: gnome-mud.schemas.in.h:15 src/prefs.c:777
+#: gnome-mud.schemas.in.h:15 src/prefs.c:780
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
 msgstr ""
 
-#: gnome-mud.schemas.in.h:16 src/prefs.c:788
+#: gnome-mud.schemas.in.h:16 src/prefs.c:791
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
@@ -111,7 +112,7 @@ msgid ""
 "bottom."
 msgstr ""
 
-#: gnome-mud.schemas.in.h:18 src/profiles.c:1251
+#: gnome-mud.schemas.in.h:18 src/profiles.c:1243
 msgid "Keybindings"
 msgstr ""
 
@@ -178,12 +179,12 @@ msgid ""
 "\"top\" and \"bottom\"."
 msgstr ""
 
-#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1234
+#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1226
 msgid "Triggers"
 msgstr ""
 
 #. vars
-#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1227
+#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1219
 msgid "Variables"
 msgstr ""
 
@@ -262,11 +263,11 @@ msgstr ""
 msgid "Connect..."
 msgstr ""
 
-#: src/init.c:154 src/profiles.c:958
+#: src/init.c:154 src/profiles.c:950
 msgid "Host:"
 msgstr ""
 
-#: src/init.c:160 src/profiles.c:978
+#: src/init.c:160 src/profiles.c:970
 #, fuzzy
 msgid "Port:"
 msgstr "വഴി:"
@@ -591,6 +592,7 @@ msgstr ""
 msgid "Create new link"
 msgstr ""
 
+#. Translator: this is an action, not a key
 #: src/map.c:1435
 msgid "Enter"
 msgstr ""
@@ -736,16 +738,16 @@ msgstr ""
 
 #: src/modules_api.c:51
 #, c-format
-msgid "Error register menu: %s"
+msgid "Error while registering the menu: %s"
 msgstr ""
 
 #: src/modules_api.c:71
 #, c-format
-msgid "Error register for data %s: %s"
+msgid "Error while registering data %s: %s"
 msgstr ""
 
 #: src/modules_api.c:79
-msgid "Error getting plugin from handle."
+msgid "Error while getting plugin from handle."
 msgstr ""
 
 #: src/mudlist.c:404
@@ -812,8 +814,10 @@ msgstr ""
 
 #: src/prefs.c:253 src/prefs.c:409
 #, c-format
-msgid "Palette had %d entries instead of %d\n"
-msgstr ""
+msgid "Palette had %d entry instead of %d\n"
+msgid_plural "Palette had %d entries instead of %d\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/prefs.c:353
 #, c-format
@@ -825,281 +829,281 @@ msgstr ""
 msgid "%s does not exist and can NOT be created: %s"
 msgstr ""
 
-#: src/prefs.c:633
+#: src/prefs.c:636
 msgid "Font:"
 msgstr "അക്ഷരരൂപം:"
 
-#: src/prefs.c:641
+#: src/prefs.c:644
 msgid "Main font that is used on all open connections."
 msgstr ""
 
-#: src/prefs.c:644
+#: src/prefs.c:647
 msgid "The quick brown fox jumps over the lazy dog"
 msgstr ""
 
-#: src/prefs.c:648
+#: src/prefs.c:651
 msgid "Color palette:"
 msgstr ""
 
-#: src/prefs.c:654
+#: src/prefs.c:657
 msgid "Background color:"
 msgstr ""
 
-#: src/prefs.c:660
+#: src/prefs.c:663
 msgid "Foreground color:"
 msgstr ""
 
-#: src/prefs.c:668
+#: src/prefs.c:671
 msgid ""
 "Default foreground color used when the connection doesn't request the use of "
 "a specific color."
 msgstr ""
 
-#: src/prefs.c:677
+#: src/prefs.c:680
 msgid ""
 "Default background color used when the connection doesn't request the use of "
 "a specific color."
 msgstr ""
 
-#: src/prefs.c:693
+#: src/prefs.c:696
 msgid "Change the color of a specific color that the MUD requests to use."
 msgstr ""
 
-#: src/prefs.c:735
+#: src/prefs.c:738
 msgid "on top"
 msgstr ""
 
-#: src/prefs.c:735
+#: src/prefs.c:738
 msgid "on the right"
 msgstr ""
 
-#: src/prefs.c:735
+#: src/prefs.c:738
 msgid "at the bottom"
 msgstr ""
 
-#: src/prefs.c:735
+#: src/prefs.c:738
 msgid "on the left"
 msgstr ""
 
-#: src/prefs.c:753
+#: src/prefs.c:756
 msgid "GNOME-Mud Preferences"
 msgstr ""
 
-#: src/prefs.c:767
+#: src/prefs.c:770
 msgid "Functionality"
 msgstr ""
 
-#: src/prefs.c:773
+#: src/prefs.c:776
 msgid "_Echo the text sent"
 msgstr ""
 
-#: src/prefs.c:784
+#: src/prefs.c:787
 msgid "_Keep the text entered"
 msgstr ""
 
-#: src/prefs.c:795
+#: src/prefs.c:798
 msgid "Disable _System Keys"
 msgstr ""
 
-#: src/prefs.c:809
+#: src/prefs.c:812
 msgid "Command division character:"
 msgstr ""
 
-#: src/prefs.c:814
+#: src/prefs.c:817
 msgid ""
 "The character used to divide commands sent to the mud. For example, \";\", "
 "will let the string \"w;look\" be sent to the mud as 2 separate commands."
 msgstr ""
 
-#: src/prefs.c:824
+#: src/prefs.c:827
 msgid "Command history:"
 msgstr ""
 
-#: src/prefs.c:830
+#: src/prefs.c:833
 msgid "The number of entries to be saved in the command history."
 msgstr ""
 
-#: src/prefs.c:838
+#: src/prefs.c:841
 msgid "Terminal type:"
 msgstr ""
 
-#: src/prefs.c:853
+#: src/prefs.c:856
 msgid "MudList file:"
 msgstr ""
 
-#: src/prefs.c:856
+#: src/prefs.c:859
 msgid "Select a MudList File..."
 msgstr ""
 
-#: src/prefs.c:858
+#: src/prefs.c:861
 msgid "Mudlist file to be used for the mudlist functionality."
 msgstr ""
 
-#: src/prefs.c:867
+#: src/prefs.c:870
 msgid "Color and Fonts"
 msgstr ""
 
-#: src/prefs.c:875
+#: src/prefs.c:878
 msgid "Appearance"
 msgstr "കാഴ്ച"
 
-#: src/prefs.c:884
+#: src/prefs.c:887
 msgid "Tabs are located:"
 msgstr ""
 
-#: src/prefs.c:897
+#: src/prefs.c:900
 msgid ""
 "This setting defines where to place the connection tabs that are used to "
 "change active connection."
 msgstr ""
 
-#: src/prefs.c:908
+#: src/prefs.c:911
 msgid "Scrollback:"
 msgstr ""
 
-#: src/prefs.c:914
+#: src/prefs.c:917
 msgid "Number of lines to save in the scrollback."
 msgstr ""
 
-#: src/prefs.c:918
+#: src/prefs.c:921
 msgid "lines"
 msgstr ""
 
-#: src/prefs.c:924
+#: src/prefs.c:927
 msgid "S_croll on output"
 msgstr ""
 
-#: src/prefs.c:926
+#: src/prefs.c:929
 msgid ""
 "If enabled, the terminal will scroll to the bottom if new output appears in "
 "the connection when the terminal was scrolled back."
 msgstr ""
 
-#: src/prefs.c:937
+#: src/prefs.c:940
 msgid "AutoMapper"
 msgstr ""
 
-#: src/prefs.c:951
+#: src/prefs.c:954
 msgid "Unusual movement commands:"
 msgstr ""
 
-#: src/prefs.c:958
+#: src/prefs.c:961
 msgid ""
 "If you use the automapper, you may want to specify here some unusual "
 "movement commands. When you use one of these, the automapper will create a "
 "path to an other map. Use a semicolon to separate the different commands."
 msgstr ""
 
-#: src/profiles.c:300
+#: src/profiles.c:301
 msgid "New profile"
 msgstr ""
 
-#: src/profiles.c:303
+#: src/profiles.c:304
 msgid "Name of new profile:"
 msgstr ""
 
-#: src/profiles.c:513
+#: src/profiles.c:506
 msgid "GNOME-Mud: Profilelist"
 msgstr ""
 
-#: src/profiles.c:683 src/profiles.c:1055
+#: src/profiles.c:675 src/profiles.c:1047
 msgid "Default"
 msgstr "സ്വതേ"
 
-#: src/profiles.c:864 src/profiles.c:1203
+#: src/profiles.c:856 src/profiles.c:1195
 msgid "Delete"
 msgstr "നീക്കം ചെയ്യ‍ുക"
 
-#: src/profiles.c:880
+#: src/profiles.c:872
 msgid "GNOME-Mud Connections"
 msgstr ""
 
-#: src/profiles.c:914
+#: src/profiles.c:906
 msgid "Mud"
 msgstr "ചളി"
 
 #. Translators: this is the name of your player
-#: src/profiles.c:921
+#: src/profiles.c:913
 msgid "Character"
 msgstr "അക്ഷരങ്ങള്"
 
-#: src/profiles.c:934
+#: src/profiles.c:926
 msgid "Mud information"
 msgstr ""
 
-#: src/profiles.c:950
+#: src/profiles.c:942
 msgid "Title:"
 msgstr "തലക്കെട്ട്:"
 
-#: src/profiles.c:994
+#: src/profiles.c:986
 msgid "Character information"
 msgstr ""
 
-#: src/profiles.c:1010
+#: src/profiles.c:1002
 msgid "Character:"
 msgstr ""
 
-#: src/profiles.c:1018
+#: src/profiles.c:1010
 msgid "Password:"
 msgstr "അടയാളവാക്ക്:"
 
-#: src/profiles.c:1039
+#: src/profiles.c:1031
 msgid "Profile information"
 msgstr ""
 
-#: src/profiles.c:1065
+#: src/profiles.c:1057
 msgid "Select Profile"
 msgstr ""
 
-#: src/profiles.c:1081
+#: src/profiles.c:1073
 msgid "Fetch from mudlist"
 msgstr ""
 
-#: src/profiles.c:1133
+#: src/profiles.c:1125
 #, fuzzy
 msgid "Connect"
 msgstr "ഘടിപ്പിക്കുക"
 
-#: src/profiles.c:1172
+#: src/profiles.c:1164
 msgid "Profiles"
 msgstr ""
 
-#: src/profiles.c:1181
+#: src/profiles.c:1173
 msgid "GNOME-Mud Profiles"
 msgstr ""
 
-#: src/profiles.c:1195
+#: src/profiles.c:1187
 msgid "New"
 msgstr "പുതിയ"
 
-#: src/profiles.c:1196
+#: src/profiles.c:1188
 msgid "Create a new profile"
 msgstr ""
 
-#: src/profiles.c:1203
+#: src/profiles.c:1195
 msgid "Delete a profile"
 msgstr ""
 
-#: src/profiles.c:1220
+#: src/profiles.c:1212
 msgid "Set aliases"
 msgstr ""
 
-#: src/profiles.c:1227
+#: src/profiles.c:1219
 msgid "Set variables"
 msgstr ""
 
-#: src/profiles.c:1234
+#: src/profiles.c:1226
 msgid "Set triggers"
 msgstr ""
 
-#: src/profiles.c:1251
+#: src/profiles.c:1243
 msgid "Set keybindings"
 msgstr ""
 
-#: src/profiles.c:1268
+#: src/profiles.c:1260
 msgid "Close"
 msgstr "അടയ്‍ക്കുക"
 
-#: src/profiles.c:1268
+#: src/profiles.c:1260
 msgid "Close the window"
 msgstr ""

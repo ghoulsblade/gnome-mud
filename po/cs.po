@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-05 12:07+0200\n"
+"POT-Creation-Date: 2003-11-11 14:47+0100\n"
 "PO-Revision-Date: 2003-09-05 15:13+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -38,7 +38,7 @@ msgstr ""
 "což\n"
 "bude MUD odesláno jako 4 oddělené příkazy."
 
-#: gnome-mud.schemas.in.h:3 src/profiles.c:1220
+#: gnome-mud.schemas.in.h:3 src/profiles.c:1212
 msgid "Aliases"
 msgstr "Aliasy"
 
@@ -134,7 +134,7 @@ msgid ""
 msgstr ""
 "Je-li povoleno, bude terminál posunut dospod, kdykoli se objeví nový výstup."
 
-#: gnome-mud.schemas.in.h:18 src/profiles.c:1251
+#: gnome-mud.schemas.in.h:18 src/profiles.c:1243
 msgid "Keybindings"
 msgstr "Klávesové zkratky"
 
@@ -211,12 +211,12 @@ msgstr ""
 "Umístění záložek připojení. Platné možnosti jsou \"left\", \"right\", \"top"
 "\" a \"bottom\"."
 
-#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1234
+#: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1226
 msgid "Triggers"
 msgstr "Podmínky"
 
 #. vars
-#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1227
+#: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1219
 msgid "Variables"
 msgstr "Proměnné"
 
@@ -295,11 +295,11 @@ msgstr "Opravdu chcete skončit?"
 msgid "Connect..."
 msgstr "Připojit..."
 
-#: src/init.c:154 src/profiles.c:958
+#: src/init.c:154 src/profiles.c:950
 msgid "Host:"
 msgstr "Počítač:"
 
-#: src/init.c:160 src/profiles.c:978
+#: src/init.c:160 src/profiles.c:970
 msgid "Port:"
 msgstr "Port:"
 
@@ -1038,115 +1038,115 @@ msgstr ""
 "příkazy pohybu. Pokud použijete jeden z nich, automapovač vytvoří cestu na "
 "jinou mapu. Pro oddělení různých příkazů použijte středník."
 
-#: src/profiles.c:300
+#: src/profiles.c:301
 msgid "New profile"
 msgstr "Nový profil"
 
-#: src/profiles.c:303
+#: src/profiles.c:304
 msgid "Name of new profile:"
 msgstr "Název nového profilu:"
 
-#: src/profiles.c:513
+#: src/profiles.c:506
 msgid "GNOME-Mud: Profilelist"
 msgstr "GNOME-Mud: Seznam profilů"
 
-#: src/profiles.c:683 src/profiles.c:1055
+#: src/profiles.c:675 src/profiles.c:1047
 msgid "Default"
 msgstr "Implicitní"
 
-#: src/profiles.c:864 src/profiles.c:1203
+#: src/profiles.c:856 src/profiles.c:1195
 msgid "Delete"
 msgstr "Odstranit"
 
-#: src/profiles.c:880
+#: src/profiles.c:872
 msgid "GNOME-Mud Connections"
 msgstr "Spojení GNOME-Mud"
 
-#: src/profiles.c:914
+#: src/profiles.c:906
 msgid "Mud"
 msgstr "MUD"
 
 #. Translators: this is the name of your player
-#: src/profiles.c:921
+#: src/profiles.c:913
 msgid "Character"
 msgstr "Postava"
 
-#: src/profiles.c:934
+#: src/profiles.c:926
 msgid "Mud information"
 msgstr "Informace o MUDu"
 
-#: src/profiles.c:950
+#: src/profiles.c:942
 msgid "Title:"
 msgstr "Název:"
 
-#: src/profiles.c:994
+#: src/profiles.c:986
 msgid "Character information"
 msgstr "Informace o postavě"
 
-#: src/profiles.c:1010
+#: src/profiles.c:1002
 msgid "Character:"
 msgstr "Postava:"
 
-#: src/profiles.c:1018
+#: src/profiles.c:1010
 msgid "Password:"
 msgstr "Heslo:"
 
-#: src/profiles.c:1039
+#: src/profiles.c:1031
 msgid "Profile information"
 msgstr "Informace o profilu"
 
-#: src/profiles.c:1065
+#: src/profiles.c:1057
 msgid "Select Profile"
 msgstr "Vybrat profil"
 
-#: src/profiles.c:1081
+#: src/profiles.c:1073
 msgid "Fetch from mudlist"
 msgstr "Získat z mudlistu"
 
-#: src/profiles.c:1133
+#: src/profiles.c:1125
 msgid "Connect"
 msgstr "Připojit"
 
-#: src/profiles.c:1172
+#: src/profiles.c:1164
 msgid "Profiles"
 msgstr "Profily"
 
-#: src/profiles.c:1181
+#: src/profiles.c:1173
 msgid "GNOME-Mud Profiles"
 msgstr "Profily GNOME-Mud"
 
-#: src/profiles.c:1195
+#: src/profiles.c:1187
 msgid "New"
 msgstr "Nový"
 
-#: src/profiles.c:1196
+#: src/profiles.c:1188
 msgid "Create a new profile"
 msgstr "Vytvořit nový profil"
 
-#: src/profiles.c:1203
+#: src/profiles.c:1195
 msgid "Delete a profile"
 msgstr "Odstranit profil"
 
-#: src/profiles.c:1220
+#: src/profiles.c:1212
 msgid "Set aliases"
 msgstr "Nastavit aliasy"
 
-#: src/profiles.c:1227
+#: src/profiles.c:1219
 msgid "Set variables"
 msgstr "Nastavit proměnné"
 
-#: src/profiles.c:1234
+#: src/profiles.c:1226
 msgid "Set triggers"
 msgstr "Nastavit podmínky"
 
-#: src/profiles.c:1251
+#: src/profiles.c:1243
 msgid "Set keybindings"
 msgstr "Nastavit klávesové zkratky"
 
-#: src/profiles.c:1268
+#: src/profiles.c:1260
 msgid "Close"
 msgstr "Zavřít"
 
-#: src/profiles.c:1268
+#: src/profiles.c:1260
 msgid "Close the window"
 msgstr "Zavřít okno"
