@@ -1,3 +1,20 @@
+2005-03-13  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/gnome-mud.h [connection_data]: Added member naws.
+	Added a few prototypes.
+
+	* src/init.c (create_connection_data): Set news to FALSE and connect
+	signals so we can detect changes in displayed w/h.
+
+	* src/telnet.c (write_octet): Removed.
+	(write_escaped_octet): Added.
+	(connection_send_naws): Now escapes values of 255.
+	(pre_process): Moved IAC WILL NAWS to connection_send_naws.
+
+	* src/window.c (vte_might_need_naws): Added.
+	(vte_char_size_changed_cb): Added.
+	(vte_resize_window_cb): Added.
+
 2005-03-07  Robin Ericsson  <lobbin@localhost.nu>
 
 	* gnome-mud.schemas.in, ui/directions.glade: Changed short name to 

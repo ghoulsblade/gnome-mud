@@ -44,30 +44,35 @@ extern SYSTEM_DATA prefs ;
 
 /* Rewritten 2003 by Abigail Brady to be safe */
 
-static unsigned char *write_octet(unsigned char *p, unsigned char data)
+static unsigned char *write_escaped_octet(unsigned char *p, unsigned char data)
 {
-  *p++ = data;
-  if (data==IAC)
-    *p++ = data;
-  return p;
+	if (data == 255) {
+		p[0] = data;
+		p[1] = data;
+		return p+2;
+	}
+
+	p[0] = data;
+	return p+1;
 }
 
 void connection_send_naws(CONNECTION_DATA *connection)
 {
-	unsigned char pkt[3 + 2 + 8] = { IAC, SB, TELOPT_NAWS };
+	unsigned char pkt[3 + 2 + 12] = { IAC, SB, TELOPT_NAWS };
  	unsigned long h = vte_terminal_get_row_count(VTE_TERMINAL(connection->window)),
     		      w = vte_terminal_get_column_count(VTE_TERMINAL(connection->window));
   
 	unsigned char *p = pkt+3;
 
-  	p = write_octet(p, (unsigned char)(w >> 8));
-  	p = write_octet(p, (unsigned char)(w & 0xff));
-  	p = write_octet(p, (unsigned char)(h >> 8));
-  	p = write_octet(p, (unsigned char)(h & 0xff));
+	p = write_escaped_octet(p, (w >> 8) & 0xff);
+	p = write_escaped_octet(p, (w >> 0) & 0xff);
+	p = write_escaped_octet(p, (h >> 8) & 0xff);
+	p = write_escaped_octet(p, (h >> 0) & 0xff);
 
 	*p++ = IAC;
 	*p++ = SE;
 
+	connection_send_telnet_control(connection, 3, IAC, WILL, TELOPT_NAWS);
   	write(connection->sockfd, pkt, p - pkt);
 }
 
@@ -207,7 +212,7 @@ gint pre_process(char *buf, CONNECTION_DATA *connection)
 						break;
 
 					case TELOPT_NAWS:
-						connection_send_telnet_control(connection, 3, IAC, WILL, data);
+						connection->naws = TRUE;
 						connection_send_naws(connection);
 						break;
 				}

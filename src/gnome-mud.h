@@ -21,6 +21,7 @@
 
 #include "mccpDecompress.h"
 #include <stdio.h>
+#include <vte/vte.h>
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -97,6 +98,7 @@ struct connection_data
 	gint			 notebook;
 	gint			 logging;
 	gboolean		 echo;
+	gboolean		 naws;			/* whether mud supports NAWS */
 	GtkWidget		*window;
 	GtkWidget		*vscrollbar;
   	gint             telnet_state;
@@ -255,6 +257,7 @@ gchar *python_process_input( CONNECTION_DATA *, gchar *              );
 gchar *python_process_output( CONNECTION_DATA *, gchar *             );
 
 /* telnet.c */
+void  connection_send_naws ( CONNECTION_DATA *connection             );
 gint  pre_process     ( char *buf, CONNECTION_DATA *connection       );
 
 /* window.c */
@@ -263,6 +266,8 @@ void  switch_page_cb  ( GtkNotebook *, gpointer, guint, gpointer     );
 void  grab_focus_cb   ( GtkWidget* widget, gpointer user_data        );
 void  textfield_add   ( CONNECTION_DATA *, gchar *, gint             );
 void  terminal_feed   ( GtkWidget *, gchar *data                     );
+void  vte_char_size_changed_cb( VteTerminal*, guint, guint, gpointer );
+void  vte_resize_window_cb    ( GtkWidget*, GtkAllocation*, gpointer );
 
 /* wizard.c */
 CONNECTION_DATA *create_connection_data ( gint notebook );

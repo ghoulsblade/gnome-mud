@@ -522,6 +522,7 @@ CONNECTION_DATA *create_connection_data(gint notebook)
 #endif /* ENABLE_MCCP */
 	c->telnet_state = 0;
 	c->telnet_subneg = 0;
+	c->naws = FALSE;
 	c->notebook = notebook;
 	c->profile = profiledata_find("Default");
 	c->window = vte_terminal_new();
@@ -535,11 +536,15 @@ CONNECTION_DATA *create_connection_data(gint notebook)
 	
 	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(c->window), GTK_CAN_FOCUS);
 
-	gtk_signal_connect(GTK_OBJECT(c->window), "focus-in-event", GTK_SIGNAL_FUNC(grab_focus_cb), NULL);
+	g_signal_connect(G_OBJECT(c->window), "focus-in-event", G_CALLBACK(grab_focus_cb), NULL);
 	connections[notebook] = c;
 
 	c->vscrollbar = gtk_vscrollbar_new(NULL);
 	gtk_range_set_adjustment(GTK_RANGE(c->vscrollbar), VTE_TERMINAL(c->window)->adjustment);
+
+	/* Signals to be able to correct NAWS */
+	g_signal_connect(G_OBJECT(c->window), "char-size-changed", G_CALLBACK(vte_char_size_changed_cb), c);
+	g_signal_connect_after(G_OBJECT(c->window), "size-allocate", G_CALLBACK(vte_resize_window_cb), c);
 
 	return c;
 }

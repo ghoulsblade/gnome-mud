@@ -160,3 +160,24 @@ void terminal_feed(GtkWidget *widget, gchar *data)
 	vte_terminal_feed(VTE_TERMINAL(widget), buf, strlen(buf));
 }
 
+static void
+vte_might_need_naws(CONNECTION_DATA *cd)
+{
+	if (cd && cd->connected && cd->naws) {
+		connection_send_naws(cd);
+	}
+}
+
+void vte_char_size_changed_cb(VteTerminal *vte, guint arg1, guint arg2, gpointer data)
+{
+	CONNECTION_DATA *cd = (CONNECTION_DATA *) data;
+
+	vte_might_need_naws(cd);
+}
+
+void vte_resize_window_cb(GtkWidget *vte, GtkAllocation *alloc, gpointer data)
+{
+	CONNECTION_DATA *cd = (CONNECTION_DATA *) data;
+
+	vte_might_need_naws(cd);
+}
