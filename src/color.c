@@ -159,19 +159,18 @@ void load_color_to_c_structs ()
 {
     gint i;
     cmap = gdk_colormap_get_system();
-    for (i = 0; i < C_MAX ; i++)
-	{
-	    grab_color ( c_structs[i], text_color[i]);
-	    if (!gdk_color_alloc (cmap, c_structs[i]))
-		g_warning("Couldn't allocate color");
-	}
+    for (i = 0; i < C_MAX ; i++) {
+      grab_color ( c_structs[i], text_color[i]);
+      if (!gdk_color_alloc (cmap, c_structs[i]))
+	g_warning("Couldn't allocate color");
+    }
 }
 
 void load_colors_default ()
 {
     gint i;
     for (i = 0; i < C_MAX; i++)
-        text_color[i] = strdup (default_color[i]);
+        text_color[i] = (char *) strdup(default_color[i]);
     load_color_to_c_structs();
 
 }
@@ -450,7 +449,7 @@ void load_colors ( void )
 	    if ( strcmp ( line, c_captions[i]) == 0)
 		{
 		    free (text_color[i]);
-		    text_color[i] = strdup (fontvalue);
+		    text_color[i] = (char *) strdup(fontvalue);
 		    break; 
 		}
     }
@@ -466,5 +465,4 @@ void load_colors ( void )
     }
 
     load_color_to_c_structs();
-        
 }

@@ -1,5 +1,5 @@
 /* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -86,7 +86,10 @@ void load_wizard ()
 
         sscanf (line, "%s %[^\n]", name, value);
 
-        if ( !strcmp (name, "Connection") )
+	if ( !strcmp (name, "Version") )
+	  continue;
+      
+	if ( !strcmp (name, "Connection") )
         {
             if ( w != NULL )
             {
@@ -166,6 +169,7 @@ void save_wizard ()
         return;
     }
 
+    fprintf(fp, "Version %d\n", WIZARD_SAVEFILE_VERSION);
     for ( tmp = wizard_connection_list2; tmp != NULL; tmp = tmp->next )
     {
         if ( tmp->data )
@@ -573,7 +577,7 @@ void window_wizard (GtkWidget *widget, gpointer data)
     gtk_widget_show (label);
 
     wizard_entry_password = gtk_entry_new ();
-    /* gtk_entry_set_visibility (GTK_ENTRY (wizard_entry_password), FALSE); */
+    gtk_entry_set_visibility (GTK_ENTRY (wizard_entry_password), FALSE);
     gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_password, FALSE, FALSE, 0);
     gtk_tooltips_set_tip (tooltip, wizard_entry_password,
                           "Use this together with PlayerName and AutoLogin.",

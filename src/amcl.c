@@ -60,7 +60,7 @@ int main (gint argc, char *argv[])
   
   g_snprintf(buf, 500, "%s/.amcl/plugins/", uid_info->pw_dir);
   init_modules(buf);
-  init_modules(PKGDATADIR);
+  //init_modules(PKGDATADIR);
   
   gtk_main ( );
 

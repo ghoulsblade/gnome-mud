@@ -29,6 +29,11 @@
 #define MESSAGE_SENT    4
 
 /*
+ * Save file version
+ */
+#define WIZARD_SAVEFILE_VERSION 1
+
+/*
  * Typedefs
  */
 typedef struct connection_data CONNECTION_DATA;
@@ -49,6 +54,7 @@ struct connection_data {
   gint        sockfd;
   gint        connected;
   gint        notebook;
+  gboolean    echo;
   GtkWidget  *window;
 };
 

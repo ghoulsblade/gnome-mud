@@ -1,7 +1,7 @@
 all: mkhelp readme_doc.h authors_doc.h
 
 mkhelp: mkhelp.c
-	$(COMPILE) -o mkhelp mkhelp.c
+	cc -o mkhelp mkhelp.c
 
 readme_doc.h: ../README mkhelp
 	@(cd ..; src/mkhelp README src/readme_doc.h)

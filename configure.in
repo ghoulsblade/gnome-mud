@@ -3,7 +3,7 @@ dnl aclocal; automake; autoconf to produce a configure script.
 
 AC_INIT(src/amcl.c)
 
-AM_INIT_AUTOMAKE(amcl, 0.7.0)
+AM_INIT_AUTOMAKE(amcl, 0.8.0)
 AM_CONFIG_HEADER(src/config.h)
 
 dnl Ability to disable the map feature until I found a fix for it.

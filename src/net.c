@@ -47,13 +47,6 @@
 # endif
 #endif
 
-#ifdef HAVE_TELNET_H
-#include <telnet.h>
-#endif
-#ifdef HAVE_ARPA_TELNET_H
-#include <arpa/telnet.h>
-#endif
-
 #include "amcl.h"
 #include "modules.h"
 
@@ -65,13 +58,8 @@ static char const rcsid[] =
  * Global Variables
  */
 extern bool Keyflag;
-/* FIXME */
-bool  echo;
 gchar *host, *port;
 extern GList *alias_list2;
-
-const  gchar	echo_off_str	[] = { IAC, WILL, TELOPT_ECHO, '\0' };
-const  gchar	echo_on_str	[] = { IAC, WONT, TELOPT_ECHO, '\0' };
 
 /* mudFTP, www.abandoned.org/drylock/ */
 static void str_replace (char *buf, const char *s, const char *repl)
@@ -104,29 +92,25 @@ static void str_replace (char *buf, const char *s, const char *repl)
  */
 static gchar *alias_check (gchar *buf, gchar *word, gchar *foo)
 {
-    GList      *tmp;
-    ALIAS_DATA *alias;
-    gchar *sent = 0;
-
-    sscanf (buf, "%s %[^\n]", word, foo);
-
-    for ( tmp = alias_list2; tmp != NULL; tmp = tmp->next )
-    {
-        if ( tmp->data )
-        {
-            alias = (ALIAS_DATA *) tmp->data;
-
-            if ( alias->alias && !strcmp (word, alias->alias) )
-            {
-                sent = g_malloc0 (strlen (alias->replace) + strlen (foo) + 3);
-                sprintf (sent, "%s %s\n", alias->replace, foo);
-                break;
-            }
-        }
+  GList      *tmp;
+  ALIAS_DATA *alias;
+  gchar *sent = 0;
+  
+  sscanf (buf, "%s %[^\n]", word, foo);
+  
+  for ( tmp = alias_list2; tmp != NULL; tmp = tmp->next ) {
+    if ( tmp->data ) {
+      alias = (ALIAS_DATA *) tmp->data;
+      
+      if ( alias->alias && !strcmp (word, alias->alias) ) {
+	sent = g_malloc0 (strlen (alias->replace) + strlen (foo) + 3);
+	sprintf (sent, "%s %s\n", alias->replace, foo);
+	break;
+      }
     }
+  }
 
-    return sent;
-
+  return sent;
 }
 
 /* Added by Bret Robideaux (fayd@alliences.org)
@@ -272,6 +256,8 @@ void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCon
     gchar  buf[4096];
     gchar  triggered_action[85];
     gint   numbytes;
+    gchar *m;
+    gint   len;
     GList *t;
     
     if ( (numbytes = recv (connection->sockfd, buf, 2048, 0) ) == - 1 )
@@ -309,7 +295,12 @@ void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCon
     
     str_replace (buf, "\r", "");
 
-    textfield_add (connection->window, buf, MESSAGE_ANSI);
+    /* Changes by Benjamin Curtis */
+    len = pre_process(buf, connection);
+    m   = (gchar *) malloc(len + 2);
+    memcpy(m, buf, len+1);
+
+    textfield_add (connection->window, m, MESSAGE_ANSI);
 
     /* Added by Bret Robideaux (fayd@alliances.org)
      * OK, this seems like a good place to handle checking for action triggers
@@ -423,10 +414,9 @@ void connection_send (CONNECTION_DATA *connection, gchar *message)
   for(;sent[i]!=0;i++)
     if(sent[i] == prefs.CommDev[0]) sent[i] = '\n';
   
-  if ( echo && prefs.EchoText)
-    { 
-      textfield_add (connection->window, message, MESSAGE_SENT);
-    }
+  if (connection->echo && prefs.EchoText) { 
+    textfield_add (connection->window, message, MESSAGE_SENT);
+  }
   
   send (connection->sockfd, message, strlen (message), 0);
   free(sent);

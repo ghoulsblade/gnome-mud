@@ -1,5 +1,5 @@
 /* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -216,10 +216,10 @@ void prefs_freeze_cb (GtkWidget *widget, GtkWidget *check_freeze)
         prefs.Freeze = FALSE;
 }
 
-void prefs_devide_cb (GtkWidget *widget, GtkWidget *entry_devide)
+void prefs_divide_cb (GtkWidget *widget, GtkWidget *entry_divide)
 {
   gchar *s;
-  s = gtk_entry_get_text(GTK_ENTRY(entry_devide));
+  s = gtk_entry_get_text(GTK_ENTRY(entry_divide));
   if (s) prefs.CommDev[0] = s[0];  
 }
 
@@ -237,11 +237,13 @@ void prefs_font_selected (GtkWidget *button, GtkFontSelectionDialog *fs)
 
     temp = gtk_font_selection_get_font_name (GTK_FONT_SELECTION(fs->fontsel));
 
-    gtk_entry_set_text (GTK_ENTRY (entry_fontname), temp);
-    g_free (prefs.FontName);
-    prefs.FontName = g_strdup (temp);
+    if (temp != NULL) {
+      gtk_entry_set_text (GTK_ENTRY (entry_fontname), temp);
+      g_free (prefs.FontName);
+      prefs.FontName = g_strdup (temp);
 
-    font_normal = gdk_font_load (prefs.FontName);
+      font_normal = gdk_font_load (prefs.FontName);
+    }
 
     g_free (temp);
 }
@@ -285,8 +287,8 @@ void window_prefs (GtkWidget *widget, gpointer data)
     GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *hbox_font;
-    GtkWidget *hbox_devide;
-    GtkWidget *entry_devide;
+    GtkWidget *hbox_divide;
+    GtkWidget *entry_divide;
     GtkWidget *label;
     GtkWidget *button_close;
     GtkWidget *button_select_font;
@@ -363,21 +365,21 @@ void window_prefs (GtkWidget *widget, gpointer data)
     gtk_widget_show (check_freeze);
     gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (check_freeze), prefs.Freeze);
 
-    hbox_devide = gtk_hbox_new (TRUE, 0);
-    gtk_container_add (GTK_CONTAINER (vbox), hbox_devide);
-    gtk_widget_show (hbox_devide);
+    hbox_divide = gtk_hbox_new (TRUE, 0);
+    gtk_container_add (GTK_CONTAINER (vbox), hbox_divide);
+    gtk_widget_show (hbox_divide);
     
-    label = gtk_label_new ("   Command devide char");
-    gtk_box_pack_start (GTK_BOX (hbox_devide), label, TRUE, FALSE, 0);
+    label = gtk_label_new ("   Command divide char");
+    gtk_box_pack_start (GTK_BOX (hbox_divide), label, TRUE, FALSE, 0);
     gtk_widget_show (label);
     
-    entry_devide = gtk_entry_new_with_max_length (1);
-    gtk_entry_set_text (GTK_ENTRY (entry_devide), prefs.CommDev);
-    gtk_box_pack_start (GTK_BOX (hbox_devide), entry_devide, TRUE, FALSE, 0);
-    gtk_widget_set_usize(GTK_WIDGET(entry_devide),30,23);
-    gtk_widget_show (entry_devide);
-    gtk_signal_connect (GTK_OBJECT (entry_devide), "changed",
-                        GTK_SIGNAL_FUNC (prefs_devide_cb), entry_devide);
+    entry_divide = gtk_entry_new_with_max_length (1);
+    gtk_entry_set_text (GTK_ENTRY (entry_divide), prefs.CommDev);
+    gtk_box_pack_start (GTK_BOX (hbox_divide), entry_divide, TRUE, FALSE, 0);
+    gtk_widget_set_usize(GTK_WIDGET(entry_divide),30,23);
+    gtk_widget_show (entry_divide);
+    gtk_signal_connect (GTK_OBJECT (entry_divide), "changed",
+                        GTK_SIGNAL_FUNC (prefs_divide_cb), entry_divide);
     
     hbox_font = gtk_hbox_new (FALSE, 0);
     gtk_container_add (GTK_CONTAINER (vbox), hbox_font);
