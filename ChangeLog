@@ -1,3 +1,8 @@
+Tue Nov 12 11:32:48 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/profiles.c: apply dos2unix to remove CRLF strings. Have been
+	there since day one!
+
 Sun Nov 10 03:26:53 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/data.c, src/init.c, src/keybind.c src/prefs.c: fix a few
