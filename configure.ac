@@ -2,7 +2,7 @@ dnl Process this file with
 dnl aclocal; automake; autoconf to produce a configure script.
 
 
-AC_INIT([gnome-mud],[0.10.4])
+AC_INIT([gnome-mud],[0.10.4a])
 AC_CONFIG_SRCDIR(src/gnome-mud.c)
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE([AC_PACKAGE_NAME], [AC_PACKAGE_VERSION])
@@ -35,8 +35,8 @@ VTE_REQUIRED=0.10.26
 
 dnl libgnome, libgnomeui needed for all utils
 PKG_CHECK_MODULES(GMUD, libgnome-2.0 >= $LIBGNOME_REQUIRED
-						libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED
-						vte >= $VTE_REQUIRED)
+			libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED
+			vte >= $VTE_REQUIRED)
 AC_SUBST(GMUD_CFLAGS)
 AC_SUBST(GMUD_LIBS)
 

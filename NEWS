@@ -1,6 +1,12 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
+GNOME-Mud 0.10.4a (02/01/2004)
+
+- Revert plugin support patch which caused random segfaults [Jordi]
+- Updated translations:
+  + pt [Duarte Loreto]
+
 GNOME-Mud 0.10.4 (22/12/2003)
 
 - Fix a connect error on FreeBSD [Sjoerd Simons]

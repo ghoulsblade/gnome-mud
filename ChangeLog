@@ -1,3 +1,15 @@
+2004-01-02  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/modules_api.[ch], src/net.c: Unapply plugin patch which was
+	causing segfaults.
+
+	* Makefile.am (EXTRA_DIST): Add
+	intltool-modules/XML/Parser/Style/OrigTree.pm.
+
+	* NEWS: Updated.
+	
+	* configure.ac: Released gnome-mud 0.10.4a.
+
 2003-12-22  Jordi Mallach  <jordi@sindominio.net>
 
 	* Makefile.am (EXTRA_DIST): Duh, remove configure.in.

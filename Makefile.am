@@ -10,10 +10,26 @@ Applications_in_files = gnome-mud.desktop.in
 Applications_DATA = $(Applications_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
-EXTRA_DIST = ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS PLUGIN.API \
-		README ROADMAP config.rpath gnome-mud.desktop.in \
-		gnome-mud.lsm intltool-extract.in intltool-merge.in \
-		intltool-update.in $(Applications_DATA) $(schema_DATA)
+EXTRA_DIST = \
+ABOUT-NLS \
+AUTHORS \
+BUGS \
+COPYING \
+ChangeLog \
+INSTALL \
+NEWS \
+PLUGIN.API \
+README \
+ROADMAP \
+config.rpath \
+gnome-mud.desktop.in \
+gnome-mud.lsm \
+intltool-extract.in \
+intltool-merge.in \
+intltool-update.in \
+intltool-modules/XML/Parser/Style/OrigTree.pm \
+$(Applications_DATA) \
+$(schema_DATA)
 
 install-data-local:
 	-GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$(schema_DATA)
