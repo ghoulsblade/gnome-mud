@@ -3,11 +3,11 @@ NEWS for veteran GNOME-Mud users
 
 GNOME-Mud 0.10.2 (Unreleased)
 
-- Fix i18n initialization.
-- Fix a few segfaults.
-- Fix telnet handling when sequences are split across packets.
-- Port some remaining GTK 1.2 BROKEN widgets to GTK2.
-- Translation updates (ca, mk, tr)
+- Fix i18n initialization. [Jordi]
+- Fix a few segfaults. [Jordi, Robin]
+- Fix telnet handling when sequences are split across packets. (Bug #116337) [Abi]
+- Port some remaining GTK 1.2 BROKEN widgets to GTK2. [Robin]
+- Translation updates (ca, mk, tr) [Jordi, stojmir, Saim Onur Zaim]
 
 GNOME-Mud 0.10.1 (10/06/2003)
 
