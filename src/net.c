@@ -125,9 +125,10 @@ void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 
 	a = g_strdup(alias->str);
 	g_string_free(alias, TRUE);
+	strcat(a,"\n"); // This way we avoid calling trigeer parsing functions twice (once with an empty parameter)
 	
-   	connection_send (connection, check_vars (connection->profile->variables, a));
-	connection_send (connection, "\n");
+	connection_send (connection, check_vars (connection->profile->variables, a));
+//	connection_send (connection, "\n");
 
 #ifndef WITHOUT_MAPPER	
 	for (puck = AutoMapList; puck!= NULL; puck = puck->next)
@@ -391,11 +392,24 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 
 void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo, gboolean secret)
 {
-    gint i;
-    gchar *sent;
+	gint i;
+	gchar *sent;
+	GList *t;
   
-    if (connection->connected)
-    {
+	for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next) {
+		PLUGIN_DATA *pd;
+     
+		if (t->data != NULL)
+		{
+			pd = (PLUGIN_DATA *) t->data;
+			if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_OUT)) {
+				(* pd->datafunc) (pd->plugin, connection, message, GPOINTER_TO_INT(pd->plugin->handle));
+	    		}
+		}
+	}
+    
+	if (connection->connected)
+	{
 		sent = g_strdup (message);
 
 #ifdef USE_PYTHON

@@ -3,6 +3,7 @@ NEWS for veteran GNOME-Mud users
 
 GNOME-Mud 0.10.4 (xx/xx/xxxx)
 
+- Fix so plugins can use outgoing data [Quim Rovira]
 - Fix a connect error on FreeBSD [Sjoerd Simons]
 - Fix yet another Connection Wizard segfault [Dani Carbonell]
 - Fix a segfault when saving the terminal buffer [Dani Carbonell]
