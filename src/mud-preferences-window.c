@@ -76,14 +76,22 @@ static void mud_preferences_window_tree_selection_cb  (GtkTreeSelection *selecti
 static void mud_preferences_window_show_tab           (MudPreferencesWindow *window, gint tab);
 static gboolean mud_preferences_window_response_cb    (GtkWidget *dialog, GdkEvent *Event, MudPreferencesWindow *window);
 static void mud_preferences_window_set_preferences    (MudPreferencesWindow *window);
+
 static void mud_preferences_window_echo_cb            (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_keeptext_cb        (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_disablekeys_cb     (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_scrolloutput_cb    (GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_commdev_cb         (GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_terminal_cb        (GtkWidget *widget, MudPreferencesWindow *window);
+
 static void mud_preferences_window_changed_cb         (MudPreferences *prefs, MudPreferenceMask *mask, MudPreferencesWindow *window);
 
 static void mud_preferences_window_update_echotext    (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_keeptext    (MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_disablekeys (MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_scrolloutput(MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_commdev     (MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_terminaltype(MudPreferencesWindow *window, MudPrefs *preferences);
 
 GType
 mud_preferences_window_get_type (void)
@@ -306,15 +314,6 @@ mud_preferences_window_set_preferences(MudPreferencesWindow *window)
 	gint i;
 	MudPreferences *prefs = window->priv->prefs;
 
-#define SET_TOGGLE_STATE(widget, pref, callback) \
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->widget), \
-								prefs->preferences.pref); \
-	g_signal_connect(G_OBJECT(window->priv->widget), "toggled", \
-					 G_CALLBACK(callback), \
-					 window);
-#define SET_EDIT_TEXT(widget, pref) \
-	gtk_entry_set_text(GTK_ENTRY(window->priv->widget), \
-					   prefs->preferences.pref);
 #define SET_SPIN_BUTTON(widget, pref) \
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(window->priv->widget), \
 							  prefs->preferences.pref);
@@ -328,11 +327,27 @@ mud_preferences_window_set_preferences(MudPreferencesWindow *window)
 	g_signal_connect(G_OBJECT(window->priv->cb_keep), "toggled",
 					 G_CALLBACK(mud_preferences_window_keeptext_cb),
 					 window);
+
+	mud_preferences_window_update_disablekeys(window, &prefs->preferences);
+	g_signal_connect(G_OBJECT(window->priv->cb_disable), "toggled",
+					 G_CALLBACK(mud_preferences_window_disablekeys_cb),
+					 window);
+
+	mud_preferences_window_update_scrolloutput(window, &prefs->preferences);
+	g_signal_connect(G_OBJECT(window->priv->cb_scrollback), "toggled",
+					 G_CALLBACK(mud_preferences_window_scrolloutput_cb),
+					 window);
+
+	mud_preferences_window_update_commdev(window, &prefs->preferences);
+	g_signal_connect(G_OBJECT(window->priv->entry_commdev), "changed",
+					 G_CALLBACK(mud_preferences_window_commdev_cb),
+					 window);
+
+	mud_preferences_window_update_terminaltype(window, &prefs->preferences);
+	g_signal_connect(G_OBJECT(window->priv->entry_terminal), "changed",
+					 G_CALLBACK(mud_preferences_window_terminal_cb),
+					 window);
 	
-	SET_TOGGLE_STATE(cb_disable, DisableKeys, mud_preferences_window_disablekeys_cb);
-	SET_TOGGLE_STATE(cb_scrollback, ScrollOnOutput, mud_preferences_window_scrolloutput_cb);
-	SET_EDIT_TEXT(entry_commdev, CommDev);
-	SET_EDIT_TEXT(entry_terminal, TerminalType);
 	SET_SPIN_BUTTON(sb_history, History);
 	SET_SPIN_BUTTON(sb_lines, Scrollback);
 
@@ -357,18 +372,22 @@ mud_preferences_window_set_preferences(MudPreferencesWindow *window)
 	}
 	
 #undef SET_SPIN_BUTTON
-#undef SET_EDIT_TEXT
-#undef SET_TOGGLE_STATE
 }
 
 static void
 mud_preferences_window_disablekeys_cb(GtkWidget *widget, MudPreferencesWindow *window)
 {
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
+
+	mud_preferences_set_disablekeys(window->priv->prefs, value);
 }
 
 static void
 mud_preferences_window_scrolloutput_cb(GtkWidget *widget, MudPreferencesWindow *window)
 {
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
+
+	mud_preferences_set_scrolloutput(window->priv->prefs, value);
 }
 
 static void
@@ -388,6 +407,22 @@ mud_preferences_window_echo_cb(GtkWidget *widget, MudPreferencesWindow *window)
 }
 
 static void
+mud_preferences_window_commdev_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{
+	const gchar *s = gtk_entry_get_text(GTK_ENTRY(widget));
+
+	mud_preferences_set_commdev(window->priv->prefs, s);
+}
+
+static void
+mud_preferences_window_terminal_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{
+	const gchar *s = gtk_entry_get_text(GTK_ENTRY(widget));
+
+	mud_preferences_set_terminal(window->priv->prefs, s);
+}
+
+static void
 mud_preferences_window_changed_cb(MudPreferences *preferences, MudPreferenceMask *mask, MudPreferencesWindow *window)
 {
 	MudPreferences *prefs = window->priv->prefs;
@@ -397,6 +432,38 @@ mud_preferences_window_changed_cb(MudPreferences *preferences, MudPreferenceMask
 		mud_preferences_window_update_echotext(window, &prefs->preferences);
 	if (mask->KeepText)
 		mud_preferences_window_update_keeptext(window, &prefs->preferences);
+	if (mask->DisableKeys)
+		mud_preferences_window_update_disablekeys(window, &prefs->preferences);
+	if (mask->ScrollOnOutput)
+		mud_preferences_window_update_scrolloutput(window, &prefs->preferences);
+	if (mask->CommDev)
+		mud_preferences_window_update_commdev(window, &prefs->preferences);
+	if (mask->TerminalType)
+		mud_preferences_window_update_terminaltype(window, &prefs->preferences);
+}
+
+static void
+mud_preferences_window_update_terminaltype(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gtk_entry_set_text(GTK_ENTRY(window->priv->entry_terminal), preferences->TerminalType);
+}
+
+static void
+mud_preferences_window_update_commdev(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gtk_entry_set_text(GTK_ENTRY(window->priv->entry_commdev), preferences->CommDev);
+}
+
+static void
+mud_preferences_window_update_scrolloutput(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->cb_scrollback), preferences->ScrollOnOutput);
+}
+
+static void
+mud_preferences_window_update_disablekeys(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->cb_disable), preferences->DisableKeys);
 }
 
 static void

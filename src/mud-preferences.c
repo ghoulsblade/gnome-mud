@@ -106,6 +106,38 @@ mud_preferences_finalize (GObject *object)
 	parent_class->finalize(object);
 }
 
+static gboolean
+set_TerminalType(MudPreferences *prefs, const gchar *candidate)
+{
+	if (candidate && strcmp(prefs->preferences.TerminalType, candidate) == 0)
+		return FALSE;
+
+	if (candidate != NULL)
+	{
+		g_free(prefs->preferences.TerminalType);
+		prefs->preferences.TerminalType = g_strdup(candidate);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+set_CommDev(MudPreferences *prefs, const gchar *candidate)
+{
+	if (candidate && strcmp(prefs->preferences.CommDev, candidate) == 0)
+		return FALSE;
+	
+	if (candidate != NULL)
+	{
+		g_free(prefs->preferences.CommDev);
+		prefs->preferences.CommDev = g_strdup(candidate);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 mud_preferences_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
@@ -117,34 +149,68 @@ mud_preferences_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *en
 	val = gconf_entry_get_value(entry);
 	key = g_path_get_basename(gconf_entry_get_key(entry));
 
-#define UPDATE_BOOLEAN(KName, FName, Preset)      \
-	}                                             \
-else if (strcmp(key, KName) == 0)                 \
-	{                                             \
-		gboolean setting = (Preset);              \
-		                                          \
-		if (val && val->type == GCONF_VALUE_BOOL) \
-			setting = gconf_value_get_bool(val);  \
-		                                          \
-		if (setting != prefs->preferences.FName)  \
-		{                                         \
-			mask.FName = TRUE;                    \
-			prefs->preferences.FName = setting;   \
+#define UPDATE_BOOLEAN(KName, FName, Preset)        \
+	}                                               \
+else if (strcmp(key, KName) == 0)                   \
+	{                                               \
+		gboolean setting = (Preset);                \
+		                                            \
+		if (val && val->type == GCONF_VALUE_BOOL)   \
+			setting = gconf_value_get_bool(val);    \
+		                                            \
+		if (setting != prefs->preferences.FName)    \
+		{                                           \
+			mask.FName = TRUE;                      \
+			prefs->preferences.FName = setting;     \
 		}
-		
+#define UPDATE_STRING(KName, FName, Preset)         \
+	}                                               \
+else if (strcmp(key, KName) == 0)                   \
+	{                                               \
+		const gchar *setting = (Preset);            \
+			                                        \
+		if (val && val->type == GCONF_VALUE_STRING) \
+			setting = gconf_value_get_string(val);  \
+			                                        \
+		mask.FName = set_##FName(prefs, setting);
+				
 
 	
 	if (0)
 	{
 		;
-		UPDATE_BOOLEAN("echo",		EchoText,	TRUE);
-		UPDATE_BOOLEAN("keeptext",	KeepText,	FALSE);
+		UPDATE_BOOLEAN("echo",				EchoText,		TRUE);
+		UPDATE_BOOLEAN("keeptext",			KeepText,		FALSE);
+		UPDATE_BOOLEAN("system_keys",		DisableKeys,	FALSE);
+		UPDATE_BOOLEAN("scroll_on_output",	ScrollOnOutput,	FALSE);
+		UPDATE_STRING("commdev",			CommDev,		";");
+		UPDATE_STRING("terminal",			TerminalType,	"ansi");
 	}
 	
 	
 	g_message("Message from gconf...");
 
 	g_signal_emit(G_OBJECT(prefs), signal_changed, 0, &mask);
+}
+
+void
+mud_preferences_set_scrolloutput (MudPreferences *prefs, gboolean value)
+{
+	RETURN_IF_NOTIFYING(prefs);
+
+	gconf_client_set_bool(prefs->priv->gconf_client,
+						  "/apps/gnome-mud/functionality/scroll_on_output",
+						  value, NULL);
+}
+
+void
+mud_preferences_set_disablekeys (MudPreferences *prefs, gboolean value)
+{
+	RETURN_IF_NOTIFYING(prefs);
+
+	gconf_client_set_bool(prefs->priv->gconf_client,
+						  "/apps/gnome-mud/functionality/system_keys",
+						  value, NULL);
 }
 
 void
@@ -165,6 +231,26 @@ mud_preferences_set_echotext (MudPreferences *prefs, gboolean value)
 	gconf_client_set_bool(prefs->priv->gconf_client, 
 						  "/apps/gnome-mud/functionality/echo",
 						  value, NULL);
+}
+
+void
+mud_preferences_set_commdev (MudPreferences *prefs, const gchar *value)
+{
+	RETURN_IF_NOTIFYING(prefs);
+
+	gconf_client_set_string(prefs->priv->gconf_client,
+							"/apps/gnome-mud/functionality/commdev",
+							value, NULL);
+}
+
+void
+mud_preferences_set_terminal (MudPreferences *prefs, const gchar *value)
+{
+	RETURN_IF_NOTIFYING(prefs);
+
+	gconf_client_set_string(prefs->priv->gconf_client,
+							"/apps/gnome-mud/functionality/terminal",
+							value, NULL);
 }
 
 const GList*

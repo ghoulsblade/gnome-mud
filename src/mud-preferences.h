@@ -30,6 +30,10 @@ typedef struct
 {
 	unsigned int EchoText : 1;
 	unsigned int KeepText : 1;
+	unsigned int DisableKeys : 1;
+	unsigned int ScrollOnOutput : 1;
+	unsigned int CommDev : 1;
+	unsigned int TerminalType : 1;
 } MudPreferenceMask;
 
 struct _MudPreferencesClass
@@ -46,6 +50,10 @@ const GList *mud_preferences_get_profiles (MudPreferences *prefs);
 
 void mud_preferences_set_echotext (MudPreferences *prefs, gboolean value);
 void mud_preferences_set_keeptext (MudPreferences *prefs, gboolean value);
+void mud_preferences_set_disablekeys (MudPreferences *prefs, gboolean value);
+void mud_preferences_set_scrolloutput (MudPreferences *prefs, gboolean value);
+void mud_preferences_set_commdev (MudPreferences *prefs, const gchar *value);
+void mud_preferences_set_terminal (MudPreferences *prefs, const gchar *value);
 
 G_END_DECLS
 
