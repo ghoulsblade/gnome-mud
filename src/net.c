@@ -79,16 +79,15 @@ gchar *host = "", *port = "";
 /* Added by Bret Robideaux (fayd@alliences.org)
  * I needed a separate way to send triggered actions to game, without
  * messing up the players command line or adding to his history. */
-static gchar *check_aliases(CONNECTION_DATA *cd, gchar *t, gint level)
+static void check_aliases(GString *string, CONNECTION_DATA *cd, gchar *t, gint level)
 {
 	gchar **a = g_strsplit (t," ", -1), *r;
-	gchar *retval;
-	gchar **c = a;
 
 	if (level > 5)
 	{
 		g_message("Maximum nested alias reached.");
-		return "";
+		g_string_append(string, t);
+		return;
 	}
 	
 	while(*a)
@@ -97,25 +96,30 @@ static gchar *check_aliases(CONNECTION_DATA *cd, gchar *t, gint level)
 		
         if ((r = check_alias (cd->profile->alias, b)))
         {
-			g_free(b);
-            b = g_strdup(check_aliases(cd, r, level+1));
-        }
+			check_aliases(string, cd, r, level+1);
+		}
+		else
+		{
+			g_string_append(string, b);
+		}
+		
 	}
- 
-	retval = g_strjoinv(" ", c);
-    g_strfreev(c);
-
-	return retval;
 }
 
 static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 {
-	gchar *a;
+	GString *alias = g_string_new("");
+	gchar   *a;
+	
+	check_aliases(alias, connection, entry_text, 0);
 
-	a = check_aliases(connection, entry_text, 0);
+	a = g_strdup(alias->str);
+	g_string_free(alias, TRUE);
 	
    	connection_send (connection, check_vars (connection->profile->variables, a));
     connection_send (connection, "\n");
+
+	g_free(a);
 }
 
 CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)

@@ -16,12 +16,17 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include <gnome.h>
 #include <stdio.h>
 #include <time.h>
-#include <glib.h>
-#include <gtk/gtk.h>
-#include <gnome.h>
+
 #include "gnome-mud.h"
+
+static char const rcsid[] = "$Id: ";
 
 /* function prototypes */
 static  void do_log_filename_window (gchar *title) ;

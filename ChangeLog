@@ -1,3 +1,12 @@
+Wed Feb 13 07:25:14 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* NEWS, ROADMAP: Fixed nested alias.
+
+	* src/log.c: Changed the includes a bit.
+
+	* src/net.c (heck_aliases): Rewritten, now returns void
+	(action_send_to_connection): Now uses a GString internally.
+
 Tue Feb 12 07:51:34 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Added patch from Vashti which fixes blackbold bug.
