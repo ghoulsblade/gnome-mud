@@ -21,7 +21,7 @@ feel free to suggest features, contribute, or comment.
 * Scriptingsupport (python) [DONE]
 * Page Up, Page Down and Mousewheel support [DONE]
 * Fix Segfault in delete keybind [DONE]
-* Fix MCCP (crashes on a few muds)
+* Fix MCCP (crashes on a few muds) [DONE]
 
 0.10.0
 

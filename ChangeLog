@@ -1,3 +1,18 @@
+Fri Mar  1 15:11:24 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/gnome-mud.h: added action_send_to_connection()
+
+	* src/init.c (text_entry_select_child_cb): Removed.
+	(text_entry_activate): Moved here from net.c/send_to_connection
+	(text_entry_key_press_cb): Pretty much rewritten :)
+	(main_window): Combo box removed for a simple GtkEntry.
+
+	* src/net.c (read_from_connection): Small patch from Vashti that
+	seems to fix the last errors in MCCP.
+	(send_to_connect): Moved to init.c
+
+	* src/prefs.c (load_prefs): Small fix.
+
 Thu Feb 28 14:37:11 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/profiles.c: A small comment snuck into the rewrite earlier

@@ -21,6 +21,7 @@ GNOME-Mud 0.9.0 (UNRELEASED)
 - Reconnect option on menu.
 - User manual updates.
 - Translation updates (ca, es, fr, sv).
+- Command history rewritten, and now working as it should.
 
 GNOME-Mud 0.8.0 (08/11/2001)
 

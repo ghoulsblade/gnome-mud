@@ -58,7 +58,6 @@ static char const rcsid[] =
 
 
 /* Local functions */
-static void action_send_to_connection (gchar *, CONNECTION_DATA *);
 static void read_from_connection (CONNECTION_DATA *, gint, GdkInputCondition);   
 static void print_error (CONNECTION_DATA *connection, const gchar *error) ;
 static void append_word_to_command (GString *string, gchar *word);
@@ -103,7 +102,7 @@ static void check_aliases(GString *string, CONNECTION_DATA *cd, gchar *t, gint l
 	}
 }
 
-static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
+void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *connection)
 {
 	GString *alias = g_string_new("");
 	gchar   *a;
@@ -301,6 +300,9 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 #endif
     
 		mccp_data = g_strdup(mccp_buffer);
+#ifdef ENABLE_MCCP
+		mccp_data[mccp_i] = '\0';
+#endif
 
 		for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next)
 		{
@@ -317,14 +319,15 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
       		}
     	}
     
-    	for (i = len = 0; mccp_data[i] !='\0'; mccp_data[len++] = mccp_data[i++])
-		{
-      		if (mccp_data[i] == '\r')
-			{
-				i++;
-			}
-		}
+    	for (i = len = 0; mccp_data[i] !='\0'; len++, i++)
+	{
 		mccp_data[len] = mccp_data[i];
+  		if (mccp_data[i] == '\r')
+		{
+			i++;
+		}
+	}
+	mccp_data[len] = mccp_data[i];
     
     	len = pre_process(mccp_data, connection);
 
@@ -368,48 +371,6 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
 	
 	g_free(string);
 #endif  
-}
-
-void send_to_connection (GtkWidget *text_entry, gpointer data)
-{
-  CONNECTION_DATA *cd;
-  gchar *entry_text;
-
-  Keyflag = TRUE;
-  cd = connections[gtk_notebook_get_current_page 
-                   (GTK_NOTEBOOK (main_notebook))];
-  entry_text = gtk_entry_get_text (GTK_ENTRY (text_entry));
-  EntryCurr = g_list_last (EntryHistory);
-
-  if (entry_text[0] == '\0') 
-    {
-      send (cd->sockfd, "\n", 1, 0);
-      textfield_add(cd, "\n",MESSAGE_SENT);
-      return;
-    }
-  
-  if ( !EntryCurr || strcmp (EntryCurr->data, entry_text)) {
-    EntryHistory = g_list_append (EntryHistory, g_strdup (entry_text));
-
-    if ( g_list_length (EntryHistory) > prefs.History )
-      EntryHistory = g_list_remove (EntryHistory, EntryHistory->data);
-
-    EntryCurr = g_list_last (EntryHistory);
-  }
-
-  action_send_to_connection(g_strdup (entry_text), cd);
-
-  gtk_combo_set_popdown_strings((GtkCombo *) data, EntryHistory);
-
-  gtk_list_select_item(GTK_LIST(((GtkCombo *) data)->list), g_list_length(EntryHistory)-1);
-
-  if ( prefs.KeepText ) {
-    gtk_widget_realize(GTK_WIDGET(data));
-    gtk_entry_select_region (GTK_ENTRY (text_entry), 0,
-			     GTK_ENTRY (text_entry)->text_length);
-  } else{
-    gtk_entry_set_text (GTK_ENTRY (text_entry), "");
-  }
 }
 
 void connection_send_data (CONNECTION_DATA *connection, gchar *message, int echo)
@@ -471,7 +432,7 @@ void connection_send_telnet_control (CONNECTION_DATA *connection, int len, ...)
 	va_start (ap, len);
 
 	for (i = 0 ; i <= (len - 1); i++)
-		pkt[i] = va_arg (ap, int);
+		pkt[i] = (unsigned char) va_arg (ap, int);
 
 	write (connection->sockfd, pkt, i);
 

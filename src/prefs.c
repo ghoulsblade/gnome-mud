@@ -36,6 +36,7 @@ static char const rcsid[] =
 
 extern GdkFont  *font_normal;
 extern GList 	*EntryHistory;
+extern GList	*EntryCurr;
 
 SYSTEM_DATA prefs;
 SYSTEM_DATA pre_prefs;
@@ -136,14 +137,14 @@ void load_prefs ( void )
 	/*
 	 * Get general parameters
 	 */
-	prefs.EchoText    = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
-	prefs.KeepText    = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
-	prefs.Freeze      = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
-	prefs.DisableKeys = gnome_config_get_bool  ("/gnome-mud/Preferences/DisableKeys=false");
-	prefs.CommDev     = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
+	prefs.EchoText     = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
+	prefs.KeepText     = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
+	prefs.Freeze       = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
+	prefs.DisableKeys  = gnome_config_get_bool  ("/gnome-mud/Preferences/DisableKeys=false");
+	prefs.CommDev      = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
 	prefs.TerminalType = gnome_config_get_string("/gnome-mud/Preferences/TerminalType=ansi");
-	prefs.FontName    = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
-	prefs.MudListFile = gnome_config_get_string("/gnome-mud/Preferences/MudListFile=");
+	prefs.FontName     = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
+	prefs.MudListFile  = gnome_config_get_string("/gnome-mud/Preferences/MudListFile=");
 
 	g_snprintf(buf, 255, "/gnome-mud/Preferences/LastLogDir=%s/", g_get_home_dir());
 	prefs.LastLogDir  = gnome_config_get_string(buf);
@@ -173,12 +174,12 @@ void load_prefs ( void )
 		gchar **cmd_history;
 		gnome_config_get_vector("/gnome-mud/Data/CommandHistory", &nr, &cmd_history);
 
-		EntryHistory = g_list_append(EntryHistory, "");
-
 		for (i = 0; i < nr; i++)
 		{
 			EntryHistory = g_list_append(EntryHistory, (gpointer) cmd_history[i]);
 		}
+
+		EntryCurr = NULL;
 	}
 	
 	/*

@@ -346,11 +346,6 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
   gtk_widget_show (about);
 }
 
-static void text_entry_select_child_cb(GtkList *list, GtkWidget *widget, gpointer data)
-{
-  EntryCurr = g_list_nth(EntryHistory, gtk_list_child_position(list, widget));
-}
-
 static void text_entry_send_command (CONNECTION_DATA *cn, gchar *cmd, GtkEntry *txt)
 {
        gchar buf[256] ;
@@ -360,13 +355,53 @@ static void text_entry_send_command (CONNECTION_DATA *cn, gchar *cmd, GtkEntry *
        gtk_signal_emit_stop_by_name (GTK_OBJECT(txt), "key_press_event");
 }
 
+static void text_entry_activate (GtkWidget *text_entry, gpointer data)
+{
+	CONNECTION_DATA *cd;
+	gchar *entry_text = gtk_entry_get_text(GTK_ENTRY(text_entry));
+
+	Keyflag = TRUE;
+	cd = connections[gtk_notebook_get_current_page(GTK_NOTEBOOK (main_notebook))];
+
+	EntryCurr = g_list_last (EntryHistory);
+
+	if (entry_text[0] == '\0') 
+	{
+		connection_send_data(cd, "\n", 1);
+		EntryCurr = NULL;
+		return;
+	}
+  
+	if (!EntryCurr || strcmp (EntryCurr->data, entry_text))
+	{
+		EntryHistory = g_list_append (EntryHistory, g_strdup (entry_text));
+
+    	if ( g_list_length (EntryHistory) > prefs.History )
+		{
+      		EntryHistory = g_list_remove (EntryHistory, EntryHistory->data);
+		}
+		EntryCurr = NULL;
+	}
+
+	action_send_to_connection(g_strdup (entry_text), cd);
+
+	if ( prefs.KeepText )
+	{
+    	gtk_entry_select_region (GTK_ENTRY (text_entry), 0, GTK_ENTRY (text_entry)->text_length);
+	}
+	else
+	{
+    	gtk_entry_set_text (GTK_ENTRY (text_entry), "");
+  	}
+}
+
 static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gpointer data)
 {
 	KEYBIND_DATA	*scroll;
 	CONNECTION_DATA *cd;
 	gint   number;
-	GList *li;
-  
+	GList *li = NULL;
+ 
 	number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
 	cd = connections[number];
 
@@ -382,127 +417,137 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 	if ( event->state & GDK_CONTROL_MASK ) { }
 	else
 	{
-		if (EntryCurr)
+		if (!prefs.DisableKeys)
 		{
-			if (!prefs.DisableKeys)
-			{
-				switch ( event->keyval )
-				{
-					case GDK_KP_1:
-						text_entry_send_command(cd, "sw", text_entry);
-						return TRUE;
-						break;
-
-					case GDK_KP_2:
-						text_entry_send_command(cd, "s", text_entry);
-						return TRUE;
-						break;
-
-					case GDK_KP_3:
-						text_entry_send_command(cd, "se", text_entry);
-						return TRUE;
-						break;
-
-					case GDK_KP_4:
-						text_entry_send_command(cd, "w", text_entry);
-						return TRUE;
-						break;
-
-					case GDK_KP_5:
-						text_entry_send_command(cd, "look", text_entry);
-						return TRUE;
-						break;
-
-					case GDK_KP_6:
-						text_entry_send_command(cd, "e", text_entry);
-						return TRUE;
-						break;
-
-					case GDK_KP_7:
-						text_entry_send_command(cd, "nw", text_entry);
-						return TRUE;
-						break;
-
-					case GDK_KP_8:
-						text_entry_send_command(cd, "n", text_entry);
-						return TRUE;
-						break;
-
-					case GDK_KP_9:
-						text_entry_send_command(cd, "ne", text_entry);
-						return TRUE;
-						break;
-
-					case GDK_KP_Add:
-						text_entry_send_command(cd, "d", text_entry);
-						return TRUE;
-						break;
-
-					case GDK_KP_Subtract:
-						text_entry_send_command(cd, "u", text_entry);
-						return TRUE;
-						break;
-				}
-			}
-		
 			switch ( event->keyval )
 			{
-				case GDK_Page_Up:
-					{
-						GtkAdjustment *a;
-
-						a = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(cd->vscrollbar));
-					
-						gtk_adjustment_set_value(a, a->value - (a->page_increment/2));
-					}
-					
+				case GDK_KP_1:
+					text_entry_send_command(cd, "sw", text_entry);
+					return TRUE;
 					break;
+
+				case GDK_KP_2:
+					text_entry_send_command(cd, "s", text_entry);
+					return TRUE;
+					break;
+
+				case GDK_KP_3:
+					text_entry_send_command(cd, "se", text_entry);
+					return TRUE;
+					break;
+
+				case GDK_KP_4:
+					text_entry_send_command(cd, "w", text_entry);
+					return TRUE;
+					break;
+
+				case GDK_KP_5:
+					text_entry_send_command(cd, "look", text_entry);
+					return TRUE;
+					break;
+
+				case GDK_KP_6:
+					text_entry_send_command(cd, "e", text_entry);
+					return TRUE;
+					break;
+
+				case GDK_KP_7:
+					text_entry_send_command(cd, "nw", text_entry);
+					return TRUE;
+					break;
+
+				case GDK_KP_8:
+					text_entry_send_command(cd, "n", text_entry);
+					return TRUE;
+					break;
+
+				case GDK_KP_9:
+					text_entry_send_command(cd, "ne", text_entry);
+					return TRUE;
+					break;
+
+				case GDK_KP_Add:
+					text_entry_send_command(cd, "d", text_entry);
+					return TRUE;
+					break;
+
+				case GDK_KP_Subtract:
+					text_entry_send_command(cd, "u", text_entry);
+					return TRUE;
+					break;
+			}
+		}
+
+		switch ( event->keyval )
+		{
+			case GDK_Page_Up:
+				{
+					GtkAdjustment *a;
+
+					a = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(cd->vscrollbar));
 				
-				case GDK_Page_Down:
-					{
-						GtkAdjustment *a;
+					gtk_adjustment_set_value(a, a->value - (a->page_increment/2));
+				}
+				break;
+				
+			case GDK_Page_Down:
+				{
+					GtkAdjustment *a;
 
-						a = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(cd->vscrollbar));
+					a = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(cd->vscrollbar));
 
-						gtk_adjustment_set_value(a, a->value + (a->page_increment/2));
-					}
-					break;
+					gtk_adjustment_set_value(a, a->value + (a->page_increment/2));
+				}
+				break;
 					
-				case GDK_Up:
-					if (EntryCurr->prev)
+			case GDK_Up:
+				if (EntryCurr)
+				{
+					if (EntryCurr != g_list_first(EntryHistory))
 					{
 						li = EntryCurr->prev;
 						EntryCurr = li;
-						
-						gtk_entry_set_text (GTK_ENTRY(text_entry), (gchar *) li->data);
-						gtk_entry_set_position (GTK_ENTRY(text_entry), GTK_ENTRY (text_entry)->text_length);
-						gtk_entry_select_region (GTK_ENTRY(text_entry), 0, GTK_ENTRY (text_entry)->text_length);
-						Keyflag = FALSE;
 					}
-	
-					gtk_signal_emit_stop_by_name (GTK_OBJECT(text_entry), "key_press_event");
-					return TRUE;
-					break;
-	
-				case GDK_Down:
-					if (EntryCurr->next)
+				}
+				else
+				{
+					EntryCurr = li = g_list_last(EntryHistory);
+				}
+				
+				if (li != NULL)
+				{	
+					gtk_entry_set_text (GTK_ENTRY(text_entry), (gchar *) li->data);
+					gtk_entry_set_position (GTK_ENTRY(text_entry), GTK_ENTRY (text_entry)->text_length);
+					gtk_entry_select_region (GTK_ENTRY(text_entry), 0, GTK_ENTRY (text_entry)->text_length);
+					Keyflag = FALSE;
+				}
+				
+				gtk_signal_emit_stop_by_name (GTK_OBJECT(text_entry), "key_press_event");
+				return TRUE;
+				break;
+
+			case GDK_Down:
+				if (EntryCurr)
+				{
+					li = EntryCurr->next;
+					EntryCurr = li;
+
+					if (li != NULL)
 					{
-						li = EntryCurr->next;
-						EntryCurr = li;
 						gtk_entry_set_text (GTK_ENTRY (text_entry), (gchar *) li->data);
 						gtk_entry_set_position (GTK_ENTRY (text_entry), GTK_ENTRY (text_entry)->text_length);
 						gtk_entry_select_region (GTK_ENTRY (text_entry), 0, GTK_ENTRY (text_entry)->text_length);
 					}
-					else
-					{
-						EntryCurr = g_list_last (EntryHistory);
-						gtk_entry_set_text (GTK_ENTRY (text_entry), "");
-					}            
+				}
+					
+				if (!EntryCurr)
+				{
+					gtk_entry_set_text(GTK_ENTRY(text_entry), "");
+				}
 		
-					gtk_signal_emit_stop_by_name (GTK_OBJECT(text_entry), "key_press_event");
-					return TRUE;
-					break;
-			}
+				gtk_signal_emit_stop_by_name (GTK_OBJECT(text_entry), "key_press_event");
+				return TRUE;
+				break;
 		}
 	}
 
@@ -639,7 +684,6 @@ GnomeUIInfo main_menu[] = {
 
 void main_window ()
 {
-  GtkWidget *combo;
   GtkWidget *label;
   GtkWidget *box_main;
   GtkWidget *box_main2;
@@ -694,19 +738,16 @@ void main_window ()
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(main_connection->vscrollbar), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->vscrollbar, TRUE, TRUE, 0);
   gtk_container_add(GTK_CONTAINER(main_connection->vscrollbar), main_connection->window);
-  
-  combo = gtk_combo_new();
-  text_entry = GTK_COMBO(combo)->entry;
-  gtk_combo_set_use_arrows(GTK_COMBO(combo), FALSE);
-  gtk_combo_disable_activate(GTK_COMBO(combo));
+
+  text_entry = gtk_entry_new();
   if (EntryHistory != NULL)
   {
-	gtk_combo_set_popdown_strings(GTK_COMBO(combo), EntryHistory);
+	// FIXME
+	//gtk_combo_set_popdown_strings(GTK_COMBO(combo), EntryHistory);
   }
-  gtk_box_pack_start(GTK_BOX(box_main), combo, FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(box_main), text_entry, FALSE, TRUE, 0);
   gtk_signal_connect (GTK_OBJECT(text_entry), "key_press_event", GTK_SIGNAL_FUNC (text_entry_key_press_cb), NULL);
-  gtk_signal_connect(GTK_OBJECT(GTK_COMBO(combo)->list), "select-child", GTK_SIGNAL_FUNC (text_entry_select_child_cb), NULL);
-  gtk_signal_connect(GTK_OBJECT(text_entry), "activate", GTK_SIGNAL_FUNC (send_to_connection), (gpointer) combo); 
+  gtk_signal_connect(GTK_OBJECT(text_entry), "activate", GTK_SIGNAL_FUNC (text_entry_activate), NULL); 
   gtk_widget_grab_focus (text_entry);
   
   gtk_widget_show_all (window);

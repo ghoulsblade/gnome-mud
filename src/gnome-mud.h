@@ -149,6 +149,7 @@ gchar		*check_vars (GtkCList *, gchar *);
 
 /* net.c */
 CONNECTION_DATA	*make_connection (gchar *, gchar *, gchar *);
+void		 action_send_to_connection(gchar *, CONNECTION_DATA *);
 void		 disconnect (GtkWidget *, CONNECTION_DATA *);
 void		 send_to_connection (GtkWidget *, gpointer);
 void		 connection_send (CONNECTION_DATA *, gchar *);
