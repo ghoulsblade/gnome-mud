@@ -191,6 +191,10 @@
 			<default></default>
 			<locale name="C">
 				<short>Mudlist file</short>
+				<long>
+				 File where the mud list will be read from to
+				 to be used in the MudList dialog.
+				</long>
 			</locale>
 		</schema>
 
@@ -216,7 +220,11 @@
 			<type>int</type>
 			<default>10</default>
 			<locale name="C">
-				<short>How many entries to keep in the command history</short>	
+				<short>How many entries to keep in the command history</short>
+				<long>
+				 How many entries to keep in the command
+				 history.
+				</long>
 			</locale>
 		</schema>
 
@@ -227,7 +235,11 @@
 			<type>string</type>
 			<default></default>
 			<locale name="C">
-				<short>Last log directory</short>
+				<short>Last log file</short>
+				<long>
+				 The file that was last used to save a mudlog
+				 in.
+				</long>
 			</locale>
 		</schema>
 
@@ -240,7 +252,8 @@
 			<locale name="C">
 				<short>Log flush interval</short>
 				<long>
-					How often in seconds gnome-mud should flush logfiles.
+				 How often in seconds gnome-mud should flush
+				 logfiles.
 				</long>
 			</locale>
 		</schema>
@@ -288,9 +301,9 @@
 			<locale name="C">
 				<short>List of movement commands</short>
 				<long>
-				List of commands which will be treated as
-				movement commands by the automapper. A semicolon
-				is used to separate each command.
+				 List of commands which will be treated as
+				 movement commands by the automapper. A
+				 semicolon is used to separate each command.
 				</long>
 			</locale>
 		</schema>
