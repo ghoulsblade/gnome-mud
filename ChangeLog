@@ -1,3 +1,12 @@
+Mon Oct 28 19:19:49 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.ac: lots of cleanups. Temporarily remove the debug stuff.
+	Add checks for getaddrinfo and getnameinfo and a configure. Better
+	zlib check.
+	* Makefile.am (CFLAGS): removed definition.
+	* src/Makefile.am (CFLAGS): removed definition.
+	(gnome_mud_LDADD): add $(Z_LIBS).
+
 Mon Oct 28 17:09:16 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* AUTHORS: change contact info for Abigail, per request.

@@ -1,4 +1,3 @@
-CFLAGS    += $(DEBUG_FLAGS)
 SUBDIRS    = doc macros po src plugins
 
 EXTRA_DIST = ABOUT-NLS AUTHORS BUGS COPYING ChangeLog INSTALL NEWS PLUGIN.API \

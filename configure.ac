@@ -29,41 +29,29 @@ AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])
 
 dnl Ability to disable the map feature until I found a fix for it.
 AC_ARG_ENABLE(mapper,
-	      [  --disable-mapper        do not include automapper part of client],
-	      enable_mapper="$enableval",)
+[  --disable-mapper        disable mapping support (default=no)],
+)
 
-if test x$enable_mapper != xyes ; then
-  if test x$enable_mapper != x ; then
-    AC_DEFINE(WITHOUT_MAPPER, 1, [Define this if you don't want mapper support.])
-  fi
+HAVE_MAPPER="yes"
+if test "x$enable_mapper" = "xno" ; then
+	AC_DEFINE(WITHOUT_MAPPER, 1, [Define this if you don't want mapper support.])
+	HAVE_MAPPER="no"
 fi
-
-dnl Debugging options, internal and GTk+ debugging
-
-AC_ARG_ENABLE(debug, [  --enable-debug          turn on debugging [default=no]], enable_debug="yes", enable_debug="no")
-
-if test "x$enable_debug" = "xyes"; then
-  DEBUG_FLAGS="-g -DDEBUG -DG_ENABLE_DEBUG"
-else
-  DEBUG_FLAGS=""
-fi
-AC_SUBST(DEBUG_FLAGS)
-
-dnl Check whether user wants simple warnings or advanced warnings
-AC_ARG_ENABLE(warnings, [  --enable-warnings       enable more compilation warning checks [default=no]], enable_warnings="yes", enable_warnings="no")
-
-if test "x$enable_warnings" = "xyes"; then
-  CFLAGS="$CFLAGS -O -pipe -Wall -Wundef -Wredundant-decls      \
-      -Wnested-externs -Wstrict-prototypes -Wmissing-prototypes \
-      -Wpointer-arith -Winline -Wcast-qual -ansi"
-else
-  CFLAGS="$CFLAGS -O -pipe -Wall"
-fi
-AC_SUBST(CFLAGS)
 
 dnl Check whether to include MCCP code or not
-AC_ARG_ENABLE(mccp, [  --enable-mccp           enable MCCP (Mud Client Compression Protocol)],
-	      enable_mccp="yes", enable_mccp="no")
+AC_ARG_ENABLE(mccp,
+[  --enable-mccp           enable MCCP (Mud Client Compression Protocol)],
+)
+
+HAVE_ZLIB=no
+Z_LIBS=""
+if test "x$enable_mccp" = "xyes"; then
+  dnl Check for working -lz
+  AC_CHECK_HEADER(zlib.h, HAVE_ZLIB=yes, HAVE_ZLIB=no)
+    if test "x$HAVE_ZLIB" = "xyes"; then
+      Z_LIBS="-lz"
+    fi
+fi
 
 dnl Check whether to include Python support
 AC_ARG_WITH(python,
@@ -79,17 +67,10 @@ AM_PROG_CC_STDC
 AC_PROG_LN_S
 AC_PROG_INSTALL
 
-dnl Checks for libraries.
-dnl Replace `main' with a function in -libs:
-dnl AM_PATH_GTK(1.2.0,
-dnl 	    [LIBS="$LIBS $GTK_LIBS" 
-dnl 	     CFLAGS="$CFLAGS $GTK_CFLAGS"],
-dnl 	     AC_MSG_ERROR(Cannot find GTK: Is gtk-config in path?))
 GNOME_COMPILE_WARNINGS
 GNOME_X_CHECKS
 AC_CHECK_LIB(socket,socket)
 AC_CHECK_LIB(nsl,connect)
-AC_CHECK_LIB(z,inflate,[have_zlib="yes" LIBS="$LIBS -lz"])
 
 AC_CHECK_HEADERS(dlfcn.h dl.h)
 AC_CHECK_LIB(dl, dlopen, DL_LIB="-ldl",[
@@ -165,29 +146,39 @@ AC_C_INLINE
 
 dnl Checks for library functions.
 AC_CHECK_FUNC(bzero)
-AC_CHECK_FUNCS(mkdir socket strdup strerror strstr)
+AC_CHECK_FUNCS(getaddrinfo getnameinfo mkdir socket strdup strerror strstr)
 
-AC_SUBST(CFLAGS)
-AC_SUBST(CPPFLAGS)
-AC_SUBST(LDFLAGS)
+dnl Make sure we link against a working zlib
 
-if test "x$have_zlib" = "xyes" && test "x$enable_mccp" = "xyes"; then
-  AC_DEFINE(ENABLE_MCCP, 1, [Define this to enable MCCP (Mud Client Compression Protocol) support.])
+if test "x$HAVE_ZLIB" = xyes; then
+	x11_old_libz=no 
+	if test -n "$X_LIBS"; then
+	AC_MSG_CHECKING(for libz.a in X11)
+		for d in `echo $X_LIBS | sed -e 's/-L//'`; do
+			if test -f $d/libz.a; then
+				x11_old_libz=$d
+				break
+			fi
+		done
+	fi
+	if test "x$x11_old_libz" != xno; then
+		AC_MSG_RESULT(yes)
+		AC_MSG_WARN(there is an old libz.a in $x11_old_libz)
+		AC_MSG_WARN($PROGRAM is unable to support compression)
+		AC_MSG_WARN(due to library search order issues)
+		AC_MSG_WARN(if you wish to have compression support)
+		AC_MSG_WARN(please delete $x11_old_libz/libz.a)
+		ac_cv_header_zlib_h=no
+		HAVE_ZLIB="no, due to conflicting $x11_old_libz/libz.a"
+		Z_LIBS=""
+	else
+		if test -n "$X_LIBS"; then
+			AC_MSG_RESULT(no)
+		fi
+      		AC_DEFINE(ENABLE_MCCP, 1, [Define this to enable MCCP (Mud Client Compression Protocol) support.])
+	fi
 fi
-
-if test "x$enable_warnings" = "xyes"; then
-  CFLAGS="$CFLAGS -O -pipe -Wall -Wundef -Wredundant-decls      \
-      -Wnested-externs -Wstrict-prototypes -Wmissing-prototypes \
-      -Wpointer-arith -Winline -Wcast-qual -ansi"
-else
-  CFLAGS="$CFLAGS -O -pipe -Wall"
-fi
-
-if test "x$have_zlib" = "xyes" && test "x$enable_mccp" = "xyes"; then
-  echo 
-  echo "Great! You have Zlib. Will enable MCCP (Mud Client Compression Protocol)"
-  echo
-fi
+AC_SUBST(Z_LIBS)
 
 AM_GNU_GETTEXT([external])
 
@@ -203,5 +194,19 @@ AC_OUTPUT([
   src/Makefile
   plugins/Makefile
   po/Makefile.in
-  ])
+])
 
+AC_MSG_RESULT([
+	Gnome-mud has been configured successfully.
+
+	MCCP support	: $HAVE_ZLIB
+	Mapper support	: $HAVE_MAPPER
+	Plugin support	: python=$python
+dnl	Compiler version: $CCVER
+	Compiler flags	: $CFLAGS
+])
+
+if test -d $srcdir/CVS; then
+	echo "WARNING: You're using a CVS version. Expect problems."
+	echo
+fi
