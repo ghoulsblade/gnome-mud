@@ -1,3 +1,7 @@
+Thu Jan  1 17:08:21 2001  Jordi Mallach  <jordi@sindominio.net>
+	* amcl.1, gnome-mud.1, Makefile.am: renamed the fake manpage
+	and added the real one to the distribution.
+
 Thu Dec 28 23:30:43 2000  Robin Ericsson  <robin@noname4us.com>
 
 	* src/amcl.c [main]: save_plugins() removed.
