@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-16 12:24+0200\n"
+"POT-Creation-Date: 2003-08-26 12:32+0200\n"
 "PO-Revision-Date: 2003-07-07 16:42+0100\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -156,7 +156,7 @@ msgstr ""
 
 #: gnome-mud.schemas.in.h:27
 msgid "Number of lines to keep in scrollback"
-msgstr ""
+msgstr "Aantal regels wat in de scrollback moet worden gehouden."
 
 #: gnome-mud.schemas.in.h:28
 msgid ""
@@ -212,7 +212,7 @@ msgstr ""
 #. actions
 #: src/data.c:251 src/data.c:345
 msgid "Actions"
-msgstr "Handelingen"
+msgstr "Acties"
 
 #: src/data.c:253
 #, c-format
@@ -293,7 +293,7 @@ msgstr ""
 #: src/init.c:590 src/init.c:620
 #, c-format
 msgid "There was an error displaying help: %s"
-msgstr "Er is een fout opgetreden bij het weergeven van hulptekst: %s."
+msgstr "Er is een fout opgetreden bij de hulpweergave: %s"
 
 #: src/init.c:636
 msgid "Wizard..."
@@ -535,7 +535,7 @@ msgstr ""
 msgid "Path follows an already existing path:"
 msgstr ""
 
-#: src/map.c:951
+#: src/map.c:952
 msgid "Create"
 msgstr "Aanmaken"
 
@@ -638,11 +638,11 @@ msgstr "W"
 msgid "NW"
 msgstr "NW"
 
-#: src/map.c:1742 src/map.c:3575
+#: src/map.c:1751 src/map.c:3584
 msgid "Up"
 msgstr "Omhoog"
 
-#: src/map.c:1743 src/map.c:3576
+#: src/map.c:1752 src/map.c:3585
 msgid "Down"
 msgstr "Omlaag"
 
@@ -655,7 +655,7 @@ msgstr "Verwijderen"
 msgid "Load"
 msgstr "Belasting"
 
-#: src/map.c:1746 src/map.c:3563
+#: src/map.c:1755 src/map.c:3572
 msgid "Save"
 msgstr "Opslaan"
 
@@ -1008,7 +1008,7 @@ msgstr ""
 msgid "Default"
 msgstr "Standaard"
 
-#: src/profiles.c:847 src/profiles.c:1185
+#: src/profiles.c:864 src/profiles.c:1203
 msgid "Delete"
 msgstr "Verwijderen"
 
@@ -1029,7 +1029,7 @@ msgstr "Teken"
 msgid "Mud information"
 msgstr ""
 
-#: src/profiles.c:932
+#: src/profiles.c:950
 msgid "Title:"
 msgstr "Titel:"
 
