@@ -177,7 +177,10 @@ static void open_connection (CONNECTION_DATA *connection)
     {
         sprintf (buf, _("*** No port specified - assuming port 23\n"));
         textfield_add (connection->window, buf, MESSAGE_NORMAL);
-        port = "23\0";
+		g_free(connection->port);
+		connection->port = g_strdup("23");
+		g_free(port);
+        port = g_strdup("23");
     }
 
     sprintf (buf, _("*** Making connection to %s, port %s\n"), connection->host, connection->port);
