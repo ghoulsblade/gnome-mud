@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-11 14:47+0100\n"
-"PO-Revision-Date: 2003-09-02 20:09+0200\n"
+"POT-Creation-Date: 2003-12-17 14:21+0100\n"
+"PO-Revision-Date: 2003-12-17 14:23+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -139,7 +139,7 @@ msgstr ""
 
 #: gnome-mud.schemas.in.h:18 src/profiles.c:1243
 msgid "Keybindings"
-msgstr "Assignacions de tecles"
+msgstr "Tecles"
 
 #: gnome-mud.schemas.in.h:19
 msgid "Last log directory"
@@ -287,6 +287,21 @@ msgid "GNOME-Mud Configuration Center"
 msgstr "Centre de Configuració del GNOME-Mud"
 
 #: src/gnome-mud.c:51
+#, c-format
+msgid "There was an error accessing GConf: %s"
+msgstr "S'ha produït un error en accedir a GConf: %s"
+
+#: src/gnome-mud.c:64
+msgid "The default configuration values could not be retrieved correctly."
+msgstr "No s'han pogut obtindre correctament els valors predeterminats de la configuració."
+
+#: src/gnome-mud.c:65
+msgid ""
+"Please check your GConf configuration, specifically that the schemas have "
+"been installed correctly."
+msgstr "\"Si us plau, comproveu la vostra configuració de GConf, específicament que els esquemes estan instal·lats correctament."
+
+#: src/gnome-mud.c:89
 #, c-format
 msgid "Failed to init GConf: %s"
 msgstr "No s'ha pogut iniciar GConf: %s"
@@ -483,35 +498,35 @@ msgstr "Assigna"
 msgid "Capture"
 msgstr "Captura"
 
-#: src/log.c:57
+#: src/log.c:58
 #, c-format
 msgid "*** Already logging to %s. Close that log first.\n"
 msgstr "*** Ja s'està registrant a %s. Tanqueu aquest registre primer.\n"
 
-#: src/log.c:63
+#: src/log.c:64
 msgid "Open log"
 msgstr "Obre log"
 
-#: src/log.c:76
+#: src/log.c:77
 msgid "*** No log to be closed is open in this window.\n"
 msgstr "*** No hi ha cap registre obert a aquesta finestra per a tancar.\n"
 
-#: src/log.c:103
+#: src/log.c:104
 #, c-format
 msgid "*** Couldn't open %s.\n"
 msgstr "*** No s'ha pogut obrir %s.\n"
 
-#: src/log.c:115
+#: src/log.c:116
 #, c-format
 msgid "*** Logging to %s.\n"
 msgstr "*** S'està desant el registre a %s.\n"
 
-#: src/log.c:176
+#: src/log.c:177
 #, c-format
 msgid "*** Stopped logging to %s.\n"
 msgstr "*** S'ha parat de registrar a %s.\n"
 
-#: src/log.c:201
+#: src/log.c:202
 msgid "*** Could not open file for writing.\n"
 msgstr "*** No s'ha pogut obrir el fitxer per escriptura.\n"
 
@@ -839,12 +854,12 @@ msgstr "*** No s'ha especificat cap port - s'asumeix el port 23.\n"
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** S'està realitzant la connexió a %s, port %s.\n"
 
-#: src/net.c:239
+#: src/net.c:240
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr "*** S'està provant de connectar a %s, port %s...\n"
 
-#: src/net.c:266
+#: src/net.c:267
 msgid "*** Connection established.\n"
 msgstr "*** Connexió establerta.\n"
 
