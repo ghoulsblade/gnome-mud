@@ -561,14 +561,63 @@ static void window_menu_file_disconnect (GtkWidget *widget, gpointer data)
 /* FIXME: display error message if document is missing */
 static void window_menu_help_manual_activate_cb(GtkMenuItem *menuitem)
 {
-      
-       gnome_help_display("gnome-mud-manual", NULL, NULL);
+       GError *err;
+
+       err = NULL;
+
+       gnome_help_display("gnome-mud-manual", NULL, &err);
+       
+       if (err != NULL) {
+	       GtkWidget *dialog;
+
+	       dialog = gtk_message_dialog_new (GTK_WINDOW (window),
+					        GTK_DIALOG_DESTROY_WITH_PARENT,
+					        GTK_MESSAGE_ERROR,
+					        GTK_BUTTONS_CLOSE,
+					        _("There was an error displaying help: %s"),
+					        err->message);
+
+	       g_signal_connect (G_OBJECT (dialog), "response",
+			         G_CALLBACK (gtk_widget_destroy),
+			         NULL);
+
+	       gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
+
+	       gtk_widget_show (dialog);
+
+	       g_error_free (err);
+       }
 }
 
 /* FIXME: display error message if document is missing */
 static void window_menu_plugin_api_manual_activate_cb(GtkMenuItem *menuitem)
 {
-       gnome_help_display("gnome-mud-plugin-api", NULL, NULL);
+       GError *err;
+
+       err = NULL;
+
+       gnome_help_display("gnome-mud-plugin-api", NULL, &err);
+
+       if (err != NULL) {
+	       GtkWidget *dialog;
+
+	       dialog = gtk_message_dialog_new (GTK_WINDOW (window),
+					        GTK_DIALOG_DESTROY_WITH_PARENT,
+					        GTK_MESSAGE_ERROR,
+					        GTK_BUTTONS_CLOSE,
+					        _("There was an error displaying help: %s"),
+					        err->message);
+
+	       g_signal_connect (G_OBJECT (dialog), "response",
+			         G_CALLBACK (gtk_widget_destroy),
+			         NULL);
+
+	       gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
+
+	       gtk_widget_show (dialog);
+
+	       g_error_free (err);
+       }
 }
 
 static GnomeUIInfo toolbar_menu[] = {

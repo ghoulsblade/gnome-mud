@@ -3,7 +3,13 @@ EXTRA_DIST        = gnome-mud.c
 GMUD_DEBUG = -Wall -O0 -g
 
 localedir = $(datadir)/locale
-INCLUDES          = -DLOCALEDIR=\"$(localedir)\" -DPIXMAPSDIR=\""$(datadir)/pixmaps"\" -DGTK_ENABLE_BROKEN=1 $(GMUD_CFLAGS) $(GMUD_DEBUG)
+INCLUDES = -DLOCALEDIR=\"$(localedir)\" \
+	   -DPIXMAPSDIR=\"$(datadir)/pixmaps\" \
+	   -DPREFIX="\"$(prefix)"\" \
+	   -DSYSCONFDIR=\""$(sysconfdir)"\" \
+	   -DDATADIR=\""$(datadir)"\" \
+	   -DLIBDIR=\""$(libdir)"\" \
+	   -DGTK_ENABLE_BROKEN=1 $(GMUD_CFLAGS) $(GMUD_DEBUG)
 
 gamesdir = $(prefix)/games
 games_PROGRAMS = gnome-mud

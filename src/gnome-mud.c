@@ -37,6 +37,7 @@ GConfClient *gconf_client;
 
 int main (gint argc, char *argv[])
 {
+	GnomeProgram *program;
 	GError *err = NULL;
 	gchar buf[500];
 	
@@ -52,7 +53,13 @@ int main (gint argc, char *argv[])
 		return 1;
 	}
 
-	gnome_init("gnome-mud", VERSION, argc, argv);  
+	program = gnome_program_init (PACKAGE, VERSION,
+				      LIBGNOMEUI_MODULE,
+				      argc, argv,
+				      GNOME_PROGRAM_STANDARD_PROPERTIES,
+				      GNOME_PARAM_POPT_TABLE,
+				      NULL,
+				      NULL);
 	
 	/* Start a GConf client */
 	gconf_client = gconf_client_get_default();

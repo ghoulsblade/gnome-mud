@@ -1,3 +1,13 @@
+Wed Jun  4 19:00:20 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/Makefile.am: Pass a few needed variables at compile time.
+	
+	* src/gnome-mud.c (main): Init gnome properly with gnome_program_init.
+	
+	* src/init.c (window_menu_help_manual_activate_cb): Show an error
+	message if viewing help fails.
+	(window_menu_plugin_api_manual_activate_cb): Likewise.
+
 Tue Jun  3 18:02:02 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* gnome-mud.desktop.in: Changes to make it freedesktop.org-compliant.
