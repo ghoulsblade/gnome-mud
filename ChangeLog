@@ -1,3 +1,8 @@
+Mon Jul  9 15:34:24 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* config.sub, config.guess: updated to latest versions to fix
+	compile problems in new arches like IA64 or HPPA.
+
 Tue Jun 19 22:58:29 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* po/POTFILES.in, *.po: Added profiles.c to the list, and updated 
