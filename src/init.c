@@ -285,7 +285,10 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
 			    FALSE, FALSE, 0);
 
 	gtk_box_pack_start(GTK_BOX (GTK_DIALOG (about)->vbox), hbox, TRUE, TRUE, 0);
-	gtk_widget_show(hbox);
+	gtk_widget_show_all (hbox);
+
+	g_signal_connect(G_OBJECT(about), "destroy",
+			 G_CALLBACK(gtk_widget_destroyed), &about);
 
 	gtk_widget_show (about);
   }

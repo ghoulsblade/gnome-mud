@@ -1,3 +1,10 @@
+2004-02-22  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c (window_menu_help_about): Use gtk_widget_show_all so
+	the href shows up.
+	Add a callback to destroy the about dialog, probably fixing a random
+	segfault I was experiencing.
+
 2004-02-12  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/gnome-mud.c (main): Set the default application window using
