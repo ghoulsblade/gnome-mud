@@ -88,7 +88,7 @@ PLUGIN_OBJECT *plugin_query (gchar *plugin_name)
                                  plugin_name);
 
     sprintf (filename, "./plugins/%s", plugin_name);
-    if ((new_plugin->handle = dlopen (filename, RTLD_NOW)) == NULL)
+    if ((new_plugin->handle = dlopen (filename, RTLD_LAZY)) == NULL)
     {
         g_message ("Error getting plugin handle (%s): %s.", plugin_name, dlerror());
         goto error;
@@ -117,7 +117,7 @@ void plugin_register(PLUGIN_OBJECT *plugin)
     if (plugin->info->init_function)
     {
         g_message ("Running init-function...");
-        plugin->info->init_function(NULL, 0);
+        plugin->info->init_function(NULL, (gint) plugin->handle);
     }
 
     /*plugin->menu_item = (void *) gtk_menu_item_new_with_label (plugin->info->plugin_name);

@@ -163,7 +163,7 @@ static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *conne
 }
 
 
-void make_connection (GtkWidget *widget, gpointer data)
+CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
 {
   CONNECTION_DATA *connection;
   GtkWidget       *label;
@@ -176,15 +176,9 @@ void make_connection (GtkWidget *widget, gpointer data)
     connection = main_connection;
   }
 
-  g_free (host);
-  g_free (port);
-  host = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_host)));
-  port = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_port)));
-
-  g_free(connection->host);
-  g_free(connection->port);
-  connection->host = g_strdup(host);
-  connection->port = g_strdup(port);
+  g_free(connection->host); g_free(connection->port);
+  connection->host = g_strdup(hoster);
+  connection->port = g_strdup(porter);
 
   if (main_connection != connection) {
     label = gtk_label_new(connection->host);
@@ -193,11 +187,12 @@ void make_connection (GtkWidget *widget, gpointer data)
     gdk_window_set_background (GTK_TEXT (connection->window)->text_area, &color_black); 
     gtk_notebook_next_page (GTK_NOTEBOOK (main_notebook));
     connection->notebook = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
-    g_message("NoteBook DEBUG: Current notebook page is: %d.", connection->notebook);
     connections[connection->notebook] = connection;
   }
   
   open_connection (connection);
+
+  return connection;
 }
 
 void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
@@ -381,8 +376,7 @@ void send_to_connection (GtkWidget *widget, gpointer data)
   g_free (foo);
 }
 
-void connection_send (gchar *message)
+void connection_send (CONNECTION_DATA *connection, gchar *message)
 {
-  /* FIXME */
-  //send (sockfd, message, strlen (message), 0);
+  send (connection->sockfd, message, strlen (message), 0);
 }

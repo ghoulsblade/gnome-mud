@@ -35,6 +35,7 @@ void    extract_color  (GdkColor *color,
                         guint blue);
 void    connect_window (GtkWidget *widget, gpointer data);
 void    about_window   (GtkWidget *widget, gpointer data);
+void    do_connection  (GtkWidget *widget, gpointer data);
 
 /*
  * Global Variables
@@ -282,7 +283,7 @@ void connect_window (GtkWidget *widget, gpointer data)
     button       = gtk_button_new_with_label (" connect ");
     button_close = gtk_button_new_with_label ("  close  ");
     gtk_signal_connect (GTK_OBJECT (button), "clicked",
-                        GTK_SIGNAL_FUNC (make_connection), NULL );
+                        GTK_SIGNAL_FUNC (do_connection), NULL );
     gtk_signal_connect (GTK_OBJECT (button), "clicked",
                         GTK_SIGNAL_FUNC (close_window), window);
     gtk_signal_connect (GTK_OBJECT (button_close), "clicked",
@@ -415,6 +416,17 @@ int text_entry_key_press_cb (GtkEntry *entry, GdkEventKey *event, gpointer data)
     return FALSE;
 }
 
+void do_connection (GtkWidget *widget, gpointer data)
+{
+  CONNECTION_DATA *cd;
+
+  g_free(host); g_free(port);
+  host = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_host)));
+  port = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_port)));  
+
+  make_connection(host,port);
+}
+
 void do_close (GtkWidget *widget, gpointer data)
 {
   CONNECTION_DATA *cd;
@@ -438,7 +450,6 @@ void do_disconnect (GtkWidget *widget, gpointer data)
   gint number;
 
   number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
-  g_message ("Connection number is: %d.", number);
 
   cd = connections[number];
   disconnect (NULL, cd);
@@ -462,6 +473,7 @@ void init_window ()
     GtkWidget *menu_help_menu;
     GtkWidget *menu_option_menu;
     GtkWidget *menu_main_quit;
+    GtkWidget *menu_plugin_info;
     GtkWidget *menu_help_about;
     GtkWidget *menu_help_readme;
     GtkWidget *menu_help_authors;
@@ -559,12 +571,20 @@ void init_window ()
     gtk_signal_connect (GTK_OBJECT (menu_option_action), "activate",
                         GTK_SIGNAL_FUNC (window_action), NULL);
 
-    menu_plugin = gtk_menu_item_new_with_label ("Plug-ins");
+    menu_plugin = gtk_menu_item_new_with_label ("Plugins");
     gtk_menu_bar_append (GTK_MENU_BAR (menu_bar), menu_plugin);
 
     menu_plugin_menu = gtk_menu_new ();
     gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_plugin), menu_plugin_menu);
     
+    separator = gtk_menu_item_new ();
+    gtk_menu_append (GTK_MENU (menu_plugin_menu), separator);
+    gtk_widget_show (separator);
+
+    menu_plugin_info = gtk_menu_item_new_with_label ("Plugin Information");
+    gtk_menu_append (GTK_MENU (menu_plugin_menu), menu_plugin_info);
+    gtk_widget_show (menu_plugin_info);
+
     menu_help = gtk_menu_item_new_with_label ("Help");
     gtk_menu_item_right_justify (GTK_MENU_ITEM (menu_help ));
     gtk_menu_bar_append (GTK_MENU_BAR (menu_bar), menu_help);

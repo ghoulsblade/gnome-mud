@@ -294,32 +294,29 @@ void wizard_button_connect (GtkWidget *button, gpointer data)
   WIZARD_DATA *w;
   gchar *word;
   
-  if ( wizard_selected_row < 0 )
-    {
-      popup_window ("No selection made");
-      return;
-    }
+  if ( wizard_selected_row < 0 ) {
+    popup_window ("No selection made");
+    return;
+  }
   
   gtk_clist_get_text ((GtkCList *) data, wizard_selected_row, 0, &word);
   
   w = wizard_get_wizard_data(word);
   
-  //  cd = make_connection (w->hostname, w->port);
+  cd = make_connection (w->hostname, w->port);
   
-  if ( cd && cd->connected )
-    {
-      gchar buf[256];
-      
-      if (  w->autologin && w->playername && w->password )
-        {
-	  connection_send (w->playername);
-	  connection_send ("\n");
-	  connection_send (w->password);
-	  connection_send ("\n");
-        }
-      
-      wizard_close_window ();
+  if ( cd && cd->connected ) {
+    gchar buf[256];
+    
+    if (  w->autologin && w->playername && w->password ) {
+      connection_send (cd, w->playername);
+      connection_send (cd, "\n");
+      connection_send (cd, w->password);
+      connection_send (cd, "\n");
     }
+    
+    wizard_close_window ();
+  }
 }
 
 void wizard_button_delete (GtkWidget *button, gpointer data)

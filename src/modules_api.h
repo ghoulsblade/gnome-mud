@@ -23,8 +23,9 @@
 /*
  * Runnable functions from inside the module.
  */
-extern void plugin_popup_message       (const gchar *message                                    );
-extern void plugin_add_connection_text (CONNECTION_DATA *connection, gchar *text, gint colortype);
+extern void     plugin_popup_message       (gchar *message                       );
+extern void     plugin_add_connection_text (CONNECTION_DATA *c, gchar *t, gint ct);
+extern gboolean plugin_register_menu       (gint h, gchar *name, gchar *function );
 
 
 #endif /* __MODULE__ */

@@ -219,8 +219,6 @@ void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer 
     gtk_widget_set_sensitive (menu_main_close, FALSE);
   else
     gtk_widget_set_sensitive (menu_main_close, TRUE);
-
-  g_message ("NoteBook DEBUG: guint = %d", nb_int);
 }
 
 void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)

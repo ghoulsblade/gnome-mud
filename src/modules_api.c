@@ -35,3 +35,22 @@ void plugin_add_connection_text(CONNECTION_DATA *connection, gchar *message, gin
   else
     textfield_add (connection->window, message, color);
 }
+
+gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
+{
+  GtkSignalFunc  sig_function;
+  GtkWidget     *menu_place;
+
+  if ((sig_function = (GtkSignalFunc) dlsym (handle, function)) == NULL) {
+    g_message ("Error register menu: %s", dlerror());
+    return FALSE;
+  }
+  
+  menu_place = gtk_menu_item_new_with_label(name);
+  gtk_menu_prepend (GTK_MENU (menu_plugin_menu), menu_place);
+  gtk_widget_show (menu_place);
+  gtk_signal_connect (GTK_OBJECT (menu_place), "activate",
+		      sig_function, NULL);
+  
+  return TRUE;
+}

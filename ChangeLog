@@ -1,3 +1,31 @@
+1999-08-01  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/amcl.h (make_connection): Changed to CONNECTION_DATA
+	*make_connection(gchar *host, gchar *port);
+	(connection_send): Changed to 
+	void connection_send(CONNECTION_DATA *cd, gchar *message).
+
+	* autogen.sh: automake changed again to just automake.
+
+	* src/init.c (do_connection): Added to use make_connection from a 
+	function instead of calling make_connection directly from the menu.
+	(init_window): Added "Plugin Information" menu item which will 
+	display information about the plugins ala Gimp.
+
+	* src/modules.c (plugin->info->init_function()): now gets called with
+	NULL, plugin->handle.
+
+	* src/modules_api.c (plugin_register_menu): New function so plugins are
+	able to register a menuitem that can be used.
+
+	* src/net.c (make_connection): changed and some moved into "do_connection".
+	(connection_send): Changed and is now working ;).
+
+	* src/window.c (switch_page_cb): Debug message removed.
+
+	* src/wizard.c: Now calling make_connection() the right way and is
+	thanks to that working with multiple connections.
+
 1999-07-30  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/net.c (action_send_to_conneciton): Now takes a connection

@@ -87,6 +87,7 @@ struct wizard_data {
  */
 #define AD ALIAS_DATA
 #define WD WIZARD_DATA
+#define CD CONNECTION_DATA
 
 /* action.c */
 void  load_actions    ( void                               );
@@ -122,14 +123,14 @@ void  window_automap  ( GtkWidget *widget, gpointer data   );
 int   init_modules    ( char *path                         );
 
 /* net.c */
-void  make_connection ( GtkWidget *widget, gpointer data    );
+CD   *make_connection ( gchar *host, gchar *port            );
 void  disconnect      ( GtkWidget *widget, CONNECTION_DATA *);
 void  open_connection ( CONNECTION_DATA *connection         );
 void  read_from_connection (CONNECTION_DATA *connection,
                             gint source,
                             GdkInputCondition condition     );
 void  send_to_connection (GtkWidget *widget, gpointer data  );
-void  connection_send ( gchar *message                      );
+void  connection_send ( CONNECTION_DATA *cd, gchar *message );
 
 /* prefs.c */
 void  load_prefs      ( void                               );
@@ -150,6 +151,7 @@ void  window_wizard      ( GtkWidget *widget,gpointer data );
 
 #undef AD
 #undef WD
+#undef CD
 
 /*
  * Variables declared somewhere else...
