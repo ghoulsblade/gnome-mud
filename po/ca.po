@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-11 03:23+0200\n"
-"PO-Revision-Date: 2003-07-11 03:27+0200\n"
+"POT-Creation-Date: 2003-07-11 12:31+0200\n"
+"PO-Revision-Date: 2003-07-11 12:31+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -369,6 +369,10 @@ msgstr "Reconnecta al mud"
 msgid "Exit"
 msgstr "Surt"
 
+#: src/init.c:647
+msgid "Quit GNOME-Mud"
+msgstr "Surt de GNOME-Mud"
+
 #: src/init.c:652
 msgid "Connection _Wizard..."
 msgstr "_Assistent de connexions..."
@@ -379,7 +383,7 @@ msgstr "Llistes de la _MudList..."
 
 #: src/init.c:655
 msgid "C_onnect..."
-msgstr "_Connecta..."
+msgstr "C_onnecta..."
 
 #: src/init.c:656
 msgid "_Disconnect"
@@ -445,15 +449,6 @@ msgstr "GNOME-Mud versió %s (compilat %s, %s)\n"
 #: src/init.c:769
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuït sota els termes de la Llicència Pública General GNU.\n"
-
-#: src/init.c:771
-#, c-format
-msgid ""
-"\n"
-"Python version %s\n"
-msgstr ""
-"\n"
-"Versió de Python %s\n"
 
 #: src/keybind.c:147
 msgid "You must use capture first!"
@@ -827,7 +822,7 @@ msgstr "Descripció:"
 
 #: src/net.c:182
 msgid "*** Connection closed.\n"
-msgstr "*** Connexió tancada.\n"
+msgstr "*** S'ha tancat la connexió.\n"
 
 #: src/net.c:194
 msgid "*** Can't connect - you didn't specify a host.\n"
