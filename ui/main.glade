@@ -591,8 +591,6 @@
 </widget>
 
 <widget class="GtkDialog" id="preferences_window">
-  <property name="width_request">500</property>
-  <property name="height_request">500</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Preferences</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -727,18 +725,219 @@
 		  <property name="enable_popup">False</property>
 
 		  <child>
-		    <widget class="GtkLabel" id="label23">
+		    <widget class="GtkVBox" id="vbox2">
+		      <property name="border_width">5</property>
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">label23</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">5</property>
+
+		      <child>
+			<widget class="GtkCheckButton" id="cb_echo">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">If enabled, all the text typed in will be echoed in the terminal, making it easier to control what is sent.</property>
+			  <property name="can_focus">True</property>
+			  <property name="label" translatable="yes">_Echo the text sent</property>
+			  <property name="use_underline">True</property>
+			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="active">False</property>
+			  <property name="inconsistent">False</property>
+			  <property name="draw_indicator">True</property>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkCheckButton" id="cb_keep">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">If enabled, the text that is sent to the connection will be left as a selection in the entry box. Otherwise, the text entrybox will be cleared after each text input.</property>
+			  <property name="can_focus">True</property>
+			  <property name="label" translatable="yes">_Keep the text entered</property>
+			  <property name="use_underline">True</property>
+			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="active">False</property>
+			  <property name="inconsistent">False</property>
+			  <property name="draw_indicator">True</property>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkCheckButton" id="cb_system">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">If enabled, GNOME-Mud will offer a few built-in keybinds. They can be overriden by custom keybinds, or they can be disabled completly with this option.</property>
+			  <property name="can_focus">True</property>
+			  <property name="label" translatable="yes">Disable _System Keys</property>
+			  <property name="use_underline">True</property>
+			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="active">False</property>
+			  <property name="inconsistent">False</property>
+			  <property name="draw_indicator">True</property>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkHBox" id="hbox3">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">5</property>
+
+			  <child>
+			    <widget class="GtkLabel" id="label28">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Command division character:</property>
+			      <property name="use_underline">False</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			      <property name="mnemonic_widget">entry_commdev</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkEntry" id="entry_commdev">
+			      <property name="width_request">15</property>
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">The character used to divide commands sent to the mud. For example &quot;;&quot; will let the string &quot;w;look&quot; be sent to the mud as two separate commands.</property>
+			      <property name="can_focus">True</property>
+			      <property name="editable">True</property>
+			      <property name="visibility">True</property>
+			      <property name="max_length">1</property>
+			      <property name="text" translatable="yes"></property>
+			      <property name="has_frame">True</property>
+			      <property name="invisible_char" translatable="yes">*</property>
+			      <property name="activates_default">False</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">True</property>
+			      <property name="fill">True</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkLabel" id="label29">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Command history:</property>
+			      <property name="use_underline">False</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkSpinButton" id="sb_history">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">The number of entries to be saved in the command history.</property>
+			      <property name="can_focus">True</property>
+			      <property name="climb_rate">1</property>
+			      <property name="digits">0</property>
+			      <property name="numeric">False</property>
+			      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+			      <property name="snap_to_ticks">False</property>
+			      <property name="wrap">False</property>
+			      <property name="adjustment">1 0 500 1 5 5</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">True</property>
+			      <property name="fill">True</property>
+			    </packing>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">True</property>
+			  <property name="fill">True</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkHBox" id="hbox4">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">5</property>
+
+			  <child>
+			    <widget class="GtkLabel" id="label30">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Terminal type:</property>
+			      <property name="use_underline">False</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkEntry" id="entry_terminal">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if the MUD requests one. This option sets the terminal type that will be sent.</property>
+			      <property name="can_focus">True</property>
+			      <property name="editable">True</property>
+			      <property name="visibility">True</property>
+			      <property name="max_length">0</property>
+			      <property name="text" translatable="yes"></property>
+			      <property name="has_frame">True</property>
+			      <property name="invisible_char" translatable="yes">*</property>
+			      <property name="activates_default">False</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">True</property>
+			      <property name="fill">True</property>
+			    </packing>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">True</property>
+			  <property name="fill">True</property>
+			</packing>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="tab_expand">False</property>
@@ -766,18 +965,490 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkLabel" id="label24">
+		    <widget class="GtkTable" id="table2">
+		      <property name="border_width">5</property>
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">label24</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
+		      <property name="n_rows">4</property>
+		      <property name="n_columns">2</property>
+		      <property name="homogeneous">False</property>
+		      <property name="row_spacing">5</property>
+		      <property name="column_spacing">7</property>
+
+		      <child>
+			<widget class="GtkLabel" id="label30">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Font:</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">1</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">0</property>
+			  <property name="right_attach">1</property>
+			  <property name="top_attach">0</property>
+			  <property name="bottom_attach">1</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkLabel" id="label31">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Foreground colour:</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">1</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">0</property>
+			  <property name="right_attach">1</property>
+			  <property name="top_attach">1</property>
+			  <property name="bottom_attach">2</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkLabel" id="label32">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Background colour:</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">1</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">0</property>
+			  <property name="right_attach">1</property>
+			  <property name="top_attach">2</property>
+			  <property name="bottom_attach">3</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkLabel" id="label33">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Colour palette:</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">1</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">0</property>
+			  <property name="right_attach">1</property>
+			  <property name="top_attach">3</property>
+			  <property name="bottom_attach">4</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GnomeFontPicker" id="fp_font">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">Main font that is used on all open connections.</property>
+			  <property name="can_focus">True</property>
+			  <property name="mode">GNOME_FONT_PICKER_MODE_FONT_INFO</property>
+			  <property name="show_size">True</property>
+			  <property name="use_font_in_label">False</property>
+			  <property name="label_font_size">12</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">1</property>
+			  <property name="right_attach">2</property>
+			  <property name="top_attach">0</property>
+			  <property name="bottom_attach">1</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GnomeColorPicker" id="cp_foreground">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">Default foreground colour used when the connection doesn't request the use of a specific colour.</property>
+			  <property name="can_focus">True</property>
+			  <property name="dither">True</property>
+			  <property name="use_alpha">False</property>
+			  <property name="title" translatable="yes">Pick a color</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">1</property>
+			  <property name="right_attach">2</property>
+			  <property name="top_attach">1</property>
+			  <property name="bottom_attach">2</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkTable" id="table3">
+			  <property name="visible">True</property>
+			  <property name="n_rows">2</property>
+			  <property name="n_columns">8</property>
+			  <property name="homogeneous">False</property>
+			  <property name="row_spacing">0</property>
+			  <property name="column_spacing">0</property>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_black">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_red">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_green">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">2</property>
+			      <property name="right_attach">3</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_brown">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">3</property>
+			      <property name="right_attach">4</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_blue">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">4</property>
+			      <property name="right_attach">5</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_magenta">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">5</property>
+			      <property name="right_attach">6</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_cyan">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">6</property>
+			      <property name="right_attach">7</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_gray">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">7</property>
+			      <property name="right_attach">8</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_darkgray">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_lightred">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">1</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_lightgreen">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">2</property>
+			      <property name="right_attach">3</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_lightyellow">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">3</property>
+			      <property name="right_attach">4</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_lightblue">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">4</property>
+			      <property name="right_attach">5</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_lightmagent">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">5</property>
+			      <property name="right_attach">6</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_lightcyan">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">6</property>
+			      <property name="right_attach">7</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GnomeColorPicker" id="cp_white">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="can_focus">True</property>
+			      <property name="dither">True</property>
+			      <property name="use_alpha">False</property>
+			      <property name="title" translatable="yes">Pick a color</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">7</property>
+			      <property name="right_attach">8</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="left_attach">1</property>
+			  <property name="right_attach">2</property>
+			  <property name="top_attach">3</property>
+			  <property name="bottom_attach">4</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options">fill</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GnomeColorPicker" id="cp_background">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">Default background colour used when the connection doesn't request the use of a specific colour.</property>
+			  <property name="can_focus">True</property>
+			  <property name="dither">True</property>
+			  <property name="use_alpha">False</property>
+			  <property name="title" translatable="yes">Pick a color</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">1</property>
+			  <property name="right_attach">2</property>
+			  <property name="top_attach">2</property>
+			  <property name="bottom_attach">3</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="tab_expand">False</property>
@@ -805,18 +1476,105 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkLabel" id="label25">
+		    <widget class="GtkVBox" id="vbox2">
+		      <property name="border_width">5</property>
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">label25</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">5</property>
+
+		      <child>
+			<widget class="GtkHBox" id="hbox4">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">5</property>
+
+			  <child>
+			    <widget class="GtkLabel" id="label34">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Scrollback:</property>
+			      <property name="use_underline">False</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkSpinButton" id="sb_lines">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Number of lines to save in the scrollback.</property>
+			      <property name="can_focus">True</property>
+			      <property name="climb_rate">1</property>
+			      <property name="digits">0</property>
+			      <property name="numeric">False</property>
+			      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+			      <property name="snap_to_ticks">False</property>
+			      <property name="wrap">False</property>
+			      <property name="adjustment">1 0 100 1 10 10</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkLabel" id="label35">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">lines</property>
+			      <property name="use_underline">False</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">True</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkCheckButton" id="cp_scrollback">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">If enabled, the terminal will scroll to the bottom if new output appears in the connection when the terminal was scrolled back.</property>
+			  <property name="can_focus">True</property>
+			  <property name="label" translatable="yes">S_croll on output</property>
+			  <property name="use_underline">True</property>
+			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="active">False</property>
+			  <property name="inconsistent">False</property>
+			  <property name="draw_indicator">True</property>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="tab_expand">False</property>
@@ -844,22 +1602,69 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkLabel" id="label26">
+		    <widget class="GtkVBox" id="vbox3">
+		      <property name="border_width">5</property>
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">label26</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">5</property>
+
+		      <child>
+			<widget class="GtkHBox" id="hbox5">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">5</property>
+
+			  <child>
+			    <widget class="GtkLabel" id="label36">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Unusual movement commands:</property>
+			      <property name="use_underline">False</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkEntry" id="entry_automap">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">If you use the automapper, you may want to specify here some unusual movement commands. When you use one of these, the automapper will create a path to another map. Use a semicolon to seperate the different commands.</property>
+			      <property name="can_focus">True</property>
+			      <property name="editable">True</property>
+			      <property name="visibility">True</property>
+			      <property name="max_length">0</property>
+			      <property name="text" translatable="yes"></property>
+			      <property name="has_frame">True</property>
+			      <property name="invisible_char" translatable="yes">*</property>
+			      <property name="activates_default">False</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">True</property>
+			      <property name="fill">True</property>
+			    </packing>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">True</property>
+			</packing>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="tab_expand">False</property>
-		      <property name="tab_fill">True</property>
+		      <property name="tab_fill">False</property>
 		    </packing>
 		  </child>
 

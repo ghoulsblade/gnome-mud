@@ -1,3 +1,13 @@
+2004-06-18  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c [_MudPreferencesWindowPrivate]:
+	Added a few new member.
+	(mud_preferenes_window_init): Map some more widgets.
+	Renamed a few functions more correctly.
+	(mud_preferences_window_set_preferences): Added.
+
+	* ui/main.glade: Added all preference-widgets.
+
 2004-06-17  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/Makefile.am: Added gconf-helper.[ch].

@@ -6,7 +6,10 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkcellrenderer.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkentry.h>
 #include <gtk/gtknotebook.h>
+#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeview.h>
@@ -25,6 +28,15 @@ struct _MudPreferencesWindowPrivate
 
 	GtkWidget *treeview;
 	GtkWidget *notebook;
+
+	GtkWidget *cb_echo;
+	GtkWidget *cb_keep;
+	GtkWidget *cb_disable;
+
+	GtkWidget *entry_commdev;
+	GtkWidget *entry_terminal;
+	
+	GtkWidget *sb_history;
 };
 
 enum
@@ -47,12 +59,13 @@ enum
 	TAB_PREFERENCES
 };
 
-static void mud_preferences_window_init           (MudPreferencesWindow *preferences);
-static void mud_preferences_window_class_init     (MudPreferencesWindowClass *preferences);
-static void mud_preferences_window_finalize       (GObject *object);
-static void mud_preferences_tree_selection_cb     (GtkTreeSelection *selection, MudPreferencesWindow *window);
-static void mud_preferences_show_tab              (MudPreferencesWindow *window, gint tab);
-static gboolean mud_preferences_response_cb       (GtkWidget *dialog, GdkEvent *Event, MudPreferencesWindow *window);
+static void mud_preferences_window_init               (MudPreferencesWindow *preferences);
+static void mud_preferences_window_class_init         (MudPreferencesWindowClass *preferences);
+static void mud_preferences_window_finalize           (GObject *object);
+static void mud_preferences_window_tree_selection_cb  (GtkTreeSelection *selection, MudPreferencesWindow *window);
+static void mud_preferences_window_show_tab           (MudPreferencesWindow *window, gint tab);
+static gboolean mud_preferences_window_response_cb    (GtkWidget *dialog, GdkEvent *Event, MudPreferencesWindow *window);
+static void mud_preferences_window_set_preferences    (MudPreferencesWindow *window);
 
 GType
 mud_preferences_window_get_type (void)
@@ -94,8 +107,18 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 	dialog = glade_xml_get_widget(glade, "preferences_window");
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 
+	// FIXME, rewrite this (check gossip)
 	preferences->priv->treeview = glade_xml_get_widget(glade, "treeview");
 	preferences->priv->notebook = glade_xml_get_widget(glade, "notebook");
+
+	preferences->priv->cb_echo = glade_xml_get_widget(glade, "cb_echo");
+	preferences->priv->cb_keep = glade_xml_get_widget(glade, "cb_keep");
+	preferences->priv->cb_disable = glade_xml_get_widget(glade, "cb_system");
+
+	preferences->priv->entry_commdev = glade_xml_get_widget(glade, "entry_commdev");
+	preferences->priv->entry_terminal = glade_xml_get_widget(glade, "entry_terminal");
+	
+	preferences->priv->sb_history = glade_xml_get_widget(glade, "sb_history");
 	
 	gtk_widget_show_all(dialog);
 	
@@ -103,7 +126,7 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 	gtk_window_present(GTK_WINDOW(dialog));
 
 	g_signal_connect(G_OBJECT(dialog), "response", 
-					 G_CALLBACK(mud_preferences_response_cb), preferences);
+					 G_CALLBACK(mud_preferences_window_response_cb), preferences);
 	
 	g_object_unref(G_OBJECT(glade));
 }
@@ -182,11 +205,11 @@ mud_preferences_window_fill_profiles (MudPreferencesWindow *window)
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(window->priv->treeview));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 	g_signal_connect(G_OBJECT(selection), "changed",
-					 G_CALLBACK(mud_preferences_tree_selection_cb), window);
+					 G_CALLBACK(mud_preferences_window_tree_selection_cb), window);
 }
 
 static void
-mud_preferences_tree_selection_cb(GtkTreeSelection *selection, MudPreferencesWindow *window)
+mud_preferences_window_tree_selection_cb(GtkTreeSelection *selection, MudPreferencesWindow *window)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
@@ -215,12 +238,12 @@ mud_preferences_tree_selection_cb(GtkTreeSelection *selection, MudPreferencesWin
 		
 		gtk_tree_model_get(model, &iter, DATA_COLUMN, &profile, TYPE_COLUMN, &type, -1);
 
-		mud_preferences_show_tab(window, TAB_PREFERENCES);
+		mud_preferences_window_show_tab(window, TAB_PREFERENCES);
 	}
 }
 
 static void
-mud_preferences_show_tab(MudPreferencesWindow *window, gint tab)
+mud_preferences_window_show_tab(MudPreferencesWindow *window, gint tab)
 {
 	GtkWidget *widget;
 	
@@ -230,17 +253,45 @@ mud_preferences_show_tab(MudPreferencesWindow *window, gint tab)
 		case COLUMN_PREFERENCES:
 			widget = gtk_notebook_get_nth_page(GTK_NOTEBOOK(window->priv->notebook), COLUMN_PREFERENCES);
 			gtk_notebook_set_current_page(GTK_NOTEBOOK(widget), 0);
+			mud_preferences_window_set_preferences(window);
 			break;
 	}
 }
 
 static gboolean
-mud_preferences_response_cb(GtkWidget *dialog, GdkEvent *event, MudPreferencesWindow *window)
+mud_preferences_window_response_cb(GtkWidget *dialog, GdkEvent *event, MudPreferencesWindow *window)
 {
 	gtk_widget_destroy(dialog);
 	g_object_unref(window);
 	
 	return FALSE;
+}
+
+static void
+mud_preferences_window_set_preferences(MudPreferencesWindow *window)
+{
+	MudPreferences *prefs = window->priv->prefs;
+
+#define SET_TOGGLE_STATE(widget, pref) \
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->widget), \
+								prefs->preferences.pref);
+#define SET_EDIT_TEXT(widget, pref) \
+	gtk_entry_set_text(GTK_ENTRY(window->priv->widget), \
+					   prefs->preferences.pref);
+#define SET_SPIN_BUTTON(widget, pref) \
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(window->priv->widget), \
+							  prefs->preferences.pref);
+
+	SET_TOGGLE_STATE(cb_echo, EchoText);
+	SET_TOGGLE_STATE(cb_keep, KeepText);
+	SET_TOGGLE_STATE(cb_disable, DisableKeys);
+	SET_EDIT_TEXT(entry_commdev, CommDev);
+	SET_EDIT_TEXT(entry_terminal, TerminalType);
+	SET_SPIN_BUTTON(sb_history, History);
+
+#undef SET_SPIN_BUTTON
+#undef SET_EDIT_TEXT
+#undef SET_TOGGLE_STATE
 }
 
 MudPreferencesWindow*
