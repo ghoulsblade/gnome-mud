@@ -1,11 +1,11 @@
 # Translation of gnome-mud to Croatian
 # Copyright (C) Croatian team
-# Translators: Antun Krasic <butch@gawab.com>,Automatski Prijevod <>,Boris Tudan <boris.tudan@ka.htnet.hr>,
+# Translators: Antun Krasic <butch@gawab.com>,Automatski Prijevod <>,Boris Tudan <boris.tudan@ka.htnet.hr>,Jerko Škifić <skific@riteh.hr>,
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0\n"
 "POT-Creation-Date: 2003-11-06 18:09+0100\n"
-"PO-Revision-Date: 2003-11-10 16:51+CET\n"
+"PO-Revision-Date: 2003-12-30 19:29+CET\n"
 "Last-Translator: auto\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "MIME-Version: 1.0\n"
@@ -140,7 +140,7 @@ msgstr ""
 
 #: gnome-mud.schemas.in.h:24
 msgid "List of profiles"
-msgstr ""
+msgstr "Popis profila"
 
 #: gnome-mud.schemas.in.h:25
 msgid ""
@@ -154,7 +154,7 @@ msgstr ""
 
 #: gnome-mud.schemas.in.h:27
 msgid "Number of lines to keep in scrollback"
-msgstr ""
+msgstr "Broj redaka koji se drži za skrolanje unazad"
 
 #: gnome-mud.schemas.in.h:28
 msgid ""
@@ -179,7 +179,7 @@ msgstr ""
 
 #: gnome-mud.schemas.in.h:32 src/data.c:346 src/profiles.c:1226
 msgid "Triggers"
-msgstr ""
+msgstr "Okidači"
 
 #. vars
 #: gnome-mud.schemas.in.h:33 src/data.c:353 src/profiles.c:1219
@@ -200,7 +200,7 @@ msgstr ""
 
 #: gnome-mud.schemas.in.h:37
 msgid "Whether to scroll to the bottom when there's new output"
-msgstr ""
+msgstr "Treba li skrolati do dna kada postoji izlaz iz aplikacije"
 
 #: src/data.c:247
 msgid "No void characters allowed."
@@ -443,7 +443,7 @@ msgstr ""
 
 #: src/keybind.c:360 src/keybind.c:381
 msgid "Capture"
-msgstr ""
+msgstr "Hvatanje"
 
 #: src/log.c:57
 #, c-format
@@ -822,7 +822,7 @@ msgstr "%s već postoji i nije mapa!"
 #: src/prefs.c:362
 #, c-format
 msgid "%s does not exist and can NOT be created: %s"
-msgstr ""
+msgstr "Čini se da %s ne postoji i NEĆE biti kreiran: %s"
 
 #: src/prefs.c:636
 msgid "Font:"
@@ -1016,7 +1016,7 @@ msgstr ""
 
 #: src/profiles.c:906
 msgid "Mud"
-msgstr ""
+msgstr "Mud"
 
 #. Translators: this is the name of your player
 #: src/profiles.c:913
