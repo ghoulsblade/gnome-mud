@@ -102,11 +102,12 @@ struct keybind_data {
 };
 
 struct profile_data {
-	gchar 		*name;
-	GtkCList	*alias;
-	GtkCList	*variables;
-	GtkCList	*triggers;
-	GtkCList	*keys;
+	gchar 			*name;
+	GtkCList		*alias;
+	GtkCList		*variables;
+	GtkCList		*triggers;
+	GtkCList		*keys;
+	KEYBIND_DATA	*kd;
 };
 
 /*
@@ -143,7 +144,7 @@ void  load_color_to_c_structs ( void			   );
 void  doc_dialog      ( GtkWidget *widget, gint index      );
 
 /* keybind.c */
-void window_keybind   ( void				   );
+void window_keybind   ( PROFILE_DATA *		   );
 void save_keys	      ( void				   );	
 void load_keys	      ( void				   );
 
@@ -168,6 +169,7 @@ FILE *open_file       ( gchar *filename, gchar *mode       );
 void		  load_profiles   (	void							   );
 PROFILE_DATA *profiledata_find( gchar *							   );
 void  		  profiledata_save( gchar *, GtkCList *, gchar *	   );
+void		  profiledata_savekeys(gchar *, KEYBIND_DATA *		   );
 void  		  window_profiles ( void							   );
 void		  window_profile_edit ( void						   );
 
