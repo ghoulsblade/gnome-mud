@@ -1,11 +1,22 @@
 dnl Process this file with 
 dnl aclocal; automake; autoconf to produce a configure script.
 
-AC_INIT(src/gnome-mud.c)
+AC_INIT
+AC_CONFIG_SRCDIR([src/gnome-mud.c])
+AC_PREREQ(2.52)
 AM_INIT_AUTOMAKE(gnome-mud, 0.9.99.0)
-AM_CONFIG_HEADER(config.h)
+AM_CONFIG_HEADER(config.h:config.h.in)
 
 ALL_LINGUAS="es sv de ca fr"
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_ISC_POSIX
+dnl AC_SYS_LARGEFILE
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(fcntl.h unistd.h malloc.h termios.h termio.h limits.h getopt.h regex.h)
 
 dnl Release date on LSM format (date +%d%b%y).
 LSMDATE="02Jul02"
@@ -14,6 +25,8 @@ AC_SUBST(LSMDATE)
 dnl Pick up the GNOME macros
 AM_ACLOCAL_INCLUDE(macros)
 
+AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])
+
 dnl Ability to disable the map feature until I found a fix for it.
 AC_ARG_ENABLE(mapper,
 	      [  --disable-mapper        do not include automapper part of client],
@@ -21,7 +34,7 @@ AC_ARG_ENABLE(mapper,
 
 if test x$enable_mapper != xyes ; then
   if test x$enable_mapper != x ; then
-    AC_DEFINE(WITHOUT_MAPPER)
+    AC_DEFINE(WITHOUT_MAPPER, 1, [Define this if you don't want mapper support.])
   fi
 fi
 
@@ -115,7 +128,7 @@ if test "$python" != no; then
 				PY_LIBS="-lpython$PY_VERSION"
 				PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
 				PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
-				AC_DEFINE(USE_PYTHON)
+				AC_DEFINE(USE_PYTHON, 1, [Define this to enable python scripting support.])
 				AC_MSG_RESULT([ok])
 				AC_CHECK_LIB(pthread, pthread_create, )
 				dnl needed for freebsd
@@ -128,7 +141,7 @@ if test "$python" != no; then
 				LIBS="$LIBS $PY_LIB_LOC $PY_LIBS"
 				
 				dnl PyGTK
-				AC_CHECK_HEADER(pygtk/pygtk.h,AC_DEFINE(USE_PYGTK))
+				AC_CHECK_HEADER(pygtk/pygtk.h, AC_DEFINE(USE_PYGTK, 1, [Define this if you want PyGtk support in Python scripts.]))
 			else
 				python=no
 				AC_MSG_RESULT([Can't find Python.h])
@@ -159,16 +172,24 @@ AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
 if test "x$have_zlib" = "xyes" && test "x$enable_mccp" = "xyes"; then
-  AC_DEFINE(ENABLE_MCCP)
+  AC_DEFINE(ENABLE_MCCP, 1, [Define this to enable MCCP (Mud Client Compression Protocol) support.])
+fi
+
+if test "x$enable_warnings" = "xyes"; then
+  CFLAGS="$CFLAGS -O -pipe -Wall -Wundef -Wredundant-decls      \
+      -Wnested-externs -Wstrict-prototypes -Wmissing-prototypes \
+      -Wpointer-arith -Winline -Wcast-qual -ansi"
+else
+  CFLAGS="$CFLAGS -O -pipe -Wall"
+fi
+
+if test "x$have_zlib" = "xyes" && test "x$enable_mccp" = "xyes"; then
+  echo 
+  echo "Great! You have Zlib. Will enable MCCP (Mud Client Compression Protocol)"
+  echo
 fi
 
 AM_GNU_GETTEXT([external])
-
-AC_SUBST(USER)
-AC_SUBST(HOST)
-AC_SUBST(GTKVER)
-AC_SUBST(CCVER)
-AC_SUBST(CODELINES)
 
 AC_OUTPUT([
   Makefile
@@ -184,16 +205,3 @@ AC_OUTPUT([
   po/Makefile.in
   ])
 
-if test "x$enable_warnings" = "xyes"; then
-  CFLAGS="$CFLAGS -O -pipe -Wall -Wundef -Wredundant-decls      \
-      -Wnested-externs -Wstrict-prototypes -Wmissing-prototypes \
-      -Wpointer-arith -Winline -Wcast-qual -ansi"
-else
-  CFLAGS="$CFLAGS -O -pipe -Wall"
-fi
-
-if test "x$have_zlib" = "xyes" && test "x$enable_mccp" = "xyes"; then
-  echo 
-  echo "Great! You have Zlib. Will enable MCCP (Mud Client Compression Protocol)"
-  echo
-fi

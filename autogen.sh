@@ -35,9 +35,9 @@ for dir in .
 do
   echo processing $dir
   (cd $dir; \
-  aclocalinclude="$ACLOCAL_FLAGS"; \
-  aclocal -I macros $aclocalinclude; \
-  autoheader; automake --add-missing;
+  aclocalinclude="$ACLOCAL_FLAGS" && \
+  aclocal -I macros $aclocalinclude && \
+  autoheader &&  automake --add-missing &&
   autoconf)
 done
 

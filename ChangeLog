@@ -1,3 +1,13 @@
+Thu Aug  1 16:41:01 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* Move to autoconf 2.50.
+
+	* configure.in: renamed to configure.ac.
+	* configure.ac: changes for autoconf 2.52, and remove some old
+	stuff.
+	* acclocal.h: removed, included templates in configure.ac.
+	* autogen.sh: fail if one command returns error.
+
 Tue Jul 30 10:59:36 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* po/Makevars: set Copyright holder to Robin.
