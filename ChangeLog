@@ -1,3 +1,15 @@
+Wed Jul  3 14:51:16 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* Makefile.am: removed man_MANS, trimmed down EXTRA_DIST.
+	* configure.in: defined LSMDATE, bumped release number.
+	* gnome-mud.lsm.in: New template, replacing gnome-mud.lsm.
+	* gnome-mud.1: moved to doc/gnome-mud.6.
+
+	* doc/Makefile.am: man_MANS = gnome-mud.6.
+
+	* src/Makefile.am: define $(gamesdir) and use it to install the
+	binary.
+
 Tue Jul  2 11:32:41 CEST 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* Release 0.9.1.

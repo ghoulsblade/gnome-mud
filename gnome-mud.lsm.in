@@ -1,7 +1,7 @@
 Begin3
 Title:          GNOMEMUD
-Version:        0.9.1
-Entered-date:   02JUL2002
+Version:        @VERSION@
+Entered-date:   @LSMDATE@
 Description:    GNOME-Mud is a simple mudclient designed for robustness, 
                 speed and trying to get those last mudders off the 
                 windows platform.
