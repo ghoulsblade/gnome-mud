@@ -1,3 +1,9 @@
+Fri Oct 19 03:19:03 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* gnome-mud.desktop: added GNOME menu entry for gnome-mud.
+	It's missing an icon... artists around?
+	* Makefile.am: install .desktop file into the apps dir.
+
 Thu Oct 18 16:36:21 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/sv.po: updated.

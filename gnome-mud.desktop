@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=GNOME-Mud
+Name[ca]=GNOME-Mud
+Name[es]=GNOME-Mud
+Comment=The GNOME MUD Client
+Comment[ca]=El client de MUD de GNOME
+Comment[es]=El cliente de MUD de GNOME
+Exec=gnome-mud
+Terminal=0
+Type=Games
