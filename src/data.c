@@ -33,9 +33,7 @@ static char const rcsid[] =
 
 struct own_data {
 	GtkCList		*list;
-	GtkWidget		*menu, 
-			 		*button_save, 
-					*button_delete,  
+	GtkWidget		*button_delete,  
 					*textname,
 					*textvalue,
 					*window;
@@ -59,11 +57,8 @@ static gint	 find_data (GtkCList *, gchar *);
 static void	 data_button_add (GtkWidget *, DDATA *);
 static void	 data_button_delete (GtkWidget *, DDATA *);
 static void	 data_button_close (GtkWidget *, DDATA *);
-static void	 data_selection_made (GtkCList *, gint, gint,
-				      GdkEventButton *, DDATA *);
-static void	 data_unselection_made (GtkCList *, gint, gint,
-					GdkEventButton *, DDATA *);
-static void	 save_data (GtkWidget *, DDATA *);
+static void	 data_selection_made (GtkCList *, gint, gint, GdkEventButton *, DDATA *);
+static void	 data_unselection_made (GtkCList *, gint, gint, GdkEventButton *, DDATA *);
 static gchar	 check_str (gchar *);
 static gchar	*check_data (GtkCList *, gchar *);
 static gint      match_line (gchar *, gchar *);
@@ -167,42 +162,6 @@ static gint match_line (gchar *trigger, gchar *incoming)
     return 0;
 }
 
-static void save_data (GtkWidget *button_save, DDATA *data)
-{
-  gint i;
-  FILE *fp;
-  gchar *n, *v;
-  
-  if (!(fp = open_file (data->file_name, "w"))) return;
-  
-  for (i = 0; i < get_size(data->list); i++)
-  {
-    gtk_clist_get_text (data->list, i, 0, &n);
-    gtk_clist_get_text (data->list, i, 1, &v);
-    fprintf (fp, "%s-%s\n", n, v);
-  } 
-  
-  if (fp) fclose (fp);
-  //gtk_widget_set_sensitive (button_save, FALSE);
-}
-
-void load_data (GtkCList *list, gchar *file_name)
-{
-    FILE *fp;
-    gchar line[255] = "", *a[2];
-    
-    if (!(fp = open_file (file_name, "r"))) return;
-    while ( fgets (line, 254, fp) != NULL )
-    {
-        a[0] = strtok (line, "-");
-        a[1] = strtok (NULL, "-"); 
-        a[1][strlen(a[1])-1] = '\0';
-        if (strlen (a[0]) || strlen (a[1]))
-            gtk_clist_append (list, a);
-    }
-    if (fp) fclose (fp);
-}
-
 static void data_selection_made (GtkCList *list, gint row, gint column,
 			   GdkEventButton *event, DDATA *data)
 {
@@ -238,7 +197,6 @@ static void data_button_add (GtkWidget *button, DDATA *data)
         return;
     }
   
-    //if (gtk_clist_get_column_title(data->list, 0) != _("Actions") && (a = check_str(text[0])))
     if ( strcmp(gtk_clist_get_column_title(data->list, 0),_("Actions")) && (a = check_str(text[0])))
     {
         g_snprintf (buf, 255, _("Character '%c' not allowed."), a); 
@@ -269,7 +227,6 @@ static void data_button_add (GtkWidget *button, DDATA *data)
     gtk_clist_append (data->list, text);
 
     gtk_widget_set_sensitive (data->button_delete, TRUE);
-    //gtk_widget_set_sensitive (data->button_save, TRUE);
 }
 
 static void data_button_delete (GtkWidget *button, DDATA *data)
@@ -278,7 +235,6 @@ static void data_button_delete (GtkWidget *button, DDATA *data)
 
     gtk_clist_remove (data->list, data->row);
     gtk_widget_set_sensitive (data->button_delete, FALSE);
-    //gtk_widget_set_sensitive (data->button_save, TRUE);
 }
 
 static void data_button_close (GtkWidget *button, DDATA *data)
@@ -291,9 +247,6 @@ static void data_button_close (GtkWidget *button, DDATA *data)
         gtk_widget_destroy (data->window);
         return;
     }
-
-    if (prefs.AutoSave) 
-        save_data (NULL, data);
 
 	switch (data->z)
 	{
@@ -322,22 +275,15 @@ static void data_button_close (GtkWidget *button, DDATA *data)
 		}
     }
 
-    gtk_widget_set_sensitive (data->menu, TRUE);
     g_free(data->title_name);
     g_free(data->title_value);
     g_free(data);
 }
 
-void window_data (GtkWidget *menu, gint z)
+void window_data (PROFILE_DATA *profile, gint z)
 {
-	extern CONNECTION_DATA *connections[15];
-	extern GtkWidget       *main_notebook;
-	
-	CONNECTION_DATA *cd;
     GtkWidget *vbox, *a, *b;
     DDATA     *data = g_new0(DDATA, 1);
-
-	cd = connections[gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook))];
 
     switch(z)
     {
@@ -347,7 +293,7 @@ void window_data (GtkWidget *menu, gint z)
 		   	data->tam_name    = 15;
 		   	data->tam_value   = 80;
            	data->file_name   = "aliases";
-			data->list		  = cd->profile->alias;
+			data->list		  = profile->alias;
 			break;
 			
 		case(1): /* actions */
@@ -356,7 +302,7 @@ void window_data (GtkWidget *menu, gint z)
 	   		data->tam_name    = 80;
 	   		data->tam_value   = 80;
            	data->file_name   = "actions";
-			data->list		  = cd->profile->triggers;
+			data->list		  = profile->triggers;
 			break;
 			
 		case(2): /* vars */
@@ -365,7 +311,7 @@ void window_data (GtkWidget *menu, gint z)
 	   		data->tam_name    = 20;
 	   		data->tam_value   = 50;
            	data->file_name   = "vars";
-			data->list		  = cd->profile->variables;
+			data->list		  = profile->variables;
 			break;
 			
 		default:
@@ -376,15 +322,13 @@ void window_data (GtkWidget *menu, gint z)
     data->z      = z;
     data->row    = -1;
     data->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    data->menu   = menu;
-	data->pd	 = cd->profile;
+	data->pd	 = profile;
 	
     data->textname  = gtk_entry_new ();
     data->textvalue = gtk_entry_new ();
   
     gtk_window_set_title (GTK_WINDOW (data->window), _("GNOME-Mud Configuration Center"));
     gtk_widget_set_usize (data->window,450,320);
-    gtk_widget_set_sensitive (menu, FALSE);
 
     gtk_clist_set_column_title         (data->list, 0, data->title_name);
     gtk_clist_set_column_title         (data->list, 1, data->title_value);
