@@ -1,3 +1,23 @@
+Mon Mar 10 16:13:10 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* This commit fixed bug #607679.
+
+	* gnome-mud.schemas.in: Added key tab_location.
+
+	* src/gnome-mud.h: Define TAB_LOCATION_*
+	[system_data]: Added TabLocation
+	
+	* src/init.c (main_window): Do not force GTK_POS_BOTTOM, remove
+	commented code.
+
+	* src/prefs.c (tab_location_by_name): Added.
+	(tab_location_by_int): Added.
+	(tab_location_by_gtk): Added.
+	(prefs_tab_location_changed): Added.
+	(load_prefs): Added key tab_location
+	(prefs_tab_location_changed_cb): Added.
+	(window_prefs): Added third page with tab location chooser.
+
 Mon Mar 10 11:28:18 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* gnome-mud.schemas.in: Added key palette.

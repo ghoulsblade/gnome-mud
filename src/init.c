@@ -731,8 +731,8 @@ void main_window ()
 	gtk_box_pack_start (GTK_BOX (box_main), box_main2, TRUE, TRUE, 5);
 
 	main_notebook = gtk_notebook_new();
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(main_notebook), tab_location_by_gtk(prefs.TabLocation));
 	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_notebook), GTK_CAN_FOCUS);
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK (main_notebook), GTK_POS_BOTTOM);
 	gtk_signal_connect (GTK_OBJECT (main_notebook), "switch-page", GTK_SIGNAL_FUNC (switch_page_cb), NULL);
 	gtk_box_pack_start (GTK_BOX (box_main2), main_notebook, TRUE, TRUE, 5);
   
@@ -759,7 +759,6 @@ void main_window ()
   
 	gtk_widget_show_all (window);
 	vte_terminal_set_font_from_string(VTE_TERMINAL(main_connection->window), prefs.FontName);
-	//FIXME gdk_window_set_background (GTK_TEXT (main_connection->window)->text_area, &prefs.Background);
  
 	g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\r\n"), VERSION, __TIME__, __DATE__);
 	vte_terminal_feed(VTE_TERMINAL(main_connection->window), buf, strlen(buf));

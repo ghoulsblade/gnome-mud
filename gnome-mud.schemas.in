@@ -155,5 +155,20 @@
 				</long>
 			</locale>
 		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/tab_location</key>
+			<applyto>/apps/gnome-mud/tab_location</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>bottom</default>
+			<locale name="C">
+				<short>Tab location</short>
+				<long>
+				 The location of the connection tabs. Valid options
+				 are "left", "right", "top" and "bottom".
+				</long>
+			</locale>
+		</schema>
 	</schemalist>
 </gconfschemafile>

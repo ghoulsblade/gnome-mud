@@ -30,6 +30,14 @@
 #define MESSAGE_SYSTEM	3
 
 /*
+ * Different location of the connection tabs
+ */
+#define TAB_LOCATION_TOP		0
+#define TAB_LOCATION_RIGHT		1
+#define TAB_LOCATION_BOTTOM		2
+#define TAB_LOCATION_LEFT		3
+
+/*
  * Maximum number of connections possible
  */
 #define MAX_CONNECTIONS 16
@@ -87,6 +95,7 @@ struct system_data {
 	gchar     *TerminalType;
 	gchar     *MudListFile;
 	gchar     *LastLogDir;
+	gchar     *TabLocation;
 	gint       History;
 	GdkColor   Foreground;
 	GdkColor   Background;
@@ -191,6 +200,7 @@ void  window_mudlist  ( GtkWidget *widget, gboolean wizard );
 void  load_prefs      ( void                               );
 void  window_prefs    ( GtkWidget *widget, gpointer data   );
 FILE *open_file       ( gchar *filename, gchar *mode       );
+GtkPositionType tab_location_by_gtk( const gchar *p        );
 
 /* profiles */
 void		  load_profiles   (	void							   );

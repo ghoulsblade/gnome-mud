@@ -40,34 +40,9 @@ extern GList 			*EntryHistory;
 extern GList			*EntryCurr;
 extern GConfClient		*gconf_client;
 extern CONNECTION_DATA	*connections[MAX_CONNECTIONS];
+extern GtkWidget        *main_notebook;
 
 SYSTEM_DATA prefs;
-
-struct color_struct 
-{
-	gchar    *name;
-	gchar    *def;
-};
-
-const struct color_struct c_structs[C_MAX] =
-{
-	{ "color_black",        "0,0,0"             },
-	{ "color_red",          "32896,0,0"         },
-	{ "color_green",        "0,32896,0"         },
-	{ "color_brown",        "32896,32896,0"     },
-	{ "color_blue",         "0,0,32896"         },
-	{ "color_magenta",      "32896,0,32896"     },
-	{ "color_cyan",         "0,32896,32896"     },
-	{ "color_lightgrey",    "32896,32896,32896" },
-	{ "color_grey",         "16448,16448,16448" },
-	{ "color_lightred",     "65535,0,0"         },
-	{ "color_lightgreen",   "0,65535,0"         },
-	{ "color_yellow",       "65535,65535,0"     },
-	{ "color_lightblue",    "0,0,65535"         },
-	{ "color_lightmagenta", "65535,0,65535"     },
-	{ "color_lightcyan",    "0,65535,65535"     },
-	{ "color_white",        "65535,65535,65535" }
-};
 
 static char *color_to_string(const GdkColor *c)
 {
@@ -87,28 +62,90 @@ static char *color_to_string(const GdkColor *c)
 	return s;
 }
 
-void prefs_commdev_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static char *tab_location_by_name(const gint i)
+{
+	switch (i)
+	{
+		case TAB_LOCATION_TOP:
+			return "top";
+			
+		case TAB_LOCATION_RIGHT:
+			return "right";
+
+		case TAB_LOCATION_BOTTOM:
+			return "bottom";
+
+		case TAB_LOCATION_LEFT:
+			return "left";
+	}
+
+	return "bottom";
+}
+
+static char tab_location_by_int(const gchar *p)
+{
+	switch(tab_location_by_gtk(p))
+	{
+		case GTK_POS_TOP:
+			return 0;
+
+		case GTK_POS_RIGHT:
+			return 1;
+
+		case GTK_POS_BOTTOM:
+			return 2;
+
+		case GTK_POS_LEFT:
+			return 3;
+	}
+
+	return 2;
+}
+
+GtkPositionType tab_location_by_gtk(const gchar *p)
+{
+	if (!g_ascii_strncasecmp(p, "top", sizeof("top")))
+	{
+		return GTK_POS_TOP;
+	}
+	else if (!g_ascii_strncasecmp(p, "right", sizeof("right")))
+	{
+		return GTK_POS_RIGHT;
+	}
+	else if (!g_ascii_strncasecmp(p, "bottom", sizeof("bottom")))
+	{
+		return GTK_POS_BOTTOM;
+	}
+	else if (!g_ascii_strncasecmp(p, "left", sizeof("left")))
+	{
+		return GTK_POS_LEFT;
+	}
+
+	return GTK_POS_BOTTOM;
+}
+
+static void prefs_commdev_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	g_free(prefs.CommDev);
 	prefs.CommDev = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));
 }
 
-void prefs_echo_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static void prefs_echo_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	prefs.EchoText = gconf_value_get_bool(gconf_entry_get_value(entry));
 }
 
-void prefs_keeptext_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static void prefs_keeptext_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	prefs.KeepText = gconf_value_get_bool(gconf_entry_get_value(entry));
 }
 
-void prefs_system_keys_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static void prefs_system_keys_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	prefs.DisableKeys = gconf_value_get_bool(gconf_entry_get_value(entry));
 }
 
-void prefs_terminal_type_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static void prefs_terminal_type_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	gint i;
 	
@@ -124,13 +161,13 @@ void prefs_terminal_type_changed(GConfClient *client, guint cnxn_id, GConfEntry 
 	}
 }
 
-void prefs_mudlist_file_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static void prefs_mudlist_file_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	g_free(prefs.MudListFile);
 	prefs.MudListFile = g_strdup(gconf_value_get_string(gconf_entry_get_value(entry)));
 }
 
-void prefs_fontname_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static void prefs_fontname_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	gint i;
 
@@ -150,7 +187,7 @@ void prefs_fontname_changed(GConfClient *client, guint cnxn_id, GConfEntry *entr
 	}
 }
 
-void prefs_color_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static void prefs_color_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	GdkColor     color;
 	gint         i;
@@ -178,7 +215,7 @@ void prefs_color_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, 
 	}
 }
 
-void prefs_palette_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+static void prefs_palette_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	GdkColor *colors;
 	gint      n_colors, i;
@@ -197,6 +234,16 @@ void prefs_palette_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry
 			vte_terminal_set_colors(VTE_TERMINAL(connections[i]->window), &prefs.Foreground, &prefs.Background, prefs.Colors, C_MAX);
 		}
 	}
+}
+
+static void prefs_tab_location_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	const gchar *p = gconf_value_get_string(gconf_entry_get_value(entry));
+
+	g_free(prefs.TabLocation);
+	prefs.TabLocation = g_strdup(p);
+	
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(main_notebook), tab_location_by_gtk(p));
 }
 
 void load_prefs ( void )
@@ -302,6 +349,14 @@ void load_prefs ( void )
 
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/palette", prefs_palette_changed, NULL, NULL, NULL);
 	g_free(colors);
+
+	/* tab location */
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/tab_location", NULL);
+
+	prefs.TabLocation = g_strdup(p);
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/tab_location", prefs_tab_location_changed, NULL, NULL, NULL);
+
 	
 	/*
 	 * Get general parameters
@@ -444,6 +499,15 @@ static void prefs_set_color(GtkWidget *color_picker, gint color)
 	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(color_picker), this_color->red, this_color->green, this_color->blue, 0);
 }
 
+static void prefs_tab_location_changed_cb(GtkOptionMenu *option, gpointer data)
+{
+	gint selected;
+	
+	selected = gtk_option_menu_get_history(option);
+
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/tab_location", tab_location_by_name(selected), NULL);
+}
+
 GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 {
 	GtkWidget *table_colorfont;
@@ -544,6 +608,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
   GtkWidget *label1, *label2, *label_term;
   GtkWidget *entry_divider, *entry_history, *entry_mudlistfile, *entry_term;
   GtkWidget *event_box_term;
+  GtkWidget *tw, *menu, *mi;
   gchar      history[10];
 
   GtkTooltips *tooltip;
@@ -692,5 +757,42 @@ void window_prefs (GtkWidget *widget, gpointer data)
 
   gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window), vbox2, label2);
   
-  gtk_widget_show(prefs_window);
+	/*
+	 * BEGIN PAGE THREE
+	 */
+	vbox2 = gtk_vbox_new(FALSE, 0);
+
+	hbox1 = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox2), hbox1, TRUE, TRUE, 5);
+
+	label1 = gtk_label_new(_("Tabs are located:"));
+	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
+
+	menu = gtk_menu_new();
+	mi = gtk_menu_item_new_with_label(_("on top"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+	
+	mi = gtk_menu_item_new_with_label(_("on the right"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+
+	mi = gtk_menu_item_new_with_label(_("at the bottom"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+
+	mi = gtk_menu_item_new_with_label(_("on the left"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+	
+	tw = gtk_option_menu_new();
+	gtk_option_menu_set_menu(GTK_OPTION_MENU(tw), menu);
+	gtk_option_menu_set_history(GTK_OPTION_MENU(tw), tab_location_by_int(prefs.TabLocation));
+	gtk_signal_connect(GTK_OBJECT(tw), "changed", GTK_SIGNAL_FUNC(prefs_tab_location_changed_cb), NULL);
+	
+	gtk_box_pack_start(GTK_BOX(hbox1), tw, FALSE, FALSE, 10);	
+	
+	gtk_widget_show_all(vbox2);
+	label2 = gtk_label_new(_("Apperence"));
+	gtk_widget_show(label2);
+  
+	gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window), vbox2, label2);
+  
+	gtk_widget_show(prefs_window);
 }
