@@ -1,3 +1,7 @@
+Mon Feb 11 14:50:34 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Forgot src/log.c.
+
 Mon Feb 11 08:50:34 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Added new patch from Vashti
