@@ -50,10 +50,6 @@ gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
 {
   GtkSignalFunc  sig_function;
 
-  /* FIXME */
-/*   GtkWidget     *menu_place; */
-/*   gint temp; */
-
   if ((sig_function = (GtkSignalFunc) dlsym ((void *) handle, function)) == NULL) {
     g_message (_("Error register menu: %s"), dlerror());
     return FALSE;
@@ -61,7 +57,7 @@ gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
 
   /* FIXME */
 /*   menu_place = gtk_menu_item_new_with_label(name); */
-/*   gtk_menu_prepend (GTK_MENU (menu_plugin_menu), menu_place); */
+/*   gtk_menu_prepend (GTK_MENU (settings_menu[7].widget), menu_place); */
 /*   gtk_widget_show (menu_place); */
 /*   gtk_signal_connect (GTK_OBJECT (menu_place), "activate", */
 /* 		      sig_function, NULL); */

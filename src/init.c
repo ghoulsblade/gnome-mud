@@ -32,11 +32,9 @@ static void	about_window   (GtkWidget *, gpointer);
 static void	connect_window (GtkWidget *, gpointer);
 static void	do_close       (GtkWidget *, gpointer);
 static void     do_disconnect  (GtkWidget *, gpointer);
-//static int	text_entry_key_press_cb (GtkEntry *, GdkEventKey *, gpointer);
 
 extern gchar        *host;
 extern gchar        *port;
-extern KEYBIND_DATA *KB_head;
 extern SYSTEM_DATA   prefs;
 extern GdkColor     *foreground;
 extern GdkColor     *background;
@@ -51,14 +49,6 @@ GtkWidget       *main_notebook;
 GtkWidget       *text_entry;
 
 /* FIXME */
-GtkWidget       *menu_plugin_menu;
-GtkWidget       *menu_main_wizard;
-GtkWidget       *menu_main_connect;
-GtkWidget       *menu_main_disconnect;
-GtkWidget       *menu_main_close;
-GtkWidget       *menu_option_prefs;
-GtkWidget       *menu_option_mapper;
-GtkWidget       *menu_option_keys;
 GtkWidget       *menu_option_colors;
 /* END FIXME */
 
@@ -197,6 +187,9 @@ static void connect_window (GtkWidget *widget, gpointer data)
 static void about_window (GtkWidget *widget, gpointer data)
 {
   static GtkWidget *about;
+  GtkWidget *vbox;
+  GtkWidget *hbox;
+  GtkWidget *hrefbox;
 
   const gchar *authors[] = {"Robin Ericsson <lobbin@localhost.nu>", "and many others...", NULL};
   
@@ -209,13 +202,23 @@ static void about_window (GtkWidget *widget, gpointer data)
   about = gnome_about_new (_("Gnome-Mud"), VERSION,
 			   "(C) 1998-2000 Robin Ericsson",
 			   (const char **)authors,
-			   _("Homepage: http://amcl.sourceforge.net \n \n"
-			     "Send bug reports to: amcl-devel@lists.sourceforge.net"),
+			   _("Send bug reports to: amcl-devel@lists.sourceforge.net"),
 			   NULL);
   gtk_signal_connect (GTK_OBJECT (about), "destroy", GTK_SIGNAL_FUNC
 		      (gtk_widget_destroyed), &about);
   gnome_dialog_set_parent (GNOME_DIALOG (about), GTK_WINDOW (window));
   
+  vbox = GNOME_DIALOG(about)->vbox;
+
+  hbox = gtk_hbox_new(TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  gtk_widget_show(hbox);
+
+  hrefbox = gnome_href_new("http://amcl.sourceforge.net/", "Gnome-Mud homepage");
+  gtk_box_pack_start(GTK_BOX(hbox), hrefbox, FALSE, FALSE, 0);
+  GTK_WIDGET_UNSET_FLAGS(hrefbox, GTK_CAN_FOCUS);
+  gtk_widget_show(hrefbox);
+
   gtk_widget_show (about);
 }
 
@@ -229,7 +232,6 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
   CONNECTION_DATA *cd;
   gint   number;
   GList *li;
-/*   KEYBIND_DATA *scroll = KB_head; */
   
   number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
   cd = connections[number];
@@ -274,19 +276,6 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
       }
   }
 
-  /*
-  ** FIXME, what is this?
-  */
-/*   for( scroll = KB_head ;scroll != NULL; scroll = scroll->next) */
-/*     if ( (scroll->state) == ((event->state)&12) &&  */
-/* 	 (scroll->keyv) == (event->keyval) ) { */
-/*       connection_send(cd, scroll->data); */
-/*       connection_send(cd, "\n"); */
-/*       gtk_signal_emit_stop_by_name (GTK_OBJECT (text_entry),  */
-/* 				    "key_press_event"); */
-/*       return TRUE;	   */
-/*     } */
-  
   return FALSE;
 }
 
@@ -299,11 +288,13 @@ static void do_close (GtkWidget *widget, gpointer data)
 
   cd = connections[number];
 
-  if (cd->connected)
-    disconnect (NULL, cd);
-
-  gtk_notebook_remove_page (GTK_NOTEBOOK (main_notebook), number);
-  free_connection_data (cd);
+  if (cd != main_connection) {
+    if (cd->connected)
+      disconnect (NULL, cd);
+    
+    gtk_notebook_remove_page (GTK_NOTEBOOK (main_notebook), number);
+    free_connection_data (cd);
+  }
 }
 
 static void do_disconnect (GtkWidget *widget, gpointer data)
@@ -348,6 +339,9 @@ static GnomeUIInfo plugin_menu[] = {
   GNOMEUIINFO_END
 };
 
+/*
+** FIXME, where is color menu?
+*/
 static GnomeUIInfo settings_menu[] = {
   GNOMEUIINFO_ITEM_DATA(N_("Alias..."), NULL, window_data, GINT_TO_POINTER(0), NULL),
   GNOMEUIINFO_ITEM_DATA(N_("Variables..."), NULL, window_data, GINT_TO_POINTER(2), NULL),
@@ -370,7 +364,7 @@ static GnomeUIInfo help_menu[] = {
   GNOMEUIINFO_END
 };
 
-static GnomeUIInfo main_menu[] = {
+GnomeUIInfo main_menu[] = {
   GNOMEUIINFO_MENU_FILE_TREE(file_menu),
   GNOMEUIINFO_MENU_SETTINGS_TREE(settings_menu),
   GNOMEUIINFO_MENU_HELP_TREE(help_menu),
@@ -473,8 +467,6 @@ void init_window ()
   gtk_box_pack_start (GTK_BOX (box_h_low), main_connection->vscrollbar, 
 		      FALSE, FALSE, 0);
   
-  
-
   combo = gtk_combo_new();
   text_entry = GTK_COMBO(combo)->entry;
   gtk_combo_set_use_arrows(GTK_COMBO(combo), FALSE);

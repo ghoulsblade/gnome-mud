@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2000-12-27 14:17+0100\n"
+"POT-Creation-Date: 2000-12-27 18:34+0100\n"
 "PO-Revision-Date: 2000-09-28 17:35+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@li.org>\n"

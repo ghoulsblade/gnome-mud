@@ -47,7 +47,7 @@ FILE *open_file (gchar *filename, gchar *mode)
   gchar dirname[256];
   FILE *fd;
 
-  g_message("open_file() called, use gnome_config_* instead.");
+  g_message("open_file(\"%s\",\"%s\") called, use gnome_config_* instead.", filename, mode);
 
   /* check for ~/.amcl dir ... */
   g_snprintf (dirname, 255, "%s/.amcl", g_get_home_dir());

@@ -63,8 +63,6 @@ int main (gint argc, char *argv[])
   gtk_main ();
   gnome_config_sync();
 
-  save_plugins();
-  
   gdk_exit (0);
   
   return 0;

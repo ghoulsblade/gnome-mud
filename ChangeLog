@@ -1,3 +1,21 @@
+Thu Dec 28 23:30:43 2000  Robin Ericsson  <robin@noname4us.com>
+
+	* src/amcl.c [main]: save_plugins() removed.
+	* src/init.c: Removed some global variables.
+	[about_window]: Added a gnome_href widget to gnome-mud
+	homepage.
+	[do_close]: Fix for not closing main_window.
+	* src/modules.c [do_plugin_information]: rebuild the
+	window, and saves for plugins now uses gnome_config_*.
+	[save_plugins]: removed.
+	* src/modules_api.c: Commented out some code.
+	* src/prefs.c [open_file]: Added some more debug.
+
+Thu Dec 28 09:51:45 2000  Robin Ericsson  <robin@noname4us.com>
+
+	* Makefile.am: Added manpage.
+	* amcl.1: Manpage added.
+
 Wed Dec 27 18:03:55 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* TODO: removed some outdated stuff

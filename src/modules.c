@@ -16,7 +16,9 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-/* This module/plug-in API is slighly based on the API in gEdit. */
+/*
+** This module/plug-in API is slighly based on the API in gEdit. 
+*/
 
 #ifndef __MODULES_C__
 #define __MODULES_C__
@@ -25,8 +27,8 @@
 #  include "config.h"
 #endif
 
-#include <gtk/gtk.h>
 #include <errno.h>
+#include <gnome.h>
 #include <libintl.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -54,8 +56,6 @@
 #include "amcl.h"
 #include "modules.h"
 
-#define _(string) gettext(string)
-
 static char const rcsid[] =
     "$Id$";
 
@@ -64,10 +64,9 @@ GList     *Plugin_data_list;
 GtkWidget *plugin_name_entry;
 GtkWidget *plugin_author_entry;
 GtkWidget *plugin_version_entry;
-GtkWidget *plugin_desc_entry;
+GtkWidget *plugin_desc_text;
 GtkWidget *plugin_enable_check;
 gint       plugin_selected_row;
-FILE      *plugin_information;
 gint       amount;
 
 PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
@@ -88,7 +87,7 @@ PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
   return NULL;
 }
 
-PLUGIN_OBJECT *plugin_get_plugin_object_by_name (gchar *name)
+PLUGIN_OBJECT static *plugin_get_plugin_object_by_name (gchar *name)
 {
   PLUGIN_OBJECT *p;
   GList         *t;
@@ -105,7 +104,7 @@ PLUGIN_OBJECT *plugin_get_plugin_object_by_name (gchar *name)
   return NULL;
 }
 
-void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
+static void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
 {
   PLUGIN_OBJECT *p;
   gchar *text;
@@ -115,21 +114,26 @@ void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
   p = plugin_get_plugin_object_by_name (text);
 
   if (p != NULL) {
+    gchar path[50];
+
     if (GTK_TOGGLE_BUTTON (widget)->active) {
       p->enabeled = TRUE;
     } else {
       p->enabeled = FALSE;
     }
+
+    g_snprintf(path, 50, "/gnome-mud/Plugins/%s", p->name);
+    gnome_config_set_bool(path, p->enabeled);
   }
 }
 
-void plugin_clist_select_row_cb (GtkWidget *w, gint r, gint c, GdkEventButton *e, gpointer data)
+static void plugin_clist_select_row_cb (GtkWidget *clist, gint r, gint c, GdkEventButton *e, gpointer data)
 {
   PLUGIN_OBJECT *p;
   gchar *text;
 
   plugin_selected_row = r;
-  gtk_clist_get_text((GtkCList *) data, r, c, &text);
+  gtk_clist_get_text(GTK_CLIST(clist), r, c, &text);
 
   p = plugin_get_plugin_object_by_name (text);
 
@@ -137,13 +141,14 @@ void plugin_clist_select_row_cb (GtkWidget *w, gint r, gint c, GdkEventButton *e
     gtk_entry_set_text (GTK_ENTRY (plugin_name_entry),    p->info->plugin_name);
     gtk_entry_set_text (GTK_ENTRY (plugin_author_entry),  p->info->plugin_author);
     gtk_entry_set_text (GTK_ENTRY (plugin_version_entry), p->info->plugin_version);
-    gtk_entry_set_text (GTK_ENTRY (plugin_desc_entry),    p->info->plugin_descr);
-    if (p->enabeled)
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(plugin_enable_check),TRUE);
+    gtk_text_set_point(GTK_TEXT(plugin_desc_text), 0);
+    gtk_text_forward_delete(GTK_TEXT(plugin_desc_text), gtk_text_get_length(GTK_TEXT(plugin_desc_text)));
+    gtk_text_insert(GTK_TEXT(plugin_desc_text), NULL, NULL, NULL, p->info->plugin_descr, strlen(p->info->plugin_descr));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(plugin_enable_check), p->enabeled);
   }
 }
 
-void plugin_clist_append (PLUGIN_OBJECT *p, GtkCList *clist)
+static void plugin_clist_append (PLUGIN_OBJECT *p, GtkCList *clist)
 {
   if ( p ) {
     gchar *text[2];
@@ -158,156 +163,197 @@ void plugin_clist_append (PLUGIN_OBJECT *p, GtkCList *clist)
 
 void do_plugin_information(GtkWidget *widget, gpointer data)
 {
-  static GtkWidget *window1;
-  GtkWidget *hbox1;
-  GtkWidget *clist1;
-  GtkWidget *vbox1;
+  static GtkWidget *dialog1;
+  GtkWidget *dialog_vbox1;
+  GtkWidget *table1;
   GtkWidget *label1;
-  GtkWidget *label6;
+  GtkWidget *label2;
   GtkWidget *label3;
-  GtkWidget *label7;
   GtkWidget *label4;
-  GtkWidget *label8;
+  GtkWidget *scrolledwindow1;
+  GtkWidget *clist1;
   GtkWidget *label5;
-  GtkWidget *label9;
+  GtkWidget *scrolledwindow2;
+  GtkWidget *dialog_action_area1;
+  GtkWidget *button1;
 
-  if (window1 != NULL) {
-    gdk_window_raise(window1->window);
-    gdk_window_show(window1->window);
+  if (dialog1 != NULL) {
+    gdk_window_raise(dialog1->window);
+    gdk_window_show(dialog1->window);
     return;
   }
 
-  window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_object_set_data (GTK_OBJECT (window1), "window1", window1);
-  gtk_container_border_width (GTK_CONTAINER (window1), 7);
-  gtk_window_set_title (GTK_WINDOW (window1), _("AMCL Plugin Information"));
-  gtk_window_set_policy (GTK_WINDOW (window1), TRUE, TRUE, FALSE);
-  gtk_widget_set_usize (window1, 430, 275);
-  gtk_signal_connect(GTK_OBJECT(window1), "destroy",
-		     gtk_widget_destroyed, &window1);
+  dialog1 = gnome_dialog_new (NULL, NULL);
+  gtk_object_set_data (GTK_OBJECT (dialog1), "dialog1", dialog1);
+  gtk_widget_set_usize (dialog1, 430, -2);
+  gtk_window_set_policy (GTK_WINDOW (dialog1), FALSE, FALSE, FALSE);
 
-  hbox1 = gtk_hbox_new (FALSE, 0);
-  gtk_object_set_data (GTK_OBJECT (window1), "hbox1", hbox1);
-  gtk_widget_show (hbox1);
-  gtk_container_add (GTK_CONTAINER (window1), hbox1);
+  dialog_vbox1 = GNOME_DIALOG (dialog1)->vbox;
+  gtk_object_set_data (GTK_OBJECT (dialog1), "dialog_vbox1", dialog_vbox1);
+  gtk_widget_show (dialog_vbox1);
 
-  clist1 = gtk_clist_new (1);
-  gtk_object_set_data (GTK_OBJECT (window1), "clist1", clist1);
-  gtk_widget_show (clist1);
-  gtk_box_pack_start (GTK_BOX (hbox1), clist1, TRUE, TRUE, 0);
-  gtk_widget_set_usize (clist1, 50, -2);
-  gtk_signal_connect (GTK_OBJECT (clist1), "select_row", 
-		      GTK_SIGNAL_FUNC(plugin_clist_select_row_cb),
-		      (gpointer) clist1);
-  
-  vbox1 = gtk_vbox_new (FALSE, 0);
-  gtk_object_set_data (GTK_OBJECT (window1), "vbox1", vbox1);
-  gtk_widget_show (vbox1);
-  gtk_box_pack_start (GTK_BOX (hbox1), vbox1, TRUE, TRUE, 0);
-  gtk_widget_set_usize (vbox1, 150, -2);
-  gtk_container_border_width (GTK_CONTAINER (vbox1), 7);
+  table1 = gtk_table_new (9, 2, FALSE);
+  gtk_widget_ref (table1);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "table1", table1,
+                            (GtkDestroyNotify) gtk_widget_unref);
+  gtk_widget_show (table1);
+  gtk_box_pack_start (GTK_BOX (dialog_vbox1), table1, TRUE, TRUE, 0);
+  gtk_table_set_row_spacings (GTK_TABLE (table1), 3);
+  gtk_table_set_col_spacings (GTK_TABLE (table1), 7);
 
   label1 = gtk_label_new (_("Plugin Name:"));
-  gtk_object_set_data (GTK_OBJECT (window1), "label1", label1);
+  gtk_widget_ref (label1);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "label1", label1,
+                            (GtkDestroyNotify) gtk_widget_unref);
   gtk_widget_show (label1);
-  gtk_box_pack_start (GTK_BOX (vbox1), label1, FALSE, TRUE, 0);
-  gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_LEFT);
-  gtk_misc_set_alignment (GTK_MISC (label1), 0.0100002, 0.52);
+  gtk_table_attach (GTK_TABLE (table1), label1, 1, 2, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label1), 0, 0.5);
 
   plugin_name_entry = gtk_entry_new ();
-  gtk_object_set_data (GTK_OBJECT (window1), "plugin_name_entry", plugin_name_entry);
+  gtk_widget_ref (plugin_name_entry);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "plugin_name_entry", plugin_name_entry,
+                            (GtkDestroyNotify) gtk_widget_unref);
   gtk_widget_show (plugin_name_entry);
-  gtk_box_pack_start (GTK_BOX (vbox1), plugin_name_entry, FALSE, TRUE, 0);
+  gtk_table_attach (GTK_TABLE (table1), plugin_name_entry, 1, 2, 1, 2,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
   gtk_entry_set_editable (GTK_ENTRY (plugin_name_entry), FALSE);
 
-  label6 = gtk_label_new ("");
-  gtk_object_set_data (GTK_OBJECT (window1), "label6", label6);
-  gtk_widget_show (label6);
-  gtk_box_pack_start (GTK_BOX (vbox1), label6, FALSE, TRUE, 0);
+  label2 = gtk_label_new (_("Plugin Author:"));
+  gtk_widget_ref (label2);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "label2", label2,
+                            (GtkDestroyNotify) gtk_widget_unref);
+  gtk_widget_show (label2);
+  gtk_table_attach (GTK_TABLE (table1), label2, 1, 2, 2, 3,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label2), 0, 0.5);
 
-  label3 = gtk_label_new (_("Plugin Author:"));
-  gtk_object_set_data (GTK_OBJECT (window1), "label3", label3);
+  label3 = gtk_label_new (_("Plugin Version:"));
+  gtk_widget_ref (label3);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "label3", label3,
+                            (GtkDestroyNotify) gtk_widget_unref);
   gtk_widget_show (label3);
-  gtk_box_pack_start (GTK_BOX (vbox1), label3, FALSE, TRUE, 0);
-  gtk_misc_set_alignment (GTK_MISC (label3), 1.93715e-07, 0.5);
+  gtk_table_attach (GTK_TABLE (table1), label3, 1, 2, 4, 5,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label3), 0, 0.5);
+
+  label4 = gtk_label_new (_("Plugin Description:"));
+  gtk_widget_ref (label4);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "label4", label4,
+                            (GtkDestroyNotify) gtk_widget_unref);
+  gtk_widget_show (label4);
+  gtk_table_attach (GTK_TABLE (table1), label4, 1, 2, 6, 7,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label4), 0, 0.5);
+
+  plugin_enable_check = gtk_check_button_new_with_label (_("Is Plugin Enabled?"));
+  gtk_widget_ref (plugin_enable_check);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "plugin_enable_check", plugin_enable_check,
+                            (GtkDestroyNotify) gtk_widget_unref);
+  gtk_widget_show (plugin_enable_check);
+  gtk_table_attach (GTK_TABLE (table1), plugin_enable_check, 1, 2, 8, 9,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
 
   plugin_author_entry = gtk_entry_new ();
-  gtk_object_set_data (GTK_OBJECT (window1), "plugin_author_entry", plugin_author_entry);
+  gtk_widget_ref (plugin_author_entry);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "plugin_author_entry", plugin_author_entry,
+                            (GtkDestroyNotify) gtk_widget_unref);
   gtk_widget_show (plugin_author_entry);
-  gtk_box_pack_start (GTK_BOX (vbox1), plugin_author_entry, FALSE, TRUE, 0);
+  gtk_table_attach (GTK_TABLE (table1), plugin_author_entry, 1, 2, 3, 4,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
   gtk_entry_set_editable (GTK_ENTRY (plugin_author_entry), FALSE);
 
-  label7 = gtk_label_new ("");
-  gtk_object_set_data (GTK_OBJECT (window1), "label7", label7);
-  gtk_widget_show (label7);
-  gtk_box_pack_start (GTK_BOX (vbox1), label7, FALSE, TRUE, 0);
+  scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_ref (scrolledwindow1);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "scrolledwindow1", scrolledwindow1,
+                            (GtkDestroyNotify) gtk_widget_unref);
+  gtk_widget_show (scrolledwindow1);
+  gtk_table_attach (GTK_TABLE (table1), scrolledwindow1, 0, 1, 0, 9,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (GTK_FILL), 0, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
 
-  label4 = gtk_label_new (_("Plugin Version:"));
-  gtk_object_set_data (GTK_OBJECT (window1), "label4", label4);
-  gtk_widget_show (label4);
-  gtk_box_pack_start (GTK_BOX (vbox1), label4, FALSE, TRUE, 0);
-  gtk_misc_set_alignment (GTK_MISC (label4), 1.93715e-07, 0.5);
+  clist1 = gtk_clist_new (1);
+  gtk_widget_ref (clist1);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "clist1", clist1,
+                            (GtkDestroyNotify) gtk_widget_unref);
+  gtk_widget_show (clist1);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow1), clist1);
+  gtk_widget_set_usize (clist1, 150, -2);
+  GTK_WIDGET_UNSET_FLAGS (clist1, GTK_CAN_FOCUS);
+  gtk_clist_set_column_width (GTK_CLIST (clist1), 0, 80);
+  gtk_clist_column_titles_hide (GTK_CLIST (clist1));
+
+  label5 = gtk_label_new (_("label5"));
+  gtk_widget_ref (label5);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "label5", label5,
+                            (GtkDestroyNotify) gtk_widget_unref);
+  gtk_widget_show (label5);
+  gtk_clist_set_column_widget (GTK_CLIST (clist1), 0, label5);
 
   plugin_version_entry = gtk_entry_new ();
-  gtk_object_set_data (GTK_OBJECT (window1), "plugin_version_entry", plugin_version_entry);
+  gtk_widget_ref (plugin_version_entry);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "plugin_version_entry", plugin_version_entry,
+                            (GtkDestroyNotify) gtk_widget_unref);
   gtk_widget_show (plugin_version_entry);
-  gtk_box_pack_start (GTK_BOX (vbox1), plugin_version_entry, FALSE, TRUE, 0);
+  gtk_table_attach (GTK_TABLE (table1), plugin_version_entry, 1, 2, 5, 6,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
   gtk_entry_set_editable (GTK_ENTRY (plugin_version_entry), FALSE);
 
-  label8 = gtk_label_new ("");
-  gtk_object_set_data (GTK_OBJECT (window1), "label8", label8);
-  gtk_widget_show (label8);
-  gtk_box_pack_start (GTK_BOX (vbox1), label8, FALSE, TRUE, 0);
+  scrolledwindow2 = gtk_scrolled_window_new (NULL, NULL);
+  gtk_widget_ref (scrolledwindow2);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "scrolledwindow2", scrolledwindow2,
+                            (GtkDestroyNotify) gtk_widget_unref);
+  gtk_widget_show (scrolledwindow2);
+  gtk_table_attach (GTK_TABLE (table1), scrolledwindow2, 1, 2, 7, 8,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (GTK_FILL), 0, 0);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow2), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
 
-  label5 = gtk_label_new (_("Plugin Description:"));
-  gtk_object_set_data (GTK_OBJECT (window1), "label5", label5);
-  gtk_widget_show (label5);
-  gtk_box_pack_start (GTK_BOX (vbox1), label5, FALSE, TRUE, 0);
-  gtk_misc_set_alignment (GTK_MISC (label5), 1.93715e-07, 0.5);
+  plugin_desc_text = gtk_text_new (NULL, NULL);
+  gtk_widget_ref (plugin_desc_text);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "plugin_desc_text", plugin_desc_text,
+                            (GtkDestroyNotify) gtk_widget_unref);
+  gtk_widget_show (plugin_desc_text);
+  gtk_container_add (GTK_CONTAINER (scrolledwindow2), plugin_desc_text);
 
-  plugin_desc_entry = gtk_entry_new ();
-  gtk_object_set_data (GTK_OBJECT (window1), "plugin_desc_entry", plugin_desc_entry);
-  gtk_widget_show (plugin_desc_entry);
-  gtk_box_pack_start (GTK_BOX (vbox1), plugin_desc_entry, FALSE, TRUE, 0);
-  gtk_entry_set_editable (GTK_ENTRY (plugin_desc_entry), FALSE);
+  dialog_action_area1 = GNOME_DIALOG (dialog1)->action_area;
+  gtk_object_set_data (GTK_OBJECT (dialog1), "dialog_action_area1", dialog_action_area1);
+  gtk_widget_show (dialog_action_area1);
+  gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+  gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area1), 8);
 
-  label9 = gtk_label_new ("");
-  gtk_object_set_data (GTK_OBJECT (window1), "label9", label9);
-  gtk_widget_show (label9);
-  gtk_box_pack_start (GTK_BOX (vbox1), label9, FALSE, TRUE, 0);
+  gnome_dialog_append_button (GNOME_DIALOG (dialog1), GNOME_STOCK_BUTTON_CLOSE);
+  button1 = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog1)->buttons)->data);
+  gtk_widget_ref (button1);
+  gtk_object_set_data_full (GTK_OBJECT (dialog1), "button1", button1,
+                            (GtkDestroyNotify) gtk_widget_unref);
+  gtk_widget_show (button1);
+  GTK_WIDGET_SET_FLAGS (button1, GTK_CAN_DEFAULT);
 
-  plugin_enable_check = gtk_check_button_new_with_label (_(" Is Plugin Enabled?"));
-  gtk_object_set_data (GTK_OBJECT (window1), "plugin_enable_check", plugin_enable_check);
-  gtk_widget_show (plugin_enable_check);
-  gtk_box_pack_start (GTK_BOX (vbox1), plugin_enable_check, FALSE, TRUE, 0);
-  GTK_WIDGET_UNSET_FLAGS (plugin_enable_check, GTK_CAN_FOCUS);
-  gtk_signal_connect(GTK_OBJECT(plugin_enable_check), "toggled",
-		     GTK_SIGNAL_FUNC(plugin_enable_check_cb), (gpointer) clist1);
+  gtk_signal_connect (GTK_OBJECT (plugin_enable_check), "toggled",
+                      GTK_SIGNAL_FUNC (plugin_enable_check_cb),
+                      clist1);
+  gtk_signal_connect (GTK_OBJECT (clist1), "select_row",
+                      GTK_SIGNAL_FUNC (plugin_clist_select_row_cb),
+                      NULL);
+  gtk_signal_connect_object(GTK_OBJECT(button1), "clicked",
+			    gtk_widget_destroy, GTK_OBJECT(dialog1));
+  gtk_signal_connect (GTK_OBJECT(dialog1), "destroy",
+		      gtk_widget_destroyed, &dialog1);
 
   g_list_foreach (Plugin_list, (GFunc) plugin_clist_append, clist1);
   gtk_clist_select_row (GTK_CLIST (clist1), 0, 0);
 
-  gtk_widget_show(window1);
-}
-
-void save_plugins()
-{
-  PLUGIN_OBJECT *p;
-  GList         *t;  
-  FILE          *fp;
-  
-  if (!(fp = open_file ("plugins_info", "w"))) return;
-
-  for (t = g_list_first(Plugin_list); t != NULL; t = t->next)
-  {
-     if (t->data != NULL)
-     {
-	p = (PLUGIN_OBJECT *) t->data;
-	if (p->enabeled == TRUE)
-	  fprintf(fp, p->name);
-     }
-  }
-  if (fp) fclose (fp);
+  gtk_widget_show(dialog1);
 }
 
 int init_modules(char *path)
@@ -315,9 +361,6 @@ int init_modules(char *path)
   DIR            *directory;
   struct dirent  *direntity;
   gchar          *shortname;
-
-  /* Why we open this file if we are not going to use??? */
-  plugin_information = open_file("plugins_info","r");
 
   if ((directory = opendir(path)) == NULL) {
     g_message("Plugin error (%s): %s", path, strerror(errno));
@@ -347,8 +390,6 @@ int init_modules(char *path)
     plugin_register(plugin);
   }
   
-  if (plugin_information)
-    fclose(plugin_information);
   closedir(directory);
   
   return TRUE;
@@ -383,34 +424,25 @@ error:
     return NULL;
 }
 
-void plugin_check_enable(PLUGIN_OBJECT *plugin)
+static void plugin_check_enable(PLUGIN_OBJECT *plugin)
 {
-  gchar line[255];
-  
-  g_message (_("Checking whether plugin should be enabled by default..."));
-  
-  while ( fgets (line, 80, plugin_information) != NULL) {
-    if (!strcmp(line, plugin->name)) {
-      plugin->enabeled = TRUE;
-    }
-  }
+  gchar path[50];
 
-  rewind(plugin_information);
+  g_snprintf(path, 50, "/gnome-mud/Plugins/%s=false", plugin->name);
+
+  plugin->enabeled = gnome_config_get_bool(path);
 }
 
 void plugin_register(PLUGIN_OBJECT *plugin)
 {
-    g_message (_("Registering plugin `%s'."), plugin->name);
-    g_message (_("Plug-in internal name is `%s'."), plugin->info->plugin_name);
+    g_message (_("Registering plugin `%s' under the name `%s'."), plugin->name, plugin->info->plugin_name);
 
     plugin_check_enable(plugin);
 
     Plugin_list = g_list_append(Plugin_list, (gpointer) plugin);
     
-    if (plugin->info->init_function)
-    {
-        g_message (_("Running init-function..."));
-        plugin->info->init_function(NULL, (gint) plugin->handle);
+    if (plugin->info->init_function) {
+      plugin->info->init_function(NULL, (gint) plugin->handle);
     }
 }
 #endif
