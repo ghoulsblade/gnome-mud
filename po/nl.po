@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-28 03:57+0100\n"
-"PO-Revision-Date: 2004-01-28 13:04+0100\n"
+"POT-Creation-Date: 2004-02-03 04:05+0100\n"
+"PO-Revision-Date: 2004-02-03 15:55+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,13 +27,18 @@ msgstr "De GNOME MUD cliënt"
 
 #: gnome-mud.schemas.in.h:1
 msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
-msgstr "een Pango lettertypenaam. Voorbeelden zijn \"Sans 12\" of \"Monospace Bold 14\"."
+msgstr ""
+"een Pango lettertypenaam. Voorbeelden zijn \"Sans 12\" of \"Monospace Bold 14"
+"\"."
 
 #: gnome-mud.schemas.in.h:2
 msgid ""
 "A character that is used to split commands in a string like \"w;w;w;l\", "
 "which will be sent to the MUD as 4 separate commands."
-msgstr "Een teken dat gebruikt wordt om opdrachten in een tekenreeks zoals \"w;w;w;l\" te splitsen, zodat deze als 4 verschillende opdrachten naar de MUD worden verzonden."
+msgstr ""
+"Een teken dat gebruikt wordt om opdrachten in een tekenreeks zoals \"w;w;w;l"
+"\" te splitsen, zodat deze als 4 verschillende opdrachten naar de MUD worden "
+"verzonden."
 
 #: gnome-mud.schemas.in.h:3 src/profiles.c:1212
 msgid "Aliases"
@@ -55,7 +60,9 @@ msgstr "Standaard achtergrondkleur"
 msgid ""
 "Default color of the background, as a color specification (can be HTML-style "
 "hex digits, or a color name such as \"red\")."
-msgstr "Standaard kleur van de achtergrond, als een kleurspecificatie (kan in HTML-stijl hexadecimale cijfers, of een kleurnaam zoals \"rood\")."
+msgstr ""
+"Standaard kleur van de achtergrond, als een kleurspecificatie (kan in HTML-"
+"stijl hexadecimale cijfers, of een kleurnaam zoals \"rood\")."
 
 #: gnome-mud.schemas.in.h:8
 msgid "Default color of the text"
@@ -65,12 +72,16 @@ msgstr "Standaard kleur van de tekst"
 msgid ""
 "Default color of the text, as a color specification (can be HTML-style hex "
 "digits, or a color name such as \"red\")."
-msgstr "Standaardkleur van de tekst, als een kleuspecificatie (kan in HTML-stijl hexadecimale cijfers, of een kleurnaam zoals \"rood\")."
+msgstr ""
+"Standaardkleur van de tekst, als een kleuspecificatie (kan in HTML-stijl "
+"hexadecimale cijfers, of een kleurnaam zoals \"rood\")."
 
 #: gnome-mud.schemas.in.h:10
 msgid ""
 "File where the mud list will be read from to be used in the MudList dialog."
-msgstr "Bestand waarvan de mud-lijst wordt gelezen welke gebruikt wordt in het MudList dialoogvenster."
+msgstr ""
+"Bestand waarvan de mud-lijst wordt gelezen welke gebruikt wordt in het "
+"MudList dialoogvenster."
 
 #: gnome-mud.schemas.in.h:11
 msgid "Font"
@@ -81,13 +92,19 @@ msgid ""
 "GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in "
 "the form of a colon-separated list of color names. Color names should be in "
 "hex format e.g. \"#FF00FF\"."
-msgstr "GNOME-Mud heeft een 16-kleurenpalet die MUDs kunnen gebruiken. Het moet worden gegeven in de vorm van een lijst met kleurnamen gescheiden door een dubbele-punt. Kleurnamen moeten in hexadecimale vorm staan bijv. \"#FF00FF\"."
+msgstr ""
+"GNOME-Mud heeft een 16-kleurenpalet die MUDs kunnen gebruiken. Het moet "
+"worden gegeven in de vorm van een lijst met kleurnamen gescheiden door een "
+"dubbele-punt. Kleurnamen moeten in hexadecimale vorm staan bijv. \"#FF00FF\"."
 
 #: gnome-mud.schemas.in.h:13 src/prefs.c:850
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
-msgstr "GNOME-Mud zal trachten een console-type (zoals ANSI of VT100) door te geven als de MUD daar om vraagt. Deze optie stelt het consoletype in dat wordt doorgegeven."
+msgstr ""
+"GNOME-Mud zal trachten een console-type (zoals ANSI of VT100) door te geven "
+"als de MUD daar om vraagt. Deze optie stelt het consoletype in dat wordt "
+"doorgegeven."
 
 #: gnome-mud.schemas.in.h:14
 msgid "How many entries to keep in the command history"
@@ -106,26 +123,26 @@ msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
 "overridden by custom keybindings, or they can be disabled completely with "
 "this option."
-msgstr ""
+msgstr "Indien aangezet, zal GNOME-Mud een aantal standaard toetsbindingen aanbieden. Deze kunnen worden tenietgedaan door aangepaste toetsbindingen of ze kunnen volledig worden uitgezet met deze optie."
 
 #: gnome-mud.schemas.in.h:18 src/prefs.c:782
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
-msgstr ""
+msgstr "Indien aangezet, zal alle ingetypte tekst worden geëchood in het console waardoor eenvoudiger te controleren is wat er wordt verzonden."
 
 #: gnome-mud.schemas.in.h:19 src/prefs.c:793
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
 "after each text input."
-msgstr ""
+msgstr "Indien aangezet, wordt de tekst die naar de verbinding wordt verzonden, als een selectie in het invoerveld weergegeven. Anders zal de tekst in het invoerveld worden gewist na elke tekstinvoer."
 
 #: gnome-mud.schemas.in.h:20
 msgid ""
 "If enabled, whenever there's new output the terminal will be scrolled to the "
 "bottom."
-msgstr ""
+msgstr "Indien aangezet, zal het console bij elke nieuwe uitvoer, naar de onderkant schuiven."
 
 #: gnome-mud.schemas.in.h:21 src/profiles.c:1243
 msgid "Keybindings"
@@ -139,7 +156,10 @@ msgstr "Laatste logbestand"
 msgid ""
 "List of commands which will be treated as movement commands by the "
 "automapper. A semicolon is used to separate each command."
-msgstr "Lijst met opdrachten die zullen worden beschouwd als verplaatsingsopdrachten door de automapper. Een puntkomma wordt gebruikt om de opdrachten van elkaar te scheiden."
+msgstr ""
+"Lijst met opdrachten die zullen worden beschouwd als verplaatsingsopdrachten "
+"door de automapper. Een puntkomma wordt gebruikt om de opdrachten van elkaar "
+"te scheiden."
 
 #: gnome-mud.schemas.in.h:24
 msgid "List of connections"
@@ -149,7 +169,9 @@ msgstr "Lijst met verbindingen"
 msgid ""
 "List of connections known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/connections."
-msgstr "Lijst met verbindingen die bekend zijn bij GNOME-Mud. De lijst bevat tekenreeksen van submappen relatief aan /apps/gnome-mud/connections."
+msgstr ""
+"Lijst met verbindingen die bekend zijn bij GNOME-Mud. De lijst bevat "
+"tekenreeksen van submappen relatief aan /apps/gnome-mud/connections."
 
 #: gnome-mud.schemas.in.h:26
 msgid "List of movement commands"
@@ -163,7 +185,9 @@ msgstr "Lijst met profielen"
 msgid ""
 "List of profiles known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/profiles."
-msgstr "Lijst met profielen die bekend zijn bij GNOME-Mud. De lijst bevat tekenreeksen van submappen relatief aan /apps/gnome-mud/profiles."
+msgstr ""
+"Lijst met profielen die bekend zijn bij GNOME-Mud. De lijst bevat "
+"tekenreeksen van submappen relatief aan /apps/gnome-mud/profiles."
 
 #: gnome-mud.schemas.in.h:29
 msgid "Log flush interval"
@@ -182,7 +206,7 @@ msgid ""
 "Number of scrollback lines to keep around. You can scroll back in the "
 "terminal by this number of lines; lines that don't fit in the scrollback are "
 "discarded."
-msgstr ""
+msgstr "Aantal gebufferde regels. U kunt dit aantal regels terugschuiven in het console; regels die niet meer in de buffer passen worden weggegooid."
 
 #: gnome-mud.schemas.in.h:33
 msgid "Tab location"
@@ -194,13 +218,16 @@ msgstr "Console-type"
 
 #: gnome-mud.schemas.in.h:35
 msgid "The file that was last used to save a mudlog in."
-msgstr "Het bestand dat als laatste werd gebruikt bij het opslaan van een mudlog."
+msgstr ""
+"Het bestand dat als laatste werd gebruikt bij het opslaan van een mudlog."
 
 #: gnome-mud.schemas.in.h:36
 msgid ""
 "The location of the connection tabs. Valid options are \"left\", \"right\", "
 "\"top\" and \"bottom\"."
-msgstr "De plaats van de verbindingstabs. Geldige opties zijn \"left\", \"right\", \"top\" en \"bottom\"."
+msgstr ""
+"De plaats van de verbindingstabs. Geldige opties zijn \"left\", \"right\", "
+"\"top\" en \"bottom\"."
 
 #: gnome-mud.schemas.in.h:37 src/data.c:346 src/profiles.c:1226
 msgid "Triggers"
@@ -520,20 +547,20 @@ msgstr "*** Kon %s niet openen.\n"
 #: src/log.c:115
 #, c-format
 msgid "*** Logging to %s.\n"
-msgstr ""
+msgstr "*** Loggen naar %s.\n"
 
 #: src/log.c:176
 #, c-format
 msgid "*** Stopped logging to %s.\n"
-msgstr ""
+msgstr "*** Gestopt met loggen naar %s.\n"
 
 #: src/log.c:201
 msgid "*** Could not open file for writing.\n"
-msgstr ""
+msgstr "*** Kon bestand niet openen voor schrijven.\n"
 
 #: src/log.c:215
 msgid "Please select a log file..."
-msgstr ""
+msgstr "Selecteer een logbestand..."
 
 #. Free the create_link_data structure
 #: src/map.c:567
@@ -606,7 +633,9 @@ msgstr "In bestaand pad invoeren:"
 msgid ""
 "This node has already 8 links. Destroy one of these before trying to create "
 "a new one"
-msgstr "Dit knooppunt heeft reeds 8 links. Vernietig een van deze voordat u een nieuwe probeert aan te maken"
+msgstr ""
+"Dit knooppunt heeft reeds 8 links. Vernietig een van deze voordat u een "
+"nieuwe probeert aan te maken"
 
 #. Change the automap state
 #: src/map.c:1197
@@ -726,7 +755,8 @@ msgstr "Er bestond geen link in die richting"
 
 #: src/map.c:3057
 msgid "Cannot break links to a node going up or down"
-msgstr "Kan geen links naar een knooppunt die naar boven of beneden gaat breken"
+msgstr ""
+"Kan geen links naar een knooppunt die naar boven of beneden gaat breken"
 
 #. It would seem this node already has a connection to here, That's
 #. * possible so we need to inform the user that his move is illegal.
@@ -777,7 +807,7 @@ msgstr "Plugin gebruiken"
 #: src/modules.c:419
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
-msgstr ""
+msgstr "Fout bij het verkrijgen van de plugin-handle (%s): %s."
 
 #: src/modules.c:424
 #, c-format
@@ -787,21 +817,22 @@ msgstr "Fout, %s isg een GNOME-Mud module: %s."
 #: src/modules.c:450
 #, c-format
 msgid "Registering plugin `%s' under the name `%s'."
-msgstr ""
+msgstr "Plugin `%s' registreren onder de naam `%s'."
 
 #: src/modules_api.c:66
 #, c-format
 msgid "Error while registering the menu: %s"
-msgstr ""
+msgstr "Fout bij het registreren van het menu: %s"
 
 #: src/modules_api.c:86
 #, c-format
 msgid "Error while registering data %s: %s"
-msgstr ""
+msgstr "Fout bij het registreren van data %s: %s"
 
+# hmmm...
 #: src/modules_api.c:94
 msgid "Error while getting plugin from handle."
-msgstr ""
+msgstr "Fout bij het verkrijgen van plugin vanuit 'handle'."
 
 #: src/mudlist.c:404
 msgid "Could not open MudList file for reading"
@@ -844,27 +875,29 @@ msgstr "Beschrijving:"
 msgid "*** Connection closed.\n"
 msgstr "*** Verbinding verbroken.\n"
 
+# verbinding leggen
 #: src/net.c:243
 msgid "*** Can't connect - you didn't specify a host.\n"
-msgstr ""
+msgstr "*** Kan geen verbinding maken - u heeft geen host opgegeven.\n"
 
 #: src/net.c:249
 msgid "*** No port specified - assuming port 23.\n"
-msgstr ""
+msgstr "*** Geen poort opgegeven - poortnummer 23 wordt aangenomen.\n"
 
+# verbinding leggen
 #: src/net.c:264
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
-msgstr ""
+msgstr "*** Verbinding maken met %s, poort %s.\n"
 
 #: src/net.c:289
 #, c-format
 msgid "*** Trying %s port %s...\n"
-msgstr ""
+msgstr "*** Probeer de %s poort %s...\n"
 
 #: src/net.c:316
 msgid "*** Connection established.\n"
-msgstr ""
+msgstr "*** Verbinding gemaakt.\n"
 
 #: src/prefs.c:253 src/prefs.c:411
 #, c-format
@@ -911,17 +944,23 @@ msgstr "Voorgrondkleur:"
 msgid ""
 "Default foreground color used when the connection doesn't request the use of "
 "a specific color."
-msgstr "Standaard voorgrondkleur die gebruikt wordt wanneer de verbinding geen gebruik van een specifieke kleur vereist."
+msgstr ""
+"Standaard voorgrondkleur die gebruikt wordt wanneer de verbinding geen "
+"gebruik van een specifieke kleur vereist."
 
 #: src/prefs.c:682
 msgid ""
 "Default background color used when the connection doesn't request the use of "
 "a specific color."
-msgstr "Standaard achtergrondkleur die gebruikt wordt wanneer de verbinding geen gebruik van een specifieke kleur vereist."
+msgstr ""
+"Standaard achtergrondkleur die gebruikt wordt wanneer de verbinding geen "
+"gebruik van een specifieke kleur vereist."
 
 #: src/prefs.c:698
 msgid "Change the color of a specific color that the MUD requests to use."
-msgstr "De kleur aanpassen van een specifieke kleur die de MUD voor het gebruik vereist."
+msgstr ""
+"De kleur aanpassen van een specifieke kleur die de MUD voor het gebruik "
+"vereist."
 
 # loctie van tabs;
 # tabs staan:
@@ -969,7 +1008,10 @@ msgstr "Opdrachtscheidingsteken:"
 msgid ""
 "The character used to divide commands sent to the mud. For example, \";\", "
 "will let the string \"w;look\" be sent to the mud as 2 separate commands."
-msgstr "Het teken dat wordt gebruikt voor het scheiden van opdrachten naar de mud. Bijvoorbeeld, met \";\" zal de tekenreeks \"w;look; worden verzonden als twee afzonderlijke opdrachten."
+msgstr ""
+"Het teken dat wordt gebruikt voor het scheiden van opdrachten naar de mud. "
+"Bijvoorbeeld, met \";\" zal de tekenreeks \"w;look; worden verzonden als "
+"twee afzonderlijke opdrachten."
 
 #: src/prefs.c:829
 msgid "Command history:"
@@ -1013,7 +1055,9 @@ msgstr "Tabs staan:"
 msgid ""
 "This setting defines where to place the connection tabs that are used to "
 "change active connection."
-msgstr "Deze instelling bepaalt waar de verbindingstabs staan die worden gebruikt om de actieve verbinding te wisselen."
+msgstr ""
+"Deze instelling bepaalt waar de verbindingstabs staan die worden gebruikt om "
+"de actieve verbinding te wisselen."
 
 #: src/prefs.c:913
 msgid "Scrollback:"
@@ -1035,7 +1079,7 @@ msgstr "S_chuiven bij uitvoer"
 msgid ""
 "If enabled, the terminal will scroll to the bottom if new output appears in "
 "the connection when the terminal was scrolled back."
-msgstr "Indien gebruikt, zal de console naar de onderkant schuiven als er nieuwe uitvoer verschijnt wanneer het console is teruggeschoven."
+msgstr "Indien aangezet, zal de console naar de onderkant schuiven als er nieuwe uitvoer verschijnt wanneer het console is teruggeschoven."
 
 #: src/prefs.c:942
 msgid "AutoMapper"
@@ -1050,7 +1094,7 @@ msgid ""
 "If you use the automapper, you may want to specify here some unusual "
 "movement commands. When you use one of these, the automapper will create a "
 "path to an other map. Use a semicolon to separate the different commands."
-msgstr ""
+msgstr "Als u de automapper gebruikt, wilt u hier mogelijk enkele ongebruikelijke beweginsopdrachten specificeren. Indien u een van deze gebruikt zal de automapper een pad naar een andere map aanmaken. Gebruik een puntkomma om de verschillende opdrachten van elkaar te scheiden."
 
 #: src/profiles.c:301
 msgid "New profile"
