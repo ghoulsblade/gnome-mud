@@ -30,10 +30,9 @@ WIZARD_DATA2 *connections_find_by_profilename(gchar *name);
 gint 		  get_size(GtkCList *clist);
 GtkWidget *clist;
 GList	  *ProfilesList;
-GList	  *ProfilesList_tmp;
 GList	  *ProfilesData;
 GList	  *Profiles;
-gint	   selected;
+gint	   selected, pselected;
 gint	   connection_selected;
 
 GtkWidget *entry_info_mud_title;
@@ -251,32 +250,94 @@ static void profilelist_delete_cb(GtkWidget *widget, gpointer data)
 	}
 }
 
+static void profilelist_alias_cb(GtkWidget *widget, gpointer data)
+{
+	PROFILE_DATA *pd;
+
+	if (selected != -1)
+	{
+		gchar *name;
+
+		gtk_clist_get_text(GTK_CLIST(data), selected, 0, &name);
+
+		pd = profiledata_find(name);
+		if (pd != NULL)
+		{
+			window_data(pd, 0);
+		}
+	}
+}
+
+static void profilelist_triggers_cb(GtkWidget *widget, gpointer data)
+{
+	PROFILE_DATA *pd;
+
+	if (selected != -1)
+	{
+		gchar *name;
+
+		gtk_clist_get_text(GTK_CLIST(data), selected, 0, &name);
+
+		pd = profiledata_find(name);
+		if (pd != NULL)
+		{
+			window_data(pd, 1);
+		}
+	}
+}
+
+static void profilelist_variables_cb(GtkWidget *widget, gpointer data)
+{
+	PROFILE_DATA *pd;
+
+	if (selected != -1)
+	{
+		gchar *name;
+
+		gtk_clist_get_text(GTK_CLIST(data), selected, 0, &name);
+
+		pd = profiledata_find(name);
+		if (pd != NULL)
+		{
+			window_data(pd, 2);
+		}
+	}
+}
+
 static void profilelist_button_ok_cb(GtkWidget *widget, GtkWidget *label)
 {
 	gchar *text = NULL;
-	
 
-	g_list_free(ProfilesList);
-	ProfilesList = ProfilesList_tmp;
-	ProfilesList_tmp = NULL;
-
-	gtk_clist_get_text(GTK_CLIST(clist), selected, 0, &text);
+	gtk_clist_get_text(GTK_CLIST(clist), pselected, 0, &text);
 	gtk_label_set_text(GTK_LABEL(label), g_strdup(text));
-}
-
-static void profilelist_button_cancel_cb(GtkWidget *widget, gpointer data)
-{
-	g_list_free(ProfilesList_tmp);
 }
 
 static void profilelist_unselect_row_cb(GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
 {
-	selected = -1;
+	switch ((int) data)
+	{
+		case 0:
+			selected = -1;
+			break;
+
+		case 1:
+			pselected = -1;
+			break;
+	}
 }
 
 static void profilelist_select_row_cb(GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
 {
-	selected = row;
+	switch ((int) data)
+	{
+		case 0:
+			selected = row;
+			break;
+
+		case 1:
+			pselected = row;
+			break;
+	}
 }
 
 static void profilelist_clist_fill(gchar *profile_name, GtkCList *clist)
@@ -295,14 +356,7 @@ static void profilelist_dialog (GtkWidget *label)
 	GtkWidget *dialog_action_area;
 	GtkWidget *button_ok;
 	GtkWidget *button_cancel;
-	GtkWidget *popup_menu;
 
-	GnomeUIInfo profilelist_menu[] = {
-		GNOMEUIINFO_ITEM_STOCK(N_("New"),		NULL,	profilelist_new_cb,		GNOME_STOCK_MENU_NEW),
-		GNOMEUIINFO_ITEM_STOCK(N_("Delete"),	NULL,	profilelist_delete_cb,	GNOME_STOCK_MENU_CLOSE),
-		GNOMEUIINFO_END
-	};
-	
 	if (dialog != NULL)
 	{
 		gdk_window_raise(dialog->window);
@@ -329,8 +383,6 @@ static void profilelist_dialog (GtkWidget *label)
 	gtk_widget_set_usize (scrolledwindow, -2, 100);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	popup_menu = gnome_popup_menu_new(profilelist_menu);
-	
 	clist = gtk_clist_new (1);
 	gtk_widget_ref (clist);
 	gtk_object_set_data_full (GTK_OBJECT (dialog), "clist", clist, (GtkDestroyNotify) gtk_widget_unref);
@@ -339,8 +391,7 @@ static void profilelist_dialog (GtkWidget *label)
 	gtk_clist_set_column_width (GTK_CLIST (clist), 0, 80);
 	gtk_clist_column_titles_hide (GTK_CLIST (clist));
 	gtk_clist_set_shadow_type (GTK_CLIST (clist), GTK_SHADOW_ETCHED_IN);
-	ProfilesList_tmp = g_list_copy(ProfilesList);
-	g_list_foreach(ProfilesList_tmp, (GFunc) profilelist_clist_fill, (gpointer) clist);
+	g_list_foreach(ProfilesList, (GFunc) profilelist_clist_fill, (gpointer) clist);
 
 	dialog_action_area = GNOME_DIALOG (dialog)->action_area;
 	gtk_object_set_data (GTK_OBJECT (dialog), "dialog_action_area", dialog_action_area);
@@ -362,15 +413,15 @@ static void profilelist_dialog (GtkWidget *label)
 	gtk_widget_show (button_cancel);
 	GTK_WIDGET_SET_FLAGS (button_cancel, GTK_CAN_DEFAULT);
 
+	gtk_signal_connect(GTK_OBJECT(clist), "select-row",   GTK_SIGNAL_FUNC(profilelist_select_row_cb), GINT_TO_POINTER(1));
+	gtk_signal_connect(GTK_OBJECT(clist), "unselect-row", GTK_SIGNAL_FUNC(profilelist_unselect_row_cb), GINT_TO_POINTER(1));
+
 	gtk_signal_connect(GTK_OBJECT(button_ok), "clicked", GTK_SIGNAL_FUNC(profilelist_button_ok_cb), (gpointer) label);
 	gtk_signal_connect_object(GTK_OBJECT(button_ok), "clicked", gtk_widget_destroy, (gpointer) dialog);
-	gtk_signal_connect(GTK_OBJECT(button_cancel), "clicked", GTK_SIGNAL_FUNC(profilelist_button_cancel_cb), (gpointer) clist);
 	gtk_signal_connect_object(GTK_OBJECT(button_cancel), "clicked", gtk_widget_destroy, (gpointer) dialog);
 	gtk_signal_connect(GTK_OBJECT(dialog), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &dialog);
 	
 	gtk_widget_show(dialog);
-
-	//gnome_popup_menu_attach(popup_menu, clist, NULL);
 }
 
 WIZARD_DATA2 *connections_find(gchar *name, gchar *character)
@@ -973,11 +1024,15 @@ void window_profile_edit(void)
 	/*
 	 * Signals
 	 */
-	gtk_signal_connect(GTK_OBJECT(profile_list), "select-row",   GTK_SIGNAL_FUNC(profilelist_select_row_cb), NULL);
-	gtk_signal_connect(GTK_OBJECT(profile_list), "unselect-row", GTK_SIGNAL_FUNC(profilelist_unselect_row_cb), NULL);
+	gtk_signal_connect(GTK_OBJECT(profile_list), "select-row",   GTK_SIGNAL_FUNC(profilelist_select_row_cb), GINT_TO_POINTER(0));
+	gtk_signal_connect(GTK_OBJECT(profile_list), "unselect-row", GTK_SIGNAL_FUNC(profilelist_unselect_row_cb), GINT_TO_POINTER(0));
 
-	gtk_signal_connect(GTK_OBJECT(button_new), "clicked", GTK_SIGNAL_FUNC(profilelist_new_cb), profile_list);
+	gtk_signal_connect(GTK_OBJECT(button_new),    "clicked", GTK_SIGNAL_FUNC(profilelist_new_cb), profile_list);
 	gtk_signal_connect(GTK_OBJECT(button_delete), "clicked", GTK_SIGNAL_FUNC(profilelist_delete_cb), profile_list);
+	
+	gtk_signal_connect(GTK_OBJECT(button_alias),     "clicked", GTK_SIGNAL_FUNC(profilelist_alias_cb), profile_list);
+	gtk_signal_connect(GTK_OBJECT(button_triggers),  "clicked", GTK_SIGNAL_FUNC(profilelist_triggers_cb), profile_list);
+	gtk_signal_connect(GTK_OBJECT(button_variables), "clicked", GTK_SIGNAL_FUNC(profilelist_variables_cb), profile_list);
 	
 	gtk_widget_show(profile_window);
 }
