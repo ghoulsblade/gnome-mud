@@ -32,6 +32,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #if 0
 #define USE_DMALLOC
@@ -2518,7 +2519,6 @@ gint leave_notify_event (GtkWidget *widget,
 
 AutoMap *auto_map_new(void)
 {
-  //gchar name[100];
     AutoMap *automap = g_malloc0(sizeof(AutoMap));
     GtkWidget *hbox, *updownvbox, *loadsavevbox, *vbox, *sep;
     GtkWidget *n, *ne, *e, *se, *s, *sw, *w, *nw, *up, *down;
@@ -2537,8 +2537,8 @@ AutoMap *auto_map_new(void)
     /* Set the title */
     //g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
     //gtk_window_set_title(GTK_WINDOW(automap->window), name);
-    gtk_window_set_title (GTK_WINDOW (automap->window), "Amcl AutoMapper");
-    
+    gtk_window_set_title (GTK_WINDOW(automap->window), "Amcl AutoMapper");
+
     /* Create the drawing window and allocate its colours */
     automap->draw_area = gtk_drawing_area_new();
     gtk_drawing_area_size(GTK_DRAWING_AREA(automap->draw_area),

@@ -1,3 +1,17 @@
+Wed Jun 28 03:00:00 CEST 2000  Jorge Garcia  <Jorge.Garcia@uv.es>
+
+        * Cleaned unused variables in almost all .c files
+        * src/prefs.c: check_amcl_dir changed to
+          FILE *open_file(gchar *filename, gchar *mode)
+          it checks for proper perms on ~/.amcl dir
+          (changes on alias.c action.c init.c wizard.c color.c
+           modules.c init.c)
+        * src/alias.c: fixed minor bugs about buttons
+                       optimized load_aliases
+
+        * src/action.c: fixed minor bugs about buttons
+                        optimized load_actions
+
 Tue Jun 27 08:39:13 2000  Jeroen Ruigrok  <asmodai@wxs.nl>
 
 	* src/action.c: Proper prototyping, removal of unused variables

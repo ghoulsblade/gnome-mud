@@ -51,59 +51,30 @@ gint bind_list_selected_row = -1;
 void save_keys (void)
 {
     KEYBIND_DATA *scroll;
-    gchar *home, filename[256] = "";
     FILE *fp;
-    bool done = FALSE;
     gchar buf[30];
-    gint  row = 0;
 
-    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
-
-    if (check_amcl_dir (filename) != 0)
-        return;
-
-    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/keys");
-
-    fp = fopen (filename, "w");
+    if (!(fp = open_file ("keys", "w"))) return;
 
     for ( scroll = KB_head; scroll != NULL; scroll = scroll->next )
     {
-	    buf[0] = 0;
-	    if ((scroll->state)&4) strcat(buf,"Control+");
-	    if ((scroll->state)&8) strcat(buf,"Alt+");
-	    strcat(buf,gdk_keyval_name(scroll->keyv));
-	     
-
-            fprintf (fp, "%s %s\n", buf, scroll->data);
+       buf[0] = 0;
+       if ((scroll->state)&4) strcat(buf,"Control+");
+       if ((scroll->state)&8) strcat(buf,"Alt+");
+       strcat(buf,gdk_keyval_name(scroll->keyv));
+       fprintf (fp, "%s %s\n", buf, scroll->data);
     }
 
-    if ( fp )
-        fclose (fp);
-
+    if (fp) fclose (fp);
     gtk_widget_set_sensitive (KB_button_save, FALSE);
-
-    return;
 }
-
-
-
 
 void load_keys ( void )
 {
     FILE *fp;
-    gchar *home, filename[255] = "";
     gchar line[80+15+5];
    
-    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
-    if (check_amcl_dir (filename) != 0)
-        return;
-
-    g_snprintf (filename, 254, "%s%s", uid_info->pw_dir, "/.amcl/keys");
-
-    fp = fopen (filename, "r");
-
-    if ( fp == NULL )
-        return;
+    if (!(fp = open_file ("keys", "r"))) return;
 
     while ( fgets (line, 80+15+5, fp) != NULL )
     {
@@ -132,11 +103,10 @@ void load_keys ( void )
 	KB_head = tmp;
     }
 
-    fclose (fp);
+    if (fp) fclose (fp);
 }
 
-void
-on_window_destroy                      (GtkObject       *widget)
+void on_window_destroy (GtkObject *widget)
 {
   if ( prefs.AutoSave )
     save_keys();
@@ -323,17 +293,7 @@ on_clist_unselect_row                  (GtkCList        *clist,
     gtk_widget_set_sensitive ( KB_button_delete, FALSE);
 
 }
-/*
 
-void
-on_KB_button_save_clicked                     (GtkButton       *button,
-                                        gpointer         user_data)
-{
-    save_keys();
-    gtk_widget_set_sensitive ( KB_button_save, FALSE);
-
-}
-*/
 void Command_list_fill(GtkCList *clist)
 {
     KEYBIND_DATA *scroll = KB_head;
@@ -517,9 +477,3 @@ void window_keybind ()
   gtk_widget_set_sensitive (menu_option_keys, FALSE);
   gtk_widget_show(window_keybind);    
 }
-
-
-
-
-
-

@@ -44,6 +44,7 @@ CONNECTION_DATA *main_connection;
 CONNECTION_DATA *connections[15];
 GtkWidget *main_notebook;
 GtkWidget *text_entry;
+GtkWidget *view_history;
 GtkWidget *entry_host;
 GtkWidget *entry_port;
 GtkWidget *menu_plugin_menu;
@@ -52,16 +53,15 @@ GtkWidget *menu_main_connect;
 GtkWidget *menu_main_disconnect;
 GtkWidget *menu_main_close;
 GtkWidget *menu_option_prefs;
-GtkWidget *menu_option_alias;
 GtkWidget *menu_option_mapper;
-GtkWidget *menu_option_colors;
-GtkWidget *menu_option_action;
 GtkWidget *menu_option_keys;
+GtkWidget *menu_option_action;
+GtkWidget *menu_option_alias;
+GtkWidget *menu_option_colors;
 GtkWidget *window;
 /*
  * Colors...
  */
-GdkColormap *cmap;
 GdkColor color_white;
 GdkColor color_black;
 GdkColor color_blue;
@@ -81,6 +81,7 @@ GdkColor color_lightgrey;
 
 GdkFont  *font_normal;
 GdkFont  *font_fixed;
+
 
 GList *EntryHistory = NULL;
 GList *EntryCurr    = NULL;
@@ -217,7 +218,7 @@ void about_window (GtkWidget *widget, gpointer data)
     gtk_widget_show (a_window);
 }
 
-GList *text_entry_find (gchar *text)
+GList *text_entry_find (gchar *text, gpointer data)
 {
     GList *list;
 
@@ -233,29 +234,31 @@ GList *text_entry_find (gchar *text)
     return NULL;
 }
 
-int text_entry_key_press_cb (GtkEntry *entry, GdkEventKey *event, gpointer data)
+int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gpointer data)
 {
   CONNECTION_DATA *cd;
   gint   number;
   GList *li;
   KEYBIND_DATA *scroll = KB_head;
-  
+    
   number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
   cd = connections[number];
   
-    if ( event->state & GDK_CONTROL_MASK )
-    {
-    }
-    else
-    {if (EntryCurr)
-        switch ( event->keyval )
-        {
+  if ( event->state & GDK_CONTROL_MASK )
+  {
+  }
+  else
+  {
+    if (EntryCurr)
+      switch ( event->keyval )
+      {
         case GDK_Page_Up:
         case GDK_Page_Down:
             
         case GDK_Up:
 	  //case GDK_KP_Up:
-	  if (EntryCurr->prev) {
+	  if (EntryCurr->prev)
+	  {
 	    li = EntryCurr->prev;
 	    
 	    if ( !prefs.KeepText && Keyflag) li = li->next;
@@ -266,7 +269,7 @@ int text_entry_key_press_cb (GtkEntry *entry, GdkEventKey *event, gpointer data)
 				     GTK_ENTRY (text_entry)->text_length);
 	    Keyflag = FALSE;
 	  }
-	  gtk_signal_emit_stop_by_name (GTK_OBJECT (entry), "key_press_event");
+	  gtk_signal_emit_stop_by_name (GTK_OBJECT (text_entry), "key_press_event");
 	  return TRUE;
 	  break;
 
@@ -283,7 +286,7 @@ int text_entry_key_press_cb (GtkEntry *entry, GdkEventKey *event, gpointer data)
 	    EntryCurr = g_list_last (EntryHistory);
 	    gtk_entry_set_text (GTK_ENTRY (text_entry), "");
 	  }            
-	  gtk_signal_emit_stop_by_name (GTK_OBJECT (entry), "key_press_event");
+	  gtk_signal_emit_stop_by_name (GTK_OBJECT (text_entry), "key_press_event");
 	  return TRUE;
 	  break;
         }
@@ -295,7 +298,7 @@ int text_entry_key_press_cb (GtkEntry *entry, GdkEventKey *event, gpointer data)
 	{
 	  connection_send(cd, scroll->data);
 	  connection_send(cd, "\n");
-	  gtk_signal_emit_stop_by_name (GTK_OBJECT (entry), "key_press_event");
+	  gtk_signal_emit_stop_by_name (GTK_OBJECT (text_entry), "key_press_event");
 	  return TRUE;	  
 	}
     
@@ -305,7 +308,6 @@ int text_entry_key_press_cb (GtkEntry *entry, GdkEventKey *event, gpointer data)
 
 void do_connection (GtkWidget *widget, gpointer data)
 {
-  CONNECTION_DATA *cd;
 
   g_free(host); g_free(port);
   host = g_strdup (gtk_entry_get_text (GTK_ENTRY( entry_host)));
@@ -333,7 +335,6 @@ void do_close (GtkWidget *widget, gpointer data)
 void do_disconnect (GtkWidget *widget, gpointer data)
 {
   CONNECTION_DATA *cd;
-  GList *list;
   gint number;
 
   number = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
@@ -351,6 +352,7 @@ void init_window ()
     GtkWidget *box_main;
     GtkWidget *box_main2;
     GtkWidget *box_h_low;
+    GtkWidget *box_main3;
     GtkWidget *menu_bar;
     GtkWidget *menu_main;
     GtkWidget *menu_help;
@@ -544,15 +546,29 @@ void init_window ()
     gtk_box_pack_start (GTK_BOX (box_h_low), main_connection->vscrollbar, FALSE, FALSE, 0);
     gtk_widget_show(main_connection->vscrollbar);
 
-    text_entry = gtk_entry_new ();
-    gtk_signal_connect (GTK_OBJECT (text_entry), "key_press_event",
+
+    box_main3 = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_end (GTK_BOX (box_main), box_main3, FALSE, TRUE, 5);
+    
+    text_entry = gtk_entry_new();
+/*
+    text_entry = gtk_combo_new();
+    gtk_combo_disable_activate(GTK_COMBO(text_entry));
+    gtk_combo_set_usex_arrows(GTK_COMBO(text_entry), FALSE);
+    EntryCurr = g_list_append(NULL, "");
+    gtk_combo_set_popdown_strings (GTK_COMBO (text_entry), EntryCurr);
+    gtk_signal_connect(GTK_OBJECT(GTK_COMBO(text_entry)->entry), "activate",
+                       GTK_SIGNAL_FUNC (combo), GTK_COMBO(text_entry));
+*/
+
+    gtk_box_pack_start(GTK_BOX(box_main), text_entry, FALSE, TRUE, 0);
+    gtk_signal_connect(GTK_OBJECT(text_entry), "activate",
+                       GTK_SIGNAL_FUNC (send_to_connection), NULL);
+    gtk_signal_connect (GTK_OBJECT(text_entry), "key_press_event",
                         GTK_SIGNAL_FUNC (text_entry_key_press_cb), NULL);
-    gtk_signal_connect (GTK_OBJECT (text_entry), "activate",
-                        GTK_SIGNAL_FUNC (send_to_connection), NULL);
-    gtk_box_pack_start (GTK_BOX(box_main), text_entry, FALSE, TRUE, 0);
     gtk_widget_grab_focus (text_entry);
     gtk_widget_show (text_entry);
-
+    gtk_widget_show(box_main3);
     /* show them */
     gtk_widget_show (box_h_low           );
     gtk_widget_show (box_main2           );
@@ -587,5 +603,4 @@ void init_window ()
         gtk_text_insert (GTK_TEXT (main_connection->window), NULL, &color_lightgrey, NULL, buf, -1);
     }
 
-    //create_color_box ();
 }

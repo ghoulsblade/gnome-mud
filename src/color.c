@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #include "amcl.h"
 
@@ -31,14 +32,10 @@ static char const rcsid[] =
 
 #define C_MAX 16
 
-extern GdkColormap *cmap;
+GdkColormap *cmap;
 
 GtkWidget *color_window, *color_widget;
 GtkWidget *c_radio[C_MAX];
-GtkBox    *c_box, *c_box2, *c_box3, *c_hbox, *c_hbox2;
-
-GtkButton *c_ok, *c_apply, *c_cancel, *c_save, *c_load;
-GtkAlignment *c_a1, *c_a2;
 
 GdkColor  *c_structs[C_MAX] = {
     &color_black,
@@ -86,8 +83,8 @@ const char *default_color[C_MAX] = {
     "#000080",
     "#800080",
     "#008080",
-    "#404040",
     "#ffffff",
+    "#404040",
     "#ff0000",
     "#00ff00",
     "#ffff00",
@@ -131,21 +128,8 @@ gushort convert_color (guint c)
 
 int from_hex (const char *what)
 {
-    int temp;
-
-    if (what[0] > '9')
-        temp = what[0] - 'a' + 10;
-    else
-        temp = what[0] - '0';
-
-    temp *= 16;
-
-    if (what[1] > '9')
-        temp += what[1] - 'a' + 10;
-    else
-        temp += what[1] - '0';
-
-    return temp;
+   return (what[0] - ((what[0] > '9')?('a'+10):'0'))*16 +
+          (what[1] - ((what[1] > '9')?('a'+10):'0'));
 }
 
 void grab_color (GdkColor *color, const char *col)
@@ -217,28 +201,24 @@ void update_gdk_colors()
     }
 }
 
-void color_ok_pressed ()
-{
-    gtk_widget_hide (GTK_WIDGET (color_window));
-    gtk_widget_set_sensitive (menu_option_colors, TRUE);
-    copy_color_from_selector_to_array ();
-    update_gdk_colors();
-    if ( prefs.AutoSave )
-      save_colors();
-    gtk_widget_destroy(color_window);
-}
-
-void color_cancel_pressed ()
-{
-    gtk_widget_hide (GTK_WIDGET (color_window));
-    gtk_widget_set_sensitive (menu_option_colors, TRUE);
-    gtk_widget_destroy (color_window);
-}
-
 void color_apply_pressed ()
 {
     copy_color_from_selector_to_array ();
     update_gdk_colors ();
+}
+ 
+void color_cancel_pressed ()
+{
+    gtk_widget_set_sensitive (menu_option_colors, TRUE);
+    gtk_widget_destroy (color_window);
+}
+ 
+void color_ok_pressed ()
+{
+    color_apply_pressed();
+    if ( prefs.AutoSave ) 
+      save_colors();
+    color_cancel_pressed();
 }
 
 void color_radio_clicked (GtkWidget *what)
@@ -260,7 +240,11 @@ void color_radio_clicked (GtkWidget *what)
 
 void window_color (GtkWidget *a, gpointer d)
 {
+  GtkBox    *c_box, *c_box2, *c_box3, *c_hbox, *c_hbox2;
+  GtkButton *c_ok, *c_apply, *c_cancel, *c_save, *c_load;
+  GtkAlignment *c_a1, *c_a2;
   int i;
+
   current_color = colors[0];
   
   for ( i = 0; i < 16; i++ ) {
@@ -362,106 +346,76 @@ void window_color (GtkWidget *a, gpointer d)
   return;
 }
 
-//void window_color (GtkWidget *a, gpointer d)
-//{
-//    gtk_widget_show (GTK_WIDGET (color_window));
-//    gtk_widget_set_sensitive (menu_option_colors, FALSE);
-//}
-
 void save_colors (void)
 {
-    gchar *home, filename[256] = "";
     FILE *fp;
     gint i;
 
-    home = getenv ("HOME");
+    if (!(fp = open_file("colors", "w"))) return;
 
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl");
-
-    if (check_amcl_dir (filename) != 0)
-        return;
-
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl/colors");
-
-    fp = fopen (filename, "w");
-
-   if ( fp )
-    {
     for (i = 0 ; i < C_MAX; i++)
-	{
+    {
 	gint tmp;
-      
-        if ( strlen (c_captions[i]) > 7)  
-	    fprintf (fp,"%s\t#",c_captions[i]);
-	else
-	    fprintf (fp,"%s\t\t#",c_captions[i]);
-      
-	tmp = c_structs[i]->red / 256;
-	if (tmp < 16)
-	  fprintf(fp, "0%x",tmp);
-	 else
-	  fprintf(fp, "%x",tmp);
-	tmp = c_structs[i]->green / 256;
-	if (tmp < 16)
-          fprintf(fp, "0%x",tmp);
-	 else
-	  fprintf(fp, "%x",tmp);
-	tmp = c_structs[i]->blue / 256;
-	if (tmp < 16)
-          fprintf(fp, "0%x\n",tmp);
-	 else
-	  fprintf(fp, "%x\n",tmp);
-	}
-	fclose(fp);
-     }
 
-    return;
+		if ( strlen (c_captions[i]) > 7)
+		    fprintf (fp, "%s\t#",c_captions[i]);
+		else
+		    fprintf (fp, "%s\t\t#", c_captions[i]);
+
+                tmp = c_structs[i]->red / 256;
+                if (tmp < 16)
+                  fprintf(fp, "0%x",tmp);
+                 else
+                  fprintf(fp, "%x",tmp);
+                tmp = c_structs[i]->green / 256;
+                if (tmp < 16)
+                  fprintf(fp, "0%x",tmp);
+                 else
+                  fprintf(fp, "%x",tmp);
+                tmp = c_structs[i]->blue / 256;
+                if (tmp < 16)
+                  fprintf(fp, "0%x\n",tmp);
+                else
+                  fprintf(fp, "%x\n",tmp);
+     }
+     if (fp) fclose(fp);
 }
 
 void load_colors ( void )
 {
     FILE *fp;
-    gchar *home, filename[255] = "";
     gchar line[80];
   
-    home = getenv ("HOME");
-
-    load_colors_default(); 
+    load_colors_default();
     
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl");
-    if (check_amcl_dir (filename) != 0) return;
-
-    g_snprintf (filename, 254, "%s%s", home, "/.amcl/colors");
-
-    fp = fopen (filename, "r");
-    if ( fp == NULL ) return;
+    if (!(fp = open_file("colors", "r"))) return;
 
     while ( fgets(line, 80, fp) != NULL)
     {
 	gchar *fontvalue;
 	gint  i;
-	
+
 	for (i = 0; line[i] != 0 && line[i] != '#'; i++);
 	fontvalue = line+i;
-	for (;i>=0 && line[i] < 'a';i--);
+	for (;i>0 && line[i] < 'a';i--);
 	line[i+1] = 0;
 	for ( i = 0; i < C_MAX ; i++)
 	    if ( strcmp ( line, c_captions[i]) == 0)
 		{
-		    free (text_color[i]);
-		    text_color[i] = (char *) strdup(fontvalue);
-		    break; 
+			free (text_color[i]);
+			text_color[i] = strdup (fontvalue);
+			break;
 		}
     }
 
-    fclose (fp);
+    if (fp) fclose (fp);
 
     if ( ( font_normal = gdk_font_load (prefs.FontName) ) == NULL )
     {
         g_warning ("Can't load font... %s Using default.\n", prefs.FontName);
         g_free ( prefs.FontName );
         prefs.FontName = g_strdup ("fixed");
-        save_prefs ();
+	save_prefs (NULL, NULL);
     }
 
     load_color_to_c_structs();

@@ -23,7 +23,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <stdlib.h>
 #include "amcl.h"
 
 #ifdef HAVE_TELNET_H
