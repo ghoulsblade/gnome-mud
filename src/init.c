@@ -569,6 +569,7 @@ CONNECTION_DATA *create_connection_data(gint notebook)
 	c->window = vte_terminal_new();
 
 	vte_terminal_set_colors(VTE_TERMINAL(c->window), &prefs.Foreground, &prefs.Background, prefs.Colors, C_MAX);
+	vte_terminal_set_scrollback_lines(VTE_TERMINAL(c->window), prefs.Scrollback);
 	
 	GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(c->window), GTK_CAN_FOCUS);
 	gtk_widget_set_usize(c->window, 500, 300);

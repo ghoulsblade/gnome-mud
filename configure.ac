@@ -24,7 +24,7 @@ AM_GCONF_SOURCE_2
 dnl pkg-config dep checks
 LIBGNOME_REQUIRED=2.0.0
 LIBGNOMEUI_REQUIRED=2.0.0
-VTE_REQUIRED=0.10.20
+VTE_REQUIRED=0.10.26
 
 dnl libgnome, libgnomeui needed for all utils
 PKG_CHECK_MODULES(GMUD, libgnome-2.0 >= $LIBGNOME_REQUIRED

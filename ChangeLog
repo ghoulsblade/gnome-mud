@@ -1,3 +1,33 @@
+Tue Mar 11 10:47:28 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* This commit fixed bug #569757.
+
+	* configure.ac: VTE changed from 0.10.20 -> 0.10.26
+
+	* gnome-mud.schemas.int: Added keys last_log_dir and 
+	scrollback_lines.
+
+	* src/gnome-mud.h [system_data]: Added Scrollback.
+
+	* src/init.c (create_connection_data): Set scrollback on
+	init.
+
+	* src/log.c (file_selection_cb_open): Set preference via
+	gconf instead of directly.
+	(window_menu_file_save_log_file_cb): Same.
+
+	* src/net.c (open_connection): Connection refused would not stop
+	the connection mechanism, fixed.
+
+	* src/prefs.c (prefs_logdir_changed): Added.
+	(prefs_scrollback_changed): Added.
+	(load_prefs): Added key last_log_dir and scrollback_lines.
+	(prefs_scrollback_value_changed_cb): Added.
+	(window_prefs): Added SpinButton for changing scrollback.
+
+	* src/window.c (textfield_add): Fixed colors for message_sent,
+	_err and _system.
+
 Mon Mar 10 16:13:10 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* This commit fixed bug #607679.

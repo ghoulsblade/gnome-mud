@@ -215,40 +215,50 @@ void open_connection (CONNECTION_DATA *connection)
     req.ai_protocol =IPPROTO_TCP;
 
     ret = getaddrinfo(connection->host,connection->port,&req,&ans);
-    if ( ret != 0) {
-     	print_error(connection, gai_strerror(ret)) ;
-      return;
-    }
-
-   tmpaddr = ans;
-
-
-   while (tmpaddr != NULL) {
-    char name[NI_MAXHOST],portname[NI_MAXSERV];
-    getnameinfo(tmpaddr->ai_addr, tmpaddr->ai_addrlen,
-        name,sizeof(name),portname,sizeof(portname),
-        NI_NUMERICHOST | NI_NUMERICSERV);
-
-    snprintf(buf,2047,_("*** Trying %s port %s...\r\n"),name,port);
-    textfield_add (connection, buf, MESSAGE_SYSTEM);
-  
-    connection->sockfd = 
-      socket(tmpaddr->ai_family,tmpaddr->ai_socktype,tmpaddr->ai_protocol);
-    if (connection->sockfd < 0) {
-      print_error(connection,strerror(errno));
-    } else if ((ret=connect(connection->sockfd, tmpaddr->ai_addr,tmpaddr->ai_addrlen)) < 0) {
-      print_error(connection,strerror(errno));
-    } else {
-	  break;
+    if ( ret != 0)
+	{
+		print_error(connection, gai_strerror(ret)) ;
+		return;
 	}
-    tmpaddr = tmpaddr->ai_next;
-  } 
-  freeaddrinfo(ans);
-  textfield_add (connection, _("*** Connection established.\r\n"), MESSAGE_SYSTEM);
 
-    connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ,
-					   GTK_SIGNAL_FUNC(read_from_connection),
-					   (gpointer) connection);
+	tmpaddr = ans;
+
+	while (tmpaddr != NULL)
+	{
+		char name[NI_MAXHOST],portname[NI_MAXSERV];
+ 		
+		getnameinfo(tmpaddr->ai_addr, tmpaddr->ai_addrlen, name,sizeof(name),portname,sizeof(portname), NI_NUMERICHOST | NI_NUMERICSERV);
+
+		snprintf(buf,2047,_("*** Trying %s port %s...\r\n"),name,port);
+		textfield_add (connection, buf, MESSAGE_SYSTEM);
+  
+		connection->sockfd = socket(tmpaddr->ai_family,tmpaddr->ai_socktype,tmpaddr->ai_protocol);
+
+		if (connection->sockfd < 0)
+		{
+			print_error(connection,strerror(errno));
+			freeaddrinfo(ans);
+			return;
+    	}
+		else if ((ret=connect(connection->sockfd, tmpaddr->ai_addr,tmpaddr->ai_addrlen)) < 0)
+		{
+			print_error(connection,strerror(errno));
+			freeaddrinfo(ans);
+			return;
+		}
+		else
+		{
+			break;
+		}
+		
+		tmpaddr = tmpaddr->ai_next;
+	}
+
+	freeaddrinfo(ans);
+
+	textfield_add (connection, _("*** Connection established.\r\n"), MESSAGE_SYSTEM);
+
+    connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ, GTK_SIGNAL_FUNC(read_from_connection), (gpointer) connection);
     connection->connected = TRUE;
 }
 

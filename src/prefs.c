@@ -246,6 +246,29 @@ static void prefs_tab_location_changed(GConfClient *client, guint cnxn_id, GConf
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(main_notebook), tab_location_by_gtk(p));
 }
 
+static void prefs_logdir_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	const gchar *p = gconf_value_get_string(gconf_entry_get_value(entry));
+
+	g_free(prefs.LastLogDir);
+	prefs.LastLogDir = g_strdup(p);
+}
+
+static void prefs_scrollback_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+	gint i;
+	
+	prefs.Scrollback = gconf_value_get_int(gconf_entry_get_value(entry));
+
+	for (i = 0; i < MAX_CONNECTIONS; i++)
+	{
+		if (connections[i] != NULL)
+		{
+			vte_terminal_set_scrollback_lines(VTE_TERMINAL(connections[i]->window), prefs.Scrollback);
+		}
+	}
+}
+
 void load_prefs ( void )
 {
 	GdkColor  color;
@@ -281,40 +304,33 @@ void load_prefs ( void )
 	/* font name */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/font", NULL);
 	prefs.FontName = g_strdup(p);
-
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/font", prefs_fontname_changed, NULL, NULL, NULL);
 
 	/* command divider */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/commdev", NULL);
 	prefs.CommDev = g_strdup(p);
-
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/commdev", prefs_commdev_changed, NULL, NULL, NULL);
 
 	/* echo text */
 	prefs.EchoText = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/echo", NULL);
-	
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/echo", prefs_echo_changed, NULL, NULL, NULL);
 
 	/* keep text */
 	prefs.KeepText = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/keeptext", NULL);
-
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/keeptext", prefs_keeptext_changed, NULL, NULL, NULL);
 
 	/* disable keys */
 	prefs.DisableKeys = gconf_client_get_bool(gconf_client, "/apps/gnome-mud/system_keys", NULL);
-
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/system_keys", prefs_system_keys_changed, NULL, NULL, NULL);
 
 	/* terminal type */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/terminal_type", NULL);
 	prefs.TerminalType = g_strdup(p);
-
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/terminal_type", prefs_terminal_type_changed, NULL, NULL, NULL);
 
 	/* mudlist file */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/mudlist_file", NULL);
 	prefs.MudListFile = g_strdup(p);
-
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/mudlist_file", prefs_mudlist_file_changed, NULL, NULL, NULL);
 
 	/* foreground color */
@@ -352,19 +368,31 @@ void load_prefs ( void )
 
 	/* tab location */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/tab_location", NULL);
-
 	prefs.TabLocation = g_strdup(p);
-
 	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/tab_location", prefs_tab_location_changed, NULL, NULL, NULL);
+
+	/* last log dir */
+	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/last_log_dir", NULL);
+
+	if (!g_ascii_strncasecmp(p, "", sizeof("")))
+	{
+		prefs.LastLogDir = g_strdup(g_get_home_dir());
+	}
+	else
+	{
+		prefs.LastLogDir = g_strdup(p);
+	}
+
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/last_log_dir", prefs_logdir_changed, NULL, NULL, NULL);
+
+	/* scrollback lines */
+	prefs.Scrollback = gconf_client_get_int(gconf_client, "/apps/gnome-mud/scrollback_lines", NULL);
+	gconf_client_notify_add(gconf_client, "/apps/gnome-mud/scrollback_lines", prefs_scrollback_changed, NULL, NULL, NULL);
 
 	
 	/*
 	 * Get general parameters
 	 *
-
-	g_snprintf(buf, 255, "/gnome-mud/Preferences/LastLogDir=%s/", g_get_home_dir());
-	prefs.LastLogDir  = gnome_config_get_string(buf);
-
 	prefs.History     = gnome_config_get_int   ("/gnome-mud/Preferences/History=10");
 
 	*
@@ -508,6 +536,13 @@ static void prefs_tab_location_changed_cb(GtkOptionMenu *option, gpointer data)
 	gconf_client_set_string(gconf_client, "/apps/gnome-mud/tab_location", tab_location_by_name(selected), NULL);
 }
 
+static void prefs_scrollback_value_changed_cb(GtkWidget *button, gpointer data)
+{
+	gint value = (gint) gtk_spin_button_get_value(GTK_SPIN_BUTTON(button));
+
+	gconf_client_set_int(gconf_client, "/apps/gnome-mud/scrollback_lines", value, NULL);
+}
+
 GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 {
 	GtkWidget *table_colorfont;
@@ -601,7 +636,9 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 void window_prefs (GtkWidget *widget, gpointer data)
 {
   static GtkWidget *prefs_window;
-  
+ 
+  GtkAdjustment *spinner_adj;
+
   GtkWidget *vbox2;
   GtkWidget *hbox1, *hbox_term;
   GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton;
@@ -762,8 +799,9 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	 */
 	vbox2 = gtk_vbox_new(FALSE, 0);
 
+	/* tab location */
 	hbox1 = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox1, TRUE, TRUE, 5);
+	gtk_box_pack_start(GTK_BOX(vbox2), hbox1, FALSE, FALSE, 5);
 
 	label1 = gtk_label_new(_("Tabs are located:"));
 	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
@@ -787,6 +825,21 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	gtk_signal_connect(GTK_OBJECT(tw), "changed", GTK_SIGNAL_FUNC(prefs_tab_location_changed_cb), NULL);
 	
 	gtk_box_pack_start(GTK_BOX(hbox1), tw, FALSE, FALSE, 10);	
+
+	hbox1 = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox2), hbox1, FALSE, FALSE, 5);
+
+	label1 = gtk_label_new(_("Scrollback:"));
+	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
+
+	spinner_adj = (GtkAdjustment *) gtk_adjustment_new(prefs.Scrollback, 0, 5000, 1, 5, 5);
+	tw = gtk_spin_button_new(spinner_adj, 1, 0);
+	gtk_signal_connect(GTK_OBJECT(tw), "value-changed", GTK_SIGNAL_FUNC(prefs_scrollback_value_changed_cb), NULL);
+	gtk_box_pack_start(GTK_BOX(hbox1), tw, FALSE, FALSE, 10);
+
+	label1 = gtk_label_new(_("lines"));
+	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
+
 	
 	gtk_widget_show_all(vbox2);
 	label2 = gtk_label_new(_("Apperence"));

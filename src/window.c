@@ -118,24 +118,22 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
 	switch (colortype)
     {
 	    case MESSAGE_SENT:
-			// FIXME correct graphic-codes here
-			//gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Colors[11], &prefs.Background, message, strlen (message));
-			//break;
+			vte_terminal_feed(VTE_TERMINAL(text_widget), "\e[1;33m", 7);
+			break;
 		
 	    case MESSAGE_ERR:
-			// FIXME correct graphic-codes here
-    	    //gtk_text_insert (GTK_TEXT (text_widget), font_normal, &prefs.Colors[2], &prefs.Background, message, strlen (message));
-			//break;
+			vte_terminal_feed(VTE_TERMINAL(text_widget), "\e[1;31m", 7);
+			break;
 		
 		case MESSAGE_SYSTEM:
-			// FIXME correct graphic-codes here
-			//
-			//break;
+			vte_terminal_feed(VTE_TERMINAL(text_widget), "\e[1;32m", 7);
+			break;
 		
 		default:
 			break;
     }
 
  	vte_terminal_feed(VTE_TERMINAL(text_widget), message, strlen(message));
+	vte_terminal_feed(VTE_TERMINAL(text_widget), "\e[0m", 4);
 }
 

@@ -20,6 +20,7 @@
 #include "config.h"
 #endif
 
+#include <gconf/gconf-client.h>
 #include <gnome.h>
 #include <stdio.h>
 #include <time.h>
@@ -40,6 +41,7 @@ extern CONNECTION_DATA *main_connection;
 extern CONNECTION_DATA *connections[15];
 extern SYSTEM_DATA      prefs;
 extern GtkWidget       *main_notebook ;
+extern GConfClient     *gconf_client;
 
 void window_menu_file_start_logging_cb (GtkWidget *widget, gpointer data)
 {
@@ -94,9 +96,7 @@ void file_selection_cb_open
   cd->log_filename =
     g_strdup(gtk_file_selection_get_filename(GTK_FILE_SELECTION(fs))) ;
 
-  g_free(prefs.LastLogDir) ;
-  prefs.LastLogDir = g_strdup(cd->log_filename) ;
-// FIXME
+  gconf_client_set_string(gconf_client, "/apps/gnome-mud/last_log_dir", cd->log_filename, NULL);
   
   cd->log = fopen(cd->log_filename, "a") ;
   if (!cd->log) {
@@ -192,10 +192,8 @@ static void window_menu_file_save_log_file_ok_cb
 	gint number = gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook));
 	const gchar *filename = gtk_file_selection_get_filename( GTK_FILE_SELECTION(file_selector) );
 
-	g_free(prefs.LastLogDir) ;
-	prefs.LastLogDir = g_strdup(filename);
-// FIXME
-//
+	gconf_client_set_string(gconf_client, "/apps/gnome-mud/last_log_dir", filename, NULL);
+	
 	cd = connections[number];
 
 	if ((fp = fopen(filename, "w")) == NULL)
@@ -204,7 +202,8 @@ static void window_menu_file_save_log_file_ok_cb
 		return;
 	}
 
-	textdata = gtk_editable_get_chars(GTK_EDITABLE(cd->window), 0, -1);
+	// FIXME, can't read this... (segfault)
+	textdata = gtk_editable_get_chars(GTK_EDITABLE(cd->window), 0, -1);	
 	fputs(textdata, fp);
 	g_free(textdata);
 

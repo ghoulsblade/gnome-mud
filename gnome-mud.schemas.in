@@ -170,5 +170,32 @@
 				</long>
 			</locale>
 		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/last_log_dir</key>
+			<applyto>/apps/gnome-mud/last_log_dir</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default></default>
+			<locale name="C">
+				<short>Last log dir</short>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/scrollback_lines</key>
+			<applyto>/apps/gnome-mud/scrollback_lines</applyto>
+			<owner>gnome-mud</owner>
+			<type>int</type>
+			<default>500</default>
+			<locale name="C">
+				<short>Number of lines to keep in scrollback</short>
+				<long>
+				 Number of scrollback lines to keep around. You can
+				 scroll back in the terminal by this number of lines;
+				 lines that don't fit in the scrollback are discarded.
+				</long>
+			</locale>
+		</schema>
 	</schemalist>
 </gconfschemafile>

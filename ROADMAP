@@ -12,12 +12,12 @@ feel free to suggest features, contribute, or comment.
 * GNOME 2.0
 * Support for TELNET codes [PARTLY DONE]
 * IPv6 support [DONE]
+* Customize buffersize [DONE]
+* Move tablist to top/left/right/bottom [DONE]
 
 0.11.0
 
 * Rewrite net-releated code
-* Customize buffersize
-* Move tablist to top/left/right/bottom [DONE]
 * Right-click menu for connection-tabs
 * Green/Red marker, so that you can see if tab is connected or not
 * Other marker on tab to show if using MCCP or not
@@ -28,9 +28,8 @@ feel free to suggest features, contribute, or comment.
 	+ be able to ping host...
 * MSP, Mud Sound Protocol (are there many muds using this?)
 * SOCKS support
-* Use splitscreen feature from GTK 2.0
+* Use splitscreen feature from GTK 2.0 (waiting for response from vte)
 * AutoReconnect
-* Get more speed in ANSI
 
 
 When time comes

@@ -97,6 +97,7 @@ struct system_data {
 	gchar     *LastLogDir;
 	gchar     *TabLocation;
 	gint       History;
+	gint       Scrollback;
 	GdkColor   Foreground;
 	GdkColor   Background;
 
