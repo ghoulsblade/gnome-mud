@@ -1,3 +1,8 @@
+2003-12-18  Jordi Mallach  <jordi@sindominio.net>
+
+	* gnome-mud.schemas.in: <menthaway> Oskuro: Wasn't Toto a band? ;-)
+	Or in other words, fix a silly typo.
+
 2003-12-17  Jordi Mallach  <jordi@sindominio.net>
 
 	* gnome-mud.schemas.in: Added missing <long> descriptions.
@@ -92,7 +97,7 @@
 
 2003-09-01  Metin Amiroff  <metin@karegen.com>
 
-	configure.ac: Added "az" in ALL_LINGUAS.
+	* configure.ac: Added "az" in ALL_LINGUAS.
 
 2003-08-11  Jordi Mallach  <jordi@sindominio.net>
 
@@ -101,7 +106,7 @@
 
 2003-07-30  Duarte Loreto <happyguy_pt@hotmail.com>
 
-        * configure.ac: Added Portuguese (pt) to ALL_LINGUAS.
+	* configure.ac: Added Portuguese (pt) to ALL_LINGUAS.
 
 2003-07-25  Jordi Mallach  <jordi@sindominio.net>
 
@@ -109,7 +114,7 @@
 
 2003-07-25  Artur Flinta  <aflinta@cvs.gnome.org>
 
-        * configure.ac: Added "pl" to ALL_LINGUAS.
+	* configure.ac: Added "pl" to ALL_LINGUAS.
 
 2003-07-17  Vincent van Adrighem  <V.vanAdrighem@dirck.mine.nu>
 

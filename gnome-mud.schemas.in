@@ -192,7 +192,7 @@
 			<locale name="C">
 				<short>Mudlist file</short>
 				<long>
-				 File where the mud list will be read from to
+				 File where the mud list will be read from
 				 to be used in the MudList dialog.
 				</long>
 			</locale>
