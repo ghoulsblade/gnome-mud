@@ -1,4 +1,4 @@
-imagedir = $(datadir)/gossip
+imagedir = $(datadir)/gnome-mud
 
 image_DATA =			\
 	connection-offline.png \

@@ -1,6 +1,12 @@
 2003-01-09  Jordi Mallach  <jordi@sindominio.net>
 
-	* src/systray.c (systray_menu): Add mnemonics for menu items, change
+	* src/tray.c (tray_menu): Show/Hide labels were inverted.
+	
+	* src/pixmaps/Makefile.am: Embarrasing error...
+
+2003-01-09  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/tray.c (tray_menu): Add mnemonics for menu items, change
 	"Exit" to "Quit". Added separator.
 
 2003-01-09  Jordi Mallach  <jordi@sindominio.net>

@@ -101,9 +101,9 @@ void tray_menu()
         menu = gtk_menu_new();
 
         if (window_invisible == FALSE)
-                entry = gtk_menu_item_new_with_mnemonic(_("_Show window"));
-        else
                 entry = gtk_menu_item_new_with_mnemonic(_("_Hide window"));
+        else
+                entry = gtk_menu_item_new_with_mnemonic(_("_Show window"));
         g_signal_connect(G_OBJECT(entry), "activate", G_CALLBACK(window_toggle), NULL);
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
 	entry = gtk_separator_menu_item_new ();
