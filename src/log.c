@@ -185,33 +185,30 @@ void stop_logging_connection(CONNECTION_DATA *cn) {
 static void window_menu_file_save_log_file_ok_cb
 (GtkWidget *widget, GtkFileSelection *file_selector)
 {
-        FILE *fp;
-        CONNECTION_DATA *cd;
-        gchar *textdata;
+	FILE *fp;
+	CONNECTION_DATA *cd;
+	gchar *textdata;
 
-        gint   number   =
-		gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook));
-        gchar *filename = gtk_file_selection_get_filename(
-		GTK_FILE_SELECTION(file_selector));
+	gint number = gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook));
+	const gchar *filename = gtk_file_selection_get_filename( GTK_FILE_SELECTION(file_selector) );
 
 	g_free(prefs.LastLogDir) ;
-	prefs.LastLogDir = g_strdup(filename) ;
+	prefs.LastLogDir = g_strdup(filename);
 	save_prefs() ;
 
-        cd = connections[number];
+	cd = connections[number];
 
-        if ((fp = fopen(filename, "w")) == NULL)
-        {
-		textfield_add(cd, _("*** Could not open file for writing.\n"),
-			MESSAGE_ERR) ;
-                return;
-        }
+	if ((fp = fopen(filename, "w")) == NULL)
+	{
+		textfield_add(cd, _("*** Could not open file for writing.\n"), MESSAGE_ERR);
+		return;
+	}
 
-        textdata = gtk_editable_get_chars(GTK_EDITABLE(cd->window), 0, -1);
-        fputs(textdata, fp);
-        g_free(textdata);
+	textdata = gtk_editable_get_chars(GTK_EDITABLE(cd->window), 0, -1);
+	fputs(textdata, fp);
+	g_free(textdata);
 
-        fclose(fp);
+	fclose(fp);
 }
 
 void window_menu_file_save_buffer_cb (GtkWidget *widget, gpointer data)

@@ -354,7 +354,7 @@ static void text_entry_send_command (CONNECTION_DATA *cn, gchar *cmd, GtkEntry *
 static void text_entry_activate (GtkWidget *text_entry, gpointer data)
 {
 	CONNECTION_DATA *cd;
-	gchar *entry_text = gtk_entry_get_text(GTK_ENTRY(text_entry));
+	const gchar *entry_text = gtk_entry_get_text(GTK_ENTRY(text_entry));
 
 	Keyflag = TRUE;
 	cd = connections[gtk_notebook_get_current_page(GTK_NOTEBOOK (main_notebook))];

@@ -1,3 +1,28 @@
+Wed Jan  8 13:10:24 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/data.c (data_button_add): g_strdup on text entry
+	(text_entry_send_command): gchar -> const gchar
+	(keybind_button_add_clicked_cb): g_strdup and null check added
+	(stop_logging_connection): gchar -> const gchar + g_strdup
+
+	* src/map.c (save_maps): gchar -> const gchar
+	(file_sel_delete_event): ditto
+	(load_automap_from_file): ditto
+
+	* src/mudlist.c (mudlist_parse_hoststring): gchar -> const gchar
+	(mudlist_button_connect_cb): ditto
+	(mudlist_button_import_cb): ditto
+
+	* src/prefs.c (prefs_entry_terminal_cb): added g_strdup
+	(prefs_entry_mudlistfile_cb): ditto
+	(prefs_entry_divide_cb): ditto
+
+	* src/profiles.c (profilelist_new_profile): Added const + g_strdup
+	(connections_find): gchar -> const gchar
+	(connections_button_info_cancel_cb): Removed
+	(window_profiles): Removed button_info_cancel
+	(window_profile_edit): fixed stock images
+
 Wed Jan  8 09:34:47 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Makefile.am: No need for macros subdir

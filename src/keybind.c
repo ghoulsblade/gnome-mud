@@ -113,18 +113,18 @@ static void keybind_button_add_clicked_cb (GtkButton *button, PROFILE_DATA *pd)
 	gchar *list[2];
 	gint i = 0;
 
-	list[0] = gtk_entry_get_text(GTK_ENTRY(capt_entry));
-	list[1] = gtk_entry_get_text(GTK_ENTRY(comm_entry));
+	list[0] = g_strdup( gtk_entry_get_text(GTK_ENTRY(capt_entry)) );
+	list[1] = g_strdup( gtk_entry_get_text(GTK_ENTRY(comm_entry)) );
 
 	for(; i<bind_list_row_counter ; i++)
 	{
 		gchar *text;
 		gtk_clist_get_text(GTK_CLIST(main_clist), i, 0, &text);
 		
-		if (strcmp(list[0],text) == 0)
+		if (text != NULL && strcmp(list[0],text) == 0)
 		{
 			popup_window(_("Can't add an existing key."));
-			return;
+			goto free;
 		}
 	}
 
@@ -145,6 +145,10 @@ static void keybind_button_add_clicked_cb (GtkButton *button, PROFILE_DATA *pd)
 	{
 		popup_window (_("Incomplete fields."));
 	}
+
+free:
+	g_free(list[0]);
+	g_free(list[1]);
 }
 
 static void keybind_button_delete_clicked_cb (GtkButton *button, gpointer clist)

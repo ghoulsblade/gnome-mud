@@ -300,7 +300,7 @@ static void prefs_entry_terminal_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
 	gchar *s;
 
-	s = gtk_entry_get_text(GTK_ENTRY(widget));
+	s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
 	if (s)
 	{
 		pre_prefs.TerminalType = s;
@@ -312,10 +312,11 @@ static void prefs_entry_history_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
   gchar *s;
 
-  s = gtk_entry_get_text(GTK_ENTRY(widget));
+  s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
   if (s) {
     pre_prefs.History = atoi(s);
     gnome_property_box_changed(box);
+	g_free(s);
   }
 }
 
@@ -323,23 +324,23 @@ static void prefs_entry_mudlistfile_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
 	gchar *s;
 
-	s = gtk_entry_get_text(GTK_ENTRY(widget));
+	s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
 	if (s)
 	{
-		pre_prefs.MudListFile = g_strdup(s);
+		pre_prefs.MudListFile = s;
 		gnome_property_box_changed(box);
 	}
 }
 
 static void prefs_entry_divide_cb (GtkWidget *widget, GnomePropertyBox *box)
 {
-  gchar *s;
-  s = gtk_entry_get_text(GTK_ENTRY(widget));
-  if (s) {
-    pre_prefs.CommDev = g_strdup(s);
-    
-    gnome_property_box_changed(box);
-  }
+	gchar *s;
+  
+	s = g_strdup( gtk_entry_get_text(GTK_ENTRY(widget)) );
+	if (s) {
+    	pre_prefs.CommDev = s;
+		gnome_property_box_changed(box);
+	}
 }
 
 static void prefs_checkbox_echo_cb(GtkWidget *widget, GnomePropertyBox *box)

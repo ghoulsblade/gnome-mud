@@ -187,45 +187,49 @@ static void data_button_add (GtkWidget *button, DDATA *data)
 {
     gchar buf[256], *text[2], a;
   
-    text[0] = gtk_entry_get_text (GTK_ENTRY (data->textname));
-    text[1] = gtk_entry_get_text (GTK_ENTRY (data->textvalue));
+    text[0] = g_strdup( gtk_entry_get_text (GTK_ENTRY (data->textname)) );
+    text[1] = g_strdup( gtk_entry_get_text (GTK_ENTRY (data->textvalue)) );
 
     if (text[0][0] == '\0' || text[1][0] == '\0')
     {
         popup_window (_("No void characters allowed."));
-        return;
+		goto free;
     }
   
     if ( strcmp(gtk_clist_get_column_title(data->list, 0),_("Actions")) && (a = check_str(text[0])))
     {
         g_snprintf (buf, 255, _("Character '%c' not allowed."), a); 
         popup_window (buf);
-        return;
+    	goto free;
     }
 
     if (strlen (text[0]) > data->tam_name)
     {
         g_snprintf (buf, 255, _("%s too big."), data->title_name);
         popup_window (buf);
-        return;
+    	goto free;
     }
     
     if (strlen (text[1]) > data->tam_value)
     {
         g_snprintf (buf, 255, _("%s too big."), data->title_value);
         popup_window (buf);
-        return;
+    	goto free;
     }
 
     if (find_data (data->list, text[0]) != -1)
     {
         g_snprintf (buf, 255, _("Can't duplicate %s."), data->title_name);
         popup_window (buf);
-        return;
-    }
+    	goto free;
+	}
+	
     gtk_clist_append (data->list, text);
-
     gtk_widget_set_sensitive (data->button_delete, TRUE);
+
+free:
+	g_free(text[0]);
+	g_free(text[1]);
 }
 
 static void data_button_delete (GtkWidget *button, DDATA *data)

@@ -122,7 +122,7 @@ static gint mudlist_compare_structs(gconstpointer a, gconstpointer b)
 	return g_strcasecmp(c->name, d->name);
 }
 
-static void mudlist_parse_hoststring(gchar *string, gchar *host, gchar *port)
+static void mudlist_parse_hoststring(const gchar *string, gchar *host, gchar *port)
 {
 	gchar f[1];
 	gint  stat = 0;
@@ -154,7 +154,7 @@ static void mudlist_button_connect_cb(GtkWidget *button, GtkWidget *entry)
 {
 	gchar host[1024] = "";
 	gchar port[10] = "";
-	gchar *d = gtk_entry_get_text(GTK_ENTRY(entry));
+	const gchar *d = gtk_entry_get_text(GTK_ENTRY(entry));
 
 	mudlist_parse_hoststring(d, host, port);
 
@@ -165,7 +165,7 @@ static void mudlist_button_import_cb(GtkWidget *widget, GtkWidget *button)
 {
 	gchar host[1024] = "";
 	gchar port[10]   = "";
-	gchar *d = gtk_entry_get_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(widget), "entry_telnet")));
+	const gchar *d = gtk_entry_get_text(GTK_ENTRY(gtk_object_get_data(GTK_OBJECT(widget), "entry_telnet")));
 
 	mudlist_parse_hoststring(d, host, port);
 

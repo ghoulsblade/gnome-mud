@@ -264,7 +264,7 @@ static gboolean		 free_nodes (MapNode *, GList *, GList **);
 static gboolean		 free_vertexes (MapNode *, SPVertex *, gpointer);
 static void		 get_nodes (GHashTable *, Map *, int *);
 static gboolean		 is_numeric (gchar *);
-static void		 load_automap_from_file (gchar *, AutoMap *);
+static void		 load_automap_from_file (const gchar *, AutoMap *);
 static struct win_scale	*map_coords (AutoMap *);
 static void		 move_player (AutoMap *, guint);
 static void		 node_break (AutoMap *, guint);
@@ -1765,7 +1765,7 @@ static gboolean remove_node (MapNode *node, guint *num, void *data)
     return TRUE;
 }
 
-static void save_maps (gchar *filename, AutoMap *automap)
+static void save_maps (const gchar *filename, AutoMap *automap)
 {
     GHashTable *hash;
     GList *puck;
@@ -1893,7 +1893,7 @@ static void file_sel_ok_cb (GtkWidget *widget, void *ptr[])
     guint type = GPOINTER_TO_UINT(ptr[0]);
     AutoMap *automap = ptr[1];
     GtkFileSelection *find = GTK_FILE_SELECTION(ptr[2]);
-    gchar *filename = gtk_file_selection_get_filename(find);
+    const gchar *filename = gtk_file_selection_get_filename(find);
 
     struct stat filestat;
 
@@ -1975,7 +1975,8 @@ static void file_sel_delete_event (GtkWidget *widget, GdkEventAny *event,
 static void button_cb (GtkWidget *widget, AutoMap *automap)
 {
     GtkWidget *find;
-    gchar *text = GTK_LABEL( GTK_BIN(widget)->child )->label, dir[256], *home;
+    gchar *text = GTK_LABEL( GTK_BIN(widget)->child )->label, dir[256];
+	const gchar *home;
     guint type = get_direction_type(text);
 
     struct stat dirstat;
@@ -2863,7 +2864,7 @@ static gboolean is_numeric (gchar *token)
     return TRUE;
 }
 
-static void load_automap_from_file (gchar *filename, AutoMap *automap)
+static void load_automap_from_file (const gchar *filename, AutoMap *automap)
 {
     FILE *file;
     gchar buf[256], token[256], *bptr, *mapname;
