@@ -31,29 +31,27 @@ static char const rcsid[] =
 
 int main (gint argc, char *argv[])
 {
-  char buf[500];
-  struct sigaction act;
+  //char buf[500];
+  //struct sigaction act;
 
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
   
-  memset(&act, 0, sizeof(act));
+  //memset(&act, 0, sizeof(act));
 
   gnome_init("gnome-mud", VERSION, argc, argv);  
   
-  act.sa_handler = SIG_DFL;
-  sigaction(SIGSEGV, &act, NULL);
+  //act.sa_handler = SIG_DFL;
+  //sigaction(SIGSEGV, &act, NULL);
 
   load_prefs   (); /* load preferences */
-  //load_wizard (); /* load connections */
   load_profiles(); /* load connections and profiles */
   load_colors  (); /* load colors */
-  load_keys    (); /* load key bindings */
   init_window  ();
   
-  g_snprintf(buf, 500, "%s/.amcl/plugins/", g_get_home_dir());
-  init_modules(buf);
+  //g_snprintf(buf, 500, "%s/.amcl/plugins/", g_get_home_dir());
+  //init_modules(buf);
   /*init_modules(PKGDATADIR);*/
   
   gtk_main ();
