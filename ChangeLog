@@ -1,3 +1,6 @@
+Thu Sep 11 02:44:29 CEST 2000 Jordi Mallach <jordi@debian.org>
+	* po/es.po: updated strings.
+
 Thu Sep  7 01:11:58 CEST 2000 Jordi Mallach <jordi@debian.org>
 	* plugins/test.plugin/Makefile: stupid fix in libgtk and libglib
 	  calls so the test plugin can compile again. Jorge spotted this,

@@ -16,28 +16,27 @@ msgstr ""
 
 #: src/data.c:227
 msgid "No void characters allowed."
-msgstr ""
+msgstr "No se permiten carácteres vacios."
 
 #. actions
 #: src/data.c:231 src/data.c:316
-#, fuzzy
 msgid "Actions"
-msgstr "Acción"
+msgstr "Acciones"
 
 #: src/data.c:233
 #, c-format
 msgid "Character '%c' not allowed."
-msgstr ""
+msgstr "Carácter '%c' no permitido."
 
 #: src/data.c:240 src/data.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "%s too big."
-msgstr "Alias demasiado grande."
+msgstr "%s demasiado grande."
 
 #: src/data.c:254
 #, c-format
 msgid "Can't duplicate %s."
-msgstr ""
+msgstr "No se puede duplicar %s."
 
 #. alias
 #: src/data.c:309
@@ -49,23 +48,22 @@ msgid "Replacement"
 msgstr "Sustitución"
 
 #: src/data.c:317
-#, fuzzy
 msgid "Triggers"
-msgstr "Trigger"
+msgstr "Triggers"
 
 #. vars
 #: src/data.c:323
 msgid "Variables"
-msgstr ""
+msgstr "Variables"
 
 #: src/data.c:324
 msgid "Values"
-msgstr ""
+msgstr "Valores"
 
 #: src/data.c:330
 #, c-format
 msgid "window_data: trying to access to undefined data range: %d"
-msgstr ""
+msgstr "window_data: tratando de acceder a una región de datos indefinida: %d"
 
 #: src/data.c:341
 msgid "AMCL Alias Center"
@@ -186,9 +184,8 @@ msgid "Alias..."
 msgstr "Alias..."
 
 #: src/init.c:423
-#, fuzzy
 msgid "Vars..."
-msgstr "Alias..."
+msgstr "Variables..."
 
 #: src/init.c:428
 msgid "Preferences..."
@@ -200,7 +197,7 @@ msgstr "Auto Mapeador..."
 
 #: src/init.c:440
 msgid "Colors..."
-msgstr ""
+msgstr "Colores..."
 
 #: src/init.c:445
 msgid "Actions/Triggers..."
@@ -271,17 +268,17 @@ msgstr "Capturar"
 #: src/map.c:698
 #, c-format
 msgid "Mouse is at (%d, %d)\n"
-msgstr ""
+msgstr "El ratón está en (%d, %d)\n"
 
 #: src/map.c:1075
 #, c-format
 msgid "node_reposition: invalid type(%s) passed to this function\n"
-msgstr ""
+msgstr "node_reposition: tipo(%s) inválido pasado a esta función\n"
 
 #: src/map.c:1683
 #, c-format
 msgid "draw_map: g_malloc0 error: %s\n"
-msgstr ""
+msgstr "draw_map: error de g_malloc0: %s\n"
 
 #: src/map.c:1705
 #, c-format
