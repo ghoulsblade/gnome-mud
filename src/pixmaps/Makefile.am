@@ -1,4 +1,4 @@
-imagedir = $(datadir)/gnome-mud
+imagedir = $(datadir)/pixmaps/gnome-mud
 
 image_DATA =			\
 	connection-offline.png \
