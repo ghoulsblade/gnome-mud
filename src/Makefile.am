@@ -6,9 +6,6 @@ amcl_SOURCES   = action.c alias.c amcl.c color.c init.c map.c       \
 		 net.c prefs.c window.c wizard.c dialog.c version.c \
                  modules.c modules_api.c modules.h modules_api.h amcl.h
 
-#amcl_LDADD     = $(GNOME_LIBDIR) $(GNOMEUI_LIBS)
-#INCLUDES       = $(GNOME_INCLUDEDIR)
-
 readme_doc.h: ../README mkhelp
 	@(cd ..; src/mkhelp README src/readme_doc.h)
 

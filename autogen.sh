@@ -37,7 +37,8 @@ do
   (cd $dir; \
   aclocalinclude="$ACLOCAL_FLAGS"; \
   aclocal -I macros $aclocalinclude; \
-  autoheader; automake; autoconf)
+  autoheader; automake --gnu --include-deps; 
+  autoconf)
 done
 
 if test x$1 != xno ; then

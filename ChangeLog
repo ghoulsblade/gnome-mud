@@ -1,0 +1,5 @@
+Fri Jul 23 18:37:33 CEST 1999  Robin Ericsson  <lobbin@localhost.nu>
+
+	* autogen.sh: changed automake; to automake --gnu --include-deps;
+
+	* config.h.in, Makefile.am: removed old unused stuff.

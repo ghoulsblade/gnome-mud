@@ -5,7 +5,6 @@ AC_INIT(src/amcl.c)
 
 AM_INIT_AUTOMAKE(amcl, 0.7.0)
 AM_CONFIG_HEADER(src/config.h)
-AM_MAINTAINER_MODE
 
 dnl Ability to disable the map feature until I found a fix for it.
 AC_ARG_ENABLE(mapper,
