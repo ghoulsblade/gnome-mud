@@ -2,7 +2,7 @@ dnl Process this file with
 dnl aclocal; automake; autoconf to produce a configure script.
 
 
-AC_INIT([GNOME-Mud],[0.10.4a], [gnome-mud])
+AC_INIT([GNOME-Mud],[0.10.5], [gnome-mud-list@gnome.org], [gnome-mud])
 AC_CONFIG_SRCDIR(src/gnome-mud.c)
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE
@@ -11,7 +11,7 @@ AM_CONFIG_HEADER([config.h])
 AC_PREREQ(2.52)
 
 dnl Release date on LSM format (date +%d%b%y).
-LSMDATE="02Jan2004"
+LSMDATE="12Feb2004"
 AC_SUBST(LSMDATE)
 
 AM_PATH_GTK_2_0(2.0.0,,exit 1)

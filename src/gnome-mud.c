@@ -105,8 +105,9 @@ int main (gint argc, char *argv[])
 		return 1;
 	}
 	gconf_client_add_dir(gconf_client, "/apps/gnome-mud", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	
-  
+
+	gnome_window_icon_set_default_from_file (PIXMAPSDIR "/gnome-mud.png");
+
 	load_prefs   (); /* load preferences */
 	load_profiles(); /* load connections and profiles */
 	main_window  ();

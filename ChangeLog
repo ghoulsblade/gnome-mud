@@ -1,5 +1,13 @@
 2004-02-12  Jordi Mallach  <jordi@sindominio.net>
 
+	* src/gnome-mud.c (main): Set the default application window using
+	the new icon.
+
+	* NEWS: Set release date.
+	* configure.ac: Release gnome-mud 0.10.5.
+
+2004-02-12  Jordi Mallach  <jordi@sindominio.net>
+
 	* BUGS: Remove (old) items, just leave the Bugzilla pointer.
 	* NEWS: Update for 0.10.5.
 
