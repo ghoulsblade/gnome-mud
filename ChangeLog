@@ -1,3 +1,11 @@
+2003-06-25  Jordi Mallach  <jordi@sindominio.net>
+
+	* BUGS: Add a pointer to bugzilla.
+
+	* configure.ac (AC_INIT): Remove BUG-REPORT argument.
+
+	* gnome-mud.desktop.in: Add X-GNOME-Bugzilla entries.
+
 2003-06-24  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac (ALL_LINGUAS): Added "mk" (Macedonian).
