@@ -143,6 +143,9 @@ void  save_prefs      ( void                               );
 void  window_prefs    ( GtkWidget *widget, gpointer data   );
 FILE *open_file       ( gchar *filename, gchar *mode       );
 
+/* profiles */
+void  window_profiles ( void							   );
+
 /* telnet.c */
 char *pre_process     ( char *buf, CONNECTION_DATA *connection       );
 

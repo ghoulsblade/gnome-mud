@@ -268,8 +268,8 @@ void textfield_add (GtkWidget *text_widget, gchar *message, gint colortype)
                          NULL, message, strlen (message));
         break;
     case MESSAGE_ERR:
-        gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_green,
-                         NULL, _("GNOME-Mud Internal Error: "), 21);
+        //gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_green,
+        //                 NULL, _("GNOME-Mud Internal Error: "), 21);
         gtk_text_insert (GTK_TEXT (text_widget), font_normal, &color_green,
                          NULL, message, strlen (message));
         break;

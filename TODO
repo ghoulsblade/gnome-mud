@@ -5,6 +5,10 @@ Things that need to be done
 - AutoReconnect
 - Nested alias
 - Use GTK+ unstable's splitscreen feature
+- Import of Mud Connectfiles
+- Rewrite connection wizard...
+	+ be able to ping host...
+	+ several characters per host
 
 - Other things you would like. Just mail me, lobbin@localhost.nu.
 

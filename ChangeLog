@@ -1,3 +1,7 @@
+Thu May 31 22:05:49 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/net.c: Fixed bug #408834.
+
 Thu May 31 21:15:27 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/profiles.c: Added, going to contain the new connection wizard

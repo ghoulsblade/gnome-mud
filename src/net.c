@@ -18,6 +18,8 @@
 
 #include "config.h"
 
+#include <gnome.h>
+
 #include <sys/types.h>
 #include <sys/socket.h>
 
@@ -30,8 +32,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
-#include <gtk/gtk.h>
 
 /* Added by Michael Stevens */
 #ifndef INHIBIT_STRING_HEADER
@@ -53,8 +53,6 @@
 
 #include "gnome-mud.h"
 #include "modules.h"
-
-#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -181,6 +179,9 @@ static void open_connection (CONNECTION_DATA *connection)
     /* strerror(3) */
     if ( ( he = gethostbyname (connection->host) ) == NULL )
     {
+    	gchar buf2[2048];
+    	snprintf(buf2, 2048, "%s\n", hstrerror(h_errno));
+    	textfield_add(connection->window, buf2, MESSAGE_ERR);
         return;
     }
 
