@@ -64,63 +64,6 @@ gint KB_keyv;
 gint bind_list_row_counter  =  0;
 gint bind_list_selected_row = -1;
 
-void save_keys (void)
-{
-    /*KEYBIND_DATA *scroll;
-    FILE *fp;
-    gchar buf[30];
-
-    if (!(fp = open_file ("keys", "w"))) return;
-
-    for ( scroll = KB_head; scroll != NULL; scroll = scroll->next )
-    {
-       buf[0] = 0;
-       if ((scroll->state)&4) strcat(buf,"Control+");
-       if ((scroll->state)&8) strcat(buf,"Alt+");
-       strcat(buf,gdk_keyval_name(scroll->keyv));
-       fprintf (fp, "%s %s\n", buf, scroll->data);
-    }
-
-    if (fp) fclose (fp);
-    gtk_widget_set_sensitive (KB_button_save, FALSE);*/
-}
-
-/*void load_keys ( void )
-{
-    FILE *fp;
-    gchar line[80+15+5];
-   
-    if (!(fp = open_file ("keys", "r"))) return;
-
-    while ( fgets (line, 80+15+5, fp) != NULL )
-    {
-        KEYBIND_DATA *tmp = (KEYBIND_DATA *)g_malloc0(sizeof(KEYBIND_DATA));
-        gchar keys[30];
-	gchar *keyv_begin;
-        gchar data[80];
-	KB_state = 0;
-	
-	bind_list_row_counter++;
-        sscanf (line, "%s %[^\n]", keys, data);
-	
-	if (strstr (keys, "Control"))
-	    KB_state |= 4;
-	if (strstr (keys, "Alt"))
-	    KB_state |= 8;
-	keyv_begin = keys + strlen(keys) - 2;
-	while ( !(keyv_begin == (keys-1) || keyv_begin[0] == '+'))
-	    keyv_begin--;
-	keyv_begin++;
-
-	tmp->state = KB_state;
-	tmp->keyv = gdk_keyval_from_name(keyv_begin);
-	tmp->data = g_strdup(data); 
-	tmp->next = KB_head;
-	KB_head = tmp;
-    }
-
-    if (fp) fclose (fp);
-}*/
 
 static gboolean on_capt_entry_key_press_event (GtkWidget *widget,
 					       GdkEventKey *event,

@@ -141,8 +141,6 @@ void  load_color_to_c_structs ( void			   );
 
 /* keybind.c */
 void window_keybind   ( PROFILE_DATA *		   );
-void save_keys	      ( void				   );	
-void load_keys	      ( void				   );
 
 /* map.c */
 void  window_automap  ( GtkWidget *widget, gpointer data   );
@@ -180,7 +178,6 @@ void  textfield_add   ( GtkWidget *widget, gchar *me, gint colortype );
 
 /* wizard.c */
 void  free_connection_data (CONNECTION_DATA *c             );
-void  load_wizard        ( void                            );
 void  add_wizard_connect ( gchar **entry, bool al, WIZARD_DATA *w   );
 void  window_wizard      ( GtkWidget *widget,gpointer data );
 

@@ -311,7 +311,7 @@ static void profilelist_new_input_cb(gchar *string, gpointer data)
 	PROFILE_DATA *pd;
 	gchar *text[1];
 	GList *t;
-	
+
 	if (string == NULL)
 	{
 		return;
@@ -339,7 +339,8 @@ static void profilelist_new_input_cb(gchar *string, gpointer data)
 
 static void profilelist_new_cb(GtkWidget *widget, gpointer data)
 {
-	gnome_request_dialog(FALSE, _("Name of new profile:"), "", 50, profilelist_new_input_cb, data, NULL);
+	GtkWidget *window = widget->parent->parent->parent;
+	gnome_request_dialog(FALSE, _("Name of new profile:"), "", 50, profilelist_new_input_cb, data, GTK_WINDOW(window));
 }
 
 static void profilelist_delete_cb(GtkWidget *widget, gpointer data)

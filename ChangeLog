@@ -1,3 +1,17 @@
+Mon Oct 22 12:34:20 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/color.c [window_color]: Menu now works when you close the
+	window via window manager destroy.
+
+	* src/gnome-mud.h: Removed old unused function calls.
+
+	* src/keybind.c [save_keys, load_keys]: Removed, not used.
+
+	* src/profiles.c [profilelist_new_input_cb]: Send in parent
+	window to gnome_request_dialog().
+
+	* src/wizard.c [load_wizard, save_wizard]: Removed, not used.
+
 Mon Oct 22 02:25:23 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* doc/C/gnome-mud.sgml: fixes (missing closing tags, etc).

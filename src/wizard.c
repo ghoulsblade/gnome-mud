@@ -73,115 +73,6 @@ void free_wizard_data ( WIZARD_DATA *w )
     g_free (w);
 }
 
-void load_wizard ()
-{
-    WIZARD_DATA *w = NULL;
-    FILE *fp;
-    gchar line[1024];
-
-    if (!(fp = open_file ("connections", "r"))) return;
-
-    while ( fgets (line, 1024, fp) != NULL )
-    {
-        gchar *name;
-        gchar value[1004] = "";
-
-        name = (gchar *) g_malloc0 ( 20 * sizeof (gchar));
-
-        sscanf (line, "%s %[^\n]", name, value);
-
-	if ( !strcmp (name, "Version") )
-	  continue;
-      
-	if ( !strcmp (name, "Connection") )
-        {
-            if ( w != NULL )
-            {
-                if ( wizard_connection_list2 == NULL)
-                {
-                    wizard_connection_list2 = g_list_alloc ();
-                }
-                wizard_connection_list2 = g_list_append (wizard_connection_list2, w);
-            }
-            w = (WIZARD_DATA *) g_malloc0 ( sizeof (WIZARD_DATA) );
-            w->name = g_strdup (value);
-            w->playername = g_strdup ("");
-            w->password = g_strdup ("");
-        }
-
-        if ( !strcmp (name, "Hostname") )
-            w->hostname = g_strdup (value);
-
-        if ( !strcmp (name, "Port") )
-            w->port = g_strdup (value);
-
-        if ( !strcmp (name, "Player") )
-            w->playername = g_strdup (value);
-
-        if ( !strcmp (name, "Password") )
-            w->password = g_strdup (value);
-
-        if ( !strcmp (name, "AutoLogin") )
-            w->autologin = TRUE;
-
-        g_free (name);
-    }
-
-    if (w)
-    {
-    /* end addition */
-      if ( w->name )
-      {
-	  if ( wizard_connection_list2 == NULL )
-            wizard_connection_list2 = g_list_alloc ();
-	  wizard_connection_list2 = g_list_append (wizard_connection_list2, w);
-      }
-      else if ( w != NULL )
-        free_wizard_data (w);
-
-      wizard_connection_list2 = wizard_connection_list2->next;
-      wizard_connection_list2->prev = NULL;
-    }
-    /* end */    
-
-    if (fp) fclose (fp);
-}
-
-void save_wizard ()
-{
-    GList       *tmp;
-    WIZARD_DATA *w;
-    FILE *fp;
-
-    if (!(fp = open_file ("connections", "w"))) return;
-
-    fprintf(fp, "Version %d\n", WIZARD_SAVEFILE_VERSION);
-    for ( tmp = wizard_connection_list2; tmp != NULL; tmp = tmp->next )
-    {
-        if ( tmp->data )
-        {
-            w = (WIZARD_DATA *) tmp->data;
-
-            fprintf (fp, "Connection %s\n", w->name);
-
-            if ( strlen (w->hostname) )
-                fprintf (fp, "Hostname %s\n", w->hostname);
-            if ( strlen (w->port) )
-                fprintf (fp, "Port %s\n", w->port);
-            if ( strlen (w->playername) )
-                fprintf (fp, "Player %s\n", w->playername);
-            if ( strlen (w->password) )
-                fprintf (fp, "Password %s\n", w->password);
-            if ( w->autologin == TRUE )
-                fprintf (fp, "AutoLogin YES\n");
-            fprintf (fp, "\n");
-        }
-        w = NULL;
-    }
-
-    if (fp) fclose (fp);
-}
-
 WIZARD_DATA *wizard_get_wizard_data ( gchar *text )
 {
     GList       *tmp;
@@ -203,8 +94,6 @@ WIZARD_DATA *wizard_get_wizard_data ( gchar *text )
 
 void wizard_close_window ()
 {
-  if (prefs.AutoSave)
-    save_wizard();
 }
 
 void wizard_clist_append (WIZARD_DATA *w, GtkCList *clist)
@@ -610,8 +499,8 @@ void window_wizard (GtkWidget *widget, gpointer data)
   gtk_signal_connect_object (GTK_OBJECT (button_close), "clicked",
 			     GTK_SIGNAL_FUNC (wizard_close_window),
 			     NULL);
-  gtk_signal_connect_object (GTK_OBJECT (button_save), "clicked",
-			     GTK_SIGNAL_FUNC (save_wizard), NULL);
+  /*gtk_signal_connect_object (GTK_OBJECT (button_save), "clicked",
+			     GTK_SIGNAL_FUNC (save_wizard), NULL);*/
   gtk_box_pack_start (GTK_BOX (hbox3), button_connect, TRUE, TRUE, 15);
   gtk_box_pack_start (GTK_BOX (hbox3), button_save,    TRUE, TRUE, 15);
   gtk_box_pack_start (GTK_BOX (hbox3), button_close,   TRUE, TRUE, 15);

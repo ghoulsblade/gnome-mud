@@ -41,56 +41,6 @@ extern GList 	*EntryHistory;
 SYSTEM_DATA prefs;
 SYSTEM_DATA pre_prefs;
 
-FILE *open_file (gchar *filename, gchar *mode)
-{
-  struct stat file_stat;
-  gchar buf[256];
-  gchar dirname[256];
-  FILE *fd;
-
-  g_message("open_file(\"%s\",\"%s\") called, use gnome_config_* instead.", filename, mode);
-
-  /* check for ~/.amcl dir ... */
-  g_snprintf (dirname, 255, "%s/.amcl", g_get_home_dir());
-  if ( stat (dirname, &file_stat) == 0) /* can we stat ~/.amcl? */
-  {
-    if ( !(S_ISDIR(file_stat.st_mode))) /* if it's not a directory */
-    {
-	g_snprintf (buf, 255, _("%s already exists and is not a directory!"), dirname);
-	popup_window (buf);
-	return NULL;
-    }
-  } 
-  else  /* it must not exist */
-    if ((mkdir (dirname, 0777)) == 0) /* this isn't dangerous, umask modifies it */
-    {
-    	/*popup_window (buf);*/
-     } else {
-      g_snprintf (buf, 255, _("%s does not exist and can NOT be created: %s"), dirname, strerror(errno));
-      popup_window (buf);
-      return NULL;
-    }
-
-  if (!filename || filename == "") return NULL;
-
-  g_snprintf (buf, 255, "%s/%s", dirname, filename);
-  if (!(fd = fopen (buf, mode)))
-  {
-	if (mode == "w")
-	{
-	    g_snprintf (dirname, 255, _("%s can NOT be opened in write mode."), buf);
-	    popup_window (dirname);
-	}
-	else
-		if (/*mode == "r" &&*/ stat(buf, &file_stat) == 0)
-		{
-		    g_snprintf (dirname, 255, _("%s exists and can NOT be opened in read mode."), buf);
-		    popup_window (dirname);
-		}
-  }
-  return fd;
-}
-
 void load_prefs ( void )
 {
 	prefs.EchoText = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");

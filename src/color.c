@@ -293,7 +293,8 @@ void window_color (GtkWidget *a, gpointer d)
   gtk_widget_set_sensitive (a, FALSE);
   color_window = GTK_WIDGET (gtk_window_new (GTK_WINDOW_TOPLEVEL));
   gtk_window_set_title (GTK_WINDOW (color_window), _("GNOME-Mud Color Chooser"));
-  gtk_signal_connect (GTK_OBJECT (color_window), "destroy", GTK_SIGNAL_FUNC (color_cancel_pressed), NULL);
+  
+  gtk_signal_connect (GTK_OBJECT (color_window), "destroy", GTK_SIGNAL_FUNC (color_cancel_pressed), (gpointer) a);
   
   color_widget = gtk_color_selection_new ();
   c_box        = GTK_BOX (gtk_vbox_new (FALSE, 5));
