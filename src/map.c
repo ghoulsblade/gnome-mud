@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1998-2001 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2002 Robin Ericsson <lobbin@localhost.nu>
  *
  * map.c is written by Paul Cameron <thrase@progsoc.uts.edu.au> with
  * modifications by Robin Ericsson to make it work with AMCL.

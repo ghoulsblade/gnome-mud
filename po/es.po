@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.8.0\n"
-"POT-Creation-Date: 2002-01-08 09:32+0100\n"
+"POT-Creation-Date: 2002-01-08 14:10+0100\n"
 "PO-Revision-Date: 2001-10-29 12:12+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -217,10 +217,6 @@ msgstr ""
 #: src/init.c:307
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
-
-#: src/init.c:308
-msgid "(C) 1998-2001 Robin Ericsson"
-msgstr "(C) 1998-2001 Robin Ericsson"
 
 #: src/init.c:310
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
@@ -719,3 +715,6 @@ msgstr ""
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr "Este es el password de tu jugador en el MUD. Utilizable con AutoLogin."
+
+#~ msgid "(C) 1998-2001 Robin Ericsson"
+#~ msgstr "(C) 1998-2001 Robin Ericsson"

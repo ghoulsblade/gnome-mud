@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1998-2001 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2002 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -305,7 +305,7 @@ static void about_window (GtkWidget *widget, gpointer data)
   }
   
   about = gnome_about_new (_("GNOME-Mud"), VERSION,
-			   _("(C) 1998-2001 Robin Ericsson"),
+			   "(C) 1998-2002 Robin Ericsson",
 			   (const char **)authors,
 			   _("A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."),
 /*			   _("Send bug reports to: amcl-devel@lists.sourceforge.net"), */

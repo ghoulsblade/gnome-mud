@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud 0.7.99\n"
-"POT-Creation-Date: 2002-01-08 09:32+0100\n"
+"POT-Creation-Date: 2002-01-08 14:10+0100\n"
 "PO-Revision-Date: 2001-11-05 17:00+0100\n"
 "Last-Translator: Martin Quinson <martin.quinson@ens-lyon.fr>\n"
 "Language-Team: Debian French translators <debian-l10n-french@lists.debian."
@@ -219,10 +219,6 @@ msgstr ""
 #: src/init.c:307
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
-
-#: src/init.c:308
-msgid "(C) 1998-2001 Robin Ericsson"
-msgstr "(C) 1998-2001 Robin Ericsson"
 
 #: src/init.c:310
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
@@ -730,6 +726,9 @@ msgid ""
 msgstr ""
 "Il s'agit du mot de passe de votre compte sur ce MUD. Pour la connexion "
 "automatique."
+
+#~ msgid "(C) 1998-2001 Robin Ericsson"
+#~ msgstr "(C) 1998-2001 Robin Ericsson"
 
 #~ msgid "%s can NOT be opened in write mode."
 #~ msgstr "Impossible d'ouvrir %s en écriture."
