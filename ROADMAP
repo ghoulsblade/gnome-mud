@@ -17,7 +17,7 @@ feel free to suggest features, contribute, or comment.
 
 * Rewrite net-releated code
 * Customize buffersize
-* Move tablist to top/left/right/bottom
+* Move tablist to top/left/right/bottom [DONE]
 * Right-click menu for connection-tabs
 * Green/Red marker, so that you can see if tab is connected or not
 * Other marker on tab to show if using MCCP or not
