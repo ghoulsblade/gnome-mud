@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-04 06:19-0500\n"
+"POT-Creation-Date: 2005-03-04 17:26-0500\n"
 "PO-Revision-Date: 2005-03-04 01:52-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -729,11 +729,11 @@ msgstr "W"
 msgid "NW"
 msgstr "NW"
 
-#: src/map.c:1753 src/map.c:3587
+#: src/map.c:1753 src/map.c:3587 ui/directions.glade.h:12
 msgid "Up"
 msgstr "Up"
 
-#: src/map.c:1754 src/map.c:3588
+#: src/map.c:1754 src/map.c:3588 ui/directions.glade.h:2
 msgid "Down"
 msgstr "Down"
 
@@ -1238,3 +1238,47 @@ msgstr "_Quit"
 #: src/tray.c:158
 msgid "GNOME Mud"
 msgstr "GNOME Mud"
+
+#: ui/directions.glade.h:1
+msgid "*"
+msgstr "*"
+
+#: ui/directions.glade.h:3
+msgid "East"
+msgstr "East"
+
+#: ui/directions.glade.h:4
+msgid "Gnome-mud"
+msgstr "GNOME-mud"
+
+#: ui/directions.glade.h:5
+msgid "Look"
+msgstr "Look"
+
+#: ui/directions.glade.h:6
+msgid "North"
+msgstr "North"
+
+#: ui/directions.glade.h:7
+msgid "Northeast"
+msgstr "Northeast"
+
+#: ui/directions.glade.h:8
+msgid "Northwest"
+msgstr "Northwest"
+
+#: ui/directions.glade.h:9
+msgid "South"
+msgstr "South"
+
+#: ui/directions.glade.h:10
+msgid "Southeast"
+msgstr "Southeast"
+
+#: ui/directions.glade.h:11
+msgid "Southwest"
+msgstr "Southwest"
+
+#: ui/directions.glade.h:13
+msgid "West"
+msgstr "West"
