@@ -1,3 +1,22 @@
+Fri Mar 24 22:07:10 2000  Robin Ericsson  <lobbin@localhost.nu>
+
+	* acconfig.h/autogen.sh/configure.in: Changed some checkings
+	mostly regarding dlopen stuff.
+
+	* src/amcl.h (CONNECTION_DATA): the vscrollbar needs to follow
+	the connection, can not use the main one.
+
+	* src/init.c (init_window): Both window and scrollbar are now
+	included in the notebook.
+
+	* src/modules.c: Use some new <dirent.h> stuff I found in the
+	autoconf documentation.
+
+	* src/net.c (make_connection): also create scrollbar when we
+	create a new notebook tab.
+
+	* src/wizard.c: Just some code cleaning.
+
 Mon Mar 13 19:03:35 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* AUTHORS: Added Benjamin Curtis (email not known)
