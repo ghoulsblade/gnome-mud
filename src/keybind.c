@@ -48,15 +48,15 @@ static void	on_clist_select_row (GtkCList *, gint, gint, GdkEvent *,
 				     gpointer);
 static void	on_clist_unselect_row (GtkCList *, gint, gint, GdkEvent *,
 				       gpointer);
-static void	on_window_destroy (GtkObject *);
+static void	on_window_destroy ();
     
-extern GtkWidget   *menu_option_keys;
 extern SYSTEM_DATA  prefs;
 
 GtkWidget *capt_entry;
 GtkWidget *comm_entry;
 GtkWidget *KB_button_delete;
 GtkWidget *KB_button_save;
+//static GtkWidget *window_key_bind;
 
 
 KEYBIND_DATA *KB_head = NULL;
@@ -125,13 +125,10 @@ void load_keys ( void )
     if (fp) fclose (fp);
 }
 
-void on_window_destroy (GtkObject *widget)
+void on_window_destroy (void)
 {
   if ( prefs.AutoSave )
     save_keys();
-  
-  gtk_widget_set_sensitive (menu_option_keys, TRUE);  
-  gtk_widget_destroy(GTK_WIDGET(widget));
 }
 
 static gboolean on_capt_entry_key_press_event (GtkWidget *widget,
@@ -314,7 +311,7 @@ static void Command_list_fill(GtkCList *clist)
 
 void window_keybind ()
 {
-  GtkWidget *window_keybind;
+  static GtkWidget *window_key_bind;
   GtkWidget *vbox;
   GtkWidget *scrolledwindow;
   GtkWidget *clist;
@@ -331,23 +328,27 @@ void window_keybind ()
   GtkWidget *KB_button_close;
   GtkTooltips *tooltips;
 
+  if (window_key_bind != NULL) {
+    gdk_window_raise(window_key_bind->window);
+    gdk_window_show(window_key_bind->window);
+    return;
+  }
 
   tooltips = gtk_tooltips_new ();
 
-  window_keybind = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_widget_set_usize (window_keybind, 450, 320);
-  gtk_container_set_border_width (GTK_CONTAINER (window_keybind), 5);
-  gtk_window_set_title (GTK_WINDOW (window_keybind), _("AMCL Key Binding Center"));
-  gtk_window_set_position (GTK_WINDOW (window_keybind), GTK_WIN_POS_CENTER);
-
+  window_key_bind = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_widget_set_usize (window_key_bind, 450, 320);
+  gtk_container_set_border_width (GTK_CONTAINER (window_key_bind), 5);
+  gtk_window_set_title (GTK_WINDOW (window_key_bind), _("AMCL Key Binding Center"));
+  gtk_window_set_position (GTK_WINDOW (window_key_bind), GTK_WIN_POS_CENTER);
   vbox = gtk_vbox_new (FALSE, 0);
   gtk_widget_ref (vbox);
   gtk_widget_show (vbox);
-  gtk_container_add (GTK_CONTAINER (window_keybind), vbox);
+  gtk_container_add (GTK_CONTAINER (window_key_bind), vbox);
 
   scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_ref (scrolledwindow);
-  gtk_object_set_data_full (GTK_OBJECT (window_keybind), "scrolledwindow", scrolledwindow,
+  gtk_object_set_data_full (GTK_OBJECT (window_key_bind), "scrolledwindow", scrolledwindow,
                             (GtkDestroyNotify) gtk_widget_unref);
   gtk_widget_show (scrolledwindow);
   gtk_box_pack_start (GTK_BOX (vbox), scrolledwindow, TRUE, TRUE, 0);
@@ -418,7 +419,7 @@ void window_keybind ()
 
   KB_button_add = gtk_button_new_with_label (_("Add"));
   gtk_widget_ref (KB_button_add);
-  gtk_object_set_data_full (GTK_OBJECT (window_keybind), "KB_button_add", KB_button_add,
+  gtk_object_set_data_full (GTK_OBJECT (window_key_bind), "KB_button_add", KB_button_add,
                             (GtkDestroyNotify) gtk_widget_unref);
   gtk_widget_show (KB_button_add);
   gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_add);
@@ -435,9 +436,10 @@ void window_keybind ()
   gtk_widget_show (KB_button_close);
   gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_close);
 
-  gtk_signal_connect_object (GTK_OBJECT (window_keybind), "destroy",
-                      GTK_SIGNAL_FUNC (on_window_destroy),
-                      GTK_OBJECT (window_keybind));
+  gtk_signal_connect(GTK_OBJECT(window_key_bind), "destroy",
+		     GTK_SIGNAL_FUNC(on_window_destroy), NULL);
+  gtk_signal_connect(GTK_OBJECT(window_key_bind), "destroy",
+		     gtk_widget_destroyed, &window_key_bind);
   gtk_signal_connect (GTK_OBJECT (clist), "select_row",
                       GTK_SIGNAL_FUNC (on_clist_select_row),
                       NULL);
@@ -459,18 +461,18 @@ void window_keybind ()
   gtk_signal_connect (GTK_OBJECT (KB_button_save), "clicked",
                       GTK_SIGNAL_FUNC (save_keys),
                       NULL);
-  gtk_signal_connect_object (GTK_OBJECT (KB_button_close), "clicked",
-                      GTK_SIGNAL_FUNC (on_window_destroy),
-                      GTK_OBJECT (window_keybind));
+  gtk_signal_connect_object(GTK_OBJECT (KB_button_close), "clicked",
+			    GTK_SIGNAL_FUNC (on_window_destroy),
+			    GTK_OBJECT (window_key_bind));
+  gtk_signal_connect(GTK_OBJECT (KB_button_close), "clicked",
+		     gtk_widget_destroyed, &window_key_bind);
 
-  gtk_object_set_data (GTK_OBJECT (window_keybind), "tooltips", tooltips);
+  gtk_object_set_data (GTK_OBJECT (window_key_bind), "tooltips", tooltips);
   
-
-    gtk_widget_set_sensitive ( KB_button_delete, FALSE);
-    gtk_widget_set_sensitive ( KB_button_save, FALSE);
+  gtk_widget_set_sensitive ( KB_button_delete, FALSE);
+  gtk_widget_set_sensitive ( KB_button_save, FALSE);
 
   Command_list_fill(GTK_CLIST(clist));  
 
-  gtk_widget_set_sensitive (menu_option_keys, FALSE);
-  gtk_widget_show(window_keybind);    
+  gtk_widget_show(window_key_bind);    
 }

@@ -44,7 +44,6 @@ GtkWidget    *wizard_entry_port;
 GtkWidget    *wizard_check_autologin;
 GtkWidget    *wizard_entry_player;
 GtkWidget    *wizard_entry_password;
-GtkWidget    *wizard_window;
 GtkWidget    *button_update;
 GtkWidget    *button_delete;
 GtkWidget    *button_connect;
@@ -201,9 +200,6 @@ void wizard_close_window ()
 {
   if (prefs.AutoSave)
     save_wizard();
-  
-  gtk_widget_set_sensitive (menu_main_wizard, TRUE);
-  gtk_widget_destroy (wizard_window);
 }
 
 void wizard_clist_append (WIZARD_DATA *w, GtkCList *clist)
@@ -422,202 +418,208 @@ void wizard_check_callback (GtkWidget *widget, GtkWidget *check_button)
 
 void window_wizard (GtkWidget *widget, gpointer data)
 {
+  static GtkWidget *wizard_window;
+  GtkWidget *hbox;
+  GtkWidget *hbox2;
+  GtkWidget *hbox3;
+  GtkWidget *vbox_base;
+  GtkWidget *vbox;
+  GtkWidget *clist;
+  GtkWidget *scrolled_win;
+  GtkWidget *label;
+  GtkWidget *button_add;
+  GtkWidget *button_save;
+  GtkWidget *button_close;
+  GtkWidget *separator;
+  GtkTooltips *tooltip;
+  
+  gchar *titles[1] = { _("Connections") };
 
-    GtkWidget *hbox;
-    GtkWidget *hbox2;
-    GtkWidget *hbox3;
-    GtkWidget *vbox_base;
-    GtkWidget *vbox;
-    GtkWidget *clist;
-    GtkWidget *scrolled_win;
-    GtkWidget *label;
-    GtkWidget *button_add;
-    GtkWidget *button_save;
-    GtkWidget *button_close;
-    GtkWidget *separator;
-    GtkTooltips *tooltip;
-
-    gchar *titles[1] = { _("Connections") };
-    
-    tooltip = gtk_tooltips_new ();
-    gtk_tooltips_set_colors (tooltip, &color_yellow, &color_black);
-
-    gtk_widget_set_sensitive (menu_main_wizard, FALSE);
-    
-    wizard_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (wizard_window), _("AMCL Connection Wizard"));
-    gtk_signal_connect_object (GTK_OBJECT (wizard_window), "destroy",
-                               GTK_SIGNAL_FUNC(wizard_close_window), NULL );
-    gtk_widget_set_usize (wizard_window,450,380);
-
-    vbox_base = gtk_vbox_new (FALSE, 5);
-    gtk_container_border_width (GTK_CONTAINER (vbox_base), 5);
-    gtk_container_add (GTK_CONTAINER (wizard_window), vbox_base);
-    gtk_widget_show (vbox_base);
-
-    hbox = gtk_hbox_new (FALSE, 5);
-    gtk_container_border_width (GTK_CONTAINER (hbox), 5);
-    gtk_container_add (GTK_CONTAINER (vbox_base), hbox);
-    gtk_widget_show (hbox);
-
-    clist = gtk_clist_new_with_titles ( 1, titles);
-    gtk_signal_connect_object (GTK_OBJECT (clist), "select_row",
-                               GTK_SIGNAL_FUNC (wizard_selection_made),
-                               (gpointer) clist);
-    gtk_signal_connect_object (GTK_OBJECT (clist), "unselect_row",
-                               GTK_SIGNAL_FUNC (wizard_unselection_made),
-                               NULL);
-    gtk_clist_set_shadow_type (GTK_CLIST (clist), GTK_SHADOW_IN);
-
-    gtk_clist_set_column_width (GTK_CLIST (clist), 0, 50);
-    gtk_clist_column_titles_passive (GTK_CLIST (clist));
-
-    /* Create a scrolled window for the box ... */
-    scrolled_win = gtk_scrolled_window_new(NULL, NULL);
-
-    /* Add the clist to a scrolled window */
-    gtk_container_add (GTK_CONTAINER (scrolled_win), clist);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win),
-                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    gtk_box_pack_start (GTK_BOX (hbox), scrolled_win, TRUE, TRUE, 0);
-    gtk_widget_show (scrolled_win);
-    gtk_widget_show (clist);
-
-    vbox = gtk_vbox_new (FALSE, 0);
-    gtk_container_border_width (GTK_CONTAINER (vbox), 5);
-    gtk_container_add (GTK_CONTAINER (hbox), vbox);
-    gtk_widget_show (vbox);
-
-    label = gtk_label_new (_("Connection Name:"));
-    gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-    gtk_widget_show (label);
-
-    wizard_entry_name = gtk_entry_new ();
-    gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_name, FALSE, FALSE, 0);
-    gtk_tooltips_set_tip (tooltip, wizard_entry_name,
+  if (wizard_window != NULL) {
+    gdk_window_raise(wizard_window->window);
+    gdk_window_show(wizard_window->window);
+    return;
+  }
+  
+  tooltip = gtk_tooltips_new ();
+  gtk_tooltips_set_colors (tooltip, &color_yellow, &color_black);
+  
+  wizard_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (wizard_window), _("AMCL Connection Wizard"));
+  gtk_signal_connect(GTK_OBJECT (wizard_window), "destroy",
+		     GTK_SIGNAL_FUNC(wizard_close_window), NULL );
+  gtk_signal_connect(GTK_OBJECT(wizard_window), "destroy",
+		     gtk_widget_destroyed, &wizard_window);
+  gtk_widget_set_usize (wizard_window,450,380);
+  
+  vbox_base = gtk_vbox_new (FALSE, 5);
+  gtk_container_border_width (GTK_CONTAINER (vbox_base), 5);
+  gtk_container_add (GTK_CONTAINER (wizard_window), vbox_base);
+  gtk_widget_show (vbox_base);
+  
+  hbox = gtk_hbox_new (FALSE, 5);
+  gtk_container_border_width (GTK_CONTAINER (hbox), 5);
+  gtk_container_add (GTK_CONTAINER (vbox_base), hbox);
+  gtk_widget_show (hbox);
+  
+  clist = gtk_clist_new_with_titles ( 1, titles);
+  gtk_signal_connect_object (GTK_OBJECT (clist), "select_row",
+			     GTK_SIGNAL_FUNC (wizard_selection_made),
+			     (gpointer) clist);
+  gtk_signal_connect_object (GTK_OBJECT (clist), "unselect_row",
+			     GTK_SIGNAL_FUNC (wizard_unselection_made),
+			     NULL);
+  gtk_clist_set_shadow_type (GTK_CLIST (clist), GTK_SHADOW_IN);
+  
+  gtk_clist_set_column_width (GTK_CLIST (clist), 0, 50);
+  gtk_clist_column_titles_passive (GTK_CLIST (clist));
+  
+  /* Create a scrolled window for the box ... */
+  scrolled_win = gtk_scrolled_window_new(NULL, NULL);
+  
+  /* Add the clist to a scrolled window */
+  gtk_container_add (GTK_CONTAINER (scrolled_win), clist);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win),
+				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start (GTK_BOX (hbox), scrolled_win, TRUE, TRUE, 0);
+  gtk_widget_show (scrolled_win);
+  gtk_widget_show (clist);
+  
+  vbox = gtk_vbox_new (FALSE, 0);
+  gtk_container_border_width (GTK_CONTAINER (vbox), 5);
+  gtk_container_add (GTK_CONTAINER (hbox), vbox);
+  gtk_widget_show (vbox);
+  
+  label = gtk_label_new (_("Connection Name:"));
+  gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+  gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+  gtk_widget_show (label);
+  
+  wizard_entry_name = gtk_entry_new ();
+  gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_name, FALSE, FALSE, 0);
+  gtk_tooltips_set_tip (tooltip, wizard_entry_name,
 			_("This is the name of the conection which will be "
 			  "displayed in the conection list."),
-			  NULL);
-    gtk_widget_show (wizard_entry_name);
-
-    label = gtk_label_new (_("\nHost:"));
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-    gtk_widget_show (label);
-
-    wizard_entry_host = gtk_entry_new ();
-    gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_host, FALSE, FALSE, 0);
-    gtk_tooltips_set_tip (tooltip, wizard_entry_host,
+			NULL);
+  gtk_widget_show (wizard_entry_name);
+  
+  label = gtk_label_new (_("\nHost:"));
+  gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+  gtk_widget_show (label);
+  
+  wizard_entry_host = gtk_entry_new ();
+  gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_host, FALSE, FALSE, 0);
+  gtk_tooltips_set_tip (tooltip, wizard_entry_host,
 			_("This is the host where the MUD you will connect "
 			  "to is located."),
-			  NULL);
-    gtk_widget_show (wizard_entry_host);
-
-    label = gtk_label_new (_("\nPort:"));
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-    gtk_widget_show (label);
-
-    wizard_entry_port = gtk_entry_new ();
-    gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_port, FALSE, FALSE, 0);
-    gtk_tooltips_set_tip (tooltip, wizard_entry_port,
+			NULL);
+  gtk_widget_show (wizard_entry_host);
+  
+  label = gtk_label_new (_("\nPort:"));
+  gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+  gtk_widget_show (label);
+  
+  wizard_entry_port = gtk_entry_new ();
+  gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_port, FALSE, FALSE, 0);
+  gtk_tooltips_set_tip (tooltip, wizard_entry_port,
 			_("This is the port on the host that the MUD is "
 			  "located on. The default port is 23 (telnet)."),
-			  NULL);
-    gtk_widget_show (wizard_entry_port);
-
-    wizard_check_autologin = gtk_check_button_new_with_label (_("Auto Login?"));
-    gtk_signal_connect (GTK_OBJECT (wizard_check_autologin), "toggled",
-                        GTK_SIGNAL_FUNC (wizard_check_callback),
-                        wizard_check_autologin);
-    gtk_box_pack_start (GTK_BOX (vbox), wizard_check_autologin, FALSE, FALSE, 0);
-    gtk_tooltips_set_tip (tooltip, wizard_check_autologin,
+			NULL);
+  gtk_widget_show (wizard_entry_port);
+  
+  wizard_check_autologin = gtk_check_button_new_with_label (_("Auto Login?"));
+  gtk_signal_connect (GTK_OBJECT (wizard_check_autologin), "toggled",
+		      GTK_SIGNAL_FUNC (wizard_check_callback),
+		      wizard_check_autologin);
+  gtk_box_pack_start (GTK_BOX (vbox), wizard_check_autologin, FALSE, FALSE, 0);
+  gtk_tooltips_set_tip (tooltip, wizard_check_autologin,
 			_("Should AMCL login to this MUD automatically? "
 			  "Player Name and Password must be set to make "
 			  "this work."),
-			  NULL);
-    GTK_WIDGET_UNSET_FLAGS (wizard_check_autologin, GTK_CAN_FOCUS);
-    gtk_widget_show (wizard_check_autologin);
-    
-    label = gtk_label_new (_("\nPlayer Name:"));
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-    gtk_widget_show (label);
-
-    wizard_entry_player = gtk_entry_new ();
-    gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_player, FALSE, FALSE, 0);
-    gtk_tooltips_set_tip (tooltip, wizard_entry_player,
+			NULL);
+  GTK_WIDGET_UNSET_FLAGS (wizard_check_autologin, GTK_CAN_FOCUS);
+  gtk_widget_show (wizard_check_autologin);
+  
+  label = gtk_label_new (_("\nPlayer Name:"));
+  gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+  gtk_widget_show (label);
+  
+  wizard_entry_player = gtk_entry_new ();
+  gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_player, FALSE, FALSE, 0);
+  gtk_tooltips_set_tip (tooltip, wizard_entry_player,
 			_("This is the player you login to the MUD with. For "
 			  "use with AutoLogin."),
-			  NULL);
-    gtk_widget_show (wizard_entry_player);
-
-    label = gtk_label_new (_("\nPassword:"));
-    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-    gtk_widget_show (label);
-
-    wizard_entry_password = gtk_entry_new ();
-    gtk_entry_set_visibility (GTK_ENTRY (wizard_entry_password), FALSE);
-    gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_password, FALSE, FALSE, 0);
-    gtk_tooltips_set_tip (tooltip, wizard_entry_password,
+			NULL);
+  gtk_widget_show (wizard_entry_player);
+  
+  label = gtk_label_new (_("\nPassword:"));
+  gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+  gtk_widget_show (label);
+  
+  wizard_entry_password = gtk_entry_new ();
+  gtk_entry_set_visibility (GTK_ENTRY (wizard_entry_password), FALSE);
+  gtk_box_pack_start (GTK_BOX (vbox), wizard_entry_password, FALSE, FALSE, 0);
+  gtk_tooltips_set_tip (tooltip, wizard_entry_password,
 			_("This is your player account's password in the "
 			  "MUD. For use with AutoLogin."),
-			  NULL);
-    gtk_widget_show (wizard_entry_password);
-
-    hbox2 = gtk_hbox_new (FALSE, 5);
-    gtk_container_add (GTK_CONTAINER (vbox_base), hbox2);
-    gtk_widget_show (hbox2);
-
-    button_add     = gtk_button_new_with_label (_("Add"));
-    button_update  = gtk_button_new_with_label (_("Apply"));
-    button_delete  = gtk_button_new_with_label (_("Delete"));
-    gtk_signal_connect (GTK_OBJECT (button_add), "clicked",
-                               GTK_SIGNAL_FUNC (wizard_button_add),
-                               (gpointer) clist);
-    gtk_signal_connect (GTK_OBJECT (button_update), "clicked",
-                               GTK_SIGNAL_FUNC (wizard_button_modify),
-                               (gpointer) clist);
-    gtk_signal_connect (GTK_OBJECT (button_delete), "clicked",
-                               GTK_SIGNAL_FUNC (wizard_button_delete),
-                               (gpointer) clist);
-    gtk_box_pack_start (GTK_BOX (hbox2), button_add,    TRUE, TRUE, 15);
-    gtk_box_pack_start (GTK_BOX (hbox2), button_update, TRUE, TRUE, 15);
-    gtk_box_pack_start (GTK_BOX (hbox2), button_delete, TRUE, TRUE, 15);
-    gtk_widget_show (button_add);
-    gtk_widget_show (button_update);
-    gtk_widget_show (button_delete);
-
-    separator = gtk_hseparator_new ();
-    gtk_box_pack_start (GTK_BOX (vbox_base), separator, FALSE, TRUE, 5);
-    gtk_widget_show (separator);
-
-    hbox3 = gtk_hbox_new (FALSE, 5);
-    gtk_container_add (GTK_CONTAINER (vbox_base), hbox3);
-    gtk_widget_show (hbox3);
-
-    button_connect = gtk_button_new_with_label (_("Connect"));
-    button_save    = gtk_button_new_with_label (_("Save"));
-    button_close   = gtk_button_new_with_label (_("Close"));
-    gtk_signal_connect (GTK_OBJECT (button_connect), "clicked",
+			NULL);
+  gtk_widget_show (wizard_entry_password);
+  
+  hbox2 = gtk_hbox_new (FALSE, 5);
+  gtk_container_add (GTK_CONTAINER (vbox_base), hbox2);
+  gtk_widget_show (hbox2);
+  
+  button_add     = gtk_button_new_with_label (_("Add"));
+  button_update  = gtk_button_new_with_label (_("Apply"));
+  button_delete  = gtk_button_new_with_label (_("Delete"));
+  gtk_signal_connect (GTK_OBJECT (button_add), "clicked",
+		      GTK_SIGNAL_FUNC (wizard_button_add),
+		      (gpointer) clist);
+  gtk_signal_connect (GTK_OBJECT (button_update), "clicked",
+		      GTK_SIGNAL_FUNC (wizard_button_modify),
+		      (gpointer) clist);
+  gtk_signal_connect (GTK_OBJECT (button_delete), "clicked",
+		      GTK_SIGNAL_FUNC (wizard_button_delete),
+		      (gpointer) clist);
+  gtk_box_pack_start (GTK_BOX (hbox2), button_add,    TRUE, TRUE, 15);
+  gtk_box_pack_start (GTK_BOX (hbox2), button_update, TRUE, TRUE, 15);
+  gtk_box_pack_start (GTK_BOX (hbox2), button_delete, TRUE, TRUE, 15);
+  gtk_widget_show (button_add);
+  gtk_widget_show (button_update);
+  gtk_widget_show (button_delete);
+  
+  separator = gtk_hseparator_new ();
+  gtk_box_pack_start (GTK_BOX (vbox_base), separator, FALSE, TRUE, 5);
+  gtk_widget_show (separator);
+  
+  hbox3 = gtk_hbox_new (FALSE, 5);
+  gtk_container_add (GTK_CONTAINER (vbox_base), hbox3);
+  gtk_widget_show (hbox3);
+  
+  button_connect = gtk_button_new_with_label (_("Connect"));
+  button_save    = gtk_button_new_with_label (_("Save"));
+  button_close   = gtk_button_new_with_label (_("Close"));
+  gtk_signal_connect (GTK_OBJECT (button_connect), "clicked",
                         GTK_SIGNAL_FUNC (wizard_button_connect),
-                        (gpointer) clist);
-    gtk_signal_connect_object (GTK_OBJECT (button_close), "clicked",
-                               GTK_SIGNAL_FUNC (wizard_close_window),
-                               NULL);
-    gtk_signal_connect_object (GTK_OBJECT (button_save), "clicked",
-                               GTK_SIGNAL_FUNC (save_wizard), NULL);
-    gtk_box_pack_start (GTK_BOX (hbox3), button_connect, TRUE, TRUE, 15);
-    gtk_box_pack_start (GTK_BOX (hbox3), button_save,    TRUE, TRUE, 15);
-    gtk_box_pack_start (GTK_BOX (hbox3), button_close,   TRUE, TRUE, 15);
-    gtk_widget_show (button_connect);
-    gtk_widget_show (button_save);
-    gtk_widget_show (button_close);
-
-    gtk_widget_set_sensitive (button_update, FALSE);
-    gtk_widget_set_sensitive (button_delete, FALSE);
-    gtk_widget_set_sensitive (button_connect, FALSE);
-
-    g_list_foreach (wizard_connection_list2, (GFunc) wizard_clist_append, clist);
-    gtk_clist_select_row (GTK_CLIST (clist), 0, 0);
-    
-    gtk_widget_show (wizard_window);
+		      (gpointer) clist);
+  gtk_signal_connect_object (GTK_OBJECT (button_close), "clicked",
+			     GTK_SIGNAL_FUNC (wizard_close_window),
+			     NULL);
+  gtk_signal_connect_object (GTK_OBJECT (button_save), "clicked",
+			     GTK_SIGNAL_FUNC (save_wizard), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox3), button_connect, TRUE, TRUE, 15);
+  gtk_box_pack_start (GTK_BOX (hbox3), button_save,    TRUE, TRUE, 15);
+  gtk_box_pack_start (GTK_BOX (hbox3), button_close,   TRUE, TRUE, 15);
+  gtk_widget_show (button_connect);
+  gtk_widget_show (button_save);
+  gtk_widget_show (button_close);
+  
+  gtk_widget_set_sensitive (button_update, FALSE);
+  gtk_widget_set_sensitive (button_delete, FALSE);
+  gtk_widget_set_sensitive (button_connect, FALSE);
+  
+  g_list_foreach (wizard_connection_list2, (GFunc) wizard_clist_append, clist);
+  gtk_clist_select_row (GTK_CLIST (clist), 0, 0);
+  
+  gtk_widget_show (wizard_window);
 }

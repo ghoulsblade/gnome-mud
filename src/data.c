@@ -338,7 +338,7 @@ void window_data (GtkWidget *menu, gint z)
     data->textname  = gtk_entry_new ();
     data->textvalue = gtk_entry_new ();
   
-    gtk_window_set_title (GTK_WINDOW (data->window), _("AMCL Alias Center"));
+    gtk_window_set_title (GTK_WINDOW (data->window), _("AMCL Configuration Center"));
     gtk_widget_set_usize (data->window,450,320);
     gtk_widget_set_sensitive (menu, FALSE);
 

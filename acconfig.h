@@ -27,3 +27,6 @@
 
 /* Define as 1 if we want to use MCCP */
 #undef ENABLE_MCCP
+
+/* session management ? */
+#undef HAVE_LIBSM

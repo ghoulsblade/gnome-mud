@@ -158,7 +158,7 @@ void plugin_clist_append (PLUGIN_OBJECT *p, GtkCList *clist)
 
 void do_plugin_information(GtkWidget *widget, gpointer data)
 {
-  GtkWidget *window1;
+  static GtkWidget *window1;
   GtkWidget *hbox1;
   GtkWidget *clist1;
   GtkWidget *vbox1;
@@ -171,12 +171,20 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   GtkWidget *label5;
   GtkWidget *label9;
 
+  if (window1 != NULL) {
+    gdk_window_raise(window1->window);
+    gdk_window_show(window1->window);
+    return;
+  }
+
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_object_set_data (GTK_OBJECT (window1), "window1", window1);
   gtk_container_border_width (GTK_CONTAINER (window1), 7);
   gtk_window_set_title (GTK_WINDOW (window1), _("AMCL Plugin Information"));
   gtk_window_set_policy (GTK_WINDOW (window1), TRUE, TRUE, FALSE);
   gtk_widget_set_usize (window1, 430, 275);
+  gtk_signal_connect(GTK_OBJECT(window1), "destroy",
+		     gtk_widget_destroyed, &window1);
 
   hbox1 = gtk_hbox_new (FALSE, 0);
   gtk_object_set_data (GTK_OBJECT (window1), "hbox1", hbox1);

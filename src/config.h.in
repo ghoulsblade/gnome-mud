@@ -64,6 +64,9 @@
 /* Define as 1 if we want to use MCCP */
 #undef ENABLE_MCCP
 
+/* session management ? */
+#undef HAVE_LIBSM
+
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT
 
@@ -120,6 +123,9 @@
 
 /* Define if you have the strstr function.  */
 #undef HAVE_STRSTR
+
+/* Define if you have the <X11/SM/SMlib.h> header file.  */
+#undef HAVE_X11_SM_SMLIB_H
 
 /* Define if you have the <argz.h> header file.  */
 #undef HAVE_ARGZ_H

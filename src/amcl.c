@@ -20,10 +20,9 @@
 
 #include <libintl.h>
 #include <locale.h>
+#include <gnome.h>
 #include <pwd.h>
 #include <signal.h>
-
-#include <gtk/gtk.h>
 
 #include "amcl.h"
 
@@ -43,9 +42,10 @@ int main (gint argc, char *argv[])
   textdomain(PACKAGE);
   
   memset(&act, 0, sizeof(act));
-  
-  gtk_init (&argc, &argv);
-  gdk_init (&argc, &argv);
+
+  gnome_init("gnome-mud", VERSION, argc, argv);  
+  //gtk_init (&argc, &argv);
+  //gdk_init (&argc, &argv);
   
   act.sa_handler = SIG_DFL;
   sigaction(SIGSEGV, &act, NULL);
@@ -61,6 +61,7 @@ int main (gint argc, char *argv[])
   /*init_modules(PKGDATADIR);*/
   
   gtk_main ();
+  gnome_config_sync();
 
   save_plugins();
   

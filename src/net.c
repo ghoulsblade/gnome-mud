@@ -75,7 +75,7 @@ extern GtkWidget       *main_notebook;
 extern GtkWidget       *menu_main_disconnect;
 extern GdkColor         color_black;
 extern GtkCList        *lists[3];
-gchar *host, *port;
+gchar *host = "", *port = "";
 
 /* Added by Bret Robideaux (fayd@alliences.org)
  * I needed a separate way to send triggered actions to game, without

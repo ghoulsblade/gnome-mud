@@ -1,4 +1,36 @@
 dnl
+dnl LIBGTOP_CHECK_TYPE
+dnl
+dnl Improved version of AC_CHECK_TYPE which takes into account
+dnl that we need to #include some other header files on some
+dnl systems to get some types.
+
+dnl AC_LIBGTOP_CHECK_TYPE(TYPE, DEFAULT)
+AC_DEFUN(AC_LIBGTOP_CHECK_TYPE,
+[AC_REQUIRE([AC_HEADER_STDC])dnl
+AC_MSG_CHECKING(for $1)
+AC_CACHE_VAL(ac_cv_type_$1,
+[AC_EGREP_CPP(dnl
+changequote(<<,>>)dnl
+<<(^|[^a-zA-Z_0-9])$1[^a-zA-Z_0-9]>>dnl
+changequote([,]), [#include <sys/types.h>
+#if STDC_HEADERS
+#include <stdlib.h>
+#include <stddef.h>
+#endif
+
+/* For Tru64 */
+#ifdef HAVE_SYS_BITYPES_H
+#include <sys/bitypes.h>
+#endif
+], ac_cv_type_$1=yes, ac_cv_type_$1=no)])dnl
+AC_MSG_RESULT($ac_cv_type_$1)
+if test $ac_cv_type_$1 = no; then
+  AC_DEFINE($1, $2)
+fi
+])
+
+dnl
 dnl GNOME_LIBGTOP_TYPES
 dnl
 dnl some typechecks for libgtop.
@@ -6,8 +38,9 @@ dnl
 
 AC_DEFUN([GNOME_LIBGTOP_TYPES],
 [
-	AC_CHECK_TYPE(u_int64_t, unsigned long long int)
-	AC_CHECK_TYPE(int64_t, long long int)
+	AC_CHECK_HEADERS(sys/bitypes.h)
+	AC_LIBGTOP_CHECK_TYPE(u_int64_t, unsigned long long int)
+	AC_LIBGTOP_CHECK_TYPE(int64_t, signed long long int)
 ])
 
 dnl
@@ -28,10 +61,6 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	AC_SUBST(LIBGTOP_INCS)
 	AC_SUBST(LIBGTOP_NAMES_LIBS)
 	AC_SUBST(LIBGTOP_NAMES_INCS)
-	AC_SUBST(LIBGTOP_GUILE_INCS)
-	AC_SUBST(LIBGTOP_GUILE_LIBS)
-	AC_SUBST(LIBGTOP_GUILE_NAMES_INCS)
-	AC_SUBST(LIBGTOP_GUILE_NAMES_LIBS)
 	AC_SUBST(LIBGTOP_MAJOR_VERSION)
 	AC_SUBST(LIBGTOP_MINOR_VERSION)
 	AC_SUBST(LIBGTOP_MICRO_VERSION)
@@ -70,7 +99,7 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	dnl   If you increase this number here, this means that *ALL*
 	dnl   modules will require the new version, even if they explicitly
 	dnl   give a lower number in their `configure.in' !!!
-	real_min_libgtop_version=0.26.1
+	real_min_libgtop_version=1.0.0
 	min_libgtop_version=ifelse([$1], ,$real_min_libgtop_version,$1)
 	dnl I know, the following code looks really ugly, but if you want
 	dnl to make changes, please test it with a brain-dead /bin/sh and
@@ -120,10 +149,13 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	    sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
 	  libgtop_micro_version=`$LIBGTOP_CONFIG --version | \
 	    sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
-	  test $libgtop_major_version != $min_libgtop_major && no_libgtop=yes
-	  test $libgtop_minor_version -lt $min_libgtop_minor && no_libgtop=yes
-	  if test $libgtop_minor_version = $min_libgtop_minor ; then
-	    test $libgtop_micro_version -lt $min_libgtop_micro && no_libgtop=yes
+	  if test $libgtop_major_version != $min_libgtop_major ; then 
+	    no_libgtop=mismatch
+	  else 
+ 	    test $libgtop_minor_version -lt $min_libgtop_minor && no_libgtop=yes
+	    if test $libgtop_minor_version = $min_libgtop_minor ; then
+	      test $libgtop_micro_version -lt $min_libgtop_micro && no_libgtop=yes
+	    fi
 	  fi
 	  . $configfile
 	fi
@@ -140,6 +172,9 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	  ifelse([$2], [], :, [$2])
 	else
 	  AC_MSG_RESULT(no)
+	  if test "$no_libgtop"x = mismatchx; then
+	    AC_MSG_ERROR(LibGTop major version mismatch $libgtop_major_version != $min_libgtop_major)
+	  fi
 	  if test "x$3" = "xfail"; then
 	    AC_MSG_ERROR(LibGTop >= $min_libgtop_version not found)
 	  else
@@ -151,5 +186,32 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 ])
 
 AC_DEFUN([GNOME_INIT_LIBGTOP],[
-	GNOME_LIBGTOP_HOOK($1,[],$2)
+	GNOME_LIBGTOP_HOOK($1,[ifelse([$3], [], :, [$3])],$2)
 ])
+
+dnl
+dnl GNOME_LIBGTOP_DOCU
+dnl
+dnl checks whether the documentation of LibGTop is installed
+dnl
+
+AC_DEFUN([GNOME_LIBGTOP_DOCU],
+[
+	AC_REQUIRE([GNOME_LIBGTOP_HOOK])
+
+	helpdir="$LIBGTOP_DATADIR/gnome/help/libgtop"
+
+	AC_MSG_CHECKING(whether you have the LibGTop Documentation)
+
+	if test -f "$helpdir/C/topic.dat" ; then
+	  have_libgtop_docu=yes
+	  AC_DEFINE(HAVE_LIBGTOP_DOCU)
+	else
+	  have_libgtop_docu=no
+	fi
+
+	AC_MSG_RESULT($have_libgtop_docu)
+
+	AM_CONDITIONAL(HAVE_LIBGTOP_DOCU, test x$have_libgtop_docu = xyes)
+])
+

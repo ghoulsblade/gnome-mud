@@ -236,9 +236,10 @@ void grab_focus_cb (GtkWidget* widget, gpointer user_data)
 
 void switch_page_cb (GtkNotebook *widget, gpointer data, guint nb_int, gpointer data2)
 {
-  if (connections[nb_int] && menu_main_disconnect)
-      gtk_widget_set_sensitive (menu_main_disconnect, connections[nb_int]->connected);
-  gtk_widget_set_sensitive (menu_main_close, !(nb_int == 0 && menu_main_close));
+  /* FIXME */
+  //if (connections[nb_int] && menu_main_disconnect)
+    //gtk_widget_set_sensitive (menu_main_disconnect, connections[nb_int]->connected);
+  //gtk_widget_set_sensitive (menu_main_close, !(nb_int == 0 && menu_main_close));
   grab_focus_cb(NULL, NULL);
   /* fix the focus-problem */
   if (text_entry != NULL) gtk_widget_grab_focus(text_entry);

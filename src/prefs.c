@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 #include "config.h"
@@ -22,6 +22,7 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#include <gnome.h>
 #include <libintl.h>
 #include <pwd.h>
 #include <stdio.h>
@@ -29,32 +30,15 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <gtk/gtk.h>
-
 #include "amcl.h"
-
-#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
 
-/* Local functions */
-static void	check_callback (GtkWidget *, GtkWidget *);
-static void	check_text_toggle (GtkWidget *, GtkWidget *);
-static void	prefs_autosave_cb (GtkWidget *, GtkWidget *);
-static void	prefs_close_window (void);
-static void	prefs_divide_cb (GtkWidget *, GtkWidget *);
-static void	prefs_font_selected (GtkWidget *, GtkFontSelectionDialog *);
-static void	prefs_freeze_cb (GtkWidget *, GtkWidget *);
-static void	prefs_select_font_callback (GtkWidget *, gpointer);
-
-extern GdkFont  *font_normal;
-extern GtkWidget *menu_option_prefs;
+extern GdkFont   *font_normal;
 
 SYSTEM_DATA prefs;
-GtkWidget   *prefs_window;
-GtkWidget   *prefs_button_save;
-GtkWidget   *entry_fontname;
+SYSTEM_DATA pre_prefs;
 
 FILE *open_file (gchar *filename, gchar *mode)
 {
@@ -62,6 +46,8 @@ FILE *open_file (gchar *filename, gchar *mode)
   gchar buf[256];
   gchar dirname[256];
   FILE *fd;
+
+  g_message("open_file() called, use gnome_config_* instead.");
 
   /* check for ~/.amcl dir ... */
   g_snprintf (dirname, 255, "%s/.amcl", g_get_home_dir());
@@ -106,352 +92,220 @@ FILE *open_file (gchar *filename, gchar *mode)
 
 void load_prefs ( void )
 {
-    FILE *fp;
-    gchar line[255];
-    gchar pref[25];
-    gchar value[250];
-    gint valint;
+  prefs.EchoText = gnome_config_get_bool  ("/gnome-mud/Preferences/EchoText=true");
+  prefs.KeepText = gnome_config_get_bool  ("/gnome-mud/Preferences/KeepText=false");
+  prefs.Freeze   = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
+  prefs.CommDev  = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
+  prefs.FontName = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
 
-    prefs.EchoText = TRUE;
-    prefs.KeepText = FALSE;
-    prefs.AutoSave = FALSE;
-    prefs.CommDev  = g_strdup (";");
-    prefs.FontName = g_strdup ("fixed");
-    
-    if (!(fp = open_file ("preferences", "r"))) return;
-
-    while ( fgets (line, 80, fp) != NULL )
-    {
-        if (sscanf (line, "%[^=]=%s", pref, value) != 2) continue;
-
-	if (!strncasecmp(pref, "echotext", 8)) {
-	  valint = atoi(value);
-
-	  if (valint == 1)
-	    prefs.EchoText = TRUE;
-	  else
-	    prefs.EchoText = FALSE;
-
-	} else if (!strncasecmp(pref, "keeptext", 8)) {
-	  valint = atoi(value);
-	  
-	  if (valint == 1)
-	    prefs.KeepText = TRUE;
-	  else
-	    prefs.KeepText = FALSE;
-
-	} else if (!strncasecmp(pref, "autosave", 8)) {
-	  valint = atoi(value);
-
-	  if (valint == 1) 
-	    prefs.AutoSave = TRUE;
-	  else
-	    prefs.AutoSave = FALSE;
-
-	} else if (!strncasecmp(pref, "freeze", 6)) {
-	  valint = atoi(value);
-
-	  if (valint == 1) 
-	    prefs.Freeze = TRUE;
-	  else
-	    prefs.Freeze = FALSE;
-
-	} else if (!strncasecmp(pref, "commdev", 7)) {
-	  g_free(prefs.CommDev);
-	  
-	  prefs.CommDev = g_strdup(value);
-
-	} else if (!strncasecmp(pref, "fontname", 8)) {
-	  g_free(prefs.FontName);
-	  
-	  prefs.FontName = g_strdup(value);
-
-	  font_normal = gdk_font_load(prefs.FontName);
-	} else /* Unknown pref file entry! */ {
-	  gchar buf[256];
-
-	  g_snprintf(buf, 255, "Unknown preference file entry:  %s=%s.", pref, value);
-
-	  popup_window(buf);
-	}
-    }
-
-    if (fp) fclose (fp);
+  font_normal = gdk_font_load(prefs.FontName);
 }
 
 void save_prefs ( void )
 {
-    FILE *fp;
+  gnome_config_set_bool  ("/gnome-mud/Preferences/EchoText", prefs.EchoText);
+  gnome_config_set_bool  ("/gnome-mud/Preferences/KeepText", prefs.KeepText);
+  gnome_config_set_bool  ("/gnome-mud/Preferences/AutoSave", prefs.AutoSave);
+  gnome_config_set_bool  ("/gnome-mud/Preferences/Freeze",   prefs.Freeze);
+  gnome_config_set_string("/gnome-mud/Preferences/CommDev",  prefs.CommDev);
+  gnome_config_set_string("/gnome-mud/Preferences/FontName", prefs.FontName);
 
-    if (!(fp = open_file ("preferences", "w"))) return;
-
-    if ( prefs.EchoText ) {
-      fprintf(fp, "EchoText=1\n");
-    } else {
-      fprintf(fp, "EchoText=0\n");
-    }
-
-    if ( prefs.KeepText ) {
-      fprintf(fp, "KeepText=1\n");
-    } else {
-      fprintf(fp, "KeepText=0\n");
-    }
-
-    if ( prefs.AutoSave ) {
-      fprintf(fp, "AutoSave=1\n");
-    } else {
-      fprintf(fp, "AutoSave=0\n");
-    }
-
-    if ( prefs.Freeze ) {
-      fprintf(fp, "Freeze=1\n");
-    } else {
-      fprintf(fp, "Freeze=0\n");
-    }
-
-    fprintf(fp, "CommDev=%c\n", prefs.CommDev[0]);
-
-    if ( strlen (prefs.FontName) > 0 )
-        fprintf (fp, "FontName=%s\n", prefs.FontName);
-    
-    if (fp) fclose (fp);
+  gnome_config_sync();
 }
 
-static void check_text_toggle (GtkWidget *widget, GtkWidget *button)
+static void copy_preferences(SYSTEM_DATA *target, SYSTEM_DATA *prefs)
 {
-    if ( GTK_TOGGLE_BUTTON (button)->active )
-        prefs.KeepText = TRUE;
-    else
-        prefs.KeepText = FALSE;
+  target->EchoText = prefs->EchoText;
+  target->KeepText = prefs->KeepText;
+  target->AutoSave = prefs->AutoSave;
+  target->Freeze   = prefs->Freeze;
+  g_free(target->FontName);
+  target->FontName = g_strdup(prefs->FontName);
+  g_free(target->CommDev);
+  target->CommDev  = g_strdup(prefs->CommDev);
 }
 
-static void prefs_autosave_cb (GtkWidget *widget, GtkWidget *check_autosave)
+static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)
 {
-    if ( GTK_TOGGLE_BUTTON (check_autosave)->active )
-        prefs.AutoSave = TRUE;
+    if ( GTK_TOGGLE_BUTTON (widget)->active )
+        pre_prefs.KeepText = TRUE;
     else
-        prefs.AutoSave = FALSE;
+        pre_prefs.KeepText = FALSE;
+
+    gnome_property_box_changed(box);
 }
 
-static void prefs_freeze_cb (GtkWidget *widget, GtkWidget *check_freeze)
+static void prefs_checkbutton_freeze_cb (GtkWidget *widget, GnomePropertyBox *box)
 {
-    if ( GTK_TOGGLE_BUTTON (check_freeze)->active )
-        prefs.Freeze = TRUE;
-    else
-        prefs.Freeze = FALSE;
+  if ( GTK_TOGGLE_BUTTON (widget)->active )
+    pre_prefs.Freeze = TRUE;
+  else
+    pre_prefs.Freeze = FALSE;
+  
+  gnome_property_box_changed(box);
 }
 
-static void prefs_divide_cb (GtkWidget *widget, GtkWidget *entry_divide)
+static void prefs_entry_divide_cb (GtkWidget *widget, GnomePropertyBox *box)
 {
   gchar *s;
-  s = gtk_entry_get_text(GTK_ENTRY(entry_divide));
-  if (s) prefs.CommDev[0] = s[0];  
+  s = gtk_entry_get_text(GTK_ENTRY(widget));
+  if (s) {
+    pre_prefs.CommDev = g_strdup(s);
+    
+    gnome_property_box_changed(box);
+  }
 }
 
-static void check_callback (GtkWidget *widget, GtkWidget *check_button)
+static void prefs_checkbox_echo_cb(GtkWidget *widget, GnomePropertyBox *box)
 {
-    if ( GTK_TOGGLE_BUTTON (check_button)->active )
-        prefs.EchoText = TRUE;
-    else
-        prefs.EchoText = FALSE;
+  if ( GTK_TOGGLE_BUTTON (widget)->active )
+    pre_prefs.EchoText = TRUE;
+  else
+    pre_prefs.EchoText = FALSE;
+  
+  gnome_property_box_changed(box);
 }
 
-static void prefs_font_selected (GtkWidget *button, GtkFontSelectionDialog *fs)
+static void prefs_select_font_cb(GnomeFontPicker *fontpicker, gchar *font, gpointer data)
 {
-    gchar *temp;
-
-    temp = gtk_font_selection_get_font_name (GTK_FONT_SELECTION(fs->fontsel));
-
-    if (temp != NULL) {
-      gtk_entry_set_text (GTK_ENTRY (entry_fontname), temp);
-      g_free (prefs.FontName);
-      prefs.FontName = g_strdup (temp);
-
-      font_normal = gdk_font_load (prefs.FontName);
-    }
-
-    g_free (temp);
+  if (font != NULL) {
+    g_free(pre_prefs.FontName);
+    pre_prefs.FontName = g_strdup(font);
+    
+    gnome_property_box_changed((GnomePropertyBox *) data);
+  }
 }
 
-static void prefs_select_font_callback (GtkWidget *button, gpointer data)
+static void prefs_apply_cb(GnomePropertyBox *propertybox, gint page, gpointer data)
 {
-    GtkWidget *fontw;
+  if (page == -1) {
+    copy_preferences(&prefs, &pre_prefs);
+    
+    font_normal = gdk_font_load(prefs.FontName);
 
-    fontw = gtk_font_selection_dialog_new ("Font Selection...");
-    gtk_font_selection_dialog_set_preview_text (GTK_FONT_SELECTION_DIALOG (fontw),
-                                                "How about this font?");
-    gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG (fontw),"fixed");
-
-    gtk_signal_connect (GTK_OBJECT (GTK_FONT_SELECTION_DIALOG (fontw)->ok_button),
-                               "clicked", (GtkSignalFunc) prefs_font_selected,
-                               GTK_OBJECT (fontw));
-    gtk_signal_connect_object (GTK_OBJECT (GTK_FONT_SELECTION_DIALOG (fontw)->ok_button),
-                               "clicked", (GtkSignalFunc) gtk_widget_destroy,
-                               GTK_OBJECT (fontw));
-    gtk_signal_connect_object (GTK_OBJECT (GTK_FONT_SELECTION_DIALOG (fontw)->cancel_button),
-                               "clicked", (GtkSignalFunc) gtk_widget_destroy,
-                               GTK_OBJECT (fontw));
-    gtk_widget_show (fontw);
-}
-
-static void prefs_close_window (void)
-{
-    if ( prefs.AutoSave )
-        save_prefs();
-
-    gtk_widget_set_sensitive (menu_option_prefs, TRUE);
-    gtk_widget_destroy (prefs_window);
+    save_prefs();
+  }
 }
 
 void window_prefs (GtkWidget *widget, gpointer data)
 {
-    GtkWidget *check_text;
-    GtkWidget *check_autosave;
-    GtkWidget *check_button;
-    GtkWidget *check_freeze;
-    GtkWidget *vbox;
-    GtkWidget *hbox;
-    GtkWidget *hbox_font;
-    GtkWidget *hbox_divide;
-    GtkWidget *entry_divide;
-    GtkWidget *label;
-    GtkWidget *button_close;
-    GtkWidget *button_select_font;
-    GtkWidget *separator;
-    GtkTooltips *tooltip;
+  static GtkWidget *prefs_window;
+  
+  GtkWidget *vbox1, *vbox2;
+  GtkWidget *hbox1;
+  GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton_freeze;
+  GtkWidget *label1, *label2;
+  GtkWidget *fontpicker;
+  GtkWidget *entry_divider;
 
-    gtk_widget_set_sensitive (menu_option_prefs, FALSE);
-                              
-    prefs_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (prefs_window), _("AMCL - Preferences"));
-    gtk_signal_connect_object (GTK_OBJECT (prefs_window), "destroy",
-                               GTK_SIGNAL_FUNC(prefs_close_window), NULL );
+  GtkTooltips *tooltip;
 
-    vbox = gtk_vbox_new (FALSE, 5);
-    gtk_container_border_width (GTK_CONTAINER (vbox), 5);
-    gtk_container_add (GTK_CONTAINER (prefs_window), vbox);
-    gtk_widget_show (vbox);
+  if (prefs_window != NULL) {
+    gdk_window_raise(prefs_window->window);
+    gdk_window_show(prefs_window->window);
+    return;
+  }
 
-    tooltip = gtk_tooltips_new ();
+  copy_preferences(&pre_prefs, &prefs);
+  
+  prefs_window = gnome_property_box_new();
+  gtk_window_set_policy(GTK_WINDOW(prefs_window), FALSE, FALSE, FALSE);
+  gtk_signal_connect(GTK_OBJECT(prefs_window), "destroy",
+		     GTK_SIGNAL_FUNC(gtk_widget_destroyed), &prefs_window);
+  gtk_signal_connect(GTK_OBJECT(prefs_window), "apply",
+		     GTK_SIGNAL_FUNC(prefs_apply_cb), NULL);
 
-    check_button = gtk_check_button_new_with_label (_("Echo the text sent?"));
-    gtk_box_pack_start (GTK_BOX (vbox), check_button, FALSE, TRUE, 0);
-    gtk_signal_connect (GTK_OBJECT (check_button), "toggled",
-                        GTK_SIGNAL_FUNC (check_callback), check_button);
-    gtk_tooltips_set_tip (tooltip, check_button,
+  tooltip = gtk_tooltips_new();
+
+  vbox1 = gtk_vbox_new (TRUE, 0);
+  gtk_widget_show (vbox1);
+  
+  checkbutton_echo = gtk_check_button_new_with_label (_("Echo the text sent?"));
+  gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_echo), prefs.EchoText);
+  gtk_widget_show (checkbutton_echo);
+  gtk_box_pack_start (GTK_BOX (vbox1), checkbutton_echo, FALSE, FALSE, 0);
+  gtk_tooltips_set_tip (tooltip, checkbutton_echo,
 			_("With this toggled on, all the text you type and "
 			  "enter will be echoed on the connection so you can "
 			  "control what you are sending."),
-			  NULL);
-    GTK_WIDGET_UNSET_FLAGS (check_button, GTK_CAN_FOCUS);
-    gtk_widget_show (check_button);
-    gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (check_button), prefs.EchoText);
+			NULL);
+  gtk_signal_connect(GTK_OBJECT(checkbutton_echo), "toggled",
+		     prefs_checkbox_echo_cb, (gpointer) prefs_window);
 
-    check_text = gtk_check_button_new_with_label (_("Keep the text entered?"));
-    gtk_box_pack_start (GTK_BOX (vbox), check_text, FALSE, TRUE, 0);
-    gtk_signal_connect (GTK_OBJECT (check_text), "toggled",
-                        GTK_SIGNAL_FUNC (check_text_toggle),
-                        check_text);
-    gtk_tooltips_set_tip (tooltip, check_text,
+  checkbutton_keep = gtk_check_button_new_with_label (_("Keep the text entered?"));
+  gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_keep), prefs.KeepText);
+  gtk_widget_show (checkbutton_keep);
+  gtk_box_pack_start (GTK_BOX (vbox1), checkbutton_keep, FALSE, FALSE, 0);
+  gtk_tooltips_set_tip (tooltip, checkbutton_keep,
 			_("With this toggled on, the text you have entered "
 			  "and sent to the connection, will be left in the "
 			  "entry box but seleceted. Turn this off to remove "
 			  "the text after it has been sent."),
-			  NULL);
-    GTK_WIDGET_UNSET_FLAGS (check_text, GTK_CAN_FOCUS);
-    gtk_widget_show (check_text);
-    gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (check_text), prefs.KeepText);
+			NULL);
+  gtk_signal_connect(GTK_OBJECT(checkbutton_keep), "toggled",
+		     prefs_checkbox_keep_cb, (gpointer) prefs_window);
+  
+  fontpicker = gnome_font_picker_new();
+  gtk_widget_show (fontpicker);
 
-    check_autosave = gtk_check_button_new_with_label (_("AutoSave?"));
-    gtk_box_pack_start (GTK_BOX (vbox), check_autosave, FALSE, TRUE, 0);
-    gtk_signal_connect (GTK_OBJECT (check_autosave), "toggled",
-                        GTK_SIGNAL_FUNC (prefs_autosave_cb), check_autosave);
-    gtk_tooltips_set_tip (tooltip, check_autosave,
-			_("With this toggled on, Preferences, Connection "
-			  "Wizard and Aliases will be saved automatically."),
-			  NULL);
-    GTK_WIDGET_UNSET_FLAGS (check_autosave, GTK_CAN_FOCUS);
-    gtk_widget_show (check_autosave);
-    gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (check_autosave), prefs.AutoSave);
-    
-    check_freeze = gtk_check_button_new_with_label (_("Freeze/Thaw"));
-    gtk_box_pack_start (GTK_BOX (vbox), check_freeze, FALSE, TRUE, 0);
-    gtk_signal_connect (GTK_OBJECT (check_freeze), "toggled",
-                        GTK_SIGNAL_FUNC (prefs_freeze_cb), check_freeze);
-    gtk_tooltips_set_tip (tooltip, check_freeze,
+  if (!g_strcasecmp(prefs.FontName, "fixed"))
+    gnome_font_picker_set_font_name(GNOME_FONT_PICKER(fontpicker), "-misc-fixed-medium-r-semicondensed-*-*-120-*-*-c-*-iso8859-1");
+  else
+    gnome_font_picker_set_font_name(GNOME_FONT_PICKER(fontpicker), prefs.FontName);
+
+  gnome_font_picker_set_mode(GNOME_FONT_PICKER(fontpicker), GNOME_FONT_PICKER_MODE_FONT_INFO);
+  gnome_font_picker_fi_set_show_size(GNOME_FONT_PICKER (fontpicker), FALSE);
+  gnome_font_picker_fi_set_use_font_in_label(GNOME_FONT_PICKER (fontpicker), TRUE, 12);  
+  gtk_box_pack_start (GTK_BOX (vbox1), fontpicker, FALSE, FALSE, 0);  
+  gtk_tooltips_set_tip (tooltip, fontpicker,
+			_("Use this button to open the font selector to "
+			  "choose what font you will use."),
+			NULL);
+  gtk_signal_connect (GTK_OBJECT(fontpicker), "font-set", prefs_select_font_cb, (gpointer) prefs_window);
+
+  label1 = gtk_label_new (_("Apperence"));
+  gtk_widget_show (label1); 
+  
+  gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window),
+				 vbox1, label1);
+
+  vbox2 = gtk_vbox_new (TRUE, 0);
+  gtk_widget_show (vbox2);
+
+  checkbutton_freeze = gtk_check_button_new_with_label (_("Freeze/Thaw?"));
+  gtk_tooltips_set_tip (tooltip, checkbutton_freeze,
 			_("Using this, text will draw faster but it will not "
 			  "draw every character, only whole strings. This "
 			  "will probably make displays a lot faster if you "
 			  "are playing MUDs with a lot of different colours."),
-			  NULL);
-    GTK_WIDGET_UNSET_FLAGS (check_freeze, GTK_CAN_FOCUS);
-    gtk_widget_show (check_freeze);
-    gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (check_freeze), prefs.Freeze);
+			NULL);
+  gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_freeze), prefs.Freeze);
+  gtk_box_pack_start (GTK_BOX (vbox2), checkbutton_freeze, FALSE, FALSE, 0);
+  GTK_WIDGET_UNSET_FLAGS (checkbutton_freeze, GTK_CAN_FOCUS);
+  gtk_widget_show(checkbutton_freeze);
+  gtk_signal_connect(GTK_OBJECT(checkbutton_freeze), "toggled",
+		     prefs_checkbutton_freeze_cb, (gpointer) prefs_window);
 
-    hbox_divide = gtk_hbox_new (TRUE, 0);
-    gtk_container_add (GTK_CONTAINER (vbox), hbox_divide);
-    gtk_widget_show (hbox_divide);
-    
-    label = gtk_label_new (_("   Command divide char"));
-    gtk_box_pack_start (GTK_BOX (hbox_divide), label, TRUE, FALSE, 0);
-    gtk_widget_show (label);
-    
-    entry_divide = gtk_entry_new_with_max_length (1);
-    gtk_entry_set_text (GTK_ENTRY (entry_divide), prefs.CommDev);
-    gtk_box_pack_start (GTK_BOX (hbox_divide), entry_divide, TRUE, FALSE, 0);
-    gtk_widget_set_usize(GTK_WIDGET(entry_divide),30,23);
-    gtk_widget_show (entry_divide);
-    gtk_signal_connect (GTK_OBJECT (entry_divide), "changed",
-                        GTK_SIGNAL_FUNC (prefs_divide_cb), entry_divide);
-    
-    hbox_font = gtk_hbox_new (FALSE, 0);
-    gtk_container_add (GTK_CONTAINER (vbox), hbox_font);
-    gtk_widget_show (hbox_font);
+  hbox1 = gtk_hbox_new (FALSE, 0);
+  gtk_widget_show (hbox1);
+  gtk_box_pack_start (GTK_BOX (vbox2), hbox1, TRUE, TRUE, 0);
 
-    entry_fontname = gtk_entry_new ();
-    gtk_entry_set_text (GTK_ENTRY (entry_fontname), prefs.FontName);
-    gtk_box_pack_start (GTK_BOX (hbox_font), entry_fontname, FALSE, TRUE, 10);
-    gtk_tooltips_set_tip (tooltip, entry_fontname,
-			_("This is the font that AMCL is using to print the "
-			  "text from the MUD. If the font is unavailable "
-			  "when you start AMCL, the default font \"fixed.\" "
-			  "will be used."),
-			  NULL);
-    gtk_widget_show (entry_fontname);
-    
-    button_select_font = gtk_button_new_with_label (_("Select font"));
+  label1 = gtk_label_new (_("Command divide char:"));
+  gtk_widget_show (label1);
+  gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 10);
 
-    gtk_signal_connect_object (GTK_OBJECT (button_select_font), "clicked",
-                               GTK_SIGNAL_FUNC (prefs_select_font_callback),
-                               NULL);
-    gtk_tooltips_set_tip (tooltip, button_select_font,
-			_("Use this button to open the font selector to "
-			  "choose what font you will use."),
-			  NULL);
+  entry_divider = gtk_entry_new_with_max_length (1);
+  gtk_entry_set_text (GTK_ENTRY (entry_divider), prefs.CommDev);
+  gtk_widget_show (entry_divider);
+  gtk_box_pack_start (GTK_BOX (hbox1), entry_divider, FALSE, TRUE, 0);
+  gtk_widget_set_usize (entry_divider, 15, -2);
+  gtk_signal_connect(GTK_OBJECT(entry_divider), "changed",
+		     GTK_SIGNAL_FUNC(prefs_entry_divide_cb), (gpointer) prefs_window);
 
-    gtk_box_pack_start (GTK_BOX (hbox_font), button_select_font, FALSE, TRUE, 10);
-    gtk_widget_show (button_select_font);
+  label2 = gtk_label_new (_("Functionality"));
+  gtk_widget_show (label2); 
 
-    separator = gtk_hseparator_new ();
-    gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, TRUE, 5);
-    gtk_widget_show (separator);
+  gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window), vbox2, label2);
 
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-    gtk_widget_show (hbox);
-
-    prefs_button_save  = gtk_button_new_with_label (_("Save"));
-    button_close = gtk_button_new_with_label (_("Close"));
-    gtk_signal_connect_object (GTK_OBJECT (prefs_button_save), "clicked",
-                               GTK_SIGNAL_FUNC (save_prefs),
-                               NULL);
-    gtk_signal_connect_object (GTK_OBJECT (button_close), "clicked",
-                               GTK_SIGNAL_FUNC (prefs_close_window),
-                               NULL);
-    gtk_box_pack_start (GTK_BOX (hbox), prefs_button_save,  TRUE, TRUE, 15);
-    gtk_box_pack_start (GTK_BOX (hbox), button_close, TRUE, TRUE, 15);
-    gtk_widget_show (prefs_button_save);
-    gtk_widget_show (button_close);
-    
-    gtk_widget_show (prefs_window);
+  gtk_widget_show(prefs_window);
 }
