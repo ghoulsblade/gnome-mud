@@ -1,3 +1,25 @@
+Tue Oct  9 16:08:42 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/gnome-mud.c (main): Commented out some signaling, removed
+	loading of plugins, and loading of keys.
+
+	* src/gnome-mud.h: window_keybind() changed, and 
+	profiledata_savekeys() added.
+
+	* src/init.c (destroy): Added profiledata_savekeys().
+	(text_entry_key_press_cb): Reformatted and added code for
+	keybinds on profiles.
+
+	* src/keybind.c ((load|save)_keys): Commented out.
+	Removed save button, reformatted code.
+
+	* src/profiles.c (load_profiles): keybinds, variables and
+	triggers added to savelist.
+	(profiledata_savekeys): New function for saving keybinds to
+	profile.
+	(window_profiles): Added close button, and now only displays
+	one window until window closed.
+
 Thu Oct  4 16:40:16 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/map.c: Ok, it only took 14 months and one week to notice
@@ -19,7 +41,7 @@ Thu Oct  4 15:29:56 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 	get rid of those widgets in the Help menu.
 	* autogen.sh: call automake with -add-missing, for automake 1.5.
 
-Thu Oct  4 15:23:18 CEST 2001  Robin Ercisson  <lobbin@localhost.nu>
+Thu Oct  4 15:23:18 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/.cvsignore, src/Makefile.am: changed gnomemud to gnome-mud.
 
