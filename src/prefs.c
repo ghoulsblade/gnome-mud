@@ -690,7 +690,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
 			NULL);
 	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_checkbox_keep_cb), (gpointer) prefs_window);
 
-	tmp = gtk_check_button_new_with_label(_("Disable System Keys"));
+	tmp = gtk_check_button_new_with_mnemonic(_("Disable _System Keys"));
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(tmp), prefs.DisableKeys);
 	gtk_box_pack_start(GTK_BOX(vbox), tmp, FALSE, FALSE, 0);
 	gtk_tooltips_set_tip(tooltip, tmp,
