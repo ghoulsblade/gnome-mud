@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-18 15:00+0100\n"
-"PO-Revision-Date: 2003-12-18 17:22+0100\n"
+"POT-Creation-Date: 2003-12-21 04:06+0100\n"
+"PO-Revision-Date: 2003-12-21 14:58+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -76,9 +76,8 @@ msgstr ""
 
 #: gnome-mud.schemas.in.h:10
 msgid ""
-"File where the mud list will be read from to to be used in the MudList "
-"dialog."
-msgstr "Soubor, odkud bude čten seznam mudů, který bude použit v dialog MudList."
+"File where the mud list will be read from to be used in the MudList dialog."
+msgstr "Soubor, odkud bude čten seznam mudů, který bude použit v dialogu MudList."
 
 #: gnome-mud.schemas.in.h:11
 msgid "Font"
@@ -317,7 +316,9 @@ msgstr "Nemohly být správně získány implicitní hodnoty nastavení."
 msgid ""
 "Please check your GConf configuration, specifically that the schemas have "
 "been installed correctly."
-msgstr "Zkontrolujte prosím své nastavení GConf, konkrétně zda byla schémata nainstalována správně."
+msgstr ""
+"Zkontrolujte prosím své nastavení GConf, konkrétně zda byla schémata "
+"nainstalována správně."
 
 #: src/gnome-mud.c:89
 #, c-format
@@ -804,17 +805,17 @@ msgstr "Chyba, %s není zásuvný modul GNOME-Mud: %s."
 msgid "Registering plugin `%s' under the name `%s'."
 msgstr "Registruji zásuvný modul `%s' pod názvem `%s'."
 
-#: src/modules_api.c:51
+#: src/modules_api.c:64
 #, c-format
 msgid "Error while registering the menu: %s"
 msgstr "Chyba při registraci menu: %s"
 
-#: src/modules_api.c:71
+#: src/modules_api.c:84
 #, c-format
 msgid "Error while registering data %s: %s"
 msgstr "Chyba při registraci pro data %s: %s"
 
-#: src/modules_api.c:79
+#: src/modules_api.c:92
 msgid "Error while getting plugin from handle."
 msgstr "Chyba při získávání zásuvného modulu z handle."
 
@@ -854,29 +855,29 @@ msgstr "Jít na WWW stránku MUDu"
 msgid "Description:"
 msgstr "Popis:"
 
-#: src/net.c:182
+#: src/net.c:193
 msgid "*** Connection closed.\n"
 msgstr "*** Spojení uzavřeno.\n"
 
-#: src/net.c:194
+#: src/net.c:205
 msgid "*** Can't connect - you didn't specify a host.\n"
 msgstr "*** Nemohu se připojit - nezadali jste počítač.\n"
 
-#: src/net.c:200
+#: src/net.c:211
 msgid "*** No port specified - assuming port 23.\n"
 msgstr "*** Nezadán port - předpokládám port 23.\n"
 
-#: src/net.c:215
+#: src/net.c:226
 #, c-format
 msgid "*** Making connection to %s, port %s.\n"
 msgstr "*** Připojuji se k %s, port %s.\n"
 
-#: src/net.c:240
+#: src/net.c:251
 #, c-format
 msgid "*** Trying %s port %s...\n"
 msgstr "*** Zkouším %s port %s...\n"
 
-#: src/net.c:267
+#: src/net.c:278
 msgid "*** Connection established.\n"
 msgstr "*** Spojení navázáno.\n"
 
