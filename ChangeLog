@@ -1,3 +1,13 @@
+Mon Nov 12 17:21:59 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* configure.in: Stepped version to 0.8.99.
+
+	* ROADMAP: Done on save log.
+
+	* src/init.c (save_log_cb): Added.
+	(save_log_file_ok_cb): Added.
+	Now able to save logfiles from mud.
+
 Mon Nov 12 11:22:39 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* ROADMAP: Added GNOME 2.0 and some other.

@@ -12,7 +12,7 @@ feel free to suggest features, contribute, or comment.
 * AutoReconnect
 * Nested alias
 * Import of Mud Connectfiles
-* Save logfiles of mud-traffic
+* Save logfiles of mud-traffic [DONE]
 * Copy/Paste from clipboard
 * Rewrite connection wizard... [MOSTLY DONE]
 	+ be able to ping host...
