@@ -39,9 +39,6 @@
 #include "amcl.h"
 #include "modules.h"
 
-#include "ok.xpm"
-#include "error.xpm"
-
 static char const rcsid[] =
     "$Id$";
 
@@ -54,7 +51,6 @@ GtkWidget *plugin_desc_entry;
 GtkWidget *plugin_enable_check;
 gint       plugin_selected_row;
 FILE      *plugin_information;
-static GdkPixmap *ok, *error;
 gint       amount;
 
 PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
@@ -114,12 +110,12 @@ void plugin_clist_select_row_cb (GtkWidget *w, gint r, gint c, GdkEventButton *e
 {
   PLUGIN_OBJECT *p;
   gchar *text;
+  GtkCellType smisk;
 
   plugin_selected_row = r;
-  /* FIXME */
-  gtk_clist_get_pixtext (GTK_CLIST(data), 0, 0, NULL, NULL, NULL, NULL);
+  gtk_clist_get_text((GtkCList *) data, r, c, &text);
 
-  /*p = plugin_get_plugin_object_by_name (text);
+  p = plugin_get_plugin_object_by_name (text);
 
   if (p != NULL) {
     gtk_entry_set_text (GTK_ENTRY (plugin_name_entry),    p->info->plugin_name);
@@ -128,7 +124,7 @@ void plugin_clist_select_row_cb (GtkWidget *w, gint r, gint c, GdkEventButton *e
     gtk_entry_set_text (GTK_ENTRY (plugin_desc_entry),    p->info->plugin_descr);
     if (p->enabeled)
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(plugin_enable_check),TRUE);
-      }*/
+  }
 }
 
 void plugin_clist_append (PLUGIN_OBJECT *p, GtkCList *clist)
@@ -139,7 +135,6 @@ void plugin_clist_append (PLUGIN_OBJECT *p, GtkCList *clist)
     text[0] = p->info->plugin_name;
 
     gtk_clist_append (GTK_CLIST (clist), text);
-    gtk_clist_set_pixtext (GTK_CLIST(clist), amount, 0, p->info->plugin_name, 5, ok, NULL);
   }
 
   amount++;
@@ -159,9 +154,6 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   GtkWidget *label8;
   GtkWidget *label5;
   GtkWidget *label9;
-  static GdkBitmap *mask;
-
-  amount = 0;
 
   window1 = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_object_set_data (GTK_OBJECT (window1), "window1", window1);
@@ -170,16 +162,6 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_window_set_policy (GTK_WINDOW (window1), TRUE, TRUE, FALSE);
   gtk_widget_set_usize (window1, 430, 275);
 
-  if (ok == NULL) {
-    ok = gdk_pixmap_create_from_xpm_d(window->window, &mask, &window->style->bg[GTK_STATE_NORMAL],
-				      (gchar **) ok_xpm);
-  }
-
-  if (error == NULL) {
-    error = gdk_pixmap_create_from_xpm_d(window->window, &mask, &window->style->bg[GTK_STATE_NORMAL],
-					 (gchar **) error_xpm);
-  }
-  
   hbox1 = gtk_hbox_new (FALSE, 0);
   gtk_object_set_data (GTK_OBJECT (window1), "hbox1", hbox1);
   gtk_widget_show (hbox1);
