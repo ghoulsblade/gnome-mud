@@ -1,3 +1,8 @@
+2003-06-18  Fatih Demir <kabalak@gtranslator.org>
+
+	* configure.ac: Added Turkish ("tr") to the languages' list and re-
+		ordered the languages list there.
+
 2003-06-18  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c (window_menu_help_about): Check for an existing about
