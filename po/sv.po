@@ -5,15 +5,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME-MUD 0.10.0\n"
-"POT-Creation-Date: 2003-05-22 13:05+0200\n"
-"PO-Revision-Date: 2003-05-22 13:12+0200\n"
+"POT-Creation-Date: 2003-06-05 09:00+0200\n"
+"PO-Revision-Date: 2003-06-05 09:07+0200\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/gnome-mud.c:50
+#: src/gnome-mud.c:51
 #, c-format
 msgid "Failed to init GConf: %s"
 msgstr "Initiering av GConf misslyckades: %s"
@@ -73,147 +73,152 @@ msgstr "window_data: försöker få access till undefinerat data område: %d"
 msgid "GNOME-Mud Configuration Centre"
 msgstr "GNOME-Mud Inställnings Center"
 
-#: src/init.c:80
+#: src/init.c:82
 msgid "Do you really want to quit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/init.c:127 src/init.c:577
+#: src/init.c:129 src/init.c:628
 msgid "Connect..."
 msgstr "Anslut..."
 
-#: src/init.c:139 src/profiles.c:942
+#: src/init.c:141 src/profiles.c:942
 msgid "Host:"
 msgstr "Adress:"
 
-#: src/init.c:145 src/profiles.c:962
+#: src/init.c:147 src/profiles.c:962
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:193
+#: src/init.c:195
 msgid "*** Internal error: no such connection.\n"
 msgstr "*** Internt fel: ingen anslutning.\n"
 
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:224
+#: src/init.c:226
 msgid "translator_credits"
 msgstr "© 2003 Robin Ericsson"
 
-#: src/init.c:235 gnome-mud.desktop.in.h:1
+#: src/init.c:237 gnome-mud.desktop.in.h:1
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
 #. latin1 translators can use the copyright symbol here, see man latin1(7)
-#: src/init.c:237
+#: src/init.c:239
 msgid "(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
 msgstr " © 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
 
-#: src/init.c:238
+#: src/init.c:240
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr "En MUD-klient byggd på GTK+/GNOME libbar.\n"
 
-#: src/init.c:251
+#: src/init.c:253
 msgid "GNOME-Mud home page"
 msgstr "GNOME-Mud's hemsida"
 
-#: src/init.c:573
+#: src/init.c:577 src/init.c:608
+#, c-format
+msgid "There was an error displaying help: %s"
+msgstr "Ett fel uppstod när hjälpen skulle visas: %s"
+
+#: src/init.c:624
 msgid "Wizard..."
 msgstr "Wizard..."
 
-#: src/init.c:575
+#: src/init.c:626
 msgid "Profiles..."
 msgstr "Profiler..."
 
-#: src/init.c:579
+#: src/init.c:630
 msgid "Disconnect"
 msgstr "Koppla från"
 
-#: src/init.c:581
+#: src/init.c:632
 msgid "Reconnect"
 msgstr "Återanslut"
 
-#: src/init.c:583
+#: src/init.c:634
 msgid "Exit"
 msgstr "Avsluta"
 
-#: src/init.c:588
+#: src/init.c:639
 msgid "Connection _Wizard..."
 msgstr "Anslutnings _Lista..."
 
-#: src/init.c:589
+#: src/init.c:640
 msgid "_MudList Listing..."
 msgstr "_MudList lista..."
 
-#: src/init.c:591
+#: src/init.c:642
 msgid "C_onnect..."
 msgstr "_Anslut..."
 
-#: src/init.c:592
+#: src/init.c:643
 msgid "_Disconnect"
 msgstr "_Koppla från"
 
-#: src/init.c:593
+#: src/init.c:644
 msgid "_Reconnect"
 msgstr "_Återanslut"
 
-#: src/init.c:595
+#: src/init.c:646
 msgid "S_tart Logging..."
 msgstr "S_tarta Loggning..."
 
-#: src/init.c:596
+#: src/init.c:647
 msgid "Sto_p Logging"
 msgstr "Sto_ppa Loggning..."
 
-#: src/init.c:597
+#: src/init.c:648
 msgid "_Save Buffer..."
 msgstr "_Spara log..."
 
-#: src/init.c:599
+#: src/init.c:650
 msgid "_Close Window"
 msgstr "_Stäng fönster"
 
-#: src/init.c:607
+#: src/init.c:658
 msgid "_Plugin Information..."
 msgstr "_Plugin Information..."
 
-#: src/init.c:613
+#: src/init.c:664
 msgid "Auto _Mapper..."
 msgstr "_Kart Genererare..."
 
-#: src/init.c:616
+#: src/init.c:667
 msgid "P_lugins"
 msgstr "P_lugins"
 
-#: src/init.c:623
+#: src/init.c:674
 msgid "User Manual"
 msgstr "Användar manual"
 
-#: src/init.c:624
+#: src/init.c:675
 msgid "Display the GNOME-Mud User Manual"
 msgstr "Öppna GNOME-Mud användarmanual"
 
-#: src/init.c:628
+#: src/init.c:679
 msgid "Plugin API Manual"
 msgstr "Plugin API Manual"
 
-#: src/init.c:629
+#: src/init.c:680
 msgid "Display the GNOME-Mud Plugin API Manual"
 msgstr "Visa GNOME-Mud Plugin-API Manual"
 
-#: src/init.c:678
+#: src/init.c:731
 msgid "Main"
 msgstr "Arkiv"
 
-#: src/init.c:701
+#: src/init.c:754
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud version %s (kompilerad %s, %s)\n"
 
-#: src/init.c:703
+#: src/init.c:756
 msgid "Distributed under the terms of the GNU General Public Licence.\n"
 msgstr "Distribuerad under GNU General Public License.\n"
 
-#: src/init.c:705
+#: src/init.c:758
 #, c-format
 msgid ""
 "\n"
