@@ -3,8 +3,16 @@ NEWS for veteran GNOME-Mud users
 
 --- Since 0.7.x
 
- - Name changed to GNOME-Mud.
-
+Name changed to GNOME-Mud.
+Compiled using GNOME libs.
+Initial profiles support.
+Preferences reordering.
+Help dialogs "AUTHORS" and "README" removed, please see "ABOUT" or the
+documents shipped with the package.
+Manpage added (gnome-mud.6)
+French Translation.
+Spanish and Swedish updates.
+Many bugfixes.
 
 --- Since 0.6.x
 
@@ -16,6 +24,8 @@ Command queue, send several command in one row.
 
 Multiple simultanious connections. Now you can connect to several
 muds within one AMCL.
+
+Internationalization and Swedish, German, Catalan and Spanish translations.
 
 And of course, bugfixes, and many more bugs to be found. ;)
 

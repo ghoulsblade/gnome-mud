@@ -1,3 +1,6 @@
+Wed Oct 10 15:54:01 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+	* NEWS: updated release info for 0.8.0.
+
 Wed Oct 10 15:00:39 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 	* init.c: print version information, the easy way.
 
