@@ -944,19 +944,19 @@ void window_prefs (GtkWidget *widget, gpointer data)
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 5);
 		
-	tmp = gtk_label_new(_("Unusual deplacement commands:"));
+	tmp = gtk_label_new(_("Unusual movement commands:"));
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
 	tmp = gtk_entry_new();
 	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 	gtk_entry_set_text(GTK_ENTRY(tmp), gconf_client_get_string(gconf_client, "/apps/gnome-mud/unusual_exits", NULL));
 	gtk_tooltips_set_tip(tooltip, tmp, 
-						 _("If you use the automapper, you may want \
-specifying here some unusual deplacement \
-commands. When you use one of these, the \
-automapper will create a path to an other \
-map. Use a semicolon to separate the different \
-commands."), NULL);
+			 _("If you use the automapper, you may want "
+			   "to specify here some unusual movement "
+			   "commands. When you use one of these, the "
+			   "automapper will create a path to an other "
+			   "map. Use a semicolon to separate the different "
+			   "commands."), NULL);
 	gtk_signal_connect(GTK_OBJECT(tmp), "changed", GTK_SIGNAL_FUNC(prefs_unusual_exits_cb), NULL);
 #endif
 

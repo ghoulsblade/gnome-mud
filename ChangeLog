@@ -1,3 +1,8 @@
+Tue May 20 12:41:44 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
+
+	* gnome-mud.schemas.in: Grammar fixes.
+	* src/prefs.c (window_prefs): Reword movement commands tooltip a bit.
+
 Fri May  2 11:25:36 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Big patch from Remi Bonnet on the automapper.

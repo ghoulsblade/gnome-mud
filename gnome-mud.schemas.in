@@ -271,11 +271,11 @@
 			<type>string</type>
 			<default>path;in;out;town;farm;gates;gate;cave;valley;ruins;enter;hole;cottage</default>
 			<locale name="C">
-				<short>List of deplacement commands</short>
+				<short>List of movement commands</short>
 				<long>
 				List of commands which will be treated as
-				deplacement by the automapper. A semicolon
-				is used between two commands
+				movement commands by the automapper. A semicolon
+				is used to separate each command.
 				</long>
 			</locale>
 		</schema>
