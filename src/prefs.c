@@ -282,6 +282,7 @@ static void prefs_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *
 		UPDATE_PALETTE("palette",			Colors                                                      );
 		UPDATE_STRING("last_log_dir",		LastLogDir,		FALSE,	NULL,					NULL        );
 		UPDATE_INT("history_count",			History,		FALSE,	NULL,					NULL		);
+		UPDATE_INT("flush_interval",		FlushInterval,	FALSE,	NULL,					NULL		);
 	}
 
 #ifndef WITHOUT_MAPPER
@@ -397,6 +398,7 @@ void load_prefs ( void )
 	GCONF_GET_STRING(mudlist_file,		functionality,	MudListFile);
 	GCONF_GET_BOOLEAN(scroll_on_output,	functionality,	ScrollOnOutput);
 	GCONF_GET_INT(history_count,		functionality,	History);
+	GCONF_GET_INT(flush_interval,		functionality,	FlushInterval);
 		
 	/* palette */
 	p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/ui/palette", NULL);

@@ -24,7 +24,6 @@
 #include <gnome.h>
 #include <vte/vte.h>
 #include <stdio.h>
-#include <time.h>
 
 #include "gnome-mud.h"
 
@@ -111,7 +110,7 @@ void file_selection_cb_open
     t = time(&t) ;
     strftime(buf, 255, "Started logging %A %d %B %Y %H:%M:%S.\n\n",
       localtime(&t)) ;
-    fputs(buf, cd->log) ;
+    fputs(buf, cd->log);
 
     g_snprintf(buf, 255, _("*** Logging to %s.\n"), cd->log_filename) ;
     textfield_add(cd, buf, MESSAGE_SYSTEM) ;
@@ -171,7 +170,7 @@ void stop_logging_connection(CONNECTION_DATA *cn) {
     t = time(&t) ;
     strftime(buf, 255, "\nStopped logging %A %d %B %Y %H:%M:%S\n\n",
       localtime(&t)) ;
-    fputs(buf, cn->log) ;
+    fputs(buf, cn->log);
 
     fclose(cn->log) ;
     g_snprintf(buf, 255, _("*** Stopped logging to %s.\n"), cn->log_filename) ;

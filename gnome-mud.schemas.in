@@ -232,6 +232,20 @@
 		</schema>
 
 		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/flush_interval</key>
+			<applyto>/apps/gnome-mud/functionality/flush_interval</applyto>
+			<owner>gnome-mud</owner>
+			<type>int</type>
+			<default>30</default>
+			<locale name="C">
+				<short>Log flush interval</short>
+				<long>
+					How often in seconds gnome-mud should flush logfiles.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
 			<key>/schemas/apps/gnome-mud/profiles/list</key>
 			<applyto>/apps/gnome-mud/profiles/list</applyto>
 			<owner>gnome-mud</owner>

@@ -104,7 +104,9 @@ dnl Checks for header files.
 AC_HEADER_STDC
 AC_HEADER_DIRENT
 AC_CHECK_HEADERS(fcntl.h strings.h unistd.h)
-AC_CHECK_HEADERS(telnet.h arpa/telnet.h)
+AC_CHECK_HEADERS(telnet.h arpa/telnet.h sys/time.h)
+
+AC_HEADER_TIME
 
 dnl Checks for Python
 if test "$python" != no; then

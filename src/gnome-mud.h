@@ -21,6 +21,18 @@
 
 #include "mccpDecompress.h"
 #include <stdio.h>
+
+#if TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# if HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
+#endif
+
 /*
  * Different type of message, so I'll know what color to use.
  */
@@ -73,6 +85,7 @@ struct connection_data
 {
 	PROFILE_DATA	*profile;
 	FILE			*log;
+	time_t			 last_log_flush;
 	mc_state		*mccp;
 	gint			 mccp_timer;
 	gchar			*host;
@@ -86,8 +99,8 @@ struct connection_data
 	gboolean		 echo;
 	GtkWidget		*window;
 	GtkWidget		*vscrollbar;
-  	gint                     telnet_state;
-  	gint                     telnet_subneg;
+  	gint             telnet_state;
+  	gint             telnet_subneg;
 };
 
 struct system_data {
@@ -104,6 +117,7 @@ struct system_data {
 	gchar     *TabLocation;
 	gint       History;
 	gint       Scrollback;
+	gint       FlushInterval;
 	GdkColor   Foreground;
 	GdkColor   Background;
 

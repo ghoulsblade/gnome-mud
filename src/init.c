@@ -488,6 +488,7 @@ static int text_entry_key_press_cb (GtkEntry *text_entry, GdkEventKey *event, gp
 CONNECTION_DATA *create_connection_data(gint notebook)
 {
 	CONNECTION_DATA *c;
+	struct timeval tv;
 
 	c = g_malloc0(sizeof(CONNECTION_DATA));
 #ifdef ENABLE_MCCP
@@ -498,6 +499,9 @@ CONNECTION_DATA *create_connection_data(gint notebook)
 	c->notebook = notebook;
 	c->profile = profiledata_find("Default");
 	c->window = vte_terminal_new();
+
+	gettimeofday(&tv, NULL);
+	c->last_log_flush = tv.tv_sec;
 
 	vte_terminal_set_colors(VTE_TERMINAL(c->window), &prefs.Foreground, &prefs.Background, prefs.Colors, C_MAX);
 	vte_terminal_set_scrollback_lines(VTE_TERMINAL(c->window), prefs.Scrollback);

@@ -44,6 +44,7 @@ static char const rcsid[] =
 	"$Id$";
 
 /* Global Variables */
+extern SYSTEM_DATA		prefs;
 extern CONNECTION_DATA 	*connections[15];
 extern GtkWidget       	*text_entry;
 extern GtkWidget		*main_notebook;
@@ -89,7 +90,16 @@ void textfield_add (CONNECTION_DATA *cd, gchar *message, gint colortype)
 		&& colortype != MESSAGE_ERR
 		&& colortype != MESSAGE_SYSTEM)
 	{
+		struct timeval tv;
+		
 		fputs(message, connections[i]->log);
+
+		gettimeofday(&tv, NULL);
+		if ((connections[i]->last_log_flush + (unsigned) prefs.FlushInterval) < tv.tv_sec)
+		{
+			fflush(connections[i]->log);
+			connections[i]->last_log_flush = tv.tv_sec;
+		}
 	}
 
 	switch (colortype)

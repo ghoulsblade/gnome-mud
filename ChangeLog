@@ -1,3 +1,22 @@
+2003-12-17  Robin Ericsson  <lobbin@localhost.nu>
+
+	* configure.ac: Added checkes for time.h and sys/time.h
+
+	* gnome-mud.schemas.in: Added key functionality/flush_interval
+
+	* src/gnome-mud [connection_data]: Added last_log_flush.
+	[system_data]: Added FlushInterval.
+
+	* src/init.c (create_connection_data): Added current timestamp to new
+	connection.
+
+	* src/prefs.c (prefs_gconf_changed): Added flush_interval key.
+	(load_prefs): Ditto.
+
+	* src/window.c: Added extern prefs.
+	(textfield_add): flush logfiles if a certain gconf settable amount
+	of time have passed since last lines were written. Fixes bug #116325.
+
 2003-12-17  Jordi Mallach  <jordi@sindominio.net>
 
 	* autogen.sh: Remove workarounds for configure.ac, gnome-common 2.4.0
