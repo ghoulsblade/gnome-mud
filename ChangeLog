@@ -1,3 +1,7 @@
+Tue Nov  6 16:46:59 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* po/sv.po: Updated.
+
 Tue Nov  6 16:42:17 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* doc/C/Makefile.am: Removed a circular dependency.

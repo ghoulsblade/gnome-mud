@@ -2,12 +2,12 @@
 # Copyright (C) 2000, 2001 Free Software Foundation, Inc.
 # Robin Ericsson <lobbin@localhost.nu>, 2000, 2001.
 #
-#: src/modules.c:294
+#: src/modules.c:298
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME-MUD 0.8.0\n"
-"POT-Creation-Date: 2001-10-25 17:17+0200\n"
-"PO-Revision-Date: 2001-10-25 17:20+0200\n"
+"POT-Creation-Date: 2001-11-06 16:43+0100\n"
+"PO-Revision-Date: 2001-11-06 16:45+0200\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -123,7 +123,7 @@ msgstr "Avsluta?"
 msgid "Do you really want to quit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/init.c:198 src/init.c:444 src/init.c:454
+#: src/init.c:198 src/init.c:460 src/init.c:470
 msgid "Connect..."
 msgstr "Anslut..."
 
@@ -195,79 +195,91 @@ msgid ""
 "maintainer"
 msgstr ""
 "Jordi Mallach, officiell Debian-paket, i18n support, ca.po & es.po "
-"underhållare"
+"översättare"
+
+#: src/init.c:288
+msgid "Martin Quinson, fr.po maintainer"
+msgstr "Martin Quinson, fr.po översättare"
 
 #. if your charset doesn't support e with circumflex (è), just use e
-#: src/init.c:289
+#: src/init.c:290
 msgid "Staffan Thomèn and the creators of gEdit - module API"
 msgstr "Staffan Thomèn and gEdit folket för plugin API't"
 
-#: src/init.c:299
+#: src/init.c:300
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
-#: src/init.c:300
+#: src/init.c:301
 msgid "(C) 1998-2001 Robin Ericsson"
 msgstr "(C) 1998-2001 Robin Ericsson"
 
-#: src/init.c:302
+#: src/init.c:303
 msgid "A Multi-User Dungeon (MUD) client using GTK+/GNOME libraries."
 msgstr "En MUD-klient byggd på GTK+/GNOME libbar."
 
-#: src/init.c:315
+#: src/init.c:316
 msgid "GNOME-Mud homepage"
 msgstr "GNOME-Mud hemsida"
 
-#: src/init.c:440
+#: src/init.c:456
 msgid "Wizard..."
 msgstr "Wizard..."
 
-#: src/init.c:442
+#: src/init.c:458
 msgid "Profiles..."
 msgstr "Profiler..."
 
-#: src/init.c:445 src/init.c:455
+#: src/init.c:461 src/init.c:471
 msgid "Disconnect"
 msgstr "Koppla från"
 
-#: src/init.c:447
+#: src/init.c:463
 msgid "Exit"
 msgstr "Avsluta"
 
-#: src/init.c:452
+#: src/init.c:468
 msgid "Connection Wizard..."
 msgstr "Anslutnings Lista..."
 
-#: src/init.c:457
+#: src/init.c:473
 msgid "Close Window"
 msgstr "Stäng fönster"
 
-#: src/init.c:465
+#: src/init.c:481
 msgid "Plugin Information..."
 msgstr "Plugin Information..."
 
-#: src/init.c:470
+#: src/init.c:486
 msgid "Colors..."
 msgstr "Färger..."
 
-#: src/init.c:472
+#: src/init.c:488
 msgid "Auto Mapper..."
 msgstr "Kart Genererare..."
 
-#: src/init.c:474
+#: src/init.c:490
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/init.c:559
+#: src/init.c:497
+msgid "GNOME-Mud manual"
+msgstr "GNOME-Mud manual"
+
+#: src/init.c:497
+msgid "Open the GNOME-Mud manual"
+msgstr "Öppna GNOME-Mud manualen"
+
+#: src/init.c:579
 msgid "Main"
 msgstr "Arkiv"
 
-#: src/init.c:602
+#: src/init.c:622
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr "GNOME-Mud version %s (kompilerad %s, %s)\n"
 
-#: src/init.c:607
+#: src/init.c:627
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuerad under GNU General Public License.\n"
 
@@ -356,37 +368,37 @@ msgstr "Ladda"
 msgid "GNOME-Mud AutoMapper"
 msgstr "GNOME-Mud KartGenererare"
 
-#: src/modules.c:204
+#: src/modules.c:208
 msgid "Plugin Name:"
 msgstr "Plugin Namn:"
 
-#: src/modules.c:224
+#: src/modules.c:228
 msgid "Plugin Author:"
 msgstr "Plugin Skapare:"
 
-#: src/modules.c:234
+#: src/modules.c:238
 msgid "Plugin Version:"
 msgstr "Plugin Version:"
 
-#: src/modules.c:244
+#: src/modules.c:248
 msgid "Plugin Description:"
 msgstr "Plugin Beskrivning:"
 
-#: src/modules.c:254
+#: src/modules.c:258
 msgid "Is Plugin Enabled?"
 msgstr "Används Pluginet?"
 
-#: src/modules.c:407
+#: src/modules.c:411
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
 msgstr "Fel i plugin handle (%s): %s."
 
-#: src/modules.c:412
+#: src/modules.c:416
 #, c-format
 msgid "Error, %s not an GNOME-Mud module: %s."
 msgstr "Fel, %s är ingen GNOME-Mud modul: %s."
 
-#: src/modules.c:438
+#: src/modules.c:442
 #, c-format
 msgid "Registering plugin `%s' under the name `%s'."
 msgstr "Registrerar plugin `%s' under namnet `%s'."
