@@ -62,12 +62,13 @@ struct connection_data {
 };
 
 struct system_data {
-    bool       EchoText;
-    bool       KeepText;
-    bool       AutoSave;
-    bool       Freeze;
-    gchar     *FontName;
-    gchar     *CommDev;
+  bool       EchoText;
+  bool       KeepText;
+  bool       AutoSave;
+  bool       Freeze;
+  gchar     *FontName;
+  gchar     *CommDev;
+  gint       History;
 };
 
 struct wizard_data {

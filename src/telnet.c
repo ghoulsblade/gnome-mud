@@ -30,7 +30,8 @@
 
 #include "amcl.h"
 
-static char const rcsid[] = "$Id$";
+static char const rcsid[] = 
+    "$Id$";
 
 /* Added by Benjamin Curtis, Code Swiped from TUsh by Simon Marsh */
 char *pre_process(char *buf, CONNECTION_DATA *connection)
@@ -71,10 +72,7 @@ char *pre_process(char *buf, CONNECTION_DATA *connection)
       case WILL: /* WILL control */
 	switch(*from++) {
 	case TELOPT_ECHO:
-	  if (connection->echo == TRUE) { 
-	    connection->echo = FALSE; 
-	    write(connection->sockfd,"\377\375\001",3);
-	  }
+	  write(connection->sockfd,"\377\375\001",3);
 	  break;
 	  
 	case TELOPT_SGA:
@@ -91,10 +89,7 @@ char *pre_process(char *buf, CONNECTION_DATA *connection)
       case WONT: /* WONT control */
 	switch(*from++) {
 	case TELOPT_ECHO:
-	  if (connection->echo == FALSE) {
-	    connection->echo = TRUE;
-	    write(connection->sockfd,"\377\376\001",3);
-	  }
+	  write(connection->sockfd,"\377\376\001",3);
 	  break;
 	  
 	case TELOPT_SGA:
@@ -111,6 +106,7 @@ char *pre_process(char *buf, CONNECTION_DATA *connection)
 	switch(*from) {
 	case TELOPT_ECHO:
 	  if (connection->echo == FALSE) {
+	    connection->echo == TRUE;
 	    write(connection->sockfd,"\377\373\001",3);
 	    from++;
 	  }

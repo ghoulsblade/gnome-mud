@@ -19,7 +19,7 @@
 
 #include "config.h"
 
-#include <gtk/gtk.h>
+#include <gnome.h>
 #include <sys/types.h>
 #include <libintl.h>
 #include <regex.h>
@@ -27,8 +27,6 @@
 #include <string.h>
 
 #include "amcl.h"
-
-#define _(string) gettext(string)
 
 static char const rcsid[] =
     "$Id$";
@@ -160,20 +158,21 @@ static gint match_line (gchar *trigger, gchar *incoming)
 
 static void save_data (GtkWidget *button_save, DDATA *data)
 {
-    gint i;
-    FILE *fp;
-    gchar *n, *v;
-
-    if (!(fp = open_file (data->file_name, "w"))) return;
-
-    for (i = 0; i < get_size(data->list); i++)
-    {
-        gtk_clist_get_text (data->list, i, 0, &n);
-        gtk_clist_get_text (data->list, i, 1, &v);
-        fprintf (fp, "%s-%s\n", n, v);
-    } 
-    if (fp) fclose (fp);
-    gtk_widget_set_sensitive (button_save, FALSE);
+  gint i;
+  FILE *fp;
+  gchar *n, *v;
+  
+  if (!(fp = open_file (data->file_name, "w"))) return;
+  
+  for (i = 0; i < get_size(data->list); i++)
+  {
+    gtk_clist_get_text (data->list, i, 0, &n);
+    gtk_clist_get_text (data->list, i, 1, &v);
+    fprintf (fp, "%s-%s\n", n, v);
+  } 
+  
+  if (fp) fclose (fp);
+  gtk_widget_set_sensitive (button_save, FALSE);
 }
 
 void load_data (GtkCList *list, gchar *file_name)

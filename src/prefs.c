@@ -97,6 +97,7 @@ void load_prefs ( void )
   prefs.Freeze   = gnome_config_get_bool  ("/gnome-mud/Preferences/Freeze=false");
   prefs.CommDev  = gnome_config_get_string("/gnome-mud/Preferences/CommDev=;");
   prefs.FontName = gnome_config_get_string("/gnome-mud/Preferences/FontName=fixed");
+  prefs.History  = gnome_config_get_int    ("/gnome-mud/Preferences/History=10");
 
   font_normal = gdk_font_load(prefs.FontName);
 }
@@ -109,6 +110,7 @@ void save_prefs ( void )
   gnome_config_set_bool  ("/gnome-mud/Preferences/Freeze",   prefs.Freeze);
   gnome_config_set_string("/gnome-mud/Preferences/CommDev",  prefs.CommDev);
   gnome_config_set_string("/gnome-mud/Preferences/FontName", prefs.FontName);
+  gnome_config_set_int   ("/gnome-mud/Preferences/History",  prefs.History);
 
   gnome_config_sync();
 }
@@ -123,6 +125,7 @@ static void copy_preferences(SYSTEM_DATA *target, SYSTEM_DATA *prefs)
   target->FontName = g_strdup(prefs->FontName);
   g_free(target->CommDev);
   target->CommDev  = g_strdup(prefs->CommDev);
+  target->History  = prefs->History;
 }
 
 static void prefs_checkbox_keep_cb (GtkWidget *widget, GnomePropertyBox *box)
@@ -143,6 +146,17 @@ static void prefs_checkbutton_freeze_cb (GtkWidget *widget, GnomePropertyBox *bo
     pre_prefs.Freeze = FALSE;
   
   gnome_property_box_changed(box);
+}
+
+static void prefs_entry_history_cb(GtkWidget *widget, GnomePropertyBox *box)
+{
+  gchar *s;
+
+  s = gtk_entry_get_text(GTK_ENTRY(widget));
+  if (s) {
+    pre_prefs.History = atoi(s);
+    gnome_property_box_changed(box);
+  }
 }
 
 static void prefs_entry_divide_cb (GtkWidget *widget, GnomePropertyBox *box)
@@ -196,7 +210,8 @@ void window_prefs (GtkWidget *widget, gpointer data)
   GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton_freeze;
   GtkWidget *label1, *label2;
   GtkWidget *fontpicker;
-  GtkWidget *entry_divider;
+  GtkWidget *entry_divider, *entry_history;
+  gchar      history[10];
 
   GtkTooltips *tooltip;
 
@@ -217,6 +232,9 @@ void window_prefs (GtkWidget *widget, gpointer data)
 
   tooltip = gtk_tooltips_new();
 
+  /*
+  ** BEGIN PAGE ONE
+  */
   vbox1 = gtk_vbox_new (TRUE, 0);
   gtk_widget_show (vbox1);
   
@@ -268,7 +286,14 @@ void window_prefs (GtkWidget *widget, gpointer data)
   
   gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window),
 				 vbox1, label1);
+  /*
+  ** END PAGE ONE
+  */
 
+
+  /*
+  ** BEGIN PAGE TWO
+  */
   vbox2 = gtk_vbox_new (TRUE, 0);
   gtk_widget_show (vbox2);
 
@@ -302,10 +327,26 @@ void window_prefs (GtkWidget *widget, gpointer data)
   gtk_signal_connect(GTK_OBJECT(entry_divider), "changed",
 		     GTK_SIGNAL_FUNC(prefs_entry_divide_cb), (gpointer) prefs_window);
 
+  label1 = gtk_label_new(_("Command history:"));
+  gtk_widget_show(label1);
+  gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
+
+  entry_history = gtk_entry_new();
+  g_snprintf(history, 10, "%d", prefs.History);
+  gtk_entry_set_text(GTK_ENTRY(entry_history), history);
+  gtk_widget_show(entry_history);
+  gtk_box_pack_start(GTK_BOX(hbox1), entry_history, FALSE, TRUE, 0);
+  gtk_widget_set_usize(entry_history, 35, -2);
+  gtk_signal_connect(GTK_OBJECT(entry_history), "changed",
+		     GTK_SIGNAL_FUNC(prefs_entry_history_cb), (gpointer) prefs_window);
+
   label2 = gtk_label_new (_("Functionality"));
   gtk_widget_show (label2); 
 
   gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window), vbox2, label2);
+  /*
+  ** END PAGE TWO
+  */
 
   gtk_widget_show(prefs_window);
 }

@@ -97,7 +97,7 @@ static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *conne
     g_strfreev(a);
 }
 
-CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
+CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter)
 {
   CONNECTION_DATA *connection;
   GtkWidget       *label;
@@ -153,7 +153,6 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
     gdk_input_remove (connection->data_ready);
     textfield_add (connection->window, _("*** Connection closed.\n"), MESSAGE_NORMAL);
     connection->connected = FALSE;
-    gtk_widget_set_sensitive ((GtkWidget*)menu_main_disconnect, FALSE);    
 }
 
 static void open_connection (CONNECTION_DATA *connection)
@@ -209,8 +208,6 @@ static void open_connection (CONNECTION_DATA *connection)
 					   GTK_SIGNAL_FUNC(read_from_connection),
 					   (gpointer) connection);
     connection->connected = TRUE;
-
-    gtk_widget_set_sensitive (menu_main_disconnect, TRUE);
 }
 
 static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCondition condition)
@@ -302,6 +299,7 @@ void send_to_connection (GtkWidget *text_entry, gpointer data)
   extern GList *EntryHistory;
   extern GList *EntryCurr;
   gchar *entry_text;
+  GList *t;
 
   Keyflag = TRUE;
   cd = connections[gtk_notebook_get_current_page 
@@ -316,19 +314,28 @@ void send_to_connection (GtkWidget *text_entry, gpointer data)
       return;
     }
   
-  if ( !EntryCurr || strcmp (EntryCurr->data, entry_text))
-    {
-      EntryHistory = g_list_append (EntryHistory, g_strdup (entry_text));
-      if ( g_list_length (EntryHistory) > 10 )
-         EntryHistory = g_list_remove (EntryHistory, EntryHistory->data);
-      EntryCurr = g_list_last (EntryHistory);
-    }
+  if ( !EntryCurr || strcmp (EntryCurr->data, entry_text)) {
+    EntryHistory = g_list_append (EntryHistory, g_strdup (entry_text));
+
+    if ( g_list_length (EntryHistory) > prefs.History )
+      EntryHistory = g_list_remove (EntryHistory, EntryHistory->data);
+
+    EntryCurr = g_list_last (EntryHistory);
+  }
+
   action_send_to_connection(g_strdup (entry_text), cd);
-  if ( prefs.KeepText )
+  
+  gtk_combo_set_popdown_strings((GtkCombo *) data, EntryHistory);
+
+  gtk_list_select_item(GTK_LIST(((GtkCombo *) data)->list), g_list_length(EntryHistory)-1);
+
+  if ( prefs.KeepText ) {
+    gtk_widget_realize(GTK_WIDGET(data));
     gtk_entry_select_region (GTK_ENTRY (text_entry), 0,
 			     GTK_ENTRY (text_entry)->text_length);
-  else
+  } else{
     gtk_entry_set_text (GTK_ENTRY (text_entry), "");
+  }
 }
 
 void connection_send (CONNECTION_DATA *connection, gchar *message)
@@ -339,14 +346,16 @@ void connection_send (CONNECTION_DATA *connection, gchar *message)
     if (connection->connected)
     {
         sent = g_strdup (message);
-        for(i=0;sent[i]!=0;i++)
-            if(sent[i] == prefs.CommDev[0]) sent[i] = '\n';
+        for(i=0;sent[i]!=0;i++) {
+	  if(sent[i] == prefs.CommDev[0]) {
+	    sent[i] = '\n';
+	  }
+	}
 
-        /*if (connection->echo && prefs.EchoText)*/
 	if (prefs.EchoText)
-            textfield_add (connection->window, message, MESSAGE_SENT);
+            textfield_add (connection->window, sent, MESSAGE_SENT);
 
-        send (connection->sockfd, message, strlen (message), 0);
+        send (connection->sockfd, sent, strlen (sent), 0);
         g_free(sent);
     }
 }

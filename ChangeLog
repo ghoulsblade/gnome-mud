@@ -1,3 +1,38 @@
+Tue Dec 26 15:42:34 2000  Robin Ericsson  <lobbin@localhost.nu>
+
+	* po/ca.po, de.po, es.po, sv: make update-po,
+
+	* src/.cvsignore: Added TAGS and tags.
+
+	* src/amcl.h [system_data]: gint History; added.
+
+	* src/data.c: Removed include for gtk.h and added gnome.h
+	instead.
+
+	* src/init.c [text_entry_select_child_cb]: Changes EntryCurr
+	if the combo box changes the textentry.
+	[do_disconnect]: disconnect only if connected.
+	(toolbar_menu[]): added variable for setting toolbar.
+	[init_window]: changed text_entry into a combo box to make it
+	look more like zmud.
+
+	* src/modules_api.c: Commented out code for adding a menuitem
+	from a plugin.
+
+	* src/net.c [general]: Removed a bunch of gtk_widget_set_sensitive
+	for mostly main_disconnect menu.
+	[send_to_connection]: History can now be a configurable length.
+	[connection_send]: Smashed a bug that made command divided commands
+	sendable again.
+
+	* src/prefs.c [load_prefs]: load History.
+	[save_prefs]: Save history.
+	[copy_preferences]: added History.
+	[prefs_entry_history_cb]: get new history.
+	[prefs_window]: new entries for history.
+
+	* src/telnet.c: Small changes with echo usage.
+
 Sat Dec 23 11:24:08 CET 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Made a lot of changes, trying to make it completly gnome.

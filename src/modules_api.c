@@ -1,5 +1,5 @@
 /* AMCL - A simple Mud CLient
- * Copyright (C) 1999 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1999-2000 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,19 +17,21 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
+#include <gnome.h>
 #include <libintl.h>
 #include <stdio.h>
 
 #include "amcl.h"
 #include "modules.h"
 
-#define _(string) gettext(string)
+/* FIXME */
+extern GtkWidget  *window;
 
-static char const rcsid[] = "$Id$";
+static char const rcsid[] = 
+    "$Id$";
 
 extern CONNECTION_DATA *main_connection;
-extern GtkWidget       *menu_plugin_menu;
+//extern GtkWidget       *menu_plugin_menu;
 
 void plugin_popup_message (gchar *message)
 {
@@ -48,17 +50,19 @@ gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
 {
   GtkSignalFunc  sig_function;
   GtkWidget     *menu_place;
+  gint temp;
 
   if ((sig_function = (GtkSignalFunc) dlsym ((void *) handle, function)) == NULL) {
     g_message (_("Error register menu: %s"), dlerror());
     return FALSE;
   }
-  
-  menu_place = gtk_menu_item_new_with_label(name);
-  gtk_menu_prepend (GTK_MENU (menu_plugin_menu), menu_place);
-  gtk_widget_show (menu_place);
-  gtk_signal_connect (GTK_OBJECT (menu_place), "activate",
-		      sig_function, NULL);
+
+  /* FIXME */
+/*   menu_place = gtk_menu_item_new_with_label(name); */
+/*   gtk_menu_prepend (GTK_MENU (menu_plugin_menu), menu_place); */
+/*   gtk_widget_show (menu_place); */
+/*   gtk_signal_connect (GTK_OBJECT (menu_place), "activate", */
+/* 		      sig_function, NULL); */
   
   return TRUE;
 }
