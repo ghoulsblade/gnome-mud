@@ -1,3 +1,12 @@
+Thu Oct 18 10:22:21 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Makefile.am: TODO removed, ROADMAP added.
+
+	* configure.in: Old things for version.h removed.
+
+	* Alot of code cleanup, removed various comments, and fixed code
+	with warnings, etc...
+
 Wed Oct 17 17:19:29 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* TODO: Removed.
