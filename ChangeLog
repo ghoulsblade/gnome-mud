@@ -1,3 +1,9 @@
+Sun Nov 10 03:26:53 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/data.c, src/init.c, src/keybind.c src/prefs.c: fix a few
+	American English labels (color, center, license) spotted by Abigail.
+	Americans, if it hurts your eyes please submit an en_US.po.
+
 Mon Nov  4 02:10:44 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c (window_menu_plugin_api_manual_activate_cb): new

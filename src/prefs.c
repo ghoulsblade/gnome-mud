@@ -83,7 +83,7 @@ static void prefs_load_color(GdkColor *color, gchar *prefs, gchar *name, gchar *
 		
 		if (!gdk_colormap_alloc_color(cmap, color, TRUE, TRUE))
 		{
-			g_warning(_("Couldn't allocate color"));
+			g_warning(_("Couldn't allocate colour"));
 		}
 	}
 	else
@@ -434,19 +434,19 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 		gnome_font_picker_set_font_name(GNOME_FONT_PICKER(picker_font), prefs.FontName);
 	}
 	
-	label_palette = gtk_label_new (_("Color palette:"));
+	label_palette = gtk_label_new (_("Colour palette:"));
 	gtk_widget_show (label_palette);
 	gtk_table_attach (GTK_TABLE (table_colorfont), label_palette, 0, 1, 4, 5, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_palette), 1, 0.5);
 	gtk_misc_set_padding (GTK_MISC (label_palette), 8, 0);
 
-	label_background = gtk_label_new (_("Background color:"));
+	label_background = gtk_label_new (_("Background colour:"));
 	gtk_widget_show (label_background);
 	gtk_table_attach (GTK_TABLE (table_colorfont), label_background, 0, 1, 3, 4, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_background), 1, 0.5);
 	gtk_misc_set_padding (GTK_MISC (label_background), 8, 0);
 
-	label_foreground = gtk_label_new (_("Foreground color:"));
+	label_foreground = gtk_label_new (_("Foreground colour:"));
 	gtk_widget_show (label_foreground);
 	gtk_table_attach (GTK_TABLE (table_colorfont), label_foreground, 0, 1, 1, 2, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_foreground), 1, 0.5);
@@ -464,7 +464,7 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
   
 	/* Bold foreground label and picker */
 
-	label_boldforeground = gtk_label_new (_("Bold foreground color:"));
+	label_boldforeground = gtk_label_new (_("Bold foreground colour:"));
 	gtk_widget_show (label_boldforeground);
 	gtk_table_attach (GTK_TABLE (table_colorfont), label_boldforeground, 0, 1, 2, 3, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label_boldforeground), 1, 0.5);
@@ -681,7 +681,7 @@ void window_prefs (GtkWidget *widget, gpointer data)
   vbox2 = prefs_color_frame(prefs_window);
   gtk_widget_show(vbox2);
   
-  label2 = gtk_label_new (_("Color and Fonts"));
+  label2 = gtk_label_new (_("Colour and Fonts"));
   gtk_widget_show(label2);
 
   gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window), vbox2, label2);

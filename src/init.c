@@ -299,7 +299,7 @@ static void window_menu_help_about (GtkWidget *widget, gpointer data)
 	_("Ben Gertzfield, creation of rcfiles for AMCL"),
 	_("Paul Cameron, compile fixes, automapper"),
 	_("Bret Robideaux, action/trigger module"),
-	_("Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"),
+	_("Maxim Kiselev, keybindings, coloursaving, command-divider, bugfixes"),
 	_("Benjamin Curtis, recognition of TELNET codes and replies"),
 	/* if your charset supports it, use o with dieresis (ö) in Jorgen's o */
 	_("Jorgen Kosche, focus-bugs patches, de.po maintainer"),
@@ -766,7 +766,7 @@ void main_window ()
   g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\n"), VERSION, __TIME__, __DATE__);
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, buf, -1);
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, 
-		   _("Distributed under the terms of the GNU General Public License.\n"), -1);
+		   _("Distributed under the terms of the GNU General Public Licence.\n"), -1);
 #ifdef USE_PYTHON
   g_snprintf(buf, 1023, _("\nPython version %s\n\n"), Py_GetVersion());
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, buf, -1);
