@@ -5,7 +5,6 @@ Things to TODO that is not done :)
 - SOCKS support
 - An icon or something to use with GNOME and WM:s.
 - AutoReconnect
-- MCCP support
 - nested alias
 
 - Other things you would like. Just mail me, lobbin@localhost.nu.
@@ -14,6 +13,5 @@ Things to TODO that is not done :)
 Things that are under development
 =================================
 - Automapper
-- Triggers
 - Multiple Connections (zMud like)
 - Plug-in API.

@@ -54,6 +54,7 @@ AM_PATH_GTK(1.2.0,
 	     AC_MSG_ERROR(Cannot find GTK: Is gtk-config in path?))
 AC_CHECK_LIB(socket,socket)
 AC_CHECK_LIB(nsl,connect)
+AC_CHECK_LIB(z,inflate,[have_zlib="yes" LIBS="$LIBS -lz"])
 
 AC_CHECK_HEADERS(dlfcn.h dl.h)
 AC_CHECK_LIB(dl, dlopen, DL_LIB="-ldl",[
@@ -81,3 +82,17 @@ AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
 AC_OUTPUT(Makefile src/Makefile plugins/Makefile)
+
+if test "x$enable_warnings" = "xyes"; then
+  CFLAGS="$CFLAGS -O -pipe -Wall -Wundef -Wredundant-decls      \
+      -Wnested-externs -Wstrict-prototypes -Wmissing-prototypes \
+      -Wpointer-arith -Winline -Wcast-qual -ansi"
+else
+  CFLAGS="$CFLAGS -O -pipe -Wall"
+fi
+
+if test "x$have_zlib" = "xyes"; then
+  echo 
+  echo "Great! You have Zlib. Will enable MCCP (Mud Client Compression Protocol)"
+  echo
+fi

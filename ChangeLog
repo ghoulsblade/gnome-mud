@@ -1,3 +1,31 @@
+Mon Jul 17 16:04:20 2000  Robin Ericsson  <robin@noname4us.com>
+
+	* configure.in: added check for zlib, and if, enable MCCP.
+
+	* src/Makefile.am: added mccpDecompress.[ch].
+
+	* src/amcl.h: #include for stdio.h removed, and added mccpDecompress.h
+	(connection_data): added *mccp, and mccp_timer.
+
+	* src/dialog.h: added stdio.h include.
+
+	* src/init.c: added stdio.h
+	[init_window]: call mudcompress_new() on ->mccp.
+
+	* src/modules_api.c: added stdio.h
+
+	* src/net.c [make_connection]: added call to mudcompress_new()
+	[mccp_pendingresponse]: timer function to check for compress data to 
+	send.
+	[disconnect]: clear mccp, and initialize it again.
+	[open_connection]: added timer to mccp_pendingresponse(), also alot
+	of other MCCP changes.
+
+	* src/version.c: added stdio.h
+
+	* src/wizard.c [free_connection_data]: delete timer, and free MCCP
+	data.
+
 Tue Jul 11 02:16:04 CEST 2000  Jorge Garcia <Jorge.Garcia@uv.es>
 
 	* Moved most global variables from init.c to proper files and

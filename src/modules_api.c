@@ -18,6 +18,7 @@
 
 #include "config.h"
 #include <gtk/gtk.h>
+#include <stdio.h>
 
 #include "amcl.h"
 #include "modules.h"

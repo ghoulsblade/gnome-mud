@@ -1,5 +1,5 @@
 /* AMCL - A simple Mud CLient
- * Copyright (C) 1998-1999 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2000 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -147,6 +147,7 @@ CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
     gtk_notebook_next_page (GTK_NOTEBOOK (main_notebook));
     connection->notebook = gtk_notebook_get_current_page (GTK_NOTEBOOK (main_notebook));
     connections[connection->notebook] = connection;
+    connection->mccp = mudcompress_new();
   }
   
   open_connection (connection);
@@ -154,13 +155,33 @@ CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
   return connection;
 }
 
+gint mccp_pendingresponse(gpointer data)
+{
+  CONNECTION_DATA *cd;
+  gchar *string;
+
+  cd = (CONNECTION_DATA *) data;
+  string = (gchar *) mudcompress_response(cd->mccp);
+  
+  if (string != NULL) {
+    if (mudcompress_compressing(cd->mccp))
+    send (cd->sockfd, string, strlen(string), 0);
+  }
+  
+  g_free(string);
+  
+  return TRUE;
+}
+
 void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 {
     close (connection->sockfd);
+    mudcompress_delete(connection->mccp);
+    connection->mccp = mudcompress_new();
     gdk_input_remove (connection->data_ready);
     textfield_add (connection->window, "*** Connection closed.\n", MESSAGE_NORMAL);
     connection->connected = FALSE;
-    gtk_widget_set_sensitive ((GtkWidget*)menu_main_disconnect, FALSE);
+    gtk_widget_set_sensitive ((GtkWidget*)menu_main_disconnect, FALSE);    
 }
 
 static void open_connection (CONNECTION_DATA *connection)
@@ -185,7 +206,6 @@ static void open_connection (CONNECTION_DATA *connection)
 
     sprintf (buf, "*** Making connection to %s, port %s\n", connection->host, connection->port);
     textfield_add (connection->window, buf, MESSAGE_NORMAL);
-
 
     /* strerror(3) */
     if ( ( he = gethostbyname (connection->host) ) == NULL )
@@ -216,6 +236,8 @@ static void open_connection (CONNECTION_DATA *connection)
     connection->data_ready = gdk_input_add(connection->sockfd, GDK_INPUT_READ,
 					   GTK_SIGNAL_FUNC(read_from_connection),
 					   (gpointer) connection);
+    connection->mccp_timer = gtk_timeout_add(1000,(GtkFunction) mccp_pendingresponse,
+					     (gpointer) connection);
     connection->connected = TRUE;
 
     gtk_widget_set_sensitive (menu_main_disconnect, TRUE);
@@ -223,11 +245,11 @@ static void open_connection (CONNECTION_DATA *connection)
 
 static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkInputCondition condition)
 {
-    gchar  buf[4096];
+    gchar  buf[2048], *string;
     gchar  triggered_action[85];
     gint   numbytes;
-    gchar *m;
-    gint   i, len;
+    gchar *m, *mccp_buffer = NULL;
+    gint   i, len, mccp_i;
     GList *t;
     
     if ( (numbytes = recv (connection->sockfd, buf, 2048, 0) ) == - 1 )
@@ -251,36 +273,51 @@ static void read_from_connection (CONNECTION_DATA *connection, gint source, GdkI
         return;
     }
 
-    for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next) {
-      PLUGIN_DATA *pd;
-      
-      if (t->data != NULL) {
-	pd = (PLUGIN_DATA *) t->data;
+    mudcompress_receive(connection->mccp, buf, numbytes);
 
-	if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN)) {
-	  (* pd->datafunc) (pd->plugin, connection, buf, (gint) pd->plugin->handle);
+    while((mccp_i = mudcompress_pending(connection->mccp)) > 0) {
+      mccp_buffer = g_malloc0(mccp_i);
+      mudcompress_get(connection->mccp, mccp_buffer, mccp_i);
+    
+      for (t = g_list_first(Plugin_data_list); t != NULL; t = t->next) {
+	PLUGIN_DATA *pd;
+	
+	if (t->data != NULL) {
+	  pd = (PLUGIN_DATA *) t->data;
+	  
+	  if (pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN)) {
+	    (* pd->datafunc) (pd->plugin, connection, mccp_buffer, (gint) pd->plugin->handle);
+	  }
 	}
       }
+      
+      for (i = len = 0; mccp_buffer[i] !='\0'; mccp_buffer[len++] = mccp_buffer[i++])
+        if (mccp_buffer[i] == '\r') i++;
+      mccp_buffer[len] = mccp_buffer[i];
+      
+      /* Changes by Benjamin Curtis */
+      len = (gint) pre_process(mccp_buffer, connection);
+      m   = (gchar *) malloc(len + 2);
+      memcpy(m, mccp_buffer, len + 1);
+      
+      textfield_add (connection->window, m, MESSAGE_ANSI);
+      
+      /* Added by Bret Robideaux (fayd@alliances.org)
+       * OK, this seems like a good place to handle checking for action triggers
+       */
+      if ( check_actions (mccp_buffer, triggered_action) ) {
+	action_send_to_connection (triggered_action, connection);
+      }
+
+      g_free(mccp_buffer);
     }
 
-    for (i = len = 0; buf[i] !='\0'; buf[len++] = buf[i++])
-        if (buf[i] == '\r') i++;
-    buf[len] = buf[i];
-
-    /* Changes by Benjamin Curtis */
-    len = pre_process(buf, connection);
-    m   = (gchar *) malloc(len + 2);
-    memcpy(m, buf, len+1);
-
-    textfield_add (connection->window, m, MESSAGE_ANSI);
-
-    /* Added by Bret Robideaux (fayd@alliances.org)
-     * OK, this seems like a good place to handle checking for action triggers
-     */
-    if ( check_actions (buf, triggered_action) )
-    {
-        action_send_to_connection (triggered_action, connection);
+    string = (gchar *) mudcompress_response(connection->mccp);
+    if (string != NULL) {
+      send (connection->sockfd, string, strlen(string), 0);
     }
+    g_free(string);
+
 }
 
 void send_to_connection (GtkWidget *text_entry, gpointer data)

@@ -20,6 +20,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <glib.h>
+#include <stdio.h>
 
 #include "amcl.h"
 
@@ -543,6 +544,7 @@ void init_window ()
     gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), box_h_low, label);
 
     main_connection = g_malloc0( sizeof (CONNECTION_DATA));
+    main_connection->mccp = mudcompress_new();
     main_connection->notebook = 0;
     main_connection->window = gtk_text_new (NULL, NULL);
     gtk_widget_set_usize (main_connection->window, 500, 320);

@@ -19,7 +19,8 @@
 #ifndef __AMCL_H__
 #define __AMCL_H__
 
-#include <stdio.h>
+#include "mccpDecompress.h"
+
 /*
  * Different type of message, so I'll know what color to use.
  */
@@ -49,6 +50,8 @@ typedef        gint            bool;
  * Structures
  */
 struct connection_data {
+  mc_state   *mccp;
+  gint        mccp_timer;
   gchar      *host;
   gchar      *port;
   gint        data_ready;
