@@ -2,9 +2,14 @@ EXTRA_DIST     = mkhelp.c
 
 bin_PROGRAMS   = amcl
 
-amcl_SOURCES   = action.c alias.c amcl.c color.c init.c map.c       \
+amcl_SOURCES   = action.c alias.c color.c init.c map.c misc.c      \
 		 net.c prefs.c window.c wizard.c dialog.c version.c \
                  modules.c modules_api.c modules.h modules_api.h amcl.h
+
+amcl_LDADD	= amcl.o
+
+amcl.o: amcl.c
+	$(COMPILE) -DPKGDATADIR=\"$(pkgdatadir)\" -c amcl.c
 
 readme_doc.h: ../README mkhelp
 	@(cd ..; src/mkhelp README src/readme_doc.h)

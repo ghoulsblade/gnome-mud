@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pwd.h>
 #include <unistd.h>
 
 #include "amcl.h"
@@ -77,20 +78,18 @@ int check_amcl_dir (gchar *dirname)
 void load_prefs ( )
 {
     FILE *fp;
-    gchar *home, filename[255] = "";
+    gchar filename[255] = "";
     gchar line[255];
 
     prefs.EchoText = prefs.KeepText = TRUE;
     prefs.AutoSave = FALSE;
     prefs.FontName = g_strdup ("fixed");
     
-    home = getenv ("HOME");
-
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
     if (check_amcl_dir (filename) != 0)
         return;
 
-    g_snprintf (filename, 254, "%s%s", home, "/.amcl/preferences");
+    g_snprintf (filename, 254, "%s%s", uid_info->pw_dir, "/.amcl/preferences");
     
     fp = fopen (filename, "r");
 
@@ -147,24 +146,21 @@ void load_prefs ( )
 
 void save_prefs (GtkWidget *button, gpointer data)
 {
-    gchar *home, filename[256] = "";
+    gchar filename[256] = "";
     FILE *fp;
     gchar buf[256];
 
-    home = getenv ("HOME");
-
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
     if (check_amcl_dir (filename) != 0)
         return;
 
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl/preferences");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/preferences");
 
     fp = fopen (filename, "w");
 
     if ( fp == NULL )
     {
-        sprintf (buf, "You must create the directory %s/.amcl before you can save.",
-                 home);
+        sprintf (buf, "You must create the directory %s/.amcl before you can save.", uid_info->pw_dir);
         popup_window (buf);
         return;
     }

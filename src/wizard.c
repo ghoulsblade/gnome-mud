@@ -23,6 +23,7 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <pwd.h>
 
 #include "amcl.h"
 
@@ -64,16 +65,14 @@ void load_wizard ()
 {
     WIZARD_DATA *w = NULL;
     FILE *fp;
-    gchar *home, filename[255] = "";
+    gchar filename[255] = "";
     gchar line[1024];
 
-    home = getenv ("HOME");
-
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
     if (check_amcl_dir (filename) != 0)
         return;
 
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl/connections");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/connections");
 
     if ( ( fp = fopen (filename, "r") ) == NULL )
         return;
@@ -151,21 +150,18 @@ void save_wizard ()
     GList       *tmp;
     WIZARD_DATA *w;
     FILE *fp;
-    gchar *home, filename[255] = "";
+    gchar filename[255] = "";
     gchar buf[250];
 
-    home = getenv ("HOME");
-
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
     if (check_amcl_dir (filename) != 0)
         return;
 
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl/connections");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/connections");
 
     if ( ( fp = fopen (filename, "w") ) == NULL )
     {
-        g_snprintf (buf, 250, "You must create the directory %s/.amcl before you save.",
-                    home);
+        g_snprintf (buf, 250, "You must create the directory %s/.amcl before you save.", uid_info->pw_dir);
         popup_window (buf);
         return;
     }

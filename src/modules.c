@@ -260,7 +260,7 @@ int init_modules(char *path)
 
     if ((directory = opendir(path)) == NULL)
     {
-        g_warning("Plugin error (%s): %s\n", path, strerror(errno));
+        g_message("Plugin error (%s): %s", path, strerror(errno));
         return FALSE;
     }
 

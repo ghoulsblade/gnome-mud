@@ -119,6 +119,9 @@ void  close_window    ( GtkWidget *widget, gpointer data   );
 /* map.c */
 void  window_automap  ( GtkWidget *widget, gpointer data   );
 
+/* misc.c */
+void  init_uid        ( void                               );
+
 /* modules.c */
 void  do_plugin_information (GtkWidget *w, gpointer data   );
 int   init_modules    ( char *path                         );
@@ -201,6 +204,8 @@ extern GdkFont  *font_normal;
 extern GdkFont  *font_fixed;
 extern GdkFont  *font_bold;
 
+/* misc.c */
+extern struct passwd *uid_info;
 
 /* net.c */
 extern bool      echo;

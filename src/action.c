@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pwd.h>
 
 #include "amcl.h"
 
@@ -47,21 +48,19 @@ void save_actions (GtkWidget *button, gpointer data)
 {
     GList *tmp;
     ACTION_DATA *a;
-    gchar *home, filename[256] = "";
+    gchar filename[256] = "";
     FILE *fp;
     bool done = FALSE;
     gchar buf[256];
     gchar *trigger, *action;
     gint  row = 0;
 
-    home = getenv ("HOME");
-
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
     
     if (check_amcl_dir (filename) != 0)
         return;
 
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl/actions");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/actions");
 
     fp = fopen (filename, "w");
 
@@ -78,25 +77,8 @@ void save_actions (GtkWidget *button, gpointer data)
         }
     }
     
-    /*while ( !done && (GtkCList*) data)
-    {
-        if ( !gtk_clist_get_text ((GtkCList*) data, row, 0, &trigger)
-        ||   !gtk_clist_get_text ((GtkCList*) data, row, 1, &action) )
-            break;
-            
-        if ( trigger[0] == '\0' )
-        {
-            done = TRUE;
-            break;
-        }
-
-        fprintf (fp, "%s - %s\n", trigger, action);
-        row++;
-    }*/
-
     if ( fp )
         fclose (fp);
-    //g_free (home);
 
     return;
 }
@@ -104,17 +86,14 @@ void save_actions (GtkWidget *button, gpointer data)
 void load_actions ( void )
 {
     FILE *fp;
-    gchar *home, filename[255] = "";
+    gchar filename[255] = "";
     gchar line[80+80+5];
     
-    //action_list = NULL;
-    home = getenv ("HOME");
-
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
     if (check_amcl_dir (filename) != 0)
         return;
 
-    g_snprintf (filename, 254, "%s%s", home, "/.amcl/actions");
+    g_snprintf (filename, 254, "%s%s", uid_info->pw_dir, "/.amcl/actions");
 
     fp = fopen (filename, "r");
 

@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pwd.h>
 
 #include "amcl.h"
 
@@ -44,21 +45,19 @@ void save_aliases (GtkWidget *button, gpointer data)
 {
     GList *tmp;
     ALIAS_DATA *a;
-    gchar *home, filename[256] = "";
+    gchar filename[256] = "";
     FILE *fp;
     bool done = FALSE;
     gchar buf[256];
     gchar *alias, *replace;
     gint  row = 0;
 
-    home = getenv ("HOME");
-
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
     
     if (check_amcl_dir (filename) != 0)
         return;
 
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl/aliases");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl/aliases");
 
     fp = fopen (filename, "w");
 
@@ -87,16 +86,14 @@ void load_aliases ( void )
 {
     ALIAS_DATA *a = NULL;
     FILE *fp;
-    gchar *home, filename[255] = "";
+    gchar filename[255] = "";
     gchar line[80+15+5];
     
-    home = getenv ("HOME");
-
-    g_snprintf (filename, 255, "%s%s", home, "/.amcl");
+    g_snprintf (filename, 255, "%s%s", uid_info->pw_dir, "/.amcl");
     if (check_amcl_dir (filename) != 0)
         return;
 
-    g_snprintf (filename, 254, "%s%s", home, "/.amcl/aliases");
+    g_snprintf (filename, 254, "%s%s", uid_info->pw_dir, "/.amcl/aliases");
 
     fp = fopen (filename, "r");
 

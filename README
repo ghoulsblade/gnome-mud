@@ -22,8 +22,7 @@ if you have a platform not included here, send me a mail to report.
 
     - Linux 2.0.X
     - Linux 2.2.X
-    - Sun Solaris 2.6
-    - FreeBSD 3.2-RELEASE
+    - FreeBSD 3.2, 3.3
 
 3. Compiling
 

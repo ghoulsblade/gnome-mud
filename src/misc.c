@@ -17,45 +17,23 @@
  */
 
 #include "config.h"
-#include <gtk/gtk.h>
-#include <signal.h>
-#include <pwd.h>
 
+#include <gtk/gtk.h>
 #include "amcl.h"
+
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 
 static char const rcsid[] =
     "$Id$";
 
+struct passwd *uid_info;
 
-int main (gint argc, char *argv[])
+void init_uid ()
 {
-    struct sigaction act;
+  uid_info = getpwuid(getuid());
 
-    memset(&act, 0, sizeof(act));
-
-    gtk_init (&argc, &argv);
-    gdk_init (&argc, &argv);
-
-    act.sa_handler = SIG_DFL;
-    sigaction(SIGSEGV, &act, NULL);
-    
-    init_uid();
-
-    load_aliases();
-    load_actions();
-    load_prefs  ();
-    load_wizard ();
-    init_colors ();
-    init_window ();
-
-    init_modules("./plugins/");
-
-    /* FIXME */
-    init_modules("/home/lobbin/.amcl/plugins/");
-    init_modules(PKGDATADIR);
-
-    gtk_main ( );
-    gdk_exit (0);
-
-    return 0;
+  if (uid_info == NULL)
+    g_error ("Could not fetch information about your homedir.\n");
 }
