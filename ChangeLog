@@ -1,3 +1,13 @@
+Thu Oct  4 16:40:16 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/map.c: Ok, it only took 14 months and one week to notice
+	this major bug in map.c. If using a locale, clicking on directions
+	or Load/Save, etc. would make amcl/gnome-mud crash.
+	The "fix" right now is to translate some extra directions, but that
+	code should be cleaned a bit. Removed gettext marks from debug
+	messages.
+	* po/es.po: updated Spanish translation.
+
 Thu Oct  4 15:46:02 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c: tiny typo fixes.
