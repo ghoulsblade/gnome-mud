@@ -66,7 +66,7 @@ msgstr ""
 #: src/data.c:329
 #, fuzzy
 msgid "GNOME-Mud Configuration Centre"
-msgstr "Centre de Configuració de GNOME-Mud"
+msgstr "Centre de Configuració del GNOME-Mud"
 
 #: src/data.c:373 src/keybind.c:344
 msgid "Add"
@@ -141,7 +141,7 @@ msgstr ""
 #: src/init.c:335
 #, fuzzy
 msgid "GNOME-Mud home page"
-msgstr "Pàgina principal de GNOME-Mud"
+msgstr "Pàgina principal del GNOME-Mud"
 
 #: src/init.c:612
 msgid "Wizard..."
@@ -247,7 +247,7 @@ msgstr "Camps incomplets."
 #: src/keybind.c:266
 #, fuzzy
 msgid "GNOME-Mud Key Binding Centre"
-msgstr "Centre d'Assignació de Tecles de GNOME-Mud"
+msgstr "Centre d'Assignació de Tecles del GNOME-Mud"
 
 #: src/keybind.c:290
 msgid "Key"
@@ -355,7 +355,7 @@ msgstr "Desa"
 
 #: src/map.c:2559
 msgid "GNOME-Mud AutoMapper"
-msgstr "Automapejador de GNOME-Mud"
+msgstr "Automapejador del GNOME-Mud"
 
 #: src/modules.c:195
 msgid "Plugin Information"
@@ -389,7 +389,7 @@ msgstr "Error en el manejament del connector (%s): %s."
 #: src/modules.c:425
 #, c-format
 msgid "Error, %s not an GNOME-Mud module: %s."
-msgstr "Error, %s no és un connector de GNOME-Mud: %s."
+msgstr "Error, %s no és un connector del GNOME-Mud: %s."
 
 #: src/modules.c:451
 #, c-format
@@ -416,7 +416,7 @@ msgstr "No s'ha pogut obrir la llista de muds per a lectura"
 
 #: src/mudlist.c:376
 msgid "GNOME-Mud MudList"
-msgstr "Llista de muds de GNOME-Mud"
+msgstr "Llista de muds del GNOME-Mud"
 
 #: src/mudlist.c:386
 msgid "Mud Name :"
@@ -522,7 +522,7 @@ msgstr "Color de fons fort:"
 
 #: src/prefs.c:541
 msgid "GNOME-Mud Preferences"
-msgstr "Preferències de GNOME-Mud"
+msgstr "Preferències del GNOME-Mud"
 
 #: src/prefs.c:555
 msgid "Echo the text sent?"
@@ -632,7 +632,7 @@ msgstr "Predeterminats"
 
 #: src/profiles.c:904
 msgid "GNOME-Mud Connections"
-msgstr "Connexions de GNOME-Mud"
+msgstr "Connexions del GNOME-Mud"
 
 #: src/profiles.c:938
 msgid "Mud"
@@ -684,7 +684,7 @@ msgstr "Perfils"
 
 #: src/profiles.c:1205
 msgid "GNOME-Mud Profiles"
-msgstr "Perfils de GNOME-Mud"
+msgstr "Perfils del GNOME-Mud"
 
 #: src/profiles.c:1222
 msgid "New"
@@ -735,7 +735,7 @@ msgstr "_Tanca finestra"
 
 #: src/window.c:141
 msgid "GNOME-Mud Popup Message"
-msgstr "Missatge de GNOME-Mud"
+msgstr "Missatge del GNOME-Mud"
 
 #: src/window.c:156
 msgid "Ok"
@@ -790,10 +790,10 @@ msgstr "Accepta"
 #~ "Vashti, configuració del teclat numèric, pedaços de suport de telnet"
 
 #~ msgid "GNOME-Mud _manual"
-#~ msgstr "_Manual de GNOME-Mud"
+#~ msgstr "_Manual del GNOME-Mud"
 
 #~ msgid "Open the GNOME-Mud manual"
-#~ msgstr "Obre el manual de GNOME-Mud"
+#~ msgstr "Obre el manual del GNOME-Mud"
 
 #~ msgid "David Zanetti, bugfixes"
 #~ msgstr "David Zanetti, arreglos"
@@ -811,7 +811,7 @@ msgstr "Accepta"
 #~ msgstr "Staffan Thomèn i els creadors de gEdit - API de mòduls"
 
 #~ msgid "GNOME-Mud Color Chooser"
-#~ msgstr "Seleccionador de Colors de GNOME-Mud"
+#~ msgstr "Seleccionador de Colors del GNOME-Mud"
 
 #~ msgid "Cancel"
 #~ msgstr "Cancel·la"
@@ -856,7 +856,7 @@ msgstr "Accepta"
 #~ msgstr "Connexions"
 
 #~ msgid "GNOME-Mud Connection Wizard"
-#~ msgstr "Assistent de Connexions de GNOME-Mud"
+#~ msgstr "Assistent de Connexions del GNOME-Mud"
 
 #~ msgid "Connection Name:"
 #~ msgstr "Nom de la connexió"
@@ -923,3 +923,7 @@ msgstr "Accepta"
 #~ msgstr ""
 #~ "Aquest és el password del vostre jugador al MUD. Utilitzable amb "
 #~ "l'autentificació automàtica."
+
+#: gnome-mud.desktop.in:4
+msgid "The GNOME MUD Client"
+msgstr "El client de MUD del GNOME"

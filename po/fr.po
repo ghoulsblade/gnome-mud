@@ -799,3 +799,7 @@ msgstr "Ok"
 
 #~ msgid "Open the GNOME-Mud manual"
 #~ msgstr "Ouvrir le manuel de GNOME-Mud"
+
+#: gnome-mud.desktop.in:4
+msgid "The GNOME MUD Client"
+msgstr "Le client MUD de GNOME"

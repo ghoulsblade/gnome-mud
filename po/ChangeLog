@@ -1,3 +1,11 @@
+2003-01-09  Jordi Mallach  <jordi@sindominio.net>
+
+	* POTFILES.in: gnome-mud.desktop.in added by intltool-prepare.
+	* ca.po: Merge .desktop strings.
+	* de.po: Likewise.
+	* fr.po: Likewise.
+	* sv.po: Likewise.
+
 2003-01-08  Jordi Mallach  <jordi@sindominio.net>
 
 	* Makefile.in.in: Removed, not needed in CVS anymore.

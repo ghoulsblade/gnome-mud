@@ -16,3 +16,5 @@ src/prefs.c
 src/profiles.c
 src/python.c
 src/window.c
+# files added by intltool-prepare
+gnome-mud.desktop.in

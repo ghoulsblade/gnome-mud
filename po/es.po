@@ -920,3 +920,7 @@ msgstr "Ok"
 #~ "This is your player account's password in the MUD. For use with AutoLogin."
 #~ msgstr ""
 #~ "Este es el password de tu jugador en el MUD. Utilizable con AutoLogin."
+
+#: gnome-mud.desktop.in:4
+msgid "The GNOME MUD Client"
+msgstr "El cliente de MUD de GNOME"
