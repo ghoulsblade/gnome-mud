@@ -266,6 +266,28 @@ static void window_menu_file_connect (GtkWidget *widget, gpointer data)
   }
 }
 
+static void window_menu_file_reconnect (GtkWidget *widget, gpointer data)
+{
+	CONNECTION_DATA *cd;
+	gint i;
+
+	i = gtk_notebook_get_current_page (GTK_NOTEBOOK(main_notebook));
+	cd = connections[i];
+
+	if (!cd)
+	{
+		textfield_add(main_connection, "*** Internal error: no such connection.\n", MESSAGE_ERR);
+		return;
+	}
+
+	if (cd->connected)
+	{
+		disconnect(NULL, cd);
+	}
+
+	open_connection(cd) ;	
+} /* window_menu_file_reconnect */
+
 static void window_menu_help_about (GtkWidget *widget, gpointer data)
 {
   static GtkWidget *about;
@@ -507,6 +529,11 @@ static void window_menu_file_close (GtkWidget *widget, gpointer data)
 
 	cd = connections[number];
 
+	if (cd->logging)
+	{
+		stop_logging_connection (cd);
+	}
+
 	if (cd->connected)
 	{
 		disconnect (NULL, cd);
@@ -551,7 +578,10 @@ static GnomeUIInfo toolbar_menu[] = {
   GNOMEUIINFO_ITEM_STOCK(N_("Profiles..."), NULL, window_profile_edit, GNOME_STOCK_PIXMAP_PREFERENCES),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, window_menu_file_connect, GNOME_STOCK_PIXMAP_OPEN),
+  GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, window_menu_file_disconnect,  GNOME_STOCK_PIXMAP_CLOSE),
+  GNOMEUIINFO_SEPARATOR,
+  GNOMEUIINFO_ITEM_STOCK(N_("Reconnect"), NULL, window_menu_file_reconnect, GNOME_STOCK_PIXMAP_REFRESH),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Exit"), NULL, destroy, GNOME_STOCK_PIXMAP_EXIT),
   GNOMEUIINFO_END
@@ -563,6 +593,7 @@ static GnomeUIInfo file_menu[] = {
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Connect..."), NULL, window_menu_file_connect, GNOME_STOCK_MENU_OPEN),
   GNOMEUIINFO_ITEM_STOCK(N_("Disconnect"), NULL, window_menu_file_disconnect, GNOME_STOCK_MENU_CLOSE),
+  GNOMEUIINFO_ITEM_STOCK(N_("Reconnect"), NULL, window_menu_file_reconnect, GNOME_STOCK_MENU_REFRESH),
   GNOMEUIINFO_SEPARATOR,
   GNOMEUIINFO_ITEM_STOCK(N_("Start Logging..."), NULL, window_menu_file_start_logging_cb, GNOME_STOCK_MENU_NEW),
   GNOMEUIINFO_ITEM_STOCK(N_("Stop Logging"), NULL, window_menu_file_stop_logging_cb, GNOME_STOCK_MENU_CLOSE),
@@ -692,5 +723,4 @@ void main_window ()
   gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, &prefs.Colors[7], NULL, buf, -1);
 #endif
 }
-
 

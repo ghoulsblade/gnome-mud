@@ -154,6 +154,7 @@ void		 send_to_connection (GtkWidget *, gpointer);
 void		 connection_send (CONNECTION_DATA *, gchar *);
 void		 connection_send_data (CONNECTION_DATA *, gchar *, int);
 void		 connection_send_telnet_control (CONNECTION_DATA *, int len, ...);
+void		 open_connection (CONNECTION_DATA *);
 
 /* init.c */
 void		 main_window (void);

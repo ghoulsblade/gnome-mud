@@ -59,11 +59,10 @@ static char const rcsid[] =
 
 
 /* Local functions */
-static void open_connection (CONNECTION_DATA *);
 static void action_send_to_connection (gchar *, CONNECTION_DATA *);
-static void read_from_connection (CONNECTION_DATA *, gint,
-                                  GdkInputCondition);   
+static void read_from_connection (CONNECTION_DATA *, gint, GdkInputCondition);   
 static void print_error (CONNECTION_DATA *connection, const gchar *error) ;
+static GString *append_word_to_command (GString *string, gchar *word);
 
 /* Global Variables */
 extern bool             Keyflag;
@@ -86,7 +85,7 @@ static void check_aliases(GString *string, CONNECTION_DATA *cd, gchar *t, gint l
 	if (level > 5)
 	{
 		g_message("Maximum nested alias reached.");
-		g_string_append(string, t);
+		append_word_to_command (string, t);
 		return;
 	}
 	
@@ -94,15 +93,14 @@ static void check_aliases(GString *string, CONNECTION_DATA *cd, gchar *t, gint l
 	{
 		gchar *b = *a++;
 		
-        if ((r = check_alias (cd->profile->alias, b)))
-        {
+		if ((r = check_alias (cd->profile->alias, b)))
+		{
 			check_aliases(string, cd, r, level+1);
 		}
 		else
 		{
-			g_string_append(string, b);
+			append_word_to_command (string, b);
 		}
-		
 	}
 }
 
@@ -117,7 +115,7 @@ static void action_send_to_connection (gchar *entry_text, CONNECTION_DATA *conne
 	g_string_free(alias, TRUE);
 	
    	connection_send (connection, check_vars (connection->profile->variables, a));
-    connection_send (connection, "\n");
+	connection_send (connection, "\n");
 
 	g_free(a);
 }
@@ -190,32 +188,30 @@ void disconnect (GtkWidget *widget, CONNECTION_DATA *connection)
 #endif /* ENABLE_MCCP */
     gdk_input_remove (connection->data_ready);
 
-    if (connection->logging)
-    {
-		stop_logging_connection (connection) ;
-    }
-
     textfield_add (connection, _("*** Connection closed.\n"), MESSAGE_SYSTEM);
     connection->connected = FALSE;
 }
 
-static void open_connection (CONNECTION_DATA *connection)
+void open_connection (CONNECTION_DATA *connection)
 {
     gchar buf[2048];
     struct hostent *he;
     struct sockaddr_in their_addr;
 
-    if ( !(strcmp (connection->host, "\0")) )
+    if ( (!connection->host) || (!strcmp (connection->host, "\0")) )
     {
-        sprintf (buf, _("*** Can't connect - you didn't specify a host\n"));
-        textfield_add (connection, buf, MESSAGE_ERR);
+        textfield_add (connection,
+		_("*** Can't connect - you didn't specify a host.\n"),
+		MESSAGE_ERR);
         return;
     }
 
-    if ( !(strcmp(connection->port, "\0")) )
+    if ( (!connection->port) || (!strcmp(connection->port, "\0")) )
     {
-        sprintf (buf, _("*** No port specified - assuming port 23\n"));
-        textfield_add (connection, buf, MESSAGE_SYSTEM);
+		textfield_add (connection,
+			_("*** No port specified - assuming port 23.\n"),
+			MESSAGE_SYSTEM);
+
 		if (connection->port[0] != '\0')
 		{
 			g_free(connection->port);
@@ -229,7 +225,8 @@ static void open_connection (CONNECTION_DATA *connection)
         port = g_strdup("23");
     }
 
-    sprintf (buf, _("*** Making connection to %s, port %s\n"), connection->host, connection->port);
+    g_snprintf (buf, 2047, _("*** Making connection to %s, port %s\n"),
+	connection->host, connection->port);
     textfield_add (connection, buf, MESSAGE_SYSTEM);
 
     /* strerror(3) */
@@ -479,4 +476,22 @@ static void print_error (CONNECTION_DATA *cd, const gchar *error)
 	g_snprintf(buf, 255, "*** %s.\n", error);
 	textfield_add (cd, buf, MESSAGE_ERR);
 } /* print_error */
+
+/* append_word_to_command:
+ *	Appends a word to a GString. Used by check_aliases.
+ *	Arguments: 0 - the string to append to.
+ *		   1 - the word to append.
+ */
+
+static GString *append_word_to_command (GString *string, gchar *word)
+{
+	if (!string->len)
+	{
+		g_string_append(string, word);
+	}
+	else
+	{
+		g_string_sprintfa(string, " %s", word);
+	}
+} /* append_word_to_command */
 

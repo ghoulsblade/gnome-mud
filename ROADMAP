@@ -15,7 +15,6 @@ feel free to suggest features, contribute, or comment.
 * Rewrite connection wizard step 1 [DONE]
 	+ double click on entries to connect [DONE]
 * Rewrite font/color support [DONE]
-* Right-click menu for connection-tabs
 * Make better use for gtk_object_(get|set)_data [DONE]
 * Cleanup of .c-files, better names on functions, etc... [DONE]
 * Fix error when closing wizardwindow after using profilewindow [DONE]
@@ -33,9 +32,11 @@ feel free to suggest features, contribute, or comment.
 
 0.11.0
 
-* Rewrite connection wizard step 2 [DONE]
+* Right-click menu for connection-tabs
+* Green/Red marker, so that you can see if tab is connected or not
+* Other marker on tab to show if using MCCP or not
+* Rewrite connection wizard step 2
 	+ be able to ping host...
-	+ several characters per host
 * MSP, Mud Sound Protocol (Is there many muds using this?)
 * SOCKS support
 * IPv6 support
@@ -45,8 +46,6 @@ Long term future
 
 * Option for nr of lines to keep in buffer
 * Fix MCCP (crashes on a few muds)
-* Green/Red marker, so that you can see if tab is connected or not
-* Other marker on tab to show if using MCCP or not
 * Fix Speedwalking in AutoMapper
 * User defineable buttonbar
 * Customizable statusline

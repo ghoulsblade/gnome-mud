@@ -1,3 +1,10 @@
+Mon Feb 18 12:16:41 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
+
+	* Added 2 new patches from Vashti, one adds a reconnect feature.
+	and the other fix for aliases.
+
+	* ROADMAP: Moved around.
+
 Wed Feb 13 07:25:14 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* NEWS, ROADMAP: Fixed nested alias.
