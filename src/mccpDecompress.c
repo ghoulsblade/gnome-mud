@@ -10,6 +10,8 @@
  *
  */
 
+#include "config.h"
+
 #ifdef ENABLE_MCCP
 /* Modified: 20000530 */
 

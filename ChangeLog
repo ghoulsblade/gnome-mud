@@ -1,3 +1,7 @@
+Mon Feb  4 22:45:20 CET 2002  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/mccpDecompress.c: include config.h.
+
 Mon Feb  4 13:13:21 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* ROADMAP: Updated
