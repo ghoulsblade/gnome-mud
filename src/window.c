@@ -50,38 +50,15 @@ extern GtkWidget		*main_notebook;
 
 void popup_window (const gchar *message)
 {
-    GtkWidget *window;
-    GtkWidget *label;
-    GtkWidget *button;
-    GtkWidget *box;
-    GtkWidget *separator;
+	GtkWidget *dialog;
 
-    gchar       buf[2048];
+	dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+								GTK_MESSAGE_INFO,
+								GTK_BUTTONS_OK,
+								message);
+	g_signal_connect(G_OBJECT(dialog), "response", G_CALLBACK(gtk_widget_destroy), NULL);
 
-    window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title (GTK_WINDOW (window), _("GNOME-Mud Popup Message"));
-
-    box = gtk_vbox_new (FALSE, 5);
-    gtk_container_border_width (GTK_CONTAINER (box), 5);
-    gtk_container_add (GTK_CONTAINER (window), box);
-
-    g_snprintf ( buf, 2048, " %s ", message);
-    label = gtk_label_new (buf);
-    gtk_box_pack_start (GTK_BOX (box), label, FALSE, FALSE, 5);
-    gtk_widget_show (label);
-
-    separator = gtk_hseparator_new ();
-    gtk_box_pack_start (GTK_BOX (box), separator, TRUE, TRUE, 0);
-    gtk_widget_show (separator);
-    
-    button = gtk_button_new_with_label (_("Ok"));
-    gtk_signal_connect (GTK_OBJECT (button), "clicked",
-                        GTK_SIGNAL_FUNC (close_window), window);
-    gtk_box_pack_start (GTK_BOX (box), button, TRUE, TRUE, 5);
-    gtk_widget_show (button);
-    
-    gtk_widget_show (box   );
-    gtk_widget_show (window);
+	gtk_widget_show(dialog);
 }
 
 void grab_focus_cb (GtkWidget* widget, gpointer user_data)

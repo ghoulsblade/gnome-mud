@@ -141,7 +141,6 @@ static void keybind_button_add_clicked_cb (GtkButton *button, PROFILE_DATA *pd)
 	GtkWidget *capt_entry = gtk_object_get_data(GTK_OBJECT(button), "capt_entry");
 	GtkWidget *comm_entry = gtk_object_get_data(GTK_OBJECT(button), "comm_entry");
 	gchar *list[2];
-	gint i = 0;
 
 	if (KB_keyv == 0)
 	{
@@ -261,7 +260,6 @@ static void keybind_selection_made(GtkTreeSelection *selection, gpointer data)
 static void keybind_populate_list_store(GtkListStore *store, KEYBIND_DATA *k)
 {
 	KEYBIND_DATA *e;
-	gchar buf[128] = "";
 	GtkTreeIter iter;
 
 	for (e = k; e != NULL; e = e->next)
@@ -280,12 +278,12 @@ static void keybind_populate_list_store(GtkListStore *store, KEYBIND_DATA *k)
 void window_keybind (PROFILE_DATA *pd)
 {
 	static GtkWidget *window_key_bind;
-	GtkWidget *vbox, *a, *b, *tree;
+	GtkWidget *vbox, *a, *tree;
 	GtkListStore *store;
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *select;
 	GtkCellRenderer *renderer;
-	GtkWidget *label1, *label2, *label3, *label4;
+	GtkWidget *label3, *label4;
 	GtkWidget *hbox2, *hbox;
 	GtkWidget *hseparator;
 	GtkWidget *hbuttonbox;
@@ -381,17 +379,17 @@ void window_keybind (PROFILE_DATA *pd)
 	gtk_widget_show (KB_button_capt);
 	gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_capt);
 
-	KB_button_add = gtk_button_new_with_label (_("Add"));
+	KB_button_add = gtk_button_new_from_stock("gtk-add");
 	gtk_widget_ref (KB_button_add);
 	gtk_object_set_data_full (GTK_OBJECT (window_key_bind), "KB_button_add", KB_button_add, (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (KB_button_add);
 	gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_add);
 
-	KB_button_delete = gtk_button_new_with_label (_("Delete"));
+	KB_button_delete = gtk_button_new_from_stock("gtk-remove");
 	gtk_widget_show (KB_button_delete);
 	gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_delete);
 
-	KB_button_close = gtk_button_new_with_label (_("Close"));
+	KB_button_close = gtk_button_new_from_stock("gtk-close");
 	gtk_widget_show (KB_button_close);
 	gtk_container_add (GTK_CONTAINER (hbuttonbox), KB_button_close);
 

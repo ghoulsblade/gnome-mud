@@ -1,3 +1,26 @@
+Wed Apr  2 10:23:57 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/data.c (window_data): Changed to stock buttons. 
+
+	* src/init.c (destroy): Dialog rewritten.
+	(window_menu_file_connect): Dialog rewritten.
+
+	* src/keybind.c: Unused variables removed.
+	(window_keybind): Changed to stock buttons.
+
+	* src/mudlist.c: Remove the trailing \n from mudnames.
+
+	* src/net.c: Pack vscrollbar ok.
+
+	* src/prefs.c: Added tooltips to color prefs, and rewrote
+	the preferences.
+
+	* src/profiles.c (window_profiles): Changed order of buttons.
+
+	* src/window.c (popup_window): Dialog rewritten.
+
+	* src/*.sv: Updated translations.
+
 Fri Mar 28 10:58:45 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* gnome-mud.schemas.in: Changed gnome-terminal to gnome-mud

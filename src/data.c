@@ -416,18 +416,18 @@ void window_data (PROFILE_DATA *profile, gint z)
     a = gtk_hbox_new (FALSE, 0);
     gtk_box_pack_start (GTK_BOX (vbox), a, FALSE, FALSE, 0);
 
-    b = gtk_button_new_with_label (_("Add"));
+	b = gtk_button_new_from_stock("gtk-add");
 	g_object_set_data(G_OBJECT(b), "list-store", store);
 	g_object_set_data(G_OBJECT(b), "list-select", select);
     gtk_signal_connect (GTK_OBJECT (b), "clicked", GTK_SIGNAL_FUNC (data_button_add), data);
     gtk_box_pack_start (GTK_BOX (a), b, TRUE, TRUE, 15);
 
-    data->button_delete = gtk_button_new_with_label (_("Delete"));
+	data->button_delete = gtk_button_new_from_stock("gtk-remove");
 	g_object_set_data(G_OBJECT(data->button_delete), "list-store", store);
 	g_object_set_data(G_OBJECT(data->button_delete), "list-select", select);
     gtk_box_pack_start (GTK_BOX (a), data->button_delete, TRUE, TRUE, 15);
 
-    b = gtk_button_new_with_label (_("Close"));
+	b = gtk_button_new_from_stock("gtk-close");
     gtk_signal_connect (GTK_OBJECT (b), "clicked", GTK_SIGNAL_FUNC (data_button_close), data);
     gtk_box_pack_start (GTK_BOX (a), b, TRUE, TRUE, 15);
 	

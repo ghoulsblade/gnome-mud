@@ -1022,20 +1022,17 @@ void window_profiles(void)
 	gtk_container_set_border_width (GTK_CONTAINER (table_buttons), 5);
 	gtk_table_set_row_spacings (GTK_TABLE (table_buttons), 2);
 	gtk_table_set_col_spacings (GTK_TABLE (table_buttons), 3);
-
-	button_info_apply = gtk_button_new_from_stock ("gtk-apply");
-	gtk_widget_ref (button_info_apply);
-	gtk_object_set_data_full (GTK_OBJECT (dialog), "button_info_apply", button_info_apply, (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (button_info_apply);
-	gtk_table_attach (GTK_TABLE (table_buttons), button_info_apply, 0, 1, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 5, 0);
-	gtk_signal_connect(GTK_OBJECT(button_info_apply), "clicked", GTK_SIGNAL_FUNC(connections_button_info_apply_cb), (gpointer) main_clist);
 	
-	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_mud_title", entry_info_mud_title);
-	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_mud_host",  entry_info_mud_host);
-	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_mud_port",  entry_info_mud_port);
-	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_char_character", entry_info_char_character);
-	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_char_password", entry_info_char_password);
-	gtk_object_set_data(GTK_OBJECT(button_info_apply), "label_info_prof", label_info_prof);
+	button_info_fetch = gtk_button_new_with_label(_("Fetch from mudlist"));
+	gtk_widget_show(button_info_fetch);
+	gtk_table_attach(GTK_TABLE(table_buttons), button_info_fetch, 0, 1, 0, 1, GTK_FILL, GTK_EXPAND | GTK_FILL, 5, 0);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_mud_title", entry_info_mud_title);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_mud_host",  entry_info_mud_host);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_mud_port",  entry_info_mud_port);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_char_character", entry_info_char_character);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_char_password", entry_info_char_password);
+	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "label_info_prof",      label_info_prof);
+	gtk_signal_connect(GTK_OBJECT(button_info_fetch), "clicked", GTK_SIGNAL_FUNC(connections_button_info_fetch_cb), NULL);
 
 	button_info_cancel = gtk_button_new_from_stock("gtk-cancel");
 	gtk_widget_ref (button_info_cancel);
@@ -1051,17 +1048,19 @@ void window_profiles(void)
 	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "entry_info_char_password", entry_info_char_password);
 	gtk_object_set_data(GTK_OBJECT(button_info_cancel), "label_info_prof", label_info_prof);
 
+	button_info_apply = gtk_button_new_from_stock ("gtk-apply");
+	gtk_widget_ref (button_info_apply);
+	gtk_object_set_data_full (GTK_OBJECT (dialog), "button_info_apply", button_info_apply, (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (button_info_apply);
+	gtk_table_attach (GTK_TABLE (table_buttons), button_info_apply, 2, 3, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 5, 0);
+	gtk_signal_connect(GTK_OBJECT(button_info_apply), "clicked", GTK_SIGNAL_FUNC(connections_button_info_apply_cb), (gpointer) main_clist);
 	
-	button_info_fetch = gtk_button_new_with_label(_("Fetch from mudlist"));
-	gtk_widget_show(button_info_fetch);
-	gtk_table_attach(GTK_TABLE(table_buttons), button_info_fetch, 2, 3, 0, 1, GTK_FILL, GTK_EXPAND | GTK_FILL, 5, 0);
-	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_mud_title", entry_info_mud_title);
-	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_mud_host",  entry_info_mud_host);
-	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_mud_port",  entry_info_mud_port);
-	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_char_character", entry_info_char_character);
-	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "entry_info_char_password", entry_info_char_password);
-	gtk_object_set_data(GTK_OBJECT(button_info_fetch), "label_info_prof",      label_info_prof);
-	gtk_signal_connect(GTK_OBJECT(button_info_fetch), "clicked", GTK_SIGNAL_FUNC(connections_button_info_fetch_cb), NULL);
+	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_mud_title", entry_info_mud_title);
+	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_mud_host",  entry_info_mud_host);
+	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_mud_port",  entry_info_mud_port);
+	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_char_character", entry_info_char_character);
+	gtk_object_set_data(GTK_OBJECT(button_info_apply), "entry_info_char_password", entry_info_char_password);
+	gtk_object_set_data(GTK_OBJECT(button_info_apply), "label_info_prof", label_info_prof);
 
 	dialog_action_area = GNOME_DIALOG (dialog)->action_area;
 	gtk_object_set_data (GTK_OBJECT (dialog), "dialog_action_area", dialog_action_area);
@@ -1069,14 +1068,6 @@ void window_profiles(void)
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area), GTK_BUTTONBOX_END);
 	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area), 8);
  
-	gnome_dialog_append_button_with_pixmap (GNOME_DIALOG (dialog), _("Connect"), GNOME_STOCK_PIXMAP_JUMP_TO);
-	button_connect = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog)->buttons)->data);
-	gtk_widget_ref (button_connect);
-	gtk_object_set_data_full (GTK_OBJECT (dialog), "button_connect", button_connect, (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (button_connect);
-	GTK_WIDGET_SET_FLAGS (button_connect, GTK_CAN_DEFAULT);
-	gtk_signal_connect(GTK_OBJECT(button_connect), "clicked", GTK_SIGNAL_FUNC(connections_button_connect_cb), (gpointer) dialog);
-
 	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_CLOSE);
 	button_cancel = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog)->buttons)->data);
 	gtk_widget_ref (button_cancel);
@@ -1084,6 +1075,14 @@ void window_profiles(void)
 	gtk_widget_show (button_cancel);
 	GTK_WIDGET_SET_FLAGS (button_cancel, GTK_CAN_DEFAULT);
   
+  	gnome_dialog_append_button_with_pixmap (GNOME_DIALOG (dialog), _("Connect"), GNOME_STOCK_PIXMAP_JUMP_TO);
+	button_connect = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog)->buttons)->data);
+	gtk_widget_ref (button_connect);
+	gtk_object_set_data_full (GTK_OBJECT (dialog), "button_connect", button_connect, (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (button_connect);
+	GTK_WIDGET_SET_FLAGS (button_connect, GTK_CAN_DEFAULT);
+	gtk_signal_connect(GTK_OBJECT(button_connect), "clicked", GTK_SIGNAL_FUNC(connections_button_connect_cb), (gpointer) dialog);
+
 	gtk_signal_connect_object(GTK_OBJECT(button_cancel), "clicked", GTK_SIGNAL_FUNC(gtk_widget_destroy), (gpointer) dialog);
 	gtk_signal_connect(GTK_OBJECT(dialog), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &dialog);
 

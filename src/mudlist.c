@@ -178,7 +178,7 @@ static void mudlist_select_item_cb(GtkTreeItem *item, GtkTree *tree)
 {
 	FILE *fp;
 	glong floc = (glong) gtk_object_get_data(GTK_OBJECT(item), "floc");
-	gchar line[1024];
+	gchar line[1024], tmp[1024];
 	
 	fp = fopen(prefs.MudListFile, "r");
 	fseek(fp, floc, SEEK_SET);
@@ -188,13 +188,15 @@ static void mudlist_select_item_cb(GtkTreeItem *item, GtkTree *tree)
 		{
 			GtkWidget *entry = gtk_object_get_data(GTK_OBJECT(tree), "entry_name");
 
-			gtk_entry_set_text(GTK_ENTRY(entry), line + 14);
+			g_snprintf(tmp, strlen(line + 14), line + 14);
+			gtk_entry_set_text(GTK_ENTRY(entry), tmp);
 		}
 		else if (!strncmp("Code Base   :", line, 13))
 		{
 			GtkWidget *entry = gtk_object_get_data(GTK_OBJECT(tree), "entry_codebase");
 
-			gtk_entry_set_text(GTK_ENTRY(entry), line + 14);
+			g_snprintf(tmp, strlen(line + 14), line + 14);
+			gtk_entry_set_text(GTK_ENTRY(entry), tmp);
 		}
 		else if (!strncmp("WWW         :", line, 13))
 		{
@@ -215,7 +217,8 @@ static void mudlist_select_item_cb(GtkTreeItem *item, GtkTree *tree)
 			GtkWidget *entry  = gtk_object_get_data(GTK_OBJECT(tree), "entry_telnet");
 			GtkWidget *button = gtk_object_get_data(GTK_OBJECT(tree), "button_connect");
 			
-			gtk_entry_set_text(GTK_ENTRY(entry), line + 14);
+			g_snprintf(tmp, strlen(line + 14), line + 14);
+			gtk_entry_set_text(GTK_ENTRY(entry), tmp);
 			gtk_widget_set_sensitive(button, TRUE);
 		}
 		else if (!strncmp("Description :", line, 13))

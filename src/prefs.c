@@ -518,6 +518,9 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	GtkWidget *picker_font;
 	GtkWidget *table2;
 	GtkWidget *label_font;
+
+	GtkTooltips *tooltip = gtk_tooltips_new();
+	
 	gint i, j, k;
 
 	table_colorfont = gtk_table_new (5, 2, FALSE);
@@ -531,6 +534,8 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	gtk_misc_set_padding (GTK_MISC (label_font), 8, 0);
 
 	picker_font = gnome_font_picker_new ();
+	gtk_tooltips_set_tip (tooltip, picker_font,
+			_("Main font that is used on all open connections."), NULL);
 	gtk_widget_show (picker_font);
 	gtk_table_attach (GTK_TABLE (table_colorfont), picker_font, 1, 2, 0, 1, (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gnome_font_picker_set_preview_text (GNOME_FONT_PICKER (picker_font), _("The quick brown fox jumps over the lazy dog"));
@@ -556,11 +561,17 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	gtk_misc_set_padding (GTK_MISC (label_foreground), 8, 0);
 
 	picker_foreground = gnome_color_picker_new ();
+	gtk_tooltips_set_tip(tooltip, picker_foreground,
+			_("Default foreground color used when the connection doesn't tell "
+			  "us to use another font."), NULL);
 	gtk_widget_show (picker_foreground);
 	gtk_table_attach (GTK_TABLE (table_colorfont), picker_foreground, 1, 2, 1, 2, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(picker_foreground), prefs.Foreground.red, prefs.Foreground.green, prefs.Foreground.blue, 0);
   
 	picker_background = gnome_color_picker_new ();
+	gtk_tooltips_set_tip(tooltip, picker_background,
+			_("Default background color used when the connection doesn't tell "
+			  "us to use another font."), NULL);
 	gtk_widget_show (picker_background);
 	gtk_table_attach (GTK_TABLE (table_colorfont), picker_background, 1, 2, 3, 4, (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), (GtkAttachOptions) (0), 0, 0);
 	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(picker_background), prefs.Background.red, prefs.Background.green, prefs.Background.blue, 0);
@@ -572,6 +583,10 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	for (i = 0, j = 0, k = 0; i < C_MAX; i++)
 	{
 		GtkWidget *picker = gnome_color_picker_new();
+	
+		gtk_tooltips_set_tip(tooltip, picker,
+				_("Change the color of a specific color that the "
+				  "mud tells us to use."), NULL);
 		
 		prefs_set_color(picker, i);
 		gtk_table_attach(GTK_TABLE(table2), picker, j, j + 1, k, k + 1, GTK_FILL, 0, 0, 0);
@@ -596,222 +611,220 @@ GtkWidget *prefs_color_frame (GtkWidget *prefs_window)
 	return table_colorfont;
 }
 
+static void profile_response_cb(GtkDialog *editor, int id, void *data)
+{
+	if (id == GTK_RESPONSE_HELP)
+	{
+		gnome_help_display("gnome-mud", "gnome-mud", NULL);
+	}
+	else
+	{
+		gtk_widget_destroy(GTK_WIDGET(editor));
+	}
+}
 
 void window_prefs (GtkWidget *widget, gpointer data)
 {
-  static GtkWidget *prefs_window;
- 
-  GtkAdjustment *spinner_adj;
+	static GtkWidget *prefs_window;
 
-  GtkWidget *vbox2;
-  GtkWidget *hbox1, *hbox_term;
-  GtkWidget *checkbutton_echo, *checkbutton_keep, *checkbutton;
-  GtkWidget *label1, *label2, *label_term;
-  GtkWidget *entry_divider, *entry_mudlistfile, *entry_term;
-  GtkWidget *event_box_term;
-  GtkWidget *tw, *menu, *mi;
+	gchar *l[4] = { _("on top"), _("on the right"), _("at the bottom"), _("on the left") };
 
-  GtkTooltips *tooltip;
+	gint i;
 
-  if (prefs_window != NULL)
-  {
-    gdk_window_raise(prefs_window->window);
-    gdk_window_show(prefs_window->window);
-    return;
-  }
+	GtkWidget *notebook;
+	GtkWidget *vbox, *frame, *hbox;
+	GtkWidget *tmp, *tmp2;
 
-  prefs_window = gnome_property_box_new();
-  gtk_window_set_title(GTK_WINDOW(prefs_window), _("GNOME-Mud Preferences"));
-  gtk_window_set_policy(GTK_WINDOW(prefs_window), FALSE, FALSE, FALSE);
-  gtk_signal_connect(GTK_OBJECT(prefs_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &prefs_window);
-  //gtk_signal_connect(GTK_OBJECT(prefs_window), "apply",   GTK_SIGNAL_FUNC(prefs_apply_cb), NULL);
-  
-  tooltip = gtk_tooltips_new();
+	GtkAdjustment *spinner;
+	GtkTooltips *tooltip;
 
+	if (prefs_window != NULL)
+	{
+		gdk_window_raise(prefs_window->window);
+		gdk_window_show(prefs_window->window);
+		return;
+	}
 
-  /*
-  ** BEGIN PAGE TWO
-  */
-  vbox2 = gtk_vbox_new (TRUE, 0);
-  gtk_widget_show (vbox2);
+	prefs_window = gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(prefs_window), _("GNOME-Mud Preferences"));
+	gtk_window_set_policy(GTK_WINDOW(prefs_window), FALSE, FALSE, FALSE);
+	gtk_signal_connect(GTK_OBJECT(prefs_window), "destroy", GTK_SIGNAL_FUNC(gtk_widget_destroyed), &prefs_window);
+	vbox = GTK_DIALOG(prefs_window)->vbox;
 
-  checkbutton_echo = gtk_check_button_new_with_label (_("Echo the text sent?"));
-  gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_echo), prefs.EchoText);
-  gtk_widget_show (checkbutton_echo);
-  gtk_box_pack_start (GTK_BOX (vbox2), checkbutton_echo, FALSE, FALSE, 0);
-  gtk_tooltips_set_tip (tooltip, checkbutton_echo,
+	tooltip = gtk_tooltips_new();
+	notebook = gtk_notebook_new();
+	gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
+
+	/*
+	 * Begin page one
+	 */
+	frame = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_NONE);
+	tmp = gtk_label_new(_("Functionality"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), frame, tmp);
+
+	vbox = gtk_vbox_new(FALSE, 12);
+	gtk_container_add(GTK_CONTAINER(frame), vbox);
+
+	tmp = gtk_check_button_new_with_label(_("Echo the text sent?"));
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(tmp), prefs.EchoText);
+	gtk_box_pack_start(GTK_BOX(vbox), tmp, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip (tooltip, tmp,
 			_("With this toggled on, all the text you type and "
 			  "enter will be echoed on the connection so you can "
 			  "control what you are sending."),
 			NULL);
-  gtk_signal_connect(GTK_OBJECT(checkbutton_echo), "toggled", GTK_SIGNAL_FUNC(prefs_checkbox_echo_cb), (gpointer) prefs_window);
+	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_checkbox_echo_cb), (gpointer) prefs_window);
 
-  checkbutton_keep = gtk_check_button_new_with_label (_("Keep the text entered?"));
-  gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (checkbutton_keep), prefs.KeepText);
-  gtk_widget_show (checkbutton_keep);
-  gtk_box_pack_start (GTK_BOX (vbox2), checkbutton_keep, FALSE, FALSE, 0);
-  gtk_tooltips_set_tip (tooltip, checkbutton_keep,
+
+	tmp = gtk_check_button_new_with_label(_("Keep the text entered?"));
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(tmp), prefs.KeepText);
+	gtk_box_pack_start(GTK_BOX(vbox), tmp, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip (tooltip, tmp,
 			_("With this toggled on, the text you have entered "
 			  "and sent to the connection, will be left in the "
 			  "entry box but selected. Turn this off to remove "
 			  "the text after it has been sent."),
 			NULL);
-  gtk_signal_connect(GTK_OBJECT(checkbutton_keep), "toggled", GTK_SIGNAL_FUNC(prefs_checkbox_keep_cb), (gpointer) prefs_window);
- 
-  checkbutton = gtk_check_button_new_with_label(_("Disable Systemkeys?"));
-  gtk_tooltips_set_tip(tooltip, checkbutton,
+	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_checkbox_keep_cb), (gpointer) prefs_window);
+
+	tmp = gtk_check_button_new_with_label(_("Disable Systemkeys?"));
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(tmp), prefs.DisableKeys);
+	gtk_box_pack_start(GTK_BOX(vbox), tmp, FALSE, FALSE, 0);
+	gtk_tooltips_set_tip(tooltip, tmp,
 		  _("GNOME-Mud ships with a few built-in keybinds. "
 			"These keybinds can be overridden by own keybinds, "
 			"or they can be disabled by toggling this checkbox"),
 		  NULL);
-  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(checkbutton), prefs.DisableKeys);
-  gtk_box_pack_start(GTK_BOX(vbox2), checkbutton, FALSE, FALSE, 0);
-  GTK_WIDGET_UNSET_FLAGS(checkbutton, GTK_CAN_FOCUS);
-  gtk_widget_show(checkbutton);
-  gtk_signal_connect(GTK_OBJECT(checkbutton), "toggled", GTK_SIGNAL_FUNC(prefs_checkbutton_disablekeys_cb), (gpointer) prefs_window);
+	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_checkbutton_disablekeys_cb), (gpointer) prefs_window);
 
-  hbox1 = gtk_hbox_new (FALSE, 0);
-  gtk_widget_show (hbox1);
-  gtk_box_pack_start (GTK_BOX (vbox2), hbox1, TRUE, TRUE, 0);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
 
-  label1 = gtk_label_new (_("Command divide char:"));
-  gtk_widget_show (label1);
-  gtk_box_pack_start (GTK_BOX (hbox1), label1, FALSE, FALSE, 10);
+	tmp = gtk_label_new(_("Command divide char:"));
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
-  entry_divider = gtk_entry_new_with_max_length (1);
-  gtk_entry_set_text (GTK_ENTRY (entry_divider), prefs.CommDev);
-  gtk_widget_show (entry_divider);
-  gtk_box_pack_start (GTK_BOX (hbox1), entry_divider, FALSE, TRUE, 0);
-  gtk_widget_set_usize (entry_divider, 15, -2);
-  gtk_signal_connect(GTK_OBJECT(entry_divider), "changed", GTK_SIGNAL_FUNC(prefs_entry_divide_cb), (gpointer) prefs_window);
+	tmp = gtk_entry_new_with_max_length(1);
+	gtk_tooltips_set_tip (tooltip, tmp,
+			_("This character is used to separed commands sent "
+			  "to the mud. Example ';', will let the user input "
+			  "\"w;look\" be sent to the mud at 2 separate commands."),
+			NULL);
+	gtk_entry_set_text(GTK_ENTRY(tmp), prefs.CommDev);
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, TRUE, 0);
+	gtk_widget_set_usize(tmp, 15, -2);
+	g_signal_connect(G_OBJECT(tmp), "changed", G_CALLBACK(prefs_entry_divide_cb), (gpointer) prefs_window);
 
-  label1 = gtk_label_new(_("Command history:"));
-  gtk_widget_show(label1);
-  gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
+	tmp = gtk_label_new(_("Command history:"));
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
-  spinner_adj = (GtkAdjustment *) gtk_adjustment_new(prefs.History, 0, 500, 1, 5, 5);
-  tw = gtk_spin_button_new(spinner_adj, 1, 0);
-  gtk_widget_show(tw);
-  gtk_signal_connect(GTK_OBJECT(tw), "value-changed", GTK_SIGNAL_FUNC(prefs_entry_history_cb), NULL);
-  gtk_box_pack_start(GTK_BOX(hbox1), tw, FALSE, FALSE, 10);
+	spinner = (GtkAdjustment *) gtk_adjustment_new(prefs.History, 0, 500, 1, 5, 5);
+	tmp = gtk_spin_button_new(spinner, 1, 0);
+	gtk_tooltips_set_tip (tooltip, tmp,
+			_("This is the number of entries to be saved in the command "
+			  "history"), NULL);
+	g_signal_connect(G_OBJECT(tmp), "value-changed", G_CALLBACK(prefs_entry_history_cb), NULL);
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
-	/* Terminal type entry box and label */
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 5);
 
-	hbox_term = gtk_hbox_new (FALSE, 0);
-	gtk_widget_show (hbox_term);
+	tmp = gtk_label_new(_("Terminal type:"));
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
-	event_box_term = gtk_event_box_new ();
-	gtk_container_add (GTK_CONTAINER(event_box_term), hbox_term);
-	gtk_widget_show (event_box_term);
-	gtk_box_pack_start (GTK_BOX(vbox2), event_box_term, TRUE, TRUE, 5);
-
-	label_term = gtk_label_new (_("Terminal type:"));
-	gtk_widget_show (label_term);
-	gtk_box_pack_start (GTK_BOX(hbox_term), label_term, FALSE, FALSE, 10);
-
-	entry_term = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY(entry_term), prefs.TerminalType);
-	gtk_widget_show (entry_term);
-	gtk_box_pack_start (GTK_BOX(hbox_term), entry_term, TRUE, TRUE, 5);
-
-	gtk_tooltips_set_tip(tooltip, event_box_term,
+	tmp = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(tmp), prefs.TerminalType);
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, TRUE, TRUE, 5);
+	gtk_tooltips_set_tip(tooltip, tmp,
 		_("GNOME-Mud will attempt to transmit a terminal type "
 		  "(like ANSI or VT100) if the MUD requests one. This "
 		  "option sets the terminal type that will be sent."), NULL);
+	g_signal_connect(G_OBJECT(tmp), "changed", G_CALLBACK(prefs_entry_terminal_cb), (gpointer) prefs_window);
 
-	gtk_signal_connect (GTK_OBJECT(entry_term), "changed", GTK_SIGNAL_FUNC(prefs_entry_terminal_cb), (gpointer) prefs_window);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 5);
 
-	hbox1 = gtk_hbox_new(FALSE, 0);
-	gtk_widget_show(hbox1);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox1, TRUE, TRUE, 5);
-	
-	label1 = gtk_label_new(_("MudList file:"));
-	gtk_widget_show(label1);
-	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
- 
-	entry_mudlistfile = gnome_file_entry_new(NULL, _("Select a MudList File"));
-	gtk_entry_set_text(GTK_ENTRY(gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(entry_mudlistfile))), prefs.MudListFile);
-	gtk_widget_show(entry_mudlistfile);
-	gtk_box_pack_start(GTK_BOX(hbox1), entry_mudlistfile, FALSE, TRUE, 0);
-	gtk_signal_connect(GTK_OBJECT(gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(entry_mudlistfile))),
-					   "changed",
-					   GTK_SIGNAL_FUNC(prefs_entry_mudlistfile_cb), (gpointer) prefs_window);
+	tmp = gtk_label_new(_("MudList file:"));
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
-  label2 = gtk_label_new (_("Functionality"));
-  gtk_widget_show (label2); 
+	tmp = gnome_file_entry_new(NULL, _("Select a MudList File"));
+	gtk_tooltips_set_tip (tooltip, gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(tmp)),
+			_("Mudlist file to be used for the mudlist functionality"), NULL);
+	gtk_entry_set_text(GTK_ENTRY(gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(tmp))), prefs.MudListFile);
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, TRUE, 0);
+	g_signal_connect(G_OBJECT(gnome_file_entry_gtk_entry(GNOME_FILE_ENTRY(tmp))), "changed",
+					 G_CALLBACK(prefs_entry_mudlistfile_cb), (gpointer) prefs_window);
 
-  gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window), vbox2, label2);
-  /*
-  ** END PAGE TWO
-  */
+	frame = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_NONE);
+	tmp = gtk_label_new(_("Colour and Fonts"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), frame, tmp);
 
-  vbox2 = prefs_color_frame(prefs_window);
-  gtk_widget_show(vbox2);
-  
-  label2 = gtk_label_new (_("Colour and Fonts"));
-  gtk_widget_show(label2);
+	vbox = prefs_color_frame(prefs_window);
+	gtk_container_add(GTK_CONTAINER(frame), vbox);
 
-  gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window), vbox2, label2);
-  
-	/*
-	 * BEGIN PAGE THREE
-	 */
-	vbox2 = gtk_vbox_new(FALSE, 0);
+	frame = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_NONE);
+	tmp = gtk_label_new(_("Apperence"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), frame, tmp);
 
-	/* tab location */
-	hbox1 = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox1, FALSE, FALSE, 5);
+	vbox = gtk_vbox_new(FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(frame), vbox);
 
-	label1 = gtk_label_new(_("Tabs are located:"));
-	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
 
-	menu = gtk_menu_new();
-	mi = gtk_menu_item_new_with_label(_("on top"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
-	
-	mi = gtk_menu_item_new_with_label(_("on the right"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+	tmp = gtk_label_new(_("Tabs are located:"));
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
-	mi = gtk_menu_item_new_with_label(_("at the bottom"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+	tmp = gtk_menu_new();
 
-	mi = gtk_menu_item_new_with_label(_("on the left"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
-	
-	tw = gtk_option_menu_new();
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(tw), menu);
-	gtk_option_menu_set_history(GTK_OPTION_MENU(tw), tab_location_by_int(prefs.TabLocation));
-	gtk_signal_connect(GTK_OBJECT(tw), "changed", GTK_SIGNAL_FUNC(prefs_tab_location_changed_cb), NULL);
-	
-	gtk_box_pack_start(GTK_BOX(hbox1), tw, FALSE, FALSE, 10);	
+	for (i = 0; i < 4; i++)
+	{
+		tmp2 = gtk_menu_item_new_with_label(l[i]);
+		gtk_menu_shell_append(GTK_MENU_SHELL(tmp), tmp2);
+	}
 
-	hbox1 = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox1, FALSE, FALSE, 5);
+	tmp2 = gtk_option_menu_new();
+	gtk_tooltips_set_tip (tooltip, tmp2,
+			_("This settings tell where to place the connection tabs "
+			  "that are used the change active connection"), NULL);
+	gtk_option_menu_set_menu(GTK_OPTION_MENU(tmp2), tmp);
+	gtk_option_menu_set_history(GTK_OPTION_MENU(tmp2), tab_location_by_int(prefs.TabLocation));
+	g_signal_connect(G_OBJECT(tmp2), "changed", G_CALLBACK(prefs_tab_location_changed_cb), NULL);
+	gtk_box_pack_start(GTK_BOX(hbox), tmp2, FALSE, FALSE, 10);
 
-	label1 = gtk_label_new(_("Scrollback:"));
-	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
 
-	spinner_adj = (GtkAdjustment *) gtk_adjustment_new(prefs.Scrollback, 0, 5000, 1, 5, 5);
-	tw = gtk_spin_button_new(spinner_adj, 1, 0);
-	gtk_signal_connect(GTK_OBJECT(tw), "value-changed", GTK_SIGNAL_FUNC(prefs_scrollback_value_changed_cb), NULL);
-	gtk_box_pack_start(GTK_BOX(hbox1), tw, FALSE, FALSE, 10);
+	tmp = gtk_label_new(_("Scrollback:"));
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
-	label1 = gtk_label_new(_("lines"));
-	gtk_box_pack_start(GTK_BOX(hbox1), label1, FALSE, FALSE, 10);
+	spinner = (GtkAdjustment *) gtk_adjustment_new(prefs.Scrollback, 0, 5000, 1, 5, 5);
+	tmp = gtk_spin_button_new(spinner, 1, 0);
+	gtk_tooltips_set_tip (tooltip, tmp,
+			_("How many lines will be saved in the scrollback"), NULL);
+	g_signal_connect(G_OBJECT(tmp), "value-changed", G_CALLBACK(prefs_scrollback_value_changed_cb), NULL);
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
-	hbox1 = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox2), hbox1, FALSE, FALSE, 5);
-	
-	checkbutton = gtk_check_button_new_with_label(_("Scroll on output"));
-	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(checkbutton), prefs.ScrollOnOutput);
-	gtk_box_pack_start(GTK_BOX(hbox1), checkbutton, FALSE, FALSE, 10);
-	gtk_signal_connect(GTK_OBJECT(checkbutton), "toggled", GTK_SIGNAL_FUNC(prefs_scroll_output_changed_cb), NULL);
+	tmp = gtk_label_new(_("lines"));
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
 
-	label2 = gtk_label_new(_("Apperence"));
-	gtk_widget_show(label2);
-  
-	gtk_widget_show_all(vbox2);
-	gnome_property_box_append_page(GNOME_PROPERTY_BOX(prefs_window), vbox2, label2);
-  
-	gtk_widget_show(prefs_window);
+	hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 5);
+
+	tmp = gtk_check_button_new_with_label(_("Scroll on output"));
+	gtk_tooltips_set_tip (tooltip, tmp,
+			_("Should the connection scroll to bottom on output "
+			  "or stay at the current position (if scrolled back)"), NULL);
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(tmp), prefs.ScrollOnOutput);
+	gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 10);
+	g_signal_connect(G_OBJECT(tmp), "toggled", G_CALLBACK(prefs_scroll_output_changed_cb), NULL);
+
+	gtk_dialog_set_has_separator(GTK_DIALOG(prefs_window), FALSE);
+	gtk_dialog_add_buttons(GTK_DIALOG(prefs_window), GTK_STOCK_HELP, GTK_RESPONSE_HELP, GTK_STOCK_CLOSE, GTK_RESPONSE_ACCEPT, NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(prefs_window), GTK_RESPONSE_ACCEPT);
+	g_signal_connect(G_OBJECT(prefs_window), "response", G_CALLBACK(profile_response_cb), NULL); 
+
+	gtk_widget_show_all(prefs_window);
 }

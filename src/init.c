@@ -69,43 +69,36 @@ static gboolean dialog_close_cb(GtkWidget *widget, GdkEvent *event, gpointer dat
 
 void destroy (GtkWidget *widget)
 {
-  GtkWidget *dialog;
-  GtkWidget *label;
-  gint i, retval;
+	GtkWidget *dialog, *label;
+	gint i, retval;
 
-  dialog = gnome_dialog_new(N_("Quit?"), 
-			    GNOME_STOCK_BUTTON_YES,
-			    GNOME_STOCK_BUTTON_NO,
-			    NULL);
-  gnome_dialog_set_parent(GNOME_DIALOG(dialog), GTK_WINDOW(window));
-  g_signal_connect(G_OBJECT(dialog), "delete_event", GTK_SIGNAL_FUNC(dialog_close_cb), NULL);
+	dialog = gtk_message_dialog_new(GTK_WINDOW(window),
+				GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_QUESTION,
+				GTK_BUTTONS_YES_NO,
+				_("Do you really want to quit?"));
 
-  label = gtk_label_new(_("Do you really want to quit?"));
-  gtk_widget_show(label);
-  gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialog)->vbox), label, FALSE, FALSE, 0);  
+	g_signal_connect(G_OBJECT(dialog), "delete-event", G_CALLBACK(dialog_close_cb), NULL);
 
-  retval = gnome_dialog_run(GNOME_DIALOG(dialog));
+	retval = gtk_dialog_run(GTK_DIALOG(dialog));
 
-  switch (retval)
-  {
-  	case 1:
-    	gnome_dialog_close(GNOME_DIALOG(dialog));
-    	return;
-  }  
-
-  /* Close all windows except main */
-  
-  for (i = MAX_CONNECTIONS ; i != 0 ; i--)
-  {
-	if (connections[i])
+	if (retval == GTK_RESPONSE_NO || retval == GTK_RESPONSE_DELETE_EVENT)
 	{
-		gtk_notebook_set_page(GTK_NOTEBOOK(main_notebook),
-			connections[i]->notebook) ;
-		window_menu_file_close (NULL, NULL);
+		gtk_widget_destroy(dialog);
+		return;
 	}
-  }
 
-  if (EntryHistory != NULL)
+	/* Close all windows except main */
+	for (i = MAX_CONNECTIONS ; i != 0 ; i--)
+	{
+		if (connections[i])
+		{
+			gtk_notebook_set_page(GTK_NOTEBOOK(main_notebook), connections[i]->notebook) ;
+			window_menu_file_close (NULL, NULL);
+		}
+	}
+
+/*  if (EntryHistory != NULL)
   {
     GList *t;
     gint   i;
@@ -121,124 +114,69 @@ void destroy (GtkWidget *widget)
 		i++;
       }
     }
-    
-    gnome_config_set_vector("/gnome-mud/Data/CommandHistory", i, tt);
-  }
- 
-/*  if (Profiles != NULL)
-  {
-	  GList *t;
-	  gint 	 i;
-	  gchar name[50];
-
-	  for (t = g_list_first(Profiles), i = 0; t != NULL; t = t->next, i++)
-	  {
-		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Name", i);
-		  gnome_config_set_string(name, ((WIZARD_DATA2 *) t->data)->name);
-		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Host", i);
-		  gnome_config_set_string(name, ((WIZARD_DATA2 *) t->data)->hostname);
-		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Port", i);
-		  gnome_config_set_string(name, ((WIZARD_DATA2 *) t->data)->port);
-		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Char", i);
-		  gnome_config_set_string(name, ((WIZARD_DATA2 *) t->data)->playername);
-		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Pass", i);
-		  gnome_config_private_set_string(name, ((WIZARD_DATA2 *) t->data)->password);
-		  g_snprintf(name, 50, "/gnome-mud/Connection%d/Profile", i);
-		  gnome_config_set_string(name, ((WIZARD_DATA2 *) t->data)->profile);
-	  }
-
-	  while(1)
-	  {
-		  g_snprintf(name, 50, "/gnome-mud/Connection%d", i);
-		  if (gnome_config_has_section(name))
-		  {
-			  gnome_config_clean_section(name);
-		  }
-		  else
-		  {
-			  break;
-		  }
-
-		  i++;
-	  }
-  }
-  */
-  gtk_main_quit ();
+  */  
+	gtk_main_quit ();
 }
 
 static void window_menu_file_connect (GtkWidget *widget, gpointer data)
 {
-  GtkWidget *dialog;
+	GtkWidget *dialog, *table, *tmp, *entry_host, *entry_port;
+	gint retval;
 
-  GtkWidget *label2, *label3;
-  GtkWidget *table1;
-  GtkWidget *entry_host, *entry_port;
+	dialog = gtk_dialog_new_with_buttons(_("Connect..."),
+  				GTK_WINDOW(window),
+				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+  				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 
-  gint retval;
+	table = gtk_table_new(2, 2, FALSE);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), table, TRUE, TRUE, 0);
+	gtk_table_set_row_spacings(GTK_TABLE(table), 5);
 
-  dialog = gnome_dialog_new(_("Connect..."), 
-			    GNOME_STOCK_BUTTON_OK,
-			    GNOME_STOCK_BUTTON_CANCEL,
-			    NULL);
-  gnome_dialog_set_parent(GNOME_DIALOG(dialog), GTK_WINDOW(window));
+	tmp = gtk_label_new(_("Host:"));
+	gtk_table_attach(GTK_TABLE(table), tmp, 0, 1, 0, 1,
+					(GtkAttachOptions) (GTK_FILL),
+					(GtkAttachOptions) (0), 5, 0);
+	gtk_misc_set_alignment(GTK_MISC(tmp), 0, 0.5);
 
-  table1 = gtk_table_new (2, 2, FALSE);
-  gtk_widget_show (table1);
-  gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(dialog)->vbox), table1, TRUE, TRUE, 0);
-  gtk_table_set_row_spacings (GTK_TABLE (table1), 5);
+	tmp = gtk_label_new(_("Port:"));
+	gtk_widget_show(tmp);
+	gtk_table_attach(GTK_TABLE(table), tmp, 0, 1, 1, 2,
+					(GtkAttachOptions) (GTK_FILL),
+					(GtkAttachOptions) (0), 5, 0);
+	gtk_misc_set_alignment(GTK_MISC(tmp), 0, 0.5);
 
-  label2 = gtk_label_new (_("Host:"));
-  gtk_widget_show (label2);
-  gtk_table_attach (GTK_TABLE (table1), label2, 0, 1, 0, 1,
-                    (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (0), 5, 0);
-  gtk_misc_set_alignment (GTK_MISC (label2), 0, 0.5);
+	entry_host = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(entry_host), host);
+	gtk_table_attach(GTK_TABLE(table), entry_host, 1, 2, 0, 1,
+					(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+					(GtkAttachOptions) (0), 0, 0);
 
-  label3 = gtk_label_new (_("Port:"));
-  gtk_widget_show (label3);
-  gtk_table_attach (GTK_TABLE (table1), label3, 0, 1, 1, 2,
-                    (GtkAttachOptions) (GTK_FILL),
-                    (GtkAttachOptions) (0), 5, 0);
-  gtk_misc_set_alignment (GTK_MISC (label3), 0, 0.5);
+	entry_port = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(entry_port), port);
+	gtk_table_attach(GTK_TABLE(table), entry_port, 1, 2, 1, 2,
+					(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+					(GtkAttachOptions) (0), 0, 0);
 
-  entry_host = gtk_entry_new ();
-  gtk_entry_set_text(GTK_ENTRY(entry_host), host);
-  gtk_widget_show (entry_host);
-  gtk_table_attach (GTK_TABLE (table1), entry_host, 1, 2, 0, 1,
-                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 0);
-  
+	gtk_widget_show_all(dialog);
+	retval = gtk_dialog_run(GTK_DIALOG(dialog));
 
-  entry_port = gtk_entry_new ();
-  gtk_entry_set_text(GTK_ENTRY(entry_port), port);
-  gtk_widget_show (entry_port);
-  gtk_table_attach (GTK_TABLE (table1), entry_port, 1, 2, 1, 2,
-                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-                    (GtkAttachOptions) (0), 0, 0);
+	switch (retval)
+	{
+		case GTK_RESPONSE_OK:
+			if (strlen(host) > 0) g_free(host);
+			if (strlen(port) > 0) g_free(port);
 
-  retval = gnome_dialog_run(GNOME_DIALOG(dialog));
+			host = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry_host)));
+			port = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry_port)));
 
-  switch (retval)
-  {
-  	case 0:
-    	if (strlen(host) > 0)
-      		g_free(host); 
+			make_connection(host, port, "Default");
 
-    	if (strlen(port) > 0)
-     		g_free(port);
-
-    	host = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry_host)));
-    	port = g_strdup(gtk_entry_get_text((GtkEntry *) entry_port));
-    
-    	make_connection(host, port, "Default");
-
-    	gnome_dialog_close(GNOME_DIALOG(dialog));
-    	break;
-
-  	case 1:
-    	gnome_dialog_close(GNOME_DIALOG(dialog));
-    	break;
-  }
+		case GTK_RESPONSE_CANCEL:
+			gtk_widget_destroy(dialog);
+	}
 }
 
 static void window_menu_file_reconnect (GtkWidget *widget, gpointer data)
@@ -260,7 +198,7 @@ static void window_menu_file_reconnect (GtkWidget *widget, gpointer data)
 		disconnect(NULL, cd);
 	}
 
-	open_connection(cd) ;	
+	open_connection(cd);
 } /* window_menu_file_reconnect */
 
 static void window_menu_help_about (GtkWidget *widget, gpointer data)

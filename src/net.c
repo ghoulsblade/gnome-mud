@@ -138,7 +138,7 @@ CONNECTION_DATA *make_connection(gchar *hoster, gchar *porter, gchar *profile)
 		c = create_connection_data(gtk_notebook_get_current_page(GTK_NOTEBOOK(main_notebook)));
 		
 		gtk_box_pack_start(GTK_BOX(box), c->window, TRUE, TRUE, 0);
-		gtk_box_pack_start(GTK_BOX(box), c->vscrollbar, TRUE, TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(box), c->vscrollbar, FALSE, FALSE, 0);
 		gtk_widget_show_all(box);
 	}
 	else

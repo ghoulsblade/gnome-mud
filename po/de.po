@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2003-03-28 10:57+0100\n"
+"POT-Creation-Date: 2003-04-02 10:33+0200\n"
 "PO-Revision-Date: 2000-12-27 14:26+0100\n"
 "Last-Translator: Robin Ericsson <lobbin@localhost.nu>\n"
 "Language-Team: de <de@li.org>\n"
@@ -52,12 +52,12 @@ msgstr "Alias"
 msgid "Replacement"
 msgstr "Ersetzung"
 
-#: src/data.c:343 src/profiles.c:1184 gnome-mud.schemas.in.h:26
+#: src/data.c:343 src/profiles.c:1180 gnome-mud.schemas.in.h:26
 msgid "Triggers"
 msgstr "Triggers"
 
 #. vars
-#: src/data.c:350 src/profiles.c:1177 gnome-mud.schemas.in.h:27
+#: src/data.c:350 src/profiles.c:1173 gnome-mud.schemas.in.h:27
 msgid "Variables"
 msgstr ""
 
@@ -75,213 +75,197 @@ msgstr ""
 msgid "GNOME-Mud Configuration Centre"
 msgstr "AMCL Verbindungsassistent"
 
-#: src/data.c:419 src/keybind.c:384
-msgid "Add"
-msgstr "Hinzufügen"
-
-#: src/data.c:425 src/keybind.c:390 src/profiles.c:812 src/profiles.c:1153
-msgid "Delete"
-msgstr "Löschen"
-
-#: src/data.c:430 src/keybind.c:394 src/profiles.c:1218
-msgid "Close"
-msgstr "Schliessen"
-
-#: src/init.c:76
-msgid "Quit?"
-msgstr "Ende?"
-
-#: src/init.c:83
+#: src/init.c:79
 msgid "Do you really want to quit?"
 msgstr ""
 
-#: src/init.c:179 src/init.c:619
+#: src/init.c:126 src/init.c:557
 msgid "Connect..."
 msgstr "Verbinde..."
 
-#: src/init.c:190 src/profiles.c:906
+#: src/init.c:138 src/profiles.c:903
 msgid "Host:"
 msgstr "Rechner:"
 
-#: src/init.c:197 src/profiles.c:926
+#: src/init.c:144 src/profiles.c:923
 msgid "Port:"
 msgstr "Port:"
 
-#: src/init.c:254
+#: src/init.c:192
 msgid "*** Internal error: no such connection.\n"
 msgstr ""
 
-#: src/init.c:273
+#: src/init.c:211
 msgid "Robin Ericsson <lobbin@localhost.nu>"
 msgstr ""
 
-#: src/init.c:274 src/init.c:279
+#: src/init.c:212 src/init.c:217
 msgid "Jordi Mallach <jordi@sindominio.net>"
 msgstr ""
 
-#: src/init.c:275 src/init.c:280
+#: src/init.c:213 src/init.c:218
 msgid "Petter E. Stokke <gibreel@project23.no>"
 msgstr ""
 
-#: src/init.c:276
+#: src/init.c:214
 msgid "Rachael Munns <vashti@dream.org.uk>"
 msgstr ""
 
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: src/init.c:285
+#: src/init.c:223
 msgid "translator_credits"
 msgstr ""
 
-#: src/init.c:296 gnome-mud.desktop.in.h:1
+#: src/init.c:234 gnome-mud.desktop.in.h:1
 #, fuzzy
 msgid "GNOME-Mud"
 msgstr "AMCL Kartenzeichner"
 
 #. latin1 translators can use the copyright symbol here, see man latin1(7)
-#: src/init.c:298
+#: src/init.c:236
 msgid "(C) 1998-2002 Robin Ericsson"
 msgstr ""
 
-#: src/init.c:299
+#: src/init.c:237
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
 msgstr ""
 
-#: src/init.c:312
+#: src/init.c:250
 #, fuzzy
 msgid "GNOME-Mud home page"
 msgstr "AMCL Benachrichtigung"
 
-#: src/init.c:615
+#: src/init.c:553
 msgid "Wizard..."
 msgstr ""
 
-#: src/init.c:617
+#: src/init.c:555
 msgid "Profiles..."
 msgstr ""
 
-#: src/init.c:621
+#: src/init.c:559
 msgid "Disconnect"
 msgstr "Verbindung unterbrechen"
 
-#: src/init.c:623
+#: src/init.c:561
 #, fuzzy
 msgid "Reconnect"
 msgstr "Verbinden"
 
-#: src/init.c:625
+#: src/init.c:563
 msgid "Exit"
 msgstr ""
 
-#: src/init.c:630
+#: src/init.c:568
 #, fuzzy
 msgid "Connection _Wizard..."
 msgstr "Verbindungsassistent"
 
-#: src/init.c:631
+#: src/init.c:569
 msgid "_MudList Listing..."
 msgstr ""
 
-#: src/init.c:633
+#: src/init.c:571
 #, fuzzy
 msgid "C_onnect..."
 msgstr "Verbinde..."
 
-#: src/init.c:634
+#: src/init.c:572
 #, fuzzy
 msgid "_Disconnect"
 msgstr "Verbindung unterbrechen"
 
-#: src/init.c:635
+#: src/init.c:573
 #, fuzzy
 msgid "_Reconnect"
 msgstr "Verbinden"
 
-#: src/init.c:637
+#: src/init.c:575
 #, fuzzy
 msgid "S_tart Logging..."
 msgstr "Autologin?"
 
-#: src/init.c:638
+#: src/init.c:576
 #, fuzzy
 msgid "Sto_p Logging"
 msgstr "Autologin?"
 
-#: src/init.c:639
+#: src/init.c:577
 msgid "_Save Buffer..."
 msgstr ""
 
-#: src/init.c:641
+#: src/init.c:579
 #, fuzzy
 msgid "_Close Window"
 msgstr "Schliesse Fenster"
 
-#: src/init.c:649
+#: src/init.c:587
 #, fuzzy
 msgid "_Plugin Information..."
 msgstr "Plugin Information..."
 
-#: src/init.c:654
+#: src/init.c:592
 #, fuzzy
 msgid "Auto _Mapper..."
 msgstr "Karte..."
 
-#: src/init.c:656
+#: src/init.c:594
 #, fuzzy
 msgid "P_lugins"
 msgstr "Plugins"
 
-#: src/init.c:710
+#: src/init.c:648
 msgid "Main"
 msgstr "Allgemein"
 
-#: src/init.c:733
+#: src/init.c:671
 #, c-format
 msgid "GNOME-Mud version %s (compiled %s, %s)\n"
 msgstr ""
 
-#: src/init.c:735
+#: src/init.c:673
 #, fuzzy
 msgid "Distributed under the terms of the GNU General Public Licence.\n"
 msgstr "Verteilt unter den Bedingungen der GNU General Public License.\n"
 
-#: src/init.c:737
+#: src/init.c:675
 #, c-format
 msgid ""
 "\n"
 "Python version %s\n"
 msgstr ""
 
-#: src/keybind.c:148
+#: src/keybind.c:147
 msgid "You must use capture first!"
 msgstr ""
 
-#: src/keybind.c:161
+#: src/keybind.c:160
 msgid "Can't add an existing key."
 msgstr "Kann kein existierendes Makro hinzufügen."
 
-#: src/keybind.c:186
+#: src/keybind.c:185
 msgid "Incomplete fields."
 msgstr "Felder unvollständig."
 
-#: src/keybind.c:310
+#: src/keybind.c:308
 #, fuzzy
 msgid "GNOME-Mud Key Binding Centre"
 msgstr "AMCL Makro-Tasten-Zentrum"
 
-#: src/keybind.c:327
+#: src/keybind.c:325
 msgid "Key"
 msgstr "Taste"
 
-#: src/keybind.c:330 src/keybind.c:347 src/keybind.c:365
+#: src/keybind.c:328 src/keybind.c:345 src/keybind.c:363
 msgid "Command"
 msgstr "Kommando"
 
-#: src/keybind.c:343
+#: src/keybind.c:341
 msgid "Bind"
 msgstr "Tastenmakro"
 
-#: src/keybind.c:359 src/keybind.c:380
+#: src/keybind.c:357 src/keybind.c:378
 msgid "Capture"
 msgstr ""
 
@@ -438,41 +422,41 @@ msgstr ""
 msgid "Error getting plugin from handle."
 msgstr ""
 
-#: src/mudlist.c:369
+#: src/mudlist.c:372
 msgid "Could not open MudList file for reading"
 msgstr ""
 
-#: src/mudlist.c:375
+#: src/mudlist.c:378
 #, fuzzy
 msgid "GNOME-Mud MudList"
 msgstr "AMCL Kartenzeichner"
 
-#: src/mudlist.c:385
+#: src/mudlist.c:388
 #, fuzzy
 msgid "Mud Name :"
 msgstr "Name:"
 
-#: src/mudlist.c:399
+#: src/mudlist.c:402
 msgid "Codebase :"
 msgstr ""
 
-#: src/mudlist.c:413
+#: src/mudlist.c:416
 msgid "Telnet Address :"
 msgstr ""
 
-#: src/mudlist.c:429
+#: src/mudlist.c:432
 msgid "Connect to the mud"
 msgstr ""
 
-#: src/mudlist.c:433
+#: src/mudlist.c:436
 msgid "Import and close"
 msgstr ""
 
-#: src/mudlist.c:440
+#: src/mudlist.c:443
 msgid "Go to webpage of the mud"
 msgstr ""
 
-#: src/mudlist.c:447
+#: src/mudlist.c:450
 #, fuzzy
 msgid "Description :"
 msgstr "Beschreibung:"
@@ -520,37 +504,77 @@ msgstr "%s existiert bereits und ist kein Verzeichnis!"
 msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s existiert nicht und kann NICHT erstellt werden: %s"
 
-#: src/prefs.c:527
+#: src/prefs.c:530
 #, fuzzy
 msgid "Font:"
 msgstr "Port:"
 
-#: src/prefs.c:536
+#: src/prefs.c:538
+msgid "Main font that is used on all open connections."
+msgstr ""
+
+#: src/prefs.c:541
 msgid "The quick brown fox jumps over the lazy dog"
 msgstr ""
 
-#: src/prefs.c:540
+#: src/prefs.c:545
 msgid "Colour palette:"
 msgstr ""
 
-#: src/prefs.c:546
+#: src/prefs.c:551
 msgid "Background colour:"
 msgstr ""
 
-#: src/prefs.c:552
+#: src/prefs.c:557
 msgid "Foreground colour:"
 msgstr ""
 
-#: src/prefs.c:624
+#: src/prefs.c:565
+msgid ""
+"Default foreground color used when the connection doesn't tell us to use "
+"another font."
+msgstr ""
+
+#: src/prefs.c:573
+msgid ""
+"Default background color used when the connection doesn't tell us to use "
+"another font."
+msgstr ""
+
+#: src/prefs.c:588
+msgid "Change the color of a specific color that the mud tells us to use."
+msgstr ""
+
+#: src/prefs.c:630
+msgid "on top"
+msgstr ""
+
+#: src/prefs.c:630
+msgid "on the right"
+msgstr ""
+
+#: src/prefs.c:630
+msgid "at the bottom"
+msgstr ""
+
+#: src/prefs.c:630
+msgid "on the left"
+msgstr ""
+
+#: src/prefs.c:649
 #, fuzzy
 msgid "GNOME-Mud Preferences"
 msgstr "AMCL Benachrichtigung"
 
-#: src/prefs.c:638
+#: src/prefs.c:663
+msgid "Functionality"
+msgstr ""
+
+#: src/prefs.c:669
 msgid "Echo the text sent?"
 msgstr "Den gesendeten Text anzeigen?"
 
-#: src/prefs.c:643 gnome-mud.schemas.in.h:32
+#: src/prefs.c:673 gnome-mud.schemas.in.h:32
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
@@ -558,11 +582,11 @@ msgstr ""
 "Wenn diese Option angeschaltet ist, dann wird der Text, den man eingibst "
 "lokal ausgegeben, so dass man kontrollieren kann, was man sendet."
 
-#: src/prefs.c:649
+#: src/prefs.c:680
 msgid "Keep the text entered?"
 msgstr "Den gesendeten Text anzeigen?"
 
-#: src/prefs.c:654 gnome-mud.schemas.in.h:33
+#: src/prefs.c:684 gnome-mud.schemas.in.h:33
 #, fuzzy
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
@@ -573,221 +597,233 @@ msgstr ""
 "Eingabezeile behalten, aber markiert.Um die Eingabezeile nach Absenden des "
 "Textes zu löschen, sollte man diese Option ausschalten."
 
-#: src/prefs.c:661
+#: src/prefs.c:691
 msgid "Disable Systemkeys?"
 msgstr ""
 
-#: src/prefs.c:663 gnome-mud.schemas.in.h:12
+#: src/prefs.c:695 gnome-mud.schemas.in.h:12
 msgid ""
 "GNOME-Mud ships with a few built-in keybinds. These keybinds can be "
 "overridden by own keybinds, or they can be disabled by toggling this checkbox"
 msgstr ""
 
-#: src/prefs.c:677
+#: src/prefs.c:704
 msgid "Command divide char:"
 msgstr "Kommandoseparator"
 
-#: src/prefs.c:688
+#: src/prefs.c:709
+msgid ""
+"This character is used to separed commands sent to the mud. Example ';', "
+"will let the user input \"w;look\" be sent to the mud at 2 separate commands."
+msgstr ""
+
+#: src/prefs.c:718
 msgid "Command history:"
 msgstr ""
 
-#: src/prefs.c:708
+#: src/prefs.c:724
+#, fuzzy
+msgid "This is the number of entries to be saved in the command history"
+msgstr ""
+"Dieser Name kennzeichnet die Verbindung und wird auch genutzt, um in der "
+"linken Spalten ausgewählt zu werden."
+
+#: src/prefs.c:732
 msgid "Terminal type:"
 msgstr ""
 
-#: src/prefs.c:718 gnome-mud.schemas.in.h:13
+#: src/prefs.c:739 gnome-mud.schemas.in.h:13
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
 msgstr ""
 
-#: src/prefs.c:728
+#: src/prefs.c:747
 msgid "MudList file:"
 msgstr ""
 
-#: src/prefs.c:732
+#: src/prefs.c:750
 msgid "Select a MudList File"
 msgstr ""
 
-#: src/prefs.c:740
-msgid "Functionality"
+#: src/prefs.c:752
+msgid "Mudlist file to be used for the mudlist functionality"
 msgstr ""
 
-#: src/prefs.c:751
+#: src/prefs.c:760
 msgid "Colour and Fonts"
 msgstr ""
 
-#: src/prefs.c:765
+#: src/prefs.c:768
+msgid "Apperence"
+msgstr ""
+
+#: src/prefs.c:777
 msgid "Tabs are located:"
 msgstr ""
 
-#: src/prefs.c:769
-msgid "on top"
+#: src/prefs.c:790
+msgid ""
+"This settings tell where to place the connection tabs that are used the "
+"change active connection"
 msgstr ""
 
-#: src/prefs.c:772
-msgid "on the right"
-msgstr ""
-
-#: src/prefs.c:775
-msgid "at the bottom"
-msgstr ""
-
-#: src/prefs.c:778
-msgid "on the left"
-msgstr ""
-
-#: src/prefs.c:791
+#: src/prefs.c:800
 msgid "Scrollback:"
 msgstr ""
 
-#: src/prefs.c:799
+#: src/prefs.c:806
+msgid "How many lines will be saved in the scrollback"
+msgstr ""
+
+#: src/prefs.c:810
 #, fuzzy
 msgid "lines"
 msgstr "Alias"
 
-#: src/prefs.c:805
+#: src/prefs.c:816
 msgid "Scroll on output"
 msgstr ""
 
-#: src/prefs.c:810
-msgid "Apperence"
+#: src/prefs.c:818
+msgid ""
+"Should the connection scroll to bottom on output or stay at the current "
+"position (if scrolled back)"
 msgstr ""
 
-#: src/profiles.c:251
+#: src/profiles.c:248
 msgid "New profile"
 msgstr ""
 
-#: src/profiles.c:254
+#: src/profiles.c:251
 msgid "Name of new profile:"
 msgstr ""
 
-#: src/profiles.c:465
+#: src/profiles.c:462
 #, fuzzy
 msgid "GNOME-Mud: Profilelist"
 msgstr "AMCL Benachrichtigung"
 
-#: src/profiles.c:632 src/profiles.c:1003
+#: src/profiles.c:629 src/profiles.c:1000
 msgid "Default"
 msgstr "Standard"
 
-#: src/profiles.c:829
+#: src/profiles.c:809 src/profiles.c:1149
+msgid "Delete"
+msgstr "Löschen"
+
+#: src/profiles.c:826
 #, fuzzy
 msgid "GNOME-Mud Connections"
 msgstr "AMCL Verbindungsassistent"
 
-#: src/profiles.c:863
+#: src/profiles.c:860
 msgid "Mud"
 msgstr ""
 
-#: src/profiles.c:869
+#: src/profiles.c:866
 msgid "Character"
 msgstr ""
 
-#: src/profiles.c:882
+#: src/profiles.c:879
 #, fuzzy
 msgid " Mud Information "
 msgstr "AMCL Plugin-Informationen"
 
-#: src/profiles.c:898
+#: src/profiles.c:895
 msgid "Title:"
 msgstr ""
 
-#: src/profiles.c:942
+#: src/profiles.c:939
 msgid " Character Information "
 msgstr ""
 
-#: src/profiles.c:958
+#: src/profiles.c:955
 msgid "Character:"
 msgstr ""
 
-#: src/profiles.c:966
+#: src/profiles.c:963
 #, fuzzy
 msgid "Password:"
 msgstr ""
 "\n"
 "Passwort:"
 
-#: src/profiles.c:987
+#: src/profiles.c:984
 #, fuzzy
 msgid " Profile Information "
 msgstr "AMCL Plugin-Informationen"
 
-#: src/profiles.c:1013
+#: src/profiles.c:1010
 msgid "Select Profile"
 msgstr ""
 
-#: src/profiles.c:1058
+#: src/profiles.c:1026
 msgid "Fetch from mudlist"
 msgstr ""
 
-#: src/profiles.c:1075
+#: src/profiles.c:1078
 msgid "Connect"
 msgstr "Verbinden"
 
-#: src/profiles.c:1121
+#: src/profiles.c:1117
 msgid "Profiles"
 msgstr ""
 
-#: src/profiles.c:1131
+#: src/profiles.c:1127
 #, fuzzy
 msgid "GNOME-Mud Profiles"
 msgstr "AMCL Benachrichtigung"
 
-#: src/profiles.c:1145
+#: src/profiles.c:1141
 msgid "New"
 msgstr ""
 
-#: src/profiles.c:1146
+#: src/profiles.c:1142
 msgid "Create a new profile"
 msgstr ""
 
-#: src/profiles.c:1153
+#: src/profiles.c:1149
 msgid "Delete a profile"
 msgstr ""
 
-#: src/profiles.c:1170 gnome-mud.schemas.in.h:3
+#: src/profiles.c:1166 gnome-mud.schemas.in.h:3
 #, fuzzy
 msgid "Aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1170
+#: src/profiles.c:1166
 #, fuzzy
 msgid "Set aliases"
 msgstr "Alias"
 
-#: src/profiles.c:1177
+#: src/profiles.c:1173
 msgid "Set variables"
 msgstr ""
 
-#: src/profiles.c:1184
+#: src/profiles.c:1180
 #, fuzzy
 msgid "Set triggers"
 msgstr "Triggers"
 
-#: src/profiles.c:1201 gnome-mud.schemas.in.h:16
+#: src/profiles.c:1197 gnome-mud.schemas.in.h:16
 #, fuzzy
 msgid "Keybinds"
 msgstr "Makros..."
 
-#: src/profiles.c:1201
+#: src/profiles.c:1197
 #, fuzzy
 msgid "Set keybinds"
 msgstr "Makros..."
 
-#: src/profiles.c:1218
+#: src/profiles.c:1214
+msgid "Close"
+msgstr "Schliessen"
+
+#: src/profiles.c:1214
 #, fuzzy
 msgid "Close the window"
 msgstr "Schliesse Fenster"
-
-#: src/window.c:62
-#, fuzzy
-msgid "GNOME-Mud Popup Message"
-msgstr "AMCL Benachrichtigung"
-
-#: src/window.c:77
-msgid "Ok"
-msgstr "Ok"
 
 #: gnome-mud.desktop.in.h:2
 msgid "The GNOME MUD Client"
@@ -911,6 +947,19 @@ msgstr ""
 msgid "Whether to scroll to the bottom when there's new output"
 msgstr ""
 
+#~ msgid "Add"
+#~ msgstr "Hinzufügen"
+
+#~ msgid "Quit?"
+#~ msgstr "Ende?"
+
+#, fuzzy
+#~ msgid "GNOME-Mud Popup Message"
+#~ msgstr "AMCL Benachrichtigung"
+
+#~ msgid "Ok"
+#~ msgstr "Ok"
+
 #, fuzzy
 #~ msgid "Couldn't allocate colour"
 #~ msgstr "Konnte Farbe nicht auswählen"
@@ -969,14 +1018,6 @@ msgstr ""
 
 #~ msgid "Connection Name:"
 #~ msgstr "Verbindungsname:"
-
-#, fuzzy
-#~ msgid ""
-#~ "This is the name of the connection which will be displayed in the "
-#~ "connection list."
-#~ msgstr ""
-#~ "Dieser Name kennzeichnet die Verbindung und wird auch genutzt, um in der "
-#~ "linken Spalten ausgewählt zu werden."
 
 #~ msgid ""
 #~ "\n"
