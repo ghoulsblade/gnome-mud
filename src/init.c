@@ -181,7 +181,7 @@ static void about_window (GtkWidget *widget, gpointer data)
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 5);
     gtk_widget_show (label);
 
-    label = gtk_label_new (_("Homepage: http://www.localhost.nu/apps/amcl/"));
+    label = gtk_label_new (_("Homepage: http://amcl.sourceforge.net/"));
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 5);
     gtk_widget_show (label);
 
@@ -536,6 +536,7 @@ void init_window ()
     gtk_box_pack_start (GTK_BOX (box_main), box_main2, TRUE, TRUE, 5);
 
     main_notebook = gtk_notebook_new();
+    GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_notebook), GTK_CAN_FOCUS);
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK (main_notebook), GTK_POS_BOTTOM);
     gtk_signal_connect (GTK_OBJECT (main_notebook), "switch-page",
                         GTK_SIGNAL_FUNC (switch_page_cb), NULL);
@@ -549,6 +550,7 @@ void init_window ()
     main_connection->mccp = mudcompress_new();
     main_connection->notebook = 0;
     main_connection->window = gtk_text_new (NULL, NULL);
+    GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(main_connection->window), GTK_CAN_FOCUS);
     gtk_widget_set_usize (main_connection->window, 500, 320);
     gtk_box_pack_start(GTK_BOX(box_h_low), main_connection->window, TRUE, 
                        TRUE, 0);
@@ -583,9 +585,9 @@ void init_window ()
                                &color_black);
 
     get_version_info (buf);
-    gtk_text_insert (GTK_TEXT (main_connection->window), NULL, 
+    gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
                                &color_lightgrey, NULL, 
     _("Distributed under the terms of the GNU General Public License.\n"), -1);
-    gtk_text_insert (GTK_TEXT (main_connection->window), NULL, 
+    gtk_text_insert (GTK_TEXT (main_connection->window), font_normal, 
                                &color_lightgrey, NULL, buf, -1);
 }

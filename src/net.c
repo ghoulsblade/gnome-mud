@@ -23,7 +23,7 @@
 
 #include <netinet/in.h>
 
-#include <db.h>
+/* #include <db.h> */
 #include <errno.h>
 #include <libintl.h>
 #include <netdb.h>
@@ -107,6 +107,7 @@ CONNECTION_DATA *make_connection( gchar *hoster, gchar *porter)
     connection = g_malloc0( sizeof (CONNECTION_DATA));
     
     connection->window = gtk_text_new (NULL, NULL);
+    GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(connection->window), GTK_CAN_FOCUS);
     gtk_widget_set_usize (connection->window, 500, 320);
     gtk_signal_connect (GTK_OBJECT (connection->window), "focus-in-event",
     							GTK_SIGNAL_FUNC (grab_focus_cb), NULL);

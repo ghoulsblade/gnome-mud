@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2000-09-06 09:17+0200\n"
+"POT-Creation-Date: 2000-12-19 18:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Jörgen Kosche <mnementh@gmx.de>\n"
 "Language-Team: de <de@li.org>\n"
@@ -80,11 +80,11 @@ msgid "Delete"
 msgstr "Löschen"
 
 #: src/color.c:336 src/data.c:395 src/keybind.c:430 src/map.c:2663
-#: src/prefs.c:422 src/wizard.c:598
+#: src/prefs.c:443 src/wizard.c:598
 msgid "Save"
 msgstr "Speichern"
 
-#: src/data.c:399 src/init.c:136 src/keybind.c:434 src/prefs.c:423
+#: src/data.c:399 src/init.c:136 src/keybind.c:434 src/prefs.c:444
 #: src/wizard.c:599
 msgid "Close"
 msgstr "Schliessen"
@@ -154,11 +154,11 @@ msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
 msgstr "Lizensiert unter der GNU GENERAL PUBLIC LICENSE (GPL)"
 
 #: src/init.c:184
-msgid "Homepage: http://www.localhost.nu/apps/amcl/"
-msgstr "Homepage: http://www.localhost.nu/apps/amcl/"
+msgid "Homepage: http://amcl.sourceforge.net/"
+msgstr ""
 
 #. Main menu
-#: src/init.c:374 src/init.c:545
+#: src/init.c:374 src/init.c:546
 msgid "Main"
 msgstr "Allgemein"
 
@@ -238,7 +238,7 @@ msgstr "Autoren"
 msgid "About..."
 msgstr "Über..."
 
-#: src/init.c:588
+#: src/init.c:590
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Verteilt unter den Bedingungen der GNU General Public License.\n"
 
@@ -508,24 +508,24 @@ msgstr ""
 msgid "Error getting plugin from handle."
 msgstr ""
 
-#: src/net.c:153
+#: src/net.c:154
 msgid "*** Connection closed.\n"
 msgstr "*** Verbindung geschlossen\n"
 
-#: src/net.c:166
+#: src/net.c:167
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** Kann keine verbindung aufbauen - kein Rechner angegeben.\n"
 
-#: src/net.c:173
+#: src/net.c:174
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** Kein Port angegeben - benutze Port 23\n"
 
-#: src/net.c:178
+#: src/net.c:179
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Erstelle Verbindung zu %s, port %s\n"
 
-#: src/net.c:205
+#: src/net.c:206
 msgid "*** Connection established.\n"
 msgstr "*** Verbindung aufgebaut.\n"
 
@@ -549,15 +549,15 @@ msgstr "%s kann NICHT für Schreiben geöffnet werden."
 msgid "%s exists and can NOT be opened in read mode."
 msgstr "%s existiert und kann NICHT für Lesen geöffnet werden."
 
-#: src/prefs.c:305
+#: src/prefs.c:326
 msgid "AMCL - Preferences"
 msgstr "AMCL - Voreinstellungen"
 
-#: src/prefs.c:316
+#: src/prefs.c:337
 msgid "Echo the text sent?"
 msgstr "Den gesendeten Text anzeigen?"
 
-#: src/prefs.c:321
+#: src/prefs.c:342
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
@@ -565,12 +565,12 @@ msgstr ""
 "Wenn diese Option angeschaltet ist, dann wird der Text, den man eingibst "
 "lokal ausgegeben, so dass man kontrollieren kann, was man sendet."
 
-#: src/prefs.c:329
+#: src/prefs.c:350
 #, fuzzy
 msgid "Keep the text entered?"
 msgstr "Den gesendeten Text anzeigen?"
 
-#: src/prefs.c:335
+#: src/prefs.c:356
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
 "will be left in the entry box but seleceted. Turn this off to remove the "
@@ -580,12 +580,12 @@ msgstr ""
 "Eingabezeile behalten, aber markiert.Um die Eingabezeile nach Absenden des "
 "Textes zu löschen, sollte man diese Option ausschalten."
 
-#: src/prefs.c:344
+#: src/prefs.c:365
 #, fuzzy
 msgid "AutoSave?"
 msgstr "Speichern"
 
-#: src/prefs.c:349
+#: src/prefs.c:370
 msgid ""
 "With this toggled on, Preferences, Connection Wizard and Aliases will be "
 "saved automatically."
@@ -593,11 +593,11 @@ msgstr ""
 "Wenn diese Option angeschaltet ist, werden alle Einstellungen "
 "(Voreinstellungen, Verbindungsassistent, Aliase) automatisch gespeichert."
 
-#: src/prefs.c:356
+#: src/prefs.c:377
 msgid "Freeze/Thaw"
 msgstr ""
 
-#: src/prefs.c:361
+#: src/prefs.c:382
 msgid ""
 "Using this, text will draw faster but it will not draw every character, only "
 "whole strings. This will probably make displays a lot faster if you are "
@@ -608,11 +608,11 @@ msgstr ""
 "sondern komplette Strings.Das ist möglicherweise deutlich schneller, wenn "
 "das MUD viele unterschiedliche Farben benutzt."
 
-#: src/prefs.c:374
+#: src/prefs.c:395
 msgid "   Command divide char"
 msgstr "Kommandoseparator"
 
-#: src/prefs.c:394
+#: src/prefs.c:415
 msgid ""
 "This is the font that AMCL is using to print the text from the MUD. If the "
 "font is unavailable when you start AMCL, the default font \"fixed.\" will be "
@@ -622,11 +622,11 @@ msgstr ""
 "Schriftsatz nicht gefunden werden kann, dann benutzt AMCL den "
 "Standardschriftsatz \"fixed\""
 
-#: src/prefs.c:401
+#: src/prefs.c:422
 msgid "Select font"
 msgstr "Wähle Schriftsatz"
 
-#: src/prefs.c:407
+#: src/prefs.c:428
 msgid ""
 "Use this button to open the font selector to choose what font you will use."
 msgstr "Benutze diesen Knopf, um den Schriftsatz via Dialog auszuwählen"
@@ -757,6 +757,9 @@ msgstr ""
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr ""
+
+#~ msgid "Homepage: http://www.localhost.nu/apps/amcl/"
+#~ msgstr "Homepage: http://www.localhost.nu/apps/amcl/"
 
 #~ msgid "Please complete the action first."
 #~ msgstr "Bitte zuerst die Aktion vervollständigen."

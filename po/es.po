@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.8.0\n"
-"POT-Creation-Date: 2000-09-30 22:59+0200\n"
+"POT-Creation-Date: 2000-12-19 18:35+0100\n"
 "PO-Revision-Date: 2000-09-30 17:50+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -78,11 +78,11 @@ msgid "Delete"
 msgstr "Borrar"
 
 #: src/color.c:336 src/data.c:395 src/keybind.c:430 src/map.c:2663
-#: src/prefs.c:422 src/wizard.c:598
+#: src/prefs.c:443 src/wizard.c:598
 msgid "Save"
 msgstr "Salvar"
 
-#: src/data.c:399 src/init.c:136 src/keybind.c:434 src/prefs.c:423
+#: src/data.c:399 src/init.c:136 src/keybind.c:434 src/prefs.c:444
 #: src/wizard.c:599
 msgid "Close"
 msgstr "Cerrar"
@@ -150,11 +150,11 @@ msgid "   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    "
 msgstr "   Licenciado bajo la LICENCIA PÚBLICA GENERAL GNU (GPL)    "
 
 #: src/init.c:184
-msgid "Homepage: http://www.localhost.nu/apps/amcl/"
-msgstr "Homepage: http://www.localhost.nu/apps/amcl/"
+msgid "Homepage: http://amcl.sourceforge.net/"
+msgstr ""
 
 #. Main menu
-#: src/init.c:374 src/init.c:545
+#: src/init.c:374 src/init.c:546
 msgid "Main"
 msgstr "Principal"
 
@@ -233,7 +233,7 @@ msgstr "Autores"
 msgid "About..."
 msgstr "Acerca de..."
 
-#: src/init.c:588
+#: src/init.c:590
 msgid "Distributed under the terms of the GNU General Public License.\n"
 msgstr "Distribuído bajo los términos de la Licencia Pública General GNU.\n"
 
@@ -503,24 +503,24 @@ msgstr "Error de registro de datos %s: %s"
 msgid "Error getting plugin from handle."
 msgstr "Error en el manejo del conector."
 
-#: src/net.c:153
+#: src/net.c:154
 msgid "*** Connection closed.\n"
 msgstr "*** Conexión cerrada.\n"
 
-#: src/net.c:166
+#: src/net.c:167
 msgid "*** Can't connect - you didn't specify a host\n"
 msgstr "*** No se puede conectar - no has especificado ningún servidor\n"
 
-#: src/net.c:173
+#: src/net.c:174
 msgid "*** No port specified - assuming port 23\n"
 msgstr "*** No se ha especificado un puerto - asumiendo puerto 23\n"
 
-#: src/net.c:178
+#: src/net.c:179
 #, c-format
 msgid "*** Making connection to %s, port %s\n"
 msgstr "*** Realizando conexión a %s, puerto %s\n"
 
-#: src/net.c:205
+#: src/net.c:206
 msgid "*** Connection established.\n"
 msgstr "*** Conexión establecida.\n"
 
@@ -544,15 +544,15 @@ msgstr "NO se puede abrir %s en modo escritura."
 msgid "%s exists and can NOT be opened in read mode."
 msgstr "%s existe y NO se puede abrir en modo lectura."
 
-#: src/prefs.c:305
+#: src/prefs.c:326
 msgid "AMCL - Preferences"
 msgstr "AMCL - Preferencias"
 
-#: src/prefs.c:316
+#: src/prefs.c:337
 msgid "Echo the text sent?"
 msgstr "¿Hacer eco del texto mandado?"
 
-#: src/prefs.c:321
+#: src/prefs.c:342
 msgid ""
 "With this toggled on, all the text you type and enter will be echoed on the "
 "connection so you can control what you are sending."
@@ -560,11 +560,11 @@ msgstr ""
 "Con esta opción activada, a todo el texto que introduzcas se le hará eco en "
 "la conexión para que puedas controlar lo que estás mandando."
 
-#: src/prefs.c:329
+#: src/prefs.c:350
 msgid "Keep the text entered?"
 msgstr "¿Guardar el texto introducido?"
 
-#: src/prefs.c:335
+#: src/prefs.c:356
 msgid ""
 "With this toggled on, the text you have entered and sent to the connection, "
 "will be left in the entry box but seleceted. Turn this off to remove the "
@@ -574,11 +574,11 @@ msgstr ""
 "en el campo de introducción de comandos, pero seleccionado. Desactiva la "
 "opción para borrar el texto una vez ha sido mandado."
 
-#: src/prefs.c:344
+#: src/prefs.c:365
 msgid "AutoSave?"
 msgstr "¿Salvar automáticamente?"
 
-#: src/prefs.c:349
+#: src/prefs.c:370
 msgid ""
 "With this toggled on, Preferences, Connection Wizard and Aliases will be "
 "saved automatically."
@@ -586,11 +586,11 @@ msgstr ""
 "Con esta opción activada, las Preferencias, el Asistente de Conexiones y los "
 "Alias se salvarán automáticamente."
 
-#: src/prefs.c:356
+#: src/prefs.c:377
 msgid "Freeze/Thaw"
 msgstr "Congelar/Descongelar"
 
-#: src/prefs.c:361
+#: src/prefs.c:382
 msgid ""
 "Using this, text will draw faster but it will not draw every character, only "
 "whole strings. This will probably make displays a lot faster if you are "
@@ -600,11 +600,11 @@ msgstr ""
 "todos los carácteres, solo cadenas completas. Ésto puede ser especialmente "
 "beneficioso en MUDs con muchos colores diferentes."
 
-#: src/prefs.c:374
+#: src/prefs.c:395
 msgid "   Command divide char"
 msgstr "   Carácter de división de comandos"
 
-#: src/prefs.c:394
+#: src/prefs.c:415
 msgid ""
 "This is the font that AMCL is using to print the text from the MUD. If the "
 "font is unavailable when you start AMCL, the default font \"fixed.\" will be "
@@ -614,11 +614,11 @@ msgstr ""
 "fuente no está disponible cuando inicies AMCL, se usará la fuente por "
 "defecto, \"fixed\""
 
-#: src/prefs.c:401
+#: src/prefs.c:422
 msgid "Select font"
 msgstr "Seleccionar fuente"
 
-#: src/prefs.c:407
+#: src/prefs.c:428
 msgid ""
 "Use this button to open the font selector to choose what font you will use."
 msgstr ""
@@ -749,6 +749,9 @@ msgstr ""
 msgid ""
 "This is your player account's password in the MUD. For use with AutoLogin."
 msgstr "Este es el password de tu jugador en el MUD. Utilizable con AutoLogin."
+
+#~ msgid "Homepage: http://www.localhost.nu/apps/amcl/"
+#~ msgstr "Homepage: http://www.localhost.nu/apps/amcl/"
 
 #~ msgid "Please complete the action first."
 #~ msgstr "Por favor, primero completa la acción."

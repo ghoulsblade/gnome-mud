@@ -21,9 +21,11 @@ Jörgen Kosche                            - a couple of focus-problem patches and
                                            de.po maintainer.
 Jeroen Ruigrok <asmodai@wxs.nl>          - various code cleanups and fixes
 Jorge Garcia <Jorge.Garcia@uv.es>        - various code cleanups and fixes
-Jordi Mallach <jordi@debian.org>	 - official Debian package,
-					   internationalization support,
-					   es.po maintainer.
+Jordi Mallach <jordi@debian.org>         - official Debian package,
+                                           internationalization support,
+                                           es.po maintainer.
+Benjamin Geiger <bgeiger@ithink.net>     - various code cleanups and fixes
+
 
 ANSI code
 ---------

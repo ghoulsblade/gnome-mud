@@ -1,3 +1,18 @@
+Tue Dec 19 18:22:09 2000  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/init.c, src/net.c, src/prefs.c: Applied patch from
+	Benjamin Geiger <bgeiger@ithink.net>
+
+	* src/init.c [about_window]: changed url to homepage.
+	
+	* configure.in: Moved back to 0.7.5.
+
+	* Makefile.am: changed README-NLS to ABOUT-NLS.
+
+	* AUTHORS: Added Benjamin above.
+
+	* AMCL-0.7.5-RELEASE!
+
 Tue Dec 12 20:34:44 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* TODO: Added some more things...

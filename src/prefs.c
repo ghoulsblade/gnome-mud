@@ -108,8 +108,12 @@ void load_prefs ( void )
 {
     FILE *fp;
     gchar line[255];
+    gchar pref[25];
+    gchar value[250];
+    gint valint;
 
-    prefs.EchoText = prefs.KeepText = TRUE;
+    prefs.EchoText = TRUE;
+    prefs.KeepText = FALSE;
     prefs.AutoSave = FALSE;
     prefs.CommDev  = g_strdup (";");
     prefs.FontName = g_strdup ("fixed");
@@ -118,54 +122,59 @@ void load_prefs ( void )
 
     while ( fgets (line, 80, fp) != NULL )
     {
-        gchar pref[25];
-        gchar value[250];
+        if (sscanf (line, "%[^=]=%s", pref, value) != 2) continue;
 
-        if (sscanf (line, "%s %[^\n]", pref, value) != 2) continue;
+	if (!strncasecmp(pref, "echotext", 8)) {
+	  valint = atoi(value);
 
-        if ( !strcmp (pref, "EchoText") )
-        {
-            if ( !strcmp (value, "On") )
-                prefs.EchoText = TRUE;
-            else
-                prefs.EchoText = FALSE;
-        }
-        else
-        if ( !strcmp (pref, "KeepText") )
-        {
-            if ( !strcmp (value, "On") )
-                prefs.KeepText = TRUE;
-            else
-                prefs.KeepText = FALSE;
-        }
-        else
-	if ( !strcmp (pref, "CommDev") ) {
-	  gchar *s;
-	  if ((s = strstr(value, "\"")))
-	    prefs.CommDev[0] = s[1];
+	  if (valint == 1)
+	    prefs.EchoText = TRUE;
+	  else
+	    prefs.EchoText = FALSE;
+
+	} else if (!strncasecmp(pref, "keeptext", 8)) {
+	  valint = atoi(value);
+	  
+	  if (valint == 1)
+	    prefs.KeepText = TRUE;
+	  else
+	    prefs.KeepText = FALSE;
+
+	} else if (!strncasecmp(pref, "autosave", 8)) {
+	  valint = atoi(value);
+
+	  if (valint == 1) 
+	    prefs.AutoSave = TRUE;
+	  else
+	    prefs.AutoSave = FALSE;
+
+	} else if (!strncasecmp(pref, "freeze", 6)) {
+	  valint = atoi(value);
+
+	  if (valint == 1) 
+	    prefs.Freeze = TRUE;
+	  else
+	    prefs.Freeze = FALSE;
+
+	} else if (!strncasecmp(pref, "commdev", 7)) {
+	  g_free(prefs.CommDev);
+	  
+	  prefs.CommDev = g_strdup(value);
+
+	} else if (!strncasecmp(pref, "fontname", 8)) {
+	  g_free(prefs.FontName);
+	  
+	  prefs.FontName = g_strdup(value);
+
+	  font_normal = gdk_font_load(prefs.FontName);
+	} else /* Unknown pref file entry! */ {
+	  gchar buf[256];
+
+	  g_snprintf(buf, 255, "Unknown preference file entry:  %s=%s.", pref, value);
+
+	  popup_window(buf);
 	}
-	else
-        if ( !strcmp (pref, "AutoSave") )
-        {
-            if ( !strcmp (value, "On") )
-                prefs.AutoSave = TRUE;
-        }
-        else
-        if ( !strcmp (pref, "FontName") )
-        {
-            g_free (prefs.FontName);
-            prefs.FontName = g_strdup (value);
-        }
-        else
-        if ( !strcmp (pref, "Freeze") )
-        {
-            if ( !strcmp (value, "On") )
-                prefs.Freeze = TRUE;
-        }
     }
-
-    if ( !prefs.FontName )
-        prefs.FontName = g_strdup ("fixed");
 
     if (fp) fclose (fp);
 }
@@ -176,22 +185,34 @@ void save_prefs ( void )
 
     if (!(fp = open_file ("preferences", "w"))) return;
 
-    if ( prefs.EchoText )
-        fprintf (fp, "EchoText On\n");
+    if ( prefs.EchoText ) {
+      fprintf(fp, "EchoText=1\n");
+    } else {
+      fprintf(fp, "EchoText=0\n");
+    }
 
-    if ( prefs.KeepText )
-        fprintf (fp, "KeepText On\n");
+    if ( prefs.KeepText ) {
+      fprintf(fp, "KeepText=1\n");
+    } else {
+      fprintf(fp, "KeepText=0\n");
+    }
 
-    if ( prefs.AutoSave )
-        fprintf (fp, "AutoSave On\n");
+    if ( prefs.AutoSave ) {
+      fprintf(fp, "AutoSave=1\n");
+    } else {
+      fprintf(fp, "AutoSave=0\n");
+    }
 
-    if ( prefs.Freeze )
-        fprintf (fp, "Freeze On\n");
+    if ( prefs.Freeze ) {
+      fprintf(fp, "Freeze=1\n");
+    } else {
+      fprintf(fp, "Freeze=0\n");
+    }
 
-    fprintf(fp, "CommDev \"%c\"\n", prefs.CommDev[0]);
+    fprintf(fp, "CommDev=%c\n", prefs.CommDev[0]);
 
     if ( strlen (prefs.FontName) > 0 )
-        fprintf (fp, "FontName %s\n", prefs.FontName);
+        fprintf (fp, "FontName=%s\n", prefs.FontName);
     
     if (fp) fclose (fp);
 }
