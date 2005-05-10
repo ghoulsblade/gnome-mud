@@ -323,6 +323,7 @@ static void text_entry_activate (GtkWidget *text_entry, gpointer data)
 	cd = connections[gtk_notebook_get_current_page(GTK_NOTEBOOK (main_notebook))];
 
 	EntryCurr = g_list_last (EntryHistory);
+	EntryCurr = NULL;
 
 	if (entry_text[0] == '\0') 
 	{

@@ -1,6 +1,11 @@
+2005-05-10  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/init.c (text_entry_activate): Apply fix from Peter Andersson
+	to fix history scrollback behaviour (fixes #116324).
+
 2005-04-01  Steve Murphy  <murf@e-tools.com>
 
-        * configure.in: Added "rw" to ALL_LINGUAS.
+	* configure.in: Added "rw" to ALL_LINGUAS.
 
 2005-03-13  Robin Ericsson  <lobbin@localhost.nu>
 
