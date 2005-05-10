@@ -1,7 +1,31 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
-GNOME-Mud 0.10.5  (12/02/2004)
+GNOME.Mud 0.10.6 (10/05/2005)
+
+- Fixed a segfault in the About dialog [Jordi]
+- Fixed a longstanding double free in the mccp code which would make
+  gnome-mud freeze on many MUDs [Robin]
+- Many improvements to the automapper [Quim Rovira]
+- Fixes to NAWS support [Abigail Brady, Robin]
+- Added RPM spec file [Adam Luchjenbroers]
+- Fixed buggy history scrollback behaviour [Peter Andersson]
+- New translations:
+  + en_GB [Gareth Owen]
+  + en_CA [Adam Weinberger]
+  + pa [Amanpreet Singh Alam]
+  + pt_BR [Everson -NoBIOS- Santos Araujo]
+  + rw [Steve Murphy]
+  + zh_CN [Funda Wang]
+- Updated translations:
+  + cs [Miloslav Trmac]
+  + ca [Jordi Mallach]
+  + de [Frank Arnold]
+  + es [Francisco Javier F. Serrador]
+  + nl [Kees van den Broek, Daniel van Eeden]
+  + sr [Danilo Šegan]
+
+GNOME-Mud 0.10.5 (12/02/2004)
 
 - Reapply a fixed version of the plugin interface patch [Dani Carbonell]
 - Tabs are shown only if there are 2 or more open [Nuno Sousa]
