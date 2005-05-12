@@ -28,7 +28,6 @@ EXTRA_DIST = \
 	intltool-extract.in \
 	intltool-merge.in \
 	intltool-update.in \
-	intltool-modules/XML/Parser/Style/OrigTree.pm \
 	$(Applications_DATA) \
 	$(schema_DATA)
 

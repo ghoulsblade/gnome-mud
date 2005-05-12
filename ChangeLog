@@ -1,5 +1,8 @@
 2005-05-10  Jordi Mallach  <jordi@sindominio.net>
 
+	* Makefile.am (EXTRA_DIST): Get rid of
+	intltool-modules/XML/Parser/Style/OrigTree.pm.
+
 	* NEWS: Updated for 0.10.6.
 	* configure.ac: Release gnome-mud 0.10.6.
 
