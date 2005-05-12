@@ -20,6 +20,7 @@ games_PROGRAMS = gnome-mud
 
 gnome_mud_SOURCES =		\
 	data.c			\
+	directions.h		\
 	eggtrayicon.c		\
 	eggtrayicon.h		\
 	init.c			\

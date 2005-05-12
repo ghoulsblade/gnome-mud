@@ -2,6 +2,7 @@
 
 	* Makefile.am (EXTRA_DIST): Get rid of
 	intltool-modules/XML/Parser/Style/OrigTree.pm.
+	* src/Makefile.am (EXTRA_DIST): Add directions.h.
 
 	* NEWS: Updated for 0.10.6.
 	* configure.ac: Release gnome-mud 0.10.6.
