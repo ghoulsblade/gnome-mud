@@ -1,7 +1,12 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
-GNOME.Mud 0.10.6 (10/05/2005)
+GNOME-Mud 0.10.7 (16/05/2005)
+
+- Fixed a typo that would prevent directional keys from being saved
+  correctly [Petter Ericson]
+
+GNOME-Mud 0.10.6 (10/05/2005)
 
 - Fixed a segfault in the About dialog [Jordi]
 - Fixed a longstanding double free in the mccp code which would make

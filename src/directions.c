@@ -81,7 +81,7 @@ void directions_window_ok_cb(GtkButton *button, gpointer user_data) {
 
 	/* Store entries */
 	SAVE_ENTRY(nentry);
-	SAVE_ENTRY(nwentry);
+	SAVE_ENTRY(neentry);
 	SAVE_ENTRY(eentry);
 	SAVE_ENTRY(seentry);
 	SAVE_ENTRY(sentry);
