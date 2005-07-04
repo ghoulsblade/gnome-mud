@@ -4,15 +4,15 @@
 # Robin Ericsson <robin@localhost.nu>, 2000
 # Christian Neumair <chris@gnome-de.org>, 2003.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
-# 
+# Hendrik Richter <hendi@gnome-de.org>, 2005.
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Mud\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-03-08 08:25+0100\n"
-"PO-Revision-Date: 2005-03-08 08:24+0100\n"
-"Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
+"PO-Revision-Date: 2005-07-04 18:23+0200\n"
+"Last-Translator: Hendrik Richter <hendi@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,7 +61,7 @@ msgid ""
 "hex digits, or a color name such as \"red\")."
 msgstr ""
 "Die Vorgabefarbe für den Hintergrund als Farbangabe (im HTML-Stil, mit Hex-"
-"Ziffern oder als Farbname, wie z.B, »red« (Rot)."
+"Ziffern oder als Farbname, wie z.B. »red« (Rot)."
 
 #: ../gnome-mud.schemas.in.h:8
 msgid "Default color of the text"
@@ -73,7 +73,7 @@ msgid ""
 "digits, or a color name such as \"red\")."
 msgstr ""
 "Die Vorgabefarbe für den Text als Farbangabe (im HTML-Stil, mit Hex-Ziffern "
-"oder als Farbname, wie z.B, »red« (Rot)."
+"oder als Farbname, wie z.B. »red« (Rot)."
 
 #: ../gnome-mud.schemas.in.h:10 ../ui/directions.glade.h:2
 msgid "Directional keybindings"
@@ -131,7 +131,7 @@ msgstr ""
 "Falls dies aktiviert ist, stellt GNOME-Mud einige eingebaute "
 "Tastenkombinationen bereit. Diese können durch benutzerdefinierte "
 "Tastenkombinationen übergangen werden oder mit Hilfe dieser Einstellung "
-"komplett deaktivert werden."
+"komplett deaktiviert werden."
 
 #: ../gnome-mud.schemas.in.h:19 ../src/prefs.c:782
 msgid ""
@@ -314,7 +314,7 @@ msgstr "Werte"
 #: ../src/data.c:361
 #, c-format
 msgid "%s: trying to access to undefined data range: %d"
-msgstr "%s: Versuchter Zugriff auf nicht definierten Datenberiech: %d"
+msgstr "%s: Versuchter Zugriff auf nicht definierten Datenbereich: %d"
 
 #: ../src/data.c:373
 msgid "GNOME-Mud Configuration Center"
@@ -1041,7 +1041,7 @@ msgid ""
 "will let the string \"w;look\" be sent to the mud as 2 separate commands."
 msgstr ""
 "Das zum Trennen von an den Mud geschickten Befehlen verwendete Zeichen. So "
-"lässt »;« z:b. die Zeichenkette »w;look« als zwei getrennte Befehle an den "
+"lässt »;« z.B. die Zeichenkette »w;look« als zwei getrennte Befehle an den "
 "Mud schicken."
 
 #: ../src/prefs.c:829
@@ -1050,7 +1050,7 @@ msgstr "Befehlschronik:"
 
 #: ../src/prefs.c:835
 msgid "The number of entries to be saved in the command history."
-msgstr "Die Anzahl der in der Befehlschonrik zu speichernden Einträge."
+msgstr "Die Anzahl der in der Befehlschronik zu speichernden Einträge."
 
 #: ../src/prefs.c:843
 msgid "Terminal type:"
