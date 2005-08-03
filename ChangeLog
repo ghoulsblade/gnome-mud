@@ -1,3 +1,7 @@
+2005-08-02  Maxim Dziumanenko <mvd@mylinux.ua>
+
+	* configure.in: Added "uk" to ALL_LINGUAS.
+
 2005-05-16  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/directions.c (directions_window_ok_cb): Fix typo which
