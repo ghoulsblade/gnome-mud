@@ -1,3 +1,7 @@
+2005-09-01  Pawan Chitrakar  <pchitrakar@gmail.com>
+
+	* configure.ac: Added ne in ALL_LINGUAS
+
 2005-08-02  Maxim Dziumanenko <mvd@mylinux.ua>
 
 	* configure.in: Added "uk" to ALL_LINGUAS.
