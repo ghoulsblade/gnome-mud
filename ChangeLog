@@ -1,3 +1,9 @@
+2005-09-14  Jordi Mallach  <jordi@sindominio.net>
+
+	* Merge gnome-mud-glade-branch to HEAD.
+	* Forwardport missing bits from gnome-mud 0.10.x.
+	* Old branch is now gnome-mud-0-10.
+
 2005-09-01  Pawan Chitrakar  <pchitrakar@gmail.com>
 
 	* configure.ac: Added ne in ALL_LINGUAS
@@ -12,17 +18,11 @@
 	would prevent directional keys from being saved correctly
 	(fixes #304050).
 
-	* NEWS: Updated for 0.10.7.
-	* configure.ac: Release gnome-mud 0.10.7.
-
 2005-05-10  Jordi Mallach  <jordi@sindominio.net>
 
 	* Makefile.am (EXTRA_DIST): Get rid of
 	intltool-modules/XML/Parser/Style/OrigTree.pm.
 	* src/Makefile.am (EXTRA_DIST): Add directions.h.
-
-	* NEWS: Updated for 0.10.6.
-	* configure.ac: Release gnome-mud 0.10.6.
 
 2005-05-10  Jordi Mallach  <jordi@sindominio.net>
 
@@ -100,17 +100,357 @@
 
 	* configure.ac: Add pa to ALL_LINGUAS
 
+2004-07-18  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/Makefile.am: mud-preferences.[ch] removed.
+
+	* src/gconf-helper.c (gm_gconf_load_preferences): Rewritten to
+	support profiles.
+
+	* src/gnome-mud.c (main): Load profiles on startup.
+
+	* src/mud-connection-view.c [_MudConnectionViewPrivate]: Removed
+	prefs.
+	(mud_connection_view_init): Changed callback for profile-change.
+	(mud_connection_view_send): Now process command for separator.
+	(mud_connection_view_set_*): Changed prefs to profile.
+	(mud_connection_view_profile_changed_cb): Added callback for 
+	profile changes.
+	(mud_connection_view_new): Now loads default profile.
+
+	* src/mud-preferences.[ch]: Deleted.
+
+	* src/mud-preferences-window.c [_MudPreferencesWindowPrivate]:
+	Removed prefs, added profile and notification_count.
+	[COLUMN_PREFERENCSE, COLUMN_ALIASE]: Added.
+	[TAB_ALIASES]: Added.
+	(mud_preferences_window_init): Connect callbacks.
+	(mud_preferences_window_finalize): Disconnect callback.
+	(mud_preferences_window_fill_profiles): Added aliases.
+	(mud_preferences_window_tree_selection_cb): Added support for several
+	tabs.
+	(mud_preferences_window_change_profile_from_name): Added.
+	(mud_preferences_window_change_profile): Added.
+	(mud_preferences_window_connect_callbacks): Added.
+	(mud_preferences_window_set_preferences): Added.
+	(mud_preferences_window_*_cb): Changed preferences to profile and
+	added return if notifying.
+
+	* src/mud-profile.c [_MudProfilePrivate]: Added gconf_client, prefs
+	and in_notification_count. 
+	(General): Moved a lot of functions from mud-preferences.c to
+	mud-profile.c and renamed. 
+
+	* ui/main.glade: Added aliases tab.
+
+2004-07-06  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.ac: Bump libgnetwork requirement to 0.0.6.
+
+2004-07-01  Robin Ericsson  <lobbin@localhost.nu>
+
+	* gnome-mud.schemas.in [terminal_type]: Changed default to xterm.
+
+	* src/mud-connection-view.c [_MudConnectionViewPrivate]: Added
+	popup_menu, prefs, profile, signal and signal_profile_changed.
+	(append_stock_menuitem): Added.
+	(append_menuitem): Added.
+	(popup_mnu_detach): Added.
+	(choose_profile_callback): Added.
+	(mud_connection_view_init): Listen to signal of changed preferences.
+	(mud_connection_view_reread_profile): Added.
+	(mud_connection_view_set_terminal_colors): Added.
+	(mud_connection_view_set_terminal_scrollback): Added.
+	(mud_connection_view_set_terminal_scrolloutput): Added.
+	(mud_connection_view_set_terminal_font): Added.
+	(mud_connection_view_set_terminal_type): Added.
+	(mud_connection_view_prefs_changed_cb): Added.
+	(mud_connection_view_button_press_event): Added.
+	(mud_connection_view_popup): Added.
+	(mud_connection_view_set_profile): Added.
+
+	* src/mud-prefereces-window.c [_MudPreferencesWindowPrivate]: Added
+	signal.
+	(mud_preferences_window_finalize): Disconnect signal handler.
+	(mud_preferences_window_new): Save signal handler.
+
+	* src/mud-preferences.c (mud_preferences_new): Only load profiles
+	when we create the singleton.
+
+2004-06-29  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c (mud_preferences_window_set_preferences):
+	Changed the way color-selections are set.
+	(mud_preferences_window_font_cb): Added.
+	(mud_preferences_window_foreground_cb): Added.
+	(mud_preferences_window_background_cb): Added.
+	(mud_preferences_window_colors_cb): Added.
+	(mud_preferences_window_changed_cb): Added history and scrollback.
+	(mud_preferences_window_update_font): Added.
+	(mud_preferences_window_update_foreground): Added.
+	(mud_preferences_window_update_background): Added.
+	(mud_preferences_window_update_colors): Added.
+
+	* src/mud-preferences.c (color_to_string): Added.
+	(set_Foreground): Added.
+	(set_Background): Added.
+	(set_Colors): Added.
+	(set_FontName): Added.
+	(mud_preferences_gconf_changed): Added font, foreground, background and
+	palette.
+	(mud_preferences_set_font): Added.
+	(mud_preferences_set_foreground): Added.
+	(mud_preferences_set_background): Added.
+	(mud_preferences_set_colors): Added.
+
+	* src/mud-preferences.h [MudPreferenceMask]: Added FontName, Foreground,
+	Background and Colors.
+
+2004-06-28  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c (mud_preferences_window_set_preferences):
+	Changed the way spinbuttons are set.
+	(mud_preferences_window_history_cb): Added.
+	(mud_preferences_window_scrollback_cb): Added.
+	(mud_preferences_window_update_history): Added.
+	(mud_preferences_window_update_scrollback): Added.
+	(mud_preferences_window_changed_cb): Added history and scrollback.
+
+	* src/mud-preferences.c (set_History): Added.
+	(set_Scrollback): Added.
+	(mud_preferences_gconf_changed): Added UPDATE_INTEGER.
+	(mud_preferences_set_history): Added.
+	(mud_preferences_set_scrollback): Added.
+
+	* src/mud-preferences.h [MudPreferenceMask]: Added History and Scrollback,
+
+	* ui/main.glade: Changed max on scrollback from 100 to 1000.
+
+2004-06-24  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences.c (mud_preferences_gconf_changed):
+	terminal renamed to terminal_type.
+	(mud_preferences_set_terminal): Ditto
+
+2004-06-24  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c (mud_preferences_window_set_preferences):
+	Changed the way edit-boxes are set.
+	(mud_preferences_window_disablekeys_cb): Wrote the code.
+	(mud_preferences_window_scrolloutput_cb): Ditto.
+	(mud_preferences_window_commdev_cb): Added.
+	(mud_preferences_window_terminal_cb): Added.
+	(mud_preferences_window_changed_cb): Added more callbacks.
+	(mud_preferences_window_update_terminaltype): Added.
+	(mud_preferences_window_update_commdev): Added.
+	(mud_preferences_window_scrolloutput): Added.
+	(mud_preferences_window_disablekeys): Added.
+
+	* src/mud-preferences.c (set_TerminalType): Added.
+	(set_CommDev): Added.
+	(mud_preferences_gconf_changed): Added UPDATE_STRING and
+	a few more entries.
+	(mud_preferences_set_scrolloutput): Added.
+	(mud_preferences_set_disablekeys): Added.
+	(mud_preferences_set_commdev): Added.
+	(mud_preferences_set_terminal): Added.
+
+	* src/mud-preferences.h [MudPrefereneMask]: Added more entries.
+
+2004-06-23  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c [_MudPreferencesWindowPrivate]:
+	Added scrollback, lines, font, foreground, background and color
+	widgets.
+	(mud_preferences_window_init): Binded a few more widgets.
+	(mud_preferences_window_set_preferences): Change the way
+	toggle-buttons are set, also set the last missing widgets.
+	(mud_preferences_window_disablekeys_cb): Added.
+	(mud_preferences_window_srolloutput_cb): Added.
+	(mud_preferences_window_keeptext_cb): Added.
+	(mud_preferences_window_echotext_cb): Added.
+	(mud_preferences_window_changed_cb): Added.
+	(mud_preferences_window_update_keeptext): Added.
+	(mud_preferences_window_update_echotext): Added.
+	(mud_preferences_window_new): Connected to signal changed
+	from MudPreferences.
+
+	* src/mud-preferences.c [_MudPreferencesPrivate]: Added
+	prefs_signal and in_notification_count.
+	(mud_preferences_init): Init variables.
+	(mud_preferences_class_init): Create signal "changed".
+	(mud_preferences_gconf_changed): Added.
+	(mud_preferences_set_keeptext): Added.
+	(mud_preferences_set_echotext): Added.
+	(mud_preferences_new): Added gconf notify.
+
+	* src/mud-preferences.h [MudPreferenceMask]: Added.
+	[_MudPreferenceClass]: Added changed callback.
+
+	* ui/main.glade: Renamed color-pick-widgets.
+
+2004-06-21  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-connection-view (mud_connection_view_disconnect):
+	Added asserts.
+	(mud_connection_view_reconnect): Ditto.
+
+	* src/mud-window.c (mud_window_disconnect_cb): Added some NULL
+	checks on the current view.
+	(mud_window_reconnect_cb): Ditto.
+	(mud_window_textentry_activate): Ditto.
+	(mud_window_init): Sett priv->current_view till NULL implicit.
+
+2004-06-18  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c [_MudPreferencesWindowPrivate]:
+	Added a few new member.
+	(mud_preferenes_window_init): Map some more widgets.
+	Renamed a few functions more correctly.
+	(mud_preferences_window_set_preferences): Added.
+
+	* ui/main.glade: Added all preference-widgets.
+
+2004-06-17  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/Makefile.am: Added gconf-helper.[ch].
+
+	* src/mud-preferences-window.c (mud_preferences_window_init):
+	Connected to response signal.
+	(mud_preferences_window_fill_profiles): Added global preferences.
+	(mud_preferences_response_cb): Added.
+
+	* src/mud-preferences.c (mud_preferences_finalize): Free values
+	from properties.
+	(mud_preferenes_new): Load preferences.
+
+	* src/mud-preferences.h [_MudPreferences]: Added preferences
+	member.
+
+	* src/mud-profile.h [_MudPrefs]: Added.
+	[_MudProfile]: Added preferences member.
+
+	* ui/main.glade [preferences-window]: Changed responsetype of 
+	button to GTK_RESPONSE_CLOSE.
+
+2004-06-16  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-preferences-window.c [MudPreferencesWindowPrivate]:
+	Added notebook.
+	[enums]: Added.
+	(mud_preferences_tree_selection_cb): Added.
+	(mud_preferences_show_tab): Added.
+	(mud_preferences_window_fill_profiles): Added 3:d field to
+	TreeView. Also show preferences child and attack selected
+	callback.
+
+	* src/mud-preferences.[ch]: Changed mud_preferences_get_profiles()
+	into const.
+
+	* ui/main.glade: Renamde notebook2 to notebook. Changed size of
+	scrolledwindow for TreeView. Added missing labels for empty tabs
+	at the moment. Added preferences tab with empty tabs.
+
 2004-05-01  Adam Weinberger  <adamw@gnome.org>
 
 	* configure.in: Added en_CA to ALL_LINGUAS.
+
+2004-04-16  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/Makefile.am: mud-profile.[ch] added.
+
+	* src/mud-preferences-window.c [MudPreferencesWindowPrivate]:
+	Removed gconf_client and added prefs and treeview.
+	(mud_preferences_window_init): Save treeview in private data.
+	(mud_preferences_window_fill_profiles): Added.
+	(mud_preferences_window_new): Takes a MudPreferences as argument
+	instead of GConfClient.
+
+	* src/mud-preferences-window.h (mud_preferences_window_new): 
+	Changed prototype.
+
+	* src/mud-preferences.c [MudPreferencesPrivate]: Added profile_list.
+	(mud_preferences_finalize): Free private profile_list.
+	(mud_preferences_get_profiles): Added.
+	(mud_preferences_load_profiles): Added.
+
+	* src/mud-profile.[ch]: Added.
+
+	* src/mud-window.c [MudWindowPrivate]: Added prefs.
+	(mud_window_init): Commented out non-working toolbar.
+	(mud_window_new): Load preferences on startup.
+
+	* ui/main.glade (preferences_window): Renamed treeview and removed
+	headers.
 
 2004-04-10  Gareth Owen  <gowen72@yahoo.com>
 
 	* configure.ac: Added en_GB to ALL_LINGUAS
 
+2004-04-07  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/Makefile.am: Added mud-preferences.[ch] and
+	mud-preferences-window.[ch]
+
+	* src/gnome-mud.c (main): Enabled gconf sanitycheck and pass gconf-
+	client to mud_window_new().
+
+	* src/mud-window.c [_MudWindowPrivate]: Added gconf_client.
+	(mud_window_preferences_cb): Added.
+	(mud_window_new): Store gconf-client in private data.
+
+	* src/mud-preferences.[ch]: Added.
+	* src/mud-preferences-window.[ch]: Added.
+
+	* ui/main.glade [main_window]: Added menuentry for preferences.
+	[preferences_window]: Added.
+
 2004-03-21  Gustavo Noronha Silva  <kov@debian.org>
 
 	* configure.ac: added pt_BR to ALL_LINGUAS
+
+2004-02-25  Robin Ericsson  <lobbin@localhost.nu>
+
+	* ROADMAP: Removed entries.
+
+	* src/mud-connection-view.c (mud_connection_view_finalize): Close
+	connection before unref the object.
+
+	* src/mud-window.c [_MudWindowPrivate]: Added current_view and
+	nr_of_tabs.
+	(mud_window_add_connection_view): Added checks for whether the 
+	standard label should be removed and whether to display the tabs.
+	(mud_window_get_current_view): Removed.
+	(mud_window_remove_connection_view): Added.
+	(mud_window_disconnect_cb): Removed mud_window_get_current_view().
+	(mud_window_reconnect_cb): Ditto.
+	(mud_window_textentry_keypress): Ditto.
+	(mud_window_closewindow_cb): Added.
+	(mud_window_notebook_page_changed): Added.
+	(mud_window_textentry_activate): Added.
+	(mud_window_init): Added signals for close window, switch-notebook-page,
+	and also reset nr_of_tabs.
+	(mud_window_finalize): Added todo warning.
+
+	* ui/main.glade [main_window]: Changed name of closewindow widget.
+	Removed tabs from notebook.
+
+2004-02-23  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-connection-view.c (mud_connection_view_reconnect): Added.
+	(mud_connection_view_send): Added.
+	(mud_connection_view_new): Added authentication-type and proxy-type.
+	
+	* src/mud-connection-view.h: Added prototypes.
+
+	* src/mud-window.c [_MudWindowPrivate]: Added textentry.
+	(mud_window_reconnect_cb): Added.
+	(mud_window_textentry_keypress): Added.
+	(mud_window_textentry_activate): Added.
+	(mud_window_init): Connect reconnect button and textentry.
+	
+	* ui/main.glade: Added default width and height.
+	Changed named of reconnect-buttons and textentries.
 
 2004-02-22  Jordi Mallach  <jordi@sindominio.net>
 
@@ -118,6 +458,52 @@
 	the href shows up.
 	Add a callback to destroy the about dialog, probably fixing a random
 	segfault I was experiencing.
+
+2004-02-19  Robin Ericsson  <lobbin@localhost.nu>
+
+	* configure.ac: Added check for libnetwork.
+
+	* src/Makefile.am, src/mud-connection.c, src/mud-connection.h: Removed.
+
+	* src/mud-connection-view.c [_MudConnectionViewPrivate]: Added scrollbar
+	and box.
+	(mud_connection_view_str_replace): Added.
+	(mud_connection_view_feed_text): Added.
+	(mud_connection_view_add_text): Added.
+	(mud_connection_view_init): Added the terminal and scrollbar to a box.
+	(mud_connection_view_received_cb): Added.
+	(mud_connection_view_send_cb): Added.
+	(mud_connection_view_notify_cb): Added.
+	(mud_connection_view_error_cb): Added.
+	(mud_connection_view_disconnect): Added.
+	(mud_connection_view_new_with_params): Moved into _new().
+
+	* src/mud-connection-view.h [_MudConnection]: Changed connection from 
+	MudConnection to GNetworkTcpConnection.
+	[MudConnectionColorType]: Added.
+
+	* src/mud-window.c (mud_window_add_connection_view): Set newly created
+	page active.
+	(mud_window_get_current_view): Added.
+	(mud_window_disconnect_cb): Added.
+	(mud_window_init): Connected disconnected buttons.
+
+	* ui/main.glade: Changed name of disconnect buttons.
+
+2004-02-18  Robin Ericsson  <lobbin@localhost.nu>
+
+	* First commit on glade-branch.
+
+	* autogen.sh: Changed required automake to 1.7
+	* configure.ac: Tipped version, added libglade and changed version of
+	libgnome, libgnomeui and vte.
+
+	* src/Makefile.am: Added GLADEDIR define, also removed a lot of 
+	sourcefiles to be compiled, these will have to added later.
+
+	* src/gnome-mud.c: Remove globals, and code not used for the moment.
+
+	* Also added three GObjects, MudWindow, MudConnectio, MudConnectioView.
 
 2004-02-12  Jordi Mallach  <jordi@sindominio.net>
 

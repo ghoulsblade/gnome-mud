@@ -29,11 +29,11 @@
 #endif
 
 #include "gnome-mud.h"
+#include "mud-window.h"
+#include "mud-profile.h"
 
 static char const rcsid[] =
     "$Id$";
-
-GConfClient *gconf_client;
 
 gboolean gconf_sanity_check_string (GConfClient *client, const gchar* key)
 {
@@ -75,10 +75,10 @@ gboolean gconf_sanity_check_string (GConfClient *client, const gchar* key)
 
 int main (gint argc, char *argv[])
 {
-	GnomeProgram *program;
-	GError *err = NULL;
-	gchar buf[500];
-	
+	GConfClient  *gconf_client;
+	GError       *err = NULL;
+	//gchar         buf[500];
+
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 	textdomain(PACKAGE);
@@ -91,7 +91,7 @@ int main (gint argc, char *argv[])
 		return 1;
 	}
 
-	program = gnome_program_init (PACKAGE, VERSION,
+	gnome_program_init (PACKAGE, VERSION,
 				      LIBGNOMEUI_MODULE,
 				      argc, argv,
 				      GNOME_PROGRAM_STANDARD_PROPERTIES,
@@ -108,29 +108,28 @@ int main (gint argc, char *argv[])
 
 	gnome_window_icon_set_default_from_file (PIXMAPSDIR "/gnome-mud.png");
 
-	load_prefs   (); /* load preferences */
-	load_profiles(); /* load connections and profiles */
-	main_window  ();
- 
+	mud_profile_load_profiles();
+	mud_window_new(gconf_client);
+	
 #ifdef USE_PYTHON
-	Py_SetProgramName(argv[0]);
-	Py_Initialize();
-	PySys_SetArgv(argc, argv);
-	python_init();
+	//Py_SetProgramName(argv[0]);
+	//Py_Initialize();
+	//PySys_SetArgv(argc, argv);
+	//python_init();
 #endif
 
-	g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
-	init_modules(buf);
-	init_modules(PKGDATADIR);
+	//g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
+	//init_modules(buf);
+	//init_modules(PKGDATADIR);
   
 	gtk_main();
 	gnome_config_sync();
 
 #ifdef USE_PYTHON
-	python_end();
-	Py_Finalize();
+	//python_end();
+	//Py_Finalize();
 #endif
-	gdk_exit (0);
+	//gdk_exit (0);
 
 	return 0;
 }
