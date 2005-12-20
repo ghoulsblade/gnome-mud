@@ -273,12 +273,6 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	GtkWidget *box;
 	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
 	//FIXME connection_view->priv->prefs = mud_preferences_new(NULL);
-
-	connection_view->priv->signal = 
-		g_signal_connect(G_OBJECT(connection_view->priv->profile),
-						 "changed",
-						 G_CALLBACK(mud_connection_view_profile_changed_cb),
-						 connection_view);
 	
 	box = gtk_hbox_new(FALSE, 0);
 	
@@ -300,7 +294,6 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	
 	connection_view->priv->box = box;
 
-	mud_connection_view_reread_profile(connection_view);
 }
 
 static void
