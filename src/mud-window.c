@@ -15,6 +15,8 @@
 #include "mud-connection-view.h"
 #include "mud-preferences-window.h"
 #include "mud-window.h"
+#include "mud-window-mudlist.h"
+#include "mud-window-mconnect.h"
 
 static char const rcsid[] = "$Id: ";
 
@@ -133,6 +135,18 @@ mud_window_preferences_cb(GtkWidget *widget, MudWindow *window)
 }
 
 static void
+mud_window_list_cb(GtkWidget *widget, MudWindow *window)
+{
+	mud_window_mudlist_new();
+}
+
+static void
+mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *window)
+{
+	mud_window_mconnect_new(window);
+}
+
+static void
 mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 {
 	GladeXML *glade;
@@ -141,7 +155,7 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 	GtkWidget *entry_port;
 	gint result;
 
-	glade = glade_xml_new(GLADEDIR "main.glade", "connect_window", "connect_window");
+	glade = glade_xml_new(GLADEDIR "connect.glade", "connect_window", "connect_window");
 	dialog = glade_xml_get_widget(glade, "connect_window");
 	
 	entry_host = glade_xml_get_widget(glade, "entry_host");
@@ -233,7 +247,10 @@ mud_window_init (MudWindow *window)
 	//FIXME g_signal_connect(glade_xml_get_widget(glade, "toolbar_quit"), "clicked", G_CALLBACK(mud_window_close), window);
 
 	/* connect connect buttons */
+	g_signal_connect(glade_xml_get_widget(glade, "main_connect"), "activate", G_CALLBACK(mud_window_mconnect_dialog), window);
 	g_signal_connect(glade_xml_get_widget(glade, "menu_connect"), "activate", G_CALLBACK(mud_window_connect_dialog), window);
+	g_signal_connect(glade_xml_get_widget(glade, "menu_mudlist"), "activate",
+G_CALLBACK(mud_window_list_cb), window);
 	//FIXME g_signal_connect(glade_xml_get_widget(glade, "toolbar_connect"), "clicked", G_CALLBACK(mud_window_connect_dialog), window);
 
 	/* connect disconnect buttons */

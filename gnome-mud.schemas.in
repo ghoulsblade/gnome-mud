@@ -259,6 +259,23 @@
 		</schema>
 
 		<schema>
+			<key>/schemas/apps/gnome-mud/muds/list</key>
+			<applyto>/apps/gnome-mud/muds/list</applyto>
+			<owner>gnome-mud</owner>
+			<type>list</type>
+			<list_type>string</list_type>
+			<default>[]</default>
+			<locale name="C">
+				<short>List of Muds</short>
+				<long>
+				List of MUDs known to GNOME-Mud. The
+				list contains strings naming subdirectories
+				relative to /apps/gnome-mud/muds
+				</long>
+			</locale>
+		</schema>
+		
+		<schema>
 			<key>/schemas/apps/gnome-mud/profiles/list</key>
 			<applyto>/apps/gnome-mud/profiles/list</applyto>
 			<owner>gnome-mud</owner>

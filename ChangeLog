@@ -1,3 +1,9 @@
+2005-12-26  Les Harris  <lescom@comcast.net>
+	
+	* Add Mud List support.
+	* Add Mud Connection support with data derived from Mud List.
+	* ui/main.glade: Split into multiple glade files.
+
 2005-12-20  Les Harris  <lescom@comcast.net>
 
 	* Removed duplicate code that caused a crash on connect.

@@ -29,6 +29,7 @@
 #endif
 
 #include "gnome-mud.h"
+#include "mud-connection-view.h"
 #include "mud-window.h"
 #include "mud-profile.h"
 

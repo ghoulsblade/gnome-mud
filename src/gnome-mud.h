@@ -242,6 +242,9 @@ void  update_gconf_from_unusual_exits (                    );
 FILE *open_file       ( gchar *filename, gchar *mode       );
 GtkPositionType tab_location_by_gtk( const gchar *p        );
 
+/* utils.c */
+gchar *remove_whitespace(gchar *string);
+
 /* profiles */
 void		  load_profiles   (	void							   );
 PROFILE_DATA *profiledata_find( gchar *							   );

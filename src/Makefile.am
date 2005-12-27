@@ -31,7 +31,15 @@ gnome_mud_SOURCES =			\
 	mud-profile.c			\
 	mud-profile.h			\
 	mud-window.c			\
-	mud-window.h
+	mud-window.h			\
+	mud-window-mconnect.h		\
+	mud-window-mconnect.c		\
+	mud-window-mudedit.c		\
+	mud-window-mudedit.h		\
+	mud-window-mudlist.c		\
+	mud-window-mudlist.h		\
+	utils.c				\
+	utils.c
 	
 #	data.c			\
 #	eggtrayicon.c		\
