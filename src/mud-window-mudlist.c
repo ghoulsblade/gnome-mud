@@ -100,7 +100,7 @@ mud_list_window_init (MudListWindow *mudlist)
 	mudlist->priv->mudList = NULL;
 	mudlist->priv->CurrSelRow = -1; // Nothing selected.
 	
-	glade = glade_xml_new(GLADEDIR "muds.glade", "mudlist_window", "mudlist_window");
+	glade = glade_xml_new(GLADEDIR "/muds.glade", "mudlist_window", "mudlist_window");
 	mudlist->priv->dialog = glade_xml_get_widget(glade, "mudlist_window");
 	mudlist->priv->btnAdd = glade_xml_get_widget(glade, "btnAdd");
 	mudlist->priv->btnEdit = glade_xml_get_widget(glade, "btnEdit");

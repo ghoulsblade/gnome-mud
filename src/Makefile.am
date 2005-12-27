@@ -11,7 +11,7 @@ INCLUDES =							\
 	-DSYSCONFDIR=\""$(sysconfdir)"\"			\
 	-DDATADIR=\""$(datadir)"\"				\
 	-DLIBDIR=\""$(libdir)"\"				\
-	-DGLADEDIR=\"../ui/\"					\
+	-DGLADEDIR=\""$(pkgdatadir)"\"				\
 	$(GMUD_CFLAGS) $(GMUD_DEBUG)
 LDADD   = $(GMUD_LIBS) $(Z_LIBS)
 AM_CPPFLAGS = -DPKGDATADIR=\"$(pkgdatadir)\"

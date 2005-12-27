@@ -155,7 +155,7 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 	GtkWidget *entry_port;
 	gint result;
 
-	glade = glade_xml_new(GLADEDIR "connect.glade", "connect_window", "connect_window");
+	glade = glade_xml_new(GLADEDIR "/connect.glade", "connect_window", "connect_window");
 	dialog = glade_xml_get_widget(glade, "connect_window");
 	
 	entry_host = glade_xml_get_widget(glade, "entry_host");
@@ -237,7 +237,7 @@ mud_window_init (MudWindow *window)
 	window->priv->port = g_strdup("");
 	
 	/* start glading */
-	glade = glade_xml_new(GLADEDIR "main.glade", "main_window", "main_window");
+	glade = glade_xml_new(GLADEDIR "/main.glade", "main_window", "main_window");
 	window->priv->window = glade_xml_get_widget(glade, "main_window");
 	gtk_widget_show_all(window->priv->window);
 

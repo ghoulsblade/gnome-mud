@@ -156,7 +156,7 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 	preferences->priv->profile = NULL;
 	preferences->priv->notification_count = 0;
 
-	glade = glade_xml_new(GLADEDIR "main.glade", "preferences_window", "preferences_window");
+	glade = glade_xml_new(GLADEDIR "/main.glade", "preferences_window", "preferences_window");
 	dialog = glade_xml_get_widget(glade, "preferences_window");
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 

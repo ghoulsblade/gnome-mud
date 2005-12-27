@@ -1,7 +1,7 @@
 dnl Process this file with 
 dnl aclocal; automake; autoconf to produce a configure script.
 
-AC_INIT([GNOME-Mud],[0.10.99], [gnome-mud-list@gnome.org], [gnome-mud])
+AC_INIT([GNOME-Mud],[0.10.90], [gnome-mud-list@gnome.org], [gnome-mud])
 AC_CONFIG_SRCDIR(src/gnome-mud.c)
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE

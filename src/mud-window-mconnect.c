@@ -100,7 +100,7 @@ mud_mconnect_window_init (MudMConnectWindow *mconnect)
 
 	mconnect->priv = g_new0(MudMConnectWindowPrivate, 1);
 	
-	glade = glade_xml_new(GLADEDIR "connect.glade", "main_connect", "main_connect");
+	glade = glade_xml_new(GLADEDIR "/connect.glade", "main_connect", "main_connect");
 	
 	mconnect->priv->dialog = glade_xml_get_widget(glade, "main_connect");
 	
