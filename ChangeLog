@@ -1,3 +1,7 @@
+2005-12-27  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/Makefile.am (gnome_mud_SOURCES): Embarrasing typo.
+
 2005-12-26  Les Harris  <lescom@comcast.net>
 	
 	* Add Mud List support.

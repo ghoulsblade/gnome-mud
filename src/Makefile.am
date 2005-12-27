@@ -39,7 +39,7 @@ gnome_mud_SOURCES =			\
 	mud-window-mudlist.c		\
 	mud-window-mudlist.h		\
 	utils.c				\
-	utils.c
+	utils.h
 	
 #	data.c			\
 #	eggtrayicon.c		\
