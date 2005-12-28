@@ -30,7 +30,7 @@ struct _MudMConnectWindowClass
 
 GType mud_connect_window_get_type (void) G_GNUC_CONST;
 
-MudMConnectWindow *mud_window_mconnect_new(MudWindow *win);
+MudMConnectWindow *mud_window_mconnect_new(MudWindow *win, GtkWidget *winwidget);
 
 G_END_DECLS
 

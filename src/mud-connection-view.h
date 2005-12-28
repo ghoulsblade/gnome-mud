@@ -41,11 +41,12 @@ enum MudConnectionColorType
 
 GType mud_connection_view_get_type (void) G_GNUC_CONST;
 
-MudConnectionView* mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port);
+MudConnectionView* mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window);
 GtkWidget* mud_connection_view_get_viewport (MudConnectionView *view);
 void mud_connection_view_disconnect (MudConnectionView *view);
 void mud_connection_view_reconnect (MudConnectionView *view);
 void mud_connection_view_send (MudConnectionView *view, const gchar *data);
+void mud_connection_view_set_connect(gchar *connect_string);
 
 G_END_DECLS
 

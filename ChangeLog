@@ -1,3 +1,9 @@
+2005-12-28  Les Harris  <lescom@comcast.net>
+
+	* Added a hook into MudConnectionView allowing for
+	proper handling of connection strings.
+	* Added Gnome-Mud window resizing.
+
 2005-12-28  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/gnome-mud.h: Remove duplicate definition of

@@ -46,6 +46,7 @@ enum
 };
 
 MudWindow *window;
+GtkWidget *gwinwidget;
 
 GType mud_mconnect_window_get_type (void);
 static void mud_mconnect_window_init (MudMConnectWindow *preferences);
@@ -54,8 +55,6 @@ static void mud_mconnect_window_finalize (GObject *object);
 
 void mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconnect);
 void mud_mconnect_window_close_cb(GtkWidget *widget, MudMConnectWindow *mconnect);
-
-gint mud_mconnect_connect_string_timer(gpointer data);
 
 void  mud_mconnect_window_populate_treeview(MudMConnectWindow *mconnect);
 
@@ -214,12 +213,13 @@ mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconnect)
 	if(mconnect->priv->SelPort < 1)
 		mconnect->priv->SelPort = 23;
 		
-	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort);
+	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort, gwinwidget);
+	
 	mud_window_add_connection_view(window, mconnect->priv->view);
 
 	if(mconnect->priv->SelConnect)
 	{
-		gtk_timeout_add(500, mud_mconnect_connect_string_timer,mconnect);
+		mud_connection_view_set_connect(mconnect->priv->SelConnect);
 	}
 
 	gtk_widget_destroy(mconnect->priv->dialog);
@@ -285,21 +285,14 @@ mud_mconnect_select_cb(GtkTreeSelection *selection,
 	return TRUE;
 }
 
-gint mud_mconnect_connect_string_timer(gpointer data)
-{
-	MudMConnectWindow *mconnect = (MudMConnectWindow *)data;
-	
-	mud_connection_view_send(mconnect->priv->view, mconnect->priv->SelConnect);
-	return FALSE;
-}
-
 // Instantiate MudMConnectWindow
 MudMConnectWindow*
-mud_window_mconnect_new(MudWindow *win)
+mud_window_mconnect_new(MudWindow *win, GtkWidget *winwidget)
 {
 	MudMConnectWindow *MudMConnect;
 
 	window = win;
+	gwinwidget = winwidget;
 	
 	MudMConnect = g_object_new(MUD_TYPE_MCONNECT_WINDOW, NULL);
 

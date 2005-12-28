@@ -13,8 +13,15 @@
 
 static char const rcsid[] = "$Id: ";
 
+gboolean gConnectHook;
+gchar *gConnectString;
+
+GtkWidget *gWindow;
+
 struct _MudConnectionViewPrivate
 {
+	GtkWidget *window;
+	
 	GtkWidget *terminal;
 	GtkWidget *scrollbar;
 	GtkWidget *box;
@@ -271,8 +278,15 @@ static void
 mud_connection_view_init (MudConnectionView *connection_view)
 {
 	GtkWidget *box;
-	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
-	//FIXME connection_view->priv->prefs = mud_preferences_new(NULL);
+   	GdkGeometry hints;
+   	gint xpad, ypad;
+   	gint char_width, char_height;
+  	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
+  	//FIXME connection_view->priv->prefs = mud_preferences_new(NULL);
+  	
+ 	connection_view->priv->window = gWindow;
+ 	gWindow = NULL;
+	gConnectHook = FALSE;
 	
 	box = gtk_hbox_new(FALSE, 0);
 	
@@ -288,7 +302,28 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	connection_view->priv->scrollbar = gtk_vscrollbar_new(NULL);
 	gtk_range_set_adjustment(GTK_RANGE(connection_view->priv->scrollbar), VTE_TERMINAL(connection_view->priv->terminal)->adjustment);
 	gtk_box_pack_start(GTK_BOX(box), connection_view->priv->scrollbar, FALSE, FALSE, 0);
-	
+
+	/* Let us resize the gnome-mud window */
+  	vte_terminal_get_padding(VTE_TERMINAL(connection_view->priv->terminal), &xpad, &ypad);
+ 	 char_width = VTE_TERMINAL(connection_view->priv->terminal)->char_width;
+  	char_height = VTE_TERMINAL(connection_view->priv->terminal)->char_height;
+  
+  	hints.base_width = xpad;
+  	hints.base_height = ypad;
+ 	hints.width_inc = char_width;
+  	hints.height_inc = char_height;
+
+  	hints.min_width =  hints.base_width + hints.width_inc * 4;
+  	hints.min_height = hints.base_height+ hints.height_inc * 2;
+
+  
+  	gtk_window_set_geometry_hints(GTK_WINDOW(connection_view->priv->window),
+					GTK_WIDGET(connection_view->priv->terminal),
+  					&hints,
+  					GDK_HINT_RESIZE_INC |
+  					GDK_HINT_MIN_SIZE |
+  					GDK_HINT_BASE_SIZE);
+  					
 	gtk_widget_show_all(box);
 	g_object_set_data(G_OBJECT(box), "connection-view", connection_view);
 	
@@ -330,12 +365,26 @@ mud_connection_view_finalize (GObject *object)
 	parent_class->finalize(object);
 }
 
+void 
+mud_connection_view_set_connect(gchar *connect_string)
+{
+	gConnectHook = TRUE;
+	gConnectString = g_strdup(connect_string);
+}
+
 static void
 mud_connection_view_received_cb(GNetworkConnection *cxn, gconstpointer data, gulong length, gpointer user_data)
 {
 	g_print ("Client Connection: Received: %lu bytes\n\"%s\"\n", length, (gchar *) data);
 
 	vte_terminal_feed(VTE_TERMINAL(MUD_CONNECTION_VIEW(user_data)->priv->terminal), (gchar *) data, length);
+
+	if(gConnectHook)
+	{
+		mud_connection_view_send (MUD_CONNECTION_VIEW(user_data), gConnectString);
+		g_free(gConnectString);
+		gConnectHook = FALSE;
+	}
 }
 
 static void
@@ -596,10 +645,12 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
 }
 
 MudConnectionView*
-mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port)
+mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window)
 {
 	MudConnectionView *view;
 
+	gWindow = window;
+	
 	g_assert(hostname != NULL);
 	g_assert(port > 0);
 	

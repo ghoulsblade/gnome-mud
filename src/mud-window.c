@@ -143,7 +143,11 @@ mud_window_list_cb(GtkWidget *widget, MudWindow *window)
 static void
 mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *window)
 {
-	mud_window_mconnect_new(window);
+	GtkWidget *mywig;
+	
+	mywig = window->priv->window;
+	
+	mud_window_mconnect_new(window, mywig);
 }
 
 static void
@@ -184,7 +188,7 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 			iport = 23;
 		}
 		
-		view = mud_connection_view_new("Default", host, iport);
+		view = mud_connection_view_new("Default", host, iport, window->priv->window);
 		mud_window_add_connection_view(window, view);
 	}
 

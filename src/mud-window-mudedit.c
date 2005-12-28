@@ -288,7 +288,6 @@ props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar)
 	
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(connectString));
 	
-	
 	if(charname != NULL) {
 		gtk_entry_set_text(GTK_ENTRY(name), charname);
 		
