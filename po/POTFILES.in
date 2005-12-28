@@ -1,3 +1,4 @@
+[encoding: UTF-8]
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
 gnome-mud.desktop.in
@@ -5,6 +6,7 @@ gnome-mud.schemas.in
 src/data.c
 src/directions.c
 src/eggtrayicon.c
+src/gconf-helper.c
 src/gnome-mud.c
 src/init.c
 src/keybind.c
@@ -12,6 +14,9 @@ src/log.c
 src/map.c
 src/modules.c
 src/modules_api.c
+src/mud-connection-view.c
+src/mud-preferences-window.c
+src/mud-window.c
 src/mudlist.c
 src/net.c
 src/prefs.c
@@ -19,4 +24,8 @@ src/profiles.c
 src/python.c
 src/tray.c
 src/window.c
+ui/connect.glade
 ui/directions.glade
+ui/main.glade
+ui/muds.glade
+ui/prefs.glade
