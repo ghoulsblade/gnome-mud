@@ -1,3 +1,8 @@
+2005-12-28  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/gnome-mud.h: Remove duplicate definition of
+	remove_whitespace().
+
 2005-12-27  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/Makefile.am (gnome_mud_SOURCES): Embarrasing typo.
