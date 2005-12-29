@@ -219,7 +219,7 @@ mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconnect)
 
 	if(mconnect->priv->SelConnect)
 	{
-		mud_connection_view_set_connect(mconnect->priv->SelConnect);
+		mud_connection_view_set_connect_string(mconnect->priv->view, mconnect->priv->SelConnect);
 	}
 
 	gtk_widget_destroy(mconnect->priv->dialog);

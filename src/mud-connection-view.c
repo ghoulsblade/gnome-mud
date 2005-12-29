@@ -11,12 +11,7 @@
 #include "mud-connection-view.h"
 #include "mud-profile.h"
 
-static char const rcsid[] = "$Id: ";
-
-gboolean gConnectHook;
-gchar *gConnectString;
-
-GtkWidget *gWindow;
+static char const rcsid[] = "$Id$";
 
 struct _MudConnectionViewPrivate
 {
@@ -31,6 +26,9 @@ struct _MudConnectionViewPrivate
 
 	gulong signal;
 	gulong signal_profile_changed;
+
+	gboolean connect_hook;
+	gchar *connect_string;
 };
 
 static void mud_connection_view_init                     (MudConnectionView *connection_view);
@@ -284,9 +282,7 @@ mud_connection_view_init (MudConnectionView *connection_view)
   	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
   	//FIXME connection_view->priv->prefs = mud_preferences_new(NULL);
   	
- 	connection_view->priv->window = gWindow;
- 	gWindow = NULL;
-	gConnectHook = FALSE;
+	connection_view->priv->connect_hook = FALSE;
 	
 	box = gtk_hbox_new(FALSE, 0);
 	
@@ -366,24 +362,27 @@ mud_connection_view_finalize (GObject *object)
 }
 
 void 
-mud_connection_view_set_connect(gchar *connect_string)
+mud_connection_view_set_connect_string(MudConnectionView *view, gchar *connect_string)
 {
-	gConnectHook = TRUE;
-	gConnectString = g_strdup(connect_string);
+	g_assert(view != NULL);
+	view->priv->connect_hook = TRUE;
+	view->priv->connect_string = g_strdup(connect_string);
 }
 
 static void
 mud_connection_view_received_cb(GNetworkConnection *cxn, gconstpointer data, gulong length, gpointer user_data)
 {
+	MudConnectionView *view = MUD_CONNECTION_VIEW(user_data);
+	g_assert(view != NULL);
+
 	g_print ("Client Connection: Received: %lu bytes\n\"%s\"\n", length, (gchar *) data);
 
-	vte_terminal_feed(VTE_TERMINAL(MUD_CONNECTION_VIEW(user_data)->priv->terminal), (gchar *) data, length);
+	vte_terminal_feed(VTE_TERMINAL(view->priv->terminal), (gchar *) data, length);
 
-	if(gConnectHook)
-	{
-		mud_connection_view_send (MUD_CONNECTION_VIEW(user_data), gConnectString);
-		g_free(gConnectString);
-		gConnectHook = FALSE;
+	if (view->priv->connect_hook) {
+		mud_connection_view_send (MUD_CONNECTION_VIEW(user_data), view->priv->connect_string);
+		g_free(view->priv->connect_string);
+		view->priv->connect_hook = FALSE;
 	}
 }
 
@@ -649,12 +648,11 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 {
 	MudConnectionView *view;
 
-	gWindow = window;
-	
 	g_assert(hostname != NULL);
 	g_assert(port > 0);
 	
 	view = g_object_new(MUD_TYPE_CONNECTION_VIEW, NULL);
+	view->priv->window = window;
 	view->connection = g_object_new(GNETWORK_TYPE_TCP_CONNECTION,
 									"address", hostname,
 									"port", port,
@@ -667,7 +665,7 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 	g_signal_connect(view->connection, "notify::tcp-status", G_CALLBACK(mud_connection_view_notify_cb), view);
 
 	mud_connection_view_set_profile(view, mud_profile_new(profile));
-	
+
 	// FIXME, move this away from here
 	gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
 	
