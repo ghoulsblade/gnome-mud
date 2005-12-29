@@ -1,3 +1,8 @@
+2005-12-29  Robin Ericsson  <lobbin@localhost.nu>
+
+	* src/mud-connection-view.c: Fixed the resize thing I broke earlier
+	today :).
+
 2005-12-29  Les Harris  <lescom@comcast.net>
 
 	* src/mud-window.c, ui/main.glade: Added resizable entry widget

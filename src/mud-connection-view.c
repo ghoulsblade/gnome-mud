@@ -15,8 +15,6 @@ static char const rcsid[] = "$Id$";
 
 struct _MudConnectionViewPrivate
 {
-	GtkWidget *window;
-	
 	GtkWidget *terminal;
 	GtkWidget *scrollbar;
 	GtkWidget *box;
@@ -276,12 +274,10 @@ static void
 mud_connection_view_init (MudConnectionView *connection_view)
 {
 	GtkWidget *box;
-   	GdkGeometry hints;
-   	gint xpad, ypad;
-   	gint char_width, char_height;
+
   	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
   	//FIXME connection_view->priv->prefs = mud_preferences_new(NULL);
-  	
+  
 	connection_view->priv->connect_hook = FALSE;
 	
 	box = gtk_hbox_new(FALSE, 0);
@@ -298,28 +294,7 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	connection_view->priv->scrollbar = gtk_vscrollbar_new(NULL);
 	gtk_range_set_adjustment(GTK_RANGE(connection_view->priv->scrollbar), VTE_TERMINAL(connection_view->priv->terminal)->adjustment);
 	gtk_box_pack_start(GTK_BOX(box), connection_view->priv->scrollbar, FALSE, FALSE, 0);
-
-	/* Let us resize the gnome-mud window */
-  	vte_terminal_get_padding(VTE_TERMINAL(connection_view->priv->terminal), &xpad, &ypad);
- 	 char_width = VTE_TERMINAL(connection_view->priv->terminal)->char_width;
-  	char_height = VTE_TERMINAL(connection_view->priv->terminal)->char_height;
-  
-  	hints.base_width = xpad;
-  	hints.base_height = ypad;
- 	hints.width_inc = char_width;
-  	hints.height_inc = char_height;
-
-  	hints.min_width =  hints.base_width + hints.width_inc * 4;
-  	hints.min_height = hints.base_height+ hints.height_inc * 2;
-
-  
-  	gtk_window_set_geometry_hints(GTK_WINDOW(connection_view->priv->window),
-					GTK_WIDGET(connection_view->priv->terminal),
-  					&hints,
-  					GDK_HINT_RESIZE_INC |
-  					GDK_HINT_MIN_SIZE |
-  					GDK_HINT_BASE_SIZE);
-  					
+ 					
 	gtk_widget_show_all(box);
 	g_object_set_data(G_OBJECT(box), "connection-view", connection_view);
 	
@@ -647,12 +622,14 @@ MudConnectionView*
 mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window)
 {
 	MudConnectionView *view;
+   	GdkGeometry hints;
+   	gint xpad, ypad;
+   	gint char_width, char_height;
 
 	g_assert(hostname != NULL);
 	g_assert(port > 0);
 	
 	view = g_object_new(MUD_TYPE_CONNECTION_VIEW, NULL);
-	view->priv->window = window;
 	view->connection = g_object_new(GNETWORK_TYPE_TCP_CONNECTION,
 									"address", hostname,
 									"port", port,
@@ -668,6 +645,27 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 
 	// FIXME, move this away from here
 	gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
+
+	/* Let us resize the gnome-mud window */
+	vte_terminal_get_padding(VTE_TERMINAL(view->priv->terminal), &xpad, &ypad);
+	char_width = VTE_TERMINAL(view->priv->terminal)->char_width;
+	char_height = VTE_TERMINAL(view->priv->terminal)->char_height;
+  
+	hints.base_width = xpad;
+	hints.base_height = ypad;
+	hints.width_inc = char_width;
+	hints.height_inc = char_height;
+
+	hints.min_width =  hints.base_width + hints.width_inc * 4;
+	hints.min_height = hints.base_height+ hints.height_inc * 2;
+
+	gtk_window_set_geometry_hints(GTK_WINDOW(window),
+					GTK_WIDGET(view->priv->terminal),
+  					&hints,
+  					GDK_HINT_RESIZE_INC |
+  					GDK_HINT_MIN_SIZE |
+  					GDK_HINT_BASE_SIZE);
+ 
 	
 	return view;
 }
