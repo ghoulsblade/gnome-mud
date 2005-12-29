@@ -1,5 +1,9 @@
 2005-12-29  Robin Ericsson  <lobbin@localhost.nu>
 
+	* Applied new GtkAboutDialog from Les Harris.
+
+2005-12-29  Robin Ericsson  <lobbin@localhost.nu>
+
 	* src/mud-connection-view.[ch]: Removed use global variables.
 
 2005-12-28  Les Harris  <lescom@comcast.net>

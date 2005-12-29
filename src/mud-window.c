@@ -3,6 +3,7 @@
 #endif
 
 #include <glade/glade.h>
+#include <gtk/gtkaboutdialog.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
@@ -141,6 +142,22 @@ mud_window_list_cb(GtkWidget *widget, MudWindow *window)
 }
 
 static void
+mud_window_about_cb(GtkWidget *widget, MudWindow *window)
+{
+	GtkWidget *dialog;
+	GladeXML *glade;
+	
+	glade = glade_xml_new(GLADEDIR "/main.glade", "about_window", "about_window");
+	dialog = glade_xml_get_widget(glade, "about_window");
+
+	gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), "0.10.9");
+	gtk_about_dialog_set_website_label(GTK_ABOUT_DIALOG(dialog), "GNOME-Mud Homepage");
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	
+	g_object_unref(glade);	
+}
+
+static void
 mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *window)
 {
 	GtkWidget *mywig;
@@ -270,6 +287,8 @@ G_CALLBACK(mud_window_list_cb), window);
 
 	/* preferences window button */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_preferences"), "activate", G_CALLBACK(mud_window_preferences_cb), window);
+	
+	g_signal_connect(glade_xml_get_widget(glade, "menu_about"), "activate", G_CALLBACK(mud_window_about_cb), window);
 	
 	/* other objects */
 	window->priv->notebook = glade_xml_get_widget(glade, "notebook");
