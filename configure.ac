@@ -1,40 +1,45 @@
-dnl Process this file with 
-dnl aclocal; automake; autoconf to produce a configure script.
+dnl Process this file with  autoconf to produce a configure script.
 
+AC_PREREQ(2.52)
 AC_INIT([GNOME-Mud],[0.10.90], [gnome-mud-list@gnome.org], [gnome-mud])
 AC_CONFIG_SRCDIR(src/gnome-mud.c)
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE
-AM_CONFIG_HEADER([config.h])
-
-AC_PREREQ(2.52)
+AC_CONFIG_HEADERS([config.h])
 
 dnl Release date on LSM format (date +%d%b%y).
 LSMDATE="12Feb2004"
 AC_SUBST(LSMDATE)
 
-AM_PATH_GTK_2_0(2.0.0,,exit 1)
+AC_PROG_INTLTOOL([0.23])
+AM_GLIB_GNU_GETTEXT
 
-AC_DEFINE(GETTEXT_PACKAGE, "gnome-mud", [Gettext domain name])
+GNOME_COMMON_INIT
+GNOME_DOC_INIT
+GNOME_MAINTAINER_MODE_DEFINES
+GNOME_COMPILE_WARNINGS
+GNOME_DEBUG_CHECK
+
 GETTEXT_PACKAGE=gnome-mud
 AC_SUBST(GETTEXT_PACKAGE)
-AC_PROG_INTLTOOL([0.23])
+AC_DEFINE(GETTEXT_PACKAGE, "gnome-mud", [Gettext domain name])
+
 ALL_LINGUAS="az ca cs de en_CA en_GB es fr hr mk ml ne nl pa pl pt pt_BR rw sr sr@Latn sv tr uk zh_CN"
-AM_GLIB_GNU_GETTEXT
 
 dnl gconf tests
 AC_PATH_PROG(GCONFTOOL, gconftool-2)
 AM_GCONF_SOURCE_2
 
 dnl pkg-config dep checks
+GTK_REQUIRED=2.0.0
 LIBGLADE_REQUIRED=2.0.1
+LIBGNETWORK_REQUIRED=0.0.6
 LIBGNOME_REQUIRED=2.4.0
 LIBGNOMEUI_REQUIRED=2.4.0
 VTE_REQUIRED=0.11.00
-LIBGNETWORK_REQUIRED=0.0.6
 
 dnl libgnome, libgnomeui needed for all utils
-PKG_CHECK_MODULES(GMUD, libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED libgnetwork-1.0 >= $LIBGNETWORK_REQUIRED)
+PKG_CHECK_MODULES(GMUD, gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED libgnetwork-1.0 >= $LIBGNETWORK_REQUIRED)
 
 AC_SUBST(GMUD_CFLAGS)
 AC_SUBST(GMUD_LIBS)
@@ -64,16 +69,18 @@ fi
 
 dnl Check whether to include MCCP code or not
 AC_ARG_ENABLE(mccp,
-[  --enable-mccp           enable MCCP (Mud Client Compression Protocol)],
+[  --enable-mccp           enable MCCP (Compression Protocol) (default=yes)],
 )
 
 HAVE_ZLIB=no
 Z_LIBS=""
-if test "x$enable_mccp" = "xyes"; then
+if test "x$enable_mccp" = "x"; then
   dnl Check for working -lz
   AC_CHECK_HEADER(zlib.h, HAVE_ZLIB=yes, HAVE_ZLIB=no)
     if test "x$HAVE_ZLIB" = "xyes"; then
       Z_LIBS="-lz"
+    else
+      AC_MSG_WARN("MCCP support is disabled since zlib was not found")
     fi
 fi
 
@@ -206,16 +213,12 @@ if test "x$HAVE_ZLIB" = xyes; then
 fi
 AC_SUBST(Z_LIBS)
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
   Makefile
   gnome-mud.lsm
   gnome-mud.spec
   doc/Makefile
   doc/gnome-mud-manual/Makefile
-  doc/gnome-mud-manual/C/Makefile
-  doc/gnome-mud-plugin-api/Makefile
-  doc/gnome-mud-plugin-api/C/Makefile
-  doc/omf-install/Makefile
   src/Makefile
   src/pixmaps/Makefile
   plugins/Makefile

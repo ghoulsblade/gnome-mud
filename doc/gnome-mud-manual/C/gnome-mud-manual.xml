@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.1.2//EN"
-    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
-    <!ENTITY version "0.9.1">
-    <!ENTITY date "June 2003">
+  "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+  <!ENTITY legal SYSTEM "legal.xml">
+  <!ENTITY appversion "0.11">
+  <!ENTITY manrevision "1.1">
+  <!ENTITY date "January 2006">
+  <!ENTITY app "<application>GNOME-Mud</application>">
+  <!ENTITY appname "GNOME-Mud">
+  <!ENTITY version "0.9.1">
 ]>
 
 
@@ -22,15 +27,15 @@
 <!-- appropriate code -->
 
   <articleinfo>
-    <title>GNOME-Mud Manual</title>
-    <authorgroup>
-      <author>
-        <firstname>Jordi</firstname><surname>Mallach</surname>
-      </author>
-    </authorgroup>
+    <title>&appname; Manual V&manrevision;</title>
+    <abstract role="description">
+      <para>User manual for GNOME-Mud, a MUD client for the GNOME Desktop.</para>
+    </abstract>
     <copyright>
       <year>2001</year>
       <year>2002</year>
+      <year>2005</year>
+      <year>2006</year>
       <holder>Jordi Mallach</holder>
     </copyright>
 
@@ -43,79 +48,74 @@
 
    -->
 
+    <publisher>
+      <publishername>GNOME Documentation Project</publishername>
+    </publisher>
+
+    &legal;
+    <!-- This file  contains link to license for the documentation (GNU FDL),
+    and other legal stuff such as "NO WARRANTY" statement. Please do not
+    change any of this. -->
+
+    <authorgroup>
+      <author role="maintainer">
+        <firstname>Jordi</firstname>
+	<surname>Mallach</surname>
+	<affiliation>
+	  <orgname>GNOME Documentation Project</orgname>
+	  <address><email>jordim@gnome.org</email></address>
+	</affiliation>
+      </author>
+    </authorgroup>
+
+    <revhistory>
+      <revision>
+        <revnumber>&appname; Manual V&manrevision;</revnumber>
+	<date>&date;</date>
+	<revdescription>
+	 <para role="author">Jordi Mallach</para>
+	 <para role="publisher=">GNOME Documentation Project</para>
+	</revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>&appname; Manual V1.0</revnumber>
+	<date>June 2003</date>
+	<revdescription>
+	 <para role="author">Jordi Mallach</para>
+	 <para role="publisher=">GNOME Documentation Project</para>
+	</revdescription>
+      </revision>
+    </revhistory>
+
+    <releaseinfo>
+       This manual describes version &version; of &appname;. It was
+       last updated on &date;.
+    </releaseinfo>
+
   <!-- do not put authorname in the header except in copyright - use
   section "authors" below -->
 
   <!-- Use this legal notice for online documents which depend on -->
   <!-- core GNOME packages.                                       -->
-  <legalnotice id="legalnotice">
-   <para>
-    Permission is granted to copy, distribute and/or modify this document
-    under the terms of the <ulink type="help"
-    url="gnome-help:fdl"><citetitle>GNU Free Documentation
-    License</citetitle></ulink>, Version 1.1 or any later version
-    published by the Free Software Foundation with no Invariant Sections,
-    no Front-Cover Texts, and no Back-Cover Texts.  A copy of the license
-    can be found <ulink type="help" url="gnome-help:fdl">here</ulink>.
-   </para>
-   <para>
-    Many of the names used by companies to distinguish their products and
-    services are claimed as trademarks. Where those names appear in any
-    GNOME documentation, and those trademarks are made aware to the members
-    of the GNOME Documentation Project, the names have been printed in caps
-    or initial caps.
-   </para>
-  </legalnotice>
-
-  <!-- Use this legal notice for documents which are placed on  -->
-  <!-- the web, shipped in any way other than online documents  -->
-  <!-- (eg. PS, PDF, or RTF), or which do not depend on the     -->
-  <!-- core GNOME distribution.                                 -->
-  <!--                                                          -->
-  <!-- If you use this version, you must place the following    -->
-  <!-- line in the document declaration at the top of your      -->
-  <!-- document:                                                -->
-  <!--   <!ENTITY FDL SYSTEM "fdl.sgml">                        -->
-  <!-- and the following line at the bottom of your document    -->
-  <!-- after the last </sect1>.                                 -->
-  <!--   &FDL;                                                  -->
-  <!--
-  <legalnotice id="legalnotice">
-   <para>
-    Permission is granted to copy, distribute and/or modify this document
-    under the terms of the <link linkend="fdl"><citetitle>GNU
-    Free Documentation License</citetitle></link>, Version 1.1 or any later
-    version published by the Free Software Foundation with no Invariant
-    Sections, no Front-Cover Texts, and no Back-Cover Texts.  A copy of the
-    license can be found in <xref linkend="fdl">.
-   </para>
-   <para>
-    Many of the names used by companies to distinguish their products and
-    services are claimed as trademarks. Where those names appear in any
-    GNOME documentation, and those trademarks are made aware to the members
-    of the GNOME Documentation Project, the names have been printed in caps
-    or initial caps.
-   </para>
-  </legalnotice>
-  -->
-
-
-    <releaseinfo>
-       This manual describes version &version; of GNOME-Mud. It was
-       last updated on &date;.
-    </releaseinfo>
+    <legalnotice>
+      <title>Feedback</title>
+      <para>To report a bug or make a suggestion regarding the &appname; application or this manual, follow the directions in the <ulink url="ghelp:gnome-feedback" type="help">GNOME Feedback Page</ulink>.
+      </para>
+    </legalnotice>
 
   </articleinfo>
 
  <!-- ============= Document Body ============================= -->
 
  <!-- ============= Introduction ============================== -->
+
   <sect1 id="intro">
     <title>Introduction</title>
 
     <para>
-     <application>GNOME-Mud</application> is an specialized telnet
-     client to play Multi-User Dungeons, or MUDs.
+     &app; is an specialized telnet client to play Multi-User Dungeons,
+     or MUDs.
     </para>
     <para>
      Multi-User Dungeons are imaginary worlds and realms that exist on
@@ -140,7 +140,7 @@
     is one of them, and GNOME-Mud has native support for their mudlist format.
     </para>
     <para>
-     <application>GNOME-Mud</application> provides the user with a series
+     &app; provides the user with a series
      of functionality that makes mudding somewhat easier. Most notably, the
      ability to define `triggers', `aliases' and `character profiles', or
      the MUD lists support help making usual tasks like connecting to
@@ -148,23 +148,15 @@
      and fast.
     </para>
     <para>
-      To run <application>GNOME-Mud</application>, select
+      To run &app;, select
       <menuchoice>
 	<guisubmenu>Games</guisubmenu>
-	<guimenuitem>GNOME-Mud</guimenuitem>
+	<guimenuitem>&appname;</guimenuitem>
       </menuchoice>
       from the <guimenu>Main Menu</guimenu>, or type
       <command>gnome-mud</command> on the command line.
     </para>
 
-<!-- gnome-mud isn't in any GNOME package... yet?
-    <para>
-      <application>GNOME-Mud</application> is included in the
-      <filename>GNOME-PACKAGE</filename> package, which is part of the
-      GNOME desktop environment. This document describes version
-      &version; of <application>GNOME-Mud</application>.
-    </para>
- -->
   </sect1>
 
 
@@ -174,7 +166,7 @@
   <sect1 id="usage">
     <title>Using GNOME-Mud</title>
     <para>
-      <application>GNOME-Mud</application> can be used to play any kind
+      &app; can be used to play any kind
       of telnet-based MUDs, and should make mudding easier, both for
       players and coders. It can connect to various MUDs on the same
       application window, and load different settings depending on the
@@ -217,7 +209,7 @@
           To connect to a MUD, select
           <menuchoice>
 	    <guisubmenu>File</guisubmenu>
-	    <guimenuitem>Connection Wizard...</guimenuitem>
+	    <guimenuitem>Connection Wizard…</guimenuitem>
 	  </menuchoice>,
           which will bring up the
 	  <interface>GNOME-Mud Connections</interface> dialog box.
@@ -262,7 +254,7 @@
 	  connection wizard selecting
 	  <menuchoice>
 	    <guisubmenu>File</guisubmenu>
-	    <guimenuitem>Connect...</guimenuitem>
+	    <guimenuitem>Connect…</guimenuitem>
 	  </menuchoice>,
 	  which will bring up the <interface>Quick Connect</interface> dialog.
 	  Just fill in the <guilabel>Host</guilabel> and <guilabel>Port
@@ -323,7 +315,7 @@
 	 Another way of using the MudList is exactly the opposite. Select
 	 <menuchoice>
 	   <guisubmenu>File</guisubmenu>
-	   <guimenuitem>MudList Listing...</guimenuitem>
+	   <guimenuitem>MudList Listing…</guimenuitem>
 	 </menuchoice>
 	 and you'll get the same dialog as if opened from the
 	 <interface>Connection Wizard</interface>, only the <guibutton>Import
@@ -532,7 +524,7 @@
         The toolbar provides access to several commonly used routines.
         <variablelist>
 	  <varlistentry>
-	    <term>Wizard...</term>
+	    <term>Wizard…</term>
 	    <listitem>
 	      <para>
                 Brings up the <link linkend="connecting"><interface>
@@ -550,7 +542,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Connect...</term>
+	    <term>Connect…</term>
 	    <listitem>
 	      <para>
 	         Opens the <interface>Quick Connect</interface> dialog. Use
@@ -615,9 +607,9 @@
 		<listitem>
 		  <para>
 	            <menuchoice>
-		      <guimenuitem>Connection Wizard...</guimenuitem>
+		      • <guimenuitem>Connection Wizard…</guimenuitem>
 		    </menuchoice>
-	            &mdash; This starts the <link linkend="connecting">
+	            This starts the <link linkend="connecting">
 		    <interface>Connection Wizard</interface></link> dialog,
 		    which can be used to select to which MUD should
 		    <application>GNOME-Mud</application> connect.
@@ -626,9 +618,9 @@
 		<listitem>
 		  <para>
 		    <menuchoice>
-		      <guimenuitem>MudList Listing...</guimenuitem>
+		      • <guimenuitem>MudList Listing…</guimenuitem>
 		    </menuchoice>
-		    &mdash; This opens the <link linkend="mudlist">
+		    This opens the <link linkend="mudlist">
 		    <interface>MudList</interface> dialog</link>, which can
 		    be used to browse a list of MUDs and connect to them or
 		    add them to your MUD connections.
@@ -637,9 +629,9 @@
 		<listitem>
 		  <para>
 	            <menuchoice>
-		      <guimenuitem>Connect...</guimenuitem>
+		      • <guimenuitem>Connect…</guimenuitem>
 		    </menuchoice>
-	            &mdash; This opens the <interface>Quick Connect
+	            This opens the <interface>Quick Connect
 		    </interface> dialog. Use this to open a MUD connection
 		    bypassing the Connection Wizard.
 	          </para>
@@ -647,9 +639,9 @@
 		<listitem>
 		  <para>
 	            <menuchoice>
-		      <guimenuitem>Disconnect</guimenuitem>
+		      • <guimenuitem>Disconnect</guimenuitem>
 		    </menuchoice>
-	            &mdash; This disconnects you from the current connection.
+	            This disconnects you from the current connection.
 		    See <link linkend="disconnecting">Disconnecting from MUDs
 		    </link> for more info about this.
 	          </para>
@@ -657,9 +649,9 @@
 		<listitem>
 		  <para>
 		    <menuchoice>
-		      <guimenuitem>Reconnect</guimenuitem>
+		      • <guimenuitem>Reconnect</guimenuitem>
 		    </menuchoice>
-		    &mdash; This will reconnect you to the current connection.
+		    This will reconnect you to the current connection.
 		    If you loose the link to the MUD, you can hit this to get
 		    reconnected again. If the connection was open, it will
 		    close the current connection and start a new one.
@@ -668,9 +660,9 @@
 		<listitem>
 		  <para>
 		    <menuchoice>
-		      <guimenuitem>Start Logging...</guimenuitem>
+		      • <guimenuitem>Start Logging…</guimenuitem>
 		    </menuchoice>
-		    &mdash; This will enable the recording of the currently
+		    This will enable the recording of the currently
 		    selected connection. It will write all the output of a
 		    mudding session into the selected file.
 		  </para>
@@ -678,18 +670,18 @@
 		<listitem>
 		  <para>
 		    <menuchoice>
-		      <guimenuitem>Stop Logging</guimenuitem>
+		      • <guimenuitem>Stop Logging</guimenuitem>
 		    </menuchoice>
-		    &mdash; This stops the recording of a connection, if it
+		    This stops the recording of a connection, if it
 		    had been previously started.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
 		    <menuchoice>
-		      <guimenuitem>Save Buffer...</guimenuitem>
+		      • <guimenuitem>Save Buffer…</guimenuitem>
 		    </menuchoice>
-		    &mdash; This permits you to save your current connection
+		    This permits you to save your current connection
 		    buffer into a file. Useful to keep deathlogs or questlogs.
 		    It will just take a 'snapshot' of past messages, writing
 		    it into the selected file. For real time logging, see
@@ -699,9 +691,9 @@
 		<listitem>
 		  <para>
 		    <menuchoice>
-		      <guimenuitem>Close Window</guimenuitem>
+		      • <guimenuitem>Close Window</guimenuitem>
 		    </menuchoice>
-		    &mdash; This closes a connection tab, even if the
+		    This closes a connection tab, even if the
 		    connection is still open.
 		  </para>
 		</listitem>
@@ -711,9 +703,9 @@
 		      <shortcut>
 			<keycombo><keycap>Ctrl</keycap><keycap>Q</keycap></keycombo>
 		      </shortcut>
-		      <guimenuitem>Exit</guimenuitem>
+		      • <guimenuitem>Exit</guimenuitem>
 		    </menuchoice>
-	            &mdash; This quits the application.
+	            This quits the application.
 	          </para>
 		</listitem>
 	      </itemizedlist>
@@ -730,9 +722,9 @@
 		<listitem>
 		  <para>
 	            <menuchoice>
-		      <guimenuitem>Auto Mapper...</guimenuitem>
+		      • <guimenuitem>Auto Mapper…</guimenuitem>
 		    </menuchoice>
-	            &mdash; This opens the Auto Mapper feature (see the
+	            This opens the Auto Mapper feature (see the
 		    <link linkend="mapping">GNOME-Mud Auto Mapper</link>
 		    section for more information.
 	          </para>
@@ -740,9 +732,9 @@
 		<listitem>
 		  <para>
 	            <menuchoice>
-		      <guimenuitem>Plugins</guimenuitem>
+		      • <guimenuitem>Plugins</guimenuitem>
 		    </menuchoice>
-	            &mdash; This opens a submenu with the list of available
+	            This opens a submenu with the list of available
 		    plugins for <application>GNOME-Mud</application> and the
 		    <interface>Plugin Information</interface>, which shows
 		    information about them. Currently, <application>GNOME-Mud
@@ -755,9 +747,9 @@
 		<listitem>
 		  <para>
 		    <menuchoice>
-	             <guimenuitem>Preferences&hellip;</guimenuitem>
+	             • <guimenuitem>Preferences…</guimenuitem>
 		    </menuchoice>
-	            &mdash; This opens the <link linkend="prefs">
+	            This opens the <link linkend="prefs">
 		    <interface>Preferences</interface></link>
 	            dialog, which is used configure different aspects of
 		    <application>GNOME-Mud</application>.
@@ -777,18 +769,18 @@
 		<listitem>
 		  <para>
 		    <menuchoice>
-		      <guimenuitem>Manual</guimenuitem>
+		      • <guimenuitem>Manual</guimenuitem>
 		    </menuchoice>
-		    &mdash; This opens the <application>GNOME Help
+		    This opens the <application>GNOME Help
     	            Browser</application> and displays this manual.
 	          </para>
 		</listitem>
 		<listitem>
 		  <para>
 		    <menuchoice>
-		      <guimenuitem>About</guimenuitem>
+		      • <guimenuitem>About</guimenuitem>
 		    </menuchoice>
-		    &mdash; This opens the <interface>About</interface>
+		    This opens the <interface>About</interface>
 		    dialog which shows basic information about
     	            <application>GNOME-Mud</application>, such as
     	            the author's name, the application version number,
@@ -815,7 +807,7 @@
    To change the application settings, select
    <menuchoice>
     <guimenu>Settings</guimenu>
-    <guimenuitem>Preferences...</guimenuitem>
+    <guimenuitem>Preferences…</guimenuitem>
    </menuchoice>.  This opens the
    <interface>Preferences</interface> dialog, shown in <xref
    linkend="preferences-window"/>.

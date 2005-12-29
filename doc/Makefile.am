@@ -1,4 +1,4 @@
-SUBDIRS = gnome-mud-manual gnome-mud-plugin-api omf-install
+SUBDIRS = gnome-mud-manual
 
 man_MANS = gnome-mud.6
 

@@ -1,3 +1,25 @@
+2005-12-29  Jordi Mallach  <jordi@sindominio.net>
+
+	* Migration of gnome-mud-manual to gnome-doc-utils.
+	* configure.ac: Add required changes for gnome-doc-utils.
+	Make MCCP the default if zlib is present, warn if not.
+	General cleanups.
+	* Makefile.am: Add gnome-doc-utils stuff to DISTCLEANFILES,
+	--disable-scrollkeeper to DISTCHECK_CONFIGURE_FLAGS.
+	* doc/gnome-mud-manual/Makefile.am: Add gnome-doc-utils support.
+	* doc/gnome-mud-manual/C/Makefile.am: Removed.
+	* doc/gnome-mud-manual/gnome-mud-manual.omf.in: New, created from
+	the old	omf file.
+	* doc/gnome-mud-manual/C/gnome-mud-manual.omf: Removed.
+	* doc/gnome-mud-manual/C/gnome-mud-manual.xml: Updated. Real content
+	update will follow...
+	* doc/Makefile.ac, configure.ac: Ignore the doc/gnome-mud-plugin-api
+	and omf-install dirs, as the python plugin API is not available now,
+	and omf-install is obsolete.
+	* doc/omf-install: Removed.
+
+	* .cvsignore, doc/gnome-mud-manual/.cvsignore: Updated.
+
 2005-12-29  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/mud-connection-view.c: Fixed the resize thing I broke earlier

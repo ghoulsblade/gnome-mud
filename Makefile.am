@@ -31,6 +31,14 @@ EXTRA_DIST = \
 	$(Applications_DATA) \
 	$(schema_DATA)
 
+DISTCLEANFILES =		\
+	gnome-doc-utils.make	\
+	intltool-extract	\
+	intltool-merge		\
+	intltool-update
+
+DISTCHECK_CONFIGURE_FLAGS = --disable-schemas-install --disable-scrollkeeper
+
 install-data-local:
 	-GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$(schema_DATA)
 
