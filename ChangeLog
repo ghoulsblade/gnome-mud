@@ -1,3 +1,8 @@
+2005-12-29  Jordi Mallach  <jordi@sindominio.net>
+
+	* ui/main.glade, ui/prefs.glade: Replace "colour" with "color", per
+	GNOME guidelines. Fixes #325103.
+
 2005-12-29  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Applied new GtkAboutDialog from Les Harris.

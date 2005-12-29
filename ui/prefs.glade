@@ -456,7 +456,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label8">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Foreground colour:</property>
+			  <property name="label" translatable="yes">Foreground color:</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -484,7 +484,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label9">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Background colour:</property>
+			  <property name="label" translatable="yes">Background color:</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -512,7 +512,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label10">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Colour palette:</property>
+			  <property name="label" translatable="yes">Color palette:</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -560,7 +560,7 @@
 		      <child>
 			<widget class="GnomeColorPicker" id="colorpicker1">
 			  <property name="visible">True</property>
-			  <property name="tooltip" translatable="yes">Default foreground colour used when the connection doesn't request the use of a specific colour.</property>
+			  <property name="tooltip" translatable="yes">Default foreground color used when the connection doesn't request the use of a specific color.</property>
 			  <property name="can_focus">True</property>
 			  <property name="dither">True</property>
 			  <property name="use_alpha">False</property>
@@ -589,7 +589,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker2">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -609,7 +609,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker3">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -629,7 +629,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker4">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -649,7 +649,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker5">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -669,7 +669,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker6">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -689,7 +689,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker7">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -709,7 +709,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker8">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the clour of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -729,7 +729,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker9">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -749,7 +749,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker10">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -769,7 +769,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker11">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -789,7 +789,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker12">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -809,7 +809,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker13">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -829,7 +829,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker14">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -849,7 +849,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker15">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -869,7 +869,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker16">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -889,7 +889,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker17">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the colour of a specific colour that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
@@ -919,7 +919,7 @@
 		      <child>
 			<widget class="GnomeColorPicker" id="colorpicker18">
 			  <property name="visible">True</property>
-			  <property name="tooltip" translatable="yes">Default background colour used when the connection doesn't request the use of a specific colour.</property>
+			  <property name="tooltip" translatable="yes">Default background color used when the connection doesn't request the use of a specific color.</property>
 			  <property name="can_focus">True</property>
 			  <property name="dither">True</property>
 			  <property name="use_alpha">False</property>
@@ -945,7 +945,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label11">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Colour and Fonts</property>
+		      <property name="label" translatable="yes">Color and Fonts</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
