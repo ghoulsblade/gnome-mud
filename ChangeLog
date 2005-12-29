@@ -1,5 +1,9 @@
 2005-12-29  Jordi Mallach  <jordi@sindominio.net>
 
+	* configure.ac: GTK_REQUIRED=2.6.0, for GtkAboutDialog.
+
+2005-12-29  Jordi Mallach  <jordi@sindominio.net>
+
 	* Migration of gnome-mud-manual to gnome-doc-utils.
 	* configure.ac: Add required changes for gnome-doc-utils.
 	Make MCCP the default if zlib is present, warn if not.
@@ -17,6 +21,7 @@
 	and omf-install dirs, as the python plugin API is not available now,
 	and omf-install is obsolete.
 	* doc/omf-install: Removed.
+	* doc/xmldocs.make: Removed.
 
 	* .cvsignore, doc/gnome-mud-manual/.cvsignore: Updated.
 
@@ -37,7 +42,8 @@
 
 2005-12-29  Robin Ericsson  <lobbin@localhost.nu>
 
-	* Applied new GtkAboutDialog from Les Harris.
+	* src/mud-window.c (mud_window_about_cb), main.glade: Applied new
+	GtkAboutDialog from Les Harris.
 
 2005-12-29  Robin Ericsson  <lobbin@localhost.nu>
 
