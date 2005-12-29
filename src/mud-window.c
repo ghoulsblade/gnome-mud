@@ -10,6 +10,11 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkwidget.h>
+#include <gtk/gtkpaned.h>
+#include <gtk/gtktextview.h>
+#include <gtk/gtktextbuffer.h>
+#include <gtk/gtktextiter.h>
+#include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 
@@ -28,6 +33,9 @@ struct _MudWindowPrivate
 	GtkWidget *window;
 	GtkWidget *notebook;
 	GtkWidget *textentry;
+	GtkWidget *textview;
+	GtkWidget *textviewscroll;
+	GtkWidget *mainvpane;
 
 	GtkWidget *blank_label;
 	GtkWidget *current_view;
@@ -36,6 +44,7 @@ struct _MudWindowPrivate
 	gchar *port;
 
 	gint nr_of_tabs;
+	gint toggleState;
 };
 
 static int
@@ -116,6 +125,32 @@ mud_window_textentry_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *
 	return FALSE;
 }
 
+static gboolean
+mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *window)
+{
+	gchar *text;
+        GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->textview));
+	GtkTextIter start, end;
+	
+	if(event->keyval == GDK_KP_Enter)
+	{
+		if(window->priv->current_view)
+		{
+			gtk_text_buffer_get_bounds(buffer, &start, &end);
+	
+			text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+			mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), text);
+			
+			gtk_text_buffer_select_range(buffer, &start, &end);
+
+			return TRUE;
+			
+		}
+	}
+
+	return FALSE;
+}
+
 static void
 mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gint arg, MudWindow *window)
 {
@@ -165,6 +200,51 @@ mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *window)
 	mywig = window->priv->window;
 	
 	mud_window_mconnect_new(window, mywig);
+}
+
+static void
+mud_window_inputtoggle_cb(GtkWidget *widget, MudWindow *window)
+{
+	gint w, h;
+	
+	if(window->priv->toggleState)
+	{
+		gtk_widget_hide(window->priv->textview);
+		gtk_widget_hide(window->priv->textviewscroll);
+		gtk_widget_show(window->priv->textentry);
+
+		gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
+	
+		gtk_paned_set_position(GTK_PANED(window->priv->mainvpane),h - 62);
+
+		window->priv->toggleState = 0;	
+	}
+	else
+	{
+		gtk_widget_hide(window->priv->textentry);
+		gtk_widget_show(window->priv->textview);
+		gtk_widget_show(window->priv->textviewscroll);	
+
+		gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
+	
+		gtk_paned_set_position(GTK_PANED(window->priv->mainvpane),h - 124);
+		
+		window->priv->toggleState = 1;
+	}
+}
+
+gboolean
+mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer user_data)
+{	
+	gint w, h;
+	MudWindow *window = (MudWindow *)user_data;
+	
+	gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
+	
+	if(!window->priv->toggleState)
+		gtk_paned_set_position(GTK_PANED(window->priv->mainvpane),h - 62);
+
+	return FALSE;
 }
 
 static void
@@ -250,6 +330,7 @@ mud_window_init (MudWindow *window)
 {
 	GladeXML *glade;
 	gchar buf[1024];
+	gint w, h;
 	
 	window->priv = g_new0(MudWindowPrivate, 1);
 
@@ -294,9 +375,26 @@ G_CALLBACK(mud_window_list_cb), window);
 	window->priv->notebook = glade_xml_get_widget(glade, "notebook");
 	g_signal_connect(window->priv->notebook, "switch-page", G_CALLBACK(mud_window_notebook_page_change), window);
 
+	window->priv->textviewscroll = glade_xml_get_widget(glade, "text_view_scroll");
+	window->priv->textview = glade_xml_get_widget(glade, "text_view");
+
+	g_signal_connect(window->priv->textview, "key_press_event", G_CALLBACK(mud_window_textview_keypress), window);
+	
+	gtk_widget_hide(window->priv->textviewscroll);
+	gtk_widget_hide(window->priv->textview);
+	
+	window->priv->toggleState = 0;
+
 	window->priv->textentry = glade_xml_get_widget(glade, "text_entry");
 	g_signal_connect(window->priv->textentry, "key_press_event", G_CALLBACK(mud_window_textentry_keypress), window);
 	g_signal_connect(window->priv->textentry, "activate", G_CALLBACK(mud_window_textentry_activate), window);
+
+	window->priv->mainvpane = glade_xml_get_widget(glade, "main_vpane");
+	gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
+	
+	gtk_paned_set_position(GTK_PANED(window->priv->mainvpane),h - 62);
+	
+	g_signal_connect(glade_xml_get_widget(glade, "toggle_input"), "clicked", G_CALLBACK(mud_window_inputtoggle_cb), window);
 
 	window->priv->current_view = NULL;
 	window->priv->nr_of_tabs = 0;
@@ -309,6 +407,8 @@ G_CALLBACK(mud_window_list_cb), window);
 							VERSION, __TIME__, __DATE__);
 	gtk_label_set_text(GTK_LABEL(window->priv->blank_label), buf);
 	
+	g_signal_connect(window->priv->window, "configure-event", G_CALLBACK(mud_window_size_request), window);
+
 	g_object_unref(glade);
 }
 

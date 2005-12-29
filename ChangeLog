@@ -1,3 +1,8 @@
+2005-12-29  Les Harris  <lescom@comcast.net>
+
+	* src/mud-window.c, ui/main.glade: Added resizable entry widget
+	support.
+
 2005-12-29  Jordi Mallach  <jordi@sindominio.net>
 
 	* ui/main.glade, ui/prefs.glade: Replace "colour" with "color", per
