@@ -213,7 +213,7 @@ if test "x$HAVE_ZLIB" = xyes; then
 fi
 AC_SUBST(Z_LIBS)
 
-AC_CONFIG_FILES([
+AC_OUTPUT([
   Makefile
   gnome-mud.lsm
   gnome-mud.spec
