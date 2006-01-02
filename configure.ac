@@ -29,8 +29,9 @@ dnl Release date on LSM format (date +%d%b%y).
 LSMDATE="12Feb2004"
 AC_SUBST(LSMDATE)
 
+AM_MAINTAINER_MODE
+
 AC_PROG_INTLTOOL([0.23])
-AM_GLIB_GNU_GETTEXT
 
 GNOME_COMMON_INIT
 GNOME_DOC_INIT
@@ -38,11 +39,13 @@ GNOME_MAINTAINER_MODE_DEFINES
 GNOME_COMPILE_WARNINGS
 GNOME_DEBUG_CHECK
 
+ALL_LINGUAS="az ca cs de en_CA en_GB es fr hr mk ml ne nl pa pl pt pt_BR rw sr sr@Latn sv tr uk zh_CN"
+
+AM_GLIB_GNU_GETTEXT
+
 GETTEXT_PACKAGE=gnome-mud
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE(GETTEXT_PACKAGE, "gnome-mud", [Gettext domain name])
-
-ALL_LINGUAS="az ca cs de en_CA en_GB es fr hr mk ml ne nl pa pl pt pt_BR rw sr sr@Latn sv tr uk zh_CN"
 
 dnl gconf tests
 AC_PATH_PROG(GCONFTOOL, gconftool-2)

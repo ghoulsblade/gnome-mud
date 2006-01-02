@@ -8,6 +8,12 @@
 
 2006-01-02  Jordi Mallach  <jordi@sindominio.net>
 
+	* configure.ac: Set ALL_LINGUAS before calling AM_GLIB_GNU_GETTEXT,
+	d'oh!.
+	Set AM_MAINTAINER_MODE.
+
+2006-01-02  Jordi Mallach  <jordi@sindominio.net>
+
 	* ui/main.glade, ui/prefs.glade: Fix two newly introduced typos.
 	Fixes #325335.
 	Fix "completly" and "seperate" typos.
