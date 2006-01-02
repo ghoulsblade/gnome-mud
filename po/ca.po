@@ -1,14 +1,14 @@
 # Catalan Messages for the GNOME-Mud client.
-# Copyright © 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+# Copyright © 2000, 2001, 2002, 2003, 2004, 2005,2006 Free Software Foundation, Inc.
 # This file is copyrighted under the same license as the gnome-mud package.
-# Jordi Mallach <jordi@sindominio.net>, 2000, 2001, 2002, 2003, 2004, 2005.
+# Jordi Mallach <jordi@sindominio.net>, 2000, 2001, 2002, 2003, 2004, 2005, 2006.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.10.6\n"
+"Project-Id-Version: 0.10.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-28 14:02+0100\n"
-"PO-Revision-Date: 2005-05-10 16:50+0200\n"
+"POT-Creation-Date: 2006-01-02 01:34+0100\n"
+"PO-Revision-Date: 2006-01-02 01:42+0100\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
-#: ../gnome-mud.desktop.in.h:1 ../src/init.c:271
+#: ../gnome-mud.desktop.in.h:1 ../src/init.c:271 ../ui/main.glade.h:21
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
@@ -102,7 +102,7 @@ msgstr ""
 "punts. Els noms dels colors han d'estar en format hexadecimal, com per "
 "exemple «#FF00FF»."
 
-#: ../gnome-mud.schemas.in.h:14 ../src/prefs.c:850 ../ui/main.glade.h:22
+#: ../gnome-mud.schemas.in.h:14 ../src/prefs.c:850 ../ui/main.glade.h:23
 #: ../ui/prefs.glade.h:17
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
@@ -170,18 +170,16 @@ msgid "Last log file"
 msgstr "Últim fitxer de registres"
 
 #: ../gnome-mud.schemas.in.h:24
-#, fuzzy
 msgid ""
 "List of MUDs known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/muds"
 msgstr ""
-"Llista de perfils coneguts per GNOME-Mud. Aquesta llista conté cadenes amb "
-"els noms dels subdirectoris rel·latius a /apps/gnome-mud/profiles."
+"Llista de MUD coneguts per GNOME-Mud. Aquesta llista conté cadenes amb els "
+"noms dels subdirectoris rel·latius a /apps/gnome-mud/muds."
 
 #: ../gnome-mud.schemas.in.h:25
-#, fuzzy
 msgid "List of Muds"
-msgstr "Llista de perfils"
+msgstr "Llista de MUD"
 
 #: ../gnome-mud.schemas.in.h:26
 msgid ""
@@ -386,7 +384,6 @@ msgid "Do you really want to quit?"
 msgstr "Esteu segur de voler sortir?"
 
 #: ../src/init.c:144 ../src/init.c:683 ../ui/connect.glade.h:4
-#: ../ui/main.glade.h:13
 msgid "Connect..."
 msgstr "Connecta..."
 
@@ -408,7 +405,7 @@ msgstr "Treball artístic per:"
 
 #. Translators: translate as your names & emails
 #. * Paul Translator <paul@translator.org>
-#: ../src/init.c:267 ../ui/main.glade.h:47
+#: ../src/init.c:267
 msgid "translator_credits"
 msgstr "Jordi Mallach <jordi@sindominio.net>"
 
@@ -445,7 +442,7 @@ msgstr "Gestiona els perfils d'usuari"
 msgid "Connect to a mud"
 msgstr "Connecta a un mud"
 
-#: ../src/init.c:685 ../ui/main.glade.h:18
+#: ../src/init.c:685 ../ui/main.glade.h:17
 msgid "Disconnect"
 msgstr "Desconnecta"
 
@@ -453,7 +450,7 @@ msgstr "Desconnecta"
 msgid "Disconnect from the mud"
 msgstr "Desconnecta del mud"
 
-#: ../src/init.c:687 ../ui/main.glade.h:34
+#: ../src/init.c:687 ../ui/main.glade.h:39
 msgid "Reconnect"
 msgstr "Reconnecta"
 
@@ -883,52 +880,52 @@ msgstr "S'ha produït un error en registrar les dades %s: %s"
 msgid "Error while getting plugin from handle."
 msgstr "S'ha produït un error en obtindre el connector des de la nansa."
 
-#: ../src/mud-connection-view.c:98
+#: ../src/mud-connection-view.c:94
 #, c-format
 msgid ""
 "There was an error loading config value for whether to use image in menus. (%"
 "s)\n"
-msgstr ""
+msgstr "S'ha produït un error en carregar el valor de la configuració sobre si carregar o no imatges als menús (%s)\n"
 
-#: ../src/mud-connection-view.c:409 ../src/net.c:220
+#: ../src/mud-connection-view.c:383 ../src/net.c:220
 msgid "*** Connection closed.\n"
 msgstr "*** S'ha tancat la connexió.\n"
 
-#: ../src/mud-connection-view.c:422
-#, fuzzy, c-format
+#: ../src/mud-connection-view.c:396
+#, c-format
 msgid "*** Making connection to %s, port %d.\n"
-msgstr "*** S'està realitzant la connexió a %s, port %s.\n"
+msgstr "*** S'està realitzant la connexió a %s, port %d.\n"
 
-#: ../src/mud-connection-view.c:569
+#: ../src/mud-connection-view.c:543
 msgid "Close tab or window, whatever :)"
-msgstr ""
+msgstr "Tanca la pestanya o finestra"
 
-#: ../src/mud-connection-view.c:589
-#, fuzzy
+#: ../src/mud-connection-view.c:563
 msgid "Change P_rofile"
-msgstr "Crea un nou perfil"
+msgstr "Canvia de pe_rfil"
 
-#: ../src/mud-connection-view.c:625
+#: ../src/mud-connection-view.c:599
 msgid "Edit Current Profile..."
-msgstr ""
+msgstr "Edita el perfil actual..."
 
-#: ../src/mud-connection-view.c:633
+#: ../src/mud-connection-view.c:607
 msgid "_Input Methods"
-msgstr ""
+msgstr "_Mètodes d'entrada"
 
 #: ../src/mud-preferences-window.c:250 ../src/mud-preferences-window.c:279
-#: ../ui/main.glade.h:33 ../ui/prefs.glade.h:26
-#, fuzzy
+#: ../ui/main.glade.h:37 ../ui/prefs.glade.h:26
 msgid "Preferences"
-msgstr "Preferències del GNOME-Mud"
+msgstr "Preferències"
 
 #. set nice default info to display
-#: ../src/mud-window.c:288
-#, fuzzy, c-format
+#: ../src/mud-window.c:405
+#, c-format
 msgid ""
 "GNOME-Mud version %s (compiled %s, %s)\n"
 "Distributed under the terms of the GNU General Public License.\n"
-msgstr "Distribuït sota els termes de la Llicència Pública General GNU.\n"
+msgstr ""
+"GNOME-Mud versió %s (compilat el %s, %s)\n"
+"Distribuït sota els termes de la Llicència Pública General GNU.\n"
 
 #: ../src/mudlist.c:404
 msgid "Could not open MudList file for reading"
@@ -992,11 +989,11 @@ msgstr "*** Connexió establerta.\n"
 msgid "Couldn't convert text input"
 msgstr "No s'ha pogut convertir el text d'entrada"
 
-#: ../src/prefs.c:638 ../ui/main.glade.h:19 ../ui/prefs.glade.h:14
+#: ../src/prefs.c:638 ../ui/main.glade.h:18 ../ui/prefs.glade.h:14
 msgid "Font:"
 msgstr "Tipus de lletra:"
 
-#: ../src/prefs.c:646 ../ui/main.glade.h:29 ../ui/prefs.glade.h:23
+#: ../src/prefs.c:646 ../ui/main.glade.h:33 ../ui/prefs.glade.h:23
 msgid "Main font that is used on all open connections."
 msgstr ""
 "Tipus de lletra principal que s'utilitza a totes les connexions obertes."
@@ -1005,19 +1002,19 @@ msgstr ""
 msgid "The quick brown fox jumps over the lazy dog"
 msgstr "A la taula i al llit, al primer crit"
 
-#: ../src/prefs.c:653
+#: ../src/prefs.c:653 ../ui/main.glade.h:10 ../ui/prefs.glade.h:8
 msgid "Color palette:"
 msgstr "Paleta de colors:"
 
-#: ../src/prefs.c:659
+#: ../src/prefs.c:659 ../ui/main.glade.h:5 ../ui/prefs.glade.h:4
 msgid "Background color:"
 msgstr "Color de fons:"
 
-#: ../src/prefs.c:665
+#: ../src/prefs.c:665 ../ui/main.glade.h:19 ../ui/prefs.glade.h:15
 msgid "Foreground color:"
 msgstr "Color del text:"
 
-#: ../src/prefs.c:673
+#: ../src/prefs.c:673 ../ui/main.glade.h:15 ../ui/prefs.glade.h:12
 msgid ""
 "Default foreground color used when the connection doesn't request the use of "
 "a specific color."
@@ -1025,7 +1022,7 @@ msgstr ""
 "El color del text predeterminat utilitzat quan la connexió no especifica "
 "l'ús d'un altre color."
 
-#: ../src/prefs.c:682
+#: ../src/prefs.c:682 ../ui/main.glade.h:14 ../ui/prefs.glade.h:11
 msgid ""
 "Default background color used when the connection doesn't request the use of "
 "a specific color."
@@ -1033,7 +1030,7 @@ msgstr ""
 "El color de fons predeterminat utilitzat quan la connexió no especifica l'ús "
 "d'un altre color."
 
-#: ../src/prefs.c:698
+#: ../src/prefs.c:698 ../ui/main.glade.h:7 ../ui/prefs.glade.h:6
 msgid "Change the color of a specific color that the MUD requests to use."
 msgstr "Canvia el color d'un color específic que el MUD demane utilitzar."
 
@@ -1057,19 +1054,19 @@ msgstr "a l'esquerra"
 msgid "GNOME-Mud Preferences"
 msgstr "Preferències del GNOME-Mud"
 
-#: ../src/prefs.c:772 ../ui/main.glade.h:21 ../ui/prefs.glade.h:16
+#: ../src/prefs.c:772 ../ui/main.glade.h:20 ../ui/prefs.glade.h:16
 msgid "Functionality"
 msgstr "Funcionalitats"
 
-#: ../src/prefs.c:778 ../ui/main.glade.h:44 ../ui/prefs.glade.h:33
+#: ../src/prefs.c:778 ../ui/main.glade.h:49 ../ui/prefs.glade.h:33
 msgid "_Echo the text sent"
 msgstr "_Mostra el text enviat"
 
-#: ../src/prefs.c:789 ../ui/main.glade.h:45 ../ui/prefs.glade.h:34
+#: ../src/prefs.c:789 ../ui/main.glade.h:50 ../ui/prefs.glade.h:34
 msgid "_Keep the text entered"
 msgstr "_Mantin el text introduït"
 
-#: ../src/prefs.c:800 ../ui/main.glade.h:17 ../ui/prefs.glade.h:13
+#: ../src/prefs.c:800 ../ui/main.glade.h:16 ../ui/prefs.glade.h:13
 msgid "Disable _System Keys"
 msgstr "Inhabilita les tecles del _sistema"
 
@@ -1090,11 +1087,11 @@ msgstr ""
 msgid "Command history:"
 msgstr "Historia d'ordres:"
 
-#: ../src/prefs.c:835 ../ui/main.glade.h:42 ../ui/prefs.glade.h:31
+#: ../src/prefs.c:835 ../ui/main.glade.h:47 ../ui/prefs.glade.h:31
 msgid "The number of entries to be saved in the command history."
 msgstr "El nom de la connexió que apareixerà a la llista de connexions."
 
-#: ../src/prefs.c:843 ../ui/main.glade.h:40 ../ui/prefs.glade.h:29
+#: ../src/prefs.c:843 ../ui/main.glade.h:45 ../ui/prefs.glade.h:29
 msgid "Terminal type:"
 msgstr "Tipus de terminal:"
 
@@ -1111,7 +1108,7 @@ msgid "Mudlist file to be used for the mudlist functionality."
 msgstr ""
 "El fitxer de MudList que utilitzarà per a la funcionalitat de llistat de MUD."
 
-#: ../src/prefs.c:872
+#: ../src/prefs.c:872 ../ui/main.glade.h:9 ../ui/prefs.glade.h:7
 msgid "Color and Fonts"
 msgstr "Colors i fonts"
 
@@ -1131,19 +1128,19 @@ msgstr ""
 "Aquesta configuració estableix on apareixen les pestanyes de connexions que "
 "s'utilitzen per a canviar la connexió activa."
 
-#: ../src/prefs.c:913 ../ui/main.glade.h:37 ../ui/prefs.glade.h:28
+#: ../src/prefs.c:913 ../ui/main.glade.h:42 ../ui/prefs.glade.h:28
 msgid "Scrollback:"
 msgstr "Desplaçament:"
 
-#: ../src/prefs.c:919 ../ui/main.glade.h:31 ../ui/prefs.glade.h:24
+#: ../src/prefs.c:919 ../ui/main.glade.h:35 ../ui/prefs.glade.h:24
 msgid "Number of lines to save in the scrollback."
 msgstr "Número de línies a desar en el desplaçament."
 
-#: ../src/prefs.c:923 ../ui/main.glade.h:46 ../ui/prefs.glade.h:35
+#: ../src/prefs.c:923 ../ui/main.glade.h:51 ../ui/prefs.glade.h:35
 msgid "lines"
 msgstr "línies"
 
-#: ../src/prefs.c:929 ../ui/main.glade.h:35 ../ui/prefs.glade.h:27
+#: ../src/prefs.c:929 ../ui/main.glade.h:40 ../ui/prefs.glade.h:27
 msgid "S_croll on output"
 msgstr "_Desplaça en sortida"
 
@@ -1159,7 +1156,7 @@ msgstr ""
 msgid "AutoMapper"
 msgstr "Automapejador"
 
-#: ../src/prefs.c:956 ../ui/main.glade.h:43 ../ui/prefs.glade.h:32
+#: ../src/prefs.c:956 ../ui/main.glade.h:48 ../ui/prefs.glade.h:32
 msgid "Unusual movement commands:"
 msgstr "Llista d'ordres de moviment inusuals:"
 
@@ -1312,17 +1309,15 @@ msgstr "GNOME Mud"
 
 #: ../ui/connect.glade.h:1
 msgid "<b>MUDs and characters</b>"
-msgstr ""
+msgstr "<b>MUD i caràcters</b>"
 
 #: ../ui/connect.glade.h:2
-#, fuzzy
 msgid "Co_nnect"
-msgstr "Connecta"
+msgstr "Co_nnecta"
 
 #: ../ui/connect.glade.h:7
-#, fuzzy
 msgid "_Close"
-msgstr "Tanca"
+msgstr "_Tanca"
 
 #: ../ui/directions.glade.h:1
 msgid "*"
@@ -1365,100 +1360,50 @@ msgid "West"
 msgstr "Oest"
 
 #: ../ui/main.glade.h:1
-#, fuzzy
 msgid "A Multi-User Dungeon (MUD) client for GNOME."
-msgstr "Un client MUD (Multi-User Dungeon) per al GNOME.\n"
+msgstr "Un client MUD (Multi-User Dungeon) per al GNOME."
 
 #: ../ui/main.glade.h:3 ../ui/prefs.glade.h:2
-#, fuzzy
 msgid "Appearence"
-msgstr "Apariència"
-
-#: ../ui/main.glade.h:5 ../ui/prefs.glade.h:4
-#, fuzzy
-msgid "Background colour:"
-msgstr "Color de fons:"
+msgstr "Aparença"
 
 #: ../ui/main.glade.h:6 ../ui/prefs.glade.h:5
 msgid "Blank"
-msgstr ""
-
-#: ../ui/main.glade.h:7 ../ui/prefs.glade.h:6
-#, fuzzy
-msgid "Change the colour of a specific colour that the MUD requests to use."
-msgstr "Canvia el color d'un color específic que el MUD demane utilitzar."
+msgstr "Buit"
 
 #: ../ui/main.glade.h:8
-#, fuzzy
 msgid "Close Window"
-msgstr "_Tanca la finestra"
+msgstr "Tanca la finestra"
 
-#: ../ui/main.glade.h:9 ../ui/prefs.glade.h:7
-#, fuzzy
-msgid "Colour and Fonts"
-msgstr "Colors i fonts"
+#: ../ui/main.glade.h:13
+msgid "Connection..."
+msgstr "Connexió..."
 
-#: ../ui/main.glade.h:10 ../ui/prefs.glade.h:8
-#, fuzzy
-msgid "Colour palette:"
-msgstr "Paleta de colors:"
-
-#: ../ui/main.glade.h:14
-#, fuzzy
-msgid "Connection Wizard..."
-msgstr "_Auxiliar de connexions..."
-
-#: ../ui/main.glade.h:15 ../ui/prefs.glade.h:11
-#, fuzzy
-msgid ""
-"Default background colour used when the connection doesn't request the use "
-"of a specific colour."
-msgstr ""
-"El color de fons predeterminat utilitzat quan la connexió no especifica l'ús "
-"d'un altre color."
-
-#: ../ui/main.glade.h:16 ../ui/prefs.glade.h:12
-#, fuzzy
-msgid ""
-"Default foreground colour used when the connection doesn't request the use "
-"of a specific colour."
-msgstr ""
-"El color del text predeterminat utilitzat quan la connexió no especifica "
-"l'ús d'un altre color."
-
-#: ../ui/main.glade.h:20 ../ui/prefs.glade.h:15
-#, fuzzy
-msgid "Foreground colour:"
-msgstr "Color del text:"
-
-#: ../ui/main.glade.h:23
-msgid "GnomeMud"
-msgstr ""
+#: ../ui/main.glade.h:22
+msgid "GNOME-Mud Homepage"
+msgstr "Pàgina principal del GNOME-Mud"
 
 #: ../ui/main.glade.h:24 ../ui/prefs.glade.h:18
-#, fuzzy
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
-"overriden by custom keybinds, or they can be disabled completly with this "
+"overriden by custom keybinds, or they can be disabled completely with this "
 "option."
 msgstr ""
 "Si s'habilita, GNOME-Mud oferirà algunes assignacions de tecles internes. "
-"Aquestes assignacions es poden reemplaçar amb les vostres assignacions "
-"personalitzades, o poden ser deshabilitades per complet amb aquesta opció."
+"Aquestes es poden reemplaçar amb les vostres assignacions personalitzades, o "
+"es poden inhabilitar per complet amb aquesta opció."
 
 #: ../ui/main.glade.h:27 ../ui/prefs.glade.h:21
-#, fuzzy
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entrybox will be cleared "
 "after each text input."
 msgstr ""
-"Si s'habilita, el text que introduïu en la connexió es quedarà en forma de "
+"Si s'habilita, el text que envieu a la connexió es quedarà en forma de "
 "selecció en el camp d'entrada. Si no, el camp d'entrada de text es netejarà "
 "després de cada introducció de text."
 
 #: ../ui/main.glade.h:28 ../ui/prefs.glade.h:22
-#, fuzzy
 msgid ""
 "If you use the automapper, you may want to specify here some unusual "
 "movement commands. When you use one of these, the automapper will create a "
@@ -1468,73 +1413,75 @@ msgstr ""
 "moviment inusuals. Quan s'utilitza una d'aquestes, l'automapejador crearà un "
 "camí a un altre mapa. Utilitzeu dos punts per a separar les diferents ordres."
 
+#. TRANSLATORS: Replace this string with your names, one name per line.
 #: ../ui/main.glade.h:30
-#, fuzzy
-msgid "MudList Listing..."
-msgstr "Llistes de la _MudList..."
-
-#: ../ui/main.glade.h:32 ../ui/prefs.glade.h:25
-msgid "Pick a color"
+msgid ""
+"Jordi Mallach <jordi@debian.org>\n"
+"Martin Quinson\n"
+"Jörgen Kosche "
 msgstr ""
 
-#: ../ui/main.glade.h:36
-#, fuzzy
-msgid "Save Buffer..."
-msgstr "De_sa el búfer..."
+#: ../ui/main.glade.h:34
+msgid "Mud List..."
+msgstr "Llistes de la MudList..."
+
+#: ../ui/main.glade.h:36 ../ui/prefs.glade.h:25
+msgid "Pick a color"
+msgstr "Seleccioneu un color"
 
 #: ../ui/main.glade.h:38
-#, fuzzy
+msgid "Quick Connect..."
+msgstr "Connexió ràpida..."
+
+#: ../ui/main.glade.h:41
+msgid "Save Buffer..."
+msgstr "Desa el búfer..."
+
+#: ../ui/main.glade.h:43
 msgid "Start Logging..."
-msgstr "Come_nça un registre..."
+msgstr "Comença a registre..."
 
-#: ../ui/main.glade.h:39
-#, fuzzy
+#: ../ui/main.glade.h:44
 msgid "Stop Logging"
-msgstr "D_eixa de registrar"
+msgstr "Deixa de registrar"
 
-#: ../ui/main.glade.h:41 ../ui/prefs.glade.h:30
-#, fuzzy
+#: ../ui/main.glade.h:46 ../ui/prefs.glade.h:30
 msgid ""
 "The character used to divide commands sent to the mud. For example \";\" "
 "will let the string \"w;look\" be sent to the mud as two separate commands."
-msgstr ""
-"El caràcter que utilitza per a dividir les ordres enviades al MUD. Per "
-"exemple, «;» farà que la cadena «w;look» s'envie al MUD com dos ordres "
-"separades."
+msgstr "El caràcter que s'utilitza per a dividir les ordres enviades al MUD. Per exemple, «;» farà que la cadena «w;look» s'envie al MUD com dos ordres separades."
 
-#: ../ui/main.glade.h:48
-msgid "© 1998-2004 Robin Ericsson"
-msgstr ""
+#: ../ui/main.glade.h:52
+msgid "© 1998-2005 Robin Ericsson"
+msgstr "© 1998-2005 Robin Ericsson"
 
 #: ../ui/muds.glade.h:1
-#, fuzzy
 msgid "<b>Character name</b>"
-msgstr "Personatge"
+msgstr "<b>Nom del personatge</b>"
 
 #: ../ui/muds.glade.h:2
-#, fuzzy
 msgid "<b>Characters</b>"
-msgstr "Personatge"
+msgstr "<b>Personatge</b>"
 
 #: ../ui/muds.glade.h:3
 msgid "<b>Connection string</b>"
-msgstr ""
+msgstr "<b>Cadena de connexió</b>"
 
 #: ../ui/muds.glade.h:4
 msgid "<b>Connection</b>"
-msgstr ""
+msgstr "<b>Connexió</b>"
 
 #: ../ui/muds.glade.h:5
 msgid "<b>Detailed Info</b>"
-msgstr ""
+msgstr "<b>Informació detallada</b>"
 
 #: ../ui/muds.glade.h:6
 msgid "<b>MUD details</b>"
-msgstr ""
+msgstr "<b>Detalls del MUD</b>"
 
 #: ../ui/muds.glade.h:7
 msgid "<b>MUD list</b>"
-msgstr ""
+msgstr "<b>Llista de MUD</b>"
 
 #: ../ui/muds.glade.h:8
 msgid ""
@@ -1572,66 +1519,92 @@ msgid ""
 "The Forests Edge\n"
 "\n"
 msgstr ""
+"ACKmud\n"
+"AberMUD\n"
+"AFKMud\n"
+"Chronicles\n"
+"Circlemud\n"
+"CoffeeMud\n"
+"Dawn\n"
+"DikuMUD\n"
+"Diku II\n"
+"DUM\n"
+"Embermud\n"
+"Emlenmud\n"
+"Envy\n"
+"Eye of the Storm\n"
+"GodWars\n"
+"Heavymud\n"
+"LP Mud\n"
+"Merc\n"
+"MOO\n"
+"Mordor\n"
+"MUCK\n"
+"MUSE\n"
+"MUSH\n"
+"MUX\n"
+"Oblivion\n"
+"ResortMUD\n"
+"ROM\n"
+"ROT\n"
+"Silly\n"
+"SMAUG\n"
+"SWR\n"
+"The Forests Edge\n"
+"\n"
 
 #: ../ui/muds.glade.h:42
-#, fuzzy
 msgid "Character Properties"
-msgstr "Informació sobre el personatge"
+msgstr "Propietats del personatge"
 
 #: ../ui/muds.glade.h:43
 msgid "Edit MUD"
-msgstr ""
+msgstr "Edita el MUD"
 
 #: ../ui/muds.glade.h:44
 msgid "MUD List"
-msgstr ""
+msgstr "Llista de MUD"
 
 #: ../ui/muds.glade.h:45
 msgid "_Add..."
-msgstr ""
+msgstr "_Afegeix..."
 
 #: ../ui/muds.glade.h:46
-#, fuzzy
 msgid "_Code base:"
-msgstr "Base basat en:"
+msgstr "_Codi basat en:"
 
 #: ../ui/muds.glade.h:47
-#, fuzzy
 msgid "_Delete"
-msgstr "Elimina"
+msgstr "_Suprimeix"
 
 #: ../ui/muds.glade.h:48
-#, fuzzy
 msgid "_Description:"
-msgstr "Descripció:"
+msgstr "_Descripció:"
 
 #: ../ui/muds.glade.h:49
 msgid "_Edit..."
-msgstr ""
+msgstr "_Edita..."
 
 #: ../ui/muds.glade.h:50
-#, fuzzy
 msgid "_Host/IP:"
-msgstr "Servidor:"
+msgstr "_Servidor/IP:"
 
 #: ../ui/muds.glade.h:51
 msgid "_Name:"
-msgstr ""
+msgstr "_Nom:"
 
 #: ../ui/muds.glade.h:52
-#, fuzzy
 msgid "_Port:"
-msgstr "Port:"
+msgstr "_Port:"
 
 #: ../ui/muds.glade.h:53
-#, fuzzy
 msgid "_Properties..."
-msgstr "Perfils..."
+msgstr "_Propietats..."
 
 #: ../ui/muds.glade.h:54
 msgid "_Show in Quick Connect"
-msgstr ""
+msgstr "_Mostra a les «Connexions ràpides»"
 
 #: ../ui/muds.glade.h:55
 msgid "_Theme:"
-msgstr ""
+msgstr "_Tema:"
