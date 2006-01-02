@@ -1,3 +1,21 @@
+dnl Configuration for GNOME-Mud -- a MUD client for the GNOME Desktop
+dnl
+dnl Copyright (C) 1999,2000,2001,2002,2003,2004,2005 Free Software Foundation, Inc.
+dnl
+dnl GNOME-Mud is free software; you can redistribute it and/or modify
+dnl it under the terms of the GNU General Public License as published by
+dnl the Free Software Foundation; either version 2, or (at your option)
+dnl any later version.
+dnl
+dnl GNOME-Mud is distributed in the hope that it will be useful,
+dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl GNU General Public License for more details.
+dnl
+dnl You should have received a copy of the GNU General Public License along
+dnl with GNOME-Mud; if not, write to the Free Software Foundation,
+dnl Inc. 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+dnl
 dnl Process this file with  autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
@@ -213,7 +231,7 @@ if test "x$HAVE_ZLIB" = xyes; then
 fi
 AC_SUBST(Z_LIBS)
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
   Makefile
   gnome-mud.lsm
   gnome-mud.spec
@@ -226,6 +244,7 @@ AC_OUTPUT([
   po/Makefile.in
   ui/Makefile
 ])
+AC_OUTPUT
 
 AC_MSG_RESULT([
 	Gnome-mud has been configured successfully.

@@ -1446,7 +1446,7 @@
 		      <child>
 			<widget class="GnomeColorPicker" id="cp_background">
 			  <property name="visible">True</property>
-			  <property name="tooltip" translatable="yes">Default background colur used when the connection doesn't request the use of a specific color.</property>
+			  <property name="tooltip" translatable="yes">Default background color used when the connection doesn't request the use of a specific color.</property>
 			  <property name="can_focus">True</property>
 			  <property name="dither">True</property>
 			  <property name="use_alpha">False</property>

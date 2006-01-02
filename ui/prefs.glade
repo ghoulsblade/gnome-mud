@@ -709,7 +709,7 @@
 			  <child>
 			    <widget class="GnomeColorPicker" id="colorpicker8">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Change the clour of a specific color that the MUD requests to use.</property>
+			      <property name="tooltip" translatable="yes">Change the color of a specific color that the MUD requests to use.</property>
 			      <property name="can_focus">True</property>
 			      <property name="dither">True</property>
 			      <property name="use_alpha">False</property>
