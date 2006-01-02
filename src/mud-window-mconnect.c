@@ -8,10 +8,11 @@
 #include <stdlib.h>
 #include <gconf/gconf-client.h>
 
-#include "mud-connection-view.h"
 #include "gnome-mud.h"
+#include "mud-connection-view.h"
 #include "mud-window.h"
 #include "mud-window-mconnect.h"
+#include "utils.h"
 
 struct _MudMConnectWindowPrivate
 {
@@ -37,6 +38,9 @@ struct _MudMConnectWindowPrivate
 	GtkCellRenderer *renderer;
 
 	MudConnectionView *view;
+
+	MudWindow *window;
+	GtkWidget *winwidget;
 };
 
 enum
@@ -44,9 +48,6 @@ enum
 	NAME_COLUMN,
 	N_COLUMNS
 };
-
-MudWindow *window;
-GtkWidget *gwinwidget;
 
 GType mud_mconnect_window_get_type (void);
 static void mud_mconnect_window_init (MudMConnectWindow *preferences);
@@ -213,9 +214,9 @@ mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconnect)
 	if(mconnect->priv->SelPort < 1)
 		mconnect->priv->SelPort = 23;
 		
-	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort, gwinwidget);
+	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort, mconnect->priv->winwidget);
 	
-	mud_window_add_connection_view(window, mconnect->priv->view);
+	mud_window_add_connection_view(mconnect->priv->window, mconnect->priv->view);
 
 	if(mconnect->priv->SelConnect)
 	{
@@ -290,11 +291,11 @@ MudMConnectWindow*
 mud_window_mconnect_new(MudWindow *win, GtkWidget *winwidget)
 {
 	MudMConnectWindow *MudMConnect;
-
-	window = win;
-	gwinwidget = winwidget;
 	
 	MudMConnect = g_object_new(MUD_TYPE_MCONNECT_WINDOW, NULL);
 
+	MudMConnect->priv->window = win;
+	MudMConnect->priv->winwidget = winwidget;
+	
 	return MudMConnect;	
 }

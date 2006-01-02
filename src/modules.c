@@ -53,6 +53,8 @@
 #endif
 
 #include "gnome-mud.h"
+#include "mud-connection-view.h"
+#include "mud-window.h"
 #include "modules.h"
 
 static char const rcsid[] =
@@ -62,6 +64,7 @@ GList     *Plugin_list;
 GList     *Plugin_data_list;
 int       plugin_selected_row;
 gint       amount;
+MudWindow *gGMudWindow;
 
 PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
 {
@@ -457,4 +460,20 @@ void plugin_register(PLUGIN_OBJECT *plugin)
       plugin->info->init_function(NULL, GPOINTER_TO_INT(plugin->handle));
     }
 }
+void popup_message(const gchar *data)
+{
+	GtkWidget *dialog;
+	
+	dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, data);
+
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
+}
+
+void 	       
+init_modules_win(MudWindow *win)
+{
+	gGMudWindow = win;
+}
+
 #endif

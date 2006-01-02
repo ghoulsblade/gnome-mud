@@ -32,6 +32,9 @@ GType mud_window_get_type (void) G_GNUC_CONST;
 
 MudWindow* mud_window_new (GConfClient *client);
 void mud_window_add_connection_view(MudWindow *window, MudConnectionView *view);
+void mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, gint dir);
+
+extern GtkWidget *pluginMenu;
 
 G_END_DECLS
 

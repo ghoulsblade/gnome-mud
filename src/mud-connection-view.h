@@ -47,6 +47,10 @@ void mud_connection_view_disconnect (MudConnectionView *view);
 void mud_connection_view_reconnect (MudConnectionView *view);
 void mud_connection_view_send (MudConnectionView *view, const gchar *data);
 void mud_connection_view_set_connect_string(MudConnectionView *view, gchar *connect_string);
+void mud_connection_view_set_id(MudConnectionView *view, gint id);
+void mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type);
+#include "mud-window.h"
+void mud_connection_view_set_parent(MudConnectionView *view, MudWindow *window);
 
 G_END_DECLS
 

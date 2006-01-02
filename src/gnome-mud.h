@@ -22,6 +22,7 @@
 #include "mccpDecompress.h"
 #include <stdio.h>
 #include <vte/vte.h>
+#include <libgnetwork/gnetwork.h>
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>

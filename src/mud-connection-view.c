@@ -8,13 +8,19 @@
 #include <gtk/gtkmenu.h>
 #include <vte/vte.h>
 
+#include "gnome-mud.h"
 #include "mud-connection-view.h"
 #include "mud-profile.h"
+#include "mud-window.h"
 
 static char const rcsid[] = "$Id$";
 
 struct _MudConnectionViewPrivate
 {
+	gint id;
+	
+	MudWindow *window;
+	
 	GtkWidget *terminal;
 	GtkWidget *scrollbar;
 	GtkWidget *box;
@@ -196,7 +202,7 @@ mud_connection_view_feed_text(MudConnectionView *view, gchar *message)
 	vte_terminal_feed(VTE_TERMINAL(view->priv->terminal), buf, strlen(buf));
 }
 
-static void
+void
 mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type)
 {
 	
@@ -350,8 +356,9 @@ mud_connection_view_received_cb(GNetworkConnection *cxn, gconstpointer data, gul
 	MudConnectionView *view = MUD_CONNECTION_VIEW(user_data);
 	g_assert(view != NULL);
 
-	g_print ("Client Connection: Received: %lu bytes\n\"%s\"\n", length, (gchar *) data);
-
+	// Give plugins first crack at it	
+	mud_window_handle_plugins(view->priv->window, view->priv->id, (gchar *)data, 1);
+	
 	vte_terminal_feed(VTE_TERMINAL(view->priv->terminal), (gchar *) data, length);
 
 	if (view->priv->connect_hook) {
@@ -364,7 +371,8 @@ mud_connection_view_received_cb(GNetworkConnection *cxn, gconstpointer data, gul
 static void
 mud_connection_view_send_cb(GNetworkConnection *cxn, gconstpointer data, gulong length, gpointer user_data)
 {
-	g_print ("Client Connection: Sent: %lu bytes\n\"%s\"\n", length, (gchar *) data);
+	// Give plugins first crack at it
+	mud_window_handle_plugins(MUD_CONNECTION_VIEW(user_data)->priv->window, MUD_CONNECTION_VIEW(user_data)->priv->id, (gchar *)data, 0);
 }
 
 static void
@@ -618,6 +626,19 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
 				   event ? event->time : gtk_get_current_event_time());
 }
 
+void 
+mud_connection_view_set_id(MudConnectionView *view, gint id)
+{
+	view->priv->id = id;
+}
+
+void
+mud_connection_view_set_parent(MudConnectionView *view, MudWindow *window)
+{
+	view->priv->window = window;
+}
+
+
 MudConnectionView*
 mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window)
 {
@@ -642,7 +663,7 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 	g_signal_connect(view->connection, "notify::tcp-status", G_CALLBACK(mud_connection_view_notify_cb), view);
 
 	mud_connection_view_set_profile(view, mud_profile_new(profile));
-
+	
 	// FIXME, move this away from here
 	gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
 
@@ -665,8 +686,7 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
   					GDK_HINT_RESIZE_INC |
   					GDK_HINT_MIN_SIZE |
   					GDK_HINT_BASE_SIZE);
- 
-	
+
 	return view;
 }
 

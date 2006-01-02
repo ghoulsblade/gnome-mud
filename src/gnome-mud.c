@@ -32,6 +32,7 @@
 #include "mud-connection-view.h"
 #include "mud-window.h"
 #include "mud-profile.h"
+#include "modules.h"
 
 static char const rcsid[] =
     "$Id$";
@@ -78,7 +79,7 @@ int main (gint argc, char *argv[])
 {
 	GConfClient  *gconf_client;
 	GError       *err = NULL;
-	//gchar         buf[500];
+	gchar         buf[500];
 
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
@@ -119,9 +120,9 @@ int main (gint argc, char *argv[])
 	//python_init();
 #endif
 
-	//g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
-	//init_modules(buf);
-	//init_modules(PKGDATADIR);
+	g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
+	init_modules(buf);
+	init_modules(PKGDATADIR);
   
 	gtk_main();
 	gnome_config_sync();

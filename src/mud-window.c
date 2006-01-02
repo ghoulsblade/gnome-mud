@@ -18,11 +18,13 @@
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 
+#include "gnome-mud.h"
 #include "mud-connection-view.h"
 #include "mud-preferences-window.h"
 #include "mud-window.h"
 #include "mud-window-mudlist.h"
 #include "mud-window-mconnect.h"
+#include "modules.h"
 
 static char const rcsid[] = "$Id: ";
 
@@ -30,6 +32,8 @@ struct _MudWindowPrivate
 {
 	GConfClient *gconf_client;
 
+	GSList *mud_views_list;
+	
 	GtkWidget *window;
 	GtkWidget *notebook;
 	GtkWidget *textentry;
@@ -47,6 +51,14 @@ struct _MudWindowPrivate
 	gint toggleState;
 };
 
+typedef struct MudViewEntry
+{
+	gint id;
+	MudConnectionView *view;
+} MudViewEntry;
+
+GtkWidget *pluginMenu;
+
 static int
 mud_window_close(GtkWidget *widget, MudWindow *window)
 {
@@ -59,6 +71,9 @@ void
 mud_window_add_connection_view(MudWindow *window, MudConnectionView *view)
 {
 	gint nr;
+	MudViewEntry *entry;
+	
+	entry = g_new(MudViewEntry, 1);
 	
 	g_assert(window != NULL);
 	g_assert(view != NULL);
@@ -71,6 +86,14 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view)
 	nr = gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), mud_connection_view_get_viewport(view), NULL);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(window->priv->notebook), nr);
 
+	mud_connection_view_set_id(view, nr);
+	mud_connection_view_set_parent(view, window);
+
+	entry->id = nr;
+	entry->view = view;
+	
+	window->priv->mud_views_list = g_slist_append(window->priv->mud_views_list, entry);
+	
 	if (window->priv->nr_of_tabs > 1)
 	{
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(window->priv->notebook), TRUE);
@@ -80,9 +103,24 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view)
 static void
 mud_window_remove_connection_view(MudWindow *window, gint nr)
 {
+	GSList *entry, *rementry;
+	
+	rementry = NULL;
+	rementry = g_slist_append(rementry, NULL);
+	
 	g_object_unref(window->priv->current_view);
 	gtk_notebook_remove_page(GTK_NOTEBOOK(window->priv->notebook), nr);
 	
+	for(entry = window->priv->mud_views_list; entry != NULL; entry = g_slist_next(entry))
+	{
+		if(((MudViewEntry *)entry->data)->id == nr)
+		{
+			rementry->data = entry->data;
+		}
+	}
+
+	window->priv->mud_views_list = g_slist_remove(window->priv->mud_views_list, rementry->data);
+
 	if (--window->priv->nr_of_tabs < 2)
 	{
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(window->priv->notebook), FALSE);
@@ -287,6 +325,8 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 		
 		view = mud_connection_view_new("Default", host, iport, window->priv->window);
 		mud_window_add_connection_view(window, view);
+
+		
 	}
 
 	gtk_widget_destroy(dialog);
@@ -337,6 +377,8 @@ mud_window_init (MudWindow *window)
 	/* set members */
 	window->priv->host = g_strdup("");
 	window->priv->port = g_strdup("");
+
+	window->priv->mud_views_list = NULL;
 	
 	/* start glading */
 	glade = glade_xml_new(GLADEDIR "/main.glade", "main_window", "main_window");
@@ -396,6 +438,10 @@ G_CALLBACK(mud_window_list_cb), window);
 	
 	g_signal_connect(glade_xml_get_widget(glade, "toggle_input"), "clicked", G_CALLBACK(mud_window_inputtoggle_cb), window);
 
+	g_signal_connect(glade_xml_get_widget(glade, "plugin_list"), "activate", G_CALLBACK(do_plugin_information), NULL);
+	
+	pluginMenu = glade_xml_get_widget(glade, "plugin_menu_menu");
+
 	window->priv->current_view = NULL;
 	window->priv->nr_of_tabs = 0;
 	window->priv->blank_label = glade_xml_get_widget(glade, "startup_label");
@@ -423,18 +469,75 @@ mud_window_class_init (MudWindowClass *klass)
 static void
 mud_window_finalize (GObject *object)
 {
+
+	GSList *entry;
 	MudWindow    *window;
 	GObjectClass *parent_class;
 
 	window = MUD_WINDOW(object);
 
-	g_warning("I need to unreference all existing MudConnectionView's over here...");
+	for(entry = window->priv->mud_views_list; entry != NULL; entry = g_slist_next(entry))
+	{
+		g_object_unref(((MudViewEntry *)entry->data)->view);	
+	}
+	
 	g_free(window->priv);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
 	parent_class->finalize(object);
 
 	gtk_main_quit();
+}
+
+void
+mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, gint dir)
+{
+	GSList *entry, *viewlist;
+	MudViewEntry *mudview;
+	GList *plugin_list;
+	PLUGIN_DATA *pd;
+
+	viewlist = window->priv->mud_views_list;
+	
+	for(entry = viewlist; entry != NULL; entry = g_slist_next(entry))
+	{
+		mudview = (MudViewEntry *)entry->data;
+		
+		if(mudview->id == id)
+		{	
+			if(dir)
+			{
+				for(plugin_list = g_list_first(Plugin_data_list); plugin_list != NULL; plugin_list = plugin_list->next)
+				{
+					if(plugin_list->data != NULL)
+					{
+						pd = (PLUGIN_DATA *)plugin_list->data;
+			
+						if(pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN))
+						{
+							(*pd->datafunc)(pd->plugin, (gchar *)data, mudview->view);
+						}
+					}
+				}
+			}
+			else
+			{
+
+				for(plugin_list = g_list_first(Plugin_data_list); plugin_list != NULL; plugin_list = plugin_list->next)
+				{
+					if(plugin_list->data != NULL)
+					{
+						pd = (PLUGIN_DATA *)plugin_list->data;
+			
+						if(pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_OUT))
+						{
+							(*pd->datafunc)(pd->plugin, (gchar *)data, mudview->view);
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 MudWindow*

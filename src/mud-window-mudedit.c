@@ -9,6 +9,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 
+#include "gnome-mud.h"
 #include "gconf-helper.h"
 #include "mud-connection-view.h"
 #include "mud-window.h"

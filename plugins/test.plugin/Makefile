@@ -1,7 +1,7 @@
 CC=gcc
 OBJS=main.o
 PROG=test.plugin
-CFLAGS=-DBUILDING_PLUGIN -g -Wall `pkg-config --cflags glib-2.0 gtk+-2.0` 
+CFLAGS=-DBUILDING_PLUGIN -g -Wall `pkg-config --cflags glib-2.0 gtk+-2.0 libgnetwork-1.0` 
 LDFLAGS=-shared -fPIC
 
 all:	$(OBJS)

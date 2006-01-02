@@ -1,6 +1,8 @@
 #define __MODULE__
 #include <gtk/gtk.h>
 #include <glib.h>
+#include <string.h>
+
 #include "../../src/modules_api.h"
 
 static void init_plugin   (PLUGIN_OBJECT *, gint);
@@ -16,15 +18,15 @@ PLUGIN_INFO gnomemud_plugin_info =
 
 void init_plugin(PLUGIN_OBJECT *plugin, gint context)
 {
-  //plugin_add_connection_text (NULL, "Testing testing.\n", MESSAGE_ERR);
-  //plugin_popup_message ("TEsting testing\n0h0h0h0h");
+  plugin_popup_message ("Test Plugin Registered");
   plugin_register_menu(context, "Test Plugin", "menu_function");
   plugin_register_data_incoming(context, "data_in_function");
 }
 
-void data_in_function(PLUGIN_OBJECT *plugin, CONNECTION_DATA *connection, gchar *data, gint context)
+void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, MudConnectionView *view)
 {
   g_message("Recieved (%d) bytes.", strlen(data));
+  plugin_add_connection_text("Plugin Called!", 0, view);
 }
 
 void menu_function(GtkWidget *widget, gint data)

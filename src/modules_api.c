@@ -19,62 +19,52 @@
 //#ifdef __MODULE__
 #include "config.h"
 #include <gnome.h>
+#include <glade/glade.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
 
 #include "gnome-mud.h"
+#include "mud-connection-view.h"
+#include "mud-window.h"
 #include "modules.h"
-
 
 static char const rcsid[] = 
     "$Id$";
 
-extern CONNECTION_DATA *main_connection;
-
 void plugin_popup_message (gchar *message)
 {
-  popup_window (message);
+   popup_message (message);
 }
 
-void plugin_connection_send(CONNECTION_DATA *connection, gchar *text)
+void plugin_connection_send(gchar *text, MudConnectionView *view)
 {
-  gchar *s;
-
-  s = g_strconcat(text, "\n", NULL);
-
-  //connection->connected checked inside
-  if(connection == NULL || connection->window == NULL)
-    connection_send(main_connection, s);
-  else
-    connection_send(connection, s);
-
-  g_free(s);
+	mud_connection_view_send (view, text);
 }
 
-void plugin_add_connection_text(CONNECTION_DATA *connection, gchar *message, gint color)
+void plugin_add_connection_text(gchar *message, gint color, MudConnectionView *view)
 {
-  if (connection == NULL || connection->window == NULL)
-    textfield_add (main_connection, message, color);
-  else
-    textfield_add (connection, message, color);
+	mud_connection_view_add_text(view, message, color);
 }
 
 gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
 {
-  GtkSignalFunc  sig_function;
+  	GtkSignalFunc  sig_function;
+  	GtkWidget *newMenuItem;
 
-  if ((sig_function = (GtkSignalFunc) dlsym ((void *) handle, function)) == NULL) {
-    g_message (_("Error while registering the menu: %s"), dlerror());
-    return FALSE;
-  }
+ 	if ((sig_function = (GtkSignalFunc) dlsym ((void *) handle, function)) == NULL) 
+	{
+    		g_message (_("Error while registering the menu: %s"), dlerror());
+    		return FALSE;
+  	}
+  	
+	newMenuItem = gtk_menu_item_new_with_label(name);
+	gtk_widget_show(newMenuItem);
+	
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(pluginMenu), newMenuItem);
 
-  /* FIXME */
-/*   menu_place = gtk_menu_item_new_with_label(name); */
-/*   gtk_menu_prepend (GTK_MENU (settings_menu[7].widget), menu_place); */
-/*   gtk_widget_show (menu_place); */
-/*   gtk_signal_connect (GTK_OBJECT (menu_place), "activate", */
-/* 		      sig_function, NULL); */
-  
-  return TRUE;
+	gtk_signal_connect(newMenuItem, "activate", sig_function, NULL);
+	
+	return TRUE;
 }
 
 gboolean plugin_register_data (gint handle, gchar *function, PLUGIN_DATA_DIRECTION dir)

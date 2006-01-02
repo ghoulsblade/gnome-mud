@@ -17,44 +17,10 @@
  */
 
 #include <dlfcn.h>
+#include "mud-connection-view.h"
+#include "mud-window.h"
 
-/*
- * Typedefs
- */
-typedef struct _plugin_object PLUGIN_OBJECT;
-typedef struct _plugin_info   PLUGIN_INFO;
-typedef struct _plugin_data   PLUGIN_DATA;
-
-typedef void      (*plugin_initfunc) (PLUGIN_OBJECT *,   gint   );
-typedef void      (*plugin_menufunc) (GtkWidget *,       gint   );
-typedef void      (*plugin_datafunc) (PLUGIN_OBJECT *, CONNECTION_DATA *, gchar *, gint);
-
-typedef enum { PLUGIN_DATA_IN, PLUGIN_DATA_OUT } PLUGIN_DATA_DIRECTION;
-
-/*
- * Structures
- */
-struct _plugin_data {
-  PLUGIN_OBJECT         *plugin;
-  plugin_datafunc        datafunc;
-  PLUGIN_DATA_DIRECTION  dir;
-};
-
-struct _plugin_info {
-  gchar            *plugin_name;
-  gchar            *plugin_author;
-  gchar            *plugin_version;
-  gchar            *plugin_descr;
-  plugin_initfunc   init_function;
-};
-
-struct _plugin_object {
-  void     *handle;
-  gchar    *name;
-  gchar    *filename;
-  gboolean  enabeled;
-  PLUGIN_INFO *info;
-};
+#include "modules-structures.h"
 
 /*
  * Functions
@@ -62,8 +28,12 @@ struct _plugin_object {
 PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle   );
 PLUGIN_OBJECT *plugin_query    (gchar *plugin_name, gchar *pp    );
 void           plugin_register (PLUGIN_OBJECT *plugin            );
-
+void	       popup_message(const gchar *data);
+void 	       init_modules_win(MudWindow *win);
+void do_plugin_information(GtkWidget *widget, gpointer data);
 /*
  * Variables
  */
+extern MudWindow *gGMudWindow;
+extern GList *Plugin_list;
 extern GList *Plugin_data_list;

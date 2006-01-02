@@ -1,3 +1,11 @@
+2006-01-01  Les Harris  <lescom@comcast.net>
+
+	* src/Makefile.am, src/gnome-mud.h, src/gnome-mud.c, src/modules_api.h,
+	  src/modules_api.c, src/modules.h, src/modules.c, src/mud-window.c,
+	  src/mud-window.h, src/mud-connection-view.h, src/mud-connection-view.c,
+	  src/modules-structures.h: Added cplugin support, added proper
+	  MudConnectionView dealloc'ing at shutdown.
+
 2006-01-02  Jordi Mallach  <jordi@sindominio.net>
 
 	* ui/main.glade, ui/prefs.glade: Fix two newly introduced typos.
