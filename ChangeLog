@@ -2,6 +2,7 @@
 
 	* ui/main.glade, ui/prefs.glade: Fix two newly introduced typos.
 	Fixes #325335.
+	Fix "completly" typo.
 
 	* configure.ac: Update again, but do it right this time.
 

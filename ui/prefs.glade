@@ -207,7 +207,7 @@
 		      <child>
 			<widget class="GtkCheckButton" id="checkbutton3">
 			  <property name="visible">True</property>
-			  <property name="tooltip" translatable="yes">If enabled, GNOME-Mud will offer a few built-in keybinds. They can be overriden by custom keybinds, or they can be disabled completly with this option.</property>
+			  <property name="tooltip" translatable="yes">If enabled, GNOME-Mud will offer a few built-in keybinds. They can be overriden by custom keybinds, or they can be disabled completely with this option.</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">Disable _System Keys</property>
 			  <property name="use_underline">True</property>
