@@ -1672,7 +1672,7 @@
 			  <child>
 			    <widget class="GtkEntry" id="entry_automap">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">If you use the automapper, you may want to specify here some unusual movement commands. When you use one of these, the automapper will create a path to another map. Use a semicolon to seperate the different commands.</property>
+			      <property name="tooltip" translatable="yes">If you use the automapper, you may want to specify here some unusual movement commands. When you use one of these, the automapper will create a path to another map. Use a semicolon to separate the different commands.</property>
 			      <property name="can_focus">True</property>
 			      <property name="editable">True</property>
 			      <property name="visibility">True</property>
