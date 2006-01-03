@@ -1,3 +1,9 @@
+2006-01-02  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.ac: Set ALL_LINGUAS before calling AM_GLIB_GNU_GETTEXT,
+	d'oh!.
+	Set AM_MAINTAINER_MODE.
+
 2006-01-01  Les Harris  <lescom@comcast.net>
 
 	* src/Makefile.am, src/gnome-mud.h, src/gnome-mud.c, src/modules_api.h,
@@ -5,12 +11,6 @@
 	  src/mud-window.h, src/mud-connection-view.h, src/mud-connection-view.c,
 	  src/modules-structures.h: Added cplugin support, added proper
 	  MudConnectionView dealloc'ing at shutdown.
-
-2006-01-02  Jordi Mallach  <jordi@sindominio.net>
-
-	* configure.ac: Set ALL_LINGUAS before calling AM_GLIB_GNU_GETTEXT,
-	d'oh!.
-	Set AM_MAINTAINER_MODE.
 
 2006-01-02  Jordi Mallach  <jordi@sindominio.net>
 

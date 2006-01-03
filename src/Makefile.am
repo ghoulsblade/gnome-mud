@@ -24,6 +24,11 @@ gnome_mud_SOURCES =			\
 	gconf-helper.h			\
 	gnome-mud.c			\
 	gnome.mud.h			\
+	modules_api.c			\
+	modules_api.h			\
+	modules.c			\
+	modules.h			\
+	modules-structures.h		\
 	mud-connection-view.c		\
 	mud-connection-view.h		\
 	mud-preferences-window.c	\
