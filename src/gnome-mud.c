@@ -81,9 +81,9 @@ int main (gint argc, char *argv[])
 	GError       *err = NULL;
 	gchar         buf[500];
 
-	bindtextdomain(PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset(PACKAGE, "UTF-8");
-	textdomain(PACKAGE);
+	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	textdomain(GETTEXT_PACKAGE);
   
 	/* Initialize the GConf library */
 	if (!gconf_init(argc, argv, &err))

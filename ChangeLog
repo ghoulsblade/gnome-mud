@@ -1,3 +1,24 @@
+2006-01-04  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/mud-window.c (mud_window_populate_profiles_menu): Mark string
+	for translation.
+
+	* src/gnome-mud.c (main): Use GETTEXT_PACKAGE in i18n init.
+
+	* src/mud-preferences-window.c (mud_preferences_window_init),
+	src/mud-window-mconnect.c (mud_mconnect_window_init),
+	src/mud-window-mudedit.c (mud_edit_window_query_glade),
+	(props_window_dialog),
+	src/mud-window-mudlist.c (mud_list_window_init),
+	src/mud-window-profile.c (mud_profile_window_init),
+	(mud_profile_window_add_cb),
+	src/mud-window.c (mud_window_about_cb), (mud_window_connect_dialog),
+	(mud_window_init): Pass the correct gettext domain to glade_xml_new(),
+	so i18n works on glade dialogs.
+
+	* src/mud-window.c (mud_window_about_cb): Don't hardcode the version
+	string.
+
 2006-01-04  Les Harris  <lescom@comcast.net>
 
 	* src/svg/Makefile.am: Added file, will install gnome-mud.svg into

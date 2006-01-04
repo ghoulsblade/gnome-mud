@@ -253,10 +253,10 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
 	GtkWidget *dialog;
 	GladeXML *glade;
 	
-	glade = glade_xml_new(GLADEDIR "/main.glade", "about_window", "about_window");
+	glade = glade_xml_new(GLADEDIR "/main.glade", "about_window", NULL);
 	dialog = glade_xml_get_widget(glade, "about_window");
 
-	gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), "0.10.9");
+	gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), VERSION);
 	gtk_about_dialog_set_website_label(GTK_ABOUT_DIALOG(dialog), "GNOME-Mud Homepage");
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	
@@ -336,7 +336,7 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 	GtkWidget *entry_port;
 	gint result;
 
-	glade = glade_xml_new(GLADEDIR "/connect.glade", "connect_window", "connect_window");
+	glade = glade_xml_new(GLADEDIR "/connect.glade", "connect_window", NULL);
 	dialog = glade_xml_get_widget(glade, "connect_window");
 	
 	entry_host = glade_xml_get_widget(glade, "entry_host");
@@ -485,7 +485,7 @@ mud_window_populate_profiles_menu(MudWindow *window)
 
 	icon = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
 
-	manage = gtk_image_menu_item_new_with_mnemonic("_Manage Profiles...");
+	manage = gtk_image_menu_item_new_with_mnemonic(_("_Manage Profiles..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(manage), icon);
 	gtk_widget_show(manage);
 	gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->mi_profiles), manage);
@@ -507,7 +507,7 @@ mud_window_init (MudWindow *window)
 	window->priv->mud_views_list = NULL;
 	
 	/* start glading */
-	glade = glade_xml_new(GLADEDIR "/main.glade", "main_window", "main_window");
+	glade = glade_xml_new(GLADEDIR "/main.glade", "main_window", NULL);
 	window->priv->window = glade_xml_get_widget(glade, "main_window");
 	gtk_widget_show_all(window->priv->window);
 

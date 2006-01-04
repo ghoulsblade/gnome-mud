@@ -92,7 +92,7 @@ mud_profile_window_init (MudProfileWindow *profwin)
 
 	profwin->priv = g_new0(MudProfileWindowPrivate, 1);
 	
-	glade = glade_xml_new(GLADEDIR "/prefs.glade", "profiles_window", "profiles_window");
+	glade = glade_xml_new(GLADEDIR "/prefs.glade", "profiles_window", NULL);
 
 	profwin->priv->dialog = glade_xml_get_widget(glade, "profiles_window");
 
@@ -164,7 +164,7 @@ mud_profile_window_add_cb(GtkWidget *widget, MudProfileWindow *profwin)
 	gint result;
 	MudProfile *def, *prof;
 
-	glade = glade_xml_new(GLADEDIR "/prefs.glade", "newprofile_dialog", "newprofile_dialog");
+	glade = glade_xml_new(GLADEDIR "/prefs.glade", "newprofile_dialog", NULL);
 	dialog = glade_xml_get_widget(glade, "newprofile_dialog");
 	
 	entry_profile = glade_xml_get_widget(glade, "entry_profile");

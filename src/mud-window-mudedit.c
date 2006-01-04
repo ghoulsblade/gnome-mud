@@ -240,7 +240,7 @@ mud_edit_window_query_glade(MudEditWindow *mudedit)
 {
 	GladeXML *glade;
 
-	glade = glade_xml_new(GLADEDIR "/muds.glade", "mudedit_window", "mudedit_window");
+	glade = glade_xml_new(GLADEDIR "/muds.glade", "mudedit_window", NULL);
 	
 	mudedit->priv->dialog = glade_xml_get_widget(glade, "mudedit_window");
 
@@ -297,7 +297,7 @@ props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar)
 	
 	chars = NULL;
 	
-	glade = glade_xml_new(GLADEDIR "/muds.glade", "charprops_window", "charprops_window");
+	glade = glade_xml_new(GLADEDIR "/muds.glade", "charprops_window", NULL);
 	
 	dialog = glade_xml_get_widget(glade, "charprops_window");
 	name = glade_xml_get_widget(glade, "CharNameEntry");
