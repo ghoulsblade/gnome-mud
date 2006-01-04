@@ -1968,38 +1968,19 @@
   <property name="visible">True</property>
   <property name="destroy_with_parent">False</property>
   <property name="name" translatable="yes">GNOME-Mud</property>
-  <property name="copyright" translatable="yes">© 1998-2005 Robin Ericsson</property>
+  <property name="copyright" translatable="yes">© 1998-2006 Robin Ericsson</property>
   <property name="comments" translatable="yes">A Multi-User Dungeon (MUD) client for GNOME.</property>
   <property name="wrap_license">False</property>
   <property name="website">http://amcl.sourceforge.net/</property>
   <property name="website_label" translatable="yes">GNOME-Mud Homepage</property>
   <property name="authors">Robin Ericsson &lt;lobbin@localhost.nu&gt;
-Jordi Mallach &lt;jordi@debian.org&gt;
+Jordi Mallach &lt;jordi@sindominio.net&gt;
 Daniel Patton &lt;seven-nation@army.com&gt;
-Les Harris &lt;lescom@comcast.net&gt;
-
-David Zanetti &lt;dave@lynx.co.nz&gt;
-Ben Gertzfield &lt;che@debian.org&gt;
-Will Schenk &lt;chilly@psu.edu&gt;
-desaster &lt;desaster@sci.fi&gt;
-Paul Cameron &lt;thrase@progsoc.uts.edu.au&gt;
-Abigail Brady &lt;morwen@evilmagic.org&gt;
-Bret Robideaux &lt;fayd@alliances.org&gt;
-Maxim Kiselev &lt;max@hostel.nstu.ru&gt;
-Benjamin Curtis
-Jörgen Kosche 
-Jeroen Ruigrok &lt;asmodai@wxs.nl&gt;
-Jorge Garcia &lt;Jorge.Garcia@uv.es&gt;
-Benjamin Geiger &lt;bgeiger@ithink.net&gt;
-Petter E. Stokke
-Vashti &lt;vashti@jml.net&gt;
-Sjoerd Simons &lt;sjoerd@beast.luon.net&gt;
-Remi Bonnet</property>
-  <property name="documenters">Jordi Mallach &lt;jordi@debian.org&gt;</property>
-  <property name="artists">Daniel Patton &lt;seven-nation@army.com&gt;</property>
-  <property name="translator_credits" translatable="yes" comments="TRANSLATORS: Replace this string with your names, one name per line.">Jordi Mallach &lt;jordi@debian.org&gt;
-Martin Quinson
-Jörgen Kosche </property>
+Les Harris &lt;lescom@comcast.net&gt;</property>
+  <property name="documenters">Jordi Mallach &lt;jordi@sindominio.net&gt;</property>
+  <property name="artists">Daniel Taylor &lt;DanTaylor@web.de&gt;</property>
+  <property name="translator_credits" translatable="yes" comments="TRANSLATORS: Replace this string with your names, one name per line.">translator-credits</property>
+  <property name="logo">gnome-mud.png</property>
 </widget>
 
 </glade-interface>

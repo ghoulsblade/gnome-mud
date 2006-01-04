@@ -1,6 +1,10 @@
+2006-01-04  Jordi Mallach  <jordi@sindominio.net>
+
+	* ui/main.glade: Cleanup the About dialog.
+
 2006-01-04  Daniel Patton  <seven-nation@army.com>
 
-	* ui/main.glade:  Changed some mnemonics in the menus, added some
+	* ui/main.glade: Changed some mnemonics in the menus, added some
 	more. Added an accelerator for file->connect.
 
 2006-01-02  Jordi Mallach  <jordi@sindominio.net>
