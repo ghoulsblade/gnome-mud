@@ -1,3 +1,8 @@
+2006-01-04  Daniel Patton  <seven-nation@army.com>
+
+	* src/mud-window.c (mud_window_add_connection_view): Fix double
+	free.
+
 2006-01-04  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/mud-window.c (mud_window_populate_profiles_menu): Mark string
