@@ -1977,10 +1977,10 @@
 Jordi Mallach &lt;jordi@sindominio.net&gt;
 Daniel Patton &lt;seven-nation@army.com&gt;
 Les Harris &lt;lescom@comcast.net&gt;</property>
-  <property name="documenters">Jordi Mallach &lt;jordi@sindominio.net&gt;</property>
+  <property name="documenters">Jordi Mallach &lt;jordi@sindominio.net&gt;
+Petter E. Stokke &lt;gibreel@project23.no&gt;</property>
   <property name="artists">Daniel Taylor &lt;DanTaylor@web.de&gt;</property>
   <property name="translator_credits" translatable="yes" comments="TRANSLATORS: Replace this string with your names, one name per line.">translator-credits</property>
-  <property name="logo">gnome-mud.png</property>
 </widget>
 
 </glade-interface>

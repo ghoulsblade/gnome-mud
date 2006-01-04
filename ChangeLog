@@ -1,5 +1,9 @@
 2006-01-04  Jordi Mallach  <jordi@sindominio.net>
 
+	* ui/main.glade: Add Petter to documenters.
+
+2006-01-04  Jordi Mallach  <jordi@sindominio.net>
+
 	* MAINTAINERS: Make fatalerror happy.
 
 2006-01-04  Jordi Mallach  <jordi@sindominio.net>
