@@ -1,5 +1,9 @@
 2006-01-04  Jordi Mallach  <jordi@sindominio.net>
 
+	* MAINTAINERS: Make fatalerror happy.
+
+2006-01-04  Jordi Mallach  <jordi@sindominio.net>
+
 	* ui/main.glade: Cleanup the About dialog.
 
 2006-01-04  Daniel Patton  <seven-nation@army.com>
