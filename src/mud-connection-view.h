@@ -6,6 +6,7 @@ G_BEGIN_DECLS
 #include <gtk/gtkwidget.h>
 #include <libgnetwork/gnetwork.h>
 
+
 #define MUD_TYPE_CONNECTION_VIEW               (mud_connection_view_get_type ())
 #define MUD_CONNECTION_VIEW(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_CONNECTION_VIEW, MudConnectionView))
 #define MUD_CONNECTION_VIEW_TYPE_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_CONNECTION_VIEW, MudConnectionViewClass))
@@ -49,6 +50,11 @@ void mud_connection_view_send (MudConnectionView *view, const gchar *data);
 void mud_connection_view_set_connect_string(MudConnectionView *view, gchar *connect_string);
 void mud_connection_view_set_id(MudConnectionView *view, gint id);
 void mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type);
+
+#include "mud-profile.h"
+void mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profile);
+MudProfile *mud_connection_view_get_current_profile(MudConnectionView *view);
+
 #include "mud-window.h"
 void mud_connection_view_set_parent(MudConnectionView *view, MudWindow *window);
 

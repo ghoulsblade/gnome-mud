@@ -156,7 +156,7 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 	preferences->priv->profile = NULL;
 	preferences->priv->notification_count = 0;
 
-	glade = glade_xml_new(GLADEDIR "/main.glade", "preferences_window", "preferences_window");
+	glade = glade_xml_new(GLADEDIR "/prefs.glade", "preferences_window", "preferences_window");
 	dialog = glade_xml_get_widget(glade, "preferences_window");
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 
@@ -187,6 +187,7 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 		preferences->priv->colors[i] = glade_xml_get_widget(glade, buf);
 	}
 	
+	gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(preferences->priv->treeview), TRUE);
 	gtk_widget_show_all(dialog);
 	
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(dialog), TRUE);

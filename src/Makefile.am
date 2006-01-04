@@ -1,4 +1,4 @@
-SUBDIRS = pixmaps
+SUBDIRS = pixmaps svg
 
 GMUD_DEBUG = -Wall -O0 -g
 
@@ -43,6 +43,8 @@ gnome_mud_SOURCES =			\
 	mud-window-mudedit.h		\
 	mud-window-mudlist.c		\
 	mud-window-mudlist.h		\
+	mud-window-profile.c		\
+	mud-window-profile.h		\
 	utils.c				\
 	utils.h
 	

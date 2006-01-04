@@ -18,7 +18,7 @@ PLUGIN_INFO gnomemud_plugin_info =
 
 void init_plugin(PLUGIN_OBJECT *plugin, gint context)
 {
-  plugin_popup_message ("Test Plugin Registered");
+  //plugin_popup_message ("Test Plugin Registered");
   plugin_register_menu(context, "Test Plugin", "menu_function");
   plugin_register_data_incoming(context, "data_in_function");
 }

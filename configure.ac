@@ -242,6 +242,7 @@ AC_CONFIG_FILES([
   doc/gnome-mud-manual/Makefile
   src/Makefile
   src/pixmaps/Makefile
+  src/svg/Makefile
   plugins/Makefile
   plugins/python/Makefile
   po/Makefile.in

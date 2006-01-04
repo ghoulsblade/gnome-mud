@@ -6,6 +6,8 @@
 #include <gtk/gtkaboutdialog.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkentry.h>
+#include <gtk/gtkimage.h>
+#include <gdk/gdkpixbuf.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtknotebook.h>
@@ -14,7 +16,9 @@
 #include <gtk/gtktextview.h>
 #include <gtk/gtktextbuffer.h>
 #include <gtk/gtktextiter.h>
+#include <gtk/gtkimagemenuitem.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtkimage.h>
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 
@@ -25,6 +29,8 @@
 #include "mud-window-mudlist.h"
 #include "mud-window-mconnect.h"
 #include "modules.h"
+#include "mud-profile.h"
+#include "mud-window-profile.h"
 
 static char const rcsid[] = "$Id: ";
 
@@ -43,6 +49,12 @@ struct _MudWindowPrivate
 
 	GtkWidget *blank_label;
 	GtkWidget *current_view;
+
+	GtkWidget *mi_profiles;
+	
+	GtkWidget *image;
+
+	GSList *profileMenuList;
 
 	gchar *host;
 	gchar *port;
@@ -81,6 +93,8 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view)
 	if (window->priv->nr_of_tabs++ == 0)
 	{
 		gtk_notebook_remove_page(GTK_NOTEBOOK(window->priv->notebook), 0);
+		g_free(window->priv->image);
+		window->priv->image = NULL;
 	}
 	
 	nr = gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), mud_connection_view_get_viewport(view), NULL);
@@ -128,7 +142,9 @@ mud_window_remove_connection_view(MudWindow *window, gint nr)
 
 	if (window->priv->nr_of_tabs == 0)
 	{
-		gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), window->priv->blank_label, NULL);
+		window->priv->image = gtk_image_new();
+		gtk_widget_show(window->priv->image);
+		gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), window->priv->image, NULL);
 	}
 }
 static void
@@ -154,6 +170,7 @@ mud_window_closewindow_cb(GtkWidget *widget, MudWindow *window)
 
 		mud_window_remove_connection_view(window, nr);
 	}
+
 }
 
 static gboolean
@@ -192,7 +209,17 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
 static void
 mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gint arg, MudWindow *window)
 {
+	gchar *name;
+
 	window->priv->current_view = g_object_get_data(G_OBJECT(gtk_notebook_get_nth_page(notebook, arg)), "connection-view");
+
+	if (window->priv->nr_of_tabs != 0)
+	{
+		name = mud_profile_get_name(mud_connection_view_get_current_profile(MUD_CONNECTION_VIEW(window->priv->current_view)));
+	
+		mud_window_profile_menu_set_active(name, window);
+	}
+
 }
 
 static void
@@ -212,6 +239,12 @@ static void
 mud_window_list_cb(GtkWidget *widget, MudWindow *window)
 {
 	mud_window_mudlist_new();
+}
+
+static void
+mud_window_profiles_cb(GtkWidget *widget, MudWindow *window)
+{
+	mud_window_profile_new(window);
 }
 
 static void
@@ -275,9 +308,18 @@ gboolean
 mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer user_data)
 {	
 	gint w, h;
+	GdkPixbuf *buf;
+	GError *gerr = NULL;
 	MudWindow *window = (MudWindow *)user_data;
 	
 	gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
+	
+	if (window->priv->nr_of_tabs == 0)
+	{
+		buf = gdk_pixbuf_new_from_file_at_size(GMPIXMAPSDIR "/gnome-mud.svg", w >> 1, h >> 1, &gerr);
+	
+		gtk_image_set_from_pixbuf(GTK_IMAGE(window->priv->image), buf);
+	}
 	
 	if(!window->priv->toggleState)
 		gtk_paned_set_position(GTK_PANED(window->priv->mainvpane),h - 62);
@@ -365,11 +407,95 @@ mud_window_get_type (void)
 	return object_type;
 }
 
+
+static void
+mud_window_select_profile(GtkWidget *widget, MudWindow *window)
+{
+	MudProfile *profile;
+	GtkWidget *profileLabel;
+	
+	profileLabel = gtk_bin_get_child(GTK_BIN(widget));
+
+	if (window->priv->current_view)
+	{
+		profile = get_profile(gtk_label_get_text(GTK_LABEL(profileLabel)));
+
+		if (profile)
+			mud_connection_view_set_profile(MUD_CONNECTION_VIEW(window->priv->current_view), profile);
+	}
+}
+
+void 
+mud_window_profile_menu_set_cb(GtkWidget *widget, gpointer data)
+{
+	gchar *name = (gchar *)data;
+	GtkWidget *label;
+	
+	label = gtk_bin_get_child(GTK_BIN(widget));
+
+	
+	if (GTK_IS_LABEL(label) && !strcmp(name,gtk_label_get_text(GTK_LABEL(label))))
+	{
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget), TRUE);
+	}
+}
+
+void 
+mud_window_profile_menu_set_active(gchar *name, MudWindow *window)
+{
+	gtk_container_foreach(GTK_CONTAINER(window->priv->mi_profiles),mud_window_profile_menu_set_cb,(gpointer)name);
+}
+
+void mud_window_clear_profiles_menu(GtkWidget *widget, gpointer data)
+{	
+	gtk_widget_destroy(widget);
+}
+
+void
+mud_window_populate_profiles_menu(MudWindow *window)
+{
+	const GList *profiles;
+	GList *entry;
+	GtkWidget *profile;
+	GtkWidget *sep;
+	GtkWidget *manage;
+	GtkWidget *icon;
+	
+	window->priv->profileMenuList = NULL;
+	
+	profiles = mud_profile_get_profiles();
+	
+	gtk_container_foreach(GTK_CONTAINER(window->priv->mi_profiles), mud_window_clear_profiles_menu, NULL);
+
+	for (entry = (GList *)profiles; entry != NULL; entry = g_list_next(entry))
+	{
+		profile = gtk_radio_menu_item_new_with_label(window->priv->profileMenuList, (gchar *)MUD_PROFILE(entry->data)->name);
+		gtk_widget_show(profile);
+		window->priv->profileMenuList = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(profile));
+
+		gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->mi_profiles), profile);
+
+		g_signal_connect(G_OBJECT(profile), "activate", G_CALLBACK(mud_window_select_profile), window);
+
+	}
+
+	sep = gtk_separator_menu_item_new();
+	gtk_widget_show(sep);
+	gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->mi_profiles), sep);
+
+	icon = gtk_image_new_from_stock("gtk-edit", GTK_ICON_SIZE_MENU);
+
+	manage = gtk_image_menu_item_new_with_mnemonic("_Manage Profiles...");
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(manage), icon);
+	gtk_widget_show(manage);
+	gtk_menu_shell_append(GTK_MENU_SHELL(window->priv->mi_profiles), manage);
+	g_signal_connect(manage, "activate", G_CALLBACK(mud_window_profiles_cb), window);
+}
+
 static void
 mud_window_init (MudWindow *window)
 {
 	GladeXML *glade;
-	gchar buf[1024];
 	gint w, h;
 	
 	window->priv = g_new0(MudWindowPrivate, 1);
@@ -409,6 +535,8 @@ G_CALLBACK(mud_window_list_cb), window);
 	g_signal_connect(glade_xml_get_widget(glade, "menu_closewindow"), "activate", G_CALLBACK(mud_window_closewindow_cb), window);
 
 	/* preferences window button */
+
+	window->priv->mi_profiles = glade_xml_get_widget(glade, "mi_profiles_menu");
 	g_signal_connect(glade_xml_get_widget(glade, "menu_preferences"), "activate", G_CALLBACK(mud_window_preferences_cb), window);
 	
 	g_signal_connect(glade_xml_get_widget(glade, "menu_about"), "activate", G_CALLBACK(mud_window_about_cb), window);
@@ -436,6 +564,8 @@ G_CALLBACK(mud_window_list_cb), window);
 	
 	gtk_paned_set_position(GTK_PANED(window->priv->mainvpane),h - 62);
 	
+	window->priv->image = glade_xml_get_widget(glade, "image");
+
 	g_signal_connect(glade_xml_get_widget(glade, "toggle_input"), "clicked", G_CALLBACK(mud_window_inputtoggle_cb), window);
 
 	g_signal_connect(glade_xml_get_widget(glade, "plugin_list"), "activate", G_CALLBACK(do_plugin_information), NULL);
@@ -444,16 +574,12 @@ G_CALLBACK(mud_window_list_cb), window);
 
 	window->priv->current_view = NULL;
 	window->priv->nr_of_tabs = 0;
-	window->priv->blank_label = glade_xml_get_widget(glade, "startup_label");
-	g_object_ref(window->priv->blank_label);
-	
-	/* set nice default info to display */
-	g_snprintf(buf, 1023, _("GNOME-Mud version %s (compiled %s, %s)\n"
-							"Distributed under the terms of the GNU General Public License.\n"),
-							VERSION, __TIME__, __DATE__);
-	gtk_label_set_text(GTK_LABEL(window->priv->blank_label), buf);
+
 	
 	g_signal_connect(window->priv->window, "configure-event", G_CALLBACK(mud_window_size_request), window);
+
+	window->priv->profileMenuList = NULL;
+	mud_window_populate_profiles_menu(window);
 
 	g_object_unref(glade);
 }

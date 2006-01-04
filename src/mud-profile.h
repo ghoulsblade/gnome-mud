@@ -77,8 +77,10 @@ struct _MudProfileClass
 GType mud_profile_get_type (void) G_GNUC_CONST;
 
 MudProfile* mud_profile_new (const gchar *name);
+void mud_profile_delete(const gchar *name);
 void mud_profile_load_profiles ();
 const GList* mud_profile_get_profiles ();
+MudProfile* get_profile(const gchar *name);
 
 void mud_profile_copy_preferences (MudProfile *from, MudProfile *to);
 GList* mud_profile_process_commands (MudProfile *profile, const gchar *data);
@@ -95,6 +97,9 @@ void mud_profile_set_font (MudProfile *profile, const gchar *value);
 void mud_profile_set_foreground (MudProfile *profile, guint r, guint g, guint b);
 void mud_profile_set_background (MudProfile *profile, guint r, guint g, guint b);
 void mud_profile_set_colors (MudProfile *profile, gint nr, guint r, guint g, guint b);
+gchar *mud_profile_from_number(gint num);
+gint mud_profile_num_from_name(gchar *name);
+gchar *mud_profile_get_name(MudProfile *profile);
 
 G_END_DECLS
 

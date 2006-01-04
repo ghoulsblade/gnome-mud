@@ -15,6 +15,7 @@
 #include "mud-window.h"
 #include "mud-window-mudlist.h"
 #include "mud-window-mudedit.h"
+#include "mud-profile.h"
 #include "utils.h"
 
 gchar *gmud;
@@ -40,6 +41,9 @@ struct _MudEditWindowPrivate
 	GtkWidget *btnDel;
 
 	GtkWidget *MudCodeBaseCombo;
+	GtkWidget *MudProfileCombo;
+	GtkListStore *MudProfileComboStore;
+	GtkCellRenderer *comborender;
 
 	GtkWidget *EntryName;
 	GtkWidget *EntryHost;
@@ -76,6 +80,7 @@ void mud_edit_window_del_cb(GtkWidget *widget, MudEditWindow *mudedit);
 
 void props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar);
 void populate_charview(MudEditWindow *mudedit);
+void populate_profiles(MudEditWindow *mudedit);
 
 gboolean mud_edit_window_tree_select_cb(GtkTreeSelection *selection,
                      			GtkTreeModel     *model,
@@ -120,6 +125,7 @@ mud_edit_window_init (MudEditWindow *mudedit)
 	g_free(gmud);
 	
 	mud_edit_window_query_glade(mudedit);
+	populate_profiles(mudedit);
 	mud_edit_window_connect_signals(mudedit);
 	mud_edit_window_query_gconf(mudedit);
 
@@ -129,7 +135,7 @@ mud_edit_window_init (MudEditWindow *mudedit)
   	gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(mudedit->priv->CharView), TRUE);
   	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(mudedit->priv->CharView), FALSE);
   	mudedit->priv->col = gtk_tree_view_column_new();
- 	
+
   	gtk_tree_view_append_column(GTK_TREE_VIEW(mudedit->priv->CharView), mudedit->priv->col);
   	mudedit->priv->renderer = gtk_cell_renderer_text_new();
   	gtk_tree_view_column_pack_start(mudedit->priv->col, mudedit->priv->renderer, TRUE);
@@ -212,8 +218,10 @@ mud_edit_window_query_gconf(MudEditWindow *mudedit)
 	gtk_entry_set_text(GTK_ENTRY(mudedit->priv->EntryTheme), gconf_client_get_string(client, keyname, &error));
 
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/codebase", mudedit->priv->mud);
-	
 	gtk_combo_box_set_active(GTK_COMBO_BOX(mudedit->priv->MudCodeBaseCombo), gconf_client_get_int(client, keyname, &error));	
+
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/profile", mudedit->priv->mud);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(mudedit->priv->MudProfileCombo), gconf_client_get_int(client, keyname, &error));
 	
 }
 
@@ -244,6 +252,14 @@ mud_edit_window_query_glade(MudEditWindow *mudedit)
 	mudedit->priv->btnDel = glade_xml_get_widget(glade, "btnDelete");
 
 	mudedit->priv->MudCodeBaseCombo = glade_xml_get_widget(glade, "MudCodeBaseCombo");
+	mudedit->priv->MudProfileCombo = glade_xml_get_widget(glade, "MudProfileCombo");
+
+	mudedit->priv->MudProfileComboStore = gtk_list_store_new(1, G_TYPE_STRING);
+	gtk_list_store_clear(GTK_LIST_STORE(mudedit->priv->MudProfileComboStore));
+	gtk_combo_box_set_model(GTK_COMBO_BOX(mudedit->priv->MudProfileCombo), GTK_TREE_MODEL(mudedit->priv->MudProfileComboStore));
+	mudedit->priv->comborender =gtk_cell_renderer_text_new();
+	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(mudedit->priv->MudProfileCombo), mudedit->priv->comborender, TRUE);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(mudedit->priv->MudProfileCombo), mudedit->priv->comborender, "text", 0, NULL);
 	
 	mudedit->priv->EntryName = glade_xml_get_widget(glade, "EntryName");
 	mudedit->priv->EntryHost = glade_xml_get_widget(glade, "EntryHost");
@@ -378,6 +394,28 @@ populate_charview(MudEditWindow *mudedit)
 		g_free(cname);
 	}	
 }
+
+void
+populate_profiles(MudEditWindow *mudedit)
+{
+	GSList *profiles, *entry;
+	GConfClient *client;
+	GError *error = NULL;
+	gchar keyname[2048];
+	GtkTreeIter iter;
+
+	client = gconf_client_get_default();
+	
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/list");
+	
+	profiles = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
+	for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
+	{
+		gtk_list_store_append(GTK_LIST_STORE(mudedit->priv->MudProfileComboStore), &iter);
+		gtk_list_store_set(GTK_LIST_STORE(mudedit->priv->MudProfileComboStore), &iter, 0, (gchar *)entry->data, -1);
+	}
+}
+
 // MudEditWindow Callbacks
 void 
 mud_edit_window_props_cb(GtkWidget *widget, MudEditWindow *mudedit)
@@ -403,6 +441,7 @@ mud_edit_window_ok_cb(GtkWidget *widget, MudEditWindow *mudedit)
 	GSList *muds, *entry;
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mudedit->priv->MudDescTextView));
 	GtkTextIter start, end;
+	gint profileInt;
 	
 	client = gconf_client_get_default();
 	strval = gconf_value_new(GCONF_VALUE_STRING);
@@ -474,6 +513,15 @@ mud_edit_window_ok_cb(GtkWidget *widget, MudEditWindow *mudedit)
 	
 	gconf_value_set_int(intval, gtk_combo_box_get_active(GTK_COMBO_BOX(mudedit->priv->MudCodeBaseCombo)));
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/codebase", mudedit->priv->mud);
+	gconf_client_set(client, keyname, intval, &error);
+
+	if (gtk_combo_box_get_active(GTK_COMBO_BOX(mudedit->priv->MudProfileCombo)) == -1)
+		profileInt = 0;
+	else
+		profileInt = gtk_combo_box_get_active(GTK_COMBO_BOX(mudedit->priv->MudProfileCombo));
+		
+	gconf_value_set_int(intval, profileInt);
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/profile", mudedit->priv->mud);
 	gconf_client_set(client, keyname, intval, &error);
 	
 	gconf_value_free(strval);

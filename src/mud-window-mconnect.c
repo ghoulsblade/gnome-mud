@@ -12,6 +12,7 @@
 #include "mud-connection-view.h"
 #include "mud-window.h"
 #include "mud-window-mconnect.h"
+#include "mud-profile.h"
 #include "utils.h"
 
 struct _MudMConnectWindowPrivate
@@ -32,6 +33,10 @@ struct _MudMConnectWindowPrivate
 	
 	GtkWidget *btnConnect;
 	GtkWidget *btnClose;
+
+	GtkWidget *profileCombo;
+	GtkListStore *comboStore;
+	GtkCellRenderer *comborender;
 
 	GtkTreeStore *store;
 	GtkTreeViewColumn *col;
@@ -58,6 +63,7 @@ void mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconne
 void mud_mconnect_window_close_cb(GtkWidget *widget, MudMConnectWindow *mconnect);
 
 void  mud_mconnect_window_populate_treeview(MudMConnectWindow *mconnect);
+void mud_mconnect_populate_profiles(MudMConnectWindow *mconnect);
 
 gboolean mud_mconnect_select_cb(GtkTreeSelection *selection,
                      			GtkTreeModel     *model,
@@ -109,6 +115,17 @@ mud_mconnect_window_init (MudMConnectWindow *mconnect)
 	mconnect->priv->btnConnect = glade_xml_get_widget(glade, "btnConnect");
 	mconnect->priv->btnClose = glade_xml_get_widget(glade, "btnClose");
 
+	mconnect->priv->profileCombo = glade_xml_get_widget(glade, "comboProfiles");
+
+	mconnect->priv->comboStore = gtk_list_store_new(1, G_TYPE_STRING);
+	gtk_list_store_clear(GTK_LIST_STORE(mconnect->priv->comboStore));
+	gtk_combo_box_set_model(GTK_COMBO_BOX(mconnect->priv->profileCombo), GTK_TREE_MODEL(mconnect->priv->comboStore));
+	mconnect->priv->comborender = gtk_cell_renderer_text_new();
+	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(mconnect->priv->profileCombo), mconnect->priv->comborender, TRUE);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(mconnect->priv->profileCombo), mconnect->priv->comborender, "text", 0, NULL);
+
+	mud_mconnect_populate_profiles(mconnect);
+	
 	mconnect->priv->store = gtk_tree_store_new(N_COLUMNS, G_TYPE_STRING);
   	gtk_tree_view_set_model(GTK_TREE_VIEW(mconnect->priv->mudView), GTK_TREE_MODEL(mconnect->priv->store));
   	
@@ -160,6 +177,27 @@ mud_mconnect_window_finalize (GObject *object)
 }
 
 void 
+mud_mconnect_populate_profiles(MudMConnectWindow *mconnect)
+{
+	GSList *profiles, *entry;
+	GConfClient *client;
+	GError *error = NULL;
+	gchar keyname[2048];
+	GtkTreeIter iter;
+
+	client = gconf_client_get_default();
+	
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/list");
+	
+	profiles = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
+	for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
+	{
+		gtk_list_store_append(GTK_LIST_STORE(mconnect->priv->comboStore), &iter);
+		gtk_list_store_set(GTK_LIST_STORE(mconnect->priv->comboStore), &iter, 0, (gchar *)entry->data, -1);
+	}
+}
+
+void
 mud_mconnect_window_populate_treeview(MudMConnectWindow *mconnect)
 {
 	GtkTreeStore* store = GTK_TREE_STORE(mconnect->priv->store);
@@ -217,6 +255,9 @@ mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconnect)
 	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort, mconnect->priv->winwidget);
 	
 	mud_window_add_connection_view(mconnect->priv->window, mconnect->priv->view);
+
+	mud_connection_view_set_profile(mconnect->priv->view, get_profile((const gchar *)mud_profile_from_number(gtk_combo_box_get_active(GTK_COMBO_BOX(mconnect->priv->profileCombo)))));
+	mud_window_profile_menu_set_active(mud_profile_from_number(gtk_combo_box_get_active(GTK_COMBO_BOX(mconnect->priv->profileCombo))),mconnect->priv->window);
 
 	if(mconnect->priv->SelConnect)
 	{
@@ -280,6 +321,9 @@ mud_mconnect_select_cb(GtkTreeSelection *selection,
 			mconnect->priv->SelConnect = gconf_client_get_string(client, keyname, &error);
 		}
 		
+		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/profile", name);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(mconnect->priv->profileCombo),gconf_client_get_int(client, keyname, &error));
+
 		gtk_widget_set_sensitive(mconnect->priv->btnConnect,TRUE);
 	}
 	

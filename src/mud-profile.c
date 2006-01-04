@@ -10,6 +10,7 @@
 
 #include "gconf-helper.h"
 #include "mud-profile.h"
+#include "utils.h"
 
 static char const rcsid[] = "$Id: ";
 
@@ -149,10 +150,48 @@ mud_profile_finalize (GObject *object)
 	parent_class->finalize(object);
 }
 
+void
+mud_profile_delete(const gchar *name)
+{
+	MudProfile *profile;
+	GSList *profiles, *entry, *rementry;
+	GError *error = NULL;
+	gchar buf[512];
+	GConfClient *client;
+	
+
+	client = gconf_client_get_default();
+	
+	rementry = NULL;
+	rementry = g_slist_append(rementry, NULL);
+	profile = get_profile(name);
+	
+	if (profile)
+	{
+		profile_list = g_list_remove(profile_list, profile);
+		
+		g_snprintf(buf, 512, "/apps/gnome-mud/profiles/list");
+		profiles = gconf_client_get_list(client, buf, GCONF_VALUE_STRING, &error);
+		for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
+		{
+			if (strcmp((gchar *)entry->data, name) == 0)
+			{
+				rementry->data = entry->data;
+			}
+		}
+
+		profiles = g_slist_remove(profiles, rementry->data);
+		gconf_client_set_list(client, buf, GCONF_VALUE_STRING, profiles, &error);		
+	}
+}
+
 MudProfile*
 mud_profile_new (const gchar *name)
 {
 	MudProfile *profile;
+	GSList *profiles, *entry;
+	GError *error = NULL;
+	gint newflag;
 
 	g_assert(name != NULL);
 
@@ -178,7 +217,26 @@ mud_profile_new (const gchar *name)
 		{
 			gchar buf[512];
 
-			g_snprintf(buf, 512, "/apps/gnome-mud/profiles/%s", name);
+			newflag = 1;
+			
+			g_snprintf(buf, 512, "/apps/gnome-mud/profiles/list");
+			profiles = gconf_client_get_list(gconf_client_get_default(), buf, GCONF_VALUE_STRING, &error);
+
+			for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
+			{
+				if(!strcmp((gchar *)entry->data,name))
+				{
+					newflag = 0;
+				}
+			}
+
+			if (newflag)
+			{
+				profiles = g_slist_append(profiles, (void *)g_strdup(name));
+				gconf_client_set_list(gconf_client_get_default(), buf, GCONF_VALUE_STRING, profiles, &error);	
+			}
+					
+			g_snprintf(buf, 512, "/apps/gnome-mud/profiles/%s", name);	
 			gconf_client_notify_add(profile->priv->gconf_client,
 						buf,
 						mud_profile_gconf_changed,
@@ -652,6 +710,50 @@ GList *
 mud_profile_process_commands(MudProfile *profile, const gchar *data)
 {
 	return mud_profile_process_command(profile, data, NULL);
+}
+
+gchar *
+mud_profile_from_number(gint num)
+{
+	GList *entry;
+	gint counter = 0;
+	
+	for (entry = (GList *)profile_list; entry != NULL; entry = g_list_next(entry))
+	{
+		if (counter == num)
+		{
+			return (gchar *)MUD_PROFILE(entry->data)->name;
+		}	
+
+		counter++;
+	}
+	
+	return NULL;
+}
+
+gint 
+mud_profile_num_from_name(gchar *name)
+{
+	GList *entry;
+	gint counter = 0;
+	
+	for (entry = (GList *)profile_list; entry != NULL; entry = g_list_next(entry))
+	{
+		if (!strcmp((gchar *)MUD_PROFILE(entry->data)->name,name))
+		{
+			return counter;
+		}	
+
+		counter++;
+	}
+
+	return -1;
+}
+
+gchar *
+mud_profile_get_name(MudProfile *profile)
+{
+	return profile->name;
 }
 
 const GList*

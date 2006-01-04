@@ -46,7 +46,6 @@ static void mud_connection_view_set_terminal_type        (MudConnectionView *vie
 static void mud_connection_view_profile_changed_cb       (MudProfile *profile, MudProfileMask *mask, MudConnectionView *view);
 static gboolean mud_connection_view_button_press_event   (GtkWidget *widget, GdkEventButton *event, MudConnectionView *view);
 static void mud_connection_view_popup                    (MudConnectionView *view, GdkEventButton *event);
-static void mud_connection_view_set_profile              (MudConnectionView *view, MudProfile *profile);
 static void mud_connection_view_reread_profile           (MudConnectionView *view);
 
 GType
@@ -690,7 +689,7 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 	return view;
 }
 
-static void
+void
 mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profile)
 {
 	if (profile == view->priv->profile)
@@ -709,6 +708,12 @@ mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profile)
 				 G_CALLBACK(mud_connection_view_profile_changed_cb),
 				 view);
 	mud_connection_view_reread_profile(view);
+}
+
+MudProfile *
+mud_connection_view_get_current_profile(MudConnectionView *view)
+{
+	return view->priv->profile;
 }
 
 GtkWidget *
