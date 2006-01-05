@@ -12,6 +12,7 @@
 #include "mud-connection-view.h"
 #include "mud-profile.h"
 #include "mud-window.h"
+#include "mud-tray.h"
 
 static char const rcsid[] = "$Id$";
 
@@ -20,6 +21,7 @@ struct _MudConnectionViewPrivate
 	gint id;
 	
 	MudWindow *window;
+	MudTray *tray;
 	
 	GtkWidget *terminal;
 	GtkWidget *scrollbar;
@@ -32,6 +34,7 @@ struct _MudConnectionViewPrivate
 	gulong signal_profile_changed;
 
 	gboolean connect_hook;
+	gboolean connected;
 	gchar *connect_string;
 };
 
@@ -304,6 +307,7 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	g_object_set_data(G_OBJECT(box), "connection-view", connection_view);
 	
 	connection_view->priv->box = box;
+	connection_view->priv->connected = FALSE;
 
 }
 
@@ -355,6 +359,12 @@ mud_connection_view_received_cb(GNetworkConnection *cxn, gconstpointer data, gul
 	MudConnectionView *view = MUD_CONNECTION_VIEW(user_data);
 	g_assert(view != NULL);
 
+	if(!view->priv->connected)
+	{
+		view->priv->connected = TRUE;
+		mud_tray_update_icon(view->priv->tray, online);
+	}
+	
 	// Give plugins first crack at it	
 	mud_window_handle_plugins(view->priv->window, view->priv->id, (gchar *)data, 1);
 	
@@ -639,7 +649,7 @@ mud_connection_view_set_parent(MudConnectionView *view, MudWindow *window)
 
 
 MudConnectionView*
-mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window)
+mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window, GtkWidget *tray)
 {
 	MudConnectionView *view;
    	GdkGeometry hints;
@@ -686,6 +696,8 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
   					GDK_HINT_MIN_SIZE |
   					GDK_HINT_BASE_SIZE);
 
+	view->priv->tray = MUD_TRAY(tray);
+	
 	return view;
 }
 

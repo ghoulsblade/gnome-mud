@@ -27,6 +27,7 @@
 #include "mud-preferences-window.h"
 #include "mud-window.h"
 #include "mud-window-mudlist.h"
+#include "mud-tray.h"
 #include "mud-window-mconnect.h"
 #include "modules.h"
 #include "mud-profile.h"
@@ -61,6 +62,8 @@ struct _MudWindowPrivate
 
 	gint nr_of_tabs;
 	gint toggleState;
+	
+	MudTray *tray;
 };
 
 typedef struct MudViewEntry
@@ -168,6 +171,9 @@ mud_window_closewindow_cb(GtkWidget *widget, MudWindow *window)
 		gint nr = gtk_notebook_get_current_page(GTK_NOTEBOOK(window->priv->notebook));
 
 		mud_window_remove_connection_view(window, nr);
+		
+		if(window->priv->nr_of_tabs == 0)
+			mud_tray_update_icon(window->priv->tray, offline_connecting);
 	}
 
 }
@@ -269,7 +275,7 @@ mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *window)
 	
 	mywig = window->priv->window;
 	
-	mud_window_mconnect_new(window, mywig);
+	mud_window_mconnect_new(window, mywig, window->priv->tray);
 }
 
 static void
@@ -364,7 +370,9 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 			iport = 23;
 		}
 		
-		view = mud_connection_view_new("Default", host, iport, window->priv->window);
+		mud_tray_update_icon(window->priv->tray, offline);
+		
+		view = mud_connection_view_new("Default", host, iport, window->priv->window, (GtkWidget *)window->priv->tray);
 		mud_window_add_connection_view(window, view);
 
 		
@@ -580,6 +588,8 @@ G_CALLBACK(mud_window_list_cb), window);
 	window->priv->profileMenuList = NULL;
 	mud_window_populate_profiles_menu(window);
 
+	window->priv->tray = mud_tray_new(window, window->priv->window);
+	
 	g_object_unref(glade);
 }
 

@@ -11,6 +11,7 @@
 #include "gnome-mud.h"
 #include "mud-connection-view.h"
 #include "mud-window.h"
+#include "mud-tray.h"
 #include "mud-window-mconnect.h"
 #include "mud-profile.h"
 #include "utils.h"
@@ -46,6 +47,8 @@ struct _MudMConnectWindowPrivate
 
 	MudWindow *window;
 	GtkWidget *winwidget;
+	
+	MudTray *tray;
 };
 
 enum
@@ -252,7 +255,9 @@ mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconnect)
 	if(mconnect->priv->SelPort < 1)
 		mconnect->priv->SelPort = 23;
 		
-	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort, mconnect->priv->winwidget);
+	mud_tray_update_icon(mconnect->priv->tray, offline);
+	
+	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort, mconnect->priv->winwidget, (GtkWidget *)mconnect->priv->tray);
 	
 	mud_window_add_connection_view(mconnect->priv->window, mconnect->priv->view);
 
@@ -332,7 +337,7 @@ mud_mconnect_select_cb(GtkTreeSelection *selection,
 
 // Instantiate MudMConnectWindow
 MudMConnectWindow*
-mud_window_mconnect_new(MudWindow *win, GtkWidget *winwidget)
+mud_window_mconnect_new(MudWindow *win, GtkWidget *winwidget, MudTray *tray)
 {
 	MudMConnectWindow *MudMConnect;
 	
@@ -340,6 +345,7 @@ mud_window_mconnect_new(MudWindow *win, GtkWidget *winwidget)
 
 	MudMConnect->priv->window = win;
 	MudMConnect->priv->winwidget = winwidget;
+	MudMConnect->priv->tray = tray;
 	
 	return MudMConnect;	
 }

@@ -20,6 +20,7 @@ struct _MudWindow
 {
 	GObject parent_instance;
 
+
 	MudWindowPrivate *priv;
 };
 

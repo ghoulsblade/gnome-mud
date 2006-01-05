@@ -162,16 +162,6 @@ struct _AutoMapConfig
 };
 #endif
 
-enum tray_status
-{
-        offline,
-        offline_connecting,
-        online,
-        online_connecting
-        // could use a few more
-};
-
-
 
 /*
  * Function declares
@@ -224,60 +214,5 @@ void  stop_logging_connection           ( CONNECTION_DATA *connection      );
 void window_automap   ( GtkWidget *widget, gpointer data);
 void user_command     ( AutoMap* automap, const gchar* command);
 #endif
-
-/* misc.c */
-void  init_uid        ( void                               );
-
-/* modules.c */
-void  do_plugin_information (GtkWidget *w, gpointer data   );
-int   init_modules    ( char *path                         );
-void  save_plugins    ( void                               );
-
-/* mudlist.c */
-void  window_mudlist  ( GtkWidget *widget, gboolean wizard );
-
-/* prefs.c */
-void  load_prefs      ( void                               );
-void  window_prefs    ( GtkWidget *widget, gpointer data   );
-void  update_gconf_from_unusual_exits (                    );
-FILE *open_file       ( gchar *filename, gchar *mode       );
-GtkPositionType tab_location_by_gtk( const gchar *p        );
-
-/* profiles */
-void		  load_profiles   (	void							   );
-PROFILE_DATA *profiledata_find( gchar *							   );
-void  		  profiledata_save( gchar *, GtkCList *, gchar *	   );
-void		  profiledata_savekeys(gchar *, KEYBIND_DATA *		   );
-void  		  window_profiles ( void							   );
-void		  window_profile_edit ( void						   );
-
-/* python.c */
-void   python_init     ( void                                        );
-void   python_end      ( void                                        );
-gchar *python_process_input( CONNECTION_DATA *, gchar *              );
-gchar *python_process_output( CONNECTION_DATA *, gchar *             );
-
-/* telnet.c */
-void  connection_send_naws ( CONNECTION_DATA *connection             );
-gint  pre_process     ( char *buf, CONNECTION_DATA *connection       );
-
-/* window.c */
-void  popup_window    ( const gchar *message                         );
-void  switch_page_cb  ( GtkNotebook *, gpointer, guint, gpointer     );
-void  grab_focus_cb   ( GtkWidget* widget, gpointer user_data        );
-void  textfield_add   ( CONNECTION_DATA *, gchar *, gint             );
-void  terminal_feed   ( GtkWidget *, gchar *data                     );
-void  vte_char_size_changed_cb( VteTerminal*, guint, guint, gpointer );
-void  vte_resize_window_cb    ( GtkWidget*, GtkAllocation*, gpointer );
-
-/* wizard.c */
-CONNECTION_DATA *create_connection_data ( gint notebook );
-void  free_connection_data (CONNECTION_DATA *c             );
-
-/* tray.c */
-void tray_create();
-void tray_destroy();
-void tray_menu();
-void tray_update_icon (enum tray_status icon);
 
 #endif /* __GNOME_MUD_H__ */

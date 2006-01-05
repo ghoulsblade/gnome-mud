@@ -30,6 +30,7 @@ PLUGIN_OBJECT *plugin_query    (gchar *plugin_name, gchar *pp    );
 void           plugin_register (PLUGIN_OBJECT *plugin            );
 void	       popup_message(const gchar *data);
 void 	       init_modules_win(MudWindow *win);
+int init_modules(char *path);
 void do_plugin_information(GtkWidget *widget, gpointer data);
 /*
  * Variables

@@ -1,3 +1,13 @@
+2006-01-05  Les Harris  <lescom@comcast.net>
+
+	* src/mud-tray.h, src/mud-tray.c: Converted the old trayicon code into
+	a full fledged GObject.
+	* src/mud-window.c, src/mud-window.h, src/mud-connection-view.c,
+	src/mud-connection-view.h, src/Makefile.am: Added in support for
+	the tray icon.
+
+	* src/modules.h: Add missing declaration.
+
 2006-01-05  Daniel Patton  <seven-nation@army.com>
 
 	* src/mud-window.c (mud_window_add_connection_view): Real fix for the
