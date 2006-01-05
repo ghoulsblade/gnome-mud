@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1999-2001 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1999-2006 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,11 +17,13 @@
  */
 
 //#ifdef __MODULE__
-#include "config.h"
-#include <gnome.h>
-#include <glade/glade.h>
-#include <gtk/gtk.h>
-#include <stdio.h>
+
+#ifdef HAVE_CONFIG_H
+  #include "config.h"
+#endif
+
+#include <glib/gi18n.h>
+#include <glade/glade-xml.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"

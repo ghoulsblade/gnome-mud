@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1999-2001 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1999-2006 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,13 +27,9 @@
 #  include "config.h"
 #endif
 
-#include <errno.h>
-#include <gnome.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <string.h>
-#include <pwd.h>
+#include <glib/gi18n.h>
+#include <libgnome/gnome-config.h>
+#include <libgnomeui/gnome-dialog.h>
 
 #if HAVE_DIRENT_H
 # include <dirent.h>

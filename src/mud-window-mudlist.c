@@ -2,11 +2,9 @@
 #  include "config.h"
 #endif
 
-#include <glade/glade.h>
-#include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
-#include <stdlib.h>
 #include <gconf/gconf-client.h>
+#include <glade/glade-xml.h>
+#include <glib/gi18n.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"

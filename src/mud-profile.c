@@ -2,11 +2,12 @@
 #  include "config.h"
 #endif
 
+#include <string.h>
+
 #include <gconf/gconf-client.h>
+#include <glib-object.h>
 #include <glib/gi18n.h>
 #include <gtk/gtkcolorsel.h>
-#include <glib-object.h>
-#include <string.h>
 
 #include "gconf-helper.h"
 #include "mud-profile.h"

@@ -16,13 +16,13 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * Heavily inspired on the gaim docklet plugin (give credit where credit is due I say).
+ * Heavily inspired on the gaim docklet plugin
  */
 
+#include <glib/gi18n.h>
+#include <gtk/gtkimage.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkwidget.h>
-#include <gtk/gtkimage.h>
-#include <libgnome/gnome-i18n.h>
 
 #include "gnome-mud.h"
 #include "eggtrayicon.h"

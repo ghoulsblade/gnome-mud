@@ -2,7 +2,10 @@
 #  include "config.h"
 #endif
 
-#include <glade/glade.h>
+#include <glade/glade-xml.h>
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtkimage.h>
+#include <glib/gi18n.h>
 #include <gtk/gtkaboutdialog.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkentry.h>
@@ -17,10 +20,6 @@
 #include <gtk/gtktextbuffer.h>
 #include <gtk/gtktextiter.h>
 #include <gtk/gtkimagemenuitem.h>
-#include <gdk/gdkkeysyms.h>
-#include <gtk/gtkimage.h>
-#include <libgnome/gnome-i18n.h>
-#include <stdlib.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"

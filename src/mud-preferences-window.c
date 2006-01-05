@@ -2,7 +2,11 @@
 #  include "config.h"
 #endif
 
-#include <glade/glade.h>
+#include <string.h>
+
+#include <glade/glade-xml.h>
+#include <glib-object.h>
+#include <glib/gi18n.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkcellrenderer.h>
 #include <gtk/gtkcellrenderertext.h>
@@ -14,11 +18,8 @@
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeviewcolumn.h>
-#include <glib-object.h>
-#include <glib/gi18n.h>
 #include <libgnomeui/gnome-color-picker.h>
 #include <libgnomeui/gnome-font-picker.h>
-#include <string.h>
 
 #include "mud-preferences-window.h"
 #include "mud-profile.h"

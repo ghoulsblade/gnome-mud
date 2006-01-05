@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1998-2002 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 1998-2006 Robin Ericsson <lobbin@localhost.nu>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,16 +16,19 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include "config.h"
+#if HAVE_CONFIG_H
+#  include "config.h"
+#endif
 
-#include <locale.h>
+#include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
-#include <gnome.h>
-#include <pwd.h>
-#include <signal.h>
+#include <libgnome/gnome-config.h>
+#include <libgnome/gnome-program.h>
+#include <libgnomeui/gnome-ui-init.h>
+#include <libgnomeui/gnome-window-icon.h>
 
 #ifdef USE_PYTHON
-#include <Python.h>
+//#include <Python.h>
 #endif
 
 #include "gnome-mud.h"
@@ -81,9 +84,12 @@ int main (gint argc, char *argv[])
 	GError       *err = NULL;
 	gchar         buf[500];
 
+#ifdef ENABLE_NLS
+	/* Initialize internationalization */
 	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 	textdomain(GETTEXT_PACKAGE);
+#endif
   
 	/* Initialize the GConf library */
 	if (!gconf_init(argc, argv, &err))

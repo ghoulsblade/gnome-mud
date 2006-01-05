@@ -1,3 +1,13 @@
+2006-01-05  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.ac: Don't check for Python, and don't link it in.
+
+	* src/gnome-mud.c, src/modules.c, src/modules_api.c,
+	src/mud-preferences-window.c, src/mud-profile.c, src/mud-tray.c,
+	src/mud-window-mconnect.c, src/mud-window-mudedit.c,
+	src/mud-window-mudlist.c, src/mud-window-profile.c, src/mud-window.c:
+	Prune includes.
+
 2006-01-05  Les Harris  <lescom@comcast.net>
 
 	* src/mud-tray.h, src/mud-tray.c: Converted the old trayicon code into

@@ -3,11 +3,9 @@
 #endif
 
 #include <gconf/gconf-client.h>
+#include <glib/gi18n.h>
 #include <glib-object.h>
-#include <glade/glade.h>
-#include <gtk/gtk.h>
-#include <libgnome/gnome-i18n.h>
-#include <stdlib.h>
+#include <glade/glade-xml.h>
 
 #include "gnome-mud.h"
 #include "gconf-helper.h"
@@ -290,15 +288,15 @@ props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar)
 	GtkTextIter start, end;
 	GConfValue *strval;
 	GSList *chars, *entry, *res;
-	
+
 	client = gconf_client_get_default();
 	strval = gconf_value_new(GCONF_VALUE_STRING);
 	res = NULL;
 	
 	chars = NULL;
-	
+
 	glade = glade_xml_new(GLADEDIR "/muds.glade", "charprops_window", NULL);
-	
+
 	dialog = glade_xml_get_widget(glade, "charprops_window");
 	name = glade_xml_get_widget(glade, "CharNameEntry");
 	connectString = glade_xml_get_widget(glade, "CharConnectStrTextView");
@@ -316,16 +314,16 @@ props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar)
 			g_free(connect);
 		}
 	}
-	
+
 	result = gtk_dialog_run(GTK_DIALOG(dialog));
 	if(result == GTK_RESPONSE_OK)
 	{
 		namestr = (gchar *)gtk_entry_get_text(GTK_ENTRY(name));
 		if(!charname)
 			charname = g_strdup(namestr);
-		
+
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/list", mudedit->priv->mud);
-		
+
 		chars = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
 
 		if(NewChar)
