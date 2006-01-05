@@ -93,8 +93,6 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view)
 	if (window->priv->nr_of_tabs++ == 0)
 	{
 		gtk_notebook_remove_page(GTK_NOTEBOOK(window->priv->notebook), 0);
-		if (GTK_IS_OBJECT(window->priv->image))
-			gtk_widget_destroy(window->priv->image);
 		window->priv->image = NULL;
 	}
 	
