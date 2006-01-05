@@ -1,5 +1,9 @@
 2006-01-04  Daniel Patton  <seven-nation@army.com>
 
+	* ui/muds.glade, ui/connect.glade: Dialog fixup.
+
+2006-01-04  Daniel Patton  <seven-nation@army.com>
+
 	* src/mud-window.c (mud_window_add_connection_view): Fix double
 	free.
 
