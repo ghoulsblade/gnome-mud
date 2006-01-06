@@ -106,9 +106,9 @@ if test "x$enable_mccp" = "x"; then
 fi
 
 dnl Check whether to include Python support
-AC_ARG_WITH(python,
-[  --without-python        disable use of python scripting],
-        python=$withval, python=python)
+dnl AC_ARG_WITH(python,
+dnl [  --without-python        disable use of python scripting],
+dnl         python=$withval, python=python)
 
 dnl Checks for programs.
 AC_ISC_POSIX
@@ -136,63 +136,63 @@ AC_CHECK_HEADERS(telnet.h arpa/telnet.h sys/time.h)
 AC_HEADER_TIME
 
 dnl Checks for Python
-if test "$python" != no; then
-	AC_PATH_PROG(pythonpath, $python)
-	if test "_$pythonpath" = _ ; then
-		python=no
-	else
-		AC_MSG_CHECKING([for Python version >= 2.x])
-		PY_PREFIX=`$pythonpath -c 'import sys ; print sys.prefix'`
-		PY_EXEC_PREFIX=`$pythonpath -c 'import sys ; print sys.exec_prefix'`
-		changequote(<<, >>)dnl
-		PY_VERSION=`$pythonpath -c 'import sys ; print sys.version[0:3]'`
-		PY_MAJOR=`$pythonpath -c 'import sys ; print sys.version[0:2]'`
-		changequote([, ])dnl
-		if test "$PY_MAJOR" = "1."; then
-			python=no
-			AC_MSG_RESULT([no, atlest Python 2.x is needed])
-		else 
-			AC_MSG_RESULT([yes, Python $PY_VERSION])
-			AC_MSG_CHECKING(for Python compile flags)
-			
-			if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
-				PY_LIBS="-lpython$PY_VERSION"
-				PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
-				PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
-				AC_DEFINE(USE_PYTHON, 1, [Define this to enable python scripting support.])
-				AC_MSG_RESULT([ok])
-				AC_CHECK_LIB(pthread, pthread_create, )
-				dnl needed for freebsd
-				AC_CHECK_LIB(c_r, pthread_create, )
-				dnl needed for python 2.x
-				AC_CHECK_LIB(util, openpty, )
-				AC_CHECK_LIB(db, dbopen, )
-				CFLAGS="$CFLAGS $PY_CFLAGS"
-				CPPFLAGS="$CPPFLAGS $PY_CFLAGS"
-				LIBS="$LIBS $PY_LIB_LOC $PY_LIBS"
-				
-				dnl PyGTK
-				PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.13, [
-					AC_DEFINE(USE_PYGTK, 1, [Define this if you want PyGtk support in Python scripts.])
-					CFLAGS="$CFLAGS $PYGTK_CFLAGS"
-					LIBS="$LIBS $PYGTK_LIBS"
-				])
-			else
-				python=no
-				AC_MSG_RESULT([Can't find Python.h])
-			fi
-		fi
-	fi
-fi
+dnl if test "$python" != no; then
+dnl 	AC_PATH_PROG(pythonpath, $python)
+dnl 	if test "_$pythonpath" = _ ; then
+dnl 		python=no
+dnl 	else
+dnl 		AC_MSG_CHECKING([for Python version >= 2.x])
+dnl 		PY_PREFIX=`$pythonpath -c 'import sys ; print sys.prefix'`
+dnl 		PY_EXEC_PREFIX=`$pythonpath -c 'import sys ; print sys.exec_prefix'`
+dnl 		changequote(<<, >>)dnl
+dnl 		PY_VERSION=`$pythonpath -c 'import sys ; print sys.version[0:3]'`
+dnl 		PY_MAJOR=`$pythonpath -c 'import sys ; print sys.version[0:2]'`
+dnl 		changequote([, ])dnl
+dnl 		if test "$PY_MAJOR" = "1."; then
+dnl 			python=no
+dnl 			AC_MSG_RESULT([no, atlest Python 2.x is needed])
+dnl 		else 
+dnl 			AC_MSG_RESULT([yes, Python $PY_VERSION])
+dnl 			AC_MSG_CHECKING(for Python compile flags)
+dnl 			
+dnl 			if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
+dnl 				PY_LIBS="-lpython$PY_VERSION"
+dnl 				PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
+dnl 				PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
+dnl 				AC_DEFINE(USE_PYTHON, 1, [Define this to enable python scripting support.])
+dnl 				AC_MSG_RESULT([ok])
+dnl 				AC_CHECK_LIB(pthread, pthread_create, )
+dnl 				dnl needed for freebsd
+dnl 				AC_CHECK_LIB(c_r, pthread_create, )
+dnl 				dnl needed for python 2.x
+dnl 				AC_CHECK_LIB(util, openpty, )
+dnl 				AC_CHECK_LIB(db, dbopen, )
+dnl 				CFLAGS="$CFLAGS $PY_CFLAGS"
+dnl 				CPPFLAGS="$CPPFLAGS $PY_CFLAGS"
+dnl 				LIBS="$LIBS $PY_LIB_LOC $PY_LIBS"
+dnl 				
+dnl 				dnl PyGTK
+dnl 				PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.13, [
+dnl 					AC_DEFINE(USE_PYGTK, 1, [Define this if you want PyGtk support in Python scripts.])
+dnl 					CFLAGS="$CFLAGS $PYGTK_CFLAGS"
+dnl 					LIBS="$LIBS $PYGTK_LIBS"
+dnl 				])
+dnl 			else
+dnl 				python=no
+dnl 				AC_MSG_RESULT([Can't find Python.h])
+dnl 			fi
+dnl 		fi
+dnl 	fi
+dnl fi
 
 dnl python is usually linked against -lm on solaris
-if test "$system" = "SunOS"; then
-	if test "$python" != "no"; then
-		if test -z "`echo "$LIBS" | grep '\-lm ' 2>/dev/null`" ; then
-			LIBS="$LIBS -lm"
-		fi
-	fi
-fi
+dnl if test "$system" = "SunOS"; then
+dnl 	if test "$python" != "no"; then
+dnl 		if test -z "`echo "$LIBS" | grep '\-lm ' 2>/dev/null`" ; then
+dnl 			LIBS="$LIBS -lm"
+dnl 		fi
+dnl 	fi
+dnl fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
