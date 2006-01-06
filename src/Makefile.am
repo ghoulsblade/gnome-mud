@@ -51,29 +51,3 @@ gnome_mud_SOURCES =			\
 	mud-window-profile.h		\
 	utils.c				\
 	utils.h
-	
-#	data.c			\
-#	eggtrayicon.c		\
-#	eggtrayicon.h		\
-#	init.c			\
-#	gnome-mud.c		\
-#	gnome-mud.h		\
-#	keybind.c		\
-#	log.c			\
-#	map.c			\
-#	map.h			\
-#	map-link.c		\
-#	mccpDecompress.c	\
-#	mccpDecompress.h	\
-#	modules.c		\
-#	modules.h		\
-#	modules_api.c		\
-#	modules_api.h		\
-#	mudlist.c		\
-#	net.c			\
-#	prefs.c			\
-#	profiles.c		\
-#	python.c		\
-#	telnet.c		\
-#	tray.c			\
-#	window.c

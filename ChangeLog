@@ -1,3 +1,15 @@
+2006-01-06  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/Makefile.am, src/data.c, src/directions.c, src/directions.h,
+	src/init.c, src/keybind.c, src/log.c src/map-link.c, src/map.c,
+	src/map.h, src/mccpDecompress.c, src/mccpDecompress.h, src/mudlist.c,
+	src/net.c, src/prefs.c, src/profiles.c, src/python.c, src/telnet.c,
+	src/tray.c, src/window.c: Remove old sources from CVS.
+
+	* src/gnome-mud.h: Remove references to mccp.
+
+	* MAINTAINERS: Add Les Harris and Daniel Patton.
+
 2006-01-05  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: Don't check for Python, and don't link it in.

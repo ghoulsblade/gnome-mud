@@ -19,7 +19,6 @@
 #ifndef __GNOME_MUD_H__
 #define __GNOME_MUD_H__
 
-#include "mccpDecompress.h"
 #include <stdio.h>
 #include <vte/vte.h>
 #include <libgnetwork/gnetwork.h>
@@ -88,8 +87,6 @@ struct connection_data
 	PROFILE_DATA	*profile;
 	FILE			*log;
 	time_t			 last_log_flush;
-	mc_state		*mccp;
-	gint			 mccp_timer;
 	gchar			*host;
 	gchar			*port;
 	gchar			*log_filename;
