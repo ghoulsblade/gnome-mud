@@ -1,18 +1,18 @@
 # translation of es.po to Spanish
 # translation of gnome-mud.HEAD.es.po to Spanish
 # Spanish Messages for the GNOME-Mud Client.
-# Copyright (C) 2000, 2001, 2002,2003, 2004, 2005 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2002,2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 # $Id$
 # Jordi Mallach <jordi@debian.org>, 2000, 2001, 2002.
 # Francisco Javier F. Serrador <serrador@arrakis.es>, 2003.
-# Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005.
+# Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2004, 2005, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-30 22:25+0100\n"
-"PO-Revision-Date: 2005-12-30 22:33+0100\n"
+"POT-Creation-Date: 2006-01-07 01:39+0100\n"
+"PO-Revision-Date: 2006-01-07 01:43+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.9.1\n"
 
-#: ../gnome-mud.desktop.in.h:1 ../src/init.c:271 ../ui/main.glade.h:21
+#: ../gnome-mud.desktop.in.h:1 ../ui/main.glade.h:4
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
@@ -41,9 +41,8 @@ msgstr ""
 "Un carácter que acostumbre a dividir comandos en una cadena como «w,w;w;l», "
 "que será enviado al MUD como 4 comandos separados."
 
-#: ../gnome-mud.schemas.in.h:3 ../src/mud-preferences-window.c:257
-#: ../src/mud-preferences-window.c:285 ../src/profiles.c:1258
-#: ../ui/main.glade.h:2 ../ui/prefs.glade.h:1
+#: ../gnome-mud.schemas.in.h:3 ../src/mud-preferences-window.c:259
+#: ../src/mud-preferences-window.c:287 ../ui/prefs.glade.h:2
 msgid "Aliases"
 msgstr "Alias"
 
@@ -101,8 +100,7 @@ msgstr ""
 "especificarse en la forma de una lista separada por dos puntos de nombres de "
 "color. Los nombres de color deben estar en formato hex. ej: «#FF00FF»."
 
-#: ../gnome-mud.schemas.in.h:14 ../src/prefs.c:850 ../ui/main.glade.h:23
-#: ../ui/prefs.glade.h:18
+#: ../gnome-mud.schemas.in.h:14 ../ui/prefs.glade.h:18
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
@@ -122,7 +120,7 @@ msgstr "Cuantas entradas conservar en el histórico de comandos."
 msgid "How often in seconds gnome-mud should flush logfiles."
 msgstr "frecuencia en segundos a la que gnome-mud vaciará los archivos de registro."
 
-#: ../gnome-mud.schemas.in.h:18 ../src/prefs.c:804
+#: ../gnome-mud.schemas.in.h:18
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
 "overridden by custom keybindings, or they can be disabled completely with "
@@ -132,8 +130,7 @@ msgstr ""
 "pueden reemplazar con tus propios asignaciones, o se pueden deshabilitar "
 "desactivando esta opción."
 
-#: ../gnome-mud.schemas.in.h:19 ../src/prefs.c:782 ../ui/main.glade.h:25
-#: ../ui/prefs.glade.h:20
+#: ../gnome-mud.schemas.in.h:19 ../ui/prefs.glade.h:20
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
@@ -141,7 +138,7 @@ msgstr ""
 "Con esta opción activada, todo el texto que introduzca se le hará eco en la "
 "conexión para que pueda controlar lo que está mandando."
 
-#: ../gnome-mud.schemas.in.h:20 ../src/prefs.c:793
+#: ../gnome-mud.schemas.in.h:20
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
@@ -159,7 +156,7 @@ msgstr ""
 "Si está activado, cuando haya nueva salida, el termina será desplazado hasta "
 "el final."
 
-#: ../gnome-mud.schemas.in.h:22 ../src/profiles.c:1289
+#: ../gnome-mud.schemas.in.h:22
 msgid "Keybindings"
 msgstr "Asignaciones de teclas"
 
@@ -257,12 +254,11 @@ msgstr ""
 "La posición de las solapas de conexión. Las opciones válidas son "
 "«izquierda», «derecha» y «abajo»."
 
-#: ../gnome-mud.schemas.in.h:40 ../src/data.c:346 ../src/profiles.c:1272
+#: ../gnome-mud.schemas.in.h:40
 msgid "Triggers"
 msgstr "Disparadores"
 
-#. vars
-#: ../gnome-mud.schemas.in.h:41 ../src/data.c:353 ../src/profiles.c:1265
+#: ../gnome-mud.schemas.in.h:41
 msgid "Variables"
 msgstr "Variables"
 
@@ -282,52 +278,6 @@ msgstr "Indica si debe mantener el texto enviado a la conexión"
 msgid "Whether to scroll to the bottom when there's new output"
 msgstr "Indica si debe desplazar al final cuando hay salidas nuevas"
 
-#: ../src/data.c:247
-msgid "No void characters allowed."
-msgstr "No se permiten caracteres vacíos."
-
-#. actions
-#: ../src/data.c:251 ../src/data.c:345
-msgid "Actions"
-msgstr "Acciones"
-
-#: ../src/data.c:253
-#, c-format
-msgid "Character '%c' not allowed."
-msgstr "Carácter '%c' no permitido."
-
-#: ../src/data.c:260 ../src/data.c:267
-#, c-format
-msgid "%s too big."
-msgstr "%s demasiado grande."
-
-#: ../src/data.c:274
-#, c-format
-msgid "Can't duplicate %s."
-msgstr "No se puede duplicar %s."
-
-#. alias
-#: ../src/data.c:337
-msgid "Alias"
-msgstr "Alias"
-
-#: ../src/data.c:338
-msgid "Replacement"
-msgstr "Sustitución"
-
-#: ../src/data.c:354
-msgid "Values"
-msgstr "Valores"
-
-#: ../src/data.c:361
-#, c-format
-msgid "%s: trying to access to undefined data range: %d"
-msgstr "%s: tratando de acceder a un rango de datos indefinido: %d"
-
-#: ../src/data.c:373
-msgid "GNOME-Mud Configuration Center"
-msgstr "Centro de Configuración de GNOME-Mud"
-
 #: ../src/eggtrayicon.c:118
 msgid "Orientation"
 msgstr "Orientación"
@@ -336,35 +286,35 @@ msgstr "Orientación"
 msgid "The orientation of the tray."
 msgstr "La orientación de la bandeja."
 
-#: ../src/gconf-helper.c:56 ../src/prefs.c:354
+#: ../src/gconf-helper.c:56
 #, c-format
 msgid "%s already exists and is not a directory!"
 msgstr "¡%s ya existe y no es un directorio!"
 
-#: ../src/gconf-helper.c:65 ../src/prefs.c:363
+#: ../src/gconf-helper.c:65
 #, c-format
 msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s no existe y NO se puede crear: %s"
 
-#: ../src/gconf-helper.c:116 ../src/prefs.c:253 ../src/prefs.c:411
+#: ../src/gconf-helper.c:116
 #, c-format
 msgid "Palette had %d entry instead of %d\n"
 msgid_plural "Palette had %d entries instead of %d\n"
 msgstr[0] "La paleta tenía %d entrada en vez de %d\n"
 msgstr[1] "La paleta tenía %d entradas en vez de %d\n"
 
-#: ../src/gnome-mud.c:52
+#: ../src/gnome-mud.c:56
 #, c-format
 msgid "There was an error accessing GConf: %s"
 msgstr "Hubo un error al acceder a GConf: %s"
 
-#: ../src/gnome-mud.c:65
+#: ../src/gnome-mud.c:69
 msgid "The default configuration values could not be retrieved correctly."
 msgstr ""
 "Los valores de configuración predeterminados no pudieron ser extraídos "
 "correctamente."
 
-#: ../src/gnome-mud.c:66
+#: ../src/gnome-mud.c:70
 msgid ""
 "Please check your GConf configuration, specifically that the schemas have "
 "been installed correctly."
@@ -372,953 +322,167 @@ msgstr ""
 "Compruebe su configuración GConf, especificamente que los esquemas se hayan "
 "instalado correctamente."
 
-#: ../src/gnome-mud.c:90
+#: ../src/gnome-mud.c:97
 #, c-format
 msgid "Failed to init GConf: %s"
 msgstr "Fallo a inicializar GConf: %s"
 
-#: ../src/init.c:94
-msgid "Do you really want to quit?"
-msgstr "¿De verdad quieres salir?"
-
-#: ../src/init.c:144 ../src/init.c:683 ../ui/connect.glade.h:4
-msgid "Connect..."
-msgstr "Conectar..."
-
-#
-#: ../src/init.c:156 ../src/profiles.c:995 ../ui/connect.glade.h:5
-msgid "Host:"
-msgstr "Servidor:"
-
-#: ../src/init.c:162 ../src/profiles.c:1015 ../ui/connect.glade.h:6
-msgid "Port:"
-msgstr "Puerto:"
-
-#: ../src/init.c:216
-msgid "*** Internal error: no such connection.\n"
-msgstr "*** Error interno: no existe esa conexión.\n"
-
-#: ../src/init.c:257
-msgid "Artwork by:"
-msgstr "Trabajo artístico por: "
-
-#. Translators: translate as your names & emails
-#. * Paul Translator <paul@translator.org>
-#: ../src/init.c:267
-msgid "translator_credits"
-msgstr "Francisco Javier F. Serrador <serrador@cvs.gnome.org>"
-
-#: ../src/init.c:273
-msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
-msgstr "Un cliente de MUD (Multi-User Dungeon) para GNOME.\n"
-
-#: ../src/init.c:285
-msgid "GNOME-Mud home page"
-msgstr "Página web de GNOME-Mud"
-
-#: ../src/init.c:633 ../src/init.c:663
-#, c-format
-msgid "There was an error displaying help: %s"
-msgstr "Hubo un error mostrando la ayuda: %s"
-
-#: ../src/init.c:679
-msgid "Wizard..."
-msgstr "Asistente..."
-
-#: ../src/init.c:679
-msgid "Open the Connection Wizard"
-msgstr "Abrir el asistente de conexiones..."
-
-#: ../src/init.c:681
-msgid "Profiles..."
-msgstr "Perfiles..."
-
-#: ../src/init.c:681
-msgid "Manage user profiles"
-msgstr "Administrar perfiles de usuario"
-
-#: ../src/init.c:683
-msgid "Connect to a mud"
-msgstr "Conectar a un mud"
-
-#: ../src/init.c:685 ../ui/main.glade.h:17
-msgid "Disconnect"
-msgstr "Desconectar"
-
-#: ../src/init.c:685
-msgid "Disconnect from the mud"
-msgstr "Conectar del mud"
-
-#: ../src/init.c:687 ../ui/main.glade.h:39
-msgid "Reconnect"
-msgstr "Conectar"
-
-#: ../src/init.c:687
-msgid "Reconnect to the mud"
-msgstr "Reconectar al mud"
-
-#: ../src/init.c:689
-msgid "Exit"
-msgstr "Salir"
-
-#: ../src/init.c:689
-msgid "Quit GNOME-Mud"
-msgstr "Salir de GNOME-Mud"
-
-#: ../src/init.c:694
-msgid "Connection _Wizard..."
-msgstr "_Asistente de conexiones..."
-
-#: ../src/init.c:695
-msgid "_MudList Listing..."
-msgstr "Listas de _MudList..."
-
-#: ../src/init.c:697
-msgid "C_onnect..."
-msgstr "_Conectar..."
-
-#: ../src/init.c:698
-msgid "_Disconnect"
-msgstr "_Desconectar"
-
-#: ../src/init.c:699
-msgid "_Reconnect"
-msgstr "_Reconectar"
-
-#: ../src/init.c:701
-msgid "S_tart Logging..."
-msgstr "_Registrar en bitácora..."
-
-#: ../src/init.c:702
-msgid "Sto_p Logging"
-msgstr "_Detener registro de bitácora"
-
-#: ../src/init.c:703
-msgid "_Save Buffer..."
-msgstr "_Guardar búfer..."
-
-#: ../src/init.c:705
-msgid "_Close Window"
-msgstr "_Cerrar ventana"
-
-#: ../src/init.c:713
-msgid "_Plugin Information..."
-msgstr "_Información sobre complementos..."
-
-#: ../src/init.c:719
-msgid "Auto _Mapper..."
-msgstr "Auto _mapeador..."
-
-#: ../src/init.c:722
-msgid "P_lugins"
-msgstr "_Complementos"
-
-#: ../src/init.c:729
-msgid "User Manual"
-msgstr "Manual de usuario"
-
-#: ../src/init.c:730
-msgid "Display the GNOME-Mud User Manual"
-msgstr "Mostrar el manual de GNOME-Mud"
-
-#: ../src/init.c:734
-msgid "Plugin API Manual"
-msgstr "Manual del API de extensiones"
-
-#: ../src/init.c:735
-msgid "Display the GNOME-Mud Plugin API Manual"
-msgstr "Mostrar el manual del API de complementos de GNOME-Mud"
-
-#. Do we really need this now?
-#: ../src/init.c:791
-msgid "Main"
-msgstr "Principal"
-
-#: ../src/init.c:827
-#, c-format
-msgid "GNOME-Mud version %s (compiled %s, %s)\n"
-msgstr "GNOME-Mud versión %s (compilado %s, %s)\n"
-
-#: ../src/init.c:829
-msgid "Distributed under the terms of the GNU General Public License.\n"
-msgstr "Distribuido bajo los términos de la Licencia Pública General GNU.\n"
-
-#: ../src/keybind.c:149
-msgid "You must use capture first!"
-msgstr "Debe usar capturar primero"
-
-#: ../src/keybind.c:162
-msgid "Can't add an existing key."
-msgstr "No se puede añadir una tecla ya existente."
-
-#: ../src/keybind.c:189
-msgid "Incomplete fields."
-msgstr "Campos incompletos."
-
-#: ../src/keybind.c:311
-msgid "GNOME-Mud Keybinding Center"
-msgstr "Centro de asignación de teclas de GNOME-Mud"
-
-#: ../src/keybind.c:328
-msgid "Key"
-msgstr "Tecla"
-
-#: ../src/keybind.c:331 ../src/keybind.c:348 ../src/keybind.c:366
-msgid "Command"
-msgstr "Comando"
-
-#: ../src/keybind.c:344
-msgid "Bind"
-msgstr "Asignar"
-
-#: ../src/keybind.c:360 ../src/keybind.c:381
-msgid "Capture"
-msgstr "Capturar"
-
-#: ../src/log.c:57
-#, c-format
-msgid "*** Already logging to %s. Close that log first.\n"
-msgstr "*** Ya se está registrando en %s. Cierre ese registro primero.\n"
-
-#: ../src/log.c:63
-msgid "Open log"
-msgstr "Abrir bitácora"
-
-#: ../src/log.c:76
-msgid "*** No log to be closed is open in this window.\n"
-msgstr "** No hay registros abiertos en esta ventana que cerrar.\n"
-
-#: ../src/log.c:103
-#, c-format
-msgid "*** Couldn't open %s.\n"
-msgstr "*** No se ha podido abrir %s.\n"
-
-#: ../src/log.c:115
-#, c-format
-msgid "*** Logging to %s.\n"
-msgstr "*** Registrando bitácora en %s.\n"
-
-#: ../src/log.c:176
-#, c-format
-msgid "*** Stopped logging to %s.\n"
-msgstr "*** Se ha dejado de hacer log en %s.\n"
-
-#: ../src/log.c:201
-msgid "*** Could not open file for writing.\n"
-msgstr "*** No se ha podido abrir el archivo para escritura.\n"
-
-#: ../src/log.c:215
-msgid "Please select a log file..."
-msgstr "Por favor, selecciona un archivo de log..."
-
-#. Free the create_link_data structure
-#: ../src/map.c:568
-msgid "Ready."
-msgstr "Preparado."
-
-#: ../src/map.c:569
-msgid "Canceled."
-msgstr "Cancelado."
-
-#: ../src/map.c:605
-msgid "A link already exists here!"
-msgstr "Ya existe un enlace aquí"
-
-#. Create the hint label
-#: ../src/map.c:657 ../src/map.c:3551 ../src/map.c:3554
-msgid "Ready"
-msgstr "Preparado"
-
-#: ../src/map.c:658
-msgid "Link created"
-msgstr "Enlace creado"
-
-#: ../src/map.c:662
-msgid "Can't create a node here"
-msgstr "No se puede crear un nodo aquí"
-
-#: ../src/map.c:893
-msgid "New Map"
-msgstr "Mapa nuevo"
-
-#. Translator: "path" means "line of travel", ie "road"
-#: ../src/map.c:902
-msgid "Creating a path"
-msgstr "Creando una ruta"
-
-#. The radio button (new map)
-#: ../src/map.c:910
-msgid "Path lead to a new map"
-msgstr "La ruta conduce a un mapa nuevo"
-
-#: ../src/map.c:917
-msgid "New map"
-msgstr "Mapa nuevo"
-
-#. The radio button (default)
-#: ../src/map.c:934
-msgid "Path follows an already existing path:"
-msgstr "La ruta sigue un camino ya existente:"
-
-#: ../src/map.c:953
-msgid "Create"
-msgstr "Crear"
-
-#: ../src/map.c:1117
-msgid "Enter in a path"
-msgstr "Introducir una ruta"
-
-#: ../src/map.c:1124
-msgid "Create a new path:"
-msgstr "Crear una ruta nueva:"
-
-#: ../src/map.c:1141
-msgid "Enter in existing path:"
-msgstr "Introduzca una ruta existente:"
-
-#: ../src/map.c:1192
-msgid ""
-"This node has already 8 links. Destroy one of these before trying to create "
-"a new one"
-msgstr ""
-"Este nodo ya tiene 8 enlaces. Destruya uno de estos antes de intentar crear "
-"uno nuevo"
-
-#. Change the automap state
-#: ../src/map.c:1199
-msgid "Enter to finish, Esc to quit"
-msgstr "Intro para terminar, Esc para salir"
-
-#: ../src/map.c:1200
-msgid "Use move buttons to build the link."
-msgstr "Use los botones de movimiento para construir el enlace."
-
-#: ../src/map.c:1378
-msgid "Zoom In"
-msgstr "Ampliar"
-
-#: ../src/map.c:1379
-msgid "Zoom Out"
-msgstr "Reducir"
-
-#: ../src/map.c:1380
-msgid "Configure Automap"
-msgstr "Configurar automapa"
-
-#. Teleport here
-#: ../src/map.c:1420
-msgid "Teleport here"
-msgstr "Teleportarse aquí"
-
-#.
-#. /* Set node properties */
-#. properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
-#. gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
-#. gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
-#. Create new link
-#: ../src/map.c:1430
-msgid "Create new link"
-msgstr "Crear un enlace nuevo"
-
-#. Translator: this is an action, not a key
-#: ../src/map.c:1437
-msgid "Enter"
-msgstr "Entrar"
-
-#. Can easily be optimised ... but why bother ?
-#. Translator: "N" means "North" here
-#. Create button directions
-#: ../src/map.c:1738 ../src/map.c:3579
-msgid "N"
-msgstr "N"
-
-#. Translator: "NE" means "Northeast" here
-#: ../src/map.c:1740 ../src/map.c:3580
-msgid "NE"
-msgstr "NE"
-
-#. Translator: "E" means "East" here
-#: ../src/map.c:1742 ../src/map.c:3581
-msgid "E"
-msgstr "E"
-
-#. Translator: "SE" means "Southeast" here
-#: ../src/map.c:1744 ../src/map.c:3582
-msgid "SE"
-msgstr "SE"
-
-#. Translator: "S" means "South" here
-#: ../src/map.c:1746 ../src/map.c:3583
-msgid "S"
-msgstr "S"
-
-#. Translator: "SW" means "Southwest" here
-#: ../src/map.c:1748 ../src/map.c:3584
-msgid "SW"
-msgstr "SO"
-
-#. Translator: "W" means "West" here
-#: ../src/map.c:1750 ../src/map.c:3585
-msgid "W"
-msgstr "O"
-
-#. Translator: "NW" means "Northwest" here
-#: ../src/map.c:1752 ../src/map.c:3586
-msgid "NW"
-msgstr "NO"
-
-#: ../src/map.c:1753 ../src/map.c:3587 ../ui/directions.glade.h:12
-msgid "Up"
-msgstr "Arriba"
-
-#: ../src/map.c:1754 ../src/map.c:3588 ../ui/directions.glade.h:3
-msgid "Down"
-msgstr "Abajo"
-
-#: ../src/map.c:1755 ../src/map.c:3576
-msgid "Remove"
-msgstr "Quitar"
-
-#. Some buttons
-#: ../src/map.c:1756 ../src/map.c:3574
-msgid "Load"
-msgstr "Cargar"
-
-#: ../src/map.c:1757 ../src/map.c:3575
-msgid "Save"
-msgstr "Salvar"
-
-#: ../src/map.c:2805
-msgid "Load map"
-msgstr "Cargar mapa"
-
-#: ../src/map.c:2805
-msgid "Save map"
-msgstr "Guardar mapa"
-
-#: ../src/map.c:3054
-msgid "No link existed in that direction"
-msgstr "No existe enlace en esa dirección"
-
-#: ../src/map.c:3060
-msgid "Cannot break links to a node going up or down"
-msgstr "No se pueden romper enlaces a un nodo subiendo o bajando"
-
-#. It would seem this node already has a connection to here, That's
-#. * possible so we need to inform the user that his move is illegal.
-#.
-#: ../src/map.c:3169
-msgid "Destination node has already a connection here"
-msgstr "El nodo de destino ya tiene una conexión aquí"
-
-#: ../src/map.c:3318
-msgid "Can't create a link to another floor!"
-msgstr "No se puede crear un enlace a otro piso."
-
-#: ../src/map.c:3324
-msgid "There is already a link here!"
-msgstr "Ya hay un enlace aquí"
-
-#. Set the title
-#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
-#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
-#: ../src/map.c:3459
-msgid "GNOME-Mud AutoMapper"
-msgstr "Auto mapeador de GNOME-Mud"
-
-#: ../src/modules.c:197
+#: ../src/modules.c:196
 msgid "Plugin Information"
 msgstr "Información sobre el conector"
 
-#: ../src/modules.c:213
+#: ../src/modules.c:212
 msgid "Plugin Name:"
 msgstr "Nombre del Conector:"
 
-#: ../src/modules.c:233
+#: ../src/modules.c:232
 msgid "Plugin Author:"
 msgstr "Autor del Conector:"
 
-#: ../src/modules.c:243
+#: ../src/modules.c:242
 msgid "Plugin Version:"
 msgstr "Versión del Conector:"
 
-#: ../src/modules.c:253
+#: ../src/modules.c:252
 msgid "Plugin Description:"
 msgstr "Descripción del Conector:"
 
-#: ../src/modules.c:263
+#: ../src/modules.c:262
 msgid "Enable plugin"
 msgstr "Activar complemento"
 
-#: ../src/modules.c:419
+#: ../src/modules.c:418
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
 msgstr "Error en el manejo del complemento (%s): %s."
 
-#: ../src/modules.c:424
+#: ../src/modules.c:423
 #, c-format
 msgid "Error, %s not an GNOME-Mud module: %s."
 msgstr "Error, %s no es un módulo de GNOME-Mud: %s."
 
-#: ../src/modules.c:450
+#: ../src/modules.c:449
 #, c-format
 msgid "Registering plugin `%s' under the name `%s'."
 msgstr "Registrando el complemento «%s» bajo el nombre «%s»."
 
-#: ../src/modules_api.c:66
+#: ../src/modules_api.c:58
 #, c-format
 msgid "Error while registering the menu: %s"
 msgstr "Error al registrar el menú: %s"
 
-#: ../src/modules_api.c:86
+#: ../src/modules_api.c:78
 #, c-format
 msgid "Error while registering data %s: %s"
 msgstr "Error al registrar datos %s: %s"
 
-#: ../src/modules_api.c:94
+#: ../src/modules_api.c:86
 msgid "Error while getting plugin from handle."
 msgstr "Error al obtener el complemento del manejador."
 
-#: ../src/mud-connection-view.c:94
+#: ../src/mud-connection-view.c:102
 #, c-format
 msgid ""
 "There was an error loading config value for whether to use image in menus. (%"
 "s)\n"
-msgstr "Hubo un error cargando el valor de configuración para si se debe usar la imagen en los menús. (%s)\n"
+msgstr ""
+"Hubo un error cargando el valor de configuración para si se debe usar la "
+"imagen en los menús. (%s)\n"
 
-#: ../src/mud-connection-view.c:383 ../src/net.c:220
+#: ../src/mud-connection-view.c:400
 msgid "*** Connection closed.\n"
 msgstr "*** Conexión cerrada.\n"
 
-#: ../src/mud-connection-view.c:396
+#: ../src/mud-connection-view.c:413
 #, c-format
 msgid "*** Making connection to %s, port %d.\n"
 msgstr "*** Realizando conexión a %s, puerto %d.\n"
 
-#: ../src/mud-connection-view.c:543
+#: ../src/mud-connection-view.c:560
 msgid "Close tab or window, whatever :)"
 msgstr "Cierra la solapa o ventana, lo que sea :)"
 
-#: ../src/mud-connection-view.c:563
+#: ../src/mud-connection-view.c:580
 msgid "Change P_rofile"
 msgstr "Cambiar _perfil"
 
-#: ../src/mud-connection-view.c:599
+#: ../src/mud-connection-view.c:616
 msgid "Edit Current Profile..."
 msgstr "Editar perfil actual..."
 
-#: ../src/mud-connection-view.c:607
+#: ../src/mud-connection-view.c:624
 msgid "_Input Methods"
 msgstr "Métodos de _entrada"
 
-#: ../src/mud-preferences-window.c:250 ../src/mud-preferences-window.c:279
-#: ../ui/main.glade.h:37 ../ui/prefs.glade.h:27
-msgid "Preferences"
-msgstr "Preferencias"
-
-#. set nice default info to display
-#: ../src/mud-window.c:405
-#, c-format
-msgid ""
-"GNOME-Mud version %s (compiled %s, %s)\n"
-"Distributed under the terms of the GNU General Public License.\n"
-msgstr ""
-"Gnome-mud versión %s (compilado en %s, %s)\n"
-"Distribuido bajo los términos de la Licencia Pública General GNU.\n"
-
-#: ../src/mudlist.c:404
-msgid "Could not open MudList file for reading"
-msgstr "No se ha podido abrir la lista de muds para lectura"
-
-#: ../src/mudlist.c:410
-msgid "GNOME-Mud MudList"
-msgstr "Lista de muds de GNOME-Mud"
-
-#: ../src/mudlist.c:420
-msgid "Mud name:"
-msgstr "Nombre del Mud:"
-
-#: ../src/mudlist.c:434
-msgid "Codebase:"
-msgstr "Base del código :"
-
-#: ../src/mudlist.c:448
-msgid "Telnet address:"
-msgstr "Dirección de telnet:"
-
-#: ../src/mudlist.c:464
-msgid "Connect to the mud"
-msgstr "Conectar al mud"
-
-#: ../src/mudlist.c:468
-msgid "Import and close"
-msgstr "Importar y cerrar"
-
-#: ../src/mudlist.c:476
-msgid "Go to webpage of the mud"
-msgstr "Ir a la página web del mud"
-
-#: ../src/mudlist.c:483
-msgid "Description:"
-msgstr "Descripción:"
-
-#: ../src/net.c:242
-msgid "*** Can't connect - you didn't specify a host.\n"
-msgstr "*** No se puede conectar - no has especificado ningún servidor.\n"
-
-#: ../src/net.c:248
-msgid "*** No port specified - assuming port 23.\n"
-msgstr "*** No se ha especificado un puerto - asumiendo puerto 23.\n"
-
-#: ../src/net.c:263
-#, c-format
-msgid "*** Making connection to %s, port %s.\n"
-msgstr "*** Realizando conexión a %s, puerto %s.\n"
-
-#: ../src/net.c:288
-#, c-format
-msgid "*** Trying %s port %s...\n"
-msgstr "*** Intentando %s puerto %s...\n"
-
-#: ../src/net.c:315
-msgid "*** Connection established.\n"
-msgstr "*** Conexión establecida.\n"
-
-#: ../src/net.c:452
-msgid "Couldn't convert text input"
-msgstr "No se puede convertir el texto de entrada"
-
-#: ../src/prefs.c:638 ../ui/main.glade.h:18 ../ui/prefs.glade.h:15
-msgid "Font:"
-msgstr "Fuente:"
-
-#: ../src/prefs.c:646 ../ui/main.glade.h:33 ../ui/prefs.glade.h:24
-msgid "Main font that is used on all open connections."
-msgstr "La tipografía principal que se usa en todas las conexiones abiertas."
-
-#: ../src/prefs.c:649
-msgid "The quick brown fox jumps over the lazy dog"
-msgstr "Tres tristes tigres tomaban trigo en un trigal"
-
-#: ../src/prefs.c:653 ../ui/main.glade.h:10 ../ui/prefs.glade.h:9
-msgid "Color palette:"
-msgstr "Paleta de colores:"
-
-#: ../src/prefs.c:659 ../ui/main.glade.h:5 ../ui/prefs.glade.h:4
-msgid "Background color:"
-msgstr "Color de fondo:"
-
-#: ../src/prefs.c:665 ../ui/main.glade.h:19 ../ui/prefs.glade.h:16
-msgid "Foreground color:"
-msgstr "Color de la tipografía:"
-
-#: ../src/prefs.c:673 ../ui/main.glade.h:15 ../ui/prefs.glade.h:13
-msgid ""
-"Default foreground color used when the connection doesn't request the use of "
-"a specific color."
-msgstr ""
-"Color de primer plano predeterminado a usar cuando la conexión no solicita "
-"el uso de un color específico."
-
-#: ../src/prefs.c:682 ../ui/prefs.glade.h:12
-msgid ""
-"Default background color used when the connection doesn't request the use of "
-"a specific color."
-msgstr ""
-"Color de segundo plano predeterminado a usar cuando la conexión no solicita "
-"el uso de un color específico."
-
-#: ../src/prefs.c:698 ../ui/main.glade.h:7 ../ui/prefs.glade.h:7
-msgid "Change the color of a specific color that the MUD requests to use."
-msgstr "Cambiar el color al color específico que solicite el MUD"
-
-#: ../src/prefs.c:740
-msgid "on top"
-msgstr "encima"
-
-#: ../src/prefs.c:740
-msgid "on the right"
-msgstr "a la derecha"
-
-#: ../src/prefs.c:740
-msgid "at the bottom"
-msgstr "debajo"
-
-#: ../src/prefs.c:740
-msgid "on the left"
-msgstr "a la izquierda"
-
-#: ../src/prefs.c:758
-msgid "GNOME-Mud Preferences"
-msgstr "Preferencias de GNOME-Mud"
-
-#: ../src/prefs.c:772 ../ui/main.glade.h:20 ../ui/prefs.glade.h:17
-msgid "Functionality"
-msgstr "Funcionalidades"
-
-#: ../src/prefs.c:778 ../ui/main.glade.h:49 ../ui/prefs.glade.h:34
-msgid "_Echo the text sent"
-msgstr "_Hacer eco del texto mandado"
-
-#: ../src/prefs.c:789 ../ui/main.glade.h:50 ../ui/prefs.glade.h:35
-msgid "_Keep the text entered"
-msgstr "_Guardar el texto introducido"
-
-#: ../src/prefs.c:800 ../ui/main.glade.h:16 ../ui/prefs.glade.h:14
-msgid "Disable _System Keys"
-msgstr "Deshabilitar teclas del _sistema"
-
-#: ../src/prefs.c:814 ../ui/main.glade.h:11 ../ui/prefs.glade.h:10
-msgid "Command division character:"
-msgstr "Carácter de división de comandos:"
-
-#: ../src/prefs.c:819
-msgid ""
-"The character used to divide commands sent to the mud. For example, \";\", "
-"will let the string \"w;look\" be sent to the mud as 2 separate commands."
-msgstr ""
-"El carácter usado para dividir comandos enviados al mud. Por ejemplo, «;», "
-"hará que la cadena «w;look» sea enviada al mud como dos comandos separados."
-
-#: ../src/prefs.c:829 ../ui/main.glade.h:12 ../ui/prefs.glade.h:11
-msgid "Command history:"
-msgstr "Historial de comandos:"
-
-#: ../src/prefs.c:835 ../ui/main.glade.h:47 ../ui/prefs.glade.h:32
-msgid "The number of entries to be saved in the command history."
-msgstr "El número de entradas a guardar en el histórico de comandos."
-
-#: ../src/prefs.c:843 ../ui/main.glade.h:45 ../ui/prefs.glade.h:30
-msgid "Terminal type:"
-msgstr "Tipo de terminal:"
-
-#: ../src/prefs.c:858
-msgid "MudList file:"
-msgstr "Archivo de MudList:"
-
-#: ../src/prefs.c:861
-msgid "Select a MudList File..."
-msgstr "Seleccione un archivo MudList..."
-
-#: ../src/prefs.c:863
-msgid "Mudlist file to be used for the mudlist functionality."
-msgstr "Archivo lista de mud para usar por la funcionalidad lista de mud."
-
-#: ../src/prefs.c:872 ../ui/main.glade.h:9 ../ui/prefs.glade.h:8
-msgid "Color and Fonts"
-msgstr "Colores y tipografías"
-
-#: ../src/prefs.c:880
-msgid "Appearance"
-msgstr "Apariencia"
-
-#: ../src/prefs.c:889
-msgid "Tabs are located:"
-msgstr "Las solapas están ubicadas:"
-
-#: ../src/prefs.c:902
-msgid ""
-"This setting defines where to place the connection tabs that are used to "
-"change active connection."
-msgstr ""
-"Este ajuste defina dónde poner las solapas de conexión que se usan para "
-"cambiar la conexión activa."
-
-#: ../src/prefs.c:913 ../ui/main.glade.h:42 ../ui/prefs.glade.h:29
-msgid "Scrollback:"
-msgstr "Desplazar atrás:"
-
-#: ../src/prefs.c:919 ../ui/main.glade.h:35 ../ui/prefs.glade.h:25
-msgid "Number of lines to save in the scrollback."
-msgstr "Número de líneas a guardar en el desplazamiento hacia atrás."
-
-#: ../src/prefs.c:923 ../ui/main.glade.h:51 ../ui/prefs.glade.h:36
-msgid "lines"
-msgstr "líneas"
-
-#: ../src/prefs.c:929 ../ui/main.glade.h:40 ../ui/prefs.glade.h:28
-msgid "S_croll on output"
-msgstr "Desplazar _cuando haya salida"
-
-#: ../src/prefs.c:931 ../ui/main.glade.h:26 ../ui/prefs.glade.h:21
-msgid ""
-"If enabled, the terminal will scroll to the bottom if new output appears in "
-"the connection when the terminal was scrolled back."
-msgstr ""
-"Si se activa, el terminal se desplazará hasta abajo si aparecen nuevas "
-"salidas en la conexión cuando el terminar fue desplazado atrás."
-
-#: ../src/prefs.c:942 ../ui/main.glade.h:4 ../ui/prefs.glade.h:3
-msgid "AutoMapper"
-msgstr "Auto mapeador"
-
-#: ../src/prefs.c:956 ../ui/main.glade.h:48 ../ui/prefs.glade.h:33
-msgid "Unusual movement commands:"
-msgstr "Comandos de movimiento inusuales:"
-
-#: ../src/prefs.c:963
-msgid ""
-"If you use the automapper, you may want to specify here some unusual "
-"movement commands. When you use one of these, the automapper will create a "
-"path to an other map. Use a semicolon to separate the different commands."
-msgstr ""
-"Si está usando el automapeador, quizá quiera especificar aquí algunos "
-"comandos de movimientos inusuales. cuando use uno de estos, el automapeador "
-"creará una ruta a otro mapa. Use un punto y coma para separar diferentes "
-"comandos."
-
-#: ../src/profiles.c:328
-msgid "New profile"
-msgstr "Nuevo perfil"
-
-#: ../src/profiles.c:331
-msgid "Name of new profile:"
-msgstr "Nombre del perfil nuevo:"
-
-#: ../src/profiles.c:551
-msgid "GNOME-Mud: Profilelist"
-msgstr "GNOME-Mud: lista de perfiles"
-
-#: ../src/profiles.c:720 ../src/profiles.c:1092
-msgid "Default"
-msgstr "Predeterminado"
-
-#: ../src/profiles.c:901 ../src/profiles.c:1241
-msgid "Delete"
-msgstr "Borrar"
-
-#: ../src/profiles.c:917
-msgid "GNOME-Mud Connections"
-msgstr "Conexiones de GNOME-Mud"
-
-#: ../src/profiles.c:951
-msgid "Mud"
-msgstr "Mud"
-
-#. Translators: this is the name of your player
-#: ../src/profiles.c:958
-msgid "Character"
-msgstr "Personaje"
-
-#: ../src/profiles.c:971
-msgid "Mud information"
-msgstr "Información sobre el Mud "
-
-#: ../src/profiles.c:987
-msgid "Title:"
-msgstr "Título:"
-
-#: ../src/profiles.c:1031
-msgid "Character information"
-msgstr "Información sobre el personaje"
-
-#: ../src/profiles.c:1047
-msgid "Character:"
-msgstr "Personaje:"
-
-#: ../src/profiles.c:1055
-msgid "Password:"
-msgstr "Contraseña:"
-
-#: ../src/profiles.c:1076
-msgid "Profile information"
-msgstr "Información sobre el perfil"
-
-#: ../src/profiles.c:1102
-msgid "Select Profile"
-msgstr "Seleccionar perfil"
-
-#: ../src/profiles.c:1118
-msgid "Fetch from mudlist"
-msgstr "Obtener de lista de mud"
-
-#: ../src/profiles.c:1170 ../ui/connect.glade.h:3
-msgid "Connect"
-msgstr "Conectar"
-
-#: ../src/profiles.c:1210
-msgid "Profiles"
-msgstr "Perfiles"
-
-#: ../src/profiles.c:1219
-msgid "GNOME-Mud Profiles"
-msgstr "Perfiles de GNOME-Mud"
-
-#: ../src/profiles.c:1233
-msgid "New"
-msgstr "Nuevo"
-
-#: ../src/profiles.c:1234
-msgid "Create a new profile"
-msgstr "Crear un perfil nuevo"
-
-#: ../src/profiles.c:1241
-msgid "Delete a profile"
-msgstr "Borrar un perfil"
-
-#: ../src/profiles.c:1258
-msgid "Set aliases"
-msgstr "Establecer alias"
-
-#: ../src/profiles.c:1265
-msgid "Set variables"
-msgstr "Establecer variables"
-
-#: ../src/profiles.c:1272
-msgid "Set triggers"
-msgstr "Establecer disparadores"
-
-#: ../src/profiles.c:1289
-msgid "Set keybindings"
-msgstr "Establecer combinaciones de teclas"
-
-#: ../src/profiles.c:1296
-msgid "Directions"
-msgstr "Direcciones"
-
-#: ../src/profiles.c:1296
-msgid "Set directions"
-msgstr "Establecer direcciones"
-
-#: ../src/profiles.c:1313
-msgid "Close"
-msgstr "Cerrar"
-
-#: ../src/profiles.c:1313
-msgid "Close the window"
-msgstr "Cierra la ventana"
-
-#: ../src/tray.c:101
+#: ../src/mud-tray.c:199
 msgid "_Hide window"
 msgstr "_Ocultar ventana"
 
-#: ../src/tray.c:103
+#: ../src/mud-tray.c:201
 msgid "_Show window"
 msgstr "_Mostrar ventana"
 
-#: ../src/tray.c:108
+#: ../src/mud-tray.c:206
 msgid "_Quit"
 msgstr "_Salir"
 
-#: ../src/tray.c:158
+#: ../src/mud-tray.c:246
 msgid "GNOME Mud"
 msgstr "Gnome Mud"
+
+#: ../src/mud-preferences-window.c:252 ../src/mud-preferences-window.c:281
+#: ../ui/prefs.glade.h:28
+msgid "Preferences"
+msgstr "Preferencias"
+
+#: ../src/mud-window.c:494
+msgid "_Manage Profiles..."
+msgstr "_Gestionar perfiles..."
 
 #: ../ui/connect.glade.h:1
 msgid "<b>MUDs and characters</b>"
 msgstr "<b>MUDs y personajes</b>"
 
 #: ../ui/connect.glade.h:2
+msgid "<b>Profile to use</b>"
+msgstr "<b>Perfil que usar</b>"
+
+#: ../ui/connect.glade.h:3
+msgid "<b>Quick connect</b>"
+msgstr "<b>Conexión rápida</b>"
+
+#: ../ui/connect.glade.h:4
 msgid "Co_nnect"
 msgstr "_Conectar"
 
+#: ../ui/connect.glade.h:5
+msgid "Connect"
+msgstr "Conectar"
+
+#: ../ui/connect.glade.h:6
+msgid "Connect..."
+msgstr "Conectar..."
+
+#
 #: ../ui/connect.glade.h:7
+msgid "Host:"
+msgstr "Servidor:"
+
+#: ../ui/connect.glade.h:8
+msgid "Port:"
+msgstr "Puerto:"
+
+#: ../ui/connect.glade.h:9
 msgid "_Close"
 msgstr "_Cerrar"
 
 #: ../ui/directions.glade.h:1
 msgid "*"
 msgstr "*"
+
+#: ../ui/directions.glade.h:3
+msgid "Down"
+msgstr "Abajo"
 
 #: ../ui/directions.glade.h:4
 msgid "East"
@@ -1352,6 +516,10 @@ msgstr "Sureste"
 msgid "Southwest"
 msgstr "Suroeste"
 
+#: ../ui/directions.glade.h:12
+msgid "Up"
+msgstr "Arriba"
+
 #: ../ui/directions.glade.h:13
 msgid "West"
 msgstr "Oeste"
@@ -1360,110 +528,66 @@ msgstr "Oeste"
 msgid "A Multi-User Dungeon (MUD) client for GNOME."
 msgstr "Un cliente de Multi-User Dungeon (MUD) para GNOME."
 
-#: ../ui/main.glade.h:3 ../ui/prefs.glade.h:2
-msgid "Appearence"
-msgstr "Apariencia"
+#: ../ui/main.glade.h:2
+msgid "C_onnection..."
+msgstr "_Conexión..."
 
-#: ../ui/main.glade.h:6 ../ui/prefs.glade.h:5
-msgid "Blank"
-msgstr "Blanco"
+#: ../ui/main.glade.h:3
+msgid "Close _Window"
+msgstr "Cerrar _ventana"
 
-#: ../ui/main.glade.h:8
-msgid "Close Window"
-msgstr "Cerrar ventana"
-
-#: ../ui/main.glade.h:13
-msgid "Connection..."
-msgstr "Conexión..."
-
-#: ../ui/main.glade.h:14
-msgid ""
-"Default background colur used when the connection doesn't request the use of "
-"a specific color."
-msgstr ""
-"Color de segundo plano predeterminado usado cuando la conexión no solicita "
-"el uso de un color específico."
-
-#: ../ui/main.glade.h:22
+#: ../ui/main.glade.h:5
 msgid "GNOME-Mud Homepage"
 msgstr "Página web de GNOME-Mud"
 
-#: ../ui/main.glade.h:24 ../ui/prefs.glade.h:19
-msgid ""
-"If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
-"overriden by custom keybinds, or they can be disabled completly with this "
-"option."
-msgstr ""
-"Si está activado, GNOME-Mud ofrecerá unas cuantas asignaciones de teclas integradas. Pueden ser "
-"reemplazadas con asignaciones personalizadas, o se pueden deshabilitar completamente con esta opción."
+#: ../ui/main.glade.h:6
+msgid "P_rofiles"
+msgstr "_Perfiles"
 
-#: ../ui/main.glade.h:27 ../ui/prefs.glade.h:22
-msgid ""
-"If enabled, the text that is sent to the connection will be left as a "
-"selection in the entry box. Otherwise, the text entrybox will be cleared "
-"after each text input."
-msgstr ""
-"Si está activado, el texto que se envíe a la conexión de dejará como selección "
-"en el campo de introducción de datos. En otro caso, la caja de texto se borrará después de cada entrada de texto."
+#: ../ui/main.glade.h:7
+msgid "Plugin _Information..."
+msgstr "_Información sobre complementos..."
 
-#: ../ui/main.glade.h:28 ../ui/prefs.glade.h:23
-msgid ""
-"If you use the automapper, you may want to specify here some unusual "
-"movement commands. When you use one of these, the automapper will create a "
-"path to another map. Use a semicolon to seperate the different commands."
-msgstr ""
-"Si está usando el automapeador, quizá quiera especificar aquí algunos "
-"comandos de movimientos inusuales. Cuando use uno de éstos, el automapeador "
-"creará una ruta a otro mapa. Use un punto y coma para separar diferentes "
-"comandos."
+#: ../ui/main.glade.h:8
+msgid "Q_uick Connect..."
+msgstr "_Conexión rápida..."
+
+#: ../ui/main.glade.h:9
+msgid "Start _Logging..."
+msgstr "Iniciar _registro..."
+
+#: ../ui/main.glade.h:10
+msgid "Stop Lo_gging"
+msgstr "Detener re_gistro"
+
+#: ../ui/main.glade.h:11
+msgid "_Disconnect"
+msgstr "_Desconectar"
+
+#: ../ui/main.glade.h:12
+msgid "_Mud List..."
+msgstr "Listas de _Muds..."
+
+#: ../ui/main.glade.h:13
+msgid "_Plugins"
+msgstr "_Complementos"
+
+#: ../ui/main.glade.h:14
+msgid "_Reconnect"
+msgstr "_Reconectar"
+
+#: ../ui/main.glade.h:15
+msgid "_Save Buffer..."
+msgstr "_Guardar búfer..."
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: ../ui/main.glade.h:30
-msgid ""
-"Jordi Mallach <jordi@debian.org>\n"
-"Martin Quinson\n"
-"Jörgen Kosche "
-msgstr ""
-"Jordi Mallach <jordi@debian.org>\n"
-"Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
-"Martin Quinson\n"
-"Jörgen Kosche "
+#: ../ui/main.glade.h:17
+msgid "translator-credits"
+msgstr "Francisco Javier F. Serrador <serrador@cvs.gnome.org>"
 
-#: ../ui/main.glade.h:34
-msgid "Mud List..."
-msgstr "Listas de Muds..."
-
-#: ../ui/main.glade.h:36 ../ui/prefs.glade.h:26
-msgid "Pick a color"
-msgstr "Escoja un color"
-
-#: ../ui/main.glade.h:38
-msgid "Quick Connect..."
-msgstr "Conexión rápida..."
-
-#: ../ui/main.glade.h:41
-msgid "Save Buffer..."
-msgstr "Guardar búfer..."
-
-#: ../ui/main.glade.h:43
-msgid "Start Logging..."
-msgstr "Iniciar registro..."
-
-#: ../ui/main.glade.h:44
-msgid "Stop Logging"
-msgstr "Detener registro"
-
-#: ../ui/main.glade.h:46 ../ui/prefs.glade.h:31
-msgid ""
-"The character used to divide commands sent to the mud. For example \";\" "
-"will let the string \"w;look\" be sent to the mud as two separate commands."
-msgstr ""
-"El carácter usado para dividir comandos enviados al mud. Por ejemplo, «;», "
-"hará que la cadena «w;look» sea enviada al mud como dos comandos separados."
-
-#: ../ui/main.glade.h:52
-msgid "© 1998-2005 Robin Ericsson"
-msgstr "© 1998-2005 Robin Ericsson"
+#: ../ui/main.glade.h:18
+msgid "© 1998-2006 Robin Ericsson"
+msgstr "© 1998-2006 Robin Ericsson"
 
 #: ../ui/muds.glade.h:1
 msgid "<b>Character name</b>"
@@ -1482,16 +606,16 @@ msgid "<b>Connection</b>"
 msgstr "<b>Conexión</b>"
 
 #: ../ui/muds.glade.h:5
-msgid "<b>Detailed Info</b>"
+msgid "<b>Detailed info</b>"
 msgstr "<b>Información detallada</b>"
 
 #: ../ui/muds.glade.h:6
-msgid "<b>MUD details</b>"
-msgstr "<b>Detalles del MUD</b>"
-
-#: ../ui/muds.glade.h:7
 msgid "<b>MUD list</b>"
 msgstr "<b>Lista del MUD</b>"
+
+#: ../ui/muds.glade.h:7
+msgid "<b>Mud Details</b>"
+msgstr "<b>Detalles del Mud</b>"
 
 #: ../ui/muds.glade.h:8
 msgid ""
@@ -1576,53 +700,739 @@ msgid "MUD List"
 msgstr "Lista de MUDs"
 
 #: ../ui/muds.glade.h:45
+msgid "P_rofile:"
+msgstr "_Perfil:"
+
+#: ../ui/muds.glade.h:46
 msgid "_Add..."
 msgstr "_Añadir..."
 
-#: ../ui/muds.glade.h:46
+#: ../ui/muds.glade.h:47
 msgid "_Code base:"
 msgstr "Base del _código:"
 
-#: ../ui/muds.glade.h:47
+#: ../ui/muds.glade.h:48
 msgid "_Delete"
 msgstr "_Borrar"
 
-#: ../ui/muds.glade.h:48
+#: ../ui/muds.glade.h:49
 msgid "_Description:"
 msgstr "_Descripción:"
 
-#: ../ui/muds.glade.h:49
+#: ../ui/muds.glade.h:50
 msgid "_Edit..."
 msgstr "_Editar..."
 
 #
-#: ../ui/muds.glade.h:50
+#: ../ui/muds.glade.h:51
 msgid "_Host/IP:"
 msgstr "_Host/IP:"
 
-#: ../ui/muds.glade.h:51
+#: ../ui/muds.glade.h:52
 msgid "_Name:"
 msgstr "_Nombre:"
 
-#: ../ui/muds.glade.h:52
+#: ../ui/muds.glade.h:53
 msgid "_Port:"
 msgstr "_Puerto:"
 
-#: ../ui/muds.glade.h:53
+#: ../ui/muds.glade.h:54
 msgid "_Properties..."
 msgstr "_Propiedades..."
 
-#: ../ui/muds.glade.h:54
+#: ../ui/muds.glade.h:55
 msgid "_Show in Quick Connect"
 msgstr "_Mostrar en conexión rápida"
 
-#: ../ui/muds.glade.h:55
+#: ../ui/muds.glade.h:56
 msgid "_Theme:"
 msgstr "_Tema:"
 
+#: ../ui/prefs.glade.h:1
+msgid "<b>New Profile Name:</b>"
+msgstr "<b>Nombre del perfil nuevo:</b>"
+
+#: ../ui/prefs.glade.h:3
+msgid "Appearence"
+msgstr "Apariencia"
+
+#: ../ui/prefs.glade.h:4
+msgid "AutoMapper"
+msgstr "Auto mapeador"
+
+#: ../ui/prefs.glade.h:5
+msgid "Background color:"
+msgstr "Color de fondo:"
+
 #: ../ui/prefs.glade.h:6
-msgid "Change the clour of a specific color that the MUD requests to use."
-msgstr "Cambiar el color de un color específico que solicite usar el MUD."
+msgid "Blank"
+msgstr "Blanco"
+
+#: ../ui/prefs.glade.h:7
+msgid "Change the color of a specific color that the MUD requests to use."
+msgstr "Cambiar el color al color específico que solicite el MUD"
+
+#: ../ui/prefs.glade.h:8
+msgid "Color and Fonts"
+msgstr "Colores y tipografías"
+
+#: ../ui/prefs.glade.h:9
+msgid "Color palette:"
+msgstr "Paleta de colores:"
+
+#: ../ui/prefs.glade.h:10
+msgid "Command division character:"
+msgstr "Carácter de división de comandos:"
+
+#: ../ui/prefs.glade.h:11
+msgid "Command history:"
+msgstr "Historial de comandos:"
+
+#: ../ui/prefs.glade.h:12
+msgid ""
+"Default background color used when the connection doesn't request the use of "
+"a specific color."
+msgstr ""
+"Color de segundo plano predeterminado a usar cuando la conexión no solicita "
+"el uso de un color específico."
+
+#: ../ui/prefs.glade.h:13
+msgid ""
+"Default foreground color used when the connection doesn't request the use of "
+"a specific color."
+msgstr ""
+"Color de primer plano predeterminado a usar cuando la conexión no solicita "
+"el uso de un color específico."
+
+#: ../ui/prefs.glade.h:14
+msgid "Disable _System Keys"
+msgstr "Deshabilitar teclas del _sistema"
+
+#: ../ui/prefs.glade.h:15
+msgid "Font:"
+msgstr "Fuente:"
+
+#: ../ui/prefs.glade.h:16
+msgid "Foreground color:"
+msgstr "Color de la tipografía:"
+
+#: ../ui/prefs.glade.h:17
+msgid "Functionality"
+msgstr "Funcionalidades"
+
+#: ../ui/prefs.glade.h:19
+msgid ""
+"If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
+"overriden by custom keybinds, or they can be disabled completely with this "
+"option."
+msgstr ""
+"Si está activado, GNOME-Mud ofrecerá unas pocas asignaciones de teclas "
+"integradas. Pueden reemplazarse con asignaciones personalizadas, o desactivarse completamente con esta opción."
+
+#: ../ui/prefs.glade.h:21
+msgid ""
+"If enabled, the terminal will scroll to the bottom if new output appears in "
+"the connection when the terminal was scrolled back."
+msgstr ""
+"Si se activa, el terminal se desplazará hasta abajo si aparecen nuevas "
+"salidas en la conexión cuando el terminar fue desplazado atrás."
+
+#: ../ui/prefs.glade.h:22
+msgid ""
+"If enabled, the text that is sent to the connection will be left as a "
+"selection in the entry box. Otherwise, the text entrybox will be cleared "
+"after each text input."
+msgstr ""
+"Si está activado, el texto que se envíe a la conexión de dejará como "
+"selección en el campo de introducción de datos. En otro caso, la caja de "
+"texto se borrará después de cada entrada de texto."
+
+#: ../ui/prefs.glade.h:23
+msgid ""
+"If you use the automapper, you may want to specify here some unusual "
+"movement commands. When you use one of these, the automapper will create a "
+"path to another map. Use a semicolon to separate the different commands."
+msgstr ""
+"Si está usando el automapeador, quizá quiera especificar aquí algunos "
+"comandos de movimientos inusuales. Cuando use uno de éstos, el automapeador "
+"creará una ruta a otro mapa. Use un punto y coma para separar diferentes "
+"comandos."
+
+#: ../ui/prefs.glade.h:24
+msgid "Main font that is used on all open connections."
+msgstr "La tipografía principal que se usa en todas las conexiones abiertas."
+
+#: ../ui/prefs.glade.h:25
+msgid "New Profile"
+msgstr "Perfil nuevo"
+
+#: ../ui/prefs.glade.h:26
+msgid "Number of lines to save in the scrollback."
+msgstr "Número de líneas a guardar en el desplazamiento hacia atrás."
+
+#: ../ui/prefs.glade.h:27
+msgid "Pick a color"
+msgstr "Escoja un color"
+
+#: ../ui/prefs.glade.h:29
+msgid "Profiles"
+msgstr "Perfiles"
+
+#: ../ui/prefs.glade.h:30
+msgid "S_croll on output"
+msgstr "Desplazar _cuando haya salida"
+
+#: ../ui/prefs.glade.h:31
+msgid "Scrollback:"
+msgstr "Desplazar atrás:"
+
+#: ../ui/prefs.glade.h:32
+msgid "Terminal type:"
+msgstr "Tipo de terminal:"
+
+#: ../ui/prefs.glade.h:33
+msgid ""
+"The character used to divide commands sent to the mud. For example \";\" "
+"will let the string \"w;look\" be sent to the mud as two separate commands."
+msgstr ""
+"El carácter usado para dividir comandos enviados al mud. Por ejemplo, «;», "
+"hará que la cadena «w;look» sea enviada al mud como dos comandos separados."
+
+#: ../ui/prefs.glade.h:34
+msgid "The number of entries to be saved in the command history."
+msgstr "El número de entradas a guardar en el histórico de comandos."
+
+#: ../ui/prefs.glade.h:35
+msgid "Unusual movement commands:"
+msgstr "Comandos de movimiento inusuales:"
+
+#: ../ui/prefs.glade.h:36
+msgid "_Echo the text sent"
+msgstr "_Hacer eco del texto mandado"
+
+#: ../ui/prefs.glade.h:37
+msgid "_Keep the text entered"
+msgstr "_Guardar el texto introducido"
+
+#: ../ui/prefs.glade.h:38
+msgid "lines"
+msgstr "líneas"
+
+#~ msgid "No void characters allowed."
+#~ msgstr "No se permiten caracteres vacíos."
+
+#~ msgid "Actions"
+#~ msgstr "Acciones"
+
+#~ msgid "Character '%c' not allowed."
+#~ msgstr "Carácter '%c' no permitido."
+
+#~ msgid "%s too big."
+#~ msgstr "%s demasiado grande."
+
+#~ msgid "Can't duplicate %s."
+#~ msgstr "No se puede duplicar %s."
+
+#~ msgid "Alias"
+#~ msgstr "Alias"
+
+#~ msgid "Replacement"
+#~ msgstr "Sustitución"
+
+#~ msgid "Values"
+#~ msgstr "Valores"
+
+#~ msgid "%s: trying to access to undefined data range: %d"
+#~ msgstr "%s: tratando de acceder a un rango de datos indefinido: %d"
+
+#~ msgid "GNOME-Mud Configuration Center"
+#~ msgstr "Centro de Configuración de GNOME-Mud"
+
+#~ msgid "Do you really want to quit?"
+#~ msgstr "¿De verdad quieres salir?"
+
+#~ msgid "*** Internal error: no such connection.\n"
+#~ msgstr "*** Error interno: no existe esa conexión.\n"
+
+#~ msgid "Artwork by:"
+#~ msgstr "Trabajo artístico por: "
+
+#~ msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
+#~ msgstr "Un cliente de MUD (Multi-User Dungeon) para GNOME.\n"
+
+#~ msgid "GNOME-Mud home page"
+#~ msgstr "Página web de GNOME-Mud"
+
+#~ msgid "There was an error displaying help: %s"
+#~ msgstr "Hubo un error mostrando la ayuda: %s"
+
+#~ msgid "Wizard..."
+#~ msgstr "Asistente..."
+
+#~ msgid "Open the Connection Wizard"
+#~ msgstr "Abrir el asistente de conexiones..."
+
+#~ msgid "Manage user profiles"
+#~ msgstr "Administrar perfiles de usuario"
+
+#~ msgid "Connect to a mud"
+#~ msgstr "Conectar a un mud"
+
+#~ msgid "Disconnect"
+#~ msgstr "Desconectar"
+
+#~ msgid "Disconnect from the mud"
+#~ msgstr "Conectar del mud"
+
+#~ msgid "Reconnect"
+#~ msgstr "Conectar"
+
+#~ msgid "Reconnect to the mud"
+#~ msgstr "Reconectar al mud"
+
+#~ msgid "Exit"
+#~ msgstr "Salir"
+
+#~ msgid "Quit GNOME-Mud"
+#~ msgstr "Salir de GNOME-Mud"
+
+#~ msgid "Connection _Wizard..."
+#~ msgstr "_Asistente de conexiones..."
+
+#~ msgid "_MudList Listing..."
+#~ msgstr "Listas de _MudList..."
+
+#~ msgid "C_onnect..."
+#~ msgstr "_Conectar..."
+
+#~ msgid "S_tart Logging..."
+#~ msgstr "_Registrar en bitácora..."
+
+#~ msgid "Sto_p Logging"
+#~ msgstr "_Detener registro de bitácora"
+
+#~ msgid "_Close Window"
+#~ msgstr "_Cerrar ventana"
+
+#~ msgid "Auto _Mapper..."
+#~ msgstr "Auto _mapeador..."
+
+#~ msgid "User Manual"
+#~ msgstr "Manual de usuario"
+
+#~ msgid "Display the GNOME-Mud User Manual"
+#~ msgstr "Mostrar el manual de GNOME-Mud"
+
+#~ msgid "Plugin API Manual"
+#~ msgstr "Manual del API de extensiones"
+
+#~ msgid "Display the GNOME-Mud Plugin API Manual"
+#~ msgstr "Mostrar el manual del API de complementos de GNOME-Mud"
+
+#~ msgid "Main"
+#~ msgstr "Principal"
+
+#~ msgid "GNOME-Mud version %s (compiled %s, %s)\n"
+#~ msgstr "GNOME-Mud versión %s (compilado %s, %s)\n"
+
+#~ msgid "Distributed under the terms of the GNU General Public License.\n"
+#~ msgstr "Distribuido bajo los términos de la Licencia Pública General GNU.\n"
+
+#~ msgid "You must use capture first!"
+#~ msgstr "Debe usar capturar primero"
+
+#~ msgid "Can't add an existing key."
+#~ msgstr "No se puede añadir una tecla ya existente."
+
+#~ msgid "Incomplete fields."
+#~ msgstr "Campos incompletos."
+
+#~ msgid "GNOME-Mud Keybinding Center"
+#~ msgstr "Centro de asignación de teclas de GNOME-Mud"
+
+#~ msgid "Key"
+#~ msgstr "Tecla"
+
+#~ msgid "Command"
+#~ msgstr "Comando"
+
+#~ msgid "Bind"
+#~ msgstr "Asignar"
+
+#~ msgid "Capture"
+#~ msgstr "Capturar"
+
+#~ msgid "*** Already logging to %s. Close that log first.\n"
+#~ msgstr "*** Ya se está registrando en %s. Cierre ese registro primero.\n"
+
+#~ msgid "Open log"
+#~ msgstr "Abrir bitácora"
+
+#~ msgid "*** No log to be closed is open in this window.\n"
+#~ msgstr "** No hay registros abiertos en esta ventana que cerrar.\n"
+
+#~ msgid "*** Couldn't open %s.\n"
+#~ msgstr "*** No se ha podido abrir %s.\n"
+
+#~ msgid "*** Logging to %s.\n"
+#~ msgstr "*** Registrando bitácora en %s.\n"
+
+#~ msgid "*** Stopped logging to %s.\n"
+#~ msgstr "*** Se ha dejado de hacer log en %s.\n"
+
+#~ msgid "*** Could not open file for writing.\n"
+#~ msgstr "*** No se ha podido abrir el archivo para escritura.\n"
+
+#~ msgid "Please select a log file..."
+#~ msgstr "Por favor, selecciona un archivo de log..."
+
+#~ msgid "Ready."
+#~ msgstr "Preparado."
+
+#~ msgid "Canceled."
+#~ msgstr "Cancelado."
+
+#~ msgid "A link already exists here!"
+#~ msgstr "Ya existe un enlace aquí"
+
+#~ msgid "Ready"
+#~ msgstr "Preparado"
+
+#~ msgid "Link created"
+#~ msgstr "Enlace creado"
+
+#~ msgid "Can't create a node here"
+#~ msgstr "No se puede crear un nodo aquí"
+
+#~ msgid "New Map"
+#~ msgstr "Mapa nuevo"
+
+#~ msgid "Creating a path"
+#~ msgstr "Creando una ruta"
+
+#~ msgid "Path lead to a new map"
+#~ msgstr "La ruta conduce a un mapa nuevo"
+
+#~ msgid "New map"
+#~ msgstr "Mapa nuevo"
+
+#~ msgid "Path follows an already existing path:"
+#~ msgstr "La ruta sigue un camino ya existente:"
+
+#~ msgid "Create"
+#~ msgstr "Crear"
+
+#~ msgid "Enter in a path"
+#~ msgstr "Introducir una ruta"
+
+#~ msgid "Create a new path:"
+#~ msgstr "Crear una ruta nueva:"
+
+#~ msgid "Enter in existing path:"
+#~ msgstr "Introduzca una ruta existente:"
+
+#~ msgid ""
+#~ "This node has already 8 links. Destroy one of these before trying to "
+#~ "create a new one"
+#~ msgstr ""
+#~ "Este nodo ya tiene 8 enlaces. Destruya uno de estos antes de intentar "
+#~ "crear uno nuevo"
+
+#~ msgid "Enter to finish, Esc to quit"
+#~ msgstr "Intro para terminar, Esc para salir"
+
+#~ msgid "Use move buttons to build the link."
+#~ msgstr "Use los botones de movimiento para construir el enlace."
+
+#~ msgid "Zoom In"
+#~ msgstr "Ampliar"
+
+#~ msgid "Zoom Out"
+#~ msgstr "Reducir"
+
+#~ msgid "Configure Automap"
+#~ msgstr "Configurar automapa"
+
+#~ msgid "Teleport here"
+#~ msgstr "Teleportarse aquí"
+
+#~ msgid "Create new link"
+#~ msgstr "Crear un enlace nuevo"
+
+#~ msgid "Enter"
+#~ msgstr "Entrar"
+
+#~ msgid "N"
+#~ msgstr "N"
+
+#~ msgid "NE"
+#~ msgstr "NE"
+
+#~ msgid "E"
+#~ msgstr "E"
+
+#~ msgid "SE"
+#~ msgstr "SE"
+
+#~ msgid "S"
+#~ msgstr "S"
+
+#~ msgid "SW"
+#~ msgstr "SO"
+
+#~ msgid "W"
+#~ msgstr "O"
+
+#~ msgid "NW"
+#~ msgstr "NO"
+
+#~ msgid "Remove"
+#~ msgstr "Quitar"
+
+#~ msgid "Load"
+#~ msgstr "Cargar"
+
+#~ msgid "Save"
+#~ msgstr "Salvar"
+
+#~ msgid "Load map"
+#~ msgstr "Cargar mapa"
+
+#~ msgid "Save map"
+#~ msgstr "Guardar mapa"
+
+#~ msgid "No link existed in that direction"
+#~ msgstr "No existe enlace en esa dirección"
+
+#~ msgid "Cannot break links to a node going up or down"
+#~ msgstr "No se pueden romper enlaces a un nodo subiendo o bajando"
+
+#~ msgid "Destination node has already a connection here"
+#~ msgstr "El nodo de destino ya tiene una conexión aquí"
+
+#~ msgid "Can't create a link to another floor!"
+#~ msgstr "No se puede crear un enlace a otro piso."
+
+#~ msgid "There is already a link here!"
+#~ msgstr "Ya hay un enlace aquí"
+
+#~ msgid "GNOME-Mud AutoMapper"
+#~ msgstr "Auto mapeador de GNOME-Mud"
+
+#~ msgid ""
+#~ "GNOME-Mud version %s (compiled %s, %s)\n"
+#~ "Distributed under the terms of the GNU General Public License.\n"
+#~ msgstr ""
+#~ "Gnome-mud versión %s (compilado en %s, %s)\n"
+#~ "Distribuido bajo los términos de la Licencia Pública General GNU.\n"
+
+#~ msgid "Could not open MudList file for reading"
+#~ msgstr "No se ha podido abrir la lista de muds para lectura"
+
+#~ msgid "GNOME-Mud MudList"
+#~ msgstr "Lista de muds de GNOME-Mud"
+
+#~ msgid "Mud name:"
+#~ msgstr "Nombre del Mud:"
+
+#~ msgid "Codebase:"
+#~ msgstr "Base del código :"
+
+#~ msgid "Telnet address:"
+#~ msgstr "Dirección de telnet:"
+
+#~ msgid "Connect to the mud"
+#~ msgstr "Conectar al mud"
+
+#~ msgid "Import and close"
+#~ msgstr "Importar y cerrar"
+
+#~ msgid "Go to webpage of the mud"
+#~ msgstr "Ir a la página web del mud"
+
+#~ msgid "Description:"
+#~ msgstr "Descripción:"
+
+#~ msgid "*** Can't connect - you didn't specify a host.\n"
+#~ msgstr "*** No se puede conectar - no has especificado ningún servidor.\n"
+
+#~ msgid "*** No port specified - assuming port 23.\n"
+#~ msgstr "*** No se ha especificado un puerto - asumiendo puerto 23.\n"
+
+#~ msgid "*** Making connection to %s, port %s.\n"
+#~ msgstr "*** Realizando conexión a %s, puerto %s.\n"
+
+#~ msgid "*** Trying %s port %s...\n"
+#~ msgstr "*** Intentando %s puerto %s...\n"
+
+#~ msgid "*** Connection established.\n"
+#~ msgstr "*** Conexión establecida.\n"
+
+#~ msgid "Couldn't convert text input"
+#~ msgstr "No se puede convertir el texto de entrada"
+
+#~ msgid "The quick brown fox jumps over the lazy dog"
+#~ msgstr "Tres tristes tigres tomaban trigo en un trigal"
+
+#~ msgid "on top"
+#~ msgstr "encima"
+
+#~ msgid "on the right"
+#~ msgstr "a la derecha"
+
+#~ msgid "at the bottom"
+#~ msgstr "debajo"
+
+#~ msgid "on the left"
+#~ msgstr "a la izquierda"
+
+#~ msgid "GNOME-Mud Preferences"
+#~ msgstr "Preferencias de GNOME-Mud"
+
+#~ msgid ""
+#~ "The character used to divide commands sent to the mud. For example, \";"
+#~ "\", will let the string \"w;look\" be sent to the mud as 2 separate "
+#~ "commands."
+#~ msgstr ""
+#~ "El carácter usado para dividir comandos enviados al mud. Por ejemplo, "
+#~ "«;», hará que la cadena «w;look» sea enviada al mud como dos comandos "
+#~ "separados."
+
+#~ msgid "MudList file:"
+#~ msgstr "Archivo de MudList:"
+
+#~ msgid "Select a MudList File..."
+#~ msgstr "Seleccione un archivo MudList..."
+
+#~ msgid "Mudlist file to be used for the mudlist functionality."
+#~ msgstr "Archivo lista de mud para usar por la funcionalidad lista de mud."
+
+#~ msgid "Appearance"
+#~ msgstr "Apariencia"
+
+#~ msgid "Tabs are located:"
+#~ msgstr "Las solapas están ubicadas:"
+
+#~ msgid ""
+#~ "This setting defines where to place the connection tabs that are used to "
+#~ "change active connection."
+#~ msgstr ""
+#~ "Este ajuste defina dónde poner las solapas de conexión que se usan para "
+#~ "cambiar la conexión activa."
+
+#~ msgid "Name of new profile:"
+#~ msgstr "Nombre del perfil nuevo:"
+
+#~ msgid "GNOME-Mud: Profilelist"
+#~ msgstr "GNOME-Mud: lista de perfiles"
+
+#~ msgid "Default"
+#~ msgstr "Predeterminado"
+
+#~ msgid "Delete"
+#~ msgstr "Borrar"
+
+#~ msgid "GNOME-Mud Connections"
+#~ msgstr "Conexiones de GNOME-Mud"
+
+#~ msgid "Mud"
+#~ msgstr "Mud"
+
+#~ msgid "Character"
+#~ msgstr "Personaje"
+
+#~ msgid "Mud information"
+#~ msgstr "Información sobre el Mud "
+
+#~ msgid "Title:"
+#~ msgstr "Título:"
+
+#~ msgid "Character information"
+#~ msgstr "Información sobre el personaje"
+
+#~ msgid "Character:"
+#~ msgstr "Personaje:"
+
+#~ msgid "Password:"
+#~ msgstr "Contraseña:"
+
+#~ msgid "Profile information"
+#~ msgstr "Información sobre el perfil"
+
+#~ msgid "Select Profile"
+#~ msgstr "Seleccionar perfil"
+
+#~ msgid "Fetch from mudlist"
+#~ msgstr "Obtener de lista de mud"
+
+#~ msgid "GNOME-Mud Profiles"
+#~ msgstr "Perfiles de GNOME-Mud"
+
+#~ msgid "New"
+#~ msgstr "Nuevo"
+
+#~ msgid "Create a new profile"
+#~ msgstr "Crear un perfil nuevo"
+
+#~ msgid "Delete a profile"
+#~ msgstr "Borrar un perfil"
+
+#~ msgid "Set aliases"
+#~ msgstr "Establecer alias"
+
+#~ msgid "Set variables"
+#~ msgstr "Establecer variables"
+
+#~ msgid "Set triggers"
+#~ msgstr "Establecer disparadores"
+
+#~ msgid "Set keybindings"
+#~ msgstr "Establecer combinaciones de teclas"
+
+#~ msgid "Directions"
+#~ msgstr "Direcciones"
+
+#~ msgid "Set directions"
+#~ msgstr "Establecer direcciones"
+
+#~ msgid "Close"
+#~ msgstr "Cerrar"
+
+#~ msgid "Close the window"
+#~ msgstr "Cierra la ventana"
+
+#~ msgid ""
+#~ "Default background colur used when the connection doesn't request the use "
+#~ "of a specific color."
+#~ msgstr ""
+#~ "Color de segundo plano predeterminado usado cuando la conexión no "
+#~ "solicita el uso de un color específico."
+
+#~ msgid ""
+#~ "If you use the automapper, you may want to specify here some unusual "
+#~ "movement commands. When you use one of these, the automapper will create "
+#~ "a path to another map. Use a semicolon to seperate the different commands."
+#~ msgstr ""
+#~ "Si está usando el automapeador, quizá quiera especificar aquí algunos "
+#~ "comandos de movimientos inusuales. Cuando use uno de éstos, el "
+#~ "automapeador creará una ruta a otro mapa. Use un punto y coma para "
+#~ "separar diferentes comandos."
+
+#~ msgid ""
+#~ "Jordi Mallach <jordi@debian.org>\n"
+#~ "Martin Quinson\n"
+#~ "Jörgen Kosche "
+#~ msgstr ""
+#~ "Jordi Mallach <jordi@debian.org>\n"
+#~ "Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
+#~ "Martin Quinson\n"
+#~ "Jörgen Kosche "
+
+#~ msgid "Save Buffer..."
+#~ msgstr "Guardar búfer..."
+
+#~ msgid "Change the clour of a specific color that the MUD requests to use."
+#~ msgstr "Cambiar el color de un color específico que solicite usar el MUD."
 
 #~ msgid "Background colour:"
 #~ msgstr "Color de fondo:"
