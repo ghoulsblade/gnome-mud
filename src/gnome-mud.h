@@ -73,7 +73,7 @@ typedef struct wizard_data2    WIZARD_DATA2;
 typedef struct system_data     SYSTEM_DATA;
 typedef struct keybind_data    KEYBIND_DATA;
 typedef	struct profile_data	   PROFILE_DATA;
-#ifndef WITHOUT_MAPPER
+#ifdef ENABLE_MAPPER
 	typedef struct _AutoMap        AutoMap;
 	typedef struct _AutoMapConfig  AutoMapConfig;
 #endif
@@ -152,7 +152,7 @@ struct profile_data {
 	KEYBIND_DATA	*kd;
 };
 
-#ifndef WITHOUT_MAPPER
+#ifdef ENABLE_MAPPER
 struct _AutoMapConfig
 {
 	GList* unusual_exits;
@@ -206,7 +206,7 @@ void  window_menu_file_stop_logging_cb  ( GtkWidget *widget, gpointer data );
 void  window_menu_file_save_buffer_cb   ( GtkWidget *widget, gpointer data );
 void  stop_logging_connection           ( CONNECTION_DATA *connection      );
 
-#ifndef WITHOUT_MAPPER
+#ifdef ENABLE_MAPPER
 /* map.c */
 void window_automap   ( GtkWidget *widget, gpointer data);
 void user_command     ( AutoMap* automap, const gchar* command);

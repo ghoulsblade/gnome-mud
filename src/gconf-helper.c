@@ -135,7 +135,7 @@ void gm_gconf_load_preferences(MudProfile *profile)
 		prefs->LastLogDir = g_strdup(p);
 	}
 
-#ifndef WITHOUT_MAPPER
+#ifdef ENABLE_MAPPER
 	/* load automapper prefs : unusual_exits */
 	/* FIXME, What? p = gconf_client_get_string(gconf_client, "/apps/gnome-mud/mapper/unusual_exits", NULL);
 	automap_config = g_malloc0(sizeof(AutoMapConfig));

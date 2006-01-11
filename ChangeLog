@@ -1,3 +1,12 @@
+2006-01-11  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.ac: Cleanup. Update enabling of MCCP to be automatic,
+	default mapper support to no.
+
+	* src/gconf-helper.c (gm_gconf_load_preferences),
+	src/gnome-mud.h: Update WITHOUT_MAPPER references to new name
+	ENABLE_MAPPER.
+
 2006-01-06  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/Makefile.am, src/data.c, src/directions.c, src/directions.h,

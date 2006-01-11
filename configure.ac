@@ -61,7 +61,6 @@ VTE_REQUIRED=0.11.00
 
 dnl libgnome, libgnomeui needed for all utils
 PKG_CHECK_MODULES(GMUD, gtk+-2.0 >= $GTK_REQUIRED libgnome-2.0 >= $LIBGNOME_REQUIRED libgnomeui-2.0 >= $LIBGNOMEUI_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED libgnetwork-1.0 >= $LIBGNETWORK_REQUIRED)
-
 AC_SUBST(GMUD_CFLAGS)
 AC_SUBST(GMUD_LIBS)
 
@@ -77,33 +76,35 @@ AC_CHECK_HEADERS(fcntl.h unistd.h malloc.h termios.h termio.h limits.h getopt.h 
 
 AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])
 
-dnl Ability to disable the map feature until I found a fix for it.
+dnl Check whether to include mapper support (defaults to no)
 AC_ARG_ENABLE(mapper,
-[  --disable-mapper        disable mapping support (default=no)],
-)
+	AC_HELP_STRING([--enable-mapper],
+		       [Enable automapper support (default=no)]),
+		[enable_mapper=$enableval], [enable_mapper=no])
 
-HAVE_MAPPER="yes"
-if test "x$enable_mapper" = "xno" ; then
-	AC_DEFINE(WITHOUT_MAPPER, 1, [Define this if you don't want mapper support.])
-	HAVE_MAPPER="no"
+if test "x$enable_mapper" = "xyes" ; then
+	AC_DEFINE(ENABLE_MAPPER, 1, [Define if mapper support should be enabled])
 fi
 
 dnl Check whether to include MCCP code or not
 AC_ARG_ENABLE(mccp,
-[  --enable-mccp           enable MCCP (Compression Protocol) (default=yes)],
-)
-
-HAVE_ZLIB=no
-Z_LIBS=""
-if test "x$enable_mccp" = "x"; then
-  dnl Check for working -lz
-  AC_CHECK_HEADER(zlib.h, HAVE_ZLIB=yes, HAVE_ZLIB=no)
-    if test "x$HAVE_ZLIB" = "xyes"; then
-      Z_LIBS="-lz"
-    else
-      AC_MSG_WARN("MCCP support is disabled since zlib was not found")
-    fi
+	AC_HELP_STRING([--enable-mccp],
+		       [Enable MCCP (MUD Client Compression Protocol)]),,
+		enable_mccp=auto)
+if test "x$enable_mccp" != "xno"; then
+	AC_CHECK_HEADER(zlib.h, have_zlib=yes, have_zlib=no)
+	if test "x$have_zlib" = "xno" -a "x$enable_mccp" = "xyes"; then
+	  AC_MSG_ERROR([MCCP support explicitly requested but zlib was not found])
+	fi
+	if test "x$have_zlib" = "xyes"; then
+	  AC_DEFINE(ENABLE_MCCP, 1, [Define if MCCP should be enabled])
+	  enable_mccp=yes
+	  Z_LIBS="-lz"
+	fi
 fi
+AM_CONDITIONAL(USE_MCCP, test "x$enable_mccp" = xyes)
+
+AC_SUBST(Z_LIBS)
 
 dnl Check whether to include Python support
 dnl AC_ARG_WITH(python,
@@ -202,38 +203,6 @@ dnl Checks for library functions.
 AC_CHECK_FUNC(bzero)
 AC_CHECK_FUNCS(getaddrinfo getnameinfo mkdir socket strdup strerror strstr)
 
-dnl Make sure we link against a working zlib
-
-if test "x$HAVE_ZLIB" = xyes; then
-	x11_old_libz=no 
-	if test -n "$X_LIBS"; then
-	AC_MSG_CHECKING(for libz.a in X11)
-		for d in `echo $X_LIBS | sed -e 's/-L//'`; do
-			if test -f $d/libz.a; then
-				x11_old_libz=$d
-				break
-			fi
-		done
-	fi
-	if test "x$x11_old_libz" != xno; then
-		AC_MSG_RESULT(yes)
-		AC_MSG_WARN(there is an old libz.a in $x11_old_libz)
-		AC_MSG_WARN($PROGRAM is unable to support compression)
-		AC_MSG_WARN(due to library search order issues)
-		AC_MSG_WARN(if you wish to have compression support)
-		AC_MSG_WARN(please delete $x11_old_libz/libz.a)
-		ac_cv_header_zlib_h=no
-		HAVE_ZLIB="no, due to conflicting $x11_old_libz/libz.a"
-		Z_LIBS=""
-	else
-		if test -n "$X_LIBS"; then
-			AC_MSG_RESULT(no)
-		fi
-      		AC_DEFINE(ENABLE_MCCP, 1, [Define this to enable MCCP (Mud Client Compression Protocol) support.])
-	fi
-fi
-AC_SUBST(Z_LIBS)
-
 AC_CONFIG_FILES([
   Makefile
   gnome-mud.lsm
@@ -250,14 +219,20 @@ AC_CONFIG_FILES([
 ])
 AC_OUTPUT
 
-AC_MSG_RESULT([
-	Gnome-mud has been configured successfully.
+AC_MSG_NOTICE([GNOME-Mud has been configured with the following options:])
 
-	MCCP support	: $HAVE_ZLIB
-	Mapper support	: $HAVE_MAPPER
-])
+if test "x$enable_mccp" = xyes; then
+	AC_MSG_NOTICE([    * MCCP support is enabled])
+else
+	AC_MSG_NOTICE([    * MCCP support is disabled])
+fi
+
+if test "x$enable_mapper" = xyes; then
+	AC_MSG_NOTICE([    * Mapper support is enabled])
+else
+	AC_MSG_NOTICE([    * Mapper support is disabled])
+fi
 
 if test -d $srcdir/CVS; then
-	echo "WARNING: You're using a CVS version. Expect problems."
-	echo
+	AC_MSG_WARN([You're using a CVS version. Expect problems.])
 fi
