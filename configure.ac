@@ -39,7 +39,7 @@ GNOME_MAINTAINER_MODE_DEFINES
 GNOME_COMPILE_WARNINGS
 GNOME_DEBUG_CHECK
 
-ALL_LINGUAS="az ca cs de en_CA en_GB es fr hr mk ml ne nl pa pl pt pt_BR rw sr sr@Latn sv tr uk zh_CN"
+ALL_LINGUAS="az ca cs de en_CA en_GB es fr hr mk ml ne nl pa pl pt pt_BR rw sr sr@Latn sv tr uk vi zh_CN"
 
 AM_GLIB_GNU_GETTEXT
 
