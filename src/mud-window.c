@@ -229,8 +229,17 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 static void
 mud_window_textentry_activate(GtkWidget *widget, MudWindow *window)
 {
+	gchar *tmp;
+
+	tmp = g_strdup(gtk_entry_get_text(GTK_ENTRY(widget)));
+		if (g_str_equal(tmp, ""))
+			tmp = g_strdup(" ");
 	if (window->priv->current_view)
-		mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), gtk_entry_get_text(GTK_ENTRY(widget)));
+		mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), tmp);
+		if (gconf_client_get_bool(window->priv->gconf_client,
+		   "/apps/gnome-mud/functionality/keeptext", NULL) == FALSE)
+			gtk_entry_set_text(GTK_ENTRY(widget), g_strdup(""));
+		free (tmp);
 }
 
 static void

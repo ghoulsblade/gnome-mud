@@ -1,8 +1,14 @@
-2006-01-24  Clytie Siddall <clytie@riverland.net.au>
+2006-02-03  Daniel Patton <seven-nation@army.com>
 
-	* configure.in	Added vi in ALL_LINGUAS line.
-	
-	2006-01-11  Jordi Mallach  <jordi@sindominio.net>
+	* src/mud-window.c (mud_window_textentry_activate): Added code to
+	prevent crash on a blank line of input.
+	Added if clause to honour keeptext gconf value.
+
+2006-01-24  Clytie Siddall  <clytie@riverland.net.au>
+
+	* configure.in:	Added vi in ALL_LINGUAS line.
+
+2006-01-11  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: Cleanup. Update enabling of MCCP to be automatic,
 	default mapper support to no.
