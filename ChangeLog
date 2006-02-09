@@ -1,3 +1,7 @@
+2006-02-08  Daniel Patton <seven-nation@army.com>
+
+	* src/gnome-mud.h:  Removed a whole heap of cruft.
+	
 2006-02-03  Daniel Patton <seven-nation@army.com>
 
 	* src/mud-window.c (mud_window_textentry_activate): Added code to
