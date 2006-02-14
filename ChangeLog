@@ -1,8 +1,12 @@
-2006-02-08  Daniel Patton <seven-nation@army.com>
+2006-02-14  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/mud-preferences.[ch]: Removed.
+
+2006-02-08  Daniel Patton  <seven-nation@army.com>
 
 	* src/gnome-mud.h:  Removed a whole heap of cruft.
 	
-2006-02-03  Daniel Patton <seven-nation@army.com>
+2006-02-03  Daniel Patton  <seven-nation@army.com>
 
 	* src/mud-window.c (mud_window_textentry_activate): Added code to
 	prevent crash on a blank line of input.
