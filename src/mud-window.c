@@ -82,11 +82,11 @@ mud_window_close(GtkWidget *widget, MudWindow *window)
 }
 
 void
-mud_window_add_connection_view(MudWindow *window, MudConnectionView *view)
+mud_window_add_connection_view(MudWindow *window, MudConnectionView *view, gchar *tabLbl)
 {
 	gint nr;
 	MudViewEntry *entry;
-	
+
 	entry = g_new(MudViewEntry, 1);
 	
 	g_assert(window != NULL);
@@ -98,7 +98,7 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view)
 		window->priv->image = NULL;
 	}
 	
-	nr = gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), mud_connection_view_get_viewport(view), NULL);
+	nr = gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), mud_connection_view_get_viewport(view), gtk_label_new(tabLbl));
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(window->priv->notebook), nr);
 
 	mud_connection_view_set_id(view, nr);
@@ -289,32 +289,20 @@ mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *window)
 static void
 mud_window_inputtoggle_cb(GtkWidget *widget, MudWindow *window)
 {
-	gint w, h;
 	
 	if(window->priv->toggleState)
 	{
 		gtk_widget_hide(window->priv->textview);
 		gtk_widget_hide(window->priv->textviewscroll);
 		gtk_widget_show(window->priv->textentry);
-
-		gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
-	
-		gtk_paned_set_position(GTK_PANED(window->priv->mainvpane),h - 62);
-
-		window->priv->toggleState = 0;	
 	}
 	else
 	{
 		gtk_widget_hide(window->priv->textentry);
 		gtk_widget_show(window->priv->textview);
 		gtk_widget_show(window->priv->textviewscroll);	
-
-		gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
-	
-		gtk_paned_set_position(GTK_PANED(window->priv->mainvpane),h - 124);
-		
-		window->priv->toggleState = 1;
 	}
+	window->priv->toggleState = !window->priv->toggleState;
 }
 
 gboolean
@@ -333,9 +321,6 @@ mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer us
 	
 		gtk_image_set_from_pixbuf(GTK_IMAGE(window->priv->image), buf);
 	}
-	
-	if(!window->priv->toggleState)
-		gtk_paned_set_position(GTK_PANED(window->priv->mainvpane),h - 62);
 
 	return FALSE;
 }
@@ -381,7 +366,7 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 		mud_tray_update_icon(window->priv->tray, offline);
 		
 		view = mud_connection_view_new("Default", host, iport, window->priv->window, (GtkWidget *)window->priv->tray);
-		mud_window_add_connection_view(window, view);
+		mud_window_add_connection_view(window, view, g_strdup(host));
 
 		
 	}
@@ -511,8 +496,7 @@ static void
 mud_window_init (MudWindow *window)
 {
 	GladeXML *glade;
-	gint w, h;
-	
+
 	window->priv = g_new0(MudWindowPrivate, 1);
 
 	/* set members */
@@ -529,22 +513,21 @@ mud_window_init (MudWindow *window)
 	/* connect quit buttons */
 	g_signal_connect(window->priv->window, "destroy", G_CALLBACK(mud_window_close), window);
 	g_signal_connect(glade_xml_get_widget(glade, "menu_quit"), "activate", G_CALLBACK(mud_window_close), window);
-	//FIXME g_signal_connect(glade_xml_get_widget(glade, "toolbar_quit"), "clicked", G_CALLBACK(mud_window_close), window);
 
 	/* connect connect buttons */
 	g_signal_connect(glade_xml_get_widget(glade, "main_connect"), "activate", G_CALLBACK(mud_window_mconnect_dialog), window);
 	g_signal_connect(glade_xml_get_widget(glade, "menu_connect"), "activate", G_CALLBACK(mud_window_connect_dialog), window);
 	g_signal_connect(glade_xml_get_widget(glade, "menu_mudlist"), "activate",
 G_CALLBACK(mud_window_list_cb), window);
-	//FIXME g_signal_connect(glade_xml_get_widget(glade, "toolbar_connect"), "clicked", G_CALLBACK(mud_window_connect_dialog), window);
+	g_signal_connect(glade_xml_get_widget(glade, "toolbar_connect"), "clicked", G_CALLBACK(mud_window_connect_dialog), window);
 
 	/* connect disconnect buttons */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_disconnect"), "activate", G_CALLBACK(mud_window_disconnect_cb), window);
-	//FIXME g_signal_connect(glade_xml_get_widget(glade, "toolbar_disconnect"), "clicked", G_CALLBACK(mud_window_disconnect_cb), window);
+	g_signal_connect(glade_xml_get_widget(glade, "toolbar_disconnect"), "clicked", G_CALLBACK(mud_window_disconnect_cb), window);
 
 	/* connect reconnect buttons */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_reconnect"), "activate", G_CALLBACK(mud_window_reconnect_cb), window);
-	//FIXME g_signal_connect(glade_xml_get_widget(glade, "toolbar_reconnect"), "clicked", G_CALLBACK(mud_window_reconnect_cb), window);
+	g_signal_connect(glade_xml_get_widget(glade, "toolbar_reconnect"), "clicked", G_CALLBACK(mud_window_reconnect_cb), window);
 
 	/* connect close window button */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_closewindow"), "activate", G_CALLBACK(mud_window_closewindow_cb), window);
@@ -575,9 +558,6 @@ G_CALLBACK(mud_window_list_cb), window);
 	g_signal_connect(window->priv->textentry, "activate", G_CALLBACK(mud_window_textentry_activate), window);
 
 	window->priv->mainvpane = glade_xml_get_widget(glade, "main_vpane");
-	gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
-	
-	gtk_paned_set_position(GTK_PANED(window->priv->mainvpane),h - 62);
 	
 	window->priv->image = glade_xml_get_widget(glade, "image");
 

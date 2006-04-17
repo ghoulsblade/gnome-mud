@@ -51,7 +51,7 @@
 		      <accelerator key="o" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image165">
+			<widget class="GtkImage" id="image181">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -72,7 +72,7 @@
 		      <signal name="activate" handler="on_mudlist_listing1_activate" last_modification_time="Mon, 16 Feb 2004 12:51:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image166">
+			<widget class="GtkImage" id="image182">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -99,9 +99,9 @@
 		      <signal name="activate" handler="on_connect1_activate" last_modification_time="Mon, 16 Feb 2004 12:51:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image167">
+			<widget class="GtkImage" id="image183">
 			  <property name="visible">True</property>
-			  <property name="stock">gtk-open</property>
+			  <property name="stock">gtk-connect</property>
 			  <property name="icon_size">1</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
@@ -120,9 +120,9 @@
 		      <signal name="activate" handler="on_disconnect1_activate" last_modification_time="Mon, 16 Feb 2004 12:51:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image168">
+			<widget class="GtkImage" id="image184">
 			  <property name="visible">True</property>
-			  <property name="stock">gtk-close</property>
+			  <property name="stock">gtk-disconnect</property>
 			  <property name="icon_size">1</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
@@ -141,7 +141,7 @@
 		      <signal name="activate" handler="on_reconnect1_activate" last_modification_time="Mon, 16 Feb 2004 12:51:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image169">
+			<widget class="GtkImage" id="image185">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-refresh</property>
 			  <property name="icon_size">1</property>
@@ -168,7 +168,7 @@
 		      <signal name="activate" handler="on_start_logging1_activate" last_modification_time="Mon, 16 Feb 2004 12:51:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image170">
+			<widget class="GtkImage" id="image186">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -189,7 +189,7 @@
 		      <signal name="activate" handler="on_stop_logging1_activate" last_modification_time="Mon, 16 Feb 2004 12:51:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image171">
+			<widget class="GtkImage" id="image187">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-close</property>
 			  <property name="icon_size">1</property>
@@ -210,7 +210,7 @@
 		      <signal name="activate" handler="on_save_buffer1_activate" last_modification_time="Mon, 16 Feb 2004 12:51:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image172">
+			<widget class="GtkImage" id="image188">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-save</property>
 			  <property name="icon_size">1</property>
@@ -312,7 +312,7 @@
 			      <signal name="activate" handler="on_plugin_list_activate" last_modification_time="Mon, 02 Jan 2006 00:45:48 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image173">
+				<widget class="GtkImage" id="image189">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-info</property>
 				  <property name="icon_size">1</property>
@@ -390,23 +390,58 @@
 	      <property name="show_arrow">True</property>
 
 	      <child>
-		<placeholder/>
+		<widget class="GtkToolButton" id="toolbar_connect">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Connect to MUD</property>
+		  <property name="stock_id">gtk-connect</property>
+		  <property name="visible_horizontal">True</property>
+		  <property name="visible_vertical">True</property>
+		  <property name="is_important">False</property>
+		  <accessibility>
+		    <atkproperty name="AtkObject::accessible_name" translatable="yes">Connect</atkproperty>
+		    <atkproperty name="AtkObject::accessible_description" translatable="yes">Connect to host</atkproperty>
+		  </accessibility>
+		</widget>
+		<packing>
+		  <property name="expand">False</property>
+		  <property name="homogeneous">True</property>
+		</packing>
 	      </child>
 
 	      <child>
-		<placeholder/>
+		<widget class="GtkToolButton" id="toolbar_disconnect">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Disconnect from current MUD</property>
+		  <property name="stock_id">gtk-disconnect</property>
+		  <property name="visible_horizontal">True</property>
+		  <property name="visible_vertical">True</property>
+		  <property name="is_important">False</property>
+		  <accessibility>
+		    <atkproperty name="AtkObject::accessible_name" translatable="yes">Disconnect</atkproperty>
+		    <atkproperty name="AtkObject::accessible_description" translatable="yes">Disconnect from current host</atkproperty>
+		  </accessibility>
+		</widget>
+		<packing>
+		  <property name="expand">False</property>
+		  <property name="homogeneous">True</property>
+		</packing>
 	      </child>
 
 	      <child>
-		<placeholder/>
-	      </child>
-
-	      <child>
-		<placeholder/>
-	      </child>
-
-	      <child>
-		<placeholder/>
+		<widget class="GtkToolButton" id="toolbar_reconnect">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Reconnect to current MUD</property>
+		  <property name="label" translatable="yes">Reconnect</property>
+		  <property name="use_underline">True</property>
+		  <property name="stock_id">gtk-refresh</property>
+		  <property name="visible_horizontal">True</property>
+		  <property name="visible_vertical">True</property>
+		  <property name="is_important">False</property>
+		</widget>
+		<packing>
+		  <property name="expand">False</property>
+		  <property name="homogeneous">True</property>
+		</packing>
 	      </child>
 	    </widget>
 	  </child>
@@ -419,10 +454,10 @@
       </child>
 
       <child>
-	<widget class="GtkVPaned" id="main_vpane">
+	<widget class="GtkVBox" id="vbox5">
 	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="position">314</property>
+	  <property name="homogeneous">False</property>
+	  <property name="spacing">0</property>
 
 	  <child>
 	    <widget class="GtkNotebook" id="notebook">
@@ -442,7 +477,7 @@
 		  <property name="ypad">0</property>
 		</widget>
 		<packing>
-		  <property name="tab_expand">False</property>
+		  <property name="tab_expand">True</property>
 		  <property name="tab_fill">True</property>
 		</packing>
 	      </child>
@@ -471,8 +506,9 @@
 	      </child>
 	    </widget>
 	    <packing>
-	      <property name="shrink">True</property>
-	      <property name="resize">False</property>
+	      <property name="padding">0</property>
+	      <property name="expand">True</property>
+	      <property name="fill">True</property>
 	    </packing>
 	  </child>
 
@@ -490,6 +526,7 @@
 
 		  <child>
 		    <widget class="GtkEntry" id="text_entry">
+		      <property name="height_request">25</property>
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>
@@ -518,7 +555,6 @@
 
 		      <child>
 			<widget class="GtkTextView" id="text_view">
-			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
 			  <property name="editable">True</property>
 			  <property name="overwrite">False</property>
@@ -577,8 +613,9 @@
 	      </child>
 	    </widget>
 	    <packing>
-	      <property name="shrink">True</property>
-	      <property name="resize">True</property>
+	      <property name="padding">0</property>
+	      <property name="expand">False</property>
+	      <property name="fill">True</property>
 	    </packing>
 	  </child>
 	</widget>

@@ -127,9 +127,9 @@ mud_tray_finalize (GObject *object)
 void mud_tray_window_toggle(GtkWidget *widget, MudTray *tray)
 {
         if (tray->priv->window_invisible == FALSE)
-                gtk_widget_hide_all(tray->priv->window);
+                gtk_widget_hide(tray->priv->window);
         else
-                gtk_widget_show_all(tray->priv->window);
+                gtk_widget_show(tray->priv->window);
         tray->priv->window_invisible = !tray->priv->window_invisible;
 }
 

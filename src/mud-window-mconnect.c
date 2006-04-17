@@ -257,7 +257,7 @@ mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconnect)
 	
 	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort, mconnect->priv->winwidget, (GtkWidget *)mconnect->priv->tray);
 	
-	mud_window_add_connection_view(mconnect->priv->window, mconnect->priv->view);
+	mud_window_add_connection_view(mconnect->priv->window, mconnect->priv->view, mconnect->priv->CurrSelMud);
 
 	mud_connection_view_set_profile(mconnect->priv->view, get_profile((const gchar *)mud_profile_from_number(gtk_combo_box_get_active(GTK_COMBO_BOX(mconnect->priv->profileCombo)))));
 	mud_window_profile_menu_set_active(mud_profile_from_number(gtk_combo_box_get_active(GTK_COMBO_BOX(mconnect->priv->profileCombo))),mconnect->priv->window);

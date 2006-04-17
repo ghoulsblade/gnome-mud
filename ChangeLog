@@ -1,3 +1,22 @@
+2006-04-09  Paul Esson <paul.esson@gmail.com>
+
+	* src/mud-tray.c: Bugfix, fixes problem with two text boxes 
+	appearing simultaneously.
+
+	* ui/main.glade:  Adds Connect, Disconnect & Reconnect buttons.
+	Changes menu icons for Connect & Reconnect to gtk-standard icons.
+	
+	* src/mud-window.c (mud_window_inputtoggle_cb, 
+	mud_window_size_request, mud_window_init): Stops use of gtkpaned
+	replaced with vbox in glade edit.
+
+	* src/mud-window.[ch] (mud_window_init): Added callback for 
+	buttons from glade edit.
+
+	(mud_window_add_connection_view): Added code to display either 
+	the MUDs name as listed in the mudlist, or the MUDs hostname, 
+	depending on the connection method.
+	
 2006-02-14  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/mud-preferences.[ch]: Removed.
