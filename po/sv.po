@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-12 19:29+0200\n"
-"PO-Revision-Date: 2006-04-16 17:12+0100\n"
+"POT-Creation-Date: 2006-04-18 19:28+0200\n"
+"PO-Revision-Date: 2006-04-18 22:45+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gnome-mud.desktop.in.h:1
-#: ../ui/main.glade.h:4
+#: ../ui/main.glade.h:10
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
@@ -362,7 +362,7 @@ msgstr "GNOME-Mud"
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../src/mud-window.c:503
+#: ../src/mud-window.c:488
 msgid "_Manage Profiles..."
 msgstr "_Hantera profiler..."
 
@@ -383,6 +383,7 @@ msgid "Co_nnect"
 msgstr "A_nslut"
 
 #: ../ui/connect.glade.h:5
+#: ../ui/main.glade.h:4
 msgid "Connect"
 msgstr "Anslut"
 
@@ -463,51 +464,79 @@ msgid "Close _Window"
 msgstr "_Stäng fönster"
 
 #: ../ui/main.glade.h:5
+msgid "Connect to MUD"
+msgstr "Anslut till MUD"
+
+#: ../ui/main.glade.h:6
+msgid "Connect to host"
+msgstr "Anslut till värd"
+
+#: ../ui/main.glade.h:7
+msgid "Disconnect"
+msgstr "Koppla från"
+
+#: ../ui/main.glade.h:8
+msgid "Disconnect from current MUD"
+msgstr "Koppla från aktuell MUD"
+
+#: ../ui/main.glade.h:9
+msgid "Disconnect from current host"
+msgstr "Koppla från aktuell värd"
+
+#: ../ui/main.glade.h:11
 msgid "GNOME-Mud Homepage"
 msgstr "Hemsidan för GNOME-Mud"
 
-#: ../ui/main.glade.h:6
+#: ../ui/main.glade.h:12
 msgid "P_rofiles"
 msgstr "P_rofiler"
 
-#: ../ui/main.glade.h:7
+#: ../ui/main.glade.h:13
 msgid "Plugin _Information..."
 msgstr "_Insticksmodulinformation..."
 
-#: ../ui/main.glade.h:8
+#: ../ui/main.glade.h:14
 msgid "Q_uick Connect..."
 msgstr "S_nabbanslutning..."
 
-#: ../ui/main.glade.h:9
+#: ../ui/main.glade.h:15
+msgid "Reconnect"
+msgstr "Återanslut"
+
+#: ../ui/main.glade.h:16
+msgid "Reconnect to current MUD"
+msgstr "Återanslut till aktuell MUD"
+
+#: ../ui/main.glade.h:17
 msgid "Start _Logging..."
 msgstr "Starta _loggning..."
 
-#: ../ui/main.glade.h:10
+#: ../ui/main.glade.h:18
 msgid "Stop Lo_gging"
 msgstr "Stoppa lo_ggning"
 
-#: ../ui/main.glade.h:11
+#: ../ui/main.glade.h:19
 msgid "_Disconnect"
 msgstr "_Koppla från"
 
-#: ../ui/main.glade.h:12
+#: ../ui/main.glade.h:20
 msgid "_Mud List..."
 msgstr "_Mud-lista..."
 
-#: ../ui/main.glade.h:13
+#: ../ui/main.glade.h:21
 msgid "_Plugins"
 msgstr "_Insticksmoduler"
 
-#: ../ui/main.glade.h:14
+#: ../ui/main.glade.h:22
 msgid "_Reconnect"
 msgstr "_Återanslut"
 
-#: ../ui/main.glade.h:15
+#: ../ui/main.glade.h:23
 msgid "_Save Buffer..."
 msgstr "_Spara buffert..."
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: ../ui/main.glade.h:17
+#: ../ui/main.glade.h:25
 msgid "translator-credits"
 msgstr ""
 "Daniel Nylander\n"
@@ -515,7 +544,7 @@ msgstr ""
 "Robin Ericsson\n"
 "Skicka synpunkter på översättningen till tp-sv@listor.tp-sv.se"
 
-#: ../ui/main.glade.h:18
+#: ../ui/main.glade.h:26
 msgid "© 1998-2006 Robin Ericsson"
 msgstr "© 1998-2006 Robin Ericsson"
 
@@ -851,16 +880,6 @@ msgstr "rader"
 #~ msgstr "Öppna anslutningsguiden"
 #~ msgid "Manage user profiles"
 #~ msgstr "Hantera användarprofiler"
-#~ msgid "Connect to a mud"
-#~ msgstr "Anslut till en mud"
-#~ msgid "Disconnect"
-#~ msgstr "Koppla från"
-#~ msgid "Disconnect from the mud"
-#~ msgstr "Koppla från mudden"
-#~ msgid "Reconnect"
-#~ msgstr "Återanslut"
-#~ msgid "Reconnect to the mud"
-#~ msgstr "Återanslut till mudden"
 #~ msgid "Exit"
 #~ msgstr "Avsluta"
 #~ msgid "Quit GNOME-Mud"
@@ -1013,8 +1032,6 @@ msgstr "rader"
 #~ msgstr "Mud-namn:"
 #~ msgid "Telnet address:"
 #~ msgstr "Telnet-adress:"
-#~ msgid "Connect to the mud"
-#~ msgstr "Anslut till mud"
 #~ msgid "Import and close"
 #~ msgstr "Importera och stäng"
 #~ msgid "Go to webpage of the mud"
