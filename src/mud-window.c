@@ -34,8 +34,6 @@
 #include "mud-profile.h"
 #include "mud-window-profile.h"
 
-static char const rcsid[] = "$Id: ";
-
 struct _MudWindowPrivate
 {
 	GConfClient *gconf_client;

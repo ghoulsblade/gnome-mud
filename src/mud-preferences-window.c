@@ -24,8 +24,6 @@
 #include "mud-preferences-window.h"
 #include "mud-profile.h"
 
-static char const rcsid[] = "$Id: ";
-
 struct _MudPreferencesWindowPrivate
 {
 	MudProfile *profile;

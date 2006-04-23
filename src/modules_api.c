@@ -30,9 +30,6 @@
 #include "mud-window.h"
 #include "modules.h"
 
-static char const rcsid[] = 
-    "$Id$";
-
 void plugin_popup_message (gchar *message)
 {
    popup_message (message);

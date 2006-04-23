@@ -13,8 +13,6 @@
 #include "mud-profile.h"
 #include "utils.h"
 
-static char const rcsid[] = "$Id: ";
-
 gulong signal_changed;
 GList *profile_list = NULL;
 

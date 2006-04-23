@@ -15,8 +15,6 @@
 #include "mud-tray.h"
 #include "mud-log.h"
 
-static char const rcsid[] = "$Id$";
-
 struct _MudConnectionViewPrivate
 {
 	gint id;

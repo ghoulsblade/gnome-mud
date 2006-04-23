@@ -39,9 +39,6 @@
 #include "mud-profile.h"
 #include "modules.h"
 
-static char const rcsid[] =
-    "$Id$";
-
 gboolean gconf_sanity_check_string (GConfClient *client, const gchar* key)
 {
   gchar *string;

@@ -53,9 +53,6 @@
 #include "mud-window.h"
 #include "modules.h"
 
-static char const rcsid[] =
-    "$Id$";
-
 GList     *Plugin_list;
 GList     *Plugin_data_list;
 int       plugin_selected_row;

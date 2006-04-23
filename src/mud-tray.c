@@ -30,8 +30,6 @@
 #include "mud-window.h"
 #include "mud-tray.h"
 
-static char const rcsid[] = "$Id: ";
-
 struct _MudTrayPrivate
 {
 	MudWindow *mainWindow;

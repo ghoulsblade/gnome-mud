@@ -1,3 +1,10 @@
+2006-04-23  Mart Raudsepp  <leio@dustbite.net>
+
+	* src/gnome-mud.c, src/modules.c, src/modules_api.c,
+	src/mud-connection-view.c, src/mud-preferences-window.c,
+	src/mud-profile.c, src/mud-tray.c, src/mud-window.c: Remove all
+	"rcsid" variables from the source.
+
 2006-04-23  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/mud-log.c: Fix gi18n.h include and unify log format.
