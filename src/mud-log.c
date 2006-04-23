@@ -2,7 +2,7 @@
 #  include "config.h"
 #endif
 
-#include <gi18n.h>
+#include <glib/gi18n.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -122,7 +122,7 @@ mud_log_open(MudLog *log)
 	{
 		time(&t); 
 		strftime(buf, 1024, 
-				 _("\n*** Log starts ***\n%d/%m/%Y %H:%M:%S\n"), 
+				 _("\n*** Log starts *** %d/%m/%Y %H:%M:%S\n"), 
 				 localtime(&t));
 		fprintf(log->priv->logfile, buf);
 	}
@@ -158,7 +158,7 @@ mud_log_close(MudLog *log)
 		
 	time(&t); 
 	strftime(buf, 255,
-			_("\n *** Log stops *** (%d/%m/%Y %H:%M:%S)\n"),
+			_("\n *** Log stops *** %d/%m/%Y %H:%M:%S\n"),
 			localtime(&t));
 
 	fprintf(log->priv->logfile, buf);

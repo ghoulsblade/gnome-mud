@@ -1,4 +1,8 @@
-2006-04-22  Les Harris <hl.harris@comcast.net>
+2006-04-23  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/mud-log.c: Fix gi18n.h include and unify log format.
+
+2006-04-22  Les Harris  <hl.harris@comcast.net>
 
 	* ui/main.glade: Added save dialog, set Start/Stop Logging and Save
 	Buffer menu items to not sensitive on startup.
@@ -16,7 +20,7 @@
 
 	* src/mud-log.[ch]: New files which implement the MudLog object.
 
-2006-04-09  Paul Esson <paul.esson@gmail.com>
+2006-04-09  Paul Esson  <paul.esson@gmail.com>
 
 	* src/mud-tray.c: Bugfix, fixes problem with two text boxes 
 	appearing simultaneously.
