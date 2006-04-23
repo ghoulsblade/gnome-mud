@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-06 03:56+0100\n"
-"PO-Revision-Date: 2006-01-04 21:30+0100\n"
+"POT-Creation-Date: 2006-04-23 03:49+0200\n"
+"PO-Revision-Date: 2006-04-23 03:57+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 
-#: ../gnome-mud.desktop.in.h:1 ../ui/main.glade.h:4
+#: ../gnome-mud.desktop.in.h:1 ../ui/main.glade.h:10
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
@@ -305,18 +305,18 @@ msgid_plural "Palette had %d entries instead of %d\n"
 msgstr[0] "La paleta tenia %d entrada en comptes de %d\n"
 msgstr[1] "La paleta tenia %d entrades en comptes de %d\n"
 
-#: ../src/gnome-mud.c:56
+#: ../src/gnome-mud.c:58
 #, c-format
 msgid "There was an error accessing GConf: %s"
 msgstr "S'ha produït un error en accedir a GConf: %s"
 
-#: ../src/gnome-mud.c:69
+#: ../src/gnome-mud.c:71
 msgid "The default configuration values could not be retrieved correctly."
 msgstr ""
 "No s'han pogut obtindre correctament els valors predeterminats de la "
 "configuració."
 
-#: ../src/gnome-mud.c:70
+#: ../src/gnome-mud.c:72
 msgid ""
 "Please check your GConf configuration, specifically that the schemas have "
 "been installed correctly."
@@ -324,7 +324,7 @@ msgstr ""
 "\"Si us plau, comproveu la vostra configuració de GConf, específicament que "
 "els esquemes estan instal·lats correctament."
 
-#: ../src/gnome-mud.c:97
+#: ../src/gnome-mud.c:99
 #, c-format
 msgid "Failed to init GConf: %s"
 msgstr "No s'ha pogut iniciar GConf: %s"
@@ -382,7 +382,7 @@ msgstr "S'ha produït un error en registrar les dades %s: %s"
 msgid "Error while getting plugin from handle."
 msgstr "S'ha produït un error en obtindre el connector des de la nansa."
 
-#: ../src/mud-connection-view.c:102
+#: ../src/mud-connection-view.c:104
 #, c-format
 msgid ""
 "There was an error loading config value for whether to use image in menus. (%"
@@ -391,30 +391,46 @@ msgstr ""
 "S'ha produït un error en carregar el valor de la configuració sobre si "
 "carregar o no imatges als menús (%s)\n"
 
-#: ../src/mud-connection-view.c:400
+#: ../src/mud-connection-view.c:403
 msgid "*** Connection closed.\n"
 msgstr "*** S'ha tancat la connexió.\n"
 
-#: ../src/mud-connection-view.c:413
+#: ../src/mud-connection-view.c:416
 #, c-format
 msgid "*** Making connection to %s, port %d.\n"
 msgstr "*** S'està realitzant la connexió a %s, port %d.\n"
 
-#: ../src/mud-connection-view.c:560
+#: ../src/mud-connection-view.c:581
 msgid "Close tab or window, whatever :)"
 msgstr "Tanca la pestanya o finestra"
 
-#: ../src/mud-connection-view.c:580
+#: ../src/mud-connection-view.c:601
 msgid "Change P_rofile"
 msgstr "Canvia de pe_rfil"
 
-#: ../src/mud-connection-view.c:616
+#: ../src/mud-connection-view.c:637
 msgid "Edit Current Profile..."
 msgstr "Edita el perfil actual..."
 
-#: ../src/mud-connection-view.c:624
+#: ../src/mud-connection-view.c:645
 msgid "_Input Methods"
 msgstr "_Mètodes d'entrada"
+
+#: ../src/mud-log.c:125
+msgid ""
+"\n"
+"*** Log starts ***\n"
+"%d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+"*** Inici del registre ***\n"
+"%d/%m/%Y %H:%M:%S\n"
+
+#: ../src/mud-log.c:161
+msgid ""
+"\n"
+" *** Log stops *** (%d/%m/%Y %H:%M:%S)\n"
+msgstr "\n *** Final del registre *** (%d/%m/%Y %H:%M:%S)\n"
 
 #: ../src/mud-tray.c:199
 msgid "_Hide window"
@@ -437,7 +453,11 @@ msgstr "GNOME Mud"
 msgid "Preferences"
 msgstr "Preferències"
 
-#: ../src/mud-window.c:494
+#: ../src/mud-window.c:434
+msgid "Could not save the file in specified location!"
+msgstr "No s'ha pogut desar el fitxer a la ubicació especificada!"
+
+#: ../src/mud-window.c:591
 msgid "_Manage Profiles..."
 msgstr "_Gestiona els perfils..."
 
@@ -457,7 +477,7 @@ msgstr "<b>Connexió ràpida</b>"
 msgid "Co_nnect"
 msgstr "Co_nnecta"
 
-#: ../ui/connect.glade.h:5
+#: ../ui/connect.glade.h:5 ../ui/main.glade.h:4
 msgid "Connect"
 msgstr "Connecta"
 
@@ -538,55 +558,87 @@ msgid "Close _Window"
 msgstr "_Tanca la finestra"
 
 #: ../ui/main.glade.h:5
+msgid "Connect to MUD"
+msgstr "Connecta a un MUD"
+
+#: ../ui/main.glade.h:6
+msgid "Connect to host"
+msgstr "Connecta a un servidor"
+
+#: ../ui/main.glade.h:7
+msgid "Disconnect"
+msgstr "Desconnecta"
+
+#: ../ui/main.glade.h:8
+msgid "Disconnect from current MUD"
+msgstr "Desconnecta del MUD actual"
+
+#: ../ui/main.glade.h:9
+msgid "Disconnect from current host"
+msgstr "Desconnecta del servidor actual"
+
+#: ../ui/main.glade.h:11
 msgid "GNOME-Mud Homepage"
 msgstr "Pàgina principal del GNOME-Mud"
 
-#: ../ui/main.glade.h:6
+#: ../ui/main.glade.h:12
 msgid "P_rofiles"
 msgstr "Pe_rfils"
 
-#: ../ui/main.glade.h:7
+#: ../ui/main.glade.h:13
 msgid "Plugin _Information..."
 msgstr "_Informació sobre connectors..."
 
-#: ../ui/main.glade.h:8
+#: ../ui/main.glade.h:14
 msgid "Q_uick Connect..."
 msgstr "_Connexió ràpida..."
 
-#: ../ui/main.glade.h:9
+#: ../ui/main.glade.h:15
+msgid "Reconnect"
+msgstr "Reconnecta"
+
+#: ../ui/main.glade.h:16
+msgid "Reconnect to current MUD"
+msgstr "Reconnecta al MUD actual"
+
+#: ../ui/main.glade.h:17
+msgid "Save buffer as..."
+msgstr "Anomena i desa el búfer..."
+
+#: ../ui/main.glade.h:18
 msgid "Start _Logging..."
 msgstr "Comença a _registrar..."
 
-#: ../ui/main.glade.h:10
+#: ../ui/main.glade.h:19
 msgid "Stop Lo_gging"
 msgstr "Deixa de re_gistrar"
 
-#: ../ui/main.glade.h:11
+#: ../ui/main.glade.h:20
 msgid "_Disconnect"
 msgstr "_Desconnecta"
 
-#: ../ui/main.glade.h:12
+#: ../ui/main.glade.h:21
 msgid "_Mud List..."
 msgstr "Llista de _MUD..."
 
-#: ../ui/main.glade.h:13
+#: ../ui/main.glade.h:22
 msgid "_Plugins"
 msgstr "_Connectors"
 
-#: ../ui/main.glade.h:14
+#: ../ui/main.glade.h:23
 msgid "_Reconnect"
 msgstr "_Reconnecta"
 
-#: ../ui/main.glade.h:15
+#: ../ui/main.glade.h:24
 msgid "_Save Buffer..."
 msgstr "De_sa el búfer..."
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: ../ui/main.glade.h:17
+#: ../ui/main.glade.h:26
 msgid "translator-credits"
 msgstr "Jordi Mallach <jordi@sindominio.net>"
 
-#: ../ui/main.glade.h:18
+#: ../ui/main.glade.h:27
 msgid "© 1998-2006 Robin Ericsson"
 msgstr "© 1998-2006 Robin Ericsson"
 
@@ -983,21 +1035,6 @@ msgstr "línies"
 #~ msgid "Manage user profiles"
 #~ msgstr "Gestiona els perfils d'usuari"
 
-#~ msgid "Connect to a mud"
-#~ msgstr "Connecta a un mud"
-
-#~ msgid "Disconnect"
-#~ msgstr "Desconnecta"
-
-#~ msgid "Disconnect from the mud"
-#~ msgstr "Desconnecta del mud"
-
-#~ msgid "Reconnect"
-#~ msgstr "Reconnecta"
-
-#~ msgid "Reconnect to the mud"
-#~ msgstr "Reconnecta al mud"
-
 #~ msgid "Exit"
 #~ msgstr "Surt"
 
@@ -1248,9 +1285,6 @@ msgstr "línies"
 #~ msgid "Telnet address:"
 #~ msgstr "Adreça de telnet:"
 
-#~ msgid "Connect to the mud"
-#~ msgstr "Connecta al mud"
-
 #~ msgid "Import and close"
 #~ msgstr "Importa i tanca"
 
@@ -1440,6 +1474,3 @@ msgstr "línies"
 #~ "de moviment inusuals. Quan s'utilitza una d'aquestes, l'automapejador "
 #~ "crearà un camí a un altre mapa. Utilitzeu dos punts per a separar les "
 #~ "diferents ordres."
-
-#~ msgid "Save Buffer..."
-#~ msgstr "Desa el búfer..."
