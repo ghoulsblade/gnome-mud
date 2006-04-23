@@ -26,6 +26,8 @@
 #include <libgnome/gnome-program.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnomeui/gnome-window-icon.h>
+#include <stdio.h>
+#include <sys/stat.h>
 
 #ifdef USE_PYTHON
 //#include <Python.h>
@@ -126,10 +128,19 @@ int main (gint argc, char *argv[])
 	//python_init();
 #endif
 
+	
 	g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
+	
+	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
+		mkdir(buf, 0777 );
+
 	init_modules(buf);
 	init_modules(PKGDATADIR);
   
+	g_snprintf(buf, 500, "%s/.gnome-mud/logs/", g_get_home_dir());
+	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
+		mkdir(buf, 0777 );	
+	
 	gtk_main();
 	gnome_config_sync();
 

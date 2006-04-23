@@ -35,8 +35,8 @@ struct _MudPrefs
 	gint       History;
 	gint       Scrollback;
 	gint       FlushInterval;
-	GdkColor   Foreground;
-	GdkColor   Background;
+	gdouble    Foreground;
+	gdouble    Background;
 
 	GdkColor   Colors[C_MAX];
 };

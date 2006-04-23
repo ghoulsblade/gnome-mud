@@ -33,6 +33,8 @@ gnome_mud_SOURCES =			\
 	modules-structures.h		\
 	mud-connection-view.c		\
 	mud-connection-view.h		\
+	mud-log.c			\
+	mud-log.h			\
 	mud-preferences-window.c	\
 	mud-preferences-window.h	\
 	mud-profile.c			\

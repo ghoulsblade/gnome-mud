@@ -1,3 +1,21 @@
+2006-04-22  Les Harris <hl.harris@comcast.net>
+
+	* ui/main.glade: Added save dialog, set Start/Stop Logging and Save
+	Buffer menu items to not sensitive on startup.
+
+	* src/gnome-mud.c: Now adds various folders into its directory if they
+	do not exist (plugins, logs).  
+
+	* src/mud-connection-view.[ch]: Added in support for the MudLog
+	object.	Also added in two accessor functions to facilitate logging
+	and buffer dumping.
+
+	* src/mud-window.c: Made the various logging menu items activate and
+	dim according to wether or not they are relevant. Added callbacks for
+	the logging menuitems.
+
+	* src/mud-log.[ch]: New files which implement the MudLog object.
+
 2006-04-09  Paul Esson <paul.esson@gmail.com>
 
 	* src/mud-tray.c: Bugfix, fixes problem with two text boxes 

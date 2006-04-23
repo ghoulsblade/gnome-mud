@@ -255,7 +255,7 @@ mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconnect)
 		
 	mud_tray_update_icon(mconnect->priv->tray, offline);
 	
-	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort, mconnect->priv->winwidget, (GtkWidget *)mconnect->priv->tray);
+	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort, mconnect->priv->winwidget, (GtkWidget *)mconnect->priv->tray, mconnect->priv->CurrSelMud);
 	
 	mud_window_add_connection_view(mconnect->priv->window, mconnect->priv->view, mconnect->priv->CurrSelMud);
 

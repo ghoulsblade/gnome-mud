@@ -10,7 +10,9 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkcellrenderer.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcolorsel.h>
 #include <gtk/gtkentry.h>
+#include <gtk/gtkfontsel.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
@@ -18,8 +20,6 @@
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeviewcolumn.h>
-#include <libgnomeui/gnome-color-picker.h>
-#include <libgnomeui/gnome-font-picker.h>
 
 #include "mud-preferences-window.h"
 #include "mud-profile.h"
@@ -648,26 +648,21 @@ mud_preferences_window_update_scrollback(MudPreferencesWindow *window, MudPrefs 
 static void
 mud_preferences_window_update_font(MudPreferencesWindow *window, MudPrefs *preferences)
 {
-	gnome_font_picker_set_font_name(GNOME_FONT_PICKER(window->priv->fp_font),
+	gtk_font_selection_set_font_name(GTK_FONT_SELECTION(window->priv->fp_font),
 									preferences->FontName);
 }
 
 static void
 mud_preferences_window_update_foreground(MudPreferencesWindow *window, MudPrefs *preferences)
 {
-	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->cp_foreground),
-							   preferences->Foreground.red,
-							   preferences->Foreground.green,
-							   preferences->Foreground.blue, 0);
+	gtk_color_selection_set_color(GTK_COLOR_SELECTION(window->priv->cp_foreground),
+							   preferences->Foreground);
 }
-	
+
 static void
 mud_preferences_window_update_background(MudPreferencesWindow *window, MudPrefs *preferences)
 {
-	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->cp_background),
-							   preferences->Background.red,
-							   preferences->Background.green,
-							   preferences->Background.blue, 0);
+	gtk_color_selection_set_color(GTK_COLOR_SELECTION(window->priv->cp_background), preferences->Background);
 }
 
 static void
@@ -677,11 +672,7 @@ mud_preferences_window_update_colors(MudPreferencesWindow *window, MudPrefs *pre
 
 	for (i = 0; i < C_MAX; i++)
 	{
-		gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->colors[i]),
-								   preferences->Colors[i].red,
-								   preferences->Colors[i].green,
-								   preferences->Colors[i].blue,
-								   0);
+		gtk_color_selection_set_color (GTK_COLOR_SELECTION(window->priv->colors[i]),preferences->Colors[i]);
 	}
 }
 

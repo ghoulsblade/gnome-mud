@@ -42,8 +42,9 @@ enum MudConnectionColorType
 
 GType mud_connection_view_get_type (void) G_GNUC_CONST;
 
-MudConnectionView* mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window, GtkWidget *tray);
+MudConnectionView* mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window, GtkWidget *tray, gchar *name);
 GtkWidget* mud_connection_view_get_viewport (MudConnectionView *view);
+GtkWidget* mud_connection_view_get_terminal(MudConnectionView *view);
 void mud_connection_view_disconnect (MudConnectionView *view);
 void mud_connection_view_reconnect (MudConnectionView *view);
 void mud_connection_view_send (MudConnectionView *view, const gchar *data);
@@ -57,6 +58,10 @@ MudProfile *mud_connection_view_get_current_profile(MudConnectionView *view);
 
 #include "mud-window.h"
 void mud_connection_view_set_parent(MudConnectionView *view, MudWindow *window);
+
+void mud_connection_view_start_logging(MudConnectionView *view);
+void mud_connection_view_stop_logging(MudConnectionView *view);
+gboolean mud_connection_view_islogging(MudConnectionView *view);
 
 
 G_END_DECLS

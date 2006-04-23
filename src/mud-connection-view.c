@@ -13,6 +13,7 @@
 #include "mud-profile.h"
 #include "mud-window.h"
 #include "mud-tray.h"
+#include "mud-log.h"
 
 static char const rcsid[] = "$Id$";
 
@@ -29,6 +30,7 @@ struct _MudConnectionViewPrivate
 	GtkWidget *popup_menu;
 
 	MudProfile *profile;
+	MudLog *log;
 
 	gulong signal;
 	gulong signal_profile_changed;
@@ -369,6 +371,7 @@ mud_connection_view_received_cb(GNetworkConnection *cxn, gconstpointer data, gul
 	mud_window_handle_plugins(view->priv->window, view->priv->id, (gchar *)data, 1);
 	
 	vte_terminal_feed(VTE_TERMINAL(view->priv->terminal), (gchar *) data, length);
+	mud_log_write_hook(view->priv->log, (gchar *)data, length);
 
 	if (view->priv->connect_hook) {
 		mud_connection_view_send (MUD_CONNECTION_VIEW(user_data), view->priv->connect_string);
@@ -478,6 +481,24 @@ mud_connection_view_set_terminal_colors(MudConnectionView *view)
 							&view->priv->profile->preferences->Foreground,
 							&view->priv->profile->preferences->Background,
 							view->priv->profile->preferences->Colors, C_MAX);
+}
+
+void 
+mud_connection_view_start_logging(MudConnectionView *view)
+{
+	mud_log_open(view->priv->log);
+}
+
+void 
+mud_connection_view_stop_logging(MudConnectionView *view)
+{
+	mud_log_close(view->priv->log);
+}
+
+gboolean 
+mud_connection_view_islogging(MudConnectionView *view)
+{
+	return mud_log_islogging(view->priv->log);
 }
 
 static void
@@ -649,7 +670,7 @@ mud_connection_view_set_parent(MudConnectionView *view, MudWindow *window)
 
 
 MudConnectionView*
-mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window, GtkWidget *tray)
+mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window, GtkWidget *tray, gchar *name)
 {
 	MudConnectionView *view;
    	GdkGeometry hints;
@@ -698,6 +719,8 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 
 	view->priv->tray = MUD_TRAY(tray);
 	
+	view->priv->log = mud_log_new(name);
+
 	return view;
 }
 
@@ -732,4 +755,10 @@ GtkWidget *
 mud_connection_view_get_viewport (MudConnectionView *view)
 {
 	return view->priv->box;
+}
+
+GtkWidget *
+mud_connection_view_get_terminal(MudConnectionView *view)
+{
+	return view->priv->terminal;
 }

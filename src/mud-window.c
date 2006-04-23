@@ -20,6 +20,8 @@
 #include <gtk/gtktextbuffer.h>
 #include <gtk/gtktextiter.h>
 #include <gtk/gtkimagemenuitem.h>
+#include <vte/vte.h>
+#include <string.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"
@@ -46,6 +48,10 @@ struct _MudWindowPrivate
 	GtkWidget *textview;
 	GtkWidget *textviewscroll;
 	GtkWidget *mainvpane;
+
+	GtkWidget *startlog;
+	GtkWidget *stoplog;
+	GtkWidget *bufferdump;
 
 	GtkWidget *blank_label;
 	GtkWidget *current_view;
@@ -100,6 +106,9 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view, gchar
 	
 	nr = gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), mud_connection_view_get_viewport(view), gtk_label_new(tabLbl));
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(window->priv->notebook), nr);
+
+	gtk_widget_set_sensitive(window->priv->startlog, TRUE);
+	gtk_widget_set_sensitive(window->priv->bufferdump, TRUE);
 
 	mud_connection_view_set_id(view, nr);
 	mud_connection_view_set_parent(view, window);
@@ -222,6 +231,23 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 		name = mud_profile_get_name(mud_connection_view_get_current_profile(MUD_CONNECTION_VIEW(window->priv->current_view)));
 	
 		mud_window_profile_menu_set_active(name, window);
+
+		if(mud_connection_view_islogging(MUD_CONNECTION_VIEW(window->priv->current_view)))
+		{
+			gtk_widget_set_sensitive(window->priv->startlog, FALSE);
+			gtk_widget_set_sensitive(window->priv->stoplog, TRUE);
+		}
+		else
+		{
+			gtk_widget_set_sensitive(window->priv->startlog, TRUE);
+			gtk_widget_set_sensitive(window->priv->stoplog, FALSE);
+		}
+	}
+	else
+	{
+		gtk_widget_set_sensitive(window->priv->startlog, FALSE);
+		gtk_widget_set_sensitive(window->priv->stoplog, FALSE);
+		gtk_widget_set_sensitive(window->priv->bufferdump, FALSE);
 	}
 
 }
@@ -365,12 +391,72 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 		
 		mud_tray_update_icon(window->priv->tray, offline);
 		
-		view = mud_connection_view_new("Default", host, iport, window->priv->window, (GtkWidget *)window->priv->tray);
+		view = mud_connection_view_new("Default", host, iport, window->priv->window, (GtkWidget *)window->priv->tray, g_strdup(host));
 		mud_window_add_connection_view(window, view, g_strdup(host));
 
 		
 	}
 
+	gtk_widget_destroy(dialog);
+	g_object_unref(glade);
+}
+
+gboolean 
+save_dialog_vte_cb (VteTerminal *terminal,glong column,glong row,gpointer data)
+{
+	return TRUE;
+}
+
+void
+mud_window_buffer_cb(GtkWidget *widget, MudWindow *window)
+{
+	GladeXML *glade;
+	GtkWidget *dialog;
+	gint result;
+	
+	glade = glade_xml_new(GLADEDIR "/main.glade", "save_dialog", NULL);
+	dialog = glade_xml_get_widget(glade, "save_dialog");
+	
+	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), "buffer.txt");
+	result = gtk_dialog_run(GTK_DIALOG(dialog));
+	if(result == GTK_RESPONSE_OK)
+	{
+		gchar *filename;
+		FILE *file;
+		
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+		file = fopen(filename, "w");
+		
+		if(!file)
+		{
+			GtkWidget *errDialog;
+	
+			errDialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("Could not save the file in specified location!"));
+
+			gtk_dialog_run(GTK_DIALOG(errDialog));
+			gtk_widget_destroy(errDialog);
+		}	
+		else
+		{
+			gchar *bufferText;
+			GtkWidget *term;
+			
+			term = mud_connection_view_get_terminal(MUD_CONNECTION_VIEW(window->priv->current_view));
+			
+			bufferText = vte_terminal_get_text_range(VTE_TERMINAL(term),0,0,
+											vte_terminal_get_row_count(VTE_TERMINAL(term)),
+											vte_terminal_get_column_count(VTE_TERMINAL(term)),
+											save_dialog_vte_cb,
+											NULL,
+											NULL);
+
+			fwrite(bufferText, 1, strlen(bufferText), file);
+			fclose(file);	
+		}
+		
+		g_free(filename);
+	}
+	
 	gtk_widget_destroy(dialog);
 	g_object_unref(glade);
 }
@@ -438,6 +524,23 @@ mud_window_profile_menu_set_cb(GtkWidget *widget, gpointer data)
 	{
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget), TRUE);
 	}
+}
+
+void
+mud_window_startlog_cb(GtkWidget *widget, MudWindow *window)
+{
+	mud_connection_view_start_logging(MUD_CONNECTION_VIEW(window->priv->current_view));
+	gtk_widget_set_sensitive(window->priv->startlog, FALSE);
+	gtk_widget_set_sensitive(window->priv->stoplog, TRUE);
+	
+}
+
+void
+mud_window_stoplog_cb(GtkWidget *widget, MudWindow *window)
+{
+	mud_connection_view_stop_logging(MUD_CONNECTION_VIEW(window->priv->current_view));
+	gtk_widget_set_sensitive(window->priv->stoplog, FALSE);
+	gtk_widget_set_sensitive(window->priv->startlog, TRUE);
 }
 
 void 
@@ -531,6 +634,16 @@ G_CALLBACK(mud_window_list_cb), window);
 
 	/* connect close window button */
 	g_signal_connect(glade_xml_get_widget(glade, "menu_closewindow"), "activate", G_CALLBACK(mud_window_closewindow_cb), window);
+
+	/* logging */
+	window->priv->startlog = glade_xml_get_widget(glade, "menu_start_logging");
+	g_signal_connect(window->priv->startlog, "activate", G_CALLBACK(mud_window_startlog_cb), window);
+
+	window->priv->stoplog = glade_xml_get_widget(glade, "menu_stop_logging");
+	g_signal_connect(window->priv->stoplog, "activate", G_CALLBACK(mud_window_stoplog_cb), window);
+
+	window->priv->bufferdump = glade_xml_get_widget(glade, "menu_dump_buffer");
+	g_signal_connect(window->priv->bufferdump, "activate", G_CALLBACK(mud_window_buffer_cb), window);
 
 	/* preferences window button */
 
