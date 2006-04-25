@@ -1,3 +1,7 @@
+2006-04-25  Jordi Mallach  <jordi@sindominio.net>
+
+	* ca.po: Updated Catalan translation.
+
 2006-04-24  Jordi Mallach  <jordi@sindominio.net>
 
 	* POTFILES.in: Add src/mud-log.c.

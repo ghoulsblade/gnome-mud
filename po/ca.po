@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-23 04:21+0200\n"
-"PO-Revision-Date: 2006-04-23 04:22+0200\n"
+"POT-Creation-Date: 2006-04-25 22:45+0200\n"
+"PO-Revision-Date: 2006-04-25 22:47+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,8 +38,8 @@ msgstr ""
 "El caràcter que utilitza per a dividir les ordres en una cadena com «w;w;w;"
 "l», que s'enviarà al MUD com quatre ordres diferents."
 
-#: ../gnome-mud.schemas.in.h:3 ../src/mud-preferences-window.c:259
-#: ../src/mud-preferences-window.c:287 ../ui/prefs.glade.h:2
+#: ../gnome-mud.schemas.in.h:3 ../src/mud-preferences-window.c:257
+#: ../src/mud-preferences-window.c:285 ../ui/prefs.glade.h:2
 msgid "Aliases"
 msgstr "Àlies"
 
@@ -101,7 +101,7 @@ msgstr ""
 "punts. Els noms dels colors han d'estar en format hexadecimal, com per "
 "exemple «#FF00FF»."
 
-#: ../gnome-mud.schemas.in.h:14 ../ui/prefs.glade.h:18
+#: ../gnome-mud.schemas.in.h:14 ../ui/prefs.glade.h:15
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
@@ -132,7 +132,7 @@ msgstr ""
 "Aquestes assignacions es poden reemplaçar amb les vostres assignacions "
 "personalitzades, o poden ser deshabilitades per complet amb aquesta opció."
 
-#: ../gnome-mud.schemas.in.h:19 ../ui/prefs.glade.h:20
+#: ../gnome-mud.schemas.in.h:19 ../ui/prefs.glade.h:17
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
@@ -305,18 +305,18 @@ msgid_plural "Palette had %d entries instead of %d\n"
 msgstr[0] "La paleta tenia %d entrada en comptes de %d\n"
 msgstr[1] "La paleta tenia %d entrades en comptes de %d\n"
 
-#: ../src/gnome-mud.c:58
+#: ../src/gnome-mud.c:53
 #, c-format
 msgid "There was an error accessing GConf: %s"
 msgstr "S'ha produït un error en accedir a GConf: %s"
 
-#: ../src/gnome-mud.c:71
+#: ../src/gnome-mud.c:66
 msgid "The default configuration values could not be retrieved correctly."
 msgstr ""
 "No s'han pogut obtindre correctament els valors predeterminats de la "
 "configuració."
 
-#: ../src/gnome-mud.c:72
+#: ../src/gnome-mud.c:67
 msgid ""
 "Please check your GConf configuration, specifically that the schemas have "
 "been installed correctly."
@@ -324,34 +324,39 @@ msgstr ""
 "\"Si us plau, comproveu la vostra configuració de GConf, específicament que "
 "els esquemes estan instal·lats correctament."
 
-#: ../src/gnome-mud.c:99
+#: ../src/gnome-mud.c:94
 #, c-format
 msgid "Failed to init GConf: %s"
 msgstr "No s'ha pogut iniciar GConf: %s"
 
-#: ../src/modules.c:196
+#: ../src/modules.c:197
 msgid "Plugin Information"
 msgstr "Informació sobre el connector"
 
-#: ../src/modules.c:212
+#: ../src/modules.c:213
 msgid "Plugin Name:"
 msgstr "Nom del connector:"
 
-#: ../src/modules.c:232
+#: ../src/modules.c:233
 msgid "Plugin Author:"
 msgstr "Autor del connector:"
 
-#: ../src/modules.c:242
+#: ../src/modules.c:243
 msgid "Plugin Version:"
 msgstr "Versió del connector:"
 
-#: ../src/modules.c:252
+#: ../src/modules.c:253
 msgid "Plugin Description:"
 msgstr "Descripció del connector:"
 
-#: ../src/modules.c:262
+#: ../src/modules.c:263
 msgid "Enable plugin"
 msgstr "Habilita el connector"
+
+#: ../src/modules.c:377
+#, c-format
+msgid "Plugin error (%s)"
+msgstr "S'ha produït un error del connector (%s)"
 
 #: ../src/modules.c:418
 #, c-format
@@ -361,28 +366,28 @@ msgstr "S'ha produït un error en obtindre la nansa del connector (%s): %s."
 #: ../src/modules.c:423
 #, c-format
 msgid "Error, %s not an GNOME-Mud module: %s."
-msgstr "Error, %s no és un connector del GNOME-Mud: %s."
+msgstr "S'ha produït un error: %s no és un connector del GNOME-Mud: %s."
 
-#: ../src/modules.c:449
+#: ../src/modules.c:453
 #, c-format
 msgid "Registering plugin `%s' under the name `%s'."
 msgstr "S'està registrant el connector «%s» amb el nom «%s»."
 
-#: ../src/modules_api.c:58
+#: ../src/modules_api.c:55
 #, c-format
 msgid "Error while registering the menu: %s"
 msgstr "S'ha produït un error en registrar el menú: %s"
 
-#: ../src/modules_api.c:78
+#: ../src/modules_api.c:75
 #, c-format
 msgid "Error while registering data %s: %s"
 msgstr "S'ha produït un error en registrar les dades %s: %s"
 
-#: ../src/modules_api.c:86
+#: ../src/modules_api.c:83
 msgid "Error while getting plugin from handle."
 msgstr "S'ha produït un error en obtindre el connector des de la nansa."
 
-#: ../src/mud-connection-view.c:104
+#: ../src/mud-connection-view.c:102
 #, c-format
 msgid ""
 "There was an error loading config value for whether to use image in menus. (%"
@@ -391,28 +396,28 @@ msgstr ""
 "S'ha produït un error en carregar el valor de la configuració sobre si "
 "carregar o no imatges als menús (%s)\n"
 
-#: ../src/mud-connection-view.c:403
+#: ../src/mud-connection-view.c:401
 msgid "*** Connection closed.\n"
 msgstr "*** S'ha tancat la connexió.\n"
 
-#: ../src/mud-connection-view.c:416
+#: ../src/mud-connection-view.c:414
 #, c-format
 msgid "*** Making connection to %s, port %d.\n"
 msgstr "*** S'està realitzant la connexió a %s, port %d.\n"
 
-#: ../src/mud-connection-view.c:581
+#: ../src/mud-connection-view.c:579
 msgid "Close tab or window, whatever :)"
 msgstr "Tanca la pestanya o finestra"
 
-#: ../src/mud-connection-view.c:601
+#: ../src/mud-connection-view.c:599
 msgid "Change P_rofile"
 msgstr "Canvia de pe_rfil"
 
-#: ../src/mud-connection-view.c:637
+#: ../src/mud-connection-view.c:635
 msgid "Edit Current Profile..."
 msgstr "Edita el perfil actual..."
 
-#: ../src/mud-connection-view.c:645
+#: ../src/mud-connection-view.c:643
 msgid "_Input Methods"
 msgstr "_Mètodes d'entrada"
 
@@ -420,40 +425,44 @@ msgstr "_Mètodes d'entrada"
 msgid ""
 "\n"
 "*** Log starts *** %d/%m/%Y %H:%M:%S\n"
-msgstr "\n*** Inici del registre *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+"*** Inici del registre *** %d/%m/%Y %H:%M:%S\n"
 
 #: ../src/mud-log.c:161
 msgid ""
 "\n"
 " *** Log stops *** %d/%m/%Y %H:%M:%S\n"
-msgstr "\n *** Final del registre *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+" *** Final del registre *** %d/%m/%Y %H:%M:%S\n"
 
-#: ../src/mud-tray.c:199
+#: ../src/mud-tray.c:197
 msgid "_Hide window"
 msgstr "_Amaga la finestra"
 
-#: ../src/mud-tray.c:201
+#: ../src/mud-tray.c:199
 msgid "_Show window"
 msgstr "Mo_stra la finestra"
 
-#: ../src/mud-tray.c:206
+#: ../src/mud-tray.c:204
 msgid "_Quit"
 msgstr "_Surt"
 
-#: ../src/mud-tray.c:246
+#: ../src/mud-tray.c:244
 msgid "GNOME Mud"
 msgstr "GNOME Mud"
 
-#: ../src/mud-preferences-window.c:252 ../src/mud-preferences-window.c:281
-#: ../ui/prefs.glade.h:28
+#: ../src/mud-preferences-window.c:250 ../src/mud-preferences-window.c:279
+#: ../ui/prefs.glade.h:23
 msgid "Preferences"
 msgstr "Preferències"
 
-#: ../src/mud-window.c:434
+#: ../src/mud-window.c:440
 msgid "Could not save the file in specified location!"
 msgstr "No s'ha pogut desar el fitxer a la ubicació especificada!"
 
-#: ../src/mud-window.c:591
+#: ../src/mud-window.c:597
 msgid "_Manage Profiles..."
 msgstr "_Gestiona els perfils..."
 
@@ -614,27 +623,39 @@ msgid "_Disconnect"
 msgstr "_Desconnecta"
 
 #: ../ui/main.glade.h:21
+msgid "_File"
+msgstr "_Fitxer"
+
+#: ../ui/main.glade.h:22
+msgid "_Help"
+msgstr "A_juda"
+
+#: ../ui/main.glade.h:23
 msgid "_Mud List..."
 msgstr "Llista de _MUD..."
 
-#: ../ui/main.glade.h:22
+#: ../ui/main.glade.h:24
 msgid "_Plugins"
 msgstr "_Connectors"
 
-#: ../ui/main.glade.h:23
+#: ../ui/main.glade.h:25
 msgid "_Reconnect"
 msgstr "_Reconnecta"
 
-#: ../ui/main.glade.h:24
+#: ../ui/main.glade.h:26
 msgid "_Save Buffer..."
 msgstr "De_sa el búfer..."
 
+#: ../ui/main.glade.h:27
+msgid "_Settings"
+msgstr "_Paràmetres"
+
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: ../ui/main.glade.h:26
+#: ../ui/main.glade.h:29
 msgid "translator-credits"
 msgstr "Jordi Mallach <jordi@sindominio.net>"
 
-#: ../ui/main.glade.h:27
+#: ../ui/main.glade.h:30
 msgid "© 1998-2006 Robin Ericsson"
 msgstr "© 1998-2006 Robin Ericsson"
 
@@ -817,58 +838,38 @@ msgid "Blank"
 msgstr "Buit"
 
 #: ../ui/prefs.glade.h:7
-msgid "Change the color of a specific color that the MUD requests to use."
-msgstr "Canvia el color d'un color específic que el MUD demane utilitzar."
-
-#: ../ui/prefs.glade.h:8
 msgid "Color and Fonts"
 msgstr "Colors i fonts"
 
-#: ../ui/prefs.glade.h:9
+#: ../ui/prefs.glade.h:8
 msgid "Color palette:"
 msgstr "Paleta de colors:"
 
-#: ../ui/prefs.glade.h:10
+#: ../ui/prefs.glade.h:9
 msgid "Command division character:"
 msgstr "Caràcter de divisió d'ordres:"
 
-#: ../ui/prefs.glade.h:11
+#: ../ui/prefs.glade.h:10
 msgid "Command history:"
 msgstr "Historia d'ordres:"
 
-#: ../ui/prefs.glade.h:12
-msgid ""
-"Default background color used when the connection doesn't request the use of "
-"a specific color."
-msgstr ""
-"El color de fons predeterminat utilitzat quan la connexió no especifica l'ús "
-"d'un altre color."
-
-#: ../ui/prefs.glade.h:13
-msgid ""
-"Default foreground color used when the connection doesn't request the use of "
-"a specific color."
-msgstr ""
-"El color del text predeterminat utilitzat quan la connexió no especifica "
-"l'ús d'un altre color."
-
-#: ../ui/prefs.glade.h:14
+#: ../ui/prefs.glade.h:11
 msgid "Disable _System Keys"
 msgstr "Inhabilita les tecles del _sistema"
 
-#: ../ui/prefs.glade.h:15
+#: ../ui/prefs.glade.h:12
 msgid "Font:"
 msgstr "Tipus de lletra:"
 
-#: ../ui/prefs.glade.h:16
+#: ../ui/prefs.glade.h:13
 msgid "Foreground color:"
 msgstr "Color del text:"
 
-#: ../ui/prefs.glade.h:17
+#: ../ui/prefs.glade.h:14
 msgid "Functionality"
 msgstr "Funcionalitats"
 
-#: ../ui/prefs.glade.h:19
+#: ../ui/prefs.glade.h:16
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
 "overriden by custom keybinds, or they can be disabled completely with this "
@@ -878,7 +879,7 @@ msgstr ""
 "Aquestes es poden reemplaçar amb les vostres assignacions personalitzades, o "
 "es poden inhabilitar per complet amb aquesta opció."
 
-#: ../ui/prefs.glade.h:21
+#: ../ui/prefs.glade.h:18
 msgid ""
 "If enabled, the terminal will scroll to the bottom if new output appears in "
 "the connection when the terminal was scrolled back."
@@ -886,7 +887,7 @@ msgstr ""
 "Si s'habilita, el terminal es desplaçarà avall si apareix text nou en la "
 "connexió quan el terminal estava desplaçat cap enrere."
 
-#: ../ui/prefs.glade.h:22
+#: ../ui/prefs.glade.h:19
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entrybox will be cleared "
@@ -896,7 +897,7 @@ msgstr ""
 "selecció en el camp d'entrada. Si no, el camp d'entrada de text es netejarà "
 "després de cada introducció de text."
 
-#: ../ui/prefs.glade.h:23
+#: ../ui/prefs.glade.h:20
 msgid ""
 "If you use the automapper, you may want to specify here some unusual "
 "movement commands. When you use one of these, the automapper will create a "
@@ -906,40 +907,31 @@ msgstr ""
 "moviment inusuals. Quan s'utilitza una d'aquestes, l'automapejador crearà un "
 "camí a un altre mapa. Utilitzeu dos punts per a separar les diferents ordres."
 
-#: ../ui/prefs.glade.h:24
-msgid "Main font that is used on all open connections."
-msgstr ""
-"Tipus de lletra principal que s'utilitza a totes les connexions obertes."
-
-#: ../ui/prefs.glade.h:25
+#: ../ui/prefs.glade.h:21
 msgid "New Profile"
 msgstr "Perfil nou"
 
-#: ../ui/prefs.glade.h:26
+#: ../ui/prefs.glade.h:22
 msgid "Number of lines to save in the scrollback."
 msgstr "Número de línies a desar en el desplaçament."
 
-#: ../ui/prefs.glade.h:27
-msgid "Pick a color"
-msgstr "Seleccioneu un color"
-
-#: ../ui/prefs.glade.h:29
+#: ../ui/prefs.glade.h:24
 msgid "Profiles"
 msgstr "Perfils"
 
-#: ../ui/prefs.glade.h:30
+#: ../ui/prefs.glade.h:25
 msgid "S_croll on output"
 msgstr "_Desplaça en sortida"
 
-#: ../ui/prefs.glade.h:31
+#: ../ui/prefs.glade.h:26
 msgid "Scrollback:"
 msgstr "Desplaçament:"
 
-#: ../ui/prefs.glade.h:32
+#: ../ui/prefs.glade.h:27
 msgid "Terminal type:"
 msgstr "Tipus de terminal:"
 
-#: ../ui/prefs.glade.h:33
+#: ../ui/prefs.glade.h:28
 msgid ""
 "The character used to divide commands sent to the mud. For example \";\" "
 "will let the string \"w;look\" be sent to the mud as two separate commands."
@@ -948,25 +940,49 @@ msgstr ""
 "exemple, «;» farà que la cadena «w;look» s'envie al MUD com dos ordres "
 "separades."
 
-#: ../ui/prefs.glade.h:34
+#: ../ui/prefs.glade.h:29
 msgid "The number of entries to be saved in the command history."
 msgstr "El nom de la connexió que apareixerà a la llista de connexions."
 
-#: ../ui/prefs.glade.h:35
+#: ../ui/prefs.glade.h:30
 msgid "Unusual movement commands:"
 msgstr "Llista d'ordres de moviment inusuals:"
 
-#: ../ui/prefs.glade.h:36
+#: ../ui/prefs.glade.h:31
 msgid "_Echo the text sent"
 msgstr "_Mostra el text enviat"
 
-#: ../ui/prefs.glade.h:37
+#: ../ui/prefs.glade.h:32
 msgid "_Keep the text entered"
 msgstr "_Mantin el text introduït"
 
-#: ../ui/prefs.glade.h:38
+#: ../ui/prefs.glade.h:33
 msgid "lines"
 msgstr "línies"
+
+#~ msgid "Change the color of a specific color that the MUD requests to use."
+#~ msgstr "Canvia el color d'un color específic que el MUD demane utilitzar."
+
+#~ msgid ""
+#~ "Default background color used when the connection doesn't request the use "
+#~ "of a specific color."
+#~ msgstr ""
+#~ "El color de fons predeterminat utilitzat quan la connexió no especifica "
+#~ "l'ús d'un altre color."
+
+#~ msgid ""
+#~ "Default foreground color used when the connection doesn't request the use "
+#~ "of a specific color."
+#~ msgstr ""
+#~ "El color del text predeterminat utilitzat quan la connexió no especifica "
+#~ "l'ús d'un altre color."
+
+#~ msgid "Main font that is used on all open connections."
+#~ msgstr ""
+#~ "Tipus de lletra principal que s'utilitza a totes les connexions obertes."
+
+#~ msgid "Pick a color"
+#~ msgstr "Seleccioneu un color"
 
 #~ msgid "No void characters allowed."
 #~ msgstr "No es permeten caràcters buïts."
@@ -1435,9 +1451,6 @@ msgstr "línies"
 
 #~ msgid "Set variables"
 #~ msgstr "Estableix variables"
-
-#~ msgid "Set triggers"
-#~ msgstr "Estableix gallets"
 
 #~ msgid "Set keybindings"
 #~ msgstr "Estableix assignacions de tecles"
