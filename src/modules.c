@@ -27,9 +27,9 @@
 #  include "config.h"
 #endif
 
+#include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-config.h>
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 
 #if HAVE_DIRENT_H
 # include <dirent.h>
@@ -102,6 +102,10 @@ static void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
 {
   PLUGIN_OBJECT *p;
   gchar *text;
+  GConfClient *client;
+  GError *err = NULL;
+
+  client = gconf_client_get_default();
   
   gtk_clist_get_text ((GtkCList *) data, plugin_selected_row, 0, &text);
 
@@ -111,13 +115,13 @@ static void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
     gchar path[50];
 
     if (GTK_TOGGLE_BUTTON (widget)->active) {
-      p->enabeled = TRUE;
+      p->enabled = TRUE;
     } else {
-      p->enabeled = FALSE;
+      p->enabled = FALSE;
     }
 
-    g_snprintf(path, 50, "/gnome-mud/Plugins/%s", p->name);
-    gnome_config_set_bool(path, p->enabeled);
+    g_snprintf(path, 50, "/gnome-mud/Plugins/%s/enbl", p->name);
+    gconf_client_set_bool(client, path, p->enabled, &err);    
   }
 }
 
@@ -143,7 +147,7 @@ static void plugin_clist_select_row_cb (GtkWidget *clist, gint r, gint c, GdkEve
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(plugin_desc_text));
 		gtk_text_buffer_set_text(buffer, p->info->plugin_descr, -1);
     
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtk_object_get_data(GTK_OBJECT(clist), "plugin_enable_check")), p->enabeled);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtk_object_get_data(GTK_OBJECT(clist), "plugin_enable_check")), p->enabled);
 	}
 }
 
@@ -186,14 +190,14 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
     return;
   }
 
-  dialog1 = gnome_dialog_new (NULL, NULL);
+  dialog1 = gtk_dialog_new();
   gtk_object_set_data (GTK_OBJECT (dialog1), "dialog1", dialog1);
   gtk_widget_set_usize (dialog1, 430, -2);
  
   gtk_window_set_title(GTK_WINDOW(dialog1), _("Plugin Information"));
   gtk_window_set_policy (GTK_WINDOW (dialog1), FALSE, FALSE, FALSE);
 
-  dialog_vbox1 = GNOME_DIALOG (dialog1)->vbox;
+  dialog_vbox1 = GTK_DIALOG (dialog1)->vbox;
   gtk_object_set_data (GTK_OBJECT (dialog1), "dialog_vbox1", dialog_vbox1);
   gtk_widget_show (dialog_vbox1);
 
@@ -327,14 +331,13 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_widget_show(plugin_desc_text);
   gtk_container_add(GTK_CONTAINER(scrolledwindow2), plugin_desc_text);
 
-  dialog_action_area1 = GNOME_DIALOG (dialog1)->action_area;
+  dialog_action_area1 = GTK_DIALOG (dialog1)->action_area;
   gtk_object_set_data (GTK_OBJECT (dialog1), "dialog_action_area1", dialog_action_area1);
   gtk_widget_show (dialog_action_area1);
   gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
   gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area1), 8);
 
-  gnome_dialog_append_button (GNOME_DIALOG (dialog1), GNOME_STOCK_BUTTON_CLOSE);
-  button1 = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog1)->buttons)->data);
+  button1 = gtk_dialog_add_button(GTK_DIALOG(dialog1), GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
   gtk_widget_ref (button1);
   gtk_object_set_data_full (GTK_OBJECT (dialog1), "button1", button1,
                             (GtkDestroyNotify) gtk_widget_unref);
@@ -371,7 +374,7 @@ int init_modules(char *path)
   gchar          *shortname;
 
   if ((directory = opendir(path)) == NULL) {
-    g_message("Plugin error (%s): %s", path, strerror(errno));
+    g_message(_("Plugin error (%s)"), path);
     return FALSE;
   }
   
@@ -435,10 +438,14 @@ error:
 static void plugin_check_enable(PLUGIN_OBJECT *plugin)
 {
   gchar path[50];
+  GConfClient *client;
+  GError *err = NULL;
 
-  g_snprintf(path, 50, "/gnome-mud/Plugins/%s=false", plugin->name);
+  client = gconf_client_get_default();
 
-  plugin->enabeled = gnome_config_get_bool(path);
+  g_snprintf(path, 50, "/gnome-mud/Plugins/%s/enbl", plugin->name);
+
+  plugin->enabled = gconf_client_get_bool(client, path, &err);
 }
 
 void plugin_register(PLUGIN_OBJECT *plugin)

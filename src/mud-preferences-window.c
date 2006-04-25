@@ -10,7 +10,9 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkcellrenderer.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcolorbutton.h>
 #include <gtk/gtkentry.h>
+#include <gtk/gtkfontbutton.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
@@ -18,8 +20,6 @@
 #include <gtk/gtktreestore.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeviewcolumn.h>
-#include <libgnomeui/gnome-color-picker.h>
-#include <libgnomeui/gnome-font-picker.h>
 
 #include "mud-preferences-window.h"
 #include "mud-profile.h"
@@ -94,10 +94,10 @@ static void mud_preferences_window_commdev_cb         (GtkWidget *widget, MudPre
 static void mud_preferences_window_terminal_cb        (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_history_cb         (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_scrollback_cb      (GtkWidget *widget, MudPreferencesWindow *window);
-static void mud_preferences_window_font_cb            (GtkWidget *widget, const gchar *fontname, MudPreferencesWindow *window);
-static void mud_preferences_window_foreground_cb      (GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window);
-static void mud_preferences_window_background_cb      (GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window);
-static void mud_preferences_window_colors_cb          (GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window);
+static void mud_preferences_window_font_cb            (GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_foreground_cb      (GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_background_cb      (GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_colors_cb          (GtkWidget *widget, MudPreferencesWindow *window);
 
 static void mud_preferences_window_changed_cb         (MudProfile *profile, MudProfileMask *mask, MudPreferencesWindow *window);
 
@@ -528,30 +528,41 @@ mud_preferences_window_scrollback_cb(GtkWidget *widget, MudPreferencesWindow *wi
 }
 
 static void
-mud_preferences_window_font_cb(GtkWidget *widget, const gchar *fontname, MudPreferencesWindow *window)
+mud_preferences_window_font_cb(GtkWidget *widget, MudPreferencesWindow *window)
 {
+	const gchar *fontname = gtk_font_button_get_font_name(GTK_FONT_BUTTON(widget));
+
 	RETURN_IF_CHANGING_PROFILES(window);
 	mud_profile_set_font(window->priv->profile, fontname);
 }
 
 static void
-mud_preferences_window_foreground_cb(GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window)
+mud_preferences_window_foreground_cb(GtkWidget *widget, MudPreferencesWindow *window)
 {
+	GdkColor color;
+
 	RETURN_IF_CHANGING_PROFILES(window);
-	mud_profile_set_foreground(window->priv->profile, r, g, b);
+
+	gtk_color_button_get_color(GTK_COLOR_BUTTON(widget), &color);
+	mud_profile_set_foreground(window->priv->profile, color.red, color.green, color.blue);
 }
 
 static void
-mud_preferences_window_background_cb(GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window)
+mud_preferences_window_background_cb(GtkWidget *widget, MudPreferencesWindow *window)
 {
+	GdkColor color;
+
 	RETURN_IF_CHANGING_PROFILES(window);
-	mud_profile_set_background(window->priv->profile, r, g, b);
+
+	gtk_color_button_get_color(GTK_COLOR_BUTTON(widget), &color);
+	mud_profile_set_background(window->priv->profile, color.red, color.green, color.blue);
 }
 
 static void
-mud_preferences_window_colors_cb(GtkWidget *widget, guint r, guint g, guint b, guint a, MudPreferencesWindow *window)
+mud_preferences_window_colors_cb(GtkWidget *widget, MudPreferencesWindow *window)
 {
 	gint i;
+	GdkColor color;
 
 	RETURN_IF_CHANGING_PROFILES(window);
 	
@@ -559,7 +570,9 @@ mud_preferences_window_colors_cb(GtkWidget *widget, guint r, guint g, guint b, g
 	{
 		if (widget == window->priv->colors[i])
 		{
-			mud_profile_set_colors(window->priv->profile, i, r, g, b);
+			gtk_color_button_get_color(GTK_COLOR_BUTTON(widget), &color);
+			mud_profile_set_colors(window->priv->profile, i, 
+							color.red, color.green, color.blue);
 		}
 	}
 }
@@ -646,40 +659,47 @@ mud_preferences_window_update_scrollback(MudPreferencesWindow *window, MudPrefs 
 static void
 mud_preferences_window_update_font(MudPreferencesWindow *window, MudPrefs *preferences)
 {
-	gnome_font_picker_set_font_name(GNOME_FONT_PICKER(window->priv->fp_font),
-									preferences->FontName);
+	gtk_font_button_set_font_name(GTK_FONT_BUTTON(window->priv->fp_font),
+								    preferences->FontName);
 }
 
 static void
 mud_preferences_window_update_foreground(MudPreferencesWindow *window, MudPrefs *preferences)
 {
-	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->cp_foreground),
-							   preferences->Foreground.red,
-							   preferences->Foreground.green,
-							   preferences->Foreground.blue, 0);
+	GdkColor color;
+
+	color.red = preferences->Foreground.red;
+	color.green = preferences->Foreground.green;
+	color.blue = preferences->Foreground.blue;
+
+	gtk_color_button_set_color(GTK_COLOR_BUTTON(window->priv->cp_foreground), &color);
 }
 	
 static void
 mud_preferences_window_update_background(MudPreferencesWindow *window, MudPrefs *preferences)
 {
-	gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->cp_background),
-							   preferences->Background.red,
-							   preferences->Background.green,
-							   preferences->Background.blue, 0);
+	GdkColor color;
+
+	color.red = preferences->Background.red;
+	color.green = preferences->Background.green;
+	color.blue = preferences->Background.blue;
+
+	gtk_color_button_set_color(GTK_COLOR_BUTTON(window->priv->cp_background), &color);
 }
 
 static void
 mud_preferences_window_update_colors(MudPreferencesWindow *window, MudPrefs *preferences)
 {
 	gint i;
+	GdkColor color;
 
 	for (i = 0; i < C_MAX; i++)
 	{
-		gnome_color_picker_set_i16(GNOME_COLOR_PICKER(window->priv->colors[i]),
-								   preferences->Colors[i].red,
-								   preferences->Colors[i].green,
-								   preferences->Colors[i].blue,
-								   0);
+		color.red = preferences->Colors[i].red;
+		color.green = preferences->Colors[i].green;
+		color.blue = preferences->Colors[i].blue;
+
+		gtk_color_button_set_color(GTK_COLOR_BUTTON(window->priv->colors[i]), &color);
 	}
 }
 

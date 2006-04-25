@@ -564,6 +564,7 @@ mud_profile_set_foreground (MudProfile *profile, guint r, guint g, guint b)
 	color.blue = b;
 	
 	s = color_to_string(&color);
+
 	gconf_client_set_string(profile->priv->gconf_client, key, s, NULL);
 	g_free(s);
 }

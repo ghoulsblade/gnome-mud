@@ -85,6 +85,12 @@ mud_window_close(GtkWidget *widget, MudWindow *window)
 	return TRUE;
 }
 
+GtkWidget* 
+mud_window_get_window(MudWindow *window)
+{
+	return window->priv->window;
+}
+
 void
 mud_window_add_connection_view(MudWindow *window, MudConnectionView *view, gchar *tabLbl)
 {
@@ -747,7 +753,7 @@ mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, gint dir)
 					{
 						pd = (PLUGIN_DATA *)plugin_list->data;
 			
-						if(pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_IN))
+						if(pd->plugin && pd->plugin->enabled && (pd->dir == PLUGIN_DATA_IN))
 						{
 							(*pd->datafunc)(pd->plugin, (gchar *)data, mudview->view);
 						}
@@ -763,7 +769,7 @@ mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, gint dir)
 					{
 						pd = (PLUGIN_DATA *)plugin_list->data;
 			
-						if(pd->plugin && pd->plugin->enabeled && (pd->dir == PLUGIN_DATA_OUT))
+						if(pd->plugin && pd->plugin->enabled && (pd->dir == PLUGIN_DATA_OUT))
 						{
 							(*pd->datafunc)(pd->plugin, (gchar *)data, mudview->view);
 						}

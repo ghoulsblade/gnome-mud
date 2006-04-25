@@ -37,7 +37,7 @@ struct _plugin_object {
   void     *handle;
   gchar    *name;
   gchar    *filename;
-  gboolean  enabeled;
+  gboolean  enabled;
   PLUGIN_INFO *info;
 };
 

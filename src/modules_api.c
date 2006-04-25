@@ -61,7 +61,7 @@ gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
 	
 	gtk_menu_shell_prepend(GTK_MENU_SHELL(pluginMenu), newMenuItem);
 
-	gtk_signal_connect(newMenuItem, "activate", sig_function, NULL);
+	gtk_signal_connect(GTK_OBJECT(newMenuItem), "activate", sig_function, NULL);
 	
 	return TRUE;
 }

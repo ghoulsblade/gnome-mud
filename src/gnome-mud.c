@@ -20,12 +20,10 @@
 #  include "config.h"
 #endif
 
-#include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
-#include <libgnome/gnome-config.h>
-#include <libgnome/gnome-program.h>
-#include <libgnomeui/gnome-ui-init.h>
-#include <libgnomeui/gnome-window-icon.h>
+#include <glib/gi18n.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkwindow.h>
 #include <stdio.h>
 #include <sys/stat.h>
 
@@ -98,13 +96,7 @@ int main (gint argc, char *argv[])
 		return 1;
 	}
 
-	gnome_program_init (PACKAGE, VERSION,
-				      LIBGNOMEUI_MODULE,
-				      argc, argv,
-				      GNOME_PROGRAM_STANDARD_PROPERTIES,
-				      GNOME_PARAM_POPT_TABLE,
-				      NULL,
-				      NULL);
+	gtk_init(&argc, &argv);
 	
 	/* Start a GConf client */
 	gconf_client = gconf_client_get_default();
@@ -113,10 +105,11 @@ int main (gint argc, char *argv[])
 	}
 	gconf_client_add_dir(gconf_client, "/apps/gnome-mud", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 
-	gnome_window_icon_set_default_from_file (PIXMAPSDIR "/gnome-mud.png");
 
 	mud_profile_load_profiles();
-	mud_window_new(gconf_client);
+	
+	gtk_window_set_icon_from_file(GTK_WINDOW(mud_window_get_window(mud_window_new(gconf_client))), 
+					PIXMAPSDIR "/gnome-mud.png", &err);
 	
 #ifdef USE_PYTHON
 	//Py_SetProgramName(argv[0]);
@@ -139,7 +132,7 @@ int main (gint argc, char *argv[])
 		mkdir(buf, 0777 );	
 	
 	gtk_main();
-	gnome_config_sync();
+	gconf_client_suggest_sync(gconf_client, &err);
 
 #ifdef USE_PYTHON
 	//python_end();
