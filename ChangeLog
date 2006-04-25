@@ -1,8 +1,8 @@
 2006-04-24  Les Harris  <hl.harris@comcast.net>
 	* src/gnome-mud.c, src/modules.c, src/mud-preferences.window.c,
-	  ui/directions.glade, ui/main.glade, ui/prefs.glade,
-	  configure.ac: Removed all traces of libgnome and libgnomeui
-	  from gmud; converted functionality to gtk+ equivalents.
+	ui/directions.glade, ui/main.glade, ui/prefs.glade,
+	configure.ac: Removed all traces of libgnome and libgnomeui
+	from gmud; converted functionality to gtk+ equivalents.
 
 	* src/modules-api.c: Added a typecast to stop a warning on compile.
 	* src/modules.c, src/modules-structures.h,
