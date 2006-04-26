@@ -1,3 +1,15 @@
+2006-04-25  Mart Raudsepp  <leio@dustbite.net>
+
+	* src/mud-window.c, ui/main.glade: Re-implement the input box as
+	a GtkTextView that adjusts its height as necessary.
+	
+	Return/Enter sends text, Return/Enter with any modifier keys goes
+	to next line in the input box, adjusting height as necessary.
+	A largest height of 5 is used, after which a scrollbar is used --
+	that value can easily be changed by adjusting the value passed to
+	mud_window_textview_ensure_height(). The height is always kept
+	only as high as necessary.
+
 2006-04-24  Les Harris  <hl.harris@comcast.net>
 	* src/gnome-mud.c, src/modules.c, src/mud-preferences.window.c,
 	ui/directions.glade, ui/main.glade, ui/prefs.glade,

@@ -42,7 +42,6 @@ struct _MudWindowPrivate
 	
 	GtkWidget *window;
 	GtkWidget *notebook;
-	GtkWidget *textentry;
 	GtkWidget *textview;
 	GtkWidget *textviewscroll;
 	GtkWidget *mainvpane;
@@ -64,7 +63,7 @@ struct _MudWindowPrivate
 	gchar *port;
 
 	gint nr_of_tabs;
-	gint toggleState;
+	gint textview_line_height;
 	
 	MudTray *tray;
 };
@@ -190,34 +189,72 @@ mud_window_closewindow_cb(GtkWidget *widget, MudWindow *window)
 
 }
 
-static gboolean
-mud_window_textentry_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *window)
+static gint
+mud_window_textview_get_display_line_count(GtkTextView *textview)
 {
+	gint result = 1;
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(textview);
+	GtkTextIter iter;
 
-	return FALSE;
+	gtk_text_buffer_get_start_iter(buffer, &iter);
+	while (gtk_text_view_forward_display_line(textview, &iter))
+		++result;
+
+	if (gtk_text_buffer_get_line_count(buffer) != 1)
+	{
+		GtkTextIter iter2;
+		gtk_text_buffer_get_end_iter(buffer, &iter2);
+		if (gtk_text_iter_get_chars_in_line(&iter) == 0)
+			++result;
+	}
+
+	return result;
+}
+
+static void
+mud_window_textview_ensure_height(MudWindow *window, guint max_lines)
+{
+	gint lines = mud_window_textview_get_display_line_count(GTK_TEXT_VIEW(window->priv->textview));
+	gtk_widget_set_size_request(window->priv->textview, -1,
+								window->priv->textview_line_height * MIN(lines, max_lines));
+	gtk_widget_queue_resize(gtk_widget_get_parent(window->priv->textview));
+}
+
+static void
+mud_window_textview_buffer_changed(GtkTextBuffer *buffer, MudWindow *window)
+{
+	mud_window_textview_ensure_height(window, 5);
 }
 
 static gboolean
 mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *window)
 {
 	gchar *text;
-        GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->textview));
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->textview));
 	GtkTextIter start, end;
 	
-	if(event->keyval == GDK_KP_Enter)
+	if ((event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) &&
+			(event->state & gtk_accelerator_get_default_mod_mask()) == 0)
 	{
-		if(window->priv->current_view)
-		{
-			gtk_text_buffer_get_bounds(buffer, &start, &end);
-	
-			text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+		gtk_text_buffer_get_bounds(buffer, &start, &end);
+
+		text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+
+		if (g_str_equal(text, ""))
+			text = g_strdup(" ");
+
+		if (window->priv->current_view)
 			mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), text);
-			
+
+		if (gconf_client_get_bool(window->priv->gconf_client,
+			"/apps/gnome-mud/functionality/keeptext", NULL) == FALSE)
+			gtk_text_buffer_delete(buffer, &start, &end);
+		else
 			gtk_text_buffer_select_range(buffer, &start, &end);
 
-			return TRUE;
-			
-		}
+		free(text);
+
+		return TRUE;
 	}
 
 	return FALSE;
@@ -254,22 +291,6 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 		gtk_widget_set_sensitive(window->priv->bufferdump, FALSE);
 	}
 
-}
-
-static void
-mud_window_textentry_activate(GtkWidget *widget, MudWindow *window)
-{
-	gchar *tmp;
-
-	tmp = g_strdup(gtk_entry_get_text(GTK_ENTRY(widget)));
-		if (g_str_equal(tmp, ""))
-			tmp = g_strdup(" ");
-	if (window->priv->current_view)
-		mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), tmp);
-		if (gconf_client_get_bool(window->priv->gconf_client,
-		   "/apps/gnome-mud/functionality/keeptext", NULL) == FALSE)
-			gtk_entry_set_text(GTK_ENTRY(widget), g_strdup(""));
-		free (tmp);
 }
 
 static void
@@ -314,25 +335,6 @@ mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *window)
 	mywig = window->priv->window;
 	
 	mud_window_mconnect_new(window, mywig, window->priv->tray);
-}
-
-static void
-mud_window_inputtoggle_cb(GtkWidget *widget, MudWindow *window)
-{
-	
-	if(window->priv->toggleState)
-	{
-		gtk_widget_hide(window->priv->textview);
-		gtk_widget_hide(window->priv->textviewscroll);
-		gtk_widget_show(window->priv->textentry);
-	}
-	else
-	{
-		gtk_widget_hide(window->priv->textentry);
-		gtk_widget_show(window->priv->textview);
-		gtk_widget_show(window->priv->textviewscroll);	
-	}
-	window->priv->toggleState = !window->priv->toggleState;
 }
 
 gboolean
@@ -650,10 +652,9 @@ G_CALLBACK(mud_window_list_cb), window);
 	g_signal_connect(window->priv->bufferdump, "activate", G_CALLBACK(mud_window_buffer_cb), window);
 
 	/* preferences window button */
-
 	window->priv->mi_profiles = glade_xml_get_widget(glade, "mi_profiles_menu");
 	g_signal_connect(glade_xml_get_widget(glade, "menu_preferences"), "activate", G_CALLBACK(mud_window_preferences_cb), window);
-	
+
 	g_signal_connect(glade_xml_get_widget(glade, "menu_about"), "activate", G_CALLBACK(mud_window_about_cb), window);
 	
 	/* other objects */
@@ -663,22 +664,27 @@ G_CALLBACK(mud_window_list_cb), window);
 	window->priv->textviewscroll = glade_xml_get_widget(glade, "text_view_scroll");
 	window->priv->textview = glade_xml_get_widget(glade, "text_view");
 
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(window->priv->textview), GTK_WRAP_WORD_CHAR);
+
 	g_signal_connect(window->priv->textview, "key_press_event", G_CALLBACK(mud_window_textview_keypress), window);
-	
-	gtk_widget_hide(window->priv->textviewscroll);
-	gtk_widget_hide(window->priv->textview);
-	
-	window->priv->toggleState = 0;
+	g_signal_connect(gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->textview)), "changed",
+					 G_CALLBACK(mud_window_textview_buffer_changed), window);
 
-	window->priv->textentry = glade_xml_get_widget(glade, "text_entry");
-	g_signal_connect(window->priv->textentry, "key_press_event", G_CALLBACK(mud_window_textentry_keypress), window);
-	g_signal_connect(window->priv->textentry, "activate", G_CALLBACK(mud_window_textentry_activate), window);
+	{
+		/* Set the initial height of the input box equal to the height of one line */
+		GtkTextIter iter;
+		gint y;
+		gtk_text_buffer_get_start_iter(gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->textview)), &iter);
+		gtk_text_view_get_line_yrange(GTK_TEXT_VIEW(window->priv->textview), &iter, &y, &window->priv->textview_line_height);
 
-	window->priv->mainvpane = glade_xml_get_widget(glade, "main_vpane");
-	
+		gtk_widget_set_size_request(window->priv->textview, -1, window->priv->textview_line_height*1);
+		gtk_widget_set_size_request(GTK_SCROLLED_WINDOW(window->priv->textviewscroll)->vscrollbar, -1, 1);
+
+		if (GTK_WIDGET_VISIBLE(window->priv->textviewscroll))
+			gtk_widget_queue_resize(window->priv->textviewscroll);
+	}
+
 	window->priv->image = glade_xml_get_widget(glade, "image");
-
-	g_signal_connect(glade_xml_get_widget(glade, "toggle_input"), "clicked", G_CALLBACK(mud_window_inputtoggle_cb), window);
 
 	g_signal_connect(glade_xml_get_widget(glade, "plugin_list"), "activate", G_CALLBACK(do_plugin_information), NULL);
 	
