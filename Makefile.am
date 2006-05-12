@@ -22,6 +22,7 @@ EXTRA_DIST = \
 	README \
 	ROADMAP \
 	config.rpath \
+	gnome-doc-utils.make \
 	gnome-mud.desktop.in \
 	gnome-mud.lsm \
 	gnome-mud.spec \
