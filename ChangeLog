@@ -1,3 +1,51 @@
+2006-05-11  Les Harris  <hl.harris@comcast.net>
+
+	* configure.ac: Added two new dependencies for gmud, libpcre-6.0
+	for trigger/alias support and gmodule-2.0 for plugin support.
+
+	* src/Makefile.am: Added new files for triggers/aliases to sources.
+
+	* src/mud-connection-view.[ch], src/mud-preferences-window.[ch],
+	src/mud-window.[ch], mud-profiles.[ch]: Added in trigger/alias
+	support for Gmud.
+
+	* src/mud-regex.[ch], src/mud-parse-base.[ch],
+	src/mud-parse-trigger.[ch], src/mud-parse-alias.[ch]: New files
+	which implement trigger/alias support.
+
+	* src/mud-connection-view.c, src/modules_api.[ch]: Added a stupid
+	hack to allow plugins to gag a line of text from the main terminal.
+	I'll remove this with the refactoring of the plugin system.
+
+	* src/mud-window-mudedit.c: Fixed a bug thats been in there since I
+	wrote it.  Now Gmud will properly add characters with a new mud.
+
+	* src/utils.c: Reimplemented remove_whitespace() to make it not suck
+	and more importantly, to not cause random crashes (especially in
+	mudedit window and mudconnect window).
+
+	* src/modules.[ch], src/modules_api.[ch], src/modules-structures.h:
+	Converted the plugin system to use GModule instead of dl*.
+
+	* ui/prefs.glade: Updated preferences window for triggers & aliases.
+
+	* plugins/test.plugin/main.c: Updated test plugin for GModule use.
+
+	* plugins/statusbars: Added a new plugin which provides a
+	graphical status bar window (much like the old python one). Also
+	demonstrates a more complex plugin.
+
+	* plugins/outputwindows: Added a new plugin which provides
+	support for multiple regex-based output windows for capturing
+	stuff like channel text, tells, etc.
+
+	* plugins/automapper: Implemented the 10.7 automapper code in
+	a plugin form.  We really need to rewrite this but its too big a
+	task before 0.11. This implementation will make it much easier to
+	rip it out later. Also demonstrates a really fugly plugin hacked
+	into using some gmud internals. Lets not steer new plugin authors
+	to this as an example of What To Do ;)
+
 2006-05-12  Jordi Mallach  <jordi@sindominio.net>
 
 	* Makefile.am (EXTRA_DIST): Add gnome-doc-utils.make.

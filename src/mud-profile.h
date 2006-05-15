@@ -37,6 +37,9 @@ struct _MudPrefs
 	gint       FlushInterval;
 	GdkColor   Foreground;
 	GdkColor   Background;
+	
+	GSList	  *alias_names;
+	GSList	  *trigger_names;
 
 	GdkColor   Colors[C_MAX];
 };

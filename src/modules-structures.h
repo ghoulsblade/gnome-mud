@@ -1,6 +1,7 @@
 #ifndef MODULES_STRUCTURES
 #define MODULES_STRUCTURES
 
+#include <gmodule.h>
 #include "mud-connection-view.h"
 
 /*
@@ -10,8 +11,8 @@ typedef struct _plugin_object PLUGIN_OBJECT;
 typedef struct _plugin_info   PLUGIN_INFO;
 typedef struct _plugin_data   PLUGIN_DATA;
 
-typedef void      (*plugin_initfunc) (PLUGIN_OBJECT *,   gint   );
-typedef void      (*plugin_menufunc) (GtkWidget *,       gint   );
+typedef void      (*plugin_initfunc) (PLUGIN_OBJECT *,   GModule *   );
+typedef void      (*plugin_menufunc) (GtkWidget *,       GModule *   );
 typedef void      (*plugin_datafunc) (PLUGIN_OBJECT *, gchar *, MudConnectionView *);
 
 typedef enum { PLUGIN_DATA_IN, PLUGIN_DATA_OUT } PLUGIN_DATA_DIRECTION;
@@ -34,7 +35,7 @@ struct _plugin_info {
 };
 
 struct _plugin_object {
-  void     *handle;
+  GModule     *handle;
   gchar    *name;
   gchar    *filename;
   gboolean  enabled;

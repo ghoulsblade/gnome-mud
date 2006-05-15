@@ -1,3 +1,21 @@
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2006 Robin Ericsson <lobbin@localhost.nu>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -285,6 +303,7 @@ props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar)
 	GtkTextBuffer *buffer;
 	gchar *namestr;
 	gchar *connect;
+	const gchar *mudname;
 	GtkTextIter start, end;
 	GConfValue *strval;
 	GSList *chars, *entry, *res;
@@ -295,6 +314,12 @@ props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar)
 	
 	chars = NULL;
 
+	mudname = remove_whitespace((gchar *)gtk_entry_get_text(GTK_ENTRY(mudedit->priv->EntryName)));
+	
+	g_free(mudedit->priv->mud);
+	
+	mudedit->priv->mud = g_strdup(mudname);
+	
 	glade = glade_xml_new(GLADEDIR "/muds.glade", "charprops_window", NULL);
 
 	dialog = glade_xml_get_widget(glade, "charprops_window");
@@ -306,7 +331,7 @@ props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar)
 	if(charname != NULL) {
 		gtk_entry_set_text(GTK_ENTRY(name), charname);
 		
-		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/%s/connect", mudedit->priv->mud, charname);
+		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/%s/connect", mudname, charname);
 		connect = g_strdup(gconf_client_get_string(client, keyname, &error));
 		if(connect)
 		{
@@ -322,14 +347,14 @@ props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar)
 		if(!charname)
 			charname = g_strdup(namestr);
 
-		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/list", mudedit->priv->mud);
+		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/list", mudname);
 
 		chars = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
 
 		if(NewChar)
 		{
 			chars = g_slist_append(chars, (void *)g_strdup(namestr));
-			g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/list", mudedit->priv->mud);
+			g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/list", mudname);
 			gconf_client_set_list(client, keyname, GCONF_VALUE_STRING, chars, &error);	
 		}
 		
@@ -343,11 +368,11 @@ props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar)
 				}
 			}
 			
-			g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/list", mudedit->priv->mud);
+			g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/list", mudname);
 			gconf_client_set_list(client, keyname, GCONF_VALUE_STRING, chars, &error);	
 		}
 
-		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/%s/connect", mudedit->priv->mud, namestr);
+		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/%s/connect", mudname, namestr);
 
 		gtk_text_buffer_get_start_iter(buffer, &start);
 		gtk_text_buffer_get_end_iter(buffer, &end);
@@ -485,6 +510,10 @@ mud_edit_window_ok_cb(GtkWidget *widget, MudEditWindow *mudedit)
 		// This seems to do nothing. WTF. -lh
 		gconf_client_remove_dir(client, keyname, &error);
 	}
+
+	gconf_value_set_string(strval, (gchar *)gtk_entry_get_text(GTK_ENTRY(mudedit->priv->EntryName)));
+	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/name", mudedit->priv->mud);
+	gconf_client_set(client, keyname, strval, &error);
 	
 	gconf_value_set_string(strval, (gchar *)gtk_entry_get_text(GTK_ENTRY(mudedit->priv->EntryHost)));
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/host", mudedit->priv->mud);
@@ -527,8 +556,6 @@ mud_edit_window_ok_cb(GtkWidget *widget, MudEditWindow *mudedit)
 	
 	mud_list_window_populate_treeview(gParent);	
 	gtk_widget_destroy(mudedit->priv->dialog);
-
-	mud_edit_window_finalize(G_OBJECT(mudedit));
 }
 
 void 

@@ -1,3 +1,21 @@
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2006 Robin Ericsson <lobbin@localhost.nu>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -14,6 +32,10 @@
 #include "mud-window.h"
 #include "mud-tray.h"
 #include "mud-log.h"
+#include "mud-parse-base.h"
+
+/* Hack, will refactor with plugin rewrite -lh */
+extern gboolean PluginGag;
 
 struct _MudConnectionViewPrivate
 {
@@ -36,6 +58,8 @@ struct _MudConnectionViewPrivate
 	gboolean connect_hook;
 	gboolean connected;
 	gchar *connect_string;
+
+	MudParseBase *parse;
 };
 
 static void mud_connection_view_init                     (MudConnectionView *connection_view);
@@ -155,12 +179,6 @@ choose_profile_callback(GtkWidget *menu_item, MudConnectionView *view)
 	profile = g_object_get_data(G_OBJECT(menu_item), "profile");
 
 	g_assert(profile);
-
-	g_print ("Switching profile from '%s' to '%s'\n",
-           view->priv->profile ?
-           view->priv->profile->name : "none",
-           profile ? profile->name : "none");
-
 
 	mud_connection_view_set_profile(view, profile);
 	mud_connection_view_reread_profile(view);
@@ -286,6 +304,8 @@ mud_connection_view_init (MudConnectionView *connection_view)
   	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
   	//FIXME connection_view->priv->prefs = mud_preferences_new(NULL);
   
+	connection_view->priv->parse = mud_parse_base_new(connection_view);
+	
 	connection_view->priv->connect_hook = FALSE;
 	
 	box = gtk_hbox_new(FALSE, 0);
@@ -356,6 +376,9 @@ mud_connection_view_set_connect_string(MudConnectionView *view, gchar *connect_s
 static void
 mud_connection_view_received_cb(GNetworkConnection *cxn, gconstpointer data, gulong length, gpointer user_data)
 {
+	gint gag;
+	gint pluggag;
+	
 	MudConnectionView *view = MUD_CONNECTION_VIEW(user_data);
 	g_assert(view != NULL);
 
@@ -365,11 +388,16 @@ mud_connection_view_received_cb(GNetworkConnection *cxn, gconstpointer data, gul
 		mud_tray_update_icon(view->priv->tray, online);
 	}
 	
-	// Give plugins first crack at it	
+	gag = mud_parse_base_do_triggers(view->priv->parse, (gchar *)data);
 	mud_window_handle_plugins(view->priv->window, view->priv->id, (gchar *)data, 1);
+	pluggag = PluginGag;
+	PluginGag = FALSE;
 	
-	vte_terminal_feed(VTE_TERMINAL(view->priv->terminal), (gchar *) data, length);
-	mud_log_write_hook(view->priv->log, (gchar *)data, length);
+	if(!gag && !pluggag)
+	{
+		vte_terminal_feed(VTE_TERMINAL(view->priv->terminal), (gchar *) data, length);
+		mud_log_write_hook(view->priv->log, (gchar *)data, length);
+	}
 
 	if (view->priv->connect_hook) {
 		mud_connection_view_send (MUD_CONNECTION_VIEW(user_data), view->priv->connect_string);
@@ -759,4 +787,10 @@ GtkWidget *
 mud_connection_view_get_terminal(MudConnectionView *view)
 {
 	return view->priv->terminal;
+}
+
+MudParseBase *
+mud_connection_view_get_parsebase(MudConnectionView *view)
+{
+	return view->priv->parse;
 }

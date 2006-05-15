@@ -1,3 +1,21 @@
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2006 Robin Ericsson <lobbin@localhost.nu>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -33,6 +51,7 @@
 #include "modules.h"
 #include "mud-profile.h"
 #include "mud-window-profile.h"
+#include "mud-parse-base.h"
 
 struct _MudWindowPrivate
 {
@@ -44,7 +63,6 @@ struct _MudWindowPrivate
 	GtkWidget *notebook;
 	GtkWidget *textview;
 	GtkWidget *textviewscroll;
-	GtkWidget *mainvpane;
 
 	GtkWidget *startlog;
 	GtkWidget *stoplog;
@@ -232,6 +250,7 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
 	gchar *text;
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->textview));
 	GtkTextIter start, end;
+	MudParseBase *base;
 	
 	if ((event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) &&
 			(event->state & gtk_accelerator_get_default_mod_mask()) == 0)
@@ -244,7 +263,11 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
 			text = g_strdup(" ");
 
 		if (window->priv->current_view)
-			mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), text);
+		{
+			base = mud_connection_view_get_parsebase(MUD_CONNECTION_VIEW(window->priv->current_view));
+			if(mud_parse_base_do_aliases(base, text))
+				mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), text);
+		}
 
 		if (gconf_client_get_bool(window->priv->gconf_client,
 			"/apps/gnome-mud/functionality/keeptext", NULL) == FALSE)
@@ -291,6 +314,7 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 		gtk_widget_set_sensitive(window->priv->bufferdump, FALSE);
 	}
 
+	gtk_widget_grab_focus(window->priv->textview);
 }
 
 static void
@@ -354,6 +378,8 @@ mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer us
 		gtk_image_set_from_pixbuf(GTK_IMAGE(window->priv->image), buf);
 	}
 
+	gtk_widget_grab_focus(window->priv->textview);
+	
 	return FALSE;
 }
 

@@ -48,10 +48,12 @@
 # endif
 #endif
 
+#include <gmodule.h>
 #include "gnome-mud.h"
 #include "mud-connection-view.h"
 #include "mud-window.h"
 #include "modules.h"
+#include "modules_api.h"
 
 GList     *Plugin_list;
 GList     *Plugin_data_list;
@@ -59,7 +61,7 @@ int       plugin_selected_row;
 gint       amount;
 MudWindow *gGMudWindow;
 
-PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
+PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (GModule  *handle)
 {
   PLUGIN_OBJECT *p;
   GList         *t;
@@ -69,8 +71,8 @@ PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (gint handle)
     if (t->data != NULL) {
       p = (PLUGIN_OBJECT *) t->data;
 
-      if (GPOINTER_TO_INT(p->handle) == handle)
-	return p;
+      if (p->handle == handle)
+		return p;
     }
   }
 
@@ -112,7 +114,7 @@ static void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
   p = plugin_get_plugin_object_by_name (text);
 
   if (p != NULL) {
-    gchar path[50];
+    gchar path[128];
 
     if (GTK_TOGGLE_BUTTON (widget)->active) {
       p->enabled = TRUE;
@@ -120,7 +122,7 @@ static void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
       p->enabled = FALSE;
     }
 
-    g_snprintf(path, 50, "/gnome-mud/Plugins/%s/enbl", p->name);
+    g_snprintf(path, 128, "/apps/gnome-mud/Plugins/%s/enbl", p->name);
     gconf_client_set_bool(client, path, p->enabled, &err);    
   }
 }
@@ -413,14 +415,17 @@ PLUGIN_OBJECT *plugin_query (gchar *plugin_name, gchar *plugin_path)
 
     new_plugin->name = g_strdup(plugin_name);
     sprintf (filename, "%s%s", plugin_path, plugin_name);
-    if ((new_plugin->handle = dlopen (filename, RTLD_LAZY)) == NULL)
+    
+	new_plugin->handle = g_module_open(filename, G_MODULE_BIND_LAZY);
+	
+    if(new_plugin == NULL)
     {
-        g_message (_("Error getting plugin handle (%s): %s."), plugin_name, dlerror());
+        g_message (_("Error getting plugin handle (%s): %s."), plugin_name, g_module_error());
         goto error;
     } else {
-        if ((new_plugin->info = dlsym(new_plugin->handle,"gnomemud_plugin_info")) == NULL)
+ 		if(!g_module_symbol(new_plugin->handle, "gnomemud_plugin_info", (gpointer *)&new_plugin->info))
         {
-            g_message (_("Error, %s not an GNOME-Mud module: %s."), plugin_name, dlerror());
+            g_message (_("Error, %s not an GNOME-Mud module: %s."), plugin_name, g_module_error());
             goto error;
         }
         new_plugin->filename = g_strdup (filename);
@@ -437,27 +442,25 @@ error:
 
 static void plugin_check_enable(PLUGIN_OBJECT *plugin)
 {
-  gchar path[50];
+  gchar path[128];
   GConfClient *client;
   GError *err = NULL;
 
   client = gconf_client_get_default();
 
-  g_snprintf(path, 50, "/gnome-mud/Plugins/%s/enbl", plugin->name);
+  g_snprintf(path, 128, "/apps/gnome-mud/Plugins/%s/enbl", plugin->name);
 
   plugin->enabled = gconf_client_get_bool(client, path, &err);
 }
 
 void plugin_register(PLUGIN_OBJECT *plugin)
 {
-    g_message (_("Registering plugin `%s' under the name `%s'."), plugin->name, plugin->info->plugin_name);
-
     plugin_check_enable(plugin);
 
     Plugin_list = g_list_append(Plugin_list, (gpointer) plugin);
     
     if (plugin->info->init_function) {
-      plugin->info->init_function(NULL, GPOINTER_TO_INT(plugin->handle));
+      plugin->info->init_function(NULL, plugin->handle);
     }
 }
 void popup_message(const gchar *data)

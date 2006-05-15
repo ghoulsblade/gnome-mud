@@ -16,25 +16,14 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <gmodule.h>
-#include "mud-connection-view.h"
-#include "mud-window.h"
-
-#include "modules-structures.h"
-
-/*
- * Functions
- */
-PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (GModule *handle   );
-PLUGIN_OBJECT *plugin_query    (gchar *plugin_name, gchar *pp    );
-void           plugin_register (PLUGIN_OBJECT *plugin            );
-void	       popup_message(const gchar *data);
-void 	       init_modules_win(MudWindow *win);
-int init_modules(char *path);
-void do_plugin_information(GtkWidget *widget, gpointer data);
-/*
- * Variables
- */
-extern MudWindow *gGMudWindow;
-extern GList *Plugin_list;
-extern GList *Plugin_data_list;
+#define DIRECTION_NORTH		0
+#define DIRECTION_NORTHEAST	1
+#define DIRECTION_EAST		2
+#define DIRECTION_SOUTHEAST	3
+#define DIRECTION_SOUTH		4
+#define DIRECTION_SOUTHWEST	5
+#define DIRECTION_WEST		6
+#define DIRECTION_NORTHWEST	7
+#define DIRECTION_UP		8
+#define DIRECTION_DOWN		9
+#define DIRECTION_LOOK		10

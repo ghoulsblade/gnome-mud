@@ -1,22 +1,42 @@
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2006 Robin Ericsson <lobbin@localhost.nu>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
 #define __MODULE__
+#include <gmodule.h>
 #include <gtk/gtk.h>
 #include <glib.h>
 #include <string.h>
 
 #include "../../src/modules_api.h"
+#include "../../config.h"
 
-static void init_plugin   (PLUGIN_OBJECT *, gint);
+static void init_plugin   (PLUGIN_OBJECT *, GModule *);
 
 PLUGIN_INFO gnomemud_plugin_info =
 {
     "Test Plugin",
     "Robin Ericsson",
     "1.1",
-    "Small plugin just to show how the plugins were supposed to work.",
+    "Small plugin just to show how the plugins are supposed to work.",
     init_plugin,
 };
 
-void init_plugin(PLUGIN_OBJECT *plugin, gint context)
+void init_plugin(PLUGIN_OBJECT *plugin, GModule *context)
 {
   plugin_popup_message ("Test Plugin Registered");
   plugin_register_menu(context, "Test Plugin", "menu_function");
@@ -25,7 +45,7 @@ void init_plugin(PLUGIN_OBJECT *plugin, gint context)
 
 void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, MudConnectionView *view)
 {
-  g_message("Recieved (%d) bytes.", strlen(data));
+  g_message("Received (%d) bytes.", strlen(data));
   plugin_add_connection_text("Plugin Called!", 0, view);
 }
 
@@ -45,19 +65,19 @@ void menu_function(GtkWidget *widget, gint data)
     gtk_container_border_width (GTK_CONTAINER (main_box), 5);
     gtk_container_add (GTK_CONTAINER (a_window), main_box);
 
-    label = gtk_label_new ("AMCL version 0.7.0");
+    label = gtk_label_new (PACKAGE_STRING);
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 5);
     gtk_widget_show (label);
 
-    label = gtk_label_new ("Copyright © 1998-1999 Robin Ericsson <lobbin@localhost.nu>");
+    label = gtk_label_new ("Copyright 1998-2006 Robin Ericsson <lobbin@localhost.nu>");
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 0);
     gtk_widget_show (label);
 
-    label = gtk_label_new ("   Licensed under GNU GENERAL PUBLIC LICENSE (GPL)    ");
+    label = gtk_label_new ("Licensed under the terms of the GNU GENERAL PUBLIC LICENSE (GPL) version 2 or later.");
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 5);
     gtk_widget_show (label);
 
-    label = gtk_label_new ("Homepage: http://www.localhost.nu/apps/amcl/");
+    label = gtk_label_new ("Homepage: http://amcl.sourceforge.net/");
     gtk_box_pack_start (GTK_BOX (main_box), label, FALSE, FALSE, 5);
     gtk_widget_show (label);
 
@@ -68,7 +88,7 @@ void menu_function(GtkWidget *widget, gint data)
     box2 = gtk_hbox_new (FALSE, 5);
     gtk_box_pack_start (GTK_BOX (main_box), box2, FALSE, FALSE, 0);
 
-    button = gtk_button_new_with_label ( " close ");
+    button = gtk_button_new_with_label ( "Close");
     gtk_signal_connect_object (GTK_OBJECT (button), "clicked",
                         GTK_SIGNAL_FUNC (gtk_widget_destroy), (gpointer) a_window);
     gtk_box_pack_start (GTK_BOX (box2), button, TRUE, TRUE, 5);

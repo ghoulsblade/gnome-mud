@@ -30,6 +30,14 @@
 #include "mud-window.h"
 #include "modules.h"
 
+/* Hack for the moment, will refactor with plugin rewrite -lh */
+gboolean PluginGag;
+
+void plugin_gag_flag(void)
+{
+	PluginGag = TRUE;
+}
+
 void plugin_popup_message (gchar *message)
 {
    popup_message (message);
@@ -45,14 +53,20 @@ void plugin_add_connection_text(gchar *message, gint color, MudConnectionView *v
 	mud_connection_view_add_text(view, message, color);
 }
 
-gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
+gboolean plugin_register_menu (GModule *handle, gchar *name, gchar *function)
 {
   	GtkSignalFunc  sig_function;
   	GtkWidget *newMenuItem;
+	void *temp;
+	gpointer *sigptr;
 
- 	if ((sig_function = (GtkSignalFunc) dlsym ((void *) handle, function)) == NULL) 
+	/* Stupid hack for gmodule */
+	temp = (void *)&sig_function;
+	sigptr = (gpointer *)temp;
+	
+    if (!g_module_symbol(handle, function, sigptr))
 	{
-    		g_message (_("Error while registering the menu: %s"), dlerror());
+    		g_message (_("Error while registering the menu: %s"), g_module_error());
     		return FALSE;
   	}
   	
@@ -66,14 +80,21 @@ gboolean plugin_register_menu (gint handle, gchar *name, gchar *function)
 	return TRUE;
 }
 
-gboolean plugin_register_data (gint handle, gchar *function, PLUGIN_DATA_DIRECTION dir)
+gboolean plugin_register_data (GModule *handle, gchar *function, PLUGIN_DATA_DIRECTION dir)
 {
   PLUGIN_DATA    * data;
   plugin_datafunc  datafunc;
+  void *temp;
+  gpointer *dataptr;
 
-  if ((datafunc = (plugin_datafunc) dlsym ((void *) handle, function)) == NULL) {
+  /* Stupid hack for Gmodule */
+  temp = (void *)&datafunc;
+  dataptr = (gpointer *)temp;
+  
+  if (!g_module_symbol(handle, function, dataptr))
+  {
     g_message (_("Error while registering data %s: %s"), dir == PLUGIN_DATA_IN ? "incoming" : "outgoing",
-	       dlerror());
+	       g_module_error());
     return FALSE;
   }
 
@@ -87,15 +108,17 @@ gboolean plugin_register_data (gint handle, gchar *function, PLUGIN_DATA_DIRECTI
 
   Plugin_data_list = g_list_append(Plugin_data_list, (gpointer) data);
 
+  PluginGag = FALSE;
+  
   return TRUE;
 }
 
-gboolean plugin_register_data_incoming (gint handle, gchar *function)
+gboolean plugin_register_data_incoming (GModule *handle, gchar *function)
 {
   return plugin_register_data (handle, function, PLUGIN_DATA_IN);
 }
 
-gboolean plugin_register_data_outgoing (gint handle, gchar *function)
+gboolean plugin_register_data_outgoing (GModule *handle, gchar *function)
 {
   return plugin_register_data (handle, function, PLUGIN_DATA_OUT);
 }

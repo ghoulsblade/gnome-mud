@@ -118,9 +118,7 @@ int main (gint argc, char *argv[])
 	//python_init();
 #endif
 
-	
 	g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
-	
 	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
 		mkdir(buf, 0777 );
 

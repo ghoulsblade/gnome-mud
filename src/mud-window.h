@@ -31,6 +31,7 @@ struct _MudWindowClass
 
 GType mud_window_get_type (void) G_GNUC_CONST;
 
+#include "mud-connection-view.h"
 MudWindow* mud_window_new (GConfClient *client);
 void mud_window_add_connection_view(MudWindow *window, MudConnectionView *view, gchar *tabLbl);
 void mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, gint dir);

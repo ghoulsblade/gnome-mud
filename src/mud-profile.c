@@ -1,3 +1,21 @@
+/* GNOME-Mud - A simple Mud CLient
+ * Copyright (C) 1998-2006 Robin Ericsson <lobbin@localhost.nu>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
@@ -142,8 +160,6 @@ mud_profile_finalize (GObject *object)
 	
 	g_free(profile->priv);
 	g_free(profile->name);
-
-	g_message("finalizing profile %s",  profile->name);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
 	parent_class->finalize(object);
@@ -422,7 +438,6 @@ mud_profile_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry,
 	}
 
 	g_strfreev(path);
-	g_message("this is our profile: %s", profile->name);
 
 	val = gconf_entry_get_value(entry);
 	key = g_path_get_basename(gconf_entry_get_key(entry));
@@ -693,7 +708,6 @@ mud_profile_process_command(MudProfile *profile, const gchar *data, GList *comma
 	gint i;
 	gchar **commands = g_strsplit(data, profile->preferences->CommDev, -1);
 
-	g_message("Adding %s", commands[0]);
 	commandlist = g_list_append(commandlist, g_strdup(commands[0]));
 
 	for (i = 1; commands[i] != NULL; i++)
