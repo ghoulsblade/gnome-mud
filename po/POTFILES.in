@@ -18,3 +18,5 @@ ui/directions.glade
 ui/main.glade
 ui/muds.glade
 ui/prefs.glade
+
+plugins/automapper/map.c
