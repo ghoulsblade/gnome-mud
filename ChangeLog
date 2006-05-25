@@ -1,3 +1,9 @@
+2006-06-25  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.ac (IT_PROG_LIBTOOL): Switch to IT_PROG_INTLTOOL and
+	bump it to 0.35	for po/LINGUAS support.
+	(ALL_LINGUAS): Removed, now in po/LINGUAS.
+
 2006-05-11  Les Harris  <hl.harris@comcast.net>
 
 	* configure.ac: Added two new dependencies for gmud, libpcre-6.0
