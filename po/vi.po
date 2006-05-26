@@ -6,198 +6,212 @@ msgid ""
 ""
 msgstr "Project-Id-Version: gnome-mud HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-25 03:46+0100\n"
-"PO-Revision-Date: 2006-01-25 16:52+1030\n"
+"POT-Creation-Date: 2006-05-26 03:24+0200\n"
+"PO-Revision-Date: 2006-05-26 15:30+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"X-Generator: LocFactoryEditor 1.6b31\n"
+"X-Generator: LocFactoryEditor 1.6b36\n"
 
-#:../gnome-mud.desktop.in.h:1 ../ui/main.glade.h:4
+#: ../gnome-mud.desktop.in.h:1
+#: ../ui/main.glade.h:10
 msgid "GNOME-Mud"
 msgstr "GNOME Mud"
 
-#:../gnome-mud.desktop.in.h:2
+#: ../gnome-mud.desktop.in.h:2
 msgid "The GNOME MUD Client"
 msgstr "Ứng dụng khách MUD của Gnome"
 
-#:../gnome-mud.schemas.in.h:1
+#: ../gnome-mud.schemas.in.h:1
 msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
 msgstr "Tên phông chữ Pango. Ví dụ « Sans 12 » (phông chữ không chân có cỡ 12 điểm) "
 "hoặc « Monospace Bold 14 » (phông chữ đơn cách in đậm có cỡ 14 điểm)."
 
-#:../gnome-mud.schemas.in.h:2
+#: ../gnome-mud.schemas.in.h:2
 msgid ""
 "A character that is used to split commands in a string like \"w;w;w;l\", "
 "which will be sent to the MUD as 4 separate commands."
-msgstr "Một ký tự dùng để chia tách nhiều lệnh trong cùng chuỗi (như « w;w;w;l ») mà sẽ được gởi cho miền MUD dạng 4 lệnh riêng."
+msgstr "Một ký tự dùng để chia tách nhiều lệnh trong cùng chuỗi (như « w;w;w;l ») mà "
+"sẽ được gởi cho miền MUD dạng 4 lệnh riêng."
 
-#:../gnome-mud.schemas.in.h:3 ../src/mud-preferences-window.c:259
-#:../src/mud-preferences-window.c:287 ../ui/prefs.glade.h:2
+#: ../gnome-mud.schemas.in.h:3
+#: ../src/mud-preferences-window.c:518
+#: ../src/mud-preferences-window.c:554
+#: ../ui/prefs.glade.h:2
 msgid "Aliases"
 msgstr "Bí danh"
 
-#:../gnome-mud.schemas.in.h:4
+#: ../gnome-mud.schemas.in.h:4
 msgid "Color palette"
 msgstr "Bảng chọn màu"
 
-#:../gnome-mud.schemas.in.h:5
+#: ../gnome-mud.schemas.in.h:5
 msgid "Command Divider"
 msgstr "Bộ chia lệnh"
 
-#:../gnome-mud.schemas.in.h:6
+#: ../gnome-mud.schemas.in.h:6
 msgid "Default color of the background"
 msgstr "Màu nền mặc định"
 
-#:../gnome-mud.schemas.in.h:7
+#: ../gnome-mud.schemas.in.h:7
 msgid ""
 "Default color of the background, as a color specification (can be HTML-style "
 "hex digits, or a color name such as \"red\")."
-msgstr "Màu nền mặc định dạng đặc tả màu (có thể là dạng hệ thập lục phân của "
-"HTML, hoặc tên màu như « red » (đỏ)."
+msgstr "Màu nền mặc định dạng đặc tả màu (có thể là dạng hệ thập lục phân của HTML, "
+"hoặc tên màu như « red » (đỏ)."
 
-#:../gnome-mud.schemas.in.h:8
+#: ../gnome-mud.schemas.in.h:8
 msgid "Default color of the text"
 msgstr "Màu chữ mặc định"
 
-#:../gnome-mud.schemas.in.h:9
+#: ../gnome-mud.schemas.in.h:9
 msgid ""
 "Default color of the text, as a color specification (can be HTML-style hex "
 "digits, or a color name such as \"red\")."
-msgstr "Màu mặc định cho văn bản dạng đặc tả màu (có thể là dạng hệ thập lục "
-"phân của HTML, hoặc tên màu như « red » (đỏ)."
+msgstr "Màu mặc định cho văn bản dạng đặc tả màu (có thể là dạng hệ thập lục phân "
+"của HTML, hoặc tên màu như « red » (đỏ)."
 
-#:../gnome-mud.schemas.in.h:10 ../ui/directions.glade.h:2
+#: ../gnome-mud.schemas.in.h:10
+#: ../ui/directions.glade.h:2
 msgid "Directional keybindings"
 msgstr "Tổ hợp phím định hướng"
 
-#:../gnome-mud.schemas.in.h:11
+#: ../gnome-mud.schemas.in.h:11
 msgid ""
 "File where the mud list will be read from to be used in the MudList dialog."
 msgstr "Tập tin nơi danh sách MUD (dùng trong hộp thoại Danh sách MUD) sẽ được đọc."
 
-#:../gnome-mud.schemas.in.h:12
+#: ../gnome-mud.schemas.in.h:12
 msgid "Font"
 msgstr "Phông chữ"
 
-#:../gnome-mud.schemas.in.h:13
+#: ../gnome-mud.schemas.in.h:13
 msgid ""
 "GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in "
 "the form of a colon-separated list of color names. Color names should be in "
 "hex format e.g. \"#FF00FF\"."
-msgstr "Gnome-Mud có bảng chọn có 16 màu mà các MUD có thể dùng. Phải ghi rõ nó dạng danh sách tên màu định giới bằng dấu hai chấm. Tên màu nên dùng dạng thức hệ thập lục phân, v.d. « #FF00FF »."
+msgstr "Gnome-Mud có bảng chọn có 16 màu mà các MUD có thể dùng. Phải ghi rõ nó dạng "
+"danh sách tên màu định giới bằng dấu hai chấm. Tên màu nên dùng dạng thức hệ "
+"thập lục phân, v.d. « #FF00FF »."
 
-#:../gnome-mud.schemas.in.h:14 ../ui/prefs.glade.h:18
+#: ../gnome-mud.schemas.in.h:14
+#: ../ui/prefs.glade.h:17
 msgid ""
 "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
 "the MUD requests one. This option sets the terminal type that will be sent."
-msgstr "Gnome-Mud sẽ cố truyền một kiểu thiết bị cuối (như ANSI hay VT100), nếu MUD yêu cầu. Tùy chọn này lập kiểu thiết bị cuối cần gởi."
+msgstr "Gnome-Mud sẽ cố truyền một kiểu thiết bị cuối (như ANSI hay VT100), nếu MUD "
+"yêu cầu. Tùy chọn này lập kiểu thiết bị cuối cần gởi."
 
-#:../gnome-mud.schemas.in.h:15
+#: ../gnome-mud.schemas.in.h:15
 msgid "How many entries to keep in the command history"
 msgstr "Số mục nhập cần giữ trong lược sử lệnh"
 
-#:../gnome-mud.schemas.in.h:16
+#: ../gnome-mud.schemas.in.h:16
 msgid "How many entries to keep in the command history."
 msgstr "Số mục nhập cần giữ trong lược sử lệnh."
 
-#:../gnome-mud.schemas.in.h:17
+#: ../gnome-mud.schemas.in.h:17
 msgid "How often in seconds gnome-mud should flush logfiles."
 msgstr "Thời gian (theo giây) giữa hai lần xóa sạch các tập tin bản ghi."
 
-#:../gnome-mud.schemas.in.h:18
+#: ../gnome-mud.schemas.in.h:18
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
 "overridden by custom keybindings, or they can be disabled completely with "
 "this option."
-msgstr "Nếu bật, Gnome-Mud sẽ cung cấp vài tổ hợp phím có sẵn. Có thể đè chúng bằng tổ hợp phím tự chọn, hoặc có thể tắt chúng hoàn toàn bằng tùy chọn này."
+msgstr "Nếu bật, Gnome-Mud sẽ cung cấp vài tổ hợp phím có sẵn. Có thể đè chúng bằng "
+"tổ hợp phím tự chọn, hoặc có thể tắt chúng hoàn toàn bằng tùy chọn này."
 
-#:../gnome-mud.schemas.in.h:19 ../ui/prefs.glade.h:20
+#: ../gnome-mud.schemas.in.h:19
+#: ../ui/prefs.glade.h:19
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
-msgstr "Nếu bật, mọi chữ đã gõ sẽ được vọng trong thiết bị cuối, mà làm cho dễ hơn điều khiển gì gởi."
+msgstr "Nếu bật, mọi chữ đã gõ sẽ được vọng trong thiết bị cuối, mà làm cho dễ hơn "
+"điều khiển gì gởi."
 
-#:../gnome-mud.schemas.in.h:20
+#: ../gnome-mud.schemas.in.h:20
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
 "after each text input."
-msgstr "Nếu bật, mọi chuỗi chữ được gởi cho sự kết nối sẽ còn lại dạng vùng chọn trong hộp nhập. Nếu không, hộp nhập sẽ được xóa sau mỗi việc nhập chuỗi."
+msgstr "Nếu bật, mọi chuỗi chữ được gởi cho sự kết nối sẽ còn lại dạng vùng chọn "
+"trong hộp nhập. Nếu không, hộp nhập sẽ được xóa sau mỗi việc nhập chuỗi."
 
-#:../gnome-mud.schemas.in.h:21
+#: ../gnome-mud.schemas.in.h:21
 msgid ""
 "If enabled, whenever there's new output the terminal will be scrolled to the "
 "bottom."
 msgstr "Nếu bật, khi nào nhận dữ liệu mới, thiết bị cuối sẽ được cuộn xuống đáy."
 
-#:../gnome-mud.schemas.in.h:22
+#: ../gnome-mud.schemas.in.h:22
 msgid "Keybindings"
 msgstr "Tổ hợp phím"
 
-#:../gnome-mud.schemas.in.h:23
+#: ../gnome-mud.schemas.in.h:23
 msgid "Last log file"
 msgstr "Tập tin bản ghi cuối cùng"
 
-#:../gnome-mud.schemas.in.h:24
+#: ../gnome-mud.schemas.in.h:24
 msgid ""
 "List of MUDs known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/muds"
-msgstr "Danh sách các miền MUD mà Gnome-Mud biết được. Danh sách chứa chuỗi tên thư mục con "
-"tương đối so với </apps/gnome-mud/muds>."
+msgstr "Danh sách các miền MUD mà Gnome-Mud biết được. Danh sách chứa chuỗi tên thư "
+"mục con tương đối so với </apps/gnome-mud/muds>."
 
-#:../gnome-mud.schemas.in.h:25
+#: ../gnome-mud.schemas.in.h:25
 msgid "List of Muds"
 msgstr "Danh sách MUD"
 
-#:../gnome-mud.schemas.in.h:26
+#: ../gnome-mud.schemas.in.h:26
 msgid ""
 "List of commands which will be treated as movement commands by the "
 "automapper. A semicolon is used to separate each command."
-msgstr "Danh sách các lệnh mà bộ tự động ánh xạ sẽ xử lý dạng lệnh di chuyển. Nhiều lệnh được định giới bằng dấu chấm phẩy « ; »."
+msgstr "Danh sách các lệnh mà bộ tự động ánh xạ sẽ xử lý dạng lệnh di chuyển. Nhiều "
+"lệnh được định giới bằng dấu chấm phẩy « ; »."
 
-#:../gnome-mud.schemas.in.h:27
+#: ../gnome-mud.schemas.in.h:27
 msgid "List of connections"
 msgstr "Danh sách kết nối"
 
-#:../gnome-mud.schemas.in.h:28
+#: ../gnome-mud.schemas.in.h:28
 msgid ""
 "List of connections known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/connections."
-msgstr "Danh sách các sự kết nối mà Gnome-Mud biết được. Danh sách chứa chuỗi tên thư mục con "
-"tương đối so với </apps/gnome-mud/connections>."
+msgstr "Danh sách các sự kết nối mà Gnome-Mud biết được. Danh sách chứa chuỗi tên "
+"thư mục con tương đối so với </apps/gnome-mud/connections>."
 
-#:../gnome-mud.schemas.in.h:29
+#: ../gnome-mud.schemas.in.h:29
 msgid "List of movement commands"
 msgstr "Danh sách lệnh chuyển"
 
-#:../gnome-mud.schemas.in.h:30
+#: ../gnome-mud.schemas.in.h:30
 msgid "List of profiles"
 msgstr "Danh sách hồ sơ"
 
-#:../gnome-mud.schemas.in.h:31
+#: ../gnome-mud.schemas.in.h:31
 msgid ""
 "List of profiles known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/profiles."
-msgstr "Danh sách các hồ sơ mà Gnome-Mud biết được. Danh sách chứa chuỗi tên thư mục con "
-"tương đối so với </apps/gnome-mud/profiles>."
+msgstr "Danh sách các hồ sơ mà Gnome-Mud biết được. Danh sách chứa chuỗi tên thư mục "
+"con tương đối so với </apps/gnome-mud/profiles>."
 
-#:../gnome-mud.schemas.in.h:32
+#: ../gnome-mud.schemas.in.h:32
 msgid "Log flush interval"
 msgstr "Khoảng xóa bản ghi"
 
-#:../gnome-mud.schemas.in.h:33
+#: ../gnome-mud.schemas.in.h:33
 msgid "Mudlist file"
 msgstr "Tập tin danh sách MUD"
 
-#:../gnome-mud.schemas.in.h:34
+#: ../gnome-mud.schemas.in.h:34
 msgid "Number of lines to keep in scrollback"
 msgstr "Số dòng cuộn ngược"
 
-#:../gnome-mud.schemas.in.h:35
+#: ../gnome-mud.schemas.in.h:35
 msgid ""
 "Number of scrollback lines to keep around. You can scroll back in the "
 "terminal by this number of lines; lines that don't fit in the scrollback are "
@@ -205,383 +219,481 @@ msgid ""
 msgstr "Số dòng cuộn ngược có thể truy cập. Bạn có thể cuộn ngược trong thiết bị "
 "cuối một số dòng này. Những dòng nằm ngoài sẽ bị hủy."
 
-#:../gnome-mud.schemas.in.h:36
+#: ../gnome-mud.schemas.in.h:36
 msgid "Tab location"
 msgstr "Vị trí thanh"
 
-#:../gnome-mud.schemas.in.h:37
+#: ../gnome-mud.schemas.in.h:37
 msgid "Terminal type"
 msgstr "Kiểu thiết bị cuối"
 
-#:../gnome-mud.schemas.in.h:38
+#: ../gnome-mud.schemas.in.h:38
 msgid "The file that was last used to save a mudlog in."
 msgstr "Tập tin nơi bản ghi MUD được lưu cuối cùng."
 
-#:../gnome-mud.schemas.in.h:39
+#: ../gnome-mud.schemas.in.h:39
 msgid ""
 "The location of the connection tabs. Valid options are \"left\", \"right\", "
 "\"top\" and \"bottom\"."
 msgstr "Vị trí của các thanh kết nối. Tùy chọn hợp lệ:\n"
-" • left		bên trái\n"
-" • right		bên phải\n"
-" • top		bên trên\n"
-" • bottom	bên dưới."
+" • left\t\tbên trái\n"
+" • right\t\tbên phải\n"
+" • top\t\tbên trên\n"
+" • bottom\tbên dưới."
 
-#:../gnome-mud.schemas.in.h:40
+#: ../gnome-mud.schemas.in.h:40
+#: ../src/mud-preferences-window.c:524
+#: ../src/mud-preferences-window.c:561
+#: ../ui/prefs.glade.h:35
 msgid "Triggers"
 msgstr "Thủ tục lẫy"
 
-#:../gnome-mud.schemas.in.h:41
+#: ../gnome-mud.schemas.in.h:41
 msgid "Variables"
 msgstr "Biến"
 
-#:../gnome-mud.schemas.in.h:42
+#: ../gnome-mud.schemas.in.h:42
 msgid "Whether to echo sent text to the connection"
 msgstr "Có nên vọng văn bản được gởi cho sự kết nối hay không"
 
-#:../gnome-mud.schemas.in.h:43
+#: ../gnome-mud.schemas.in.h:43
 msgid "Whether to enable or disable the system keys"
 msgstr "Có nên bật/tắt các phím hệ thống."
 
-#:../gnome-mud.schemas.in.h:44
+#: ../gnome-mud.schemas.in.h:44
 msgid "Whether to keep text sent to the connection"
 msgstr "Có nên giữ văn bản được gởi cho sự kết nối hay không"
 
-#:../gnome-mud.schemas.in.h:45
+#: ../gnome-mud.schemas.in.h:45
 msgid "Whether to scroll to the bottom when there's new output"
 msgstr "Có nên cuộn đến đáy khi có kết xuất mới hay không."
 
-#:../src/eggtrayicon.c:118
+#: ../src/eggtrayicon.c:118
 msgid "Orientation"
 msgstr "Hướng"
 
-#:../src/eggtrayicon.c:119
+#: ../src/eggtrayicon.c:119
 msgid "The orientation of the tray."
 msgstr "Hướng khay."
 
-#:../src/gconf-helper.c:56
-#,c-format
+#: ../src/gconf-helper.c:74
+#, c-format
 msgid "%s already exists and is not a directory!"
 msgstr "• %s đã có, và nó không phải là thư mục. •"
 
-#:../src/gconf-helper.c:65
-#,c-format
+#: ../src/gconf-helper.c:83
+#, c-format
 msgid "%s does not exist and can NOT be created: %s"
 msgstr "Không có %s, và KHÔNG thể tạo nó: %s"
 
-#:../src/gconf-helper.c:116
-#,c-format
+#: ../src/gconf-helper.c:134
+#, c-format
 msgid "Palette had %d entry instead of %d\n"
 msgid_plural "Palette had %d entries instead of %d\n"
 msgstr[0] "Bảng chọn có %d mục thay vì %d.\n"
 
-#:../src/gnome-mud.c:56
-#,c-format
+#: ../src/gnome-mud.c:53
+#, c-format
 msgid "There was an error accessing GConf: %s"
 msgstr "Gặp lỗi khi truy cập GConf: %s"
 
-#:../src/gnome-mud.c:69
+#: ../src/gnome-mud.c:66
 msgid "The default configuration values could not be retrieved correctly."
 msgstr "Không thể lấy cho đúng các giá trị cấu hình mặc định."
 
-#:../src/gnome-mud.c:70
+#: ../src/gnome-mud.c:67
 msgid ""
 "Please check your GConf configuration, specifically that the schemas have "
 "been installed correctly."
-msgstr "Hãy kiểm tra xem cấu hình GConf là đúng, nhất là bạn đã cài đăt cho đúng các giản đồ."
+msgstr "Hãy kiểm tra xem cấu hình GConf là đúng, nhất là bạn đã cài đăt cho đúng các "
+"giản đồ."
 
-#:../src/gnome-mud.c:97
-#,c-format
+#: ../src/gnome-mud.c:94
+#, c-format
 msgid "Failed to init GConf: %s"
 msgstr "Lỗi khởi động GConf: %s"
 
-#:../src/modules.c:196
+#: ../src/modules.c:199
 msgid "Plugin Information"
-msgstr "Thông tin bộ cầm phít"
+msgstr "Thông tin bổ sung"
 
-#:../src/modules.c:212
+#: ../src/modules.c:215
 msgid "Plugin Name:"
-msgstr "Tên bộ cầm phít:"
+msgstr "Tên bổ sung:"
 
-#:../src/modules.c:232
+#: ../src/modules.c:235
 msgid "Plugin Author:"
-msgstr "Tác giả bộ cầm phít:"
+msgstr "Tác giả bổ sung:"
 
-#:../src/modules.c:242
+#: ../src/modules.c:245
 msgid "Plugin Version:"
-msgstr "Phiên bản bộ cầm phít:"
+msgstr "Phiên bản bổ sung:"
 
-#:../src/modules.c:252
+#: ../src/modules.c:255
 msgid "Plugin Description:"
-msgstr "Mô tả bộ cầm phít:"
+msgstr "Mô tả bổ sung:"
 
-#:../src/modules.c:262
+#: ../src/modules.c:265
 msgid "Enable plugin"
-msgstr "Bật bộ cầm phít"
+msgstr "Bật bổ sung"
 
-#:../src/modules.c:418
-#,c-format
+#: ../src/modules.c:379
+#, c-format
+msgid "Plugin error (%s)"
+msgstr "Lỗi bổ sung (%s)"
+
+#: ../src/modules.c:423
+#, c-format
 msgid "Error getting plugin handle (%s): %s."
-msgstr "Gặp lỗi khi lấy bộ quản lý bộ cầm phít (%s): %s"
+msgstr "Gặp lỗi khi lấy bộ quản lý bổ sung (%s): %s"
 
-#:../src/modules.c:423
-#,c-format
+#: ../src/modules.c:428
+#, c-format
 msgid "Error, %s not an GNOME-Mud module: %s."
 msgstr "Lỗi, %s không phải là một mô-đun Gnome-Mud: %s"
 
-#:../src/modules.c:449
-#,c-format
-msgid "Registering plugin `%s' under the name `%s'."
-msgstr "Đang đăng ký bộ cầm phít « %s » với tên « %s »."
-
-#:../src/modules_api.c:58
-#,c-format
+#: ../src/modules_api.c:69
+#, c-format
 msgid "Error while registering the menu: %s"
 msgstr "Gặp lỗi khi đăng ký trình đơn: %s"
 
-#:../src/modules_api.c:78
-#,c-format
+#: ../src/modules_api.c:96
+#, c-format
 msgid "Error while registering data %s: %s"
 msgstr "Gặp lỗi đăng ký dữ liệu %s: %s"
 
-#:../src/modules_api.c:86
+#: ../src/modules_api.c:104
 msgid "Error while getting plugin from handle."
-msgstr "Gặp lỗi khi lấy bộ cầm phít từ bộ quản lý."
+msgstr "Gặp lỗi khi lấy bổ sung từ bộ quản lý."
 
-#:../src/mud-connection-view.c:102
-#,c-format
+#: ../src/mud-connection-view.c:126
+#, c-format
 msgid ""
-"There was an error loading config value for whether to use image in menus. (%s)\n"
-msgstr "Gặp lỗi khi tải giá trị cấu hình để quyết định có nên dùng ảnh trong trình đơn hay không (%s).\n"
+"There was an error loading config value for whether to use image in menus. (%"
+"s)\n"
+msgstr "Gặp lỗi khi tải giá trị cấu hình để quyết định có nên dùng ảnh trong trình "
+"đơn hay không (%s).\n"
 
-#:../src/mud-connection-view.c:400
+#: ../src/mud-connection-view.c:429
 msgid "*** Connection closed.\n"
 msgstr "••• Kết nối bị đóng.\n"
 
-#:../src/mud-connection-view.c:413
-#,c-format
+#: ../src/mud-connection-view.c:442
+#, c-format
 msgid "*** Making connection to %s, port %d.\n"
 msgstr "••• Đang kết nối tới %s, cổng %d.\n"
 
-#:../src/mud-connection-view.c:560
+#: ../src/mud-connection-view.c:607
 msgid "Close tab or window, whatever :)"
 msgstr "Đóng thanh hay cửa sổ, gì đó. :)"
 
-#:../src/mud-connection-view.c:580
+#: ../src/mud-connection-view.c:627
 msgid "Change P_rofile"
 msgstr "Thay đổi _hồ sơ"
 
-#:../src/mud-connection-view.c:616
+#: ../src/mud-connection-view.c:663
 msgid "Edit Current Profile..."
 msgstr "Sửa đổi hồ sơ hiện tại..."
 
-#:../src/mud-connection-view.c:624
+#: ../src/mud-connection-view.c:671
 msgid "_Input Methods"
 msgstr "_Kiểu nhập"
 
-#:../src/mud-tray.c:199
+#: ../src/mud-log.c:142
+msgid ""
+"\n"
+"*** Log starts *** %d/%m/%Y %H:%M:%S\n"
+msgstr "\n"
+"••• Bản ghi bắt đầu ••• %d/%m/%Y %H:%M:%S\n"
+
+#: ../src/mud-log.c:178
+msgid ""
+"\n"
+" *** Log stops *** %d/%m/%Y %H:%M:%S\n"
+msgstr "\n"
+" ••• Bản ghi kết thúc ••• %d/%m/%Y %H:%M:%S\n"
+
+#: ../src/mud-tray.c:197
 msgid "_Hide window"
 msgstr "Ẩ_n cửa sổ"
 
-#:../src/mud-tray.c:201
+#: ../src/mud-tray.c:199
 msgid "_Show window"
 msgstr "_Hiện cửa sổ"
 
-#:../src/mud-tray.c:206
+#: ../src/mud-tray.c:204
 msgid "_Quit"
 msgstr "T_hoát"
 
-#:../src/mud-tray.c:246
+#: ../src/mud-tray.c:244
 msgid "GNOME Mud"
 msgstr "GNOME Mud"
 
-#:../src/mud-preferences-window.c:252 ../src/mud-preferences-window.c:281
-#:../ui/prefs.glade.h:28
+#: ../src/mud-preferences-window.c:360
+#: ../src/mud-preferences-window.c:386
+msgid "Name"
+msgstr "Tên"
+
+#: ../src/mud-preferences-window.c:361
+#: ../src/mud-preferences-window.c:387
+msgid "Enabled"
+msgstr "Đã bật"
+
+#: ../src/mud-preferences-window.c:388
+msgid "Gag"
+msgstr "Gag"
+
+#: ../src/mud-preferences-window.c:511
+#: ../src/mud-preferences-window.c:548
+#: ../ui/prefs.glade.h:26
 msgid "Preferences"
 msgstr "Tùy thích"
 
-#:../src/mud-window.c:494
+#: ../src/mud-preferences-window.c:1588
+#: ../src/mud-preferences-window.c:1693
+msgid "Error in Regex."
+msgstr "Lỗi trong biểu thức chính quy."
+
+#: ../src/mud-preferences-window.c:1633
+#: ../src/mud-preferences-window.c:1738
+msgid "No match."
+msgstr "Không khớp gì."
+
+#: ../src/mud-window.c:466
+msgid "Could not save the file in specified location!"
+msgstr "Không thể lưu tập tin đó vào địa điểm đã xác định."
+
+#: ../src/mud-window.c:623
 msgid "_Manage Profiles..."
 msgstr "_Quản lý hồ sơ"
 
-#:../ui/connect.glade.h:1
+#: ../ui/connect.glade.h:1
 msgid "<b>MUDs and characters</b>"
 msgstr "<b>MUD và nhân vật</b>"
 
-#:../ui/connect.glade.h:2
+#: ../ui/connect.glade.h:2
 msgid "<b>Profile to use</b>"
 msgstr "<b>Hồ sơ cần dùng</b>"
 
-#:../ui/connect.glade.h:3
+#: ../ui/connect.glade.h:3
 msgid "<b>Quick connect</b>"
 msgstr "<b>Kết nối nhanh</b>"
 
-#:../ui/connect.glade.h:4
+#: ../ui/connect.glade.h:4
 msgid "Co_nnect"
 msgstr "_Kết nối"
 
-#:../ui/connect.glade.h:5
+#: ../ui/connect.glade.h:5
+#: ../ui/main.glade.h:4
 msgid "Connect"
 msgstr "Kết nối"
 
-#:../ui/connect.glade.h:6
+#: ../ui/connect.glade.h:6
 msgid "Connect..."
 msgstr "Kết nối..."
 
-#:../ui/connect.glade.h:7
+#: ../ui/connect.glade.h:7
 msgid "Host:"
 msgstr "Máy:"
 
-#:../ui/connect.glade.h:8
+#: ../ui/connect.glade.h:8
 msgid "Port:"
 msgstr "Cổng:"
 
-#:../ui/connect.glade.h:9
+#: ../ui/connect.glade.h:9
 msgid "_Close"
 msgstr "_Đóng"
 
-#:../ui/directions.glade.h:1
+#: ../ui/directions.glade.h:1
 msgid "*"
 msgstr "*"
 
-#:../ui/directions.glade.h:3
+#: ../ui/directions.glade.h:3
+#: ../plugins/automapper/map.c:1832
+#: ../plugins/automapper/map.c:3679
 msgid "Down"
 msgstr "Xuống"
 
-#:../ui/directions.glade.h:4
+#: ../ui/directions.glade.h:4
 msgid "East"
 msgstr "Đông"
 
-#:../ui/directions.glade.h:5
+#: ../ui/directions.glade.h:5
 msgid "Look"
 msgstr "Diệm mạo"
 
-#:../ui/directions.glade.h:6
+#: ../ui/directions.glade.h:6
 msgid "North"
 msgstr "Bắc"
 
-#:../ui/directions.glade.h:7
+#: ../ui/directions.glade.h:7
 msgid "Northeast"
 msgstr "Đông Bắc"
 
-#:../ui/directions.glade.h:8
+#: ../ui/directions.glade.h:8
 msgid "Northwest"
 msgstr "Bắc Tây"
 
-#:../ui/directions.glade.h:9
+#: ../ui/directions.glade.h:9
 msgid "South"
 msgstr "Nam"
 
-#:../ui/directions.glade.h:10
+#: ../ui/directions.glade.h:10
 msgid "Southeast"
 msgstr "Nam Đông"
 
-#:../ui/directions.glade.h:11
+#: ../ui/directions.glade.h:11
 msgid "Southwest"
 msgstr "Nam Tây"
 
-#:../ui/directions.glade.h:12
+#: ../ui/directions.glade.h:12
+#: ../plugins/automapper/map.c:1831
+#: ../plugins/automapper/map.c:3678
 msgid "Up"
 msgstr "Lên"
 
-#:../ui/directions.glade.h:13
+#: ../ui/directions.glade.h:13
 msgid "West"
 msgstr "Tây"
 
-#:../ui/main.glade.h:1
+#: ../ui/main.glade.h:1
 msgid "A Multi-User Dungeon (MUD) client for GNOME."
 msgstr "Một ứng dụng MUD (miền đa người dùng) cho Gnome."
 
-#:../ui/main.glade.h:2
+#: ../ui/main.glade.h:2
 msgid "C_onnection..."
 msgstr "Cách kết nối..."
 
-#:../ui/main.glade.h:3
+#: ../ui/main.glade.h:3
 msgid "Close _Window"
 msgstr "Đóng _cửa sổ"
 
-#:../ui/main.glade.h:5
+#: ../ui/main.glade.h:5
+msgid "Connect to MUD"
+msgstr "Kết nối đến MUD"
+
+#: ../ui/main.glade.h:6
+msgid "Connect to host"
+msgstr "Kết nối đến máy chủ"
+
+#: ../ui/main.glade.h:7
+msgid "Disconnect"
+msgstr "Ngắt kết nối"
+
+#: ../ui/main.glade.h:8
+msgid "Disconnect from current MUD"
+msgstr "Ngắt kết nối ra MUD hiện có"
+
+#: ../ui/main.glade.h:9
+msgid "Disconnect from current host"
+msgstr "Ngắt kết nối ra máy chủ hiện có"
+
+#: ../ui/main.glade.h:11
 msgid "GNOME-Mud Homepage"
 msgstr "Trang chủ của Gnome Mud"
 
-#:../ui/main.glade.h:6
+#: ../ui/main.glade.h:12
 msgid "P_rofiles"
 msgstr "_Hồ sơ"
 
-#:../ui/main.glade.h:7
+#: ../ui/main.glade.h:13
 msgid "Plugin _Information..."
-msgstr "Thông t_in bộ cầm phít"
+msgstr "Thông t_in bổ sung"
 
-#:../ui/main.glade.h:8
+#: ../ui/main.glade.h:14
 msgid "Q_uick Connect..."
 msgstr "Kết nối _nhanh..."
 
-#:../ui/main.glade.h:9
+#: ../ui/main.glade.h:15
+msgid "Reconnect"
+msgstr "Kết nối lại"
+
+#: ../ui/main.glade.h:16
+msgid "Reconnect to current MUD"
+msgstr "Kết nối lại đến MUD hiện có"
+
+#: ../ui/main.glade.h:17
+msgid "Save buffer as..."
+msgstr "Lưu bộ đệm dạng..."
+
+#: ../ui/main.glade.h:18
 msgid "Start _Logging..."
 msgstr "Bắt đầu ghi _lưu..."
 
-#:../ui/main.glade.h:10
+#: ../ui/main.glade.h:19
 msgid "Stop Lo_gging"
 msgstr "Ngưng ghi l_ưu"
 
-#:../ui/main.glade.h:11
+#: ../ui/main.glade.h:20
 msgid "_Disconnect"
 msgstr "_Ngắt kết nối"
 
-#:../ui/main.glade.h:12
+#: ../ui/main.glade.h:21
+msgid "_File"
+msgstr "_Tập tin"
+
+#: ../ui/main.glade.h:22
+msgid "_Help"
+msgstr "Trợ _giúp"
+
+#: ../ui/main.glade.h:23
 msgid "_Mud List..."
 msgstr "Danh sách _MUD..."
 
-#:../ui/main.glade.h:13
+#: ../ui/main.glade.h:24
 msgid "_Plugins"
 msgstr "Bộ cầm _phít"
 
-#:../ui/main.glade.h:14
+#: ../ui/main.glade.h:25
 msgid "_Reconnect"
 msgstr "Kết nối _lại"
 
-#:../ui/main.glade.h:15
+#: ../ui/main.glade.h:26
 msgid "_Save Buffer..."
 msgstr "_Lưu bộ đệm..."
 
+#: ../ui/main.glade.h:27
+msgid "_Settings"
+msgstr "Thiết _lập"
+
 #.TRANSLATORS: Replace this string with your names, one name per line.
-#:../ui/main.glade.h:17
+#: ../ui/main.glade.h:29
 msgid "translator-credits"
 msgstr "Nhóm Việt hóa Gnome <gnomevi-list@lists.sourceforge.net>"
 
-#:../ui/main.glade.h:18
+#: ../ui/main.glade.h:30
 msgid "© 1998-2006 Robin Ericsson"
 msgstr "Bản quyền © năm 1998-2006 Robin Ericsson"
 
-#:../ui/muds.glade.h:1
+#: ../ui/muds.glade.h:1
 msgid "<b>Character name</b>"
 msgstr "<b>Tên nhân vật</b>"
 
-#:../ui/muds.glade.h:2
+#: ../ui/muds.glade.h:2
 msgid "<b>Characters</b>"
 msgstr "<b>Nhân vật</b>"
 
-#:../ui/muds.glade.h:3
+#: ../ui/muds.glade.h:3
 msgid "<b>Connection string</b>"
 msgstr "<b>Chuỗi kết nối</b>"
 
-#:../ui/muds.glade.h:4
+#: ../ui/muds.glade.h:4
 msgid "<b>Connection</b>"
 msgstr "<b>Kết nối</b>"
 
-#:../ui/muds.glade.h:5
+#: ../ui/muds.glade.h:5
 msgid "<b>Detailed info</b>"
 msgstr "<b>Chi tiết</b>"
 
-#:../ui/muds.glade.h:6
+#: ../ui/muds.glade.h:6
 msgid "<b>MUD list</b>"
 msgstr "<b>Danh sách MUD</b>"
 
-#:../ui/muds.glade.h:7
+#: ../ui/muds.glade.h:7
 msgid "<b>Mud Details</b>"
 msgstr "<b>Chi tiết MUD</b>"
 
-#:../ui/muds.glade.h:8
+#: ../ui/muds.glade.h:8
 msgid ""
 "ACKmud\n"
 "AberMUD\n"
@@ -650,215 +762,440 @@ msgstr "ACKmud\n"
 "The Forests Edge\n"
 "\n"
 
-#:../ui/muds.glade.h:42
+#: ../ui/muds.glade.h:42
 msgid "Character Properties"
 msgstr "Thuộc tính nhân vật"
 
-#:../ui/muds.glade.h:43
+#: ../ui/muds.glade.h:43
 msgid "Edit MUD"
 msgstr "Sửa đổi MUD"
 
-#:../ui/muds.glade.h:44
+#: ../ui/muds.glade.h:44
 msgid "MUD List"
 msgstr "Danh sách MUD"
 
-#:../ui/muds.glade.h:45
+#: ../ui/muds.glade.h:45
 msgid "P_rofile:"
 msgstr "_Hồ sơ :"
 
-#:../ui/muds.glade.h:46
+#: ../ui/muds.glade.h:46
 msgid "_Add..."
 msgstr "Th_êm..."
 
-#:../ui/muds.glade.h:47
+#: ../ui/muds.glade.h:47
 msgid "_Code base:"
 msgstr "_Cơ bản mã:"
 
-#:../ui/muds.glade.h:48
+#: ../ui/muds.glade.h:48
 msgid "_Delete"
 msgstr "_Xóa bỏ"
 
-#:../ui/muds.glade.h:49
+#: ../ui/muds.glade.h:49
 msgid "_Description:"
 msgstr "_Mô tả:"
 
-#:../ui/muds.glade.h:50
+#: ../ui/muds.glade.h:50
 msgid "_Edit..."
 msgstr "_Hiệu chỉnh..."
 
-#:../ui/muds.glade.h:51
+#: ../ui/muds.glade.h:51
 msgid "_Host/IP:"
 msgstr "_Máy/IP:"
 
-#:../ui/muds.glade.h:52
+#: ../ui/muds.glade.h:52
+#: ../ui/prefs.glade.h:39
 msgid "_Name:"
 msgstr "T_ên:"
 
-#:../ui/muds.glade.h:53
+#: ../ui/muds.glade.h:53
 msgid "_Port:"
 msgstr "_Cổng:"
 
-#:../ui/muds.glade.h:54
+#: ../ui/muds.glade.h:54
 msgid "_Properties..."
 msgstr "Th_uộc tính..."
 
-#:../ui/muds.glade.h:55
+#: ../ui/muds.glade.h:55
 msgid "_Show in Quick Connect"
 msgstr "_Hiện trong Kết nối Nhanh"
 
-#:../ui/muds.glade.h:56
+#: ../ui/muds.glade.h:56
 msgid "_Theme:"
 msgstr "_Sắc thái:"
 
-#:../ui/prefs.glade.h:1
+#: ../ui/prefs.glade.h:1
 msgid "<b>New Profile Name:</b>"
 msgstr "<b>Tên Hồ sơ mới:</b>"
 
-#:../ui/prefs.glade.h:3
+#: ../ui/prefs.glade.h:3
 msgid "Appearence"
 msgstr "Diện mạo"
 
-#:../ui/prefs.glade.h:4
-msgid "AutoMapper"
-msgstr "Bộ tự động ánh xạ"
-
-#:../ui/prefs.glade.h:5
+#: ../ui/prefs.glade.h:4
 msgid "Background color:"
 msgstr "Màu nền:"
 
-#:../ui/prefs.glade.h:6
+#: ../ui/prefs.glade.h:5
 msgid "Blank"
 msgstr "Trắng"
 
-#:../ui/prefs.glade.h:7
-msgid "Change the color of a specific color that the MUD requests to use."
-msgstr "Thay đổi màu của màu đặc biệt yêu cầu do MUD."
-
-#:../ui/prefs.glade.h:8
+#: ../ui/prefs.glade.h:6
 msgid "Color and Fonts"
 msgstr "Màu và Phông chữ"
 
-#:../ui/prefs.glade.h:9
+#: ../ui/prefs.glade.h:7
 msgid "Color palette:"
 msgstr "Bảng chọn màu:"
 
-#:../ui/prefs.glade.h:10
+#: ../ui/prefs.glade.h:8
 msgid "Command division character:"
 msgstr "Ký tự định giới nhiều lệnh:"
 
-#:../ui/prefs.glade.h:11
+#: ../ui/prefs.glade.h:9
 msgid "Command history:"
 msgstr "Lược sử lệnh"
 
-#:../ui/prefs.glade.h:12
-msgid ""
-"Default background color used when the connection doesn't request the use of "
-"a specific color."
-msgstr "Màu nền mặc định dùng khi cách kết nối không yêu cầu màu đặc biệt."
-
-#:../ui/prefs.glade.h:13
-msgid ""
-"Default foreground color used when the connection doesn't request the use of "
-"a specific color."
-msgstr "Màu chữ mặc định dùng khi cách kết nối không yêu cầu màu đặc biệt."
-
-#:../ui/prefs.glade.h:14
+#: ../ui/prefs.glade.h:10
 msgid "Disable _System Keys"
 msgstr "Tắt _Phím hệ thống"
 
-#:../ui/prefs.glade.h:15
+#: ../ui/prefs.glade.h:11
+msgid "Error At:"
+msgstr "Lỗi tại:"
+
+#: ../ui/prefs.glade.h:12
+msgid "Error Code:"
+msgstr "Mã lỗi:"
+
+#: ../ui/prefs.glade.h:13
+msgid "Error String:"
+msgstr "Chuỗi lỗi:"
+
+#: ../ui/prefs.glade.h:14
 msgid "Font:"
 msgstr "Phông chữ :"
 
-#:../ui/prefs.glade.h:16
+#: ../ui/prefs.glade.h:15
 msgid "Foreground color:"
 msgstr "Màu chữ :"
 
-#:../ui/prefs.glade.h:17
+#: ../ui/prefs.glade.h:16
 msgid "Functionality"
 msgstr "Chức năng"
 
-#:../ui/prefs.glade.h:19
+#: ../ui/prefs.glade.h:18
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
 "overriden by custom keybinds, or they can be disabled completely with this "
 "option."
-msgstr "Nếu bật, Gnome-Mud sẽ cung cấp vài tổ hợp có sẵn. Có thể đè chúng bằng tổ hợp tự chọn, hoặc có thể tắt chúng bằng tùy chọn này."
+msgstr "Nếu bật, Gnome-Mud sẽ cung cấp vài tổ hợp có sẵn. Có thể đè chúng bằng tổ "
+"hợp tự chọn, hoặc có thể tắt chúng bằng tùy chọn này."
 
-#:../ui/prefs.glade.h:21
+#: ../ui/prefs.glade.h:20
 msgid ""
 "If enabled, the terminal will scroll to the bottom if new output appears in "
 "the connection when the terminal was scrolled back."
 msgstr "Nếu bật, khi nào nhận dữ liệu mới, thiết bị cuối sẽ được cuộn xuống đáy."
 
-#:../ui/prefs.glade.h:22
+#: ../ui/prefs.glade.h:21
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entrybox will be cleared "
 "after each text input."
-msgstr "Nếu bật, mọi chuỗi chữ được gởi cho sự kết nối sẽ còn lại dạng vùng chọn trong hộp nhập. Nếu không, hộp nhập sẽ được xóa sau mỗi việc nhập chuỗi."
+msgstr "Nếu bật, mọi chuỗi chữ được gởi cho sự kết nối sẽ còn lại dạng vùng chọn "
+"trong hộp nhập. Nếu không, hộp nhập sẽ được xóa sau mỗi việc nhập chuỗi."
 
-#:../ui/prefs.glade.h:23
-msgid ""
-"If you use the automapper, you may want to specify here some unusual "
-"movement commands. When you use one of these, the automapper will create a "
-"path to another map. Use a semicolon to separate the different commands."
-msgstr "Nếu bạn dùng bộ tự động ánh xạ, bạn có lẽ sẽ muốn ghi rõ vào đây một số lệnh di chuyển đặc biệt. Khi bạn dùng một của những lệnh chuyển này, bộ tự động ánh xạ sẽ tạo đường dẫn đến mệt bản đồ khác. Hãy dùng dấu chấm phẩy « ; » để định giới những lệnh khác nhau."
+#: ../ui/prefs.glade.h:22
+msgid "Match Text:"
+msgstr "Khớp đoạn:"
 
-#:../ui/prefs.glade.h:24
-msgid "Main font that is used on all open connections."
-msgstr "Phông chữ chính dùng với mọi sự kết nối đang mở."
+#: ../ui/prefs.glade.h:23
+msgid "Match:"
+msgstr "Khớp:"
 
-#:../ui/prefs.glade.h:25
+#: ../ui/prefs.glade.h:24
 msgid "New Profile"
 msgstr "Hồ sơ mới"
 
-#:../ui/prefs.glade.h:26
+#: ../ui/prefs.glade.h:25
 msgid "Number of lines to save in the scrollback."
 msgstr "Số dòng cuộn ngược."
 
-#:../ui/prefs.glade.h:27
-msgid "Pick a color"
-msgstr "Chọn màu"
-
-#:../ui/prefs.glade.h:29
+#: ../ui/prefs.glade.h:27
 msgid "Profiles"
 msgstr "Hồ sơ"
 
-#:../ui/prefs.glade.h:30
+#: ../ui/prefs.glade.h:28
+msgid "Regex Error"
+msgstr "Lỗi biểu thức chính quy"
+
+#: ../ui/prefs.glade.h:29
 msgid "S_croll on output"
 msgstr "Cuộn đầu _ra"
 
-#:../ui/prefs.glade.h:31
+#: ../ui/prefs.glade.h:30
 msgid "Scrollback:"
 msgstr "Cuộn ngược:"
 
-#:../ui/prefs.glade.h:32
+#: ../ui/prefs.glade.h:31
 msgid "Terminal type:"
 msgstr "Kiểu thiết bị cuối:"
 
-#:../ui/prefs.glade.h:33
+#: ../ui/prefs.glade.h:32
+msgid "Test"
+msgstr "Thử"
+
+#: ../ui/prefs.glade.h:33
 msgid ""
 "The character used to divide commands sent to the mud. For example \";\" "
 "will let the string \"w;look\" be sent to the mud as two separate commands."
-msgstr "Ký tự dùng để định giới nhiều lệnh được gởi cho miền MUD. Lấy thí dụ, dấu chấm phải « ; » sẽ gởi chuỗi « w;look » cho miền MUD dạng hai lệnh riêng."
+msgstr "Ký tự dùng để định giới nhiều lệnh được gởi cho miền MUD. Lấy thí dụ, dấu "
+"chấm phải « ; » sẽ gởi chuỗi « w;look » cho miền MUD dạng hai lệnh riêng."
 
-#:../ui/prefs.glade.h:34
+#: ../ui/prefs.glade.h:34
 msgid "The number of entries to be saved in the command history."
 msgstr "Số mục nhập cần lưu vào lược sử lệnh."
 
-#:../ui/prefs.glade.h:35
-msgid "Unusual movement commands:"
-msgstr "Lệnh di chuyển đặc biệt:"
+#: ../ui/prefs.glade.h:36
+msgid "_Action List:"
+msgstr "D_anh sách hành động:"
 
-#:../ui/prefs.glade.h:36
+#: ../ui/prefs.glade.h:37
 msgid "_Echo the text sent"
 msgstr "_Vọng mọi chữ đã gởi"
 
-#:../ui/prefs.glade.h:37
+#: ../ui/prefs.glade.h:38
 msgid "_Keep the text entered"
 msgstr "_Giữ mọi chữ đã nhập"
 
-#:../ui/prefs.glade.h:38
+#: ../ui/prefs.glade.h:40
+msgid "_Regex:"
+msgstr "_Biểu thức chính quy:"
+
+#: ../ui/prefs.glade.h:41
+msgid "_Trigger:"
+msgstr "Bộ _gây nên:"
+
+#: ../ui/prefs.glade.h:42
 msgid "lines"
 msgstr "dòng"
+
+#.Free the create_link_data structure
+#: ../plugins/automapper/map.c:641
+msgid "Ready."
+msgstr "Sẵn sàng."
+
+#: ../plugins/automapper/map.c:642
+msgid "Canceled."
+msgstr "Bị thôi."
+
+#: ../plugins/automapper/map.c:678
+msgid "A link already exists here!"
+msgstr "Ở đây đã có liên kết !"
+
+#.Create the hint label
+#: ../plugins/automapper/map.c:730
+#: ../plugins/automapper/map.c:3642
+#: ../plugins/automapper/map.c:3645
+msgid "Ready"
+msgstr "Sẵn sàng"
+
+#: ../plugins/automapper/map.c:731
+msgid "Link created"
+msgstr "Liên kết đã được tạo"
+
+#: ../plugins/automapper/map.c:735
+msgid "Can't create a node here"
+msgstr "Ở đây không thể tạo nút"
+
+#: ../plugins/automapper/map.c:966
+msgid "New Map"
+msgstr "Bản đồ mới"
+
+#.Translator: "path" means "line of travel", ie "road"
+#: ../plugins/automapper/map.c:975
+msgid "Creating a path"
+msgstr "Đang tạo đường dẫn"
+
+#.The radio button (new map)
+#: ../plugins/automapper/map.c:983
+msgid "Path lead to a new map"
+msgstr "Đường dẫn đến bản đồ mới"
+
+#: ../plugins/automapper/map.c:990
+msgid "New map"
+msgstr "Bản đồ mới"
+
+#.The radio button (default)
+#: ../plugins/automapper/map.c:1007
+msgid "Path follows an already existing path:"
+msgstr "Đường dẫn theo đường dẫn đã có :"
+
+#: ../plugins/automapper/map.c:1026
+msgid "Create"
+msgstr "Tạo"
+
+#: ../plugins/automapper/map.c:1195
+msgid "Enter in a path"
+msgstr "Vào đường dẫn"
+
+#: ../plugins/automapper/map.c:1202
+msgid "Create a new path:"
+msgstr "Tạo đường dẫn mới:"
+
+#: ../plugins/automapper/map.c:1219
+msgid "Enter in existing path:"
+msgstr "Vào đường dẫn đã có :"
+
+#: ../plugins/automapper/map.c:1270
+msgid ""
+"This node has already 8 links. Destroy one of these before trying to create "
+"a new one"
+msgstr "Cái nút này đã có 8 liên kết. Hãy hủy một điều trước khi cố gắng tạo điều mới."
+
+#.Change the automap state
+#: ../plugins/automapper/map.c:1277
+msgid "Enter to finish, Esc to quit"
+msgstr "Phím điều khiển:\n"
+"Enter	kết thúc\n"
+"Esc		thoát"
+
+#: ../plugins/automapper/map.c:1278
+msgid "Use move buttons to build the link."
+msgstr "Dùng cái nút di chuyển để xây dựng liên kết."
+
+#: ../plugins/automapper/map.c:1456
+msgid "Zoom In"
+msgstr "Phóng to"
+
+#: ../plugins/automapper/map.c:1457
+msgid "Zoom Out"
+msgstr "Thu nhỏ"
+
+#: ../plugins/automapper/map.c:1458
+msgid "Configure Automap"
+msgstr "Cấu hình bản đồ tự động"
+
+#.Teleport here
+#: ../plugins/automapper/map.c:1498
+msgid "Teleport here"
+msgstr "Chuyển ngay đây"
+
+#.
+#./* Set node properties */
+#.properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#.gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#.gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#.Create new link
+#: ../plugins/automapper/map.c:1508
+msgid "Create new link"
+msgstr "Tạo liên kết mới"
+
+#.Translator: this is an action, not a key
+#: ../plugins/automapper/map.c:1515
+msgid "Enter"
+msgstr "Vào"
+
+#.Can easily be optimised ... but why bother ?
+#.Translator: "N" means "North" here
+#.Create button directions
+#: ../plugins/automapper/map.c:1816
+#: ../plugins/automapper/map.c:3670
+msgid "N"
+msgstr "B"
+
+#.Translator: "NE" means "Northeast" here
+#: ../plugins/automapper/map.c:1818
+#: ../plugins/automapper/map.c:3671
+msgid "NE"
+msgstr "BĐ"
+
+#.Translator: "E" means "East" here
+#: ../plugins/automapper/map.c:1820
+#: ../plugins/automapper/map.c:3672
+msgid "E"
+msgstr "Đ"
+
+#.Translator: "SE" means "Southeast" here
+#: ../plugins/automapper/map.c:1822
+#: ../plugins/automapper/map.c:3673
+msgid "SE"
+msgstr "NĐ"
+
+#.Translator: "S" means "South" here
+#: ../plugins/automapper/map.c:1824
+#: ../plugins/automapper/map.c:3674
+msgid "S"
+msgstr "N"
+
+#.Translator: "SW" means "Southwest" here
+#: ../plugins/automapper/map.c:1826
+#: ../plugins/automapper/map.c:3675
+msgid "SW"
+msgstr "NT"
+
+#.Translator: "W" means "West" here
+#: ../plugins/automapper/map.c:1828
+#: ../plugins/automapper/map.c:3676
+msgid "W"
+msgstr "T"
+
+#.Translator: "NW" means "Northwest" here
+#: ../plugins/automapper/map.c:1830
+#: ../plugins/automapper/map.c:3677
+msgid "NW"
+msgstr "BT"
+
+#: ../plugins/automapper/map.c:1833
+#: ../plugins/automapper/map.c:3667
+msgid "Remove"
+msgstr "Gỡ bỏ"
+
+#.Some buttons
+#: ../plugins/automapper/map.c:1834
+#: ../plugins/automapper/map.c:3665
+msgid "Load"
+msgstr "Tải"
+
+#: ../plugins/automapper/map.c:1835
+#: ../plugins/automapper/map.c:3666
+msgid "Save"
+msgstr "Lưu"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Load map"
+msgstr "Tải bản đồ"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Save map"
+msgstr "Lưu bản đồ"
+
+#: ../plugins/automapper/map.c:3142
+msgid "No link existed in that direction"
+msgstr "Không có liên kết theo hướng đó"
+
+#: ../plugins/automapper/map.c:3148
+msgid "Cannot break links to a node going up or down"
+msgstr "Không thể ngắt liên kết đến cái nút đi lên hay xuống"
+
+#.It would seem this node already has a connection to here, That's
+#.* possible so we need to inform the user that his move is illegal.
+#.
+#: ../plugins/automapper/map.c:3257
+msgid "Destination node has already a connection here"
+msgstr "Cái nút đích đã có kết nối đến đây"
+
+#: ../plugins/automapper/map.c:3406
+msgid "Can't create a link to another floor!"
+msgstr "Không thể tạo liên kết tới tầng khác !"
+
+#: ../plugins/automapper/map.c:3412
+msgid "There is already a link here!"
+msgstr "Ở đây đã có liên kết !"
+
+#.Set the title
+#.g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
+#.gtk_window_set_title(GTK_WINDOW(automap->window), name);
+#: ../plugins/automapper/map.c:3550
+msgid "GNOME-Mud AutoMapper"
+msgstr "Trình tạo bản đồ tự động của Gnome Mud"
