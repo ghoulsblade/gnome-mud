@@ -980,7 +980,7 @@ void path_type_dialog(AutoMap* automap, const gchar* name)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox_new_map, TRUE, TRUE, 2);
 	
 	/* The radio button (new map)*/
-	to_new_map = gtk_radio_button_new_with_label(NULL, _("Path lead to a new map"));
+	to_new_map = gtk_radio_button_new_with_label(NULL, _("Path leads to a new map"));
 	data->new_choice = to_new_map;
 	gtk_box_pack_start(GTK_BOX(hbox_new_map), to_new_map, FALSE, FALSE, 5);
 	gtk_signal_connect(GTK_OBJECT(to_new_map), "clicked", GTK_SIGNAL_FUNC(on_new_path_wanted), data);

@@ -186,7 +186,7 @@
 		      <child>
 			<widget class="GtkCheckButton" id="cb_keep">
 			  <property name="visible">True</property>
-			  <property name="tooltip" translatable="yes">If enabled, the text that is sent to the connection will be left as a selection in the entry box. Otherwise, the text entrybox will be cleared after each text input.</property>
+			  <property name="tooltip" translatable="yes">If enabled, the text that is sent to the connection will be left as a selection in the entry box. Otherwise, the text entry box will be cleared after each text input.</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">_Keep the text entered</property>
 			  <property name="use_underline">True</property>
@@ -206,7 +206,7 @@
 		      <child>
 			<widget class="GtkCheckButton" id="cb_system">
 			  <property name="visible">True</property>
-			  <property name="tooltip" translatable="yes">If enabled, GNOME-Mud will offer a few built-in keybinds. They can be overriden by custom keybinds, or they can be disabled completely with this option.</property>
+			  <property name="tooltip" translatable="yes">If enabled, GNOME-Mud will offer a few built-in keybindings. They can be overriden by custom keybindings, or they can be disabled completely with this option.</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">Disable _System Keys</property>
 			  <property name="use_underline">True</property>
@@ -1003,7 +1003,7 @@
 		      <child>
 			<widget class="GtkCheckButton" id="cb_scrollback">
 			  <property name="visible">True</property>
-			  <property name="tooltip" translatable="yes">If enabled, the terminal will scroll to the bottom if new output appears in the connection when the terminal was scrolled back.</property>
+			  <property name="tooltip" translatable="yes">If enabled, whenever there's new output the terminal will be scrolled to the bottom.</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">S_croll on output</property>
 			  <property name="use_underline">True</property>

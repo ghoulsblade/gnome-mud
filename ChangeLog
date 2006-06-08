@@ -1,4 +1,10 @@
-2006-06-25  Jordi Mallach  <jordi@sindominio.net>
+2006-06-08  Jordi Mallach  <jordi@sindominio.net>
+
+	* plugins/automapper/map.c, ui/prefs.glade,
+	gnome-mud.schemas.in: Fix typos and unify some strings.
+	Thanks Thierry Moisan. Fixes #328527, #343018.
+
+2006-05-25  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac (IT_PROG_LIBTOOL): Switch to IT_PROG_INTLTOOL and
 	bump it to 0.35	for po/LINGUAS support.

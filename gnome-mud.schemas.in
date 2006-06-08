@@ -192,8 +192,8 @@
 			<locale name="C">
 				<short>Mudlist file</short>
 				<long>
-				 File where the mud list will be read from
-				 to be used in the MudList dialog.
+				 File where the mud list (used in the
+				 MudList dialog) will be read
 				</long>
 			</locale>
 		</schema>
@@ -237,8 +237,7 @@
 			<locale name="C">
 				<short>Last log file</short>
 				<long>
-				 The file that was last used to save a mudlog
-				 in.
+				 The file in which a mudlog was last saved.
 				</long>
 			</locale>
 		</schema>
