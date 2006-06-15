@@ -4,15 +4,15 @@
 # Robin Ericsson <robin@localhost.nu>, 2000
 # Christian Neumair <chris@gnome-de.org>, 2003.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
-# Hendrik Richter <hendi@gnome-de.org>, 2005.
+# Hendrik Richter <hendrikr@gnome.org>, 2005.
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Mud\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-03-08 08:25+0100\n"
-"PO-Revision-Date: 2005-07-04 18:23+0200\n"
-"Last-Translator: Hendrik Richter <hendi@gnome-de.org>\n"
+"PO-Revision-Date: 2006-06-15 17:02+0200\n"
+"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -356,7 +356,7 @@ msgstr "Wollen Sie wirklich beenden?"
 
 #: ../src/init.c:144 ../src/init.c:677
 msgid "Connect..."
-msgstr "Verbinden..."
+msgstr "Verbinden …"
 
 #: ../src/init.c:156 ../src/profiles.c:995
 msgid "Host:"
@@ -398,7 +398,7 @@ msgstr "Beim Anzeigen der Hilfe ist ein Fehler aufgetreten: %s"
 
 #: ../src/init.c:673
 msgid "Wizard..."
-msgstr "Assistent..."
+msgstr "Assistent …"
 
 #: ../src/init.c:673
 msgid "Open the Connection Wizard"
@@ -406,7 +406,7 @@ msgstr "Den Verbindungsassistenten öffnen"
 
 #: ../src/init.c:675
 msgid "Profiles..."
-msgstr "Profile..."
+msgstr "Profile …"
 
 #: ../src/init.c:675
 msgid "Manage user profiles"
@@ -442,15 +442,15 @@ msgstr "GNOME-Mud beenden"
 
 #: ../src/init.c:688
 msgid "Connection _Wizard..."
-msgstr "Verbindungs_assistent..."
+msgstr "Verbindungs_assistent …"
 
 #: ../src/init.c:689
 msgid "_MudList Listing..."
-msgstr "_MudList-Liste..."
+msgstr "_MudList-Liste …"
 
 #: ../src/init.c:691
 msgid "C_onnect..."
-msgstr "_Verbinden..."
+msgstr "_Verbinden …"
 
 #: ../src/init.c:692
 msgid "_Disconnect"
@@ -462,15 +462,15 @@ msgstr "_Neu verbinden"
 
 #: ../src/init.c:695
 msgid "S_tart Logging..."
-msgstr "_Protokollierung beginnen..."
+msgstr "_Protokollierung beginnen …"
 
 #: ../src/init.c:696
 msgid "Sto_p Logging"
-msgstr "Protokollierung _anhalten..."
+msgstr "Protokollierung _anhalten …"
 
 #: ../src/init.c:697
 msgid "_Save Buffer..."
-msgstr "Puffer _speichern..."
+msgstr "Puffer _speichern …"
 
 #: ../src/init.c:699
 msgid "_Close Window"
@@ -478,11 +478,11 @@ msgstr "Fenster s_chließen"
 
 #: ../src/init.c:707
 msgid "_Plugin Information..."
-msgstr "_Plugin-Informationen..."
+msgstr "_Plugin-Informationen …"
 
 #: ../src/init.c:713
 msgid "Auto _Mapper..."
-msgstr "Auto-_Karte..."
+msgstr "Auto-_Karte …"
 
 #: ../src/init.c:716
 msgid "P_lugins"
@@ -590,7 +590,7 @@ msgstr "*** Datei konnte nicht zum Schreiben geöffnet werden.\n"
 
 #: ../src/log.c:215
 msgid "Please select a log file..."
-msgstr "Bitte wählen Sie eine Protokolldatei..."
+msgstr "Bitte wählen Sie eine Protokolldatei …"
 
 #. Free the create_link_data structure
 #: ../src/map.c:568
@@ -1062,7 +1062,7 @@ msgstr "MudList-Datei:"
 
 #: ../src/prefs.c:861
 msgid "Select a MudList File..."
-msgstr "Eine MudList-Datei auswählen..."
+msgstr "Eine MudList-Datei auswählen …"
 
 #: ../src/prefs.c:863
 msgid "Mudlist file to be used for the mudlist functionality."
@@ -1310,3 +1310,6 @@ msgstr "West"
 
 #~ msgid "Gnome-mud"
 #~ msgstr "GNOME Mud"
+
+
+
