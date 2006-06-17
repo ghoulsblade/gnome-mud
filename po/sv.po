@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-01 19:31+0200\n"
-"PO-Revision-Date: 2006-05-02 00:21+0100\n"
+"POT-Creation-Date: 2006-06-17 03:34+0200\n"
+"PO-Revision-Date: 2006-06-17 14:17+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -37,8 +37,8 @@ msgid "A character that is used to split commands in a string like \"w;w;w;l\", 
 msgstr "Ett tecken som används för att dela kommandon i strängar som exempelvis \"w;w;w;l\", som kommer att skickas till mudden som fyra separata kommandon."
 
 #: ../gnome-mud.schemas.in.h:3
-#: ../src/mud-preferences-window.c:257
-#: ../src/mud-preferences-window.c:285
+#: ../src/mud-preferences-window.c:518
+#: ../src/mud-preferences-window.c:554
 #: ../ui/prefs.glade.h:2
 msgid "Aliases"
 msgstr "Alias"
@@ -73,8 +73,8 @@ msgid "Directional keybindings"
 msgstr "Snabbtangenter för riktningar"
 
 #: ../gnome-mud.schemas.in.h:11
-msgid "File where the mud list will be read from to be used in the MudList dialog."
-msgstr "Filen där mudlistan kommer att läsas från för att användas i MudList-dialogen."
+msgid "File where the mud list (used in the MudList dialog) will be read"
+msgstr "Filen där mudlistan kommer att läsas från (för att användas i MudList-dialogen)"
 
 #: ../gnome-mud.schemas.in.h:12
 msgid "Font"
@@ -85,7 +85,7 @@ msgid "GNOME-Mud has a 16-color palette that MUDs can use. It must be specified 
 msgstr "GNOME-Mud har en palett med 16 färger som muddar kan använda. Den måste anges i formen av en kolonseparerad lista med färgnamn. Färgnamn måste vara i hexadecimalt format, exempelvis \"#FF00FF\"."
 
 #: ../gnome-mud.schemas.in.h:14
-#: ../ui/prefs.glade.h:15
+#: ../ui/prefs.glade.h:17
 msgid "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if the MUD requests one. This option sets the terminal type that will be sent."
 msgstr "GNOME-Mud kommer att försöka överföra en terminaltyp (exempelvis ANSI eller VT100) om mudden begär en. Detta alternativ ställer in terminaltypen till den som kommer att skickas."
 
@@ -106,15 +106,17 @@ msgid "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be 
 msgstr "Om detta är aktiverat kommer GNOME-Mud att erbjuda några inbyggda snabbtangenter. De kan åsidosättas med anpassade snabbtangenter eller helt inaktiveras med detta alternativ."
 
 #: ../gnome-mud.schemas.in.h:19
-#: ../ui/prefs.glade.h:17
+#: ../ui/prefs.glade.h:19
 msgid "If enabled, all the text typed in will be echoed in the terminal, making it easier to control what is sent."
 msgstr "Om detta är aktiverat kommer all text som skrivs att skrivas ut i terminalfönstret, så att det blir lättare att kontrollera vad som skickas."
 
 #: ../gnome-mud.schemas.in.h:20
+#: ../ui/prefs.glade.h:20
 msgid "If enabled, the text that is sent to the connection will be left as a selection in the entry box. Otherwise, the text entry box will be cleared after each text input."
 msgstr "Om detta är aktiverat kommer texten som skickas till anslutningen att lämnas kvar som en markering i inmatningsfältet. Annars kommer textinmatningsfältet att tömmas efter varje textinmatning."
 
 #: ../gnome-mud.schemas.in.h:21
+#: ../ui/prefs.glade.h:21
 msgid "If enabled, whenever there's new output the terminal will be scrolled to the bottom."
 msgstr "Om detta är aktiverat kommer terminalfönstret att rullas till nedersta läget närhelst det finns ny utdata."
 
@@ -183,7 +185,7 @@ msgid "Terminal type"
 msgstr "Terminaltyp"
 
 #: ../gnome-mud.schemas.in.h:38
-msgid "The file that was last used to save a mudlog in."
+msgid "The file in which a mudlog was last saved."
 msgstr "Filen som senast användes för att spara en mudlog i."
 
 #: ../gnome-mud.schemas.in.h:39
@@ -191,6 +193,9 @@ msgid "The location of the connection tabs. Valid options are \"left\", \"right\
 msgstr "Placeringen av anslutningsflikarna. Giltiga alternativ är \"left\", \"right\", \"top\" och \"bottom\"."
 
 #: ../gnome-mud.schemas.in.h:40
+#: ../src/mud-preferences-window.c:524
+#: ../src/mud-preferences-window.c:561
+#: ../ui/prefs.glade.h:35
 msgid "Triggers"
 msgstr "Triggrar"
 
@@ -222,17 +227,17 @@ msgstr "Orientering"
 msgid "The orientation of the tray."
 msgstr "Lådans orientering."
 
-#: ../src/gconf-helper.c:56
+#: ../src/gconf-helper.c:74
 #, c-format
 msgid "%s already exists and is not a directory!"
 msgstr "%s finns redan och är inte en katalog!"
 
-#: ../src/gconf-helper.c:65
+#: ../src/gconf-helper.c:83
 #, c-format
 msgid "%s does not exist and can NOT be created: %s"
 msgstr "%s finns inte och kan INTE skapas: %s"
 
-#: ../src/gconf-helper.c:116
+#: ../src/gconf-helper.c:134
 #, c-format
 msgid "Palette had %d entry instead of %d\n"
 msgid_plural "Palette had %d entries instead of %d\n"
@@ -257,95 +262,90 @@ msgstr "Kontrollera din GConf-konfiguration och i synnerhet att schemafilerna ha
 msgid "Failed to init GConf: %s"
 msgstr "Misslyckades med att initiera GConf: %s"
 
-#: ../src/modules.c:197
+#: ../src/modules.c:199
 msgid "Plugin Information"
 msgstr "Insticksmodulinformation"
 
-#: ../src/modules.c:213
+#: ../src/modules.c:215
 msgid "Plugin Name:"
 msgstr "Namn på insticksmodul:"
 
-#: ../src/modules.c:233
+#: ../src/modules.c:235
 msgid "Plugin Author:"
 msgstr "Författare av insticksmodul:"
 
-#: ../src/modules.c:243
+#: ../src/modules.c:245
 msgid "Plugin Version:"
 msgstr "Insticksmodulversion:"
 
-#: ../src/modules.c:253
+#: ../src/modules.c:255
 msgid "Plugin Description:"
 msgstr "Beskrivning av insticksmodul:"
 
-#: ../src/modules.c:263
+#: ../src/modules.c:265
 msgid "Enable plugin"
 msgstr "Aktivera insticksmodul"
 
-#: ../src/modules.c:377
+#: ../src/modules.c:379
 #, c-format
 msgid "Plugin error (%s)"
 msgstr "Insticksmodulfel (%s)"
 
-#: ../src/modules.c:418
+#: ../src/modules.c:423
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
 msgstr "Fel vid hämtning av handtag för insticksmodul (%s): %s."
 
-#: ../src/modules.c:423
+#: ../src/modules.c:428
 #, c-format
 msgid "Error, %s not an GNOME-Mud module: %s."
 msgstr "Fel, %s är ingen GNOME-Mud-modul: %s."
 
-#: ../src/modules.c:453
-#, c-format
-msgid "Registering plugin `%s' under the name `%s'."
-msgstr "Registrerar insticksmodulen \"%s\" under namnet \"%s\"."
-
-#: ../src/modules_api.c:55
+#: ../src/modules_api.c:69
 #, c-format
 msgid "Error while registering the menu: %s"
 msgstr "Fel vid registrering av menyn: %s"
 
-#: ../src/modules_api.c:75
+#: ../src/modules_api.c:96
 #, c-format
 msgid "Error while registering data %s: %s"
 msgstr "Fel vid registrering av data %s: %s"
 
-#: ../src/modules_api.c:83
+#: ../src/modules_api.c:104
 msgid "Error while getting plugin from handle."
 msgstr "Fel vid hämtande av insticksmodul från handtag."
 
-#: ../src/mud-connection-view.c:102
+#: ../src/mud-connection-view.c:126
 #, c-format
 msgid "There was an error loading config value for whether to use image in menus. (%s)\n"
 msgstr "Det inträffade ett fel vid inläsning av konfigurationsvärdet för huruvida bilder ska användas i menyer. (%s)\n"
 
-#: ../src/mud-connection-view.c:401
+#: ../src/mud-connection-view.c:429
 msgid "*** Connection closed.\n"
 msgstr "*** Anslutning avslutad.\n"
 
-#: ../src/mud-connection-view.c:414
+#: ../src/mud-connection-view.c:442
 #, c-format
 msgid "*** Making connection to %s, port %d.\n"
 msgstr "*** Skapar anslutning till %s, port %d.\n"
 
-#: ../src/mud-connection-view.c:579
+#: ../src/mud-connection-view.c:607
 msgid "Close tab or window, whatever :)"
 msgstr "Stäng flik eller fönster, vad som helst :)"
 
-#: ../src/mud-connection-view.c:599
+#: ../src/mud-connection-view.c:627
 msgid "Change P_rofile"
 msgstr "Ändra p_rofil"
 
-#: ../src/mud-connection-view.c:635
+#: ../src/mud-connection-view.c:663
 msgid "Edit Current Profile..."
 msgstr "Redigera aktuell profil..."
 
-#: ../src/mud-connection-view.c:643
+#: ../src/mud-connection-view.c:671
 msgid "_Input Methods"
 msgstr "_Inmatningsmetoder"
 
-#: ../src/mud-log.c:125
+#: ../src/mud-log.c:142
 msgid ""
 "\n"
 "*** Log starts *** %d/%m/%Y %H:%M:%S\n"
@@ -353,7 +353,7 @@ msgstr ""
 "\n"
 "*** Logg startar *** %Y/%m/%d %H:%M:%S\n"
 
-#: ../src/mud-log.c:161
+#: ../src/mud-log.c:178
 msgid ""
 "\n"
 " *** Log stops *** %d/%m/%Y %H:%M:%S\n"
@@ -377,17 +377,41 @@ msgstr "_Avsluta"
 msgid "GNOME Mud"
 msgstr "GNOME-Mud"
 
-#: ../src/mud-preferences-window.c:250
-#: ../src/mud-preferences-window.c:279
-#: ../ui/prefs.glade.h:23
+#: ../src/mud-preferences-window.c:360
+#: ../src/mud-preferences-window.c:386
+msgid "Name"
+msgstr "Namn"
+
+#: ../src/mud-preferences-window.c:361
+#: ../src/mud-preferences-window.c:387
+msgid "Enabled"
+msgstr "Aktiverad"
+
+#: ../src/mud-preferences-window.c:388
+msgid "Gag"
+msgstr "Tysta"
+
+#: ../src/mud-preferences-window.c:511
+#: ../src/mud-preferences-window.c:548
+#: ../ui/prefs.glade.h:26
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../src/mud-window.c:440
+#: ../src/mud-preferences-window.c:1588
+#: ../src/mud-preferences-window.c:1693
+msgid "Error in Regex."
+msgstr "Fel i reguljärt uttryck."
+
+#: ../src/mud-preferences-window.c:1633
+#: ../src/mud-preferences-window.c:1738
+msgid "No match."
+msgstr "Ingen träff."
+
+#: ../src/mud-window.c:466
 msgid "Could not save the file in specified location!"
 msgstr "Kunde inte spara filen på angiven plats!"
 
-#: ../src/mud-window.c:597
+#: ../src/mud-window.c:623
 msgid "_Manage Profiles..."
 msgstr "_Hantera profiler..."
 
@@ -433,6 +457,8 @@ msgid "*"
 msgstr "*"
 
 #: ../ui/directions.glade.h:3
+#: ../plugins/automapper/map.c:1832
+#: ../plugins/automapper/map.c:3679
 msgid "Down"
 msgstr "Ned"
 
@@ -469,6 +495,8 @@ msgid "Southwest"
 msgstr "Sydväst"
 
 #: ../ui/directions.glade.h:12
+#: ../plugins/automapper/map.c:1831
+#: ../plugins/automapper/map.c:3678
 msgid "Up"
 msgstr "Upp"
 
@@ -728,6 +756,7 @@ msgid "_Host/IP:"
 msgstr "_Värd/IP:"
 
 #: ../ui/muds.glade.h:52
+#: ../ui/prefs.glade.h:39
 msgid "_Name:"
 msgstr "_Namn:"
 
@@ -756,113 +785,386 @@ msgid "Appearence"
 msgstr "Utseende"
 
 #: ../ui/prefs.glade.h:4
-msgid "AutoMapper"
-msgstr "Kartgenererare"
-
-#: ../ui/prefs.glade.h:5
 msgid "Background color:"
 msgstr "Backgrundsfärg:"
 
-#: ../ui/prefs.glade.h:6
+#: ../ui/prefs.glade.h:5
 msgid "Blank"
 msgstr "Blank"
 
-#: ../ui/prefs.glade.h:7
+#: ../ui/prefs.glade.h:6
 msgid "Color and Fonts"
 msgstr "Färg och typsnitt"
 
-#: ../ui/prefs.glade.h:8
+#: ../ui/prefs.glade.h:7
 msgid "Color palette:"
 msgstr "Färgpalett:"
 
-#: ../ui/prefs.glade.h:9
+#: ../ui/prefs.glade.h:8
 msgid "Command division character:"
 msgstr "Kommandoskiljetecken:"
 
-#: ../ui/prefs.glade.h:10
+#: ../ui/prefs.glade.h:9
 msgid "Command history:"
 msgstr "Kommandohistorik:"
 
-#: ../ui/prefs.glade.h:11
+#: ../ui/prefs.glade.h:10
 msgid "Disable _System Keys"
 msgstr "Inaktivera _systemtangenter"
 
+#: ../ui/prefs.glade.h:11
+msgid "Error At:"
+msgstr "Fel vid:"
+
 #: ../ui/prefs.glade.h:12
+msgid "Error Code:"
+msgstr "Felkod:"
+
+#: ../ui/prefs.glade.h:13
+msgid "Error String:"
+msgstr "Felsträng:"
+
+#: ../ui/prefs.glade.h:14
 msgid "Font:"
 msgstr "Typsnitt:"
 
-#: ../ui/prefs.glade.h:13
+#: ../ui/prefs.glade.h:15
 msgid "Foreground color:"
 msgstr "Förgrundsfärg:"
 
-#: ../ui/prefs.glade.h:14
+#: ../ui/prefs.glade.h:16
 msgid "Functionality"
 msgstr "Funktionalitet"
 
-#: ../ui/prefs.glade.h:16
-msgid "If enabled, GNOME-Mud will offer a few built-in keybinds. They can be overriden by custom keybinds, or they can be disabled completely with this option."
-msgstr "Om detta är aktiverat kommer GNOME-Mud att erbjuda ett antal inbyggda snabbtangenter. De kan åsidosättas med anpassade snabbtangenter eller helt inaktiveras med detta alternativ."
-
 #: ../ui/prefs.glade.h:18
-msgid "If enabled, the terminal will scroll to the bottom if new output appears in the connection when the terminal was scrolled back."
-msgstr "Om detta är aktiverat kommer terminalen att rulla till nedersta läget om ny utdata visas i anslutningen när terminalfönstret rullades tillbaka."
+msgid "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be overriden by custom keybindings, or they can be disabled completely with this option."
+msgstr "Om detta är aktiverat kommer GNOME-Mud att erbjuda några inbyggda snabbtangenter. De kan åsidosättas med anpassade snabbtangenter eller helt inaktiveras med detta alternativ."
 
-#: ../ui/prefs.glade.h:19
-msgid "If enabled, the text that is sent to the connection will be left as a selection in the entry box. Otherwise, the text entrybox will be cleared after each text input."
-msgstr "Om detta är aktiverat kommer texten som skickas till anslutningen att lämnas kvar som en markering i inmatningsfältet. Annars kommer textinmatningsfältet att tömmas efter varje textinmatning."
+#: ../ui/prefs.glade.h:22
+msgid "Match Text:"
+msgstr "Text att matcha:"
 
-#: ../ui/prefs.glade.h:20
-msgid "If you use the automapper, you may want to specify here some unusual movement commands. When you use one of these, the automapper will create a path to another map. Use a semicolon to separate the different commands."
-msgstr "Om du använder kartgenereraren kan du komma att vilja ange en del kommandon för ovanliga förflyttningar. När du använder en av dessa kommer kartgenereraren att skapa en stig till en annan karta. Använd ett semikolon för att skilja olika kommandon åt."
+#: ../ui/prefs.glade.h:23
+msgid "Match:"
+msgstr "Träff:"
 
-#: ../ui/prefs.glade.h:21
+#: ../ui/prefs.glade.h:24
 msgid "New Profile"
 msgstr "Ny profil"
 
-#: ../ui/prefs.glade.h:22
+#: ../ui/prefs.glade.h:25
 msgid "Number of lines to save in the scrollback."
 msgstr "Antal rader att spara i rullningshistoriken."
 
-#: ../ui/prefs.glade.h:24
+#: ../ui/prefs.glade.h:27
 msgid "Profiles"
 msgstr "Profiler"
 
-#: ../ui/prefs.glade.h:25
+#: ../ui/prefs.glade.h:28
+msgid "Regex Error"
+msgstr "Fel i reguljärt uttryck"
+
+#: ../ui/prefs.glade.h:29
 msgid "S_croll on output"
 msgstr "_Rulla vid utdata"
 
-#: ../ui/prefs.glade.h:26
+#: ../ui/prefs.glade.h:30
 msgid "Scrollback:"
 msgstr "Rullningshistorik:"
 
-#: ../ui/prefs.glade.h:27
+#: ../ui/prefs.glade.h:31
 msgid "Terminal type:"
 msgstr "Terminaltyp:"
 
-#: ../ui/prefs.glade.h:28
+#: ../ui/prefs.glade.h:32
+msgid "Test"
+msgstr "Testa"
+
+#: ../ui/prefs.glade.h:33
 msgid "The character used to divide commands sent to the mud. For example \";\" will let the string \"w;look\" be sent to the mud as two separate commands."
 msgstr "Tecknet som används för att skilja kommandon som skickas till mudden. Exempelvis kommer \";\" att låta strängen \"w;look\" skickas till mudden som två separata kommandon."
 
-#: ../ui/prefs.glade.h:29
+#: ../ui/prefs.glade.h:34
 msgid "The number of entries to be saved in the command history."
 msgstr "Antalet poster att spara i kommandohistoriken."
 
-#: ../ui/prefs.glade.h:30
-msgid "Unusual movement commands:"
-msgstr "Kommandon för ovanliga förflyttningar:"
+#: ../ui/prefs.glade.h:36
+msgid "_Action List:"
+msgstr "_Åtgärdslista:"
 
-#: ../ui/prefs.glade.h:31
+#: ../ui/prefs.glade.h:37
 msgid "_Echo the text sent"
 msgstr "_Skriv ut skickad text"
 
-#: ../ui/prefs.glade.h:32
+#: ../ui/prefs.glade.h:38
 msgid "_Keep the text entered"
 msgstr "_Behåll inmatad text"
 
-#: ../ui/prefs.glade.h:33
+#: ../ui/prefs.glade.h:40
+msgid "_Regex:"
+msgstr "_Regex:"
+
+#: ../ui/prefs.glade.h:41
+msgid "_Trigger:"
+msgstr "_Trigger:"
+
+#: ../ui/prefs.glade.h:42
 msgid "lines"
 msgstr "rader"
 
+#. Free the create_link_data structure
+#: ../plugins/automapper/map.c:641
+msgid "Ready."
+msgstr "Klar."
+
+#: ../plugins/automapper/map.c:642
+msgid "Canceled."
+msgstr "Avbruten."
+
+#: ../plugins/automapper/map.c:678
+msgid "A link already exists here!"
+msgstr "En länk finns redan här!"
+
+#. Create the hint label
+#: ../plugins/automapper/map.c:730
+#: ../plugins/automapper/map.c:3642
+#: ../plugins/automapper/map.c:3645
+msgid "Ready"
+msgstr "Klar"
+
+#: ../plugins/automapper/map.c:731
+msgid "Link created"
+msgstr "Länk skapad"
+
+#: ../plugins/automapper/map.c:735
+msgid "Can't create a node here"
+msgstr "Kan inte skapa en nod här"
+
+#: ../plugins/automapper/map.c:966
+msgid "New Map"
+msgstr "Ny karta"
+
+#. Translator: "path" means "line of travel", ie "road"
+#: ../plugins/automapper/map.c:975
+msgid "Creating a path"
+msgstr "Skapar en stig"
+
+#. The radio button (new map)
+#: ../plugins/automapper/map.c:983
+msgid "Path leads to a new map"
+msgstr "Stigen leder till en ny karta"
+
+#: ../plugins/automapper/map.c:990
+msgid "New map"
+msgstr "Ny karta"
+
+#. The radio button (default)
+#: ../plugins/automapper/map.c:1007
+msgid "Path follows an already existing path:"
+msgstr "Stigen följer en redan befintlig stig:"
+
+#: ../plugins/automapper/map.c:1026
+msgid "Create"
+msgstr "Skapa"
+
+#: ../plugins/automapper/map.c:1195
+msgid "Enter in a path"
+msgstr "Följ en stig"
+
+#: ../plugins/automapper/map.c:1202
+msgid "Create a new path:"
+msgstr "Skapa en ny stig:"
+
+#: ../plugins/automapper/map.c:1219
+msgid "Enter in existing path:"
+msgstr "Följ befintlig stig:"
+
+#: ../plugins/automapper/map.c:1270
+msgid "This node has already 8 links. Destroy one of these before trying to create a new one"
+msgstr "Denna nod har redan 8 länkar. Förstör en av dessa innan du försöker skapa en ny"
+
+#. Change the automap state
+#: ../plugins/automapper/map.c:1277
+msgid "Enter to finish, Esc to quit"
+msgstr "Retur för att slutföra, Esc för att avsluta"
+
+#: ../plugins/automapper/map.c:1278
+msgid "Use move buttons to build the link."
+msgstr "Använd flyttknappar för att bygga länken."
+
+#: ../plugins/automapper/map.c:1456
+msgid "Zoom In"
+msgstr "Zooma in"
+
+#: ../plugins/automapper/map.c:1457
+msgid "Zoom Out"
+msgstr "Zooma ut"
+
+#: ../plugins/automapper/map.c:1458
+msgid "Configure Automap"
+msgstr "Konfigurera kartgenererare"
+
+#. Teleport here
+#: ../plugins/automapper/map.c:1498
+msgid "Teleport here"
+msgstr "Teleportera hit"
+
+#.
+#. /* Set node properties */
+#. properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#. gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#. gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#. Create new link
+#: ../plugins/automapper/map.c:1508
+msgid "Create new link"
+msgstr "Skapa ny länk"
+
+#. Translator: this is an action, not a key
+#: ../plugins/automapper/map.c:1515
+msgid "Enter"
+msgstr "Gå in i"
+
+#. Can easily be optimised ... but why bother ?
+#. Translator: "N" means "North" here
+#. Create button directions
+#: ../plugins/automapper/map.c:1816
+#: ../plugins/automapper/map.c:3670
+msgid "N"
+msgstr "N"
+
+#. Translator: "NE" means "Northeast" here
+#: ../plugins/automapper/map.c:1818
+#: ../plugins/automapper/map.c:3671
+msgid "NE"
+msgstr "NÖ"
+
+#. Translator: "E" means "East" here
+#: ../plugins/automapper/map.c:1820
+#: ../plugins/automapper/map.c:3672
+msgid "E"
+msgstr "Ö"
+
+#. Translator: "SE" means "Southeast" here
+#: ../plugins/automapper/map.c:1822
+#: ../plugins/automapper/map.c:3673
+msgid "SE"
+msgstr "SÖ"
+
+#. Translator: "S" means "South" here
+#: ../plugins/automapper/map.c:1824
+#: ../plugins/automapper/map.c:3674
+msgid "S"
+msgstr "S"
+
+#. Translator: "SW" means "Southwest" here
+#: ../plugins/automapper/map.c:1826
+#: ../plugins/automapper/map.c:3675
+msgid "SW"
+msgstr "SV"
+
+#. Translator: "W" means "West" here
+#: ../plugins/automapper/map.c:1828
+#: ../plugins/automapper/map.c:3676
+msgid "W"
+msgstr "V"
+
+#. Translator: "NW" means "Northwest" here
+#: ../plugins/automapper/map.c:1830
+#: ../plugins/automapper/map.c:3677
+msgid "NW"
+msgstr "NV"
+
+#: ../plugins/automapper/map.c:1833
+#: ../plugins/automapper/map.c:3667
+msgid "Remove"
+msgstr "Ta bort"
+
+#. Some buttons
+#: ../plugins/automapper/map.c:1834
+#: ../plugins/automapper/map.c:3665
+msgid "Load"
+msgstr "Läs in"
+
+#: ../plugins/automapper/map.c:1835
+#: ../plugins/automapper/map.c:3666
+msgid "Save"
+msgstr "Spara"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Load map"
+msgstr "Läs in karta"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Save map"
+msgstr "Spara karta"
+
+#: ../plugins/automapper/map.c:3142
+msgid "No link existed in that direction"
+msgstr "Det fanns ingen länk i den riktningen"
+
+#: ../plugins/automapper/map.c:3148
+msgid "Cannot break links to a node going up or down"
+msgstr "Kan inte ta sönder länkar till en nod som går upp eller ner"
+
+#. It would seem this node already has a connection to here, That's
+#. * possible so we need to inform the user that his move is illegal.
+#.
+#: ../plugins/automapper/map.c:3257
+msgid "Destination node has already a connection here"
+msgstr "Målnoden har redan en anslutning här"
+
+#: ../plugins/automapper/map.c:3406
+msgid "Can't create a link to another floor!"
+msgstr "Kan inte skapa en länk till en annan våning!"
+
+#: ../plugins/automapper/map.c:3412
+msgid "There is already a link here!"
+msgstr "Det finns redan en länk här!"
+
+#. Set the title
+#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
+#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
+#: ../plugins/automapper/map.c:3550
+msgid "GNOME-Mud AutoMapper"
+msgstr "GNOME-Mud-kartgenererare"
+
+#~ msgid "Registering plugin `%s' under the name `%s'."
+#~ msgstr "Registrerar insticksmodulen \"%s\" under namnet \"%s\"."
+#~ msgid "AutoMapper"
+#~ msgstr "Kartgenererare"
+#~ msgid ""
+#~ "If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
+#~ "overriden by custom keybinds, or they can be disabled completely with "
+#~ "this option."
+#~ msgstr ""
+#~ "Om detta är aktiverat kommer GNOME-Mud att erbjuda ett antal inbyggda "
+#~ "snabbtangenter. De kan åsidosättas med anpassade snabbtangenter eller "
+#~ "helt inaktiveras med detta alternativ."
+#~ msgid ""
+#~ "If enabled, the terminal will scroll to the bottom if new output appears "
+#~ "in the connection when the terminal was scrolled back."
+#~ msgstr ""
+#~ "Om detta är aktiverat kommer terminalen att rulla till nedersta läget om "
+#~ "ny utdata visas i anslutningen när terminalfönstret rullades tillbaka."
+#~ msgid ""
+#~ "If enabled, the text that is sent to the connection will be left as a "
+#~ "selection in the entry box. Otherwise, the text entrybox will be cleared "
+#~ "after each text input."
+#~ msgstr ""
+#~ "Om detta är aktiverat kommer texten som skickas till anslutningen att "
+#~ "lämnas kvar som en markering i inmatningsfältet. Annars kommer "
+#~ "textinmatningsfältet att tömmas efter varje textinmatning."
+#~ msgid ""
+#~ "If you use the automapper, you may want to specify here some unusual "
+#~ "movement commands. When you use one of these, the automapper will create "
+#~ "a path to another map. Use a semicolon to separate the different commands."
+#~ msgstr ""
+#~ "Om du använder kartgenereraren kan du komma att vilja ange en del "
+#~ "kommandon för ovanliga förflyttningar. När du använder en av dessa kommer "
+#~ "kartgenereraren att skapa en stig till en annan karta. Använd ett "
+#~ "semikolon för att skilja olika kommandon åt."
+#~ msgid "Unusual movement commands:"
+#~ msgstr "Kommandon för ovanliga förflyttningar:"
 #~ msgid "Change the color of a specific color that the MUD requests to use."
 #~ msgstr "Ändra färgen för en specifik färg som mudden begär ska användas."
 #~ msgid ""
@@ -889,8 +1191,6 @@ msgstr "rader"
 #~ "dialogen."
 #~ msgid "No void characters allowed."
 #~ msgstr "Inga tomma tecken tillåtna."
-#~ msgid "Actions"
-#~ msgstr "Åtgärder"
 #~ msgid "Character '%c' not allowed."
 #~ msgstr "Tecknet \"%c\" är inte tillåtet."
 #~ msgid "%s too big."
@@ -973,96 +1273,6 @@ msgstr "rader"
 #~ msgstr "*** Kunde inte öppna fil för skrivning.\n"
 #~ msgid "Please select a log file..."
 #~ msgstr "Välj en loggfil..."
-#~ msgid "Ready."
-#~ msgstr "Klar."
-#~ msgid "Canceled."
-#~ msgstr "Avbruten."
-#~ msgid "A link already exists here!"
-#~ msgstr "En länk finns redan här!"
-#~ msgid "Ready"
-#~ msgstr "Klar"
-#~ msgid "Link created"
-#~ msgstr "Länk skapad"
-#~ msgid "Can't create a node here"
-#~ msgstr "Kan inte skapa en nod här"
-#~ msgid "New Map"
-#~ msgstr "Ny karta"
-#~ msgid "Creating a path"
-#~ msgstr "Skapar en stig"
-#~ msgid "Path lead to a new map"
-#~ msgstr "Stigen leder till en ny karta"
-#~ msgid "New map"
-#~ msgstr "Ny karta"
-#~ msgid "Path follows an already existing path:"
-#~ msgstr "Stigen följer en redan befintlig stig:"
-#~ msgid "Create"
-#~ msgstr "Skapa"
-#~ msgid "Enter in a path"
-#~ msgstr "Följ en stig"
-#~ msgid "Create a new path:"
-#~ msgstr "Skapa en ny stig:"
-#~ msgid "Enter in existing path:"
-#~ msgstr "Följ befintlig stig:"
-#~ msgid ""
-#~ "This node has already 8 links. Destroy one of these before trying to "
-#~ "create a new one"
-#~ msgstr ""
-#~ "Denna nod har redan 8 länkar. Förstör en av dessa innan du försöker skapa "
-#~ "en ny"
-#~ msgid "Enter to finish, Esc to quit"
-#~ msgstr "Retur för att slutföra, Esc för att avsluta"
-#~ msgid "Use move buttons to build the link."
-#~ msgstr "Använd flyttknappar för att bygga länken."
-#~ msgid "Zoom In"
-#~ msgstr "Zooma in"
-#~ msgid "Zoom Out"
-#~ msgstr "Zooma ut"
-#~ msgid "Configure Automap"
-#~ msgstr "Konfigurera kartgenererare"
-#~ msgid "Teleport here"
-#~ msgstr "Teleportera hit"
-#~ msgid "Create new link"
-#~ msgstr "Skapa ny länk"
-#~ msgid "Enter"
-#~ msgstr "Gå in i"
-#~ msgid "N"
-#~ msgstr "N"
-#~ msgid "NE"
-#~ msgstr "NÖ"
-#~ msgid "E"
-#~ msgstr "Ö"
-#~ msgid "SE"
-#~ msgstr "SÖ"
-#~ msgid "S"
-#~ msgstr "S"
-#~ msgid "SW"
-#~ msgstr "SV"
-#~ msgid "W"
-#~ msgstr "V"
-#~ msgid "NW"
-#~ msgstr "NV"
-#~ msgid "Remove"
-#~ msgstr "Ta bort"
-#~ msgid "Load"
-#~ msgstr "Läs in"
-#~ msgid "Save"
-#~ msgstr "Spara"
-#~ msgid "Load map"
-#~ msgstr "Läs in karta"
-#~ msgid "Save map"
-#~ msgstr "Spara karta"
-#~ msgid "No link existed in that direction"
-#~ msgstr "Det fanns ingen länk i den riktningen"
-#~ msgid "Cannot break links to a node going up or down"
-#~ msgstr "Kan inte ta sönder länkar till en nod som går upp eller ner"
-#~ msgid "Destination node has already a connection here"
-#~ msgstr "Målnoden har redan en anslutning här"
-#~ msgid "Can't create a link to another floor!"
-#~ msgstr "Kan inte skapa en länk till en annan våning!"
-#~ msgid "There is already a link here!"
-#~ msgstr "Det finns redan en länk här!"
-#~ msgid "GNOME-Mud AutoMapper"
-#~ msgstr "GNOME-Mud-kartgenererare"
 #~ msgid "Could not open MudList file for reading"
 #~ msgstr "Kunde inte öppna MudList-fil för läsning"
 #~ msgid "GNOME-Mud MudList"
