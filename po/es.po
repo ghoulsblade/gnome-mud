@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-23 03:03+0200\n"
+"POT-Creation-Date: 2006-07-31 14:26+0200\n"
 "PO-Revision-Date: 2006-05-23 03:08+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
@@ -31,7 +31,8 @@ msgstr "El cliente de MUD de GNOME"
 
 #: ../gnome-mud.schemas.in.h:1
 msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
-msgstr "Un nombre de tipografía Pango. Por ejemplo «Sans 12» o «Monospace Bold 14»."
+msgstr ""
+"Un nombre de tipografía Pango. Por ejemplo «Sans 12» o «Monospace Bold 14»."
 
 #: ../gnome-mud.schemas.in.h:2
 msgid ""
@@ -83,8 +84,10 @@ msgid "Directional keybindings"
 msgstr "Combinaciones de teclas direccionales"
 
 #: ../gnome-mud.schemas.in.h:11
-msgid "File where the mud list will be read from to be used in the MudList dialog."
-msgstr "Archivo donde la lista de mud será leída para usarse en el diálogo MudList."
+msgid ""
+"File where the mud list will be read from to be used in the MudList dialog."
+msgstr ""
+"Archivo donde la lista de mud será leída para usarse en el diálogo MudList."
 
 #: ../gnome-mud.schemas.in.h:12
 msgid "Font"
@@ -118,7 +121,8 @@ msgstr "Cuantas entradas conservar en el histórico de comandos."
 
 #: ../gnome-mud.schemas.in.h:17
 msgid "How often in seconds gnome-mud should flush logfiles."
-msgstr "frecuencia en segundos a la que gnome-mud vaciará los archivos de registro."
+msgstr ""
+"frecuencia en segundos a la que gnome-mud vaciará los archivos de registro."
 
 #: ../gnome-mud.schemas.in.h:18
 msgid ""
@@ -244,7 +248,8 @@ msgstr "Tipo de terminal"
 
 #: ../gnome-mud.schemas.in.h:38
 msgid "The file that was last used to save a mudlog in."
-msgstr "El archivo que fue usado por última vez para guardar un registro mud en él."
+msgstr ""
+"El archivo que fue usado por última vez para guardar un registro mud en él."
 
 #: ../gnome-mud.schemas.in.h:39
 msgid ""
@@ -643,7 +648,7 @@ msgstr "_Archivo"
 
 #: ../ui/main.glade.h:22
 msgid "_Help"
-msgstr "A_yuda"
+msgstr "Ay_uda"
 
 #: ../ui/main.glade.h:23
 msgid "_Mud List..."
@@ -966,8 +971,9 @@ msgid ""
 "The character used to divide commands sent to the mud. For example \";\" "
 "will let the string \"w;look\" be sent to the mud as two separate commands."
 msgstr ""
-"El carácter que se usa para dividir los comandos enviados al mud. Por ejemplo, «;», "
-"hará que la cadena «w;look» sea enviada al mud como dos comandos separados."
+"El carácter que se usa para dividir los comandos enviados al mud. Por "
+"ejemplo, «;», hará que la cadena «w;look» sea enviada al mud como dos "
+"comandos separados."
 
 #: ../ui/prefs.glade.h:34
 msgid "The number of entries to be saved in the command history."
@@ -996,4 +1002,3 @@ msgstr "_Disparador:"
 #: ../ui/prefs.glade.h:42
 msgid "lines"
 msgstr "líneas"
-
