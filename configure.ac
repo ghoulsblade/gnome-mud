@@ -51,7 +51,7 @@ AM_GCONF_SOURCE_2
 
 dnl pkg-config dep checks
 GMODULE_REQUIRED=2.0.0
-GTK_REQUIRED=2.6.0
+GTK_REQUIRED=2.10.0
 LIBGLADE_REQUIRED=2.0.1
 LIBGNETWORK_REQUIRED=0.0.6
 VTE_REQUIRED=0.11.00
@@ -123,7 +123,7 @@ AC_CHECK_LIB(dl, dlopen, DL_LIB="-ldl",[
 	AC_CHECK_LIB(dld, shl_load, DL_LIB="-ldld",[
 	AC_CHECK_FUNCS(dlopen, DL_LIB="",
 	AC_MSG_ERROR(Dynamic linking is not available on this platform.))])])
-AC_SUBST(DL_LIB)  
+AC_SUBST(DL_LIB)
 
 dnl Checks for header files.
 AC_HEADER_STDC
@@ -149,10 +149,10 @@ dnl 		changequote([, ])dnl
 dnl 		if test "$PY_MAJOR" = "1."; then
 dnl 			python=no
 dnl 			AC_MSG_RESULT([no, atlest Python 2.x is needed])
-dnl 		else 
+dnl 		else
 dnl 			AC_MSG_RESULT([yes, Python $PY_VERSION])
 dnl 			AC_MSG_CHECKING(for Python compile flags)
-dnl 			
+dnl
 dnl 			if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
 dnl 				PY_LIBS="-lpython$PY_VERSION"
 dnl 				PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
@@ -168,7 +168,7 @@ dnl 				AC_CHECK_LIB(db, dbopen, )
 dnl 				CFLAGS="$CFLAGS $PY_CFLAGS"
 dnl 				CPPFLAGS="$CPPFLAGS $PY_CFLAGS"
 dnl 				LIBS="$LIBS $PY_LIB_LOC $PY_LIBS"
-dnl 				
+dnl
 dnl 				dnl PyGTK
 dnl 				PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.13, [
 dnl 					AC_DEFINE(USE_PYGTK, 1, [Define this if you want PyGtk support in Python scripts.])

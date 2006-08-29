@@ -1,3 +1,11 @@
+2006-08-29  Mart Raudsepp  <leio@dustbite.net>
+
+	* configure.ac: Bump GTK_REQUIRED to 2.10.0 for GtkStatusIcon.
+	* src/mud-tray.c: Port to GtkStatusIcon to get rid of libegg.
+	Fixes #69909.
+	* src/Makefile.am (gnome_mud_SOURCES): Remove eggtrayicon.[ch].
+	* src/eggtrayicon.[ch]: Removed.
+
 2006-08-24  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/mud-preferences-window.c, src/mud-window-mudedit.c,

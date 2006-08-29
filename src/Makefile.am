@@ -20,8 +20,6 @@ gamesdir = $(prefix)/games
 games_PROGRAMS = gnome-mud
 
 gnome_mud_SOURCES =				\
-	eggtrayicon.c				\
-	eggtrayicon.h				\
 	gconf-helper.c				\
 	gconf-helper.h				\
 	gnome-mud.c					\
