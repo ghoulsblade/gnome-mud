@@ -158,6 +158,7 @@ mud_parse_trigger_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudP
 		}
 	}	
 
+	g_free(triggers);
 	return doGag;
 }
 

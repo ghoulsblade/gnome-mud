@@ -211,6 +211,7 @@ mud_list_window_populate_treeview(MudListWindow *mudlist)
 		gtk_tree_store_set(store, &iter, NAME_COLUMN, gconf_client_get_string(client, keyname, &error), -1);
 		g_free(mname);
 	}	
+	g_free(muds);
 }
 
 // Mudlist Callbacks
@@ -298,7 +299,7 @@ mud_list_window_tree_select_cb(GtkTreeSelection *selection,
 
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/desc", remove_whitespace(mudlist->priv->CurrSelRowText));
 		
-		desc = g_strdup(gconf_client_get_string(client, keyname, &error));
+		desc = gconf_client_get_string(client, keyname, &error);
 		if(desc)
 		{
 			gtk_text_buffer_set_text(buffer, desc, strlen(desc));

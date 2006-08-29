@@ -1,3 +1,14 @@
+2006-08-24  Jordi Mallach  <jordi@sindominio.net>
+
+	* src/mud-preferences-window.c, src/mud-window-mudedit.c,
+	src/mud-window-mudlist.c: don't wrap gconf_client_get_string()
+	calls around g_strdup(), as it leaks the string and
+	gconf_client_get_string() already does the right thing.
+	* src/mud-parse-alias.c, src/mud-parse-alias.c,
+	mud-preferences-window.c, mud-window-mudlist.c: Plug memleaks.
+
+	Thanks to Kjartan Maraas for the pointers.
+
 2006-06-08  Jordi Mallach  <jordi@sindominio.net>
 
 	* plugins/automapper/map.c, ui/prefs.glade,

@@ -139,6 +139,7 @@ mud_parse_alias_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudPar
 		}
 	}	
 	
+	g_free(aliases);
 	return send_line;
 }
 

@@ -607,7 +607,7 @@ mud_preferences_window_trigger_select_cb(GtkTreeSelection *selection,
 		gtk_entry_set_text(GTK_ENTRY(prefs->priv->trigger_name_entry),gconf_client_get_string(client, keyname, &error));
 		
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/regex", profile_name, prefs->priv->trigger_info.text);
-		regex = g_strdup(gconf_client_get_string(client, keyname, &error));
+		regex = gconf_client_get_string(client, keyname, &error);
 
 		if(regex) 
 		{
@@ -616,7 +616,7 @@ mud_preferences_window_trigger_select_cb(GtkTreeSelection *selection,
 		}
 		
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/actions", profile_name, prefs->priv->trigger_info.text);
-		actions = g_strdup(gconf_client_get_string(client, keyname, &error));
+		actions = gconf_client_get_string(client, keyname, &error);
 
 		if(actions) 
 		{
@@ -663,7 +663,7 @@ mud_preferences_window_alias_select_cb(GtkTreeSelection *selection,
 		gtk_entry_set_text(GTK_ENTRY(prefs->priv->alias_entry),gconf_client_get_string(client, keyname, &error));
 		
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/aliases/%s/actions", profile_name, prefs->priv->alias_info.text);
-		actions = g_strdup(gconf_client_get_string(client, keyname, &error));
+		actions = gconf_client_get_string(client, keyname, &error);
 
 		if(actions) 
 		{
@@ -672,7 +672,7 @@ mud_preferences_window_alias_select_cb(GtkTreeSelection *selection,
 		}
 
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/aliases/%s/regex", profile_name, prefs->priv->alias_info.text);
-		regex = g_strdup(gconf_client_get_string(client, keyname, &error));
+		regex = gconf_client_get_string(client, keyname, &error);
 
 		if(regex) 
 		{
@@ -1148,6 +1148,8 @@ mud_preferences_window_alias_del_cb(GtkWidget *widget, MudPreferencesWindow *win
 	gconf_client_set_list(client, keyname, GCONF_VALUE_STRING, aliases, &error);	
 	
 	mud_preferences_window_populate_alias_treeview(window);
+
+	g_free(aliases);
 }
 
 static void

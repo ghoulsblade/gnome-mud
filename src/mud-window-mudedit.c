@@ -222,7 +222,7 @@ mud_edit_window_query_gconf(MudEditWindow *mudedit)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(mudedit->priv->btnShowToggle),gconf_client_get_int(client, keyname, &error));
 
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/desc", mudedit->priv->mud);
-	desc = g_strdup(gconf_client_get_string(client, keyname, &error));
+	desc = gconf_client_get_string(client, keyname, &error);
 
 	if(desc) 
 	{
@@ -332,7 +332,7 @@ props_window_dialog(gchar *charname, MudEditWindow *mudedit, gboolean NewChar)
 		gtk_entry_set_text(GTK_ENTRY(name), charname);
 		
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/%s/connect", mudname, charname);
-		connect = g_strdup(gconf_client_get_string(client, keyname, &error));
+		connect = gconf_client_get_string(client, keyname, &error);
 		if(connect)
 		{
 			gtk_text_buffer_set_text(buffer, connect, strlen(connect));
@@ -507,7 +507,7 @@ mud_edit_window_ok_cb(GtkWidget *widget, MudEditWindow *mudedit)
 		g_free(mudedit->priv->mud);
 		mudedit->priv->mud = g_strdup(name);
 
-		// This seems to do nothing. WTF. -lh
+		/* FIXME This seems to do nothing. WTF. -lh */
 		gconf_client_remove_dir(client, keyname, &error);
 	}
 
