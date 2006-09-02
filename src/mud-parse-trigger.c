@@ -140,7 +140,9 @@ mud_parse_trigger_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudP
 			{
 				g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/gag", profile_name, (gchar *)entry->data);
 				gag = gconf_client_get_int(client, keyname, &error);
-				
+
+				// FIXME: Kill this global and get a sane
+				// way of doing this in here. - lh
 				if(gag)
 					doGag = TRUE;
 					
@@ -156,9 +158,11 @@ mud_parse_trigger_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudP
 			if(stripped_data)
 				g_free(stripped_data);
 		}
-	}	
+	}
 
-	g_free(triggers);
+	if(triggers)
+		g_slist_free(triggers);
+
 	return doGag;
 }
 

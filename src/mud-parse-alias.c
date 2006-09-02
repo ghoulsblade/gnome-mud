@@ -138,8 +138,10 @@ mud_parse_alias_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudPar
 				g_free(regexstr);
 		}
 	}	
-	
-	g_free(aliases);
+
+	if(aliases)
+		g_slist_free(aliases);
+
 	return send_line;
 }
 
