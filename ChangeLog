@@ -1,3 +1,10 @@
+2006-09-04  Les Harris  <lescom@comcast.net>
+
+	* src/mud-window-mudedit.c, src/mud-window-mudlist.c,
+	src/mud-connection-view.c:  Fixed a few things which
+	were previously warnings in GTK+ 2.8 which are now
+	critical in GTK+ 2.10.
+
 2006-09-02  Les Harris  <lescom@comcast.net>
 
 	* src/mud-parse-trigger.c, src/mud-parse-alias.c: Fixes a

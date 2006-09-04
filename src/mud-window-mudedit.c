@@ -198,6 +198,7 @@ mud_edit_window_query_gconf(MudEditWindow *mudedit)
 	gchar buf[255];
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(mudedit->priv->MudDescTextView));
 	gchar *desc;
+	gchar *str;
 
 	client = gconf_client_get_default();
 
@@ -212,8 +213,14 @@ mud_edit_window_query_gconf(MudEditWindow *mudedit)
 	}
 
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/host", mudedit->priv->mud);
-	gtk_entry_set_text(GTK_ENTRY(mudedit->priv->EntryHost),gconf_client_get_string(client, keyname, &error));
-	
+	str = gconf_client_get_string(client, keyname, &error);
+
+	if(str)
+	{
+		gtk_entry_set_text(GTK_ENTRY(mudedit->priv->EntryHost), str);
+		g_free(str);
+	}
+
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/port", mudedit->priv->mud);
 	g_snprintf(buf, 255, "%d", gconf_client_get_int(client, keyname, &error));
 	gtk_entry_set_text(GTK_ENTRY(mudedit->priv->EntryPort), buf);
@@ -231,7 +238,13 @@ mud_edit_window_query_gconf(MudEditWindow *mudedit)
 	}
 
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/theme", mudedit->priv->mud);
-	gtk_entry_set_text(GTK_ENTRY(mudedit->priv->EntryTheme), gconf_client_get_string(client, keyname, &error));
+	str = gconf_client_get_string(client, keyname, &error);
+
+	if(str)
+	{
+		gtk_entry_set_text(GTK_ENTRY(mudedit->priv->EntryTheme), str);
+		g_free(str);
+	}
 
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/codebase", mudedit->priv->mud);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(mudedit->priv->MudCodeBaseCombo), gconf_client_get_int(client, keyname, &error));	

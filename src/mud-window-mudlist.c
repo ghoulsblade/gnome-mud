@@ -211,7 +211,7 @@ mud_list_window_populate_treeview(MudListWindow *mudlist)
 		gtk_tree_store_set(store, &iter, NAME_COLUMN, gconf_client_get_string(client, keyname, &error), -1);
 		g_free(mname);
 	}	
-	g_free(muds);
+	g_slist_free(muds);
 }
 
 // Mudlist Callbacks

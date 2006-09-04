@@ -537,6 +537,8 @@ mud_connection_view_set_terminal_scrollback(MudConnectionView *view)
 static void
 mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view)
 {
+
+    if(view->priv->terminal)
 	vte_terminal_set_scroll_on_output(VTE_TERMINAL(view->priv->terminal),
 									  view->priv->profile->preferences->ScrollOnOutput);
 }
