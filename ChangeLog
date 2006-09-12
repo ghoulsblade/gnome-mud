@@ -1,3 +1,7 @@
+2006-09-12  Jordi Mallach  <jordi@sindominio.net>
+
+	* MAINTAINERS: Fix Les' email address, and add Mart.
+
 2006-09-04  Les Harris  <lescom@comcast.net>
 
 	* src/mud-window-mudedit.c, src/mud-window-mudlist.c,
