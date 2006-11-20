@@ -3,7 +3,6 @@
 # Please keep this file sorted alphabetically.
 gnome-mud.desktop.in
 gnome-mud.schemas.in
-src/eggtrayicon.c
 src/gconf-helper.c
 src/gnome-mud.c
 src/modules.c

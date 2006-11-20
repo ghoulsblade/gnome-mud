@@ -1,3 +1,7 @@
+2006-11-19  Les Harris  <lescom@comcast.net>
+
+	* POTFILES.in: Removed src/eggtrayicon.c
+
 2006-09-25  Pawan Chitrakar  <pchitrakar@gmail.com>
 
 	* ne.po: Updated Nepali Translation
