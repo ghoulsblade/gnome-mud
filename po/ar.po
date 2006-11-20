@@ -1,0 +1,1300 @@
+# Arabic translations for PACKAGE package.
+# Copyright (C) 2006 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-mud HEAD\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-11-17 21:15+0000\n"
+"PO-Revision-Date: 2006-11-17 22:26+0100\n"
+"Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
+"Language-Team: Arabic <doc@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n == 0 ? 0 : n == 1 ? 1 : n == 2 ? 2 : n >= 3 && n <= 10 ? 3 : n >= 11 && n <= 99 ? 4 : 5;\n"
+"X-Poedit-Language: Arabic\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../src/gconf-helper.c:74
+#, fuzzy, c-format
+msgid "%s already exists and is not a directory!"
+msgstr "ق ٪ موجود وليس اي دليل!"
+
+#: ../src/gconf-helper.c:83
+#, fuzzy, c-format
+msgid "%s does not exist and can NOT be created: %s"
+msgstr "شارة مجهولة موجودة و لا يمكن إنشاء الشارات."
+
+#: ../ui/directions.glade.h:1
+#, fuzzy
+msgid "*"
+msgstr "*"
+
+#: ../src/mud-connection-view.c:429
+#, fuzzy
+msgid "*** Connection closed.\n"
+msgstr "غطاء مغلق"
+
+#: ../src/mud-connection-view.c:442
+#, fuzzy, c-format
+msgid "*** Making connection to %s, port %d.\n"
+msgstr "ميناء خادم القاموس الذي سيتّصل به"
+
+#: ../ui/muds.glade.h:1
+#, fuzzy
+msgid "<b>Character name</b>"
+msgstr "اسم الموصول"
+
+#: ../ui/muds.glade.h:2
+#, fuzzy
+msgid "<b>Characters</b>"
+msgstr "محارف"
+
+#: ../ui/muds.glade.h:3
+#, fuzzy
+msgid "<b>Connection string</b>"
+msgstr "سلسلة البحث"
+
+#: ../ui/muds.glade.h:4
+#, fuzzy
+msgid "<b>Connection</b>"
+msgstr "<b>الاتصال</b>"
+
+#: ../ui/muds.glade.h:5
+#, fuzzy
+msgid "<b>Detailed info</b>"
+msgstr "معلومات التّرتيب"
+
+#: ../ui/muds.glade.h:6
+#, fuzzy
+msgid "<b>MUD list</b>"
+msgstr "قائمة الحسابات"
+
+#: ../ui/connect.glade.h:1
+#, fuzzy
+msgid "<b>MUDs and characters</b>"
+msgstr "رموز (لا فضاءات)"
+
+#: ../ui/muds.glade.h:7
+#, fuzzy
+msgid "<b>Mud Details</b>"
+msgstr "اظهار التفاصيل"
+
+#: ../ui/prefs.glade.h:1
+#, fuzzy
+msgid "<b>New Profile Name:</b>"
+msgstr "يجب أن يحتوي التقويم اسم"
+
+#: ../ui/connect.glade.h:2
+#, fuzzy
+msgid "<b>Profile to use</b>"
+msgstr "قاعدة البيانات المستعملة"
+
+#: ../ui/connect.glade.h:3
+#, fuzzy
+msgid "<b>Quick connect</b>"
+msgstr "الاتّصال كم_جهول"
+
+#: ../ui/main.glade.h:1
+#, fuzzy
+msgid "A Multi-User Dungeon (MUD) client for GNOME."
+msgstr "متعدد المستخدمين البرج (الطين) عميل للتمثال."
+
+#: ../gnome-mud.schemas.in.h:1
+#, fuzzy
+msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
+msgstr "إسم خط بانكو. \"Sans 12\" أو \"Monospace Bold 14\" مثلا."
+
+#: ../gnome-mud.schemas.in.h:2
+#, fuzzy
+msgid "A character that is used to split commands in a string like \"w;w;w;l\", which will be sent to the MUD as 4 separate commands."
+msgstr "طابعه التي تستخدم لتقسيم الاوامر في مثل الخيط / ث. ف. ف. م / ،الذي سيرسل الى الطين 4 قيادة مستقلة."
+
+#: ../plugins/automapper/map.c:678
+#, fuzzy
+msgid "A link already exists here!"
+msgstr "هويّة المراسَل موجودة مسبقاً"
+
+#: ../ui/muds.glade.h:8
+#, fuzzy
+msgid ""
+"ACKmud\n"
+"AberMUD\n"
+"AFKMud\n"
+"Chronicles\n"
+"Circlemud\n"
+"CoffeeMud\n"
+"Dawn\n"
+"DikuMUD\n"
+"Diku II\n"
+"DUM\n"
+"Embermud\n"
+"Emlenmud\n"
+"Envy\n"
+"Eye of the Storm\n"
+"GodWars\n"
+"Heavymud\n"
+"LP Mud\n"
+"Merc\n"
+"MOO\n"
+"Mordor\n"
+"MUCK\n"
+"MUSE\n"
+"MUSH\n"
+"MUX\n"
+"Oblivion\n"
+"ResortMUD\n"
+"ROM\n"
+"ROT\n"
+"Silly\n"
+"SMAUG\n"
+"SWR\n"
+"The Forests Edge\n"
+"\n"
+msgstr "اكمود / نابرمود / نافكمود / نشرونيكليس / نسيركليمود / نكوفيمود / نداون / نديكومود / نديكوالثاني / الفرقة / نيمبرمود / نيملنمود / ننفي / نيي من العاصفة / نغودوارس / نهيافيمود / م الحزب التحرري الوطنيتاريخ / نميرس / نمو / نموردور / نموك / نموسي / نموش /نموكس / نوبليفيون / نريسورتمود / نروم / نروت / نسيللى / نسماوغ / نسور / نثيحافة الغابات / ن / ن"
+
+#: ../gnome-mud.schemas.in.h:3
+#: ../src/mud-preferences-window.c:518
+#: ../src/mud-preferences-window.c:554
+#: ../ui/prefs.glade.h:2
+#, fuzzy
+msgid "Aliases"
+msgstr "أسماء بديلة"
+
+#: ../ui/prefs.glade.h:3
+#, fuzzy
+msgid "Appearence"
+msgstr "ابارينس"
+
+#: ../ui/prefs.glade.h:4
+#, fuzzy
+msgid "Background color:"
+msgstr "_لون الخلفية:"
+
+#: ../ui/prefs.glade.h:5
+#, fuzzy
+msgid "Blank"
+msgstr "فارغ"
+
+#: ../ui/main.glade.h:2
+#, fuzzy
+msgid "C_onnection..."
+msgstr "C_onnection..."
+
+#: ../plugins/automapper/map.c:3406
+#, fuzzy
+msgid "Can't create a link to another floor!"
+msgstr "لا يمكن ايجاد اي صلة آخر الكلمه!"
+
+#: ../plugins/automapper/map.c:735
+#, fuzzy
+msgid "Can't create a node here"
+msgstr "لا يمكن إنشاء لوحة مفاتيح مركّبة!"
+
+#: ../plugins/automapper/map.c:642
+#, fuzzy
+msgid "Canceled."
+msgstr "الغاؤها."
+
+#: ../plugins/automapper/map.c:3148
+#, fuzzy
+msgid "Cannot break links to a node going up or down"
+msgstr "لا يمكن كسر الروابط الى عقده الذهاب صعودا وهبوطا"
+
+#: ../src/mud-connection-view.c:629
+#, fuzzy
+msgid "Change P_rofile"
+msgstr "تغيير اللمحة المختصرة"
+
+#: ../ui/muds.glade.h:42
+#, fuzzy
+msgid "Character Properties"
+msgstr "الخصائص العامة للرمز"
+
+#: ../ui/main.glade.h:3
+#, fuzzy
+msgid "Close _Window"
+msgstr "غلق النّافذة"
+
+#: ../src/mud-connection-view.c:609
+#, fuzzy
+msgid "Close tab or window, whatever :)"
+msgstr "اغلاق نافذة ، أو حبة مهما :)"
+
+#: ../ui/connect.glade.h:4
+#, fuzzy
+msgid "Co_nnect"
+msgstr "ات_صال"
+
+#: ../ui/prefs.glade.h:6
+#, fuzzy
+msgid "Color and Fonts"
+msgstr "استخدام الخطوط الخاصة"
+
+#: ../gnome-mud.schemas.in.h:4
+#, fuzzy
+msgid "Color palette"
+msgstr "_لوحة الألوان:"
+
+#: ../ui/prefs.glade.h:7
+#, fuzzy
+msgid "Color palette:"
+msgstr "_لوحة الألوان:"
+
+#: ../gnome-mud.schemas.in.h:5
+#, fuzzy
+msgid "Command Divider"
+msgstr "سطر الأوامر"
+
+#: ../ui/prefs.glade.h:8
+#, fuzzy
+msgid "Command division character:"
+msgstr "مجموعة رموز مجهولة: %s"
+
+#: ../ui/prefs.glade.h:9
+#, fuzzy
+msgid "Command history:"
+msgstr "م_سح التاريخ"
+
+#: ../plugins/automapper/map.c:1458
+#, fuzzy
+msgid "Configure Automap"
+msgstr "إعداد خادم _X..."
+
+#: ../ui/main.glade.h:5
+#, fuzzy
+msgid "Connect to MUD"
+msgstr "الاتصال بالنّادل..."
+
+#: ../ui/main.glade.h:6
+#, fuzzy
+msgid "Connect to host"
+msgstr "الاتصال بالنّادل..."
+
+#: ../ui/connect.glade.h:5
+#: ../ui/main.glade.h:4
+#, fuzzy
+msgid "Connect"
+msgstr "اتّ_صل"
+
+#: ../ui/connect.glade.h:6
+#, fuzzy
+msgid "Connect..."
+msgstr "اتّ_صل"
+
+#: ../src/mud-window.c:466
+#, fuzzy
+msgid "Could not save the file in specified location!"
+msgstr "لا يمكن انقاذ الملف في مكان محدد!"
+
+#: ../plugins/automapper/map.c:1202
+#, fuzzy
+msgid "Create a new path:"
+msgstr "انشاء موضوع جديد"
+
+#. /* Set node properties */
+#. properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#. gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#. gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#. Create new link
+#: ../plugins/automapper/map.c:1508
+#, fuzzy
+msgid "Create new link"
+msgstr "لون الوصلة الجديدة"
+
+#: ../plugins/automapper/map.c:1026
+#, fuzzy
+msgid "Create"
+msgstr "إ_نشاء"
+
+#. Translator: "path" means "line of travel", ie "road"
+#: ../plugins/automapper/map.c:975
+#, fuzzy
+msgid "Creating a path"
+msgstr "مسار الجهاز"
+
+#: ../gnome-mud.schemas.in.h:6
+#, fuzzy
+msgid "Default color of the background"
+msgstr "لون الخلفية الإفتراضي"
+
+#: ../gnome-mud.schemas.in.h:7
+#, fuzzy
+msgid "Default color of the background, as a color specification (can be HTML-style hex digits, or a color name such as \"red\")."
+msgstr "اللون الإفتراضي لخلفية الشاشة الطرفيّة كمواصفة لونيّة (يمكن أن يكون بأسلوب HTML ذي الرقميّات السداسيّة أو كأسم لون مثل \"أحمر\")."
+
+#: ../gnome-mud.schemas.in.h:8
+#, fuzzy
+msgid "Default color of the text"
+msgstr "اللون الإفتراضي للنص في الشاشة الطرفيّة"
+
+#: ../gnome-mud.schemas.in.h:9
+#, fuzzy
+msgid "Default color of the text, as a color specification (can be HTML-style hex digits, or a color name such as \"red\")."
+msgstr "اللون الإفتراضي للنص في الشاشة الطرفيّة، كمواصفة لونيّة (يمكن أن يكون بأسلوب HTMLرقمي سداسي أو كأسم لون مثل \"أحمر\")."
+
+#. It would seem this node already has a connection to here, That's
+#. * possible so we need to inform the user that his move is illegal.
+#: ../plugins/automapper/map.c:3257
+#, fuzzy
+msgid "Destination node has already a connection here"
+msgstr "المقصد عقده بالفعل علاقة هنا"
+
+#: ../gnome-mud.schemas.in.h:10
+#: ../ui/directions.glade.h:2
+#, fuzzy
+msgid "Directional keybindings"
+msgstr "تفعيل إرتباطات المفاتيح العامة"
+
+#: ../ui/prefs.glade.h:10
+#, fuzzy
+msgid "Disable _System Keys"
+msgstr "_سرد المفاتيح الحديثة"
+
+#: ../ui/main.glade.h:8
+#, fuzzy
+msgid "Disconnect from current MUD"
+msgstr "فهرس العناوين الحالي - يبدأ من 1"
+
+#: ../ui/main.glade.h:9
+#, fuzzy
+msgid "Disconnect from current host"
+msgstr "%s:  opcode مجهول من المستضيف %s"
+
+#: ../ui/main.glade.h:7
+#, fuzzy
+msgid "Disconnect"
+msgstr "_قطع الاتصال"
+
+#: ../ui/directions.glade.h:3
+#: ../plugins/automapper/map.c:1832
+#: ../plugins/automapper/map.c:3679
+#, fuzzy
+msgid "Down"
+msgstr "أسفل"
+
+#. Translator: "E" means "East" here
+#: ../plugins/automapper/map.c:1820
+#: ../plugins/automapper/map.c:3672
+#, fuzzy
+msgid "E"
+msgstr "E"
+
+#: ../ui/directions.glade.h:4
+#, fuzzy
+msgid "East"
+msgstr "شرق"
+
+#: ../src/mud-connection-view.c:665
+#, fuzzy
+msgid "Edit Current Profile..."
+msgstr "_تحرير التقويم الحالي..."
+
+#: ../ui/muds.glade.h:43
+#, fuzzy
+msgid "Edit MUD"
+msgstr "ت_حرير الخط"
+
+#: ../src/modules.c:265
+#, fuzzy
+msgid "Enable plugin"
+msgstr "مُلحق الصوت"
+
+#: ../src/mud-preferences-window.c:361
+#: ../src/mud-preferences-window.c:387
+#, fuzzy
+msgid "Enabled"
+msgstr "مفعّل"
+
+#: ../plugins/automapper/map.c:1195
+#, fuzzy
+msgid "Enter in a path"
+msgstr "مسار غير كامل في الصدفة \"shell\""
+
+#: ../plugins/automapper/map.c:1219
+#, fuzzy
+msgid "Enter in existing path:"
+msgstr "مسار غير كامل في الصدفة \"shell\""
+
+#. Change the automap state
+#: ../plugins/automapper/map.c:1277
+#, fuzzy
+msgid "Enter to finish, Esc to quit"
+msgstr "الدخول الى النهاية ، وخروج على الخروج"
+
+#. Translator: this is an action, not a key
+#: ../plugins/automapper/map.c:1515
+#, fuzzy
+msgid "Enter"
+msgstr "إدخال"
+
+#: ../ui/prefs.glade.h:11
+#, fuzzy
+msgid "Error At:"
+msgstr "خطأ تلقي السيمة عند '%s': %s\n"
+
+#: ../ui/prefs.glade.h:12
+#, fuzzy
+msgid "Error Code:"
+msgstr "رقم رمز الدولة"
+
+#: ../ui/prefs.glade.h:13
+#, fuzzy
+msgid "Error String:"
+msgstr "سلسلة البحث"
+
+#: ../src/modules.c:423
+#, fuzzy, c-format
+msgid "Error getting plugin handle (%s): %s."
+msgstr "خطأ عند تلقّي المشهد الكتابي"
+
+#: ../src/mud-preferences-window.c:1590
+#: ../src/mud-preferences-window.c:1695
+#, fuzzy
+msgid "Error in Regex."
+msgstr "خطأ في الـ CRL"
+
+#: ../src/modules_api.c:104
+#, fuzzy
+msgid "Error while getting plugin from handle."
+msgstr "خطأ حين حصول البرنامج المساعد من معالجتها."
+
+#: ../src/modules_api.c:96
+#, fuzzy, c-format
+msgid "Error while registering data %s: %s"
+msgstr "خطأ مزامنة بيانات الإعدادات: %s"
+
+#: ../src/modules_api.c:69
+#, fuzzy, c-format
+msgid "Error while registering the menu: %s"
+msgstr "خطأ أثناء فتح الرُّزنامة"
+
+#: ../src/modules.c:428
+#, fuzzy, c-format
+msgid "Error, %s not an GNOME-Mud module: %s."
+msgstr "خطأ ، أو ليس ف٪ تمثال الطين - الوحدة : ٪ س."
+
+#: ../src/gnome-mud.c:94
+#, fuzzy, c-format
+msgid "Failed to init GConf: %s"
+msgstr "فشل تشغيل GConf: %s\n"
+
+#: ../gnome-mud.schemas.in.h:11
+#, fuzzy
+msgid "File where the mud list (used in the MudList dialog) will be read"
+msgstr "الملف يها الطين القائمة) تستخدم في الحوار مودليست) قراءة"
+
+#: ../gnome-mud.schemas.in.h:12
+#, fuzzy
+msgid "Font"
+msgstr "خط"
+
+#: ../ui/prefs.glade.h:14
+#, fuzzy
+msgid "Font:"
+msgstr "خط"
+
+#: ../ui/prefs.glade.h:15
+#, fuzzy
+msgid "Foreground color:"
+msgstr "لون الواجهة الأمامية"
+
+#: ../ui/prefs.glade.h:16
+#, fuzzy
+msgid "Functionality"
+msgstr "وظيفة"
+
+#. Set the title
+#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
+#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
+#: ../plugins/automapper/map.c:3550
+#, fuzzy
+msgid "GNOME-Mud AutoMapper"
+msgstr "تفضيلات آي أوف جنوم"
+
+#: ../ui/main.glade.h:11
+#, fuzzy
+msgid "GNOME-Mud Homepage"
+msgstr "تفضيلات آي أوف جنوم"
+
+#: ../gnome-mud.schemas.in.h:13
+#, fuzzy
+msgid "GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in the form of a colon-separated list of color names. Color names should be in hex format e.g. \"#FF00FF\"."
+msgstr "- تمثال الطين له 16 لون يسجل ذلك للاستفادة من الاطيان.ويجب ان يحدد في اي شكل من القولون - فصل الألوان قائمة الاسماء.لون الاسماء في ضوء الصيغة هيكس/ # Ff00ff /."
+
+#: ../gnome-mud.schemas.in.h:14
+#: ../ui/prefs.glade.h:17
+#, fuzzy
+msgid "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if the MUD requests one. This option sets the terminal type that will be sent."
+msgstr "- تمثال الطين ستحاول نقل محطة نوع (مثل المءسسه الامريكية الوطنية للمقاييس او vt100) اذا تطلب الطين.هذا الخيار يحدد نوع المحطة التي سترسل."
+
+#: ../gnome-mud.desktop.in.h:1
+#: ../ui/main.glade.h:10
+#, fuzzy
+msgid "GNOME-Mud"
+msgstr "آي أوف جنوم"
+
+#: ../src/mud-preferences-window.c:388
+#, fuzzy
+msgid "Gag"
+msgstr "كمامه"
+
+#: ../ui/connect.glade.h:7
+#, fuzzy
+msgid "Host:"
+msgstr "مضيف"
+
+#: ../gnome-mud.schemas.in.h:15
+#, fuzzy
+msgid "How many entries to keep in the command history"
+msgstr "وكم من الدخول الى ابقاء القيادة في التاريخ"
+
+#: ../gnome-mud.schemas.in.h:16
+#, fuzzy
+msgid "How many entries to keep in the command history."
+msgstr "وكم من الدخول الى ابقاء القيادة في التاريخ."
+
+#: ../gnome-mud.schemas.in.h:17
+#, fuzzy
+msgid "How often in seconds gnome-mud should flush logfiles."
+msgstr "كم ثانية في تمثال الطين - يجب طرد لوغفيليس."
+
+#: ../gnome-mud.schemas.in.h:18
+#, fuzzy
+msgid "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be overridden by custom keybindings, or they can be disabled completely with this option."
+msgstr "واذا سمح للتمثال الطين ستطرح خلال مدمج كيبيندينغس.ويمكن التغاضي عن هذه العادة كيبيندينغس ، او ان يكون عاجزا تماما مع هذا الخيار."
+
+#: ../ui/prefs.glade.h:18
+#, fuzzy
+msgid "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be overriden by custom keybindings, or they can be disabled completely with this option."
+msgstr "واذا سمح للتمثال الطين ستطرح خلال مدمج كيبيندينغس.ويمكن ان تنقضها كيبيندينغس العرف ، او ان يكون عاجزا تماما مع هذا الخيار."
+
+#: ../gnome-mud.schemas.in.h:19
+#: ../ui/prefs.glade.h:19
+#, fuzzy
+msgid "If enabled, all the text typed in will be echoed in the terminal, making it easier to control what is sent."
+msgstr "اذا تمكن كل مطبوعة في النص سوف يكون لها صداها في المحطة ،مما يسهل السيطرة على ما ارسل."
+
+#: ../gnome-mud.schemas.in.h:20
+#: ../ui/prefs.glade.h:20
+#, fuzzy
+msgid "If enabled, the text that is sent to the connection will be left as a selection in the entry box. Otherwise, the text entry box will be cleared after each text input."
+msgstr "إذا ، يمكن ان يرسل النص الى السياق سوف يترك فاختيار الدخول في الصندوق.الا ان النص سوف يكون دخول المربع بعد النص ازالة كل مساهمه."
+
+#: ../gnome-mud.schemas.in.h:21
+#: ../ui/prefs.glade.h:21
+#, fuzzy
+msgid "If enabled, whenever there's new output the terminal will be scrolled to the bottom."
+msgstr "إذا ، كلما تمكن هناك الجديد ناتج سيتم محرك الى القاع."
+
+#: ../gnome-mud.schemas.in.h:22
+#, fuzzy
+msgid "Keybindings"
+msgstr "تفعيل إرتباطات المفاتيح العامة"
+
+#: ../gnome-mud.schemas.in.h:23
+#, fuzzy
+msgid "Last log file"
+msgstr "فتح ملف الرسائل %s\n"
+
+#: ../plugins/automapper/map.c:731
+#, fuzzy
+msgid "Link created"
+msgstr "تم إنشاء الملف '%s'"
+
+#: ../gnome-mud.schemas.in.h:24
+#, fuzzy
+msgid "List of MUDs known to GNOME-Mud. The list contains strings naming subdirectories relative to /apps/gnome-mud/muds"
+msgstr "قائمة اللمحات المختصرة المعروفة لشاشة جنوم الطرفية. تحوي القائمة سلاسل تسمي الدلائل الفرعية نسبة إلى /apps/gnome-terminal/profiles."
+
+#: ../gnome-mud.schemas.in.h:25
+#, fuzzy
+msgid "List of Muds"
+msgstr "قائمة الحسابات"
+
+#: ../gnome-mud.schemas.in.h:26
+#, fuzzy
+msgid "List of commands which will be treated as movement commands by the automapper. A semicolon is used to separate each command."
+msgstr "قائمة الاوامر التي ستعامل بها قيادة الحركة في اوتومابر.منقوطه استخدام كل فصل القيادة."
+
+#: ../gnome-mud.schemas.in.h:28
+#, fuzzy
+msgid "List of connections known to GNOME-Mud. The list contains strings naming subdirectories relative to /apps/gnome-mud/connections."
+msgstr "قائمة اللمحات المختصرة المعروفة لشاشة جنوم الطرفية. تحوي القائمة سلاسل تسمي الدلائل الفرعية نسبة إلى /apps/gnome-terminal/profiles."
+
+#: ../gnome-mud.schemas.in.h:27
+#, fuzzy
+msgid "List of connections"
+msgstr "الإتّصالات النّشطة"
+
+#: ../gnome-mud.schemas.in.h:29
+#, fuzzy
+msgid "List of movement commands"
+msgstr "قائمة بأوامر gnopernicus"
+
+#: ../gnome-mud.schemas.in.h:31
+#, fuzzy
+msgid "List of profiles known to GNOME-Mud. The list contains strings naming subdirectories relative to /apps/gnome-mud/profiles."
+msgstr "قائمة اللمحات المختصرة المعروفة لشاشة جنوم الطرفية. تحوي القائمة سلاسل تسمي الدلائل الفرعية نسبة إلى /apps/gnome-terminal/profiles."
+
+#: ../gnome-mud.schemas.in.h:30
+#, fuzzy
+msgid "List of profiles"
+msgstr "قائمة اللمحات المختصرة"
+
+#: ../plugins/automapper/map.c:2893
+#, fuzzy
+msgid "Load map"
+msgstr "حمّل إفتراضات خريطة اﻷوامر"
+
+#. Some buttons
+#: ../plugins/automapper/map.c:1834
+#: ../plugins/automapper/map.c:3665
+#, fuzzy
+msgid "Load"
+msgstr "تحميل"
+
+#: ../gnome-mud.schemas.in.h:32
+#, fuzzy
+msgid "Log flush interval"
+msgstr "فاصل الحفظ الآلي"
+
+#: ../ui/directions.glade.h:5
+#, fuzzy
+msgid "Look"
+msgstr "المظهر"
+
+#: ../ui/muds.glade.h:44
+#, fuzzy
+msgid "MUD List"
+msgstr "قائمة الحسابات"
+
+#: ../ui/prefs.glade.h:22
+#, fuzzy
+msgid "Match Text:"
+msgstr "نص العلامة."
+
+#: ../ui/prefs.glade.h:23
+#, fuzzy
+msgid "Match:"
+msgstr "<b>مطابقة</b>"
+
+#: ../gnome-mud.schemas.in.h:33
+#, fuzzy
+msgid "Mudlist file"
+msgstr "إنتقاء ملف"
+
+#. Can easily be optimised ... but why bother ?
+#. Translator: "N" means "North" here
+#. Create button directions
+#: ../plugins/automapper/map.c:1816
+#: ../plugins/automapper/map.c:3670
+#, fuzzy
+msgid "N"
+msgstr "ن"
+
+#. Translator: "NE" means "Northeast" here
+#: ../plugins/automapper/map.c:1818
+#: ../plugins/automapper/map.c:3671
+#, fuzzy
+msgid "NE"
+msgstr "عنصر _جديد"
+
+#. Translator: "NW" means "Northwest" here
+#: ../plugins/automapper/map.c:1830
+#: ../plugins/automapper/map.c:3677
+#, fuzzy
+msgid "NW"
+msgstr "الاسلحة النووية"
+
+#: ../src/mud-preferences-window.c:360
+#: ../src/mud-preferences-window.c:386
+#, fuzzy
+msgid "Name"
+msgstr "اسم"
+
+#: ../plugins/automapper/map.c:966
+#, fuzzy
+msgid "New Map"
+msgstr "خارطة صورة"
+
+#: ../ui/prefs.glade.h:24
+#, fuzzy
+msgid "New Profile"
+msgstr "لمحة مختصرة جديدة"
+
+#: ../plugins/automapper/map.c:990
+#, fuzzy
+msgid "New map"
+msgstr "خارطة صورة"
+
+#: ../plugins/automapper/map.c:3142
+#, fuzzy
+msgid "No link existed in that direction"
+msgstr "لا توجد علاقة في هذا الاتجاه"
+
+#: ../src/mud-preferences-window.c:1635
+#: ../src/mud-preferences-window.c:1740
+#, fuzzy
+msgid "No match."
+msgstr "مطابقة التّعبير النّظامي"
+
+#: ../ui/directions.glade.h:6
+#, fuzzy
+msgid "North"
+msgstr "شمال"
+
+#: ../ui/directions.glade.h:7
+#, fuzzy
+msgid "Northeast"
+msgstr "شمال شرقي"
+
+#: ../ui/directions.glade.h:8
+#, fuzzy
+msgid "Northwest"
+msgstr "شمال غربي"
+
+#: ../gnome-mud.schemas.in.h:34
+#, fuzzy
+msgid "Number of lines to keep in scrollback"
+msgstr "عدد السطور التي سيبقى عليها عند اللف إلى الخلف"
+
+#: ../ui/prefs.glade.h:25
+#, fuzzy
+msgid "Number of lines to save in the scrollback."
+msgstr "عدد السطور التي سيبقى عليها عند اللف إلى الخلف"
+
+#: ../gnome-mud.schemas.in.h:35
+#, fuzzy
+msgid "Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lines; lines that don't fit in the scrollback are discarded."
+msgstr "عدد سكرولباك حول ابقاء خطوط.يمكنك فيفه مرة في محطة من هذا العدد من الخطوط.الخطوط التي لا تندرج في سكرولباك نبذها."
+
+#: ../ui/muds.glade.h:45
+#, fuzzy
+msgid "P_rofile:"
+msgstr "تغيير اللمحة المختصرة"
+
+#: ../ui/main.glade.h:12
+#, fuzzy
+msgid "P_rofiles"
+msgstr "ت_قويمات..."
+
+#: ../src/gconf-helper.c:134
+#, fuzzy, c-format
+msgid "Palette had %d entry instead of %d\n"
+msgid_plural "Palette had %d entries instead of %d\n"
+msgstr[0] "كان للملون مُدخلٌ واحد بدلاً من %d\n"
+msgstr[1] ""
+
+#. The radio button (default)
+#: ../plugins/automapper/map.c:1007
+#, fuzzy
+msgid "Path follows an already existing path:"
+msgstr "يتبع الطريق الموجودة طريق :"
+
+#. The radio button (new map)
+#: ../plugins/automapper/map.c:983
+#, fuzzy
+msgid "Path leads to a new map"
+msgstr "طريق يفضي الى خريطه جديدة"
+
+#: ../src/gnome-mud.c:67
+#, fuzzy
+msgid "Please check your GConf configuration, specifically that the schemas have been installed correctly."
+msgstr "رجاء تثبت من إعدادات GConf، خاصة من صحة تثبيت المخططات."
+
+#: ../src/modules.c:235
+#, fuzzy
+msgid "Plugin Author:"
+msgstr "معلموات المؤلف"
+
+#: ../src/modules.c:255
+#, fuzzy
+msgid "Plugin Description:"
+msgstr "الوصف يحتوي على"
+
+#: ../src/modules.c:199
+#, fuzzy
+msgid "Plugin Information"
+msgstr "بيانات سيّئة"
+
+#: ../src/modules.c:215
+#, fuzzy
+msgid "Plugin Name:"
+msgstr "اسم الموصول"
+
+#: ../src/modules.c:245
+#, fuzzy
+msgid "Plugin Version:"
+msgstr "اصدارة الرزمة"
+
+#: ../ui/main.glade.h:13
+#, fuzzy
+msgid "Plugin _Information..."
+msgstr "بيانات سيّئة"
+
+#: ../src/modules.c:379
+#, fuzzy, c-format
+msgid "Plugin error (%s)"
+msgstr ""
+"خطأ GConf:\n"
+"  %s"
+
+#: ../ui/connect.glade.h:8
+#, fuzzy
+msgid "Port:"
+msgstr "الميناء:"
+
+#: ../src/mud-preferences-window.c:511
+#: ../src/mud-preferences-window.c:548
+#: ../ui/prefs.glade.h:26
+#, fuzzy
+msgid "Preferences"
+msgstr "تفضيلات"
+
+#: ../ui/prefs.glade.h:27
+#, fuzzy
+msgid "Profiles"
+msgstr "لمحات مختصرة"
+
+#: ../ui/main.glade.h:14
+#, fuzzy
+msgid "Q_uick Connect..."
+msgstr "الاتّصال كم_جهول"
+
+#. Create the hint label
+#: ../plugins/automapper/map.c:730
+#: ../plugins/automapper/map.c:3642
+#: ../plugins/automapper/map.c:3645
+#, fuzzy
+msgid "Ready"
+msgstr "حاظر"
+
+#. Free the create_link_data structure
+#: ../plugins/automapper/map.c:641
+#, fuzzy
+msgid "Ready."
+msgstr "حاظر"
+
+#: ../ui/main.glade.h:16
+#, fuzzy
+msgid "Reconnect to current MUD"
+msgstr "ضبط كال_صفحة الحالية"
+
+#: ../ui/main.glade.h:15
+#, fuzzy
+msgid "Reconnect"
+msgstr "اعد ربط"
+
+#: ../ui/prefs.glade.h:28
+#, fuzzy
+msgid "Regex Error"
+msgstr ""
+"خطأ GConf:\n"
+"  %s"
+
+#: ../plugins/automapper/map.c:1833
+#: ../plugins/automapper/map.c:3667
+#, fuzzy
+msgid "Remove"
+msgstr "احذف"
+
+#. Translator: "S" means "South" here
+#: ../plugins/automapper/map.c:1824
+#: ../plugins/automapper/map.c:3674
+#, fuzzy
+msgid "S"
+msgstr "S"
+
+#. Translator: "SE" means "Southeast" here
+#: ../plugins/automapper/map.c:1822
+#: ../plugins/automapper/map.c:3673
+#, fuzzy
+msgid "SE"
+msgstr "STUN خادم"
+
+#. Translator: "SW" means "Southwest" here
+#: ../plugins/automapper/map.c:1826
+#: ../plugins/automapper/map.c:3675
+#, fuzzy
+msgid "SW"
+msgstr "جنوب غربى"
+
+#: ../ui/prefs.glade.h:29
+#, fuzzy
+msgid "S_croll on output"
+msgstr "لف عند الإخراج"
+
+#: ../ui/main.glade.h:17
+#, fuzzy
+msgid "Save buffer as..."
+msgstr "حفظ الملف كـ"
+
+#: ../plugins/automapper/map.c:2893
+#, fuzzy
+msgid "Save map"
+msgstr "خارطة صورة"
+
+#: ../plugins/automapper/map.c:1835
+#: ../plugins/automapper/map.c:3666
+#, fuzzy
+msgid "Save"
+msgstr "حفظ"
+
+#: ../ui/prefs.glade.h:30
+#, fuzzy
+msgid "Scrollback:"
+msgstr "سكرولباك :"
+
+#: ../ui/directions.glade.h:9
+#, fuzzy
+msgid "South"
+msgstr "جنوب"
+
+#: ../ui/directions.glade.h:10
+#, fuzzy
+msgid "Southeast"
+msgstr "جنوب شرقي"
+
+#: ../ui/directions.glade.h:11
+#, fuzzy
+msgid "Southwest"
+msgstr "جنوب غربي"
+
+#: ../ui/main.glade.h:18
+#, fuzzy
+msgid "Start _Logging..."
+msgstr "إبدأ مخفياً"
+
+#: ../ui/main.glade.h:19
+#, fuzzy
+msgid "Stop Lo_gging"
+msgstr "ايقاف العملية الحالية"
+
+#: ../gnome-mud.schemas.in.h:36
+#, fuzzy
+msgid "Tab location"
+msgstr "افتح موقع %s"
+
+#. Teleport here
+#: ../plugins/automapper/map.c:1498
+#, fuzzy
+msgid "Teleport here"
+msgstr "استخراج هنا"
+
+#: ../gnome-mud.schemas.in.h:37
+#, fuzzy
+msgid "Terminal type"
+msgstr "نوع التّنبيه"
+
+#: ../ui/prefs.glade.h:31
+#, fuzzy
+msgid "Terminal type:"
+msgstr "نوع التّنبيه"
+
+#: ../ui/prefs.glade.h:32
+#, fuzzy
+msgid "Test"
+msgstr "إختبار"
+
+#: ../gnome-mud.desktop.in.h:2
+#, fuzzy
+msgid "The GNOME MUD Client"
+msgstr "شهادة عميل SSL"
+
+#: ../ui/prefs.glade.h:33
+#, fuzzy
+msgid "The character used to divide commands sent to the mud. For example \";\" will let the string \"w;look\" be sent to the mud as two separate commands."
+msgstr "كانت طبيعه تقسيم اوامر الى الطين.مثلا /. / تترك شريطا / ث. نظرة / ارساله الى الأوحال فهما قيادة مستقلة."
+
+#: ../src/gnome-mud.c:66
+#, fuzzy
+msgid "The default configuration values could not be retrieved correctly."
+msgstr "لم يمكن سحب قيم الإعدادات الإفتراضيّة بسلامة."
+
+#: ../gnome-mud.schemas.in.h:38
+#, fuzzy
+msgid "The file in which a mudlog was last saved."
+msgstr "الملف الذي انقذ مودلوغ الماضي."
+
+#: ../gnome-mud.schemas.in.h:39
+#, fuzzy
+msgid "The location of the connection tabs. Valid options are \"left\", \"right\", \"top\" and \"bottom\"."
+msgstr "مواقع ربط الاسعار.الخيارات الصحيحه / أليسار / ، / حق / و/ قمة / و / القاعده /."
+
+#: ../ui/prefs.glade.h:34
+#, fuzzy
+msgid "The number of entries to be saved in the command history."
+msgstr "عدد البنود التى سيتم توفيرها فى القيادة التاريخ."
+
+#: ../plugins/automapper/map.c:3412
+#, fuzzy
+msgid "There is already a link here!"
+msgstr "عفوا، شعار بالإسم \"%s\" موجود مسبقا."
+
+#: ../src/gnome-mud.c:53
+#, fuzzy, c-format
+msgid "There was an error accessing GConf: %s"
+msgstr "حصل خطأ عند النفاذ إلى GConf: %s"
+
+#: ../src/mud-connection-view.c:126
+#, fuzzy, c-format
+msgid "There was an error loading config value for whether to use image in menus. (%s)\n"
+msgstr "حدث خطأ عند تحميل قيمة الإعداد لإماكنيّة استعمال صور في القوائم. (%s)\n"
+
+#: ../plugins/automapper/map.c:1270
+#, fuzzy
+msgid "This node has already 8 links. Destroy one of these before trying to create a new one"
+msgstr "هذه العقده قد 8 الروابط.تدمير احد هذه قبل محاولة خلق جديد"
+
+#: ../gnome-mud.schemas.in.h:40
+#: ../src/mud-preferences-window.c:524
+#: ../src/mud-preferences-window.c:561
+#: ../ui/prefs.glade.h:35
+#, fuzzy
+msgid "Triggers"
+msgstr "نوابض"
+
+#: ../ui/directions.glade.h:12
+#: ../plugins/automapper/map.c:1831
+#: ../plugins/automapper/map.c:3678
+#, fuzzy
+msgid "Up"
+msgstr "أعلى"
+
+#: ../plugins/automapper/map.c:1278
+#, fuzzy
+msgid "Use move buttons to build the link."
+msgstr "استخدام أزرار التحرك لبناء علاقة."
+
+#: ../gnome-mud.schemas.in.h:41
+#, fuzzy
+msgid "Variables"
+msgstr "متغيرات"
+
+#. Translator: "W" means "West" here
+#: ../plugins/automapper/map.c:1828
+#: ../plugins/automapper/map.c:3676
+#, fuzzy
+msgid "W"
+msgstr "W"
+
+#: ../ui/directions.glade.h:13
+#, fuzzy
+msgid "West"
+msgstr "غرب"
+
+#: ../gnome-mud.schemas.in.h:42
+#, fuzzy
+msgid "Whether to echo sent text to the connection"
+msgstr "اذا كان صدى ارسال النص ألى السياق"
+
+#: ../gnome-mud.schemas.in.h:43
+#, fuzzy
+msgid "Whether to enable or disable the system keys"
+msgstr "او هل يمكن ان يضعف النظام المفاتيح"
+
+#: ../gnome-mud.schemas.in.h:44
+#, fuzzy
+msgid "Whether to keep text sent to the connection"
+msgstr "اما الابقاء على النص ارسل يما"
+
+#: ../gnome-mud.schemas.in.h:45
+#, fuzzy
+msgid "Whether to scroll to the bottom when there's new output"
+msgstr "فيما إذا سيقع اللف إلى الأسفل عند حصول إخراج جديد"
+
+#: ../plugins/automapper/map.c:1456
+#, fuzzy
+msgid "Zoom In"
+msgstr "تكبير"
+
+#: ../plugins/automapper/map.c:1457
+#, fuzzy
+msgid "Zoom Out"
+msgstr "تصغير"
+
+#: ../src/mud-log.c:178
+#, fuzzy
+msgid ""
+"\n"
+" *** Log stops *** %d/%m/%Y %H:%M:%S\n"
+msgstr "<b>حدود التبويبات</b>"
+
+#: ../src/mud-log.c:142
+#, fuzzy
+msgid ""
+"\n"
+"*** Log starts *** %d/%m/%Y %H:%M:%S\n"
+msgstr "يبدء بـ"
+
+#: ../ui/prefs.glade.h:36
+#, fuzzy
+msgid "_Action List:"
+msgstr "قائمة أسماء الأعمال"
+
+#: ../ui/muds.glade.h:46
+#, fuzzy
+msgid "_Add..."
+msgstr "أ_ضِف..."
+
+#: ../ui/connect.glade.h:9
+#, fuzzy
+msgid "_Close"
+msgstr "أ_غلق"
+
+#: ../ui/muds.glade.h:47
+#, fuzzy
+msgid "_Code base:"
+msgstr "أساس DN:"
+
+#: ../ui/muds.glade.h:48
+#, fuzzy
+msgid "_Delete"
+msgstr "إح_ذف"
+
+#: ../ui/muds.glade.h:49
+#, fuzzy
+msgid "_Description:"
+msgstr "ال_وصف:"
+
+#: ../ui/main.glade.h:20
+#, fuzzy
+msgid "_Disconnect"
+msgstr "_قطع الاتصال"
+
+#: ../ui/prefs.glade.h:37
+#, fuzzy
+msgid "_Echo the text sent"
+msgstr "كمجلّد _مُرسلات"
+
+#: ../ui/muds.glade.h:50
+#, fuzzy
+msgid "_Edit..."
+msgstr "_تحرير"
+
+#: ../ui/main.glade.h:21
+#, fuzzy
+msgid "_File"
+msgstr "_ملف"
+
+#: ../ui/main.glade.h:22
+#, fuzzy
+msgid "_Help"
+msgstr "م_ساعدة"
+
+#: ../src/mud-tray.c:161
+#, fuzzy
+msgid "_Hide window"
+msgstr "إظهار/إخفاء شريط حالة النّافذة."
+
+#: ../ui/muds.glade.h:51
+#, fuzzy
+msgid "_Host/IP:"
+msgstr "ترجمة IP"
+
+#: ../src/mud-connection-view.c:673
+#, fuzzy
+msgid "_Input Methods"
+msgstr "طرق ال_إدخال"
+
+#: ../ui/prefs.glade.h:38
+#, fuzzy
+msgid "_Keep the text entered"
+msgstr "نص مدخل من قبل المستخدم"
+
+#: ../src/mud-window.c:623
+#, fuzzy
+msgid "_Manage Profiles..."
+msgstr "قائمة اللمحات المختصرة"
+
+#: ../ui/main.glade.h:23
+#, fuzzy
+msgid "_Mud List..."
+msgstr "قائمة الحسابات"
+
+#: ../ui/muds.glade.h:52
+#: ../ui/prefs.glade.h:39
+#, fuzzy
+msgid "_Name:"
+msgstr "الإ_سم:"
+
+#: ../ui/main.glade.h:24
+#, fuzzy
+msgid "_Plugins"
+msgstr "ملحقات"
+
+#: ../ui/muds.glade.h:53
+#, fuzzy
+msgid "_Port:"
+msgstr "ال_مَنْفذ:"
+
+#: ../ui/muds.glade.h:54
+#, fuzzy
+msgid "_Properties..."
+msgstr "_خاصيات"
+
+#: ../src/mud-tray.c:168
+#, fuzzy
+msgid "_Quit"
+msgstr "إ_نهي"
+
+#: ../ui/main.glade.h:25
+#, fuzzy
+msgid "_Reconnect"
+msgstr "_reconnect"
+
+#: ../ui/prefs.glade.h:40
+#, fuzzy
+msgid "_Regex:"
+msgstr "مطابقة التّعبير النّظامي"
+
+#: ../ui/main.glade.h:26
+#, fuzzy
+msgid "_Save Buffer..."
+msgstr "(ذاكرة مخبأة)"
+
+#: ../ui/main.glade.h:27
+#, fuzzy
+msgid "_Settings"
+msgstr "_تعيينات"
+
+#: ../ui/muds.glade.h:55
+#, fuzzy
+msgid "_Show in Quick Connect"
+msgstr "عرض شارات في البريمج"
+
+#: ../src/mud-tray.c:163
+#, fuzzy
+msgid "_Show window"
+msgstr "إظهار/إخفاء شريط حالة النّافذة."
+
+#: ../ui/muds.glade.h:56
+#, fuzzy
+msgid "_Theme:"
+msgstr "_سِمة:"
+
+#: ../ui/prefs.glade.h:41
+#, fuzzy
+msgid "_Trigger:"
+msgstr "الإجراء/المحفّز"
+
+#: ../ui/prefs.glade.h:42
+#, fuzzy
+msgid "lines"
+msgstr "سطور"
+
+#. TRANSLATORS: Replace this string with your names, one name per line.
+#: ../ui/main.glade.h:29
+#, fuzzy
+msgid "translator-credits"
+msgstr "Yousef Raffah يوسف رفه (yousef@raffah.com)"
+
+#: ../ui/main.glade.h:30
+#, fuzzy
+msgid "© 1998-2006 Robin Ericsson"
+msgstr "© 1998-2006 روبن اريكسون"
+
