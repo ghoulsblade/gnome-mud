@@ -1,5 +1,4 @@
-# translation of es.po to Spanish
-# translation of gnome-mud.HEAD.es.po to Spanish
+# translation of es.po to
 # Spanish Messages for the GNOME-Mud Client.
 # Copyright (C) 2000, 2001, 2002,2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 # $Id$
@@ -11,15 +10,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-31 14:26+0200\n"
-"PO-Revision-Date: 2006-05-23 03:08+0200\n"
-"Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
-"Language-Team: Spanish <traductores@es.gnome.org>\n"
+"POT-Creation-Date: 2006-12-08 17:36+0100\n"
+"PO-Revision-Date: 2006-12-08 17:54+0100\n"
+"Last-Translator: \n"
+"Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.9.1\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../gnome-mud.desktop.in.h:1 ../ui/main.glade.h:10
 msgid "GNOME-Mud"
@@ -31,8 +30,7 @@ msgstr "El cliente de MUD de GNOME"
 
 #: ../gnome-mud.schemas.in.h:1
 msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
-msgstr ""
-"Un nombre de tipografía Pango. Por ejemplo «Sans 12» o «Monospace Bold 14»."
+msgstr "Un nombre de tipografía Pango. Por ejemplo «Sans 12» o «Monospace Bold 14»."
 
 #: ../gnome-mud.schemas.in.h:2
 msgid ""
@@ -84,10 +82,8 @@ msgid "Directional keybindings"
 msgstr "Combinaciones de teclas direccionales"
 
 #: ../gnome-mud.schemas.in.h:11
-msgid ""
-"File where the mud list will be read from to be used in the MudList dialog."
-msgstr ""
-"Archivo donde la lista de mud será leída para usarse en el diálogo MudList."
+msgid "File where the mud list (used in the MudList dialog) will be read"
+msgstr "Archivo donde leer la lista de muds para usarlos en el diálogo MudList"
 
 #: ../gnome-mud.schemas.in.h:12
 msgid "Font"
@@ -121,8 +117,7 @@ msgstr "Cuantas entradas conservar en el histórico de comandos."
 
 #: ../gnome-mud.schemas.in.h:17
 msgid "How often in seconds gnome-mud should flush logfiles."
-msgstr ""
-"frecuencia en segundos a la que gnome-mud vaciará los archivos de registro."
+msgstr "frecuencia en segundos a la que gnome-mud vaciará los archivos de registro."
 
 #: ../gnome-mud.schemas.in.h:18
 msgid ""
@@ -142,7 +137,7 @@ msgstr ""
 "Con esta opción activada, todo el texto que introduzca se le hará eco en la "
 "conexión para que pueda controlar lo que está mandando."
 
-#: ../gnome-mud.schemas.in.h:20
+#: ../gnome-mud.schemas.in.h:20 ../ui/prefs.glade.h:20
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
@@ -152,7 +147,7 @@ msgstr ""
 "en el campo de introducción de comandos, pero seleccionado. Desactive la "
 "opción para borrar el texto una vez haya sido mandado."
 
-#: ../gnome-mud.schemas.in.h:21
+#: ../gnome-mud.schemas.in.h:21 ../ui/prefs.glade.h:21
 msgid ""
 "If enabled, whenever there's new output the terminal will be scrolled to the "
 "bottom."
@@ -247,9 +242,8 @@ msgid "Terminal type"
 msgstr "Tipo de terminal"
 
 #: ../gnome-mud.schemas.in.h:38
-msgid "The file that was last used to save a mudlog in."
-msgstr ""
-"El archivo que fue usado por última vez para guardar un registro mud en él."
+msgid "The file in which a mudlog was last saved."
+msgstr "El archivo que se uso para guardar el registro mud en él por última vez."
 
 #: ../gnome-mud.schemas.in.h:39
 msgid ""
@@ -283,14 +277,6 @@ msgstr "Indica si debe mantener el texto enviado a la conexión"
 #: ../gnome-mud.schemas.in.h:45
 msgid "Whether to scroll to the bottom when there's new output"
 msgstr "Indica si debe desplazar al final cuando hay salidas nuevas"
-
-#: ../src/eggtrayicon.c:118
-msgid "Orientation"
-msgstr "Orientación"
-
-#: ../src/eggtrayicon.c:119
-msgid "The orientation of the tray."
-msgstr "La orientación de la bandeja."
 
 #: ../src/gconf-helper.c:74
 #, c-format
@@ -404,19 +390,19 @@ msgstr "*** Conexión cerrada.\n"
 msgid "*** Making connection to %s, port %d.\n"
 msgstr "*** Realizando conexión a %s, puerto %d.\n"
 
-#: ../src/mud-connection-view.c:607
+#: ../src/mud-connection-view.c:609
 msgid "Close tab or window, whatever :)"
 msgstr "Cierra la solapa o ventana, lo que sea :)"
 
-#: ../src/mud-connection-view.c:627
+#: ../src/mud-connection-view.c:629
 msgid "Change P_rofile"
 msgstr "Cambiar _perfil"
 
-#: ../src/mud-connection-view.c:663
+#: ../src/mud-connection-view.c:665
 msgid "Edit Current Profile..."
 msgstr "Editar perfil actual..."
 
-#: ../src/mud-connection-view.c:671
+#: ../src/mud-connection-view.c:673
 msgid "_Input Methods"
 msgstr "Métodos de _entrada"
 
@@ -436,21 +422,17 @@ msgstr ""
 "\n"
 " *** Registro detenido *** %d/%m/%Y %H:%M:%S\n"
 
-#: ../src/mud-tray.c:197
+#: ../src/mud-tray.c:161
 msgid "_Hide window"
 msgstr "_Ocultar ventana"
 
-#: ../src/mud-tray.c:199
+#: ../src/mud-tray.c:163
 msgid "_Show window"
 msgstr "_Mostrar ventana"
 
-#: ../src/mud-tray.c:204
+#: ../src/mud-tray.c:168
 msgid "_Quit"
 msgstr "_Salir"
-
-#: ../src/mud-tray.c:244
-msgid "GNOME Mud"
-msgstr "Gnome Mud"
 
 #: ../src/mud-preferences-window.c:360 ../src/mud-preferences-window.c:386
 msgid "Name"
@@ -469,11 +451,11 @@ msgstr "Gag"
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: ../src/mud-preferences-window.c:1588 ../src/mud-preferences-window.c:1693
+#: ../src/mud-preferences-window.c:1590 ../src/mud-preferences-window.c:1695
 msgid "Error in Regex."
 msgstr "Error en la expreg."
 
-#: ../src/mud-preferences-window.c:1633 ../src/mud-preferences-window.c:1738
+#: ../src/mud-preferences-window.c:1635 ../src/mud-preferences-window.c:1740
 msgid "No match."
 msgstr "Sin coincidencias."
 
@@ -526,7 +508,8 @@ msgstr "_Cerrar"
 msgid "*"
 msgstr "*"
 
-#: ../ui/directions.glade.h:3
+#: ../ui/directions.glade.h:3 ../plugins/automapper/map.c:1832
+#: ../plugins/automapper/map.c:3679
 msgid "Down"
 msgstr "Abajo"
 
@@ -562,7 +545,8 @@ msgstr "Sureste"
 msgid "Southwest"
 msgstr "Suroeste"
 
-#: ../ui/directions.glade.h:12
+#: ../ui/directions.glade.h:12 ../plugins/automapper/map.c:1831
+#: ../plugins/automapper/map.c:3678
 msgid "Up"
 msgstr "Arriba"
 
@@ -900,31 +884,13 @@ msgstr "Funcionalidades"
 
 #: ../ui/prefs.glade.h:18
 msgid ""
-"If enabled, GNOME-Mud will offer a few built-in keybinds. They can be "
-"overriden by custom keybinds, or they can be disabled completely with this "
-"option."
+"If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
+"overriden by custom keybindings, or they can be disabled completely with "
+"this option."
 msgstr ""
-"Si está activado, GNOME-Mud ofrecerá unas pocas asignaciones de teclas "
-"integradas. Pueden reemplazarse con asignaciones personalizadas, o "
-"desactivarse completamente con esta opción."
-
-#: ../ui/prefs.glade.h:20
-msgid ""
-"If enabled, the terminal will scroll to the bottom if new output appears in "
-"the connection when the terminal was scrolled back."
-msgstr ""
-"Si se activa, el terminal se desplazará hasta abajo si aparecen nuevas "
-"salidas en la conexión cuando el terminar fue desplazado atrás."
-
-#: ../ui/prefs.glade.h:21
-msgid ""
-"If enabled, the text that is sent to the connection will be left as a "
-"selection in the entry box. Otherwise, the text entrybox will be cleared "
-"after each text input."
-msgstr ""
-"Si está activado, el texto que se envíe a la conexión de dejará como "
-"selección en el campo de introducción de datos. En otro caso, la caja de "
-"texto se borrará después de cada entrada de texto."
+"Si está activo, GNOME-Mud ofrecerá unas pocas asignaciones de teclas preestablecidas. Éstas se "
+"pueden reemplazar con tus propias asignaciones, o se pueden deshabilitar "
+"con esta opción."
 
 #: ../ui/prefs.glade.h:22
 msgid "Match Text:"
@@ -1002,3 +968,210 @@ msgstr "_Disparador:"
 #: ../ui/prefs.glade.h:42
 msgid "lines"
 msgstr "líneas"
+
+#. Free the create_link_data structure
+#: ../plugins/automapper/map.c:641
+msgid "Ready."
+msgstr "Preparado."
+
+#: ../plugins/automapper/map.c:642
+msgid "Canceled."
+msgstr "Cancelado."
+
+#: ../plugins/automapper/map.c:678
+msgid "A link already exists here!"
+msgstr "Ya existe un enlace aquí"
+
+#. Create the hint label
+#: ../plugins/automapper/map.c:730 ../plugins/automapper/map.c:3642
+#: ../plugins/automapper/map.c:3645
+msgid "Ready"
+msgstr "Preparado"
+
+#: ../plugins/automapper/map.c:731
+msgid "Link created"
+msgstr "Enlace creado"
+
+#: ../plugins/automapper/map.c:735
+msgid "Can't create a node here"
+msgstr "No se puede crear un nodo aquí"
+
+#: ../plugins/automapper/map.c:966
+msgid "New Map"
+msgstr "Mapa nuevo"
+
+#. Translator: "path" means "line of travel", ie "road"
+#: ../plugins/automapper/map.c:975
+msgid "Creating a path"
+msgstr "Creando una ruta"
+
+#. The radio button (new map)
+#: ../plugins/automapper/map.c:983
+msgid "Path leads to a new map"
+msgstr "La ruta conduce a un mapa nuevo"
+
+#: ../plugins/automapper/map.c:990
+msgid "New map"
+msgstr "Mapa nuevo"
+
+#. The radio button (default)
+#: ../plugins/automapper/map.c:1007
+msgid "Path follows an already existing path:"
+msgstr "La ruta sigue un camino ya existente."
+
+#: ../plugins/automapper/map.c:1026
+msgid "Create"
+msgstr "Crear"
+
+#: ../plugins/automapper/map.c:1195
+msgid "Enter in a path"
+msgstr "Introduzca una ruta"
+
+#: ../plugins/automapper/map.c:1202
+msgid "Create a new path:"
+msgstr "Crear una ruta nueva:"
+
+#: ../plugins/automapper/map.c:1219
+msgid "Enter in existing path:"
+msgstr "Introducir en una ruta existente:"
+
+#: ../plugins/automapper/map.c:1270
+msgid ""
+"This node has already 8 links. Destroy one of these before trying to create "
+"a new one"
+msgstr "Este nodo tiene ya 8 enlaces. Destruya uno de estos antes de intentar crear uno nuevo"
+
+#. Change the automap state
+#: ../plugins/automapper/map.c:1277
+msgid "Enter to finish, Esc to quit"
+msgstr "Intro para terminar, Esc para salir"
+
+#: ../plugins/automapper/map.c:1278
+msgid "Use move buttons to build the link."
+msgstr "Usar botones de movimiento para construir el enlace."
+
+#: ../plugins/automapper/map.c:1456
+msgid "Zoom In"
+msgstr "Ampliar"
+
+#: ../plugins/automapper/map.c:1457
+msgid "Zoom Out"
+msgstr "Reducir"
+
+#: ../plugins/automapper/map.c:1458
+msgid "Configure Automap"
+msgstr "Configurar automapa"
+
+#. Teleport here
+#: ../plugins/automapper/map.c:1498
+msgid "Teleport here"
+msgstr "Teleportarse aquí"
+
+#.
+#. /* Set node properties */
+#. properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#. gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#. gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#. Create new link
+#: ../plugins/automapper/map.c:1508
+msgid "Create new link"
+msgstr "Crear un enlace nuevo"
+
+#. Translator: this is an action, not a key
+#: ../plugins/automapper/map.c:1515
+msgid "Enter"
+msgstr "Entrar"
+
+#. Can easily be optimised ... but why bother ?
+#. Translator: "N" means "North" here
+#. Create button directions
+#: ../plugins/automapper/map.c:1816 ../plugins/automapper/map.c:3670
+msgid "N"
+msgstr "N"
+
+#. Translator: "NE" means "Northeast" here
+#: ../plugins/automapper/map.c:1818 ../plugins/automapper/map.c:3671
+msgid "NE"
+msgstr "NE"
+
+#. Translator: "E" means "East" here
+#: ../plugins/automapper/map.c:1820 ../plugins/automapper/map.c:3672
+msgid "E"
+msgstr "E"
+
+#. Translator: "SE" means "Southeast" here
+#: ../plugins/automapper/map.c:1822 ../plugins/automapper/map.c:3673
+msgid "SE"
+msgstr "SE"
+
+#. Translator: "S" means "South" here
+#: ../plugins/automapper/map.c:1824 ../plugins/automapper/map.c:3674
+msgid "S"
+msgstr "S"
+
+#. Translator: "SW" means "Southwest" here
+#: ../plugins/automapper/map.c:1826 ../plugins/automapper/map.c:3675
+msgid "SW"
+msgstr "SO"
+
+#. Translator: "W" means "West" here
+#: ../plugins/automapper/map.c:1828 ../plugins/automapper/map.c:3676
+msgid "W"
+msgstr "O"
+
+#. Translator: "NW" means "Northwest" here
+#: ../plugins/automapper/map.c:1830 ../plugins/automapper/map.c:3677
+msgid "NW"
+msgstr "NO"
+
+#: ../plugins/automapper/map.c:1833 ../plugins/automapper/map.c:3667
+msgid "Remove"
+msgstr "Quitar"
+
+#. Some buttons
+#: ../plugins/automapper/map.c:1834 ../plugins/automapper/map.c:3665
+msgid "Load"
+msgstr "Cargar"
+
+#: ../plugins/automapper/map.c:1835 ../plugins/automapper/map.c:3666
+msgid "Save"
+msgstr "Guardar"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Load map"
+msgstr "Cargar mapa"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Save map"
+msgstr "Guardar mapa"
+
+#: ../plugins/automapper/map.c:3142
+msgid "No link existed in that direction"
+msgstr "No existió enlace en esa dirección"
+
+#: ../plugins/automapper/map.c:3148
+msgid "Cannot break links to a node going up or down"
+msgstr "No se pueden romper los enlaces a un nodo yendo arriba o abajo"
+
+#. It would seem this node already has a connection to here, That's
+#. * possible so we need to inform the user that his move is illegal.
+#.
+#: ../plugins/automapper/map.c:3257
+msgid "Destination node has already a connection here"
+msgstr "En nodo de destino ya tiene una conexión aquí"
+
+#: ../plugins/automapper/map.c:3406
+msgid "Can't create a link to another floor!"
+msgstr "No se puede crear un enlace a otro piso"
+
+#: ../plugins/automapper/map.c:3412
+msgid "There is already a link here!"
+msgstr "Ya hay un enlace aquí"
+
+#. Set the title
+#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
+#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
+#: ../plugins/automapper/map.c:3550
+msgid "GNOME-Mud AutoMapper"
+msgstr "Automapeador de GNOME-Mud"
+
