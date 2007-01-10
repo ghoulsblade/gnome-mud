@@ -1,3 +1,8 @@
+2007-01-10  Pema Geyleg  <pema.geyleg@gmail.com>
+
+	* dz.po: Added Dzongkha Translation.
+	* LINGUAS: Added 'dz'.
+
 2006-12-08  Francisco Javier F. Serrador  <serrador@openshine.com>
 
 	* es.po: Updated Spanish translation.
@@ -498,4 +503,4 @@ Thu May 22 13:13:47 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
 	* cat-id-tbl.c: Remove file.
 	* stamp-cat-id: Remove file.
 
-$Id$
+$Id: ChangeLog,v 1.117 2006/12/08 19:28:41 serrador Exp $

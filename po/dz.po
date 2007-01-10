@@ -1,0 +1,1114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome -mud\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-12-21 05:34+0100\n"
+"PO-Revision-Date: 2006-12-25 23:04+0530\n"
+"Last-Translator: yangka <yanang_ka@hotmail.com>\n"
+"Language-Team: dzongkha <pgeyleg@dit.gov.bt>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-Language: Dzongkha\n"
+"X-Poedit-Country: BHUTAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../gnome-mud.desktop.in.h:1
+#: ../ui/main.glade.h:10
+msgid "GNOME-Mud"
+msgstr "ཇི་ནོམ་-མཌི།"
+
+#: ../gnome-mud.desktop.in.h:2
+msgid "The GNOME MUD Client"
+msgstr "ཇི་ནོམ་མཌི་ཞབས་ཏོག་སྤྱོད་མི་འདི།"
+
+#: ../gnome-mud.schemas.in.h:1
+msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
+msgstr "པང་གོ་ཡིག་གཟུགས་མིང་ཅིག དཔེར་བརྗོད་ཚུ་\"Sans 12\" or \"Monospace Bold 14\""
+
+#: ../gnome-mud.schemas.in.h:2
+msgid "A character that is used to split commands in a string like \"w;w;w;l\", which will be sent to the MUD as 4 separate commands."
+msgstr "ཡིག་འབྲུ་ཅིག་ཡིག་རྒྱུན་ཅིག་ནང་བརྡ་བཀོད་ཚུ་གཤག་ནི་ལུ་ལག་ལེན་འཐབ་ནི་དཔེར་ན་\"w;w;w;l\" མ་ཌི་འདི་ལུ་སོ་སོ་ཁ་འཕྱེལ་འཕྱེལཝ་བརྡ་བཀོད་ཚུ་༤་ སྦེ་བཏང་འོང་།"
+
+#: ../gnome-mud.schemas.in.h:3
+#: ../src/mud-preferences-window.c:518
+#: ../src/mud-preferences-window.c:554
+#: ../ui/prefs.glade.h:2
+msgid "Aliases"
+msgstr "ཨེ་ལིསིསི།"
+
+#: ../gnome-mud.schemas.in.h:4
+msgid "Color palette"
+msgstr "ཚོས་གཞི་པེ་ལིཊི།"
+
+#: ../gnome-mud.schemas.in.h:5
+msgid "Command Divider"
+msgstr "བརྡ་བཀོད་བགོ་མི།"
+
+#: ../gnome-mud.schemas.in.h:6
+msgid "Default color of the background"
+msgstr "རྒྱབ་གཞི་འདི་གི་སྔོན་སྒྲིག་ཚོས་གཞི།"
+
+#: ../gnome-mud.schemas.in.h:7
+msgid "Default color of the background, as a color specification (can be HTML-style hex digits, or a color name such as \"red\")."
+msgstr "རྒྱབ་གཞི་འདི་གི་སྔོན་སྒྲིག་ཚོས་གཞི་ གསལ་བཀོད་ཚོས་གཞི་བཟུམ་སྦེ་(འདི་ཡང་ཨེཆ་ཊི་ཨེམ་ཨེལ་་ཧེགསི་ཨང་ཡིག་ཚུའི་བཟོ་རྣམ་ ཡང་ན་ཚོས་གཞི་མིང་\"red\"བཟུམ་བཏུབ་ཨིན།)"
+
+#: ../gnome-mud.schemas.in.h:8
+msgid "Default color of the text"
+msgstr "ཚིག་ཡིག་འདི་གི་སྔོན་སྒྲིག་ཚོས་གཞི།"
+
+#: ../gnome-mud.schemas.in.h:9
+msgid "Default color of the text, as a color specification (can be HTML-style hex digits, or a color name such as \"red\")."
+msgstr "ཚིག་ཡིག་འདི་གི་སྔོན་སྒྲིག་ཚོས་གཞི་ གསལ་བཀོད་ཚོས་གཞི་བཟུམ་(འདི་ཡང་ཨེཆ་ཊི་ཨེམ་ཨེལ་ ཧེགསི་ཨང་ཡིག་ཚུའི་བཟོ་རྣམ་ཡང་ན་ཚོས་གཞི་མིང་\"red\"བཟུམ་བཏུབ་ཨིན།)"
+
+#: ../gnome-mud.schemas.in.h:10
+#: ../ui/directions.glade.h:2
+msgid "Directional keybindings"
+msgstr "བཀོད་རྒྱ་ཅན་གྱི་ཀི་བཱའིན་ཌིང་ཚུ།"
+
+#: ../gnome-mud.schemas.in.h:11
+msgid "File where the mud list (used in the MudList dialog) will be read"
+msgstr "ཡིག་སྣོད་མ་ཌི་ཐོ་ཡིག་ཡོད་མི་(མ་ཌི་ཐོ་ཡིག་ཌའི་ལོག་འདི་ནང་ལག་ལེན་འཐབ་ཡོད་མི)ལྷག་འོང་།"
+
+#: ../gnome-mud.schemas.in.h:12
+msgid "Font"
+msgstr "ཡིག་གཟུགས།"
+
+#: ../gnome-mud.schemas.in.h:13
+msgid "GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in the form of a colon-separated list of color names. Color names should be in hex format e.g. \"#FF00FF\"."
+msgstr "ཇི་ནོམ་-མ་ཌི་དེ་ལུ་ཚོས་གཞི་པེ་ལེཊི་-༡༦་ མ་ཌི་ཚུ་གི་ལག་ལེན་འཐབ་བཏུབ་ཡོདཔ་ཨིན། འདི་ཡང་ཚོས་གཞི་མིང་ཚུ་གི་ཀོ་ལཱོན་-སོ་སོ་ཁ་འཕྱེལ་ཡོད་མི་ཐོ་ཡིག་གི་རྣམ་པ་ནང་གསལ་བཀོད་འབད་གདོཔ་ཨིན། ཚོས་གཞི་མིང་ཚུ་ཧེགསི་རྩ་སྒྲིག་ནང་དགོཔ་ཨིན།དཔེར་ན་\"#FF00FF\""
+
+#: ../gnome-mud.schemas.in.h:14
+#: ../ui/prefs.glade.h:17
+msgid "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if the MUD requests one. This option sets the terminal type that will be sent."
+msgstr "ཇི་ནོམ་-མ་ཌི་འདི་གིས་ཊར་མི་ནཱལ་དབྱེ་བ་ཅིག་སྤེལ་བཀྲམ་འབད་ནི་ལུ་(ཨེ་ཨེན་ཨེསི་ཨའི་ཡང་ན་ཝི་ཊི་༡༠༠་བཟུམ)མ་ཌི་འདི་གིས་གཅིག་ཞུ་བ་ཅིན་དཔའ་བཅམ་ཨིན། གདམ་ཁ་གཅིགཔ་འདི་གིས་ཊར་མི་ནཱལ་དབྱེ་བ་བཏང་ནི་ཨིན་མི་དེ་གཞི་སྒྲིག་འབདཝ་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:15
+msgid "How many entries to keep in the command history"
+msgstr "བརྡ་བཀོད་ལོ་རྒྱུས་འདི་ནང་ཐོ་བཀོད་ཚུ་ག་དེམ་ཅིག་བཞག་ནི་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:16
+msgid "How many entries to keep in the command history."
+msgstr "བརྡ་བཀོད་ལོ་རྒྱུས་འདི་ནང་ཐོ་བཀོད་ཚུ་ག་དེབ་ཅིག་བཞག་ནི་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:17
+msgid "How often in seconds gnome-mud should flush logfiles."
+msgstr "ཇི་ནོམ་-མ་ཌི་སྐར་ཆག་ཚུ་ནང་འཕྲལ་འཕྲལ་དྲན་དེབ་ཡིག་སྣོད་ཚུ་ག་དེམ་ཅིག་བཤལ་གཏང་དགོཔ་སྨོ།"
+
+#: ../gnome-mud.schemas.in.h:18
+msgid "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be overridden by custom keybindings, or they can be disabled completely with this option."
+msgstr "ལྕོགས་ཅན་བཟོ་ཡོད་པ་ཅིན་ ཇི་ནོམ་-མ་ཌི་འདི་གིས་ནང་སྦྲགས་ཀི་བཱའིན་ཌིངསི་དག་པ་ཅིག་བྱིནམ་ཨིན། ཁོང་ཆ་ཁྱབ་སྲོལ་སྒྲིག་ཀི་བཱའིན་ཌིང་ཚུ་གིས་མེདཔ་གཏང་ནི་ཡང་ན་དེ་ཚུ་གདམ་ཁ་འདི་གིས་རྩ་བ་ལས་ལྕོགས་མིན་བཟོ་ཡོདཔ་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:19
+#: ../ui/prefs.glade.h:19
+msgid "If enabled, all the text typed in will be echoed in the terminal, making it easier to control what is sent."
+msgstr "ལྕགས་ཅན་བཟོ་ཡོད་པ་ཅིན་ཡིག་དཔར་རྐྱབས་ཡོད་མི་ཚིག་ཡིག་ཆ་མཉམ་ཊར་མི་ནཱལ་འདི་ནང་བྲག་ཅ་ འདི་བཏང་ཡོད་མི་ཚད་འཛིན་ལུ་འཇམ་ཏོང་ཏོ་བཟོ་ཡོདཔ་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:20
+#: ../ui/prefs.glade.h:20
+msgid "If enabled, the text that is sent to the connection will be left as a selection in the entry box. Otherwise, the text entry box will be cleared after each text input."
+msgstr "ལྕོགས་ཅན་ཡོད་པ་ཅིན་མཐུད་ལམ་འདི་ལུ་བཏང་ཡོད་མི་ཚིག་ཡིག་འདི་ཐོ་བཀོད་སྒྲོམ་འདི་ནང་སེལ་འཐུ་བཟུམ་སྦེ་བཀོག་བཞག་འོང་། དེ་མེན་པ་ཅིན་ཚིག་ཡིག་ཐོ་བཀོད་སྒྲོམ་འདི་་ཚིག་ཡིག་ཨིན་པུཊི་རེ་རེའི་ཤུལ་ལས་བསལ་ཡོདཔ་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:21
+#: ../ui/prefs.glade.h:21
+msgid "If enabled, whenever there's new output the terminal will be scrolled to the bottom."
+msgstr "ལྕགས་ཅན་བཟོ་ཡོད་པ་ཅིན་ནམ་ཡང་འབད་རུང་ཨའུཊི་པུཊི་གསརཔ་ཡོདཔ་ད་ཊར་མི་ནཱལ་འདི་གིས་མཇུག་ལུ་བཤུད་སྒྲིལ་འབདཝ་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:22
+msgid "Keybindings"
+msgstr "ཀི་བཱའིན་ཌིངསི།"
+
+#: ../gnome-mud.schemas.in.h:23
+msgid "Last log file"
+msgstr "མཇུག་གི་དྲན་དེབ་ཡིག་སྣོད།"
+
+#: ../gnome-mud.schemas.in.h:24
+msgid "List of MUDs known to GNOME-Mud. The list contains strings naming subdirectories relative to /apps/gnome-mud/muds"
+msgstr "མ་ཌི་ཚུ་གི་ཐོ་ཡིག་་འདི་ཇི་ནོམ་-མ་ཌི་ལུ་ཤེས་ཡོདཔ་ཨིན། ཐོ་ཡིག་འདིའི་ནང་ན་/ཨེཔསི/ཇི་ནོམ་-མ་ཌི/མ་ཌིསི་ལུ་འབྲེལ་བའི་སྣོད་ཐོ་འོགམ་མིང་བཏགས་ནིའི་ཡིག་རྒྱུན་ཚུ་ཡོདཔ་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:25
+msgid "List of Muds"
+msgstr "མཌིསི་གི་ཐོ་ཡིག"
+
+#: ../gnome-mud.schemas.in.h:26
+msgid "List of commands which will be treated as movement commands by the automapper. A semicolon is used to separate each command."
+msgstr "བརྡ་བཀོད་ཚུ་གི་ཐོ་ཡིག་ཚུ་རང་བཞིན་ས་ཁྲ་བཟོ་མི་འདི་གིས་འགུལ་བསྐྱོད་བརྡ་བཀོད་ཚུ་བཟུམ་སྦེ་བརྩི་འཇོག་འབད་ཡོདཔ་ཨིན། བརྡ་བཀོད་རེ་རེ་སོ་སོ་ཁ་འཕྱལ་ནི་ལུ་སེ་མི་ཀོ་ལཱོན་ཅིག་ལག་ལེན་འཐབ་ཡོདཔ་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:27
+msgid "List of connections"
+msgstr "མཐུད་ལམ་ཚུ་གི་ཐོ་ཡིག"
+
+#: ../gnome-mud.schemas.in.h:28
+msgid "List of connections known to GNOME-Mud. The list contains strings naming subdirectories relative to /apps/gnome-mud/connections."
+msgstr "མཐུད་ལམཚུ་གི་ཐོ་ཡིག་འདི་ཇི་ནོམ་-མ་ཌི་ལུ་ཤེས་ཡོདཔ་ཨིན། ཐོ་ཡིག་འདིའི་ནང་ན་/ཨེཔསི་/ཇི་ནོམ་-མ་ཌི/མཐུད་ལམ་ཚུ་ལུ་འབྲེལ་བའི་སྣོད་ཐོ་འོགམ་ཚུ་མིང་བཏགས་ནིའི་ཡིག་རྒྱུན་ཚུ་ཡོདཔ་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:29
+msgid "List of movement commands"
+msgstr "འགུལ་བསྐྱོད་བརྡ་བཀོད་ཚུ་གི་ཐོ་ཡིག"
+
+#: ../gnome-mud.schemas.in.h:30
+msgid "List of profiles"
+msgstr "གསལ་སྡུད་ཚུ་གི་ཐོ་ཡིག"
+
+#: ../gnome-mud.schemas.in.h:31
+msgid "List of profiles known to GNOME-Mud. The list contains strings naming subdirectories relative to /apps/gnome-mud/profiles."
+msgstr "གསལ་སྡུད་ཚུ་གི་ཐོ་ཡིག་འདི་ཇི་ནོམ་-མ་ཌི་ལུ་ཤེས་ཡོདཔ་ཨིན། ཐོ་ཡིག་འདིའི་ནང་ན་/ཨེཔསི/ཇི་ནོམ-མ་ཌི/གསལ་སྡུད་ཚུ་ལུ་འབྲེལ་བའི་སྣོད་ཐོ་འོག་མ་མིང་བཏགས་ནིའི་ཡིག་རྒྱུན་ཚུ་ཡོདཔ་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:32
+msgid "Log flush interval"
+msgstr "དྲན་དེབ་ཕལཤི་བར་མཚམས།"
+
+#: ../gnome-mud.schemas.in.h:33
+msgid "Mudlist file"
+msgstr "མཌི་ལིསིཊི་ཡིག་སྣོད།"
+
+#: ../gnome-mud.schemas.in.h:34
+msgid "Number of lines to keep in scrollback"
+msgstr "རྒྱབ་སྒྲིལ་ནང་བཞག་ནི་ལུ་གྱལ་ཚུ་གི་ཨང་།"
+
+#: ../gnome-mud.schemas.in.h:35
+msgid "Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lines; lines that don't fit in the scrollback are discarded."
+msgstr "རྒྱབ་སྒྲིལ་གྱལ་ཚུ་མཐའ་སྐོར་བཞག་ནི་དག་པ་ཅིག ། ཁྱོད་རང་ཊར་མི་ནཱལ་འདི་ནང་གྱལ་འདི་ཚུ་གིས་རྒྱབ་སྒྲིལ་བཏུབ་ རྒྱབ་སྒྲིལ་འདི་ནང་ཚུད་སྒྲིག་མ་འབད་མི་གྱལ་ཚུ་བཏོན་བཀོག་ཡོདཔ་ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:36
+msgid "Tab location"
+msgstr "མཆོང་ལྡེ་གནས་ཁོངས།"
+
+#: ../gnome-mud.schemas.in.h:37
+msgid "Terminal type"
+msgstr "ཊར་མི་ནཱལ་དབྱེ་བ།"
+
+#: ../gnome-mud.schemas.in.h:38
+msgid "The file in which a mudlog was last saved."
+msgstr "ཡིག་སྣོད་ནང་མ་ཌི་དྲན་དེབ་མཇུག་ལུ་སྲུང་བཞག་ཡོད་མི་འདི།"
+
+#: ../gnome-mud.schemas.in.h:39
+msgid "The location of the connection tabs. Valid options are \"left\", \"right\", \"top\" and \"bottom\"."
+msgstr "མཐུད་ལམ་མཆོང་ལྡེ་ཚུ་གི་གནས་ཁོངས་འདི། ནུས་ཅན་གདམ་ཁ་ཚུ་ \"left\", \"right\", \"top\" དང་ \"bottom\"ཨིན།"
+
+#: ../gnome-mud.schemas.in.h:40
+#: ../src/mud-preferences-window.c:524
+#: ../src/mud-preferences-window.c:561
+#: ../ui/prefs.glade.h:35
+msgid "Triggers"
+msgstr "ཐར་རྟ་ཚུ།"
+
+#: ../gnome-mud.schemas.in.h:41
+msgid "Variables"
+msgstr "འགྱུར་ཅན་ཚུ།"
+
+#: ../gnome-mud.schemas.in.h:42
+msgid "Whether to echo sent text to the connection"
+msgstr "བྲག་ཅ་བཏང་མི་ཚིག་ཡིག་མཐུད་ལམ་འདི་ལུ་ཨིན་ན་མེན་ན།"
+
+#: ../gnome-mud.schemas.in.h:43
+msgid "Whether to enable or disable the system keys"
+msgstr "རིམ་ལུགས་ལྡེ་མིག་ཚུ་ལྕོགས་ཅན་ཡང་ན་ལྕོགས་མིན་བཟོ་ནི་ལུ།"
+
+#: ../gnome-mud.schemas.in.h:44
+msgid "Whether to keep text sent to the connection"
+msgstr "ཚིག་ཡིག་བཏང་མི་མཐུད་ལམ་འདི་ལུ་བཞག་ནི་ཨིན་ན་མེན་ན།"
+
+#: ../gnome-mud.schemas.in.h:45
+msgid "Whether to scroll to the bottom when there's new output"
+msgstr "ཨའུཊི་པུཊི་གསརཔ་ཡོད་པའི་སྐབས་མཇུག་ལུ་བཤུད་སྒྲིལ་འབད་ནི་ཨིན་ན་མེན་ན།"
+
+#: ../src/gconf-helper.c:74
+#, c-format
+msgid "%s already exists and is not a directory!"
+msgstr "%s ཧེ་མ་ལས་ཡོདཔ་དང་སྣོད་ཐོ་མེན!"
+
+#: ../src/gconf-helper.c:83
+#, c-format
+msgid "%s does not exist and can NOT be created: %s"
+msgstr "%s མེདཔ་དང་གསར་བསྐྲུན་འབད་མི་བཏུབ།: %s"
+
+#: ../src/gconf-helper.c:134
+#, c-format
+msgid "Palette had %d entry instead of %d\n"
+msgid_plural "Palette had %d entries instead of %d\n"
+msgstr[0] "པེ་ལེཊི་དེ་ལུ་ %d ཐོ་བཀོད་ཚུ་གི་ཚབ་ལུ %d\n"
+msgstr[1] "པེ་ལེཊི་དེ་ལུ་ %d ཐོ་བཀོད་ཚུ་གི་ཚབ་ལུ %d\n"
+
+#: ../src/gnome-mud.c:53
+#, c-format
+msgid "There was an error accessing GConf: %s"
+msgstr "ཇི་ཀཱོནཕ་འཛུལ་སྤྱོད་འབད་ནི་འཛོལ་བ་ཅིག་འབྱུང་ཡོདཔ།: %s"
+
+#: ../src/gnome-mud.c:66
+msgid "The default configuration values could not be retrieved correctly."
+msgstr "སྔོན་སྒྲིག་རིམ་སྒྲིག་གནས་གོང་ཚུ་གེས་བདེན་སྦེ་སླར་འདྲེན་འབད་མི་བཏུབ།"
+
+#: ../src/gnome-mud.c:67
+msgid "Please check your GConf configuration, specifically that the schemas have been installed correctly."
+msgstr "ཁྱོད་རའི་ཇི་ཀཱོནཕི་རིམ་སྒྲིག་ལས་འཆར་ཚུ་ངེས་བདེན་སྦེ་གཞི་བཙུགས་འབད་ཡོདཔ་སྦེ་གསལ་བཀོད་འབད་ཡོད་མི་ཞིབ་དཔྱད་འབད་གནང་།"
+
+#: ../src/gnome-mud.c:94
+#, c-format
+msgid "Failed to init GConf: %s"
+msgstr "ཇི་ཀཱོནཕ་འགོ་ཐོག་འབད་ནི་ལུ་འཐུས་ཤོར་འབྱུང་ཡོདཔ།: %s"
+
+#: ../src/modules.c:199
+msgid "Plugin Information"
+msgstr "པ་ལག་ཨིན་བརྡ་དོན།"
+
+#: ../src/modules.c:215
+msgid "Plugin Name:"
+msgstr "པ་ལག་ཨིན་མིང་།:"
+
+#: ../src/modules.c:235
+msgid "Plugin Author:"
+msgstr "པ་ལག་ཨིན་རྩོམ་པ་པོ།:"
+
+#: ../src/modules.c:245
+msgid "Plugin Version:"
+msgstr "པ་ལག་ཨིན་ཐོན་རིམ།:"
+
+#: ../src/modules.c:255
+msgid "Plugin Description:"
+msgstr "པ་ལག་ཨིན་འགྲེལ་བཤད།:"
+
+#: ../src/modules.c:265
+msgid "Enable plugin"
+msgstr "པ་ལག་ཨིན་ལྕོགས་ཅན་བཟོ།"
+
+#: ../src/modules.c:379
+#, c-format
+msgid "Plugin error (%s)"
+msgstr "པ་ལག་ཨིན་འཛོལ་བ། (%s)"
+
+#: ../src/modules.c:423
+#, c-format
+msgid "Error getting plugin handle (%s): %s."
+msgstr "པ་ལག་ཨིན་ལེགས་སྐྱོང་འཐབ་ནི་ལེན་ནི་འཛོལ་བ། (%s): %s."
+
+#: ../src/modules.c:428
+#, c-format
+msgid "Error, %s not an GNOME-Mud module: %s."
+msgstr "འཛོལ་བ་ %s ཇི་ནོམ་མ་ཌི་ཚད་གཞི་མེན།: %s."
+
+#: ../src/modules_api.c:69
+#, c-format
+msgid "Error while registering the menu: %s"
+msgstr "དཀར་ཆག་འདི་ཐོ་འགོད་སྐབས་འཛོལ་བ།: %s"
+
+#: ../src/modules_api.c:96
+#, c-format
+msgid "Error while registering data %s: %s"
+msgstr "གནས་སྡུད་ཐོ་འགོད་སྐབས་འཛོལ་བ། %s: %s"
+
+#: ../src/modules_api.c:104
+msgid "Error while getting plugin from handle."
+msgstr "ལེགས་སྐྱོང་འཐབ་ནི་ལས་པ་ལག་ཨིན་ལེན་པའི་སྐབས་འཛོལ་བ།"
+
+#: ../src/mud-connection-view.c:126
+#, c-format
+msgid "There was an error loading config value for whether to use image in menus. (%s)\n"
+msgstr "དཀར་ཆག་ཚུ་ནང་གཟུགས་བརྙན་ལག་ལེན་འཐབ་ནི་ཨིན་ན་མེན་ན་དོན་ལུ་རིམ་སྒྲིག་གནས་གོང་མངོན་གསལ་འབད་ནི་འཛོལ་བ་ཅིག་འབྱུང་ཡོདཔ། (%s)\n"
+
+#: ../src/mud-connection-view.c:429
+msgid "*** Connection closed.\n"
+msgstr "*** མཐུད་ལམ་ཁ་བསྡམས་ཡོདཔ།\n"
+
+#: ../src/mud-connection-view.c:442
+#, c-format
+msgid "*** Making connection to %s, port %d.\n"
+msgstr "*** འདྲེན་ལམ་ལུ་མཐུད་ལམ་ %s, བཟོ་དོ། %d.\n"
+
+#: ../src/mud-connection-view.c:609
+msgid "Close tab or window, whatever :)"
+msgstr "མཆོང་ལྡེ་ཡང་ན་ཝིནཌོ་ག་ཅི་འབད་རུང་ཁ་བསྡམས། :)"
+
+#: ../src/mud-connection-view.c:629
+msgid "Change P_rofile"
+msgstr "གསལ་སྡུད་བསྒྱུར་་བཅོས་འབད།(_o)"
+
+#: ../src/mud-connection-view.c:665
+msgid "Edit Current Profile..."
+msgstr "ད་ལྟོའི་གསལ་སྡུད་ཞུན་དག་འབད།..."
+
+#: ../src/mud-connection-view.c:673
+msgid "_Input Methods"
+msgstr "ཨིན་པུཊི་ཐབས་ལམ་ཚུ།(_I)"
+
+#: ../src/mud-log.c:142
+msgid ""
+"\n"
+"*** Log starts *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+"*** དྲན་དེབ་འགོ་བཙུགས་དོ། *** %d/%m/%Y %H:%M:%S\n"
+
+#: ../src/mud-log.c:178
+msgid ""
+"\n"
+" *** Log stops *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+" *** དྲན་དེབ་བཀག་དོ། *** %d/%m/%Y %H:%M:%S\n"
+
+#: ../src/mud-tray.c:161
+msgid "_Hide window"
+msgstr "ཝིནཌོ་གསང་།(_H)"
+
+#: ../src/mud-tray.c:163
+msgid "_Show window"
+msgstr "ཝིནཌོ་སྟོན།(_S)"
+
+#: ../src/mud-tray.c:168
+msgid "_Quit"
+msgstr "སྤང་།(_Q)"
+
+#: ../src/mud-preferences-window.c:360
+#: ../src/mud-preferences-window.c:386
+msgid "Name"
+msgstr "མིང་།"
+
+#: ../src/mud-preferences-window.c:361
+#: ../src/mud-preferences-window.c:387
+msgid "Enabled"
+msgstr "ལྕོགས་ཅན་བཟོ་ཡོདཔ།"
+
+#: ../src/mud-preferences-window.c:388
+msgid "Gag"
+msgstr "གེག"
+
+#: ../src/mud-preferences-window.c:511
+#: ../src/mud-preferences-window.c:548
+#: ../ui/prefs.glade.h:26
+msgid "Preferences"
+msgstr "དགའ་གདམ་ཚུ།"
+
+#: ../src/mud-preferences-window.c:1590
+#: ../src/mud-preferences-window.c:1695
+msgid "Error in Regex."
+msgstr "རི་ཇེགསི་ནང་འཛོལ་བ།"
+
+#: ../src/mud-preferences-window.c:1635
+#: ../src/mud-preferences-window.c:1740
+msgid "No match."
+msgstr "མཐུན་སྒྲིག་མེད།"
+
+#: ../src/mud-window.c:466
+msgid "Could not save the file in specified location!"
+msgstr "གསལ་བཀོད་འབད་ཡོད་མི་གནས་ཁོངས་ནང་ཡིག་སྣོད་འདི་སྲུང་བཞག་འབད་མ་ཚུགས།!"
+
+#: ../src/mud-window.c:623
+msgid "_Manage Profiles..."
+msgstr "གསལ་སྡུད་ཚུ་འཛིན་སྐྱོང་འབད།(_M)..."
+
+#: ../ui/connect.glade.h:1
+msgid "<b>MUDs and characters</b>"
+msgstr "<b>མ་ཌིསི་དང་ཡིག་འབྲུ་ཚུ།</b>"
+
+#: ../ui/connect.glade.h:2
+msgid "<b>Profile to use</b>"
+msgstr "<b>གསལ་སྡུད་ལག་ལེན་འཐབ་ནི་ལུ།</b>"
+
+#: ../ui/connect.glade.h:3
+msgid "<b>Quick connect</b>"
+msgstr "<b>འཕྲལ་མགྱོས་མཐུད།</b>"
+
+#: ../ui/connect.glade.h:4
+msgid "Co_nnect"
+msgstr "མཐུད།(_n)"
+
+#: ../ui/connect.glade.h:5
+#: ../ui/main.glade.h:4
+msgid "Connect"
+msgstr "མཐུད།"
+
+#: ../ui/connect.glade.h:6
+msgid "Connect..."
+msgstr "མཐུད།..."
+
+#: ../ui/connect.glade.h:7
+msgid "Host:"
+msgstr "ཧོསཊི།:"
+
+#: ../ui/connect.glade.h:8
+msgid "Port:"
+msgstr "འདྲེན་ལམ།:"
+
+#: ../ui/connect.glade.h:9
+msgid "_Close"
+msgstr "ཁ་བསྡམས།(_C)"
+
+#: ../ui/directions.glade.h:1
+msgid "*"
+msgstr "*"
+
+#: ../ui/directions.glade.h:3
+#: ../plugins/automapper/map.c:1832
+#: ../plugins/automapper/map.c:3679
+msgid "Down"
+msgstr "མར།"
+
+#: ../ui/directions.glade.h:4
+msgid "East"
+msgstr "ཤར།"
+
+#: ../ui/directions.glade.h:5
+msgid "Look"
+msgstr "བལྟ།"
+
+#: ../ui/directions.glade.h:6
+msgid "North"
+msgstr "བྱང་།"
+
+#: ../ui/directions.glade.h:7
+msgid "Northeast"
+msgstr "བྱང་ཤར།"
+
+#: ../ui/directions.glade.h:8
+msgid "Northwest"
+msgstr "བྱང་ནུབ།"
+
+#: ../ui/directions.glade.h:9
+msgid "South"
+msgstr "ལྷོ།"
+
+#: ../ui/directions.glade.h:10
+msgid "Southeast"
+msgstr "ལྷོ་ཤར།"
+
+#: ../ui/directions.glade.h:11
+msgid "Southwest"
+msgstr "ལྷོ་ནུབ།"
+
+#: ../ui/directions.glade.h:12
+#: ../plugins/automapper/map.c:1831
+#: ../plugins/automapper/map.c:3678
+msgid "Up"
+msgstr "ཡར།"
+
+#: ../ui/directions.glade.h:13
+msgid "West"
+msgstr "ནུབ།"
+
+#: ../ui/main.glade.h:1
+msgid "A Multi-User Dungeon (MUD) client for GNOME."
+msgstr "ཇི་ནོམ་དོན་ལུ་སྣ་མང་ལག་ལེན་པའི་ཌང་གེན་(མ་ཌི)ཞབས་ཏོག་སྤྱོད་མི།"
+
+#: ../ui/main.glade.h:2
+msgid "C_onnection..."
+msgstr "མཐུད་ལམ།(_o)..."
+
+#: ../ui/main.glade.h:3
+msgid "Close _Window"
+msgstr "ཝིནཌོ་ཁ་བསྡམ།(_W)"
+
+#: ../ui/main.glade.h:5
+msgid "Connect to MUD"
+msgstr "མ་ཌི་ལུ་མཐུད།"
+
+#: ../ui/main.glade.h:6
+msgid "Connect to host"
+msgstr "ཧོསཊི་ལུ་མཐུད།"
+
+#: ../ui/main.glade.h:7
+msgid "Disconnect"
+msgstr "མཐུད་ལམ་བཏོག་ནི།"
+
+#: ../ui/main.glade.h:8
+msgid "Disconnect from current MUD"
+msgstr "ད་ལྟོའི་མ་ཌི་ལས་མཐུད་ལམ་བཏོག་ནི།"
+
+#: ../ui/main.glade.h:9
+msgid "Disconnect from current host"
+msgstr "ད་ལྟོའི་ཧོསིཊི་ལས་མཐུད་ལམ་བཏོག་ནི།"
+
+#: ../ui/main.glade.h:11
+msgid "GNOME-Mud Homepage"
+msgstr "ཇི་ནོམ་མ་ཌི་ཁྱིམ་ཤོག་ལེབ།"
+
+#: ../ui/main.glade.h:12
+msgid "P_rofiles"
+msgstr "གསལ་སྡུད་ཚུ།(_r)"
+
+#: ../ui/main.glade.h:13
+msgid "Plugin _Information..."
+msgstr "པ་ལག་ཨིན་བརྡ་དོན།(_I)..."
+
+#: ../ui/main.glade.h:14
+msgid "Q_uick Connect..."
+msgstr "འཕྲལ་མགྱོགས་མཐུད།(_u)..."
+
+#: ../ui/main.glade.h:15
+msgid "Reconnect"
+msgstr "སླར་མཐུད་འབད།"
+
+#: ../ui/main.glade.h:16
+msgid "Reconnect to current MUD"
+msgstr "ད་ལྟོའི་མ་ཌི་ལུ་སླར་མཐུད་འབད།"
+
+#: ../ui/main.glade.h:17
+msgid "Save buffer as..."
+msgstr "གནས་ཁོངས་སྦེ་སྲུང་བཞག..."
+
+#: ../ui/main.glade.h:18
+msgid "Start _Logging..."
+msgstr "ནང་བསྐྱོད་འགོ་བཙུགས།(_L)..."
+
+#: ../ui/main.glade.h:19
+msgid "Stop Lo_gging"
+msgstr "ནང་བསྐྱོད་བཀག(_g)"
+
+#: ../ui/main.glade.h:20
+msgid "_Disconnect"
+msgstr "མཐུད་ལམ་བཏོག་ནི།(_D)"
+
+#: ../ui/main.glade.h:21
+msgid "_File"
+msgstr "ཡིག་སྣོད།(_F)"
+
+#: ../ui/main.glade.h:22
+msgid "_Help"
+msgstr "གྲོགས་རམ།(_H)"
+
+#: ../ui/main.glade.h:23
+msgid "_Mud List..."
+msgstr "མ་ཌི་ཐོ་ཡིག(_M)..."
+
+#: ../ui/main.glade.h:24
+msgid "_Plugins"
+msgstr "པ་ལག་ཨིནསི།(_P)"
+
+#: ../ui/main.glade.h:25
+msgid "_Reconnect"
+msgstr "སླར་མཐུད་འབད།(_R)"
+
+#: ../ui/main.glade.h:26
+msgid "_Save Buffer..."
+msgstr "གནས་ཁོངས་སྲུང་བཞག(_S)..."
+
+#: ../ui/main.glade.h:27
+msgid "_Settings"
+msgstr "སྒྲིག་སྟངས་ཚུ།(_S)"
+
+#. TRANSLATORS: Replace this string with your names, one name per line.
+#: ../ui/main.glade.h:29
+msgid "translator-credits"
+msgstr "སྐད་བསྒྱུར་པའི་ངོ་བསྟོད་ཚུ།"
+
+#: ../ui/main.glade.h:30
+msgid "© 1998-2006 Robin Ericsson"
+msgstr "© ༡༩༩༨-༢༠༠༦ Robin Ericsson"
+
+#: ../ui/muds.glade.h:1
+msgid "<b>Character name</b>"
+msgstr "<b>ཡིག་འབྲུ་མིང་།</b>"
+
+#: ../ui/muds.glade.h:2
+msgid "<b>Characters</b>"
+msgstr "<b>ཡིག་འབྲུ་ཚུ།</b>"
+
+#: ../ui/muds.glade.h:3
+msgid "<b>Connection string</b>"
+msgstr "<b>ཡིག་རྒྱུན་མཐུད་ལམ།</b>"
+
+#: ../ui/muds.glade.h:4
+msgid "<b>Connection</b>"
+msgstr "<b>མཐུད་ལམ།</b>"
+
+#: ../ui/muds.glade.h:5
+msgid "<b>Detailed info</b>"
+msgstr "<b>རྒྱས་བཤད་ཡོད་མི་བརྡ་དོན།</b>"
+
+#: ../ui/muds.glade.h:6
+msgid "<b>MUD list</b>"
+msgstr "<b>མ་ཌི་ཐོ་ཡིག</b>"
+
+#: ../ui/muds.glade.h:7
+msgid "<b>Mud Details</b>"
+msgstr "<b>མ་ཌི་རྒྱས་བཤད་ཚུ།</b>"
+
+#: ../ui/muds.glade.h:8
+msgid ""
+"ACKmud\n"
+"AberMUD\n"
+"AFKMud\n"
+"Chronicles\n"
+"Circlemud\n"
+"CoffeeMud\n"
+"Dawn\n"
+"DikuMUD\n"
+"Diku II\n"
+"DUM\n"
+"Embermud\n"
+"Emlenmud\n"
+"Envy\n"
+"Eye of the Storm\n"
+"GodWars\n"
+"Heavymud\n"
+"LP Mud\n"
+"Merc\n"
+"MOO\n"
+"Mordor\n"
+"MUCK\n"
+"MUSE\n"
+"MUSH\n"
+"MUX\n"
+"Oblivion\n"
+"ResortMUD\n"
+"ROM\n"
+"ROT\n"
+"Silly\n"
+"SMAUG\n"
+"SWR\n"
+"The Forests Edge\n"
+"\n"
+msgstr ""
+"ཨེ་སི་ཀེ་མ་ཌི།\n"
+"ཨ་བིར་མ་ཌི།\n"
+"ཨེ་ཨེཕ་ཀེ་མ་ཌི།\n"
+"དུས་རིམ་དྲན་ཐོ།\n"
+"སྒོར་ཐིག་མ་ཌི།\n"
+"ཀོ་ཕི་མ་ཌི།\n"
+"འགོ་བཙུགས།\n"
+"ཌི་ཀུ་མ་ཌི།\n"
+"ཌི་ཀུ་ཨའི་ཨའི།\n"
+"ཌི་ཡུ་ཨེམ།\n"
+"ཨིམ་བར་མ་ཌི།\n"
+"ཨིམ་ལིན་མ་ཌི།\n"
+"ཕྲག་དོག\n"
+"རླུང་འཚུབ་འདི་གི་མིག་ཏོ།\n"
+"གོཌི་ཝརསི།\n"
+"ལྗིད་ཅན་མ་ཌི།\n"
+"ཨེལ་པི་མ་ཌི།\n"
+"མརསི།\n"
+"ཨེམ་ཨོ་ཨོ།\n"
+"མོར་ཌོར།\n"
+"ཨེམ་ཡུ་སི་ཀེ།\n"
+"ཨེམ་ཡུ་ཨེསི་ཨི།\n"
+"ཨེམ་ཡུ་ཨེས་ཨེཆི།\n"
+"ཨེམ་ཡུ་ཨེགསི།\n"
+"འབད་མ་ཚུགས་མི།\n"
+"ལོག་དབྱེ་སེལ་མ་ཌི།\n"
+"ཨར་ཨོ་ཨེམ།\n"
+"ཨར་ཨོ་ཊི།\n"
+"སི་ལི།\n"
+"ཨེསི་ཨེམ་ཨེ་ཡུ་ཇི།\n"
+"ཨེསི་ཌབ་ལུ་ཨར།\n"
+"གནས་ཚལ་ཚུ་གི་མཐའམ།\n"
+"\n"
+
+#: ../ui/muds.glade.h:42
+msgid "Character Properties"
+msgstr "ཡིག་འབྲུ་རྒྱུ་དངོས་ཚུ།"
+
+#: ../ui/muds.glade.h:43
+msgid "Edit MUD"
+msgstr "མ་ཌི་ཞུན་དག་འབད།"
+
+#: ../ui/muds.glade.h:44
+msgid "MUD List"
+msgstr "མ་ཌི་ཐོ་ཡིག"
+
+#: ../ui/muds.glade.h:45
+msgid "P_rofile:"
+msgstr "གསལ་སྡུད།:(_r)"
+
+#: ../ui/muds.glade.h:46
+msgid "_Add..."
+msgstr "ཁ་སྐོང་བརྐྱབ།(_A)..."
+
+#: ../ui/muds.glade.h:47
+msgid "_Code base:"
+msgstr "ཨང་རྟགས་གཞི་རྟེན།:(_C)"
+
+#: ../ui/muds.glade.h:48
+msgid "_Delete"
+msgstr "བཏོན་གཏང་།(_D)"
+
+#: ../ui/muds.glade.h:49
+msgid "_Description:"
+msgstr "འགྲེལ་བཤད།:(_D)"
+
+#: ../ui/muds.glade.h:50
+msgid "_Edit..."
+msgstr "ཞུན་དག(_E)..."
+
+#: ../ui/muds.glade.h:51
+msgid "_Host/IP:"
+msgstr "ཧོསཊི/ཨའི་པི:(_H)"
+
+#: ../ui/muds.glade.h:52
+#: ../ui/prefs.glade.h:39
+msgid "_Name:"
+msgstr "མིང་།:(_N)"
+
+#: ../ui/muds.glade.h:53
+msgid "_Port:"
+msgstr "འདྲེན་ལམ།:(_P)"
+
+#: ../ui/muds.glade.h:54
+msgid "_Properties..."
+msgstr "རྒྱུ་དངོས་ཚུ།...(_P)"
+
+#: ../ui/muds.glade.h:55
+msgid "_Show in Quick Connect"
+msgstr "འཕྲལ་མགྱོགས་མཐུད་ལམ་འབད་ནི་ནང་སྟོན།(_S)"
+
+#: ../ui/muds.glade.h:56
+msgid "_Theme:"
+msgstr "བརྗོད་དོན།:(_T)"
+
+#: ../ui/prefs.glade.h:1
+msgid "<b>New Profile Name:</b>"
+msgstr "<b>གསལ་སྡུད་མིང་གསརཔ།:</b>"
+
+#: ../ui/prefs.glade.h:3
+msgid "Appearence"
+msgstr "འབྱུང་སྣང་།"
+
+#: ../ui/prefs.glade.h:4
+msgid "Background color:"
+msgstr "རྒྱབ་གཞི་ཚོས་གཞི།:"
+
+#: ../ui/prefs.glade.h:5
+msgid "Blank"
+msgstr "སྟོངམ།"
+
+#: ../ui/prefs.glade.h:6
+msgid "Color and Fonts"
+msgstr "ཚོས་གཞི་དང་ཡིག་གཟུགས་ཚུ།"
+
+#: ../ui/prefs.glade.h:7
+msgid "Color palette:"
+msgstr "ཚོས་གཞི་པེ་ལེཊི།:"
+
+#: ../ui/prefs.glade.h:8
+msgid "Command division character:"
+msgstr "བརྡ་བཀོད་སྡེ་ཚན་ཡིག་འབྲུ།:"
+
+#: ../ui/prefs.glade.h:9
+msgid "Command history:"
+msgstr "བརྡ་བཀོད་ལོ་རྒྱུས།:"
+
+#: ../ui/prefs.glade.h:10
+msgid "Disable _System Keys"
+msgstr "རིམ་ལུགས་ལྡེ་མིག་ཚུ་ལྕོགས་མིན་བཟོ།(_S)"
+
+#: ../ui/prefs.glade.h:11
+msgid "Error At:"
+msgstr "ལུ་འཛོལ་བ།:"
+
+#: ../ui/prefs.glade.h:12
+msgid "Error Code:"
+msgstr "ཨང་རྟགས་འཛོལ་བ།:"
+
+#: ../ui/prefs.glade.h:13
+msgid "Error String:"
+msgstr "ཡིག་རྒྱུན་འཛོལ་བ།:"
+
+#: ../ui/prefs.glade.h:14
+msgid "Font:"
+msgstr "ཡིག་གཟུགས།:"
+
+#: ../ui/prefs.glade.h:15
+msgid "Foreground color:"
+msgstr "གདོང་གཞི་ཚོས་གཞི།:"
+
+#: ../ui/prefs.glade.h:16
+msgid "Functionality"
+msgstr "ལས་འགན།"
+
+#: ../ui/prefs.glade.h:18
+msgid "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be overriden by custom keybindings, or they can be disabled completely with this option."
+msgstr "ལྕོགས་ཅན་བཟོ་ཡོད་པ་ཅིན་ ཇི་ནོམ་-མ་ཌི་འདི་གིས་ནང་སྦྲགས་ཀི་པཱའིན་ཌིང་ཚུ་དག་པ་ཅིག་བྱིན་འོང་། ཁོང་ཆ་ཁྱབ་སྲོལ་སྒྲིག་ཀི་བཱའིན་ཌིང་ཚུ་གིས་མེདཔ་གཏང་ནི་ཡང་ན་དེ་ཚུ་གདམ་ཁ་འདི་གིས་རྩ་བ་ལས་ལྕོགས་མིན་བཟོ་ཡོདཔ་ཨིན།"
+
+#: ../ui/prefs.glade.h:22
+msgid "Match Text:"
+msgstr "ཚིག་ཡིག་མཐུན་སྒྲིག:"
+
+#: ../ui/prefs.glade.h:23
+msgid "Match:"
+msgstr "མཐུན་སྒྲིག་འབད།:"
+
+#: ../ui/prefs.glade.h:24
+msgid "New Profile"
+msgstr "གསལ་སྡུད་གསརཔ།"
+
+#: ../ui/prefs.glade.h:25
+msgid "Number of lines to save in the scrollback."
+msgstr "རྒྱབ་སྒྲིལ་འདི་ནང་སྲུང་བཞག་འབད་ནི་ལུ་གྱལ་ཚུ་གི་ཨང་།"
+
+#: ../ui/prefs.glade.h:27
+msgid "Profiles"
+msgstr "གསལ་སྡུད་ཚུ།"
+
+#: ../ui/prefs.glade.h:28
+msgid "Regex Error"
+msgstr "རི་ཇེགསི་འཛོལ་བ།"
+
+#: ../ui/prefs.glade.h:29
+msgid "S_croll on output"
+msgstr "ཨའུཊི་པུཊི་གུ་བཤུད་སྒྲིལ།(_c)"
+
+#: ../ui/prefs.glade.h:30
+msgid "Scrollback:"
+msgstr "རྒྱབ་སྒྲིལ།:"
+
+#: ../ui/prefs.glade.h:31
+msgid "Terminal type:"
+msgstr "ཊར་མི་ནཱལ་དབྱེ་བ།:"
+
+#: ../ui/prefs.glade.h:32
+msgid "Test"
+msgstr "བརྟག་ཞིབ།"
+
+#: ../ui/prefs.glade.h:33
+msgid "The character used to divide commands sent to the mud. For example \";\" will let the string \"w;look\" be sent to the mud as two separate commands."
+msgstr "ཡིག་འབྲུ་འདི་མ་ཌི་འདི་ལུ་བཏང་ཡོད་མི་བརྡ་བཀོད་ཚུ་བགོ་ནི་ལུ་ལག་ལེན་འཐབ་ཡོདཔ་ཨིན། དཔེར་ན་ \";\" གིས་ཡིག་རྒྱུན་འདི་ \"w;look\" མ་ཌི་འདི་ལུ་སོ་སོ་བརྡ་བཀོད་་གཉིས་བཟུམ་སྦེ་བཏང་བཅུགཔ་ཨིན།"
+
+#: ../ui/prefs.glade.h:34
+msgid "The number of entries to be saved in the command history."
+msgstr "བརྡ་བཀོད་ལོ་རྒྱུས་འདི་ནང་སྲུང་བཞག་འབད་ནི་ཐོ་བཀོད་ཚུ་གི་ཨང་།"
+
+#: ../ui/prefs.glade.h:36
+msgid "_Action List:"
+msgstr "བྱ་བ་ཐཅ་ཡིག:(_A)"
+
+#: ../ui/prefs.glade.h:37
+msgid "_Echo the text sent"
+msgstr "ཚིག་ཡིག་གཏང་མི་འདི་བྲག་ཅ།(_E)"
+
+#: ../ui/prefs.glade.h:38
+msgid "_Keep the text entered"
+msgstr "ཚིག་ཡིག་བཙུགས་ཡོད་མི་བཞག(_K)"
+
+#: ../ui/prefs.glade.h:40
+msgid "_Regex:"
+msgstr "རི་ཇེགསི།:(_R)"
+
+#: ../ui/prefs.glade.h:41
+msgid "_Trigger:"
+msgstr "ཐུར་རྟ།:(_T)"
+
+#: ../ui/prefs.glade.h:42
+msgid "lines"
+msgstr "གྱལ་ཚུ།"
+
+#. Free the create_link_data structure
+#: ../plugins/automapper/map.c:641
+msgid "Ready."
+msgstr "གྲ་སྒྲིག"
+
+#: ../plugins/automapper/map.c:642
+msgid "Canceled."
+msgstr "ཆ་མེད་གཏང་ཡོདཔ།"
+
+#: ../plugins/automapper/map.c:678
+msgid "A link already exists here!"
+msgstr "གྱལ་ཅིག་ཧེ་མ་ལས་ན་ཡོདཔ!"
+
+#. Create the hint label
+#: ../plugins/automapper/map.c:730
+#: ../plugins/automapper/map.c:3642
+#: ../plugins/automapper/map.c:3645
+msgid "Ready"
+msgstr "གྲ་སྒྲིག"
+
+#: ../plugins/automapper/map.c:731
+msgid "Link created"
+msgstr "འབྲེལ་ལམ་གསར་བསྐྲུན་འབད་ཡོད་མི།"
+
+#: ../plugins/automapper/map.c:735
+msgid "Can't create a node here"
+msgstr "ན་མཐུད་མཚམས་ཅིག་གསར་བསྐྲུན་འབད་མི་ཚུགས།"
+
+#: ../plugins/automapper/map.c:966
+msgid "New Map"
+msgstr "ས་ཁྲ་གསརཔ།"
+
+#. Translator: "path" means "line of travel", ie "road"
+#: ../plugins/automapper/map.c:975
+msgid "Creating a path"
+msgstr "འགྲུལ་ལམ་ཅིག་གསར་བསྐྲུན་འབད་དོ།"
+
+#. The radio button (new map)
+#: ../plugins/automapper/map.c:983
+msgid "Path leads to a new map"
+msgstr "འགྲུལ་ལམ་འདི་ས་ཁྲ་གསརཔ་ཅིག་ལུ་འགོ་ཁྲིདཔ་ཨིན།"
+
+#: ../plugins/automapper/map.c:990
+msgid "New map"
+msgstr "ས་ཁྲ་གསརཔ།"
+
+#. The radio button (default)
+#: ../plugins/automapper/map.c:1007
+msgid "Path follows an already existing path:"
+msgstr "འགྲུལ་ལམ་འདི་ཧེ་མ་ལས་ཡོད་བཞིན་པའི་འགྲུལ་ལམ་ཅིག་རྗེས་སུ་འབྲངམ་ཨིན།:"
+
+#: ../plugins/automapper/map.c:1026
+msgid "Create"
+msgstr "གསར་བསྐྲུན།"
+
+#: ../plugins/automapper/map.c:1195
+msgid "Enter in a path"
+msgstr "འགྲུལ་ལམ་ཅིག་ནང་བཙུགས།"
+
+#: ../plugins/automapper/map.c:1202
+msgid "Create a new path:"
+msgstr "འགྲུལ་ལམ་གསརཔ་ཅིག་གསར་བསྐྲུན་འབད།:"
+
+#: ../plugins/automapper/map.c:1219
+msgid "Enter in existing path:"
+msgstr "ཡོད་བཞིན་པའི་འགྲུལ་ལམ་ནང་བཙུགས།:"
+
+#: ../plugins/automapper/map.c:1270
+msgid "This node has already 8 links. Destroy one of these before trying to create a new one"
+msgstr "མཐུད་ལམ་འདི་ལུ་ཧེ་མ་ལས་འབྲེལ་ལམ་༨་འདུག གསརཔ་གཅིག་གསར་བསྐྲུན་མ་འབད་བའི་ཧེ་མ་གཅིག་རྩ་མེད་གཏང་།"
+
+#. Change the automap state
+#: ../plugins/automapper/map.c:1277
+msgid "Enter to finish, Esc to quit"
+msgstr "མཇུག་བསྡུ་ནི་ལུ་བཙུགས་ སྤང་ནི་ལུ་ཨི་ཨེསི་སི།"
+
+#: ../plugins/automapper/map.c:1278
+msgid "Use move buttons to build the link."
+msgstr "འབྲེལ་ལམ་འདི་བཟོ་བརྩིགས་ནི་ལུ་ཨེབ་རྟ་སྤོ་་ལག་ལེན་འཐབ།"
+
+#: ../plugins/automapper/map.c:1456
+msgid "Zoom In"
+msgstr "ཕྱིར་རྒྱས།"
+
+#: ../plugins/automapper/map.c:1457
+msgid "Zoom Out"
+msgstr "ནང་རྒྱས།"
+
+#: ../plugins/automapper/map.c:1458
+msgid "Configure Automap"
+msgstr "རིམ་སྒྲིག་རང་བཞིན་ས་ཁྲ།"
+
+#. Teleport here
+#: ../plugins/automapper/map.c:1498
+msgid "Teleport here"
+msgstr "ན་རྒྱང་འདྲེན།"
+
+#.
+#. /* Set node properties */
+#. properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#. gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#. gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#. Create new link
+#: ../plugins/automapper/map.c:1508
+msgid "Create new link"
+msgstr "འབྲེལ་ལམ་གསརཔ་གསར་བསྐྲུན་འབད།"
+
+#. Translator: this is an action, not a key
+#: ../plugins/automapper/map.c:1515
+msgid "Enter"
+msgstr "བཙུགས།"
+
+#. Can easily be optimised ... but why bother ?
+#. Translator: "N" means "North" here
+#. Create button directions
+#: ../plugins/automapper/map.c:1816
+#: ../plugins/automapper/map.c:3670
+msgid "N"
+msgstr "N"
+
+#. Translator: "NE" means "Northeast" here
+#: ../plugins/automapper/map.c:1818
+#: ../plugins/automapper/map.c:3671
+msgid "NE"
+msgstr "NE"
+
+#. Translator: "E" means "East" here
+#: ../plugins/automapper/map.c:1820
+#: ../plugins/automapper/map.c:3672
+msgid "E"
+msgstr "E"
+
+#. Translator: "SE" means "Southeast" here
+#: ../plugins/automapper/map.c:1822
+#: ../plugins/automapper/map.c:3673
+msgid "SE"
+msgstr "SE"
+
+#. Translator: "S" means "South" here
+#: ../plugins/automapper/map.c:1824
+#: ../plugins/automapper/map.c:3674
+msgid "S"
+msgstr "S"
+
+#. Translator: "SW" means "Southwest" here
+#: ../plugins/automapper/map.c:1826
+#: ../plugins/automapper/map.c:3675
+msgid "SW"
+msgstr "SW"
+
+#. Translator: "W" means "West" here
+#: ../plugins/automapper/map.c:1828
+#: ../plugins/automapper/map.c:3676
+msgid "W"
+msgstr "W"
+
+#. Translator: "NW" means "Northwest" here
+#: ../plugins/automapper/map.c:1830
+#: ../plugins/automapper/map.c:3677
+msgid "NW"
+msgstr "NW"
+
+#: ../plugins/automapper/map.c:1833
+#: ../plugins/automapper/map.c:3667
+msgid "Remove"
+msgstr "རྩ་བསྐྲད་གཏང་།"
+
+#. Some buttons
+#: ../plugins/automapper/map.c:1834
+#: ../plugins/automapper/map.c:3665
+msgid "Load"
+msgstr "མངོན་གསལ།"
+
+#: ../plugins/automapper/map.c:1835
+#: ../plugins/automapper/map.c:3666
+msgid "Save"
+msgstr "སྲུང་བཞག"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Load map"
+msgstr "ས་ཁྲ་མངོན་གསལ།"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Save map"
+msgstr "ས་ཁྲ་སྲུང་བཞག"
+
+#: ../plugins/automapper/map.c:3142
+msgid "No link existed in that direction"
+msgstr "བཀོད་རྒྱ་དེ་ནང་འབྲེལ་ལམ་ཅིག་ཡང་མེད།"
+
+#: ../plugins/automapper/map.c:3148
+msgid "Cannot break links to a node going up or down"
+msgstr "མཐུད་མཚམས་ཡར་ནང་མར་འགྱོ་མི་ལུ་འབྲེལ་ལམ་ཚུ་བར་བཏོག་འབད་མི་ཚུགས།"
+
+#. It would seem this node already has a connection to here, That's
+#. * possible so we need to inform the user that his move is illegal.
+#.
+#: ../plugins/automapper/map.c:3257
+msgid "Destination node has already a connection here"
+msgstr "འགྲོ་ཡུལ་མཐུད་མཚམས་འདི་ཧེ་མ་ལས་ན་མཐུད་ལམ་ཡོདཔ།"
+
+#: ../plugins/automapper/map.c:3406
+msgid "Can't create a link to another floor!"
+msgstr "གཞན་འཐིང་གཞི་ལུ་འབྲེལ་ལམ་ཅིག་གསར་བསྐྲུན་འབད་མི་ཚུགས།!"
+
+#: ../plugins/automapper/map.c:3412
+msgid "There is already a link here!"
+msgstr "དེ་ནང་ཧེ་མ་ལས་འབྲེལ་ལམ་ཅིག་ཡོདཔ།!"
+
+#. Set the title
+#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
+#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
+#: ../plugins/automapper/map.c:3550
+msgid "GNOME-Mud AutoMapper"
+msgstr "ཇི་ནོམ་མ་ཌི་རང་བཞིན་ས་ཁྲ་བཟོ་མི།"
+
