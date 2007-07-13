@@ -204,6 +204,18 @@ AC_CONFIG_FILES([
   Makefile
   gnome-mud.lsm
   gnome-mud.spec
+  data/Makefile
+  data/icons/Makefile
+  data/icons/16x16/Makefile
+  data/icons/16x16/apps/Makefile
+  data/icons/22x22/Makefile
+  data/icons/22x22/apps/Makefile
+  data/icons/24x24/Makefile
+  data/icons/24x24/apps/Makefile
+  data/icons/32x32/Makefile
+  data/icons/32x32/apps/Makefile
+  data/icons/scalable/Makefile
+  data/icons/scalable/apps/Makefile
   doc/Makefile
   doc/gnome-mud-manual/Makefile
   src/Makefile

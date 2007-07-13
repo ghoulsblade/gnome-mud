@@ -1,4 +1,4 @@
-SUBDIRS = doc po src plugins ui
+SUBDIRS = data doc plugins po src ui
 
 schemadir = $(sysconfdir)/gconf/schemas
 schema_in_files = gnome-mud.schemas.in

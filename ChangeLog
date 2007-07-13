@@ -1,3 +1,12 @@
+2007-07-13  Jordi Mallach  <jordi@sindominio.net>
+
+	* configure.ac, Makefile.am: Prepare for icon changes.
+	* src/pixmaps/Makefile.am: do not distribute the old icon for now.
+
+	* data/icons/*: New Tango icons from Andreass Nilsson. Many thanks!
+
+	* ui/main.glade: Add Andreas to credits.
+
 2006-09-12  Jordi Mallach  <jordi@sindominio.net>
 
 	* MAINTAINERS: Fix Les' email address, and add Mart.

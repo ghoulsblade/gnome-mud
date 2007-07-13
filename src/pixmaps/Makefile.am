@@ -5,6 +5,7 @@ image_DATA =			\
 	gnome-mud-tray-icon.png
 
 pixmapdir = $(datadir)/pixmaps
-pixmap_DATA = gnome-mud.png
+#pixmap_DATA = gnome-mud.png
+pixmap_DATA =
 
 EXTRA_DIST = $(image_DATA) $(pixmap_DATA)
