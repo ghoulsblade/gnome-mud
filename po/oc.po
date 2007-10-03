@@ -280,9 +280,7 @@ msgstr ""
 #. * Paul Translator <paul@translator.org>
 #: src/init.c:244
 msgid "translator_credits"
-msgstr ""
-"La còla occitana de revirada d'Ubuntu, 2006 - ubuntu-l10n-"
-"oci@lists.ubuntu.com"
+msgstr "Yannig Marchegay (Kokoyaya) <yannig@marchegay.org)"
 
 #: src/init.c:250
 msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
@@ -1032,7 +1030,7 @@ msgstr ""
 
 #: src/profiles.c:942
 msgid "Title:"
-msgstr "Titol:"
+msgstr "Títol:"
 
 #: src/profiles.c:986
 msgid "Character information"
