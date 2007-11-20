@@ -1,20 +1,23 @@
+# translation of oc.po to Occitan
 # Occitan translation of gnome-mud messages.
-# Copyright (C) 2001, 2002 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2002, 2007 Free Software Foundation, Inc.
 #
 # Yannig MARCHEGAY (yannig@marchegay.org) - 2006-2007
 #
+# Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-mud 0.9.1\n"
+"Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-11-11 14:47+0100\n"
-"PO-Revision-Date: 2007-08-19 19:55+0200\n"
-"Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
-"Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
+"PO-Revision-Date: 2007-11-20 14:31+0100\n"
+"Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
+"Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);"
+"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: gnome-mud.desktop.in.h:1 src/init.c:248
 msgid "GNOME-Mud"
@@ -605,7 +608,7 @@ msgstr "N"
 #. Translator: "NE" means "Northeast" here
 #: src/map.c:1738 src/map.c:3577
 msgid "NE"
-msgstr ""
+msgstr "NE"
 
 #. Translator: "E" means "East" here
 #: src/map.c:1740 src/map.c:3578
@@ -615,7 +618,7 @@ msgstr "E"
 #. Translator: "SE" means "Southeast" here
 #: src/map.c:1742 src/map.c:3579
 msgid "SE"
-msgstr ""
+msgstr "SE"
 
 #. Translator: "S" means "South" here
 #: src/map.c:1744 src/map.c:3580
@@ -625,7 +628,7 @@ msgstr "E"
 #. Translator: "SW" means "Southwest" here
 #: src/map.c:1746 src/map.c:3581
 msgid "SW"
-msgstr ""
+msgstr "SO"
 
 #. Translator: "W" means "West" here
 #: src/map.c:1748 src/map.c:3582
@@ -1017,7 +1020,7 @@ msgstr ""
 
 #: src/profiles.c:906
 msgid "Mud"
-msgstr ""
+msgstr "Fanga"
 
 #. Translators: this is the name of your player
 #: src/profiles.c:913
@@ -1058,11 +1061,11 @@ msgstr ""
 
 #: src/profiles.c:1125
 msgid "Connect"
-msgstr "Connectar"
+msgstr "Se connectar"
 
 #: src/profiles.c:1164
 msgid "Profiles"
-msgstr ""
+msgstr "Perfils"
 
 #: src/profiles.c:1173
 msgid "GNOME-Mud Profiles"
@@ -1104,108 +1107,3 @@ msgstr "Tampar"
 msgid "Close the window"
 msgstr "Ferme la fenêtre"
 
-#, fuzzy
-#~ msgid "(C) 1998, 1999, 2000, 2001, 2002, 2003 Robin Ericsson"
-#~ msgstr "(C) 1998-2002 Robin Ericsson"
-
-#, fuzzy
-#~ msgid ""
-#~ "\n"
-#~ "Python version %s\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Version de Python %s\n"
-#~ "\n"
-
-#~ msgid "Is Plugin Enabled?"
-#~ msgstr "Le greffon est il branché ?"
-
-#, fuzzy
-#~ msgid "Colour palette"
-#~ msgstr "Palette de couleurs :"
-
-#~ msgid "Add"
-#~ msgstr "Ajouter"
-
-#~ msgid "Quit?"
-#~ msgstr "Quitter ?"
-
-#~ msgid "GNOME-Mud Popup Message"
-#~ msgstr "Message Popup GNOME-Mud"
-
-#~ msgid "Ok"
-#~ msgstr "Ok"
-
-#, fuzzy
-#~ msgid "Couldn't allocate colour"
-#~ msgstr "Impossible d'allouer la couleur"
-
-#~ msgid "Font %s Loading Error"
-#~ msgstr "Erreur lors de la lecture de la police %s"
-
-#, fuzzy
-#~ msgid "Bold foreground colour:"
-#~ msgstr "Couleur de la police grasse :"
-
-#~ msgid "Freeze/Thaw?"
-#~ msgstr "Geler/Fondre ?"
-
-#~ msgid ""
-#~ "Using this, text will draw faster but it will not draw every character, "
-#~ "only whole strings. This will probably make displays a lot faster if you "
-#~ "are playing MUDs with a lot of different colours."
-#~ msgstr ""
-#~ "En utilisant cela, le texte s'affichera plus vite, mais chaque lettre ne "
-#~ "sera pas affichée, seulement les phrases entières le seront. Cela "
-#~ "accélérera sans doute beaucoup l'affichage si votre MUD utilise de "
-#~ "nombreuses couleurs."
-
-#~ msgid "Robin Ericsson, main developer"
-#~ msgstr "Robin Ericsson, développeur principal"
-
-#~ msgid "Ben Gertzfield, creation of rcfiles for AMCL"
-#~ msgstr "Ben Gertzfield, création des fichiers rc pour AMCL"
-
-#~ msgid "Paul Cameron, compile fixes, automapper"
-#~ msgstr ""
-#~ "Paul Cameron, corrections de la compilation, cartographe automatique"
-
-#~ msgid "Bret Robideaux, action/trigger module"
-#~ msgstr "Bret Robideaux, module action/déclancheur (trigger)"
-
-#~ msgid "Maxim Kiselev, keybindings, colorsaving, command-divider, bugfixes"
-#~ msgstr ""
-#~ "Maxim Kiselev, raccourcis clavier, sauvegarde des couleurs, diviseur de "
-#~ "couleurs, corrections de bogues"
-
-#~ msgid "Benjamin Curtis, recognition of TELNET codes and replies"
-#~ msgstr "Benjamin Curtis, reconnaissance des codes TELNET et réponses"
-
-#~ msgid "Jorgen Kosche, focus-bugs patches, de.po maintainer"
-#~ msgstr "Jörgen Kosche, correction de bogues de focus, responsable de de.po"
-
-#~ msgid "Jeroen Ruigrok, various code cleanups and fixes"
-#~ msgstr "Jeroen Ruigrok, divers nettoyages de code et correctifs"
-
-#~ msgid "Jorge Garcia, various code cleanups and fixes"
-#~ msgstr "Jorge García, divers nettoyages de code et correctifs"
-
-#~ msgid ""
-#~ "Jordi Mallach, official Debian package, i18n support, ca.po & es.po "
-#~ "maintainer"
-#~ msgstr ""
-#~ "Jordi Mallach, paquet Debian officiel, support de l'i18n, responsable de "
-#~ "ca.po et es.po"
-
-#~ msgid "Martin Quinson, fr.po maintainer"
-#~ msgstr "Martin Quinson, responsable de fr.po"
-
-#~ msgid "Petter E. Stokke, Python scripting support"
-#~ msgstr "Petter E. Stokke, Aide pour les scripts en Python"
-
-#~ msgid "Vashti, default keypad bindings, telnet support patches"
-#~ msgstr ""
-#~ "Vashti, raccourcis claviers par défaut, correctifs pour le support telnet"
-
-#~ msgid "GNOME-Mud _manual"
-#~ msgstr "_Manuel de GNOME-Mud"
