@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-27 13:27+0100\n"
+"POT-Creation-Date: 2008-02-02 21:53+0100\n"
 "PO-Revision-Date: 2007-12-27 16:14+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -253,7 +253,9 @@ msgstr ""
 #: ../src/gconf-helper.c:134
 #, c-format
 msgid "Palette had %d entry instead of %d\n"
-msgstr ""
+msgid_plural "Palette had %d entries instead of %d\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/gnome-mud.c:53
 #, c-format
@@ -1083,42 +1085,3 @@ msgstr ""
 #: ../plugins/automapper/map.c:3550
 msgid "GNOME-Mud AutoMapper"
 msgstr ""
-
-#~ msgid "Alias"
-#~ msgstr "Aliàs"
-
-#~ msgid "Replacement"
-#~ msgstr "Remplaçament"
-
-#~ msgid "Values"
-#~ msgstr "Valors"
-
-#~ msgid "Exit"
-#~ msgstr "Sortir"
-
-#~ msgid "Main"
-#~ msgstr "Principal"
-
-#~ msgid "Key"
-#~ msgstr "Clau"
-
-#~ msgid "Command"
-#~ msgstr "Comanda"
-
-#~ msgid "Default"
-#~ msgstr "Defaut"
-
-#~ msgid "Mud"
-#~ msgstr "Fanga"
-
-#~ msgid "Title:"
-#~ msgstr "Títol:"
-
-#~ msgid "Password:"
-#~ msgstr "Mot de pas :"
-
-#~ msgid "New"
-#~ msgstr "Novèl"
-
-#~ msgid "Close the window"
-#~ msgstr "Ferme la fenêtre"
