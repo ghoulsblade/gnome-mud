@@ -24,6 +24,7 @@
 #include <glib-object.h>
 #include <glib/gi18n.h>
 #include <gtk/gtkmenu.h>
+#include <glib/gqueue.h>
 #include <vte/vte.h>
 
 #include "gnome-mud.h"
@@ -60,6 +61,9 @@ struct _MudConnectionViewPrivate
 	gchar *connect_string;
 
 	MudParseBase *parse;
+	
+	GQueue *history;
+	guint current_history_index;
 };
 
 static void mud_connection_view_init                     (MudConnectionView *connection_view);
@@ -300,9 +304,12 @@ static void
 mud_connection_view_init (MudConnectionView *connection_view)
 {
 	GtkWidget *box;
-
+    
   	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
   	//FIXME connection_view->priv->prefs = mud_preferences_new(NULL);
+  
+    connection_view->priv->history = g_queue_new();
+    connection_view->priv->current_history_index = 0;
   
 	connection_view->priv->parse = mud_parse_base_new(connection_view);
 	
@@ -354,13 +361,21 @@ mud_connection_view_finalize (GObject *object)
 {
 	MudConnectionView *connection_view;
 	GObjectClass *parent_class;
+	gchar *history_item;
 
 	connection_view = MUD_CONNECTION_VIEW(object);
 
+    while((history_item = (gchar *)g_queue_pop_head(connection_view->priv->history)) != NULL)
+        if(history_item != NULL)
+            g_free(history_item);
+            
+    if(connection_view->priv->history)
+        g_queue_free(connection_view->priv->history);
+        
 	gnetwork_connection_close(GNETWORK_CONNECTION(connection_view->connection));
 	g_object_unref(connection_view->connection);
 	g_free(connection_view->priv);
-
+    
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
 	parent_class->finalize(object);
 }
@@ -486,6 +501,9 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
 	GList *commands, *command;
 	gchar *text;
 
+    g_queue_push_head(view->priv->history, (gpointer)g_strdup(data));
+    view->priv->current_history_index = 0;
+    
 	commands = mud_profile_process_commands(view->priv->profile, data);
 	
 	for (command = g_list_first(commands); command != NULL; command = command->next)
@@ -795,4 +813,25 @@ MudParseBase *
 mud_connection_view_get_parsebase(MudConnectionView *view)
 {
 	return view->priv->parse;
+}
+
+gchar *
+mud_connection_view_get_history_item(MudConnectionView *view, enum
+MudConnectionHistoryDirection direction)
+{
+    gchar *history_item;
+    
+    if(direction == HISTORY_DOWN)
+        if(view->priv->current_history_index != 0)
+            view->priv->current_history_index--;
+            
+    history_item = (gchar *)g_queue_peek_nth(view->priv->history,
+                            view->priv->current_history_index);
+                            
+    if(direction == HISTORY_UP)
+        if(view->priv->current_history_index < 
+            g_queue_get_length(view->priv->history) - 1)
+                view->priv->current_history_index++;
+    
+    return history_item;
 }

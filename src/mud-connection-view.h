@@ -40,6 +40,12 @@ enum MudConnectionColorType
 	System
 };
 
+enum MudConnectionHistoryDirection
+{
+    HISTORY_UP,
+    HISTORY_DOWN
+};
+
 GType mud_connection_view_get_type (void) G_GNUC_CONST;
 
 MudConnectionView* mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window, GtkWidget *tray, gchar *name);
@@ -51,6 +57,8 @@ void mud_connection_view_send (MudConnectionView *view, const gchar *data);
 void mud_connection_view_set_connect_string(MudConnectionView *view, gchar *connect_string);
 void mud_connection_view_set_id(MudConnectionView *view, gint id);
 void mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type);
+gchar *mud_connection_view_get_history_item(MudConnectionView *view, enum
+MudConnectionHistoryDirection direction);
 
 #include "mud-profile.h"
 void mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profile);
