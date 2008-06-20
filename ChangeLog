@@ -1,6 +1,10 @@
+2008-06-20  Les Harris  <me@lesharris.com>
+	* src/mud-window.c: Fixed a segmentation fault when history was used with
+	no open connection.
+
 2008-06-17  Les Harris  <me@lesharris.com>
-    * src/mud-window.c, src/mud-connection-view.c, src/mud-connection-view.h:
-    Added in input history support for our text entry widget.
+	* src/mud-window.c, src/mud-connection-view.c, src/mud-connection-view.h:
+	Added in input history support for our text entry widget.
 
 2007-07-13  Jordi Mallach  <jordi@sindominio.net>
 
