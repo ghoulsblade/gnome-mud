@@ -40,6 +40,7 @@
 #include <gtk/gtkimagemenuitem.h>
 #include <vte/vte.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"
@@ -365,17 +366,51 @@ mud_window_profiles_cb(GtkWidget *widget, MudWindow *window)
 static void
 mud_window_about_cb(GtkWidget *widget, MudWindow *window)
 {
-	GtkWidget *dialog;
-	GladeXML *glade;
-	
-	glade = glade_xml_new(GLADEDIR "/main.glade", "about_window", NULL);
-	dialog = glade_xml_get_widget(glade, "about_window");
-
-	gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(dialog), VERSION);
-	gtk_about_dialog_set_website_label(GTK_ABOUT_DIALOG(dialog), "GNOME-Mud Homepage");
-	gtk_dialog_run(GTK_DIALOG(dialog));
-	
-	g_object_unref(glade);	
+    static const gchar * const authors[] = {
+        "Robin Ericsson <lobbin@localhost.nu>",
+        "Jordi Mallach <jordi@sindominio.net>",
+        "Daniel Patton <seven-nation@army.com>",
+        "Les Harris <me@lesharris.com>",
+        NULL
+    };
+    
+    static const gchar * const documenters[] = {
+        "Jordi Mallach <jordi@sindominio.net>",
+        "Petter E. Stokke <gibreel@project23.no>",
+        NULL
+    };
+    
+    static const gchar * const artists[] = {
+        "Daniel Taylor <DanTaylor@web.de>",
+        "Andreas Nilsson <andreasn@gnome.org>",
+        NULL
+    };
+    
+    static const gchar copyright[] = "Copyright \xc2\xa9 1998-2008 Robin Ericsson";
+    
+    static const gchar comments[] = N_("A Multi-User Dungeon (MUD) client for GNOME");
+    
+    GdkPixbuf *logo;
+    
+    logo = gdk_pixbuf_new_from_file_at_size(GMPIXMAPSDIR "/gnome-mud.svg", 
+        128, 128, NULL);
+    
+    gtk_show_about_dialog(GTK_WINDOW(window->priv->window),
+        "artists", artists,
+        "authors", authors,
+        "comments", _(comments),
+        "copyright", copyright,
+        "documenters", documenters,
+        "logo", logo,
+        "translator-credits", _("translator-credits"),
+        "version", VERSION,
+        "website", "http://amcl.sourceforge.net/",
+        "name", "gnome-mud",
+        NULL);
+        
+    if(logo)
+        g_object_unref(logo);
+    
 }
 
 static void

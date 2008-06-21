@@ -24,6 +24,8 @@
 #include <glib/gi18n.h>
 #include <glib-object.h>
 #include <glade/glade-xml.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include "gnome-mud.h"
 #include "gconf-helper.h"

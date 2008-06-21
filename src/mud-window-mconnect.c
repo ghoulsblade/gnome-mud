@@ -23,6 +23,7 @@
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
 #include <glade/glade-xml.h>
+#include <string.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"

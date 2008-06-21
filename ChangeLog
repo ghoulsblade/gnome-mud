@@ -1,4 +1,21 @@
 2008-06-20  Les Harris  <me@lesharris.com>
+    * configure.ac: Removed dependency on libgnetwork, added dependency to gnet.
+    * src/gnome-mud.[ch], src/mud-connection-view.[ch]: Removed libgnetwork 
+    calls and replaced them with gnet calls.
+    
+    * src/mud-window.c: Stopped using glade for the about box, moved it
+    into here.  This complies with gnome and gtk+ best practice advice. Spruced
+    up the aboutbox a bit. Close button works properly now.
+    
+    * src/mud-connection-view.c, src/mud-window.c, src/mud-window-mudedit.c,
+    src/mud-window-mconnect.c, src/mud-parse-base.c, src/modules.c,
+    src/mud-window-mudlist.c, src/mud-window-profile.c, src/mud-profile.c: 
+    Fixed various include problems to remove compile time warnings.
+    
+    * src/modules.c: Added explicit cast from void* to gpointer* to avoid type-
+    punning warning at compile time.
+
+2008-06-20  Les Harris  <me@lesharris.com>
 	* src/mud-window.c: Fixed a segmentation fault when history was used with
 	no open connection.
 

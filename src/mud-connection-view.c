@@ -26,6 +26,8 @@
 #include <gtk/gtkmenu.h>
 #include <glib/gqueue.h>
 #include <vte/vte.h>
+#include <gnet.h>
+#include <string.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"
@@ -64,6 +66,9 @@ struct _MudConnectionViewPrivate
 	
 	GQueue *history;
 	guint current_history_index;
+	
+	gchar *hostname;
+	guint port;
 };
 
 static void mud_connection_view_init                     (MudConnectionView *connection_view);
@@ -78,6 +83,7 @@ static void mud_connection_view_profile_changed_cb       (MudProfile *profile, M
 static gboolean mud_connection_view_button_press_event   (GtkWidget *widget, GdkEventButton *event, MudConnectionView *view);
 static void mud_connection_view_popup                    (MudConnectionView *view, GdkEventButton *event);
 static void mud_connection_view_reread_profile           (MudConnectionView *view);
+static void mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer data);
 
 GType
 mud_connection_view_get_type (void)
@@ -371,9 +377,13 @@ mud_connection_view_finalize (GObject *object)
             
     if(connection_view->priv->history)
         g_queue_free(connection_view->priv->history);
-        
-	gnetwork_connection_close(GNETWORK_CONNECTION(connection_view->connection));
-	g_object_unref(connection_view->connection);
+    
+    gnet_conn_disconnect(connection_view->connection);
+    gnet_conn_unref(connection_view->connection);
+    
+	//gnetwork_connection_close(GNETWORK_CONNECTION(connection_view->connection));
+	//g_object_unref(connection_view->connection);
+	
 	g_free(connection_view->priv);
     
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
@@ -388,7 +398,7 @@ mud_connection_view_set_connect_string(MudConnectionView *view, gchar *connect_s
 	view->priv->connect_string = g_strdup(connect_string);
 }
 
-static void
+/*static void
 mud_connection_view_received_cb(GNetworkConnection *cxn, gconstpointer data, gulong length, gpointer user_data)
 {
 	gint gag;
@@ -476,23 +486,37 @@ mud_connection_view_error_cb(GNetworkConnection *cxn, GError *error, gpointer us
 {
 	g_print ("Client Connection: Error:\n\tDomain\t= %s\n\tCode\t= %d\n\tMessage\t= %s\n",
 			 g_quark_to_string (error->domain), error->code, error->message);
-}
+}*/
 
 void
 mud_connection_view_disconnect(MudConnectionView *view)
 {
 	g_assert(view != NULL);
 	
-	gnetwork_connection_close(GNETWORK_CONNECTION(view->connection));
+	gnet_conn_disconnect(view->connection);
+	mud_connection_view_add_text(view, _("*** Connection closed.\n"), System);
+	
+	//gnetwork_connection_close(GNETWORK_CONNECTION(view->connection));
 }
 
 void
 mud_connection_view_reconnect(MudConnectionView *view)
 {
+    gchar *buf;
+    
 	g_assert(view != NULL);
 	
-	gnetwork_connection_close(GNETWORK_CONNECTION(view->connection));
-	gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
+	gnet_conn_disconnect(view->connection);
+	mud_connection_view_add_text(view, _("*** Connection closed.\n"), System);
+	
+	buf = g_strdup_printf(_("*** Making connection to %s, port %d.\n"), 
+	    view->priv->hostname, view->priv->port);
+	mud_connection_view_add_text(view, buf, System);
+	
+	gnet_conn_connect(view->connection);
+	
+	//gnetwork_connection_close(GNETWORK_CONNECTION(view->connection));
+	//gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
 }
 
 void
@@ -509,7 +533,15 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
 	for (command = g_list_first(commands); command != NULL; command = command->next)
 	{
 		text = g_strdup_printf("%s\r\n", (gchar *) command->data);
-		gnetwork_connection_send(GNETWORK_CONNECTION(view->connection), text, strlen(text));
+		
+		// Give plugins first crack at it.
+		mud_window_handle_plugins(view->priv->window, view->priv->id, 
+		    (gchar *)text, 0);
+		    
+		gnet_conn_write(view->connection, text, strlen(text));
+		
+		//gnetwork_connection_send(GNETWORK_CONNECTION(view->connection), text, strlen(text));
+		
 		if (view->priv->profile->preferences->EchoText)
 			mud_connection_view_add_text(view, text, Sent);
 		g_free(text);
@@ -722,12 +754,22 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
    	GdkGeometry hints;
    	gint xpad, ypad;
    	gint char_width, char_height;
+   	gchar *buf;
 
 	g_assert(hostname != NULL);
 	g_assert(port > 0);
 	
 	view = g_object_new(MUD_TYPE_CONNECTION_VIEW, NULL);
-	view->connection = g_object_new(GNETWORK_TYPE_TCP_CONNECTION,
+	
+	view->priv->hostname = g_strdup(hostname);
+	view->priv->port = port;
+	
+	view->connection = gnet_conn_new(hostname, port, 
+	    mud_connection_view_network_event_cb, view);
+	gnet_conn_ref(view->connection);
+	gnet_conn_set_watch_error(view->connection, TRUE);
+	   
+	/*view->connection = g_object_new(GNETWORK_TYPE_TCP_CONNECTION,
 									"address", hostname,
 									"port", port,
 									"authentication-type", GNETWORK_SSL_AUTH_ANONYMOUS,
@@ -737,11 +779,12 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 	g_signal_connect(view->connection, "sent", G_CALLBACK(mud_connection_view_send_cb), view);
 	g_signal_connect(view->connection, "error", G_CALLBACK(mud_connection_view_error_cb), view);
 	g_signal_connect(view->connection, "notify::tcp-status", G_CALLBACK(mud_connection_view_notify_cb), view);
+	*/
 
 	mud_connection_view_set_profile(view, mud_profile_new(profile));
 	
 	// FIXME, move this away from here
-	gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
+	//gnetwork_connection_open(GNETWORK_CONNECTION(view->connection));
 
 	/* Let us resize the gnome-mud window */
 	vte_terminal_get_padding(VTE_TERMINAL(view->priv->terminal), &xpad, &ypad);
@@ -766,6 +809,12 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 	view->priv->tray = MUD_TRAY(tray);
 	
 	view->priv->log = mud_log_new(name);
+	
+	buf = g_strdup_printf(_("*** Making connection to %s, port %d.\n"), 
+	    view->priv->hostname, view->priv->port);
+	mud_connection_view_add_text(view, buf, System);
+	
+	gnet_conn_connect(view->connection);
 
 	return view;
 }
@@ -835,3 +884,72 @@ MudConnectionHistoryDirection direction)
     
     return history_item;
 }
+
+static void
+mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pview)
+{
+    gint gag;
+	gint pluggag;
+    MudConnectionView *view = MUD_CONNECTION_VIEW(pview);
+    g_assert(view != NULL);
+    
+    switch(event->type)
+    {
+        case GNET_CONN_ERROR:
+            mud_connection_view_add_text(view, _("*** Could not connect."), Error);
+        break;
+        
+        case GNET_CONN_CONNECT:
+            mud_connection_view_add_text(view, _("*** Connected.\n"), System);
+            gnet_conn_read(view->connection);
+        break;
+        
+        case GNET_CONN_CLOSE:
+            mud_connection_view_add_text(view, _("*** Connection closed.\n"), System);
+        break;
+        
+        case GNET_CONN_TIMEOUT:
+        break;
+        
+        case GNET_CONN_READ:
+	        if(!view->priv->connected)
+	        {
+		        view->priv->connected = TRUE;
+		        mud_tray_update_icon(view->priv->tray, online);
+	        }
+	
+	           gag = mud_parse_base_do_triggers(view->priv->parse, 
+	                event->buffer);
+	           mud_window_handle_plugins(view->priv->window, view->priv->id, 
+	                event->buffer, 1);
+	                
+	           pluggag = PluginGag;
+	           PluginGag = FALSE;
+	
+	        if(!gag && !pluggag)
+	        {
+		        vte_terminal_feed(VTE_TERMINAL(view->priv->terminal), 
+		            event->buffer, event->length);
+		        mud_log_write_hook(view->priv->log, event->buffer, event->length);
+	        }
+
+            if (view->priv->connect_hook) {
+                mud_connection_view_send (view, view->priv->connect_string);
+                g_free(view->priv->connect_string);
+                view->priv->connect_hook = FALSE;
+            }
+            
+            gnet_conn_read(view->connection);
+        break;
+        
+        case GNET_CONN_WRITE:
+        break;
+        
+        case GNET_CONN_READABLE:
+        break;
+        
+        case GNET_CONN_WRITABLE:
+        break;
+    }
+}
+

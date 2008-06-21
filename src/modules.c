@@ -30,6 +30,7 @@
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
 #include <gtk/gtkdialog.h>
+#include <string.h>
 
 #if HAVE_DIRENT_H
 # include <dirent.h>
@@ -423,7 +424,10 @@ PLUGIN_OBJECT *plugin_query (gchar *plugin_name, gchar *plugin_path)
         g_message (_("Error getting plugin handle (%s): %s."), plugin_name, g_module_error());
         goto error;
     } else {
- 		if(!g_module_symbol(new_plugin->handle, "gnomemud_plugin_info", (gpointer *)&new_plugin->info))
+        void *data = &new_plugin->info;
+        gpointer *info = (gpointer *)data;
+        
+ 		if(!g_module_symbol(new_plugin->handle, "gnomemud_plugin_info", info))
         {
             g_message (_("Error, %s not an GNOME-Mud module: %s."), plugin_name, g_module_error());
             goto error;

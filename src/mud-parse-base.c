@@ -22,6 +22,8 @@
 
 #include <glib-object.h>
 #include <glib/gi18n.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "mud-regex.h" 
 #include "mud-parse-base.h"   

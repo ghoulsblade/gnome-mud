@@ -4,7 +4,8 @@
 G_BEGIN_DECLS
 
 #include <gtk/gtkwidget.h>
-#include <libgnetwork/gnetwork.h>
+//#include <libgnetwork/gnetwork.h>
+#include <gnet.h>
 
 
 #define MUD_TYPE_CONNECTION_VIEW               (mud_connection_view_get_type ())
@@ -24,7 +25,7 @@ struct _MudConnectionView
 
 	MudConnectionViewPrivate *priv;
 
-	GNetworkTcpConnection *connection;
+	GConn *connection;
 };
 
 struct _MudConnectionViewClass

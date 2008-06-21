@@ -26,6 +26,7 @@
 #include <gtk/gtkwindow.h>
 #include <stdio.h>
 #include <sys/stat.h>
+#include <gnet.h>
 
 #ifdef USE_PYTHON
 //#include <Python.h>
@@ -96,6 +97,9 @@ int main (gint argc, char *argv[])
 		return 1;
 	}
 
+    /* Initialize the Gnet library */
+    gnet_init();
+    
 	gtk_init(&argc, &argv);
 	
 	/* Start a GConf client */
