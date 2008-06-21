@@ -39,6 +39,7 @@
 #include <gtk/gtktextiter.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <vte/vte.h>
+#include <glib/gstring.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -824,7 +825,7 @@ mud_window_finalize (GObject *object)
 }
 
 void
-mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, gint dir)
+mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, guint length, gint dir)
 {
 	GSList *entry, *viewlist;
 	MudViewEntry *mudview;
@@ -849,7 +850,13 @@ mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, gint dir)
 			
 						if(pd->plugin && pd->plugin->enabled && (pd->dir == PLUGIN_DATA_IN))
 						{
-							(*pd->datafunc)(pd->plugin, (gchar *)data, mudview->view);
+						    GString *buf = g_string_new(NULL);
+						    int i;
+						    
+						    for(i = 0; i < length; i++)
+						        g_string_append_c(buf, data[i]);
+						        
+							(*pd->datafunc)(pd->plugin, buf->str, length, mudview->view);
 						}
 					}
 				}
@@ -865,7 +872,13 @@ mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, gint dir)
 			
 						if(pd->plugin && pd->plugin->enabled && (pd->dir == PLUGIN_DATA_OUT))
 						{
-							(*pd->datafunc)(pd->plugin, (gchar *)data, mudview->view);
+							GString *buf = g_string_new(NULL);
+						    int i;
+						    
+						    for(i = 0; i < length; i++)
+						        g_string_append_c(buf, data[i]);
+						        
+							(*pd->datafunc)(pd->plugin, buf->str, length, mudview->view);
 						}
 					}
 				}

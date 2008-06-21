@@ -1560,7 +1560,7 @@ trigger_match_cb(GtkWidget *widget, MudPreferencesWindow *prefs)
 	gtk_text_buffer_get_end_iter(buffer, &end);
 	regex = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 
-	matched_strings = mud_regex_test(test_string, regex, &rc, &error, &errorcode, &erroroffset);
+	matched_strings = mud_regex_test(test_string, strlen(test_string),regex, &rc, &error, &errorcode, &erroroffset);
 
 	if(errorcode)
 	{
@@ -1665,7 +1665,7 @@ alias_match_cb(GtkWidget *widget, MudPreferencesWindow *prefs)
 	gtk_text_buffer_get_end_iter(buffer, &end);
 	regex = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 
-	matched_strings = mud_regex_test(test_string, regex, &rc, &error, &errorcode, &erroroffset);
+	matched_strings = mud_regex_test(test_string, strlen(test_string), regex, &rc, &error, &errorcode, &erroroffset);
 
 	if(errorcode)
 	{

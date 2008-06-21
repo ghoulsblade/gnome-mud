@@ -1,4 +1,24 @@
 2008-06-20  Les Harris  <me@lesharris.com>
+    * plugins/test.plug/Makefile, plugins/statusbars/Makefile,
+      plugins/outputwindows/Makefile, plugins/automapper/Makefile:
+      Updated the dependencies in the plugins makefiles.  Added -fPIC to
+      their cflags so they build properly in a 64 bit environment.
+      
+    * plugins/automapper/map.c, plugins/outputwindows/main.c,
+      plugins/statusbars/main.c, plugins/test.plugin/main.c: Updated the
+      data_in_function to accept a parameter passing the length of the data.
+      
+    * src/mudregex.[ch], src/mud-parse-alias.c, src/mud-parse-trigger.c, 
+      src/mud-window.c, src/mud-connection-view.c, src/modules-structures.h: 
+      Changed the plugin api to provide the length of the data recieved. This
+      helps stop segmentation faults when malformed (non-null terminated) data
+      is passed in.
+      
+    * src/mud-window.c: Since gnet does not flush its buffer plugins now only
+      recieve a N-lengthed piece of the buffer where N is the length of the
+      most current addition.
+
+2008-06-20  Les Harris  <me@lesharris.com>
     * configure.ac: Removed dependency on libgnetwork, added dependency to gnet.
     * src/gnome-mud.[ch], src/mud-connection-view.[ch]: Removed libgnetwork 
     calls and replaced them with gnet calls.

@@ -30,8 +30,8 @@ GType mud_regex_get_type (void) G_GNUC_CONST;
 
 MudRegex *mud_regex_new(void);
 
-gboolean mud_regex_check(const gchar *data, const gchar *rx, gint ovector[1020], MudRegex *regex);
-const gchar **mud_regex_test(const gchar *data, const gchar *rx, gint *rc, const gchar **error, gint *errorcode, gint *erroroffset);
+gboolean mud_regex_check(const gchar *data, guint length, const gchar *rx, gint ovector[1020], MudRegex *regex);
+const gchar **mud_regex_test(const gchar *data, guint length, const gchar *rx, gint *rc, const gchar **error, gint *errorcode, gint *erroroffset);
 void mud_regex_substring_clear(const gchar **substring_list);
 const gchar **mud_regex_get_substring_list(gint *count, MudRegex *regex);
 

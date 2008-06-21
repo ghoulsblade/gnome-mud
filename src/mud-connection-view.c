@@ -536,7 +536,7 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
 		
 		// Give plugins first crack at it.
 		mud_window_handle_plugins(view->priv->window, view->priv->id, 
-		    (gchar *)text, 0);
+		    (gchar *)text, strlen(text), 0);
 		    
 		gnet_conn_write(view->connection, text, strlen(text));
 		
@@ -912,22 +912,26 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
         break;
         
         case GNET_CONN_READ:
+        
+            g_message("Buffer: %s\n", event->buffer);
+            
 	        if(!view->priv->connected)
 	        {
 		        view->priv->connected = TRUE;
 		        mud_tray_update_icon(view->priv->tray, online);
 	        }
 	
-	           gag = mud_parse_base_do_triggers(view->priv->parse, 
+	       gag = mud_parse_base_do_triggers(view->priv->parse, 
 	                event->buffer);
-	           mud_window_handle_plugins(view->priv->window, view->priv->id, 
-	                event->buffer, 1);
+	       mud_window_handle_plugins(view->priv->window, view->priv->id, 
+	                event->buffer, event->length, 1);
 	                
-	           pluggag = PluginGag;
-	           PluginGag = FALSE;
+	       pluggag = PluginGag;
+	       PluginGag = FALSE;
 	
 	        if(!gag && !pluggag)
 	        {
+	            
 		        vte_terminal_feed(VTE_TERMINAL(view->priv->terminal), 
 		            event->buffer, event->length);
 		        mud_log_write_hook(view->priv->log, event->buffer, event->length);

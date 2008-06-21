@@ -161,7 +161,7 @@ void init_plugin(PLUGIN_OBJECT *plugin, GModule *context)
 	}
 }
 
-void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, MudConnectionView *view)
+void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, guint length, MudConnectionView *view)
 {
 	gint hp;
 	gint sp;
@@ -183,6 +183,7 @@ void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, MudConnectionView *vie
 	groups = g_key_file_get_groups(sb_info.keyfile, &group_count);
 	stripped_data = strip_ansi((const gchar *)data);
 	
+	
 	for(i = 0; i < group_count; i++)
 	{
 		enabled = g_key_file_get_integer(sb_info.keyfile, (const gchar *)groups[i], "enabled", &error);
@@ -190,7 +191,7 @@ void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, MudConnectionView *vie
   		if(enabled)
   		{
   			regex = g_key_file_get_string(sb_info.keyfile, (const gchar *)groups[i], "regex", &error);
-			substrings = mud_regex_test((const gchar *)stripped_data, (const gchar *)regex, &rc, &errors, &errorcode, &erroroffset);
+			substrings = mud_regex_test((const gchar *)stripped_data, (guint)strlen(stripped_data), (const gchar *)regex, &rc, &errors, &errorcode, &erroroffset);
 			g_free(regex);
 
 			if(rc > 0)

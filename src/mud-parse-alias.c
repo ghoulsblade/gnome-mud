@@ -22,6 +22,7 @@
 
 #include <glib-object.h>
 #include <glib/gi18n.h>
+#include <string.h>
 
 #include "mud-parse-base.h"
 #include "mud-parse-alias.h"
@@ -122,7 +123,7 @@ mud_parse_alias_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudPar
 			g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/aliases/%s/regex", profile_name, (gchar *)entry->data);
 			regexstr = gconf_client_get_string(client, keyname, &error);
 			
-			if(mud_regex_check((const gchar *)data, regexstr, ovector, regex))
+			if(mud_regex_check((const gchar *)data, strlen(data), regexstr, ovector, regex))
 			{		
 				g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/aliases/%s/actions", profile_name, (gchar *)entry->data);
 				actions = gconf_client_get_string(client, keyname, &error);

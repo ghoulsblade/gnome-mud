@@ -13,7 +13,7 @@ typedef struct _plugin_data   PLUGIN_DATA;
 
 typedef void      (*plugin_initfunc) (PLUGIN_OBJECT *,   GModule *   );
 typedef void      (*plugin_menufunc) (GtkWidget *,       GModule *   );
-typedef void      (*plugin_datafunc) (PLUGIN_OBJECT *, gchar *, MudConnectionView *);
+typedef void      (*plugin_datafunc) (PLUGIN_OBJECT *, gchar *, guint, MudConnectionView *);
 
 typedef enum { PLUGIN_DATA_IN, PLUGIN_DATA_OUT } PLUGIN_DATA_DIRECTION;
 

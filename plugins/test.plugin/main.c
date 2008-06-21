@@ -43,9 +43,9 @@ void init_plugin(PLUGIN_OBJECT *plugin, GModule *context)
   plugin_register_data_incoming(context, "data_in_function");
 }
 
-void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, MudConnectionView *view)
+void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, guint length, MudConnectionView *view)
 {
-  g_message("Received (%d) bytes.", strlen(data));
+  g_message("Received (%d) bytes.", length);
   plugin_add_connection_text("Plugin Called!", 0, view);
 }
 

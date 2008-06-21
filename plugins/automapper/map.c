@@ -268,12 +268,12 @@ void init_plugin(PLUGIN_OBJECT *plugin, GModule *context)
 	dirlist = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
 }
 
-void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, MudConnectionView *view)
+void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, guint length, MudConnectionView *view)
 {
 	cd = view;
 }
 
-void data_out_function(PLUGIN_OBJECT *plugin, gchar *data, MudConnectionView *view)
+void data_out_function(PLUGIN_OBJECT *plugin, gchar *data, guint length, MudConnectionView *view)
 {
 	GList *puck;
 	

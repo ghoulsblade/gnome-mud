@@ -253,7 +253,7 @@ static void init_plugin(PLUGIN_OBJECT *plugin, GModule *context)
 	
 }
 
-void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, MudConnectionView *view)
+void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, guint length, MudConnectionView *view)
 {
 	GError *error = NULL;
 	gchar **groups;
@@ -312,7 +312,7 @@ void data_in_function(PLUGIN_OBJECT *plugin, gchar *data, MudConnectionView *vie
 							const gchar *errors;
 							gint rc, errorcode, erroroffset;
 						
-							substrings = mud_regex_test((const gchar *)stripped_data, (const gchar *)regex, &rc, &errors, &errorcode, &erroroffset);
+							substrings = mud_regex_test((const gchar *)stripped_data, strlen(stripped_data),(const gchar *)regex, &rc, &errors, &errorcode, &erroroffset);
 							g_free(regex);
 						
 							if(rc > 0)

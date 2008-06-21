@@ -102,7 +102,7 @@ mud_regex_finalize (GObject *object)
 // MudRegex Methods
 
 gboolean 
-mud_regex_check(const gchar *data, const gchar *rx, gint ovector[1020], MudRegex *regex)
+mud_regex_check(const gchar *data, guint length, const gchar *rx, gint ovector[1020], MudRegex *regex)
 {
 	pcre *re = NULL;
 	const gchar *error = NULL;
@@ -133,7 +133,7 @@ mud_regex_check(const gchar *data, const gchar *rx, gint ovector[1020], MudRegex
 		
 	}
 
-	rc = pcre_exec(re, NULL, data, strlen(data), 0, 0, ovector, 1020);
+	rc = pcre_exec(re, NULL, data, length, 0, 0, ovector, 1020);
 
 	if(rc < 0)
 		return FALSE;
@@ -148,18 +148,21 @@ mud_regex_check(const gchar *data, const gchar *rx, gint ovector[1020], MudRegex
 }
 
 const gchar **
-mud_regex_test(const gchar *data, const gchar *rx, gint *rc, const gchar **error, gint *errorcode, gint *erroroffset)
+mud_regex_test(const gchar *data, guint length, const gchar *rx, gint *rc, const gchar **error, gint *errorcode, gint *erroroffset)
 {
 	pcre *re = NULL;
 	gint ovector[1020];
 	const gchar **sub_list;
 	
+	if(!data)
+	    return NULL;
+	    
 	re = pcre_compile2(rx, 0, errorcode, error, erroroffset, NULL);
 
 	if(!re)
 		return NULL;
 	
-	*rc = pcre_exec(re, NULL, data, strlen(data), 0, 0, ovector, 1020);
+	*rc = pcre_exec(re, NULL, data, length, 0, 0, ovector, 1020);
 	
 	pcre_get_substring_list(data, ovector, *rc, &sub_list);
 	
