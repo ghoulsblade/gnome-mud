@@ -20,7 +20,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtkaboutdialog.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 gchar *
 remove_whitespace(gchar *string)
@@ -74,6 +73,6 @@ strip_ansi(const gchar *orig)
 void
 utils_activate_url(GtkAboutDialog *about, const gchar *url, gpointer data)
 {
-	gnome_vfs_url_show(url);
+    // use gtk_show_uri when available.
 }
 
