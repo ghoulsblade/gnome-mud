@@ -175,8 +175,18 @@ mud_window_remove_connection_view(MudWindow *window, gint nr)
 
 	if (window->priv->nr_of_tabs == 0)
 	{
-		window->priv->image = gtk_image_new();
+	    gint w, h;
+	    GdkPixbuf *buf;
+	    GError *gerr = NULL;
+	
+	    gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
+	
+	    window->priv->image = gtk_image_new();
+		buf = gdk_pixbuf_new_from_file_at_size(GMPIXMAPSDIR "/gnome-mud.svg", w >> 1, h >> 1, &gerr);
+		gtk_image_set_from_pixbuf(GTK_IMAGE(window->priv->image), buf);
+		
 		gtk_widget_show(window->priv->image);
+		
 		gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), window->priv->image, NULL);
 	}
 }
@@ -857,6 +867,8 @@ mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, guint length,
 						        g_string_append_c(buf, data[i]);
 						        
 							(*pd->datafunc)(pd->plugin, buf->str, length, mudview->view);
+							
+							g_string_free(buf, FALSE);
 						}
 					}
 				}
@@ -879,6 +891,8 @@ mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, guint length,
 						        g_string_append_c(buf, data[i]);
 						        
 							(*pd->datafunc)(pd->plugin, buf->str, length, mudview->view);
+							
+							g_string_free(buf, FALSE);
 						}
 					}
 				}

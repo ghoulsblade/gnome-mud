@@ -58,8 +58,9 @@ LIBGNET_REQUIRED=0.22
 VTE_REQUIRED=0.11.00
 PCRE_REQUIRED=6.0.0
 GCONF_REQUIRED=0.20
+GNOMEVFS_REQUIRED=0.16
 
-PKG_CHECK_MODULES(GMUD, gtk+-2.0 >= $GTK_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED libpcre >= $PCRE_REQUIRED gmodule-2.0 >= $GMODULE_REQUIRED gnet-2.0 >= $LIBGNET_REQUIRED gconf-2.0 >= $GCONF_REQUIRED)
+PKG_CHECK_MODULES(GMUD, gtk+-2.0 >= $GTK_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED libpcre >= $PCRE_REQUIRED gmodule-2.0 >= $GMODULE_REQUIRED gnet-2.0 >= $LIBGNET_REQUIRED gconf-2.0 >= $GCONF_REQUIRED gnome-vfs-2.0 >= $GNOMEVFS_REQUIRED)
 AC_SUBST(GMUD_CFLAGS)
 AC_SUBST(GMUD_LIBS)
 
@@ -244,6 +245,6 @@ else
 	AC_MSG_NOTICE([    * Mapper support is disabled])
 fi
 
-if test -d $srcdir/CVS; then
-	AC_MSG_WARN([You're using a CVS version. Expect problems.])
+if test -d $srcdir/.svn; then
+	AC_MSG_WARN([You're using a svn version. Expect problems.])
 fi

@@ -1,3 +1,10 @@
+2008-06-21  Les Harris  <me@lesharris.com>
+	* src/Makefile.am: Added mud-telnet.[ch]
+	* src/mud-telnet.[ch]: New files which implement the telnet protocol.
+	Converted from wxMud's implementation.
+	* src/mud-connection-view.[ch]: Hooked up the new telnet parser to our
+	network code.
+
 2008-06-20  Les Harris  <me@lesharris.com>
     * plugins/test.plug/Makefile, plugins/statusbars/Makefile,
       plugins/outputwindows/Makefile, plugins/automapper/Makefile:

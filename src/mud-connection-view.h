@@ -4,7 +4,6 @@
 G_BEGIN_DECLS
 
 #include <gtk/gtkwidget.h>
-//#include <libgnetwork/gnetwork.h>
 #include <gnet.h>
 
 
