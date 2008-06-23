@@ -1,17 +1,17 @@
 # Swedish messages for gnome-mud.
-# Copyright (C) 2000, 2001, 2003, 2006 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001, 2003, 2006, 2008 Free Software Foundation, Inc.
 # Robin Ericsson <lobbin@localhost.nu>, 2000, 2001, 2002, 2003.
 # Christian Rose <menthos@menthos.com>, 2003.
-# Daniel Nylander <po@danielnylander.se>, 2006.
+# Daniel Nylander <po@danielnylander.se>, 2006, 2008.
 #
-# $Id$
+# $Id: sv.po,v 1.48 2006/06/17 12:29:09 dnylande Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-06-17 03:34+0200\n"
-"PO-Revision-Date: 2006-06-17 14:17+0100\n"
+"POT-Creation-Date: 2008-06-23 22:29+0200\n"
+"PO-Revision-Date: 2008-06-23 22:30+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -219,14 +219,6 @@ msgstr "Huruvida text som skickats till anslutningen ska behållas"
 msgid "Whether to scroll to the bottom when there's new output"
 msgstr "Huruvida rullning till nedersta läget ska ske då det finns ny utdata"
 
-#: ../src/eggtrayicon.c:118
-msgid "Orientation"
-msgstr "Orientering"
-
-#: ../src/eggtrayicon.c:119
-msgid "The orientation of the tray."
-msgstr "Lådans orientering."
-
 #: ../src/gconf-helper.c:74
 #, c-format
 msgid "%s already exists and is not a directory!"
@@ -244,59 +236,59 @@ msgid_plural "Palette had %d entries instead of %d\n"
 msgstr[0] "Paletten hade %d fält istället för %d\n"
 msgstr[1] "Paletten hade %d fält istället för %d\n"
 
-#: ../src/gnome-mud.c:53
+#: ../src/gnome-mud.c:56
 #, c-format
 msgid "There was an error accessing GConf: %s"
 msgstr "Ett fel inträffade vid åtkomst av GConf: %s"
 
-#: ../src/gnome-mud.c:66
+#: ../src/gnome-mud.c:69
 msgid "The default configuration values could not be retrieved correctly."
 msgstr "Standardkonfigurationsvärdena kunde inte hämtas korrekt."
 
-#: ../src/gnome-mud.c:67
+#: ../src/gnome-mud.c:70
 msgid "Please check your GConf configuration, specifically that the schemas have been installed correctly."
 msgstr "Kontrollera din GConf-konfiguration och i synnerhet att schemafilerna har installerats korrekt."
 
-#: ../src/gnome-mud.c:94
+#: ../src/gnome-mud.c:97
 #, c-format
 msgid "Failed to init GConf: %s"
 msgstr "Misslyckades med att initiera GConf: %s"
 
-#: ../src/modules.c:199
+#: ../src/modules.c:200
 msgid "Plugin Information"
 msgstr "Insticksmodulinformation"
 
-#: ../src/modules.c:215
+#: ../src/modules.c:216
 msgid "Plugin Name:"
 msgstr "Namn på insticksmodul:"
 
-#: ../src/modules.c:235
+#: ../src/modules.c:236
 msgid "Plugin Author:"
 msgstr "Författare av insticksmodul:"
 
-#: ../src/modules.c:245
+#: ../src/modules.c:246
 msgid "Plugin Version:"
 msgstr "Insticksmodulversion:"
 
-#: ../src/modules.c:255
+#: ../src/modules.c:256
 msgid "Plugin Description:"
 msgstr "Beskrivning av insticksmodul:"
 
-#: ../src/modules.c:265
+#: ../src/modules.c:266
 msgid "Enable plugin"
 msgstr "Aktivera insticksmodul"
 
-#: ../src/modules.c:379
+#: ../src/modules.c:380
 #, c-format
 msgid "Plugin error (%s)"
 msgstr "Insticksmodulfel (%s)"
 
-#: ../src/modules.c:423
+#: ../src/modules.c:424
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
 msgstr "Fel vid hämtning av handtag för insticksmodul (%s): %s."
 
-#: ../src/modules.c:428
+#: ../src/modules.c:432
 #, c-format
 msgid "Error, %s not an GNOME-Mud module: %s."
 msgstr "Fel, %s är ingen GNOME-Mud-modul: %s."
@@ -315,35 +307,49 @@ msgstr "Fel vid registrering av data %s: %s"
 msgid "Error while getting plugin from handle."
 msgstr "Fel vid hämtande av insticksmodul från handtag."
 
-#: ../src/mud-connection-view.c:126
+#: ../src/mud-connection-view.c:138
 #, c-format
 msgid "There was an error loading config value for whether to use image in menus. (%s)\n"
 msgstr "Det inträffade ett fel vid inläsning av konfigurationsvärdet för huruvida bilder ska användas i menyer. (%s)\n"
 
-#: ../src/mud-connection-view.c:429
+#: ../src/mud-connection-view.c:358
+#: ../src/mud-connection-view.c:369
 msgid "*** Connection closed.\n"
 msgstr "*** Anslutning avslutad.\n"
 
-#: ../src/mud-connection-view.c:442
+#: ../src/mud-connection-view.c:371
+#: ../src/mud-connection-view.c:654
 #, c-format
 msgid "*** Making connection to %s, port %d.\n"
 msgstr "*** Skapar anslutning till %s, port %d.\n"
 
-#: ../src/mud-connection-view.c:607
+#: ../src/mud-connection-view.c:513
 msgid "Close tab or window, whatever :)"
 msgstr "Stäng flik eller fönster, vad som helst :)"
 
-#: ../src/mud-connection-view.c:627
+#: ../src/mud-connection-view.c:533
 msgid "Change P_rofile"
 msgstr "Ändra p_rofil"
 
-#: ../src/mud-connection-view.c:663
+#: ../src/mud-connection-view.c:569
 msgid "Edit Current Profile..."
 msgstr "Redigera aktuell profil..."
 
-#: ../src/mud-connection-view.c:671
+#: ../src/mud-connection-view.c:577
 msgid "_Input Methods"
 msgstr "_Inmatningsmetoder"
+
+#: ../src/mud-connection-view.c:744
+msgid "*** Could not connect."
+msgstr "*** Kunde inte ansluta."
+
+#: ../src/mud-connection-view.c:748
+msgid "*** Connected.\n"
+msgstr "*** Ansluten.\n"
+
+#: ../src/mud-connection-view.c:753
+msgid "*** Connection unexpectedly closed.\n"
+msgstr "*** Anslutningen stängdes oväntat.\n"
 
 #: ../src/mud-log.c:142
 msgid ""
@@ -361,21 +367,17 @@ msgstr ""
 "\n"
 " *** Logg slutar *** %Y/%m/%d %H:%M:%S\n"
 
-#: ../src/mud-tray.c:197
+#: ../src/mud-tray.c:161
 msgid "_Hide window"
 msgstr "_Dölj fönster"
 
-#: ../src/mud-tray.c:199
+#: ../src/mud-tray.c:163
 msgid "_Show window"
 msgstr "_Visa fönster"
 
-#: ../src/mud-tray.c:204
+#: ../src/mud-tray.c:168
 msgid "_Quit"
 msgstr "_Avsluta"
-
-#: ../src/mud-tray.c:244
-msgid "GNOME Mud"
-msgstr "GNOME-Mud"
 
 #: ../src/mud-preferences-window.c:360
 #: ../src/mud-preferences-window.c:386
@@ -397,21 +399,35 @@ msgstr "Tysta"
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../src/mud-preferences-window.c:1588
-#: ../src/mud-preferences-window.c:1693
+#: ../src/mud-preferences-window.c:1590
+#: ../src/mud-preferences-window.c:1695
 msgid "Error in Regex."
 msgstr "Fel i reguljärt uttryck."
 
-#: ../src/mud-preferences-window.c:1633
-#: ../src/mud-preferences-window.c:1738
+#: ../src/mud-preferences-window.c:1635
+#: ../src/mud-preferences-window.c:1740
 msgid "No match."
 msgstr "Ingen träff."
 
-#: ../src/mud-window.c:466
+#: ../src/mud-window.c:402
+msgid "A Multi-User Dungeon (MUD) client for GNOME"
+msgstr "En Multi-User Dungeon-klient (MUD) för GNOME"
+
+#. TRANSLATORS: Replace this string with your names, one name per line.
+#: ../src/mud-window.c:416
+#: ../ui/main.glade.h:29
+msgid "translator-credits"
+msgstr ""
+"Daniel Nylander\n"
+"Christian Rose\n"
+"Robin Ericsson\n"
+"Skicka synpunkter på översättningen till tp-sv@listor.tp-sv.se"
+
+#: ../src/mud-window.c:539
 msgid "Could not save the file in specified location!"
 msgstr "Kunde inte spara filen på angiven plats!"
 
-#: ../src/mud-window.c:623
+#: ../src/mud-window.c:696
 msgid "_Manage Profiles..."
 msgstr "_Hantera profiler..."
 
@@ -603,15 +619,6 @@ msgstr "_Spara buffert..."
 #: ../ui/main.glade.h:27
 msgid "_Settings"
 msgstr "_Inställningar"
-
-#. TRANSLATORS: Replace this string with your names, one name per line.
-#: ../ui/main.glade.h:29
-msgid "translator-credits"
-msgstr ""
-"Daniel Nylander\n"
-"Christian Rose\n"
-"Robin Ericsson\n"
-"Skicka synpunkter på översättningen till tp-sv@listor.tp-sv.se"
 
 #: ../ui/main.glade.h:30
 msgid "© 1998-2006 Robin Ericsson"
@@ -1128,6 +1135,12 @@ msgstr "Det finns redan en länk här!"
 msgid "GNOME-Mud AutoMapper"
 msgstr "GNOME-Mud-kartgenererare"
 
+#~ msgid "Orientation"
+#~ msgstr "Orientering"
+#~ msgid "The orientation of the tray."
+#~ msgstr "Lådans orientering."
+#~ msgid "GNOME Mud"
+#~ msgstr "GNOME-Mud"
 #~ msgid "Registering plugin `%s' under the name `%s'."
 #~ msgstr "Registrerar insticksmodulen \"%s\" under namnet \"%s\"."
 #~ msgid "AutoMapper"
@@ -1263,8 +1276,6 @@ msgstr "GNOME-Mud-kartgenererare"
 #~ msgstr "Öppna logg"
 #~ msgid "*** No log to be closed is open in this window.\n"
 #~ msgstr "*** Ingen loggfil att stänga är öppen i detta fönster.\n"
-#~ msgid "*** Couldn't open %s.\n"
-#~ msgstr "*** Kunde inte öppna %s.\n"
 #~ msgid "*** Logging to %s.\n"
 #~ msgstr "*** Loggar till %s.\n"
 #~ msgid "*** Stopped logging to %s.\n"
