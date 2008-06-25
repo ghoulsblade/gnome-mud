@@ -1,3 +1,7 @@
+2008-06-25  Jordi Mallach  <jordi@sindominio.net>
+
+	* ca.po: Updated Catalan translation.
+
 2006-08-23  Daniel Nylander  <po@danielnylander.se>
 
         * sv.po: Updated Swedish translation.
@@ -14,7 +18,8 @@
 2007-12-31  Yannig Marchegay <yannig@marchegay.org>
 
 	* oc.po: Updated Occitan translation.
-2007-12-18  Stéphane Raimbault  <stephane.raimbault@gmail.com>
+
+2007-12-18  Stéphane Raimbault  <stephane.raimbault@gmail.com>
 
 	* fr.po: Updated French translation by Bruno Brouard and Stéphane
 	Raimbault.
