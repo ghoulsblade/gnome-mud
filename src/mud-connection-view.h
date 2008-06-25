@@ -25,6 +25,10 @@ struct _MudConnectionView
 	MudConnectionViewPrivate *priv;
 
 	GConn *connection;
+	
+	gint naws_enabled;
+	
+	gint local_echo;
 };
 
 struct _MudConnectionViewClass
@@ -59,6 +63,9 @@ void mud_connection_view_set_id(MudConnectionView *view, gint id);
 void mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type);
 gchar *mud_connection_view_get_history_item(MudConnectionView *view, enum
 MudConnectionHistoryDirection direction);
+void mud_connection_view_get_term_size(MudConnectionView *view, gint *w, gint *h);
+void mud_connection_view_set_naws(MudConnectionView *view, gint enabled);
+void mud_connection_view_send_naws(MudConnectionView *view);
 
 #include "mud-profile.h"
 void mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profile);

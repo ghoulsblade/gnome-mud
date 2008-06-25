@@ -90,7 +90,7 @@ int main (gint argc, char *argv[])
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 	textdomain(GETTEXT_PACKAGE);
 #endif
-  
+
 	/* Initialize the GConf library */
 	if (!gconf_init(argc, argv, &err))
 	{

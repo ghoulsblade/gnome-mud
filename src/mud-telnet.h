@@ -34,7 +34,7 @@ G_BEGIN_DECLS
 #define MUD_TELNET_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_TELNET, MudTelnetClass))
 
 #define TEL_SE				240	// End of subnegotiation parameters
-//#define TEL_NOP				241	// No operation - not yet supported
+#define TEL_NOP				241	// No operation
 #define TEL_GA				249	// Go ahead
 #define TEL_SB				250	// Indicates that what follows is subnegotiation of the indicated option
 #define TEL_WILL			251	// I will use option
@@ -49,6 +49,7 @@ G_BEGIN_DECLS
 #	define TEL_TTYPE_IS		  0	// Terminal type IS ...
 #	define TEL_TTYPE_SEND	  1	// SEND me terminal type
 #define TELOPT_EOR			 25	// End of record		- RFC  885
+#   define TEL_EOR_BYTE     239 // End of record byte.
 #define TELOPT_NAWS			 31	// Window size			- RFC 1073
 #define TELOPT_CHARSET		 42	// Charset				- RFC 2066
 #define TELOPT_MCCP			 85	// MCCP
@@ -61,6 +62,7 @@ G_BEGIN_DECLS
 
 // FIXME: What size should we use?
 #define TEL_SUBREQ_BUFFER_SIZE 256
+#define TEL_HANDLERS_SIZE 256
 #define TELOPT_STATE_QUEUE_EMPTY	FALSE
 #define TELOPT_STATE_QUEUE_OPPOSITE	TRUE
 
@@ -68,6 +70,12 @@ typedef struct _MudTelnet            MudTelnet;
 typedef struct _MudTelnetClass       MudTelnetClass;
 typedef struct _MudTelnetPrivate     MudTelnetPrivate;
 typedef struct _MudTelnetBuffer      MudTelnetBuffer;
+typedef struct _MudTelnetHandler     MudTelnetHandler;
+
+typedef void(*MudTelnetOnEnableFunc)(MudTelnet *telnet, MudTelnetHandler *handler);
+typedef void(*MudTelnetOnDisableFunc)(MudTelnet *telnet, MudTelnetHandler *handler);
+typedef void(*MudTelnetOnHandleSubNegFunc)(MudTelnet *telnet, 
+    guchar *buf, guint len, MudTelnetHandler *handler);
 
 enum TelnetState
 {
@@ -89,6 +97,15 @@ enum TelnetOptionState
 	TELOPT_STATE_YES = 3,     // bits 11
 };
 
+enum TelnetHandlerType
+{
+    HANDLER_NONE,
+    HANDLER_TTYPE,
+    HANDLER_NAWS,
+    HANDLER_ECHO,
+    HANDLER_EOR
+};
+
 struct _MudTelnetClass
 {
 	GObjectClass parent_class;
@@ -98,6 +115,20 @@ struct _MudTelnetBuffer
 {
     guchar *buffer;
     size_t len;
+};
+
+struct _MudTelnetHandler
+{
+    enum TelnetHandlerType type;
+    guchar option_number;
+    
+    gint enabled;
+    
+    MudTelnet *instance;
+    
+    MudTelnetOnEnableFunc enable;
+    MudTelnetOnDisableFunc disable;
+    MudTelnetOnHandleSubNegFunc handle_sub_neg;
 };
 
 #include <gnet.h>
@@ -113,25 +144,27 @@ struct _MudTelnet
 	guint32 subreq_pos;
 	
 	guchar telopt_states[256];
+	gint eor_enabled;
 	
 	GConn *conn;
 	MudConnectionView *parent;
 
-	/**
-		Pointers to option handler instances. NULL if none is created yet.
-	*/
-	//TelnetHandler * m_handlers[256];
+	MudTelnetHandler handlers[TEL_HANDLERS_SIZE];
 };
 
 GType mud_telnet_get_type (void) G_GNUC_CONST;
 
 MudTelnet *mud_telnet_new(MudConnectionView *parent, GConn *connection);
 
-gint mud_telnet_register_handler(MudTelnet *telnet, 
-            guint8 option_number, const gchar *classname);
+void mud_telnet_register_handlers(MudTelnet *telnet);
 gint mud_telnet_isenabled(MudTelnet *telnet, guint8 option_number, gint him);
 MudTelnetBuffer mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count);
 void mud_telnet_send_sub_req(MudTelnet *telnet, guint32 count, ...);
+void mud_telnet_get_parent_size(MudTelnet *telnet, gint *w, gint *h);
+void mud_telnet_send_raw(MudTelnet *telnet, guint32 count, ...);
+void mud_telnet_set_parent_naws(MudTelnet *telnet, gint enabled);
+void mud_telnet_send_naws(MudTelnet *telnet, gint w, gint h);
+void mud_telnet_set_local_echo(MudTelnet *telnet, gint enabled);
 
 G_END_DECLS
 

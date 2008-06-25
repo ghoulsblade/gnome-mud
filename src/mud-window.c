@@ -453,6 +453,9 @@ mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer us
 
 	gtk_widget_grab_focus(window->priv->textview);
 	
+	// FIXME: Should send naws to all views.
+	mud_connection_view_send_naws(MUD_CONNECTION_VIEW(window->priv->current_view));
+	
 	return FALSE;
 }
 

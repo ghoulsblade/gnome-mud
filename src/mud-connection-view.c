@@ -237,6 +237,8 @@ mud_connection_view_feed_text(MudConnectionView *view, gchar *message)
 void
 mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type)
 {
+    vte_terminal_set_encoding(VTE_TERMINAL(view->priv->terminal), "ISO-8859-1");
+    
 	switch (type)
 	{
 		case Sent:
@@ -260,7 +262,7 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
 	mud_connection_view_feed_text(view, "\e[0m");
 }
 
-
+                                                        
 static void
 mud_connection_view_init (MudConnectionView *connection_view)
 {
@@ -278,6 +280,8 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	box = gtk_hbox_new(FALSE, 0);
 	
 	connection_view->priv->terminal = vte_terminal_new();
+	vte_terminal_set_encoding(VTE_TERMINAL(connection_view->priv->terminal), "ISO-8859-1");
+	
 	gtk_box_pack_start(GTK_BOX(box), connection_view->priv->terminal, TRUE, TRUE, 0);
 	g_signal_connect(G_OBJECT(connection_view->priv->terminal),
 					 "button_press_event",
@@ -381,7 +385,11 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
 	GList *commands, *command;
 	gchar *text;
 
-    g_queue_push_head(view->priv->history, (gpointer)g_strdup(data));
+    if(view->local_echo) // Prevent password from being cached.
+        g_queue_push_head(view->priv->history, (gpointer)g_strdup(data));
+    else
+        g_queue_push_head(view->priv->history, (gpointer)g_strdup(" "));
+    
     view->priv->current_history_index = 0;
     
 	commands = mud_profile_process_commands(view->priv->profile, data);
@@ -396,7 +404,7 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
 		    
 		gnet_conn_write(view->connection, text, strlen(text));
 		
-		if (view->priv->profile->preferences->EchoText)
+		if (view->priv->profile->preferences->EchoText && view->local_echo)
 			mud_connection_view_add_text(view, text, Sent);
 		g_free(text);
 	}
@@ -450,8 +458,18 @@ mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view)
 static void
 mud_connection_view_set_terminal_font(MudConnectionView *view)
 {
-	vte_terminal_set_font_from_string(VTE_TERMINAL(view->priv->terminal),
-									  view->priv->profile->preferences->FontName);
+    PangoFontDescription *desc = NULL;
+    char *name;
+    
+    name = view->priv->profile->preferences->FontName;
+    
+    if(name)
+        desc = pango_font_description_from_string(name);
+    
+    if(!desc)
+        desc = pango_font_description_from_string("Monospace 10");
+    
+    vte_terminal_set_font(VTE_TERMINAL(view->priv->terminal), desc);
 }
 
 static void
@@ -510,7 +528,7 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
 							  popup_menu_detach);
 
 	append_menuitem(view->priv->popup_menu,
-					_("Close tab or window, whatever :)"),
+					_("Close"),
 					NULL,
 					view);
 
@@ -623,10 +641,14 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 	gnet_conn_ref(view->connection);
 	gnet_conn_set_watch_error(view->connection, TRUE);
 	
+	view->naws_enabled = FALSE;
+	
 	view->priv->telnet = mud_telnet_new(view, view->connection);
+	
+	view->local_echo = TRUE;
 
 	mud_connection_view_set_profile(view, mud_profile_new(profile));
-
+    
 	/* Let us resize the gnome-mud window */
 	vte_terminal_get_padding(VTE_TERMINAL(view->priv->terminal), &xpad, &ypad);
 	char_width = VTE_TERMINAL(view->priv->terminal)->char_width;
@@ -654,9 +676,15 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 	buf = g_strdup_printf(_("*** Making connection to %s, port %d.\n"), 
 	    view->priv->hostname, view->priv->port);
 	mud_connection_view_add_text(view, buf, System);
+	g_free(buf);
+	buf = NULL;
 	
 	gnet_conn_connect(view->connection);
-
+	
+	buf = g_strdup_printf("Encoding: %s\n", vte_terminal_get_encoding(VTE_TERMINAL(view->priv->terminal)));
+    mud_connection_view_add_text(view, buf, System);
+    g_free(buf);
+    
 	return view;
 }
 
@@ -791,7 +819,6 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
 
                 if (view->priv->connect_hook) {
                     mud_connection_view_send (view, view->priv->connect_string);
-                    g_free(view->priv->connect_string);
                     view->priv->connect_hook = FALSE;
                }
             
@@ -812,4 +839,32 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
         break;
     }
 }
+
+void 
+mud_connection_view_get_term_size(MudConnectionView *view, gint *w, gint *h)
+{
+    VteTerminal *term = VTE_TERMINAL(view->priv->terminal);
+    *w = term->column_count;
+    *h = term->row_count;
+}
+ 
+void
+mud_connection_view_set_naws(MudConnectionView *view, gint enabled)
+{
+    view->naws_enabled = enabled;
+}
+
+void
+mud_connection_view_send_naws(MudConnectionView *view)
+{
+    if(view && view->naws_enabled)
+    {
+        mud_telnet_send_naws(view->priv->telnet, 
+                VTE_TERMINAL(view->priv->terminal)->column_count, 
+                VTE_TERMINAL(view->priv->terminal)->row_count);
+                
+        g_message("Sending NAWS %d/%d", (gint)VTE_TERMINAL(view->priv->terminal)->column_count
+        ,(gint)VTE_TERMINAL(view->priv->terminal)->row_count);
+    }
+}   
 
