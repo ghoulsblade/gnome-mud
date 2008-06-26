@@ -29,6 +29,9 @@ struct _MudConnectionView
 	gint naws_enabled;
 	
 	gint local_echo;
+	
+	gint remote_encode;
+	gchar *remote_encoding;
 };
 
 struct _MudConnectionViewClass

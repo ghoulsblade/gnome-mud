@@ -50,5 +50,11 @@ void MudHandler_EOR_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
 void MudHandler_EOR_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
     guint len, MudTelnetHandler *handler);
     
+/* CHARSET */
+void MudHandler_CHARSET_Enable(MudTelnet *telnet, MudTelnetHandler *handler);
+void MudHandler_CHARSET_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
+void MudHandler_CHARSET_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
+    guint len, MudTelnetHandler *handler);
+    
 #endif // MUD_TELNET_HANDLERS_H
 

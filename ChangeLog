@@ -1,3 +1,52 @@
+2008-06-25  Les Harris <me@lesharris.com>
+	* ui/*.glade: Updated windows hints and made every window resizable to
+	increase usability.
+	
+	* ui/prefs.glade: Removed Terminal type preference and Command History
+	preference. Added ui for proxy and encoding support.
+	
+	* src/mud-profile.[ch]: Added in gconf handling and profile support for
+	proxies and encoding. Fixed a segmentation fault when the command seperator
+	was NULL and when the command seperator was entered by itself.
+	
+	* src/gconf-helper.[ch]: Added support for the new proxy and encoding
+	preferences.
+	
+	* src/mud-connection-view.[ch]: Fixed an issue involving local echo and
+	trigger responses.  Added support for proxy use and encoding.
+	
+	* src/mud-telnet-handlers.[ch], mud-telnet.[ch]: Added support for the
+	CHARSET telnet option.
+
+2008-06-25  Les Harris  <me@lesharris.com>
+	* src/Makefile.am: Added mud-telnet-handlers.[ch]
+	* src/mud-telnet-handlers.[ch]: New files which implement the telnet
+	options. ECHO, NAWS, and TTYPE.
+
+	* src/mud-connection-view.h: Added two new public fields for local echo
+	and naws.  Added three new public methods that implement NAWS support in
+	the client.
+
+	* src/mud-connection-view.c: Set the encoding explicitly before every
+	vte_terminal_feed() to ensure correct text rendering.  Implemented ECHO,
+	server echoed text will not be stored to the history buffer (so passwords
+	are not stored in plaintext).  Local echo is now disabled when server echo
+	is in effect.  Provided a mechanism for choosing the default system font
+	when the stored font cannot be loaded.  Implemented three functions that
+	handle NAWS support.  Add mud_telnet_send_raw() function that sends a
+	variable number of bytes through the connection.  Added
+	mud_telnet_get_index_by_option() helper function.
+
+	* src/mud-telnet.[ch]: Implemented a mechanism by which telnet options can
+	be handled.  Now sets the initial telnet state correctly.  Enabled support
+	for the EOR telnet option.  Implemented functions for NAWS and ECHO
+	support.  The telnet parser now handles NOP.  The telnet parsers handles
+	GA and TEL_EOR_BYTE as NOPs currently (this will change, they will be used
+	to pass text to triggers).  
+
+	* src/mud-window.c: Added call to mud_connection_view_send_naws() in the
+	size-request callback.
+
 2008-06-21  Les Harris  <me@lesharris.com>
 	* configure.ac: Removed gnomevfs, will wait for gtk 2.14.
 

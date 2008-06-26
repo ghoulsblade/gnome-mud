@@ -40,7 +40,12 @@ struct _MudPrefs
 	
 	GSList	  *alias_names;
 	GSList	  *trigger_names;
-
+	
+	gboolean UseRemoteEncoding;
+	gboolean UseProxy;
+	gchar *Encoding;
+	gchar *ProxyVersion;
+	gchar *ProxyHostname;
 	GdkColor   Colors[C_MAX];
 };
 
@@ -68,6 +73,11 @@ typedef struct
 	unsigned int Foreground : 1;
 	unsigned int Background : 1;
 	unsigned int Colors : 1;
+	unsigned int UseRemoteEncoding : 1;
+	unsigned int UseProxy : 1;
+	unsigned int Encoding : 1;
+	unsigned int ProxyVersion : 1;
+	unsigned int ProxyHostname : 1;
 } MudProfileMask;
 
 struct _MudProfileClass
@@ -88,6 +98,7 @@ MudProfile* get_profile(const gchar *name);
 void mud_profile_copy_preferences (MudProfile *from, MudProfile *to);
 GList* mud_profile_process_commands (MudProfile *profile, const gchar *data);
 
+#include <gtk/gtkcombobox.h>
 void mud_profile_set_echotext (MudProfile *profile, gboolean value);
 void mud_profile_set_keeptext (MudProfile *profile, gboolean value);
 void mud_profile_set_disablekeys (MudProfile *profile, gboolean value);
@@ -100,6 +111,12 @@ void mud_profile_set_font (MudProfile *profile, const gchar *value);
 void mud_profile_set_foreground (MudProfile *profile, guint r, guint g, guint b);
 void mud_profile_set_background (MudProfile *profile, guint r, guint g, guint b);
 void mud_profile_set_colors (MudProfile *profile, gint nr, guint r, guint g, guint b);
+void mud_profile_set_encoding_combo(MudProfile *profile, const gchar *e);
+void mud_profile_set_encoding_check (MudProfile *profile, const gint value);
+void mud_profile_set_proxy_check (MudProfile *profile, const gint value);
+void mud_profile_set_proxy_combo(MudProfile *profile, GtkComboBox *combo);
+void mud_profile_set_proxy_entry (MudProfile *profile, const gchar *value);
+
 gchar *mud_profile_from_number(gint num);
 gint mud_profile_num_from_name(gchar *name);
 gchar *mud_profile_get_name(MudProfile *profile);

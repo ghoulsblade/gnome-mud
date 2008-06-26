@@ -121,7 +121,12 @@ void gm_gconf_load_preferences(MudProfile *profile)
 	GCONF_GET_BOOLEAN(scroll_on_output,	functionality,	ScrollOnOutput);
 	GCONF_GET_INT(history_count,		functionality,	History);
 	GCONF_GET_INT(flush_interval,		functionality,	FlushInterval);
-		
+	GCONF_GET_STRING(encoding,          functionality,  Encoding);
+	GCONF_GET_STRING(proxy_version,     functionality,  ProxyVersion);
+	GCONF_GET_BOOLEAN(use_proxy,        functionality,  UseProxy);
+	GCONF_GET_BOOLEAN(remote_encoding,  functionality,  UseRemoteEncoding);
+	GCONF_GET_STRING(proxy_hostname,    functionality,  ProxyHostname);
+	
 	/* palette */
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/%sui/palette", extra_path);
 	p = gconf_client_get_string(gconf_client, keyname, NULL);

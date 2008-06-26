@@ -26,6 +26,7 @@
 #include <gtk/gtkmenu.h>
 #include <glib/gqueue.h>
 #include <vte/vte.h>
+#define GNET_EXPERIMENTAL
 #include <gnet.h>
 #include <string.h>
 
@@ -197,6 +198,13 @@ choose_profile_callback(GtkWidget *menu_item, MudConnectionView *view)
 }
 
 static void
+mud_connection_view_close_current_cb(GtkWidget *menu_item, MudConnectionView *view)
+{
+    mud_window_close_current_window(view->priv->window);
+}
+
+
+static void
 mud_connection_view_str_replace (gchar *buf, const gchar *s, const gchar *repl)
 {
 	gchar out_buf[4608];
@@ -237,7 +245,35 @@ mud_connection_view_feed_text(MudConnectionView *view, gchar *message)
 void
 mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type)
 {
-    vte_terminal_set_encoding(VTE_TERMINAL(view->priv->terminal), "ISO-8859-1");
+    gchar *encoding;
+    gchar *profile_name;
+	GConfClient *client;
+	gboolean remote;
+	
+    gchar key[2048];
+	gchar extra_path[512] = "";
+    
+    client = gconf_client_get_default();
+    
+    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/remote_encoding");
+    remote = gconf_client_get_bool(client, key, NULL);
+    
+    if(view->remote_encode && remote)
+        encoding = view->remote_encoding;
+    else
+    {
+        profile_name = mud_profile_get_name(view->priv->profile);
+	
+	    if (strcmp(profile_name, "Default"))
+	    {
+	    	g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
+	    }
+
+	    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/encoding");
+	    encoding = gconf_client_get_string(client, key, NULL);
+	}
+	
+    vte_terminal_set_encoding(VTE_TERMINAL(view->priv->terminal), encoding);
     
 	switch (type)
 	{
@@ -258,7 +294,8 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
 			break;
 	}
 
-	mud_connection_view_feed_text(view, message);
+    if(view->local_echo)
+	    mud_connection_view_feed_text(view, message);
 	mud_connection_view_feed_text(view, "\e[0m");
 }
 
@@ -529,7 +566,7 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
 
 	append_menuitem(view->priv->popup_menu,
 					_("Close"),
-					NULL,
+					G_CALLBACK(mud_connection_view_close_current_cb),
 					view);
 
 	menu_item = gtk_separator_menu_item_new();
@@ -582,11 +619,6 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
 							   (GDestroyNotify) g_object_unref);
 		profile = profile->next;
 	}
-	
-	append_menuitem(view->priv->popup_menu,
-					_("Edit Current Profile..."),
-					NULL,
-					view);
 
 	menu_item = gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
@@ -622,6 +654,15 @@ mud_connection_view_set_parent(MudConnectionView *view, MudWindow *window)
 MudConnectionView*
 mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window, GtkWidget *tray, gchar *name)
 {
+	gchar *profile_name;
+	GConfClient *client;
+	
+    gchar key[2048];
+	gchar extra_path[512] = "";
+	gboolean use_proxy;
+	gchar *proxy_host;
+	gchar *version;
+	
 	MudConnectionView *view;
    	GdkGeometry hints;
    	gint xpad, ypad;
@@ -679,11 +720,36 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 	g_free(buf);
 	buf = NULL;
 	
-	gnet_conn_connect(view->connection);
+	profile_name = mud_profile_get_name(view->priv->profile);
 	
-	buf = g_strdup_printf("Encoding: %s\n", vte_terminal_get_encoding(VTE_TERMINAL(view->priv->terminal)));
-    mud_connection_view_add_text(view, buf, System);
-    g_free(buf);
+	if (strcmp(profile_name, "Default"))
+	{
+		g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
+	}
+
+	g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/use_proxy");
+	client = gconf_client_get_default();
+	use_proxy = gconf_client_get_bool(client, key, NULL);
+	
+	g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/proxy_hostname");
+	proxy_host = gconf_client_get_string(client, key, NULL);
+	
+	g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/proxy_version");
+	version = gconf_client_get_string(client, key, NULL);
+	
+	if(use_proxy)
+	{
+	    if(proxy_host && version)
+	    {   
+            gnet_socks_set_enabled(TRUE);
+            gnet_socks_set_server(gnet_inetaddr_new(proxy_host,GNET_SOCKS_PORT));
+            gnet_socks_set_version((strcmp(version, "4") == 0) ? 4 : 5);
+        }
+	}
+	else
+	    gnet_socks_set_enabled(FALSE);
+	    
+	gnet_conn_connect(view->connection);
     
 	return view;
 }
@@ -763,9 +829,11 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
 	MudTelnetBuffer buffer;
 	GString *string;
 	gchar *buf;
+	gboolean temp;
     MudConnectionView *view = MUD_CONNECTION_VIEW(pview);
+	
     g_assert(view != NULL);
-    
+	    
     switch(event->type)
     {
         case GNET_CONN_ERROR:
@@ -778,7 +846,7 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
         break;
         
         case GNET_CONN_CLOSE:
-            mud_connection_view_add_text(view, _("*** Connection unexpectedly closed.\n"), Error);
+            mud_connection_view_add_text(view, _("*** Connection closed.\n"), Error);
         break;
         
         case GNET_CONN_TIMEOUT:
@@ -801,8 +869,12 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
 	       
 	           buf = string->str;
 	       
+	           temp = view->local_echo;
+	           view->local_echo = FALSE;
 	           gag = mud_parse_base_do_triggers(view->priv->parse, 
 	                    buf);
+	           view->local_echo = temp;
+	                    
 	           mud_window_handle_plugins(view->priv->window, view->priv->id, 
 	                    buf, buffer.len, 1);
 	                
@@ -862,9 +934,6 @@ mud_connection_view_send_naws(MudConnectionView *view)
         mud_telnet_send_naws(view->priv->telnet, 
                 VTE_TERMINAL(view->priv->terminal)->column_count, 
                 VTE_TERMINAL(view->priv->terminal)->row_count);
-                
-        g_message("Sending NAWS %d/%d", (gint)VTE_TERMINAL(view->priv->terminal)->column_count
-        ,(gint)VTE_TERMINAL(view->priv->terminal)->row_count);
     }
 }   
 

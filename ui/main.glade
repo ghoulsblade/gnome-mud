@@ -9,8 +9,8 @@
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
-  <property name="default_width">503</property>
-  <property name="default_height">400</property>
+  <property name="default_width">665</property>
+  <property name="default_height">520</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
   <property name="decorated">True</property>
@@ -577,7 +577,6 @@
 		  <property name="fill">True</property>
 		</packing>
 	      </child>
-
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
@@ -597,6 +596,7 @@
 </widget>
 
 <widget class="GtkAboutDialog" id="about_window">
+  <property name="border_width">5</property>
   <property name="visible">True</property>
   <property name="destroy_with_parent">False</property>
   <property name="name" translatable="yes">GNOME-Mud</property>
@@ -617,6 +617,7 @@ Andreas Nilsson &lt;andreasn@gnome.org&gt;</property>
 </widget>
 
 <widget class="GtkFileChooserDialog" id="save_dialog">
+  <property name="border_width">5</property>
   <property name="visible">True</property>
   <property name="action">GTK_FILE_CHOOSER_ACTION_SAVE</property>
   <property name="local_only">True</property>
@@ -625,7 +626,7 @@ Andreas Nilsson &lt;andreasn@gnome.org&gt;</property>
   <property name="do_overwrite_confirmation">False</property>
   <property name="title" translatable="yes">Save buffer as...</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
+  <property name="window_position">GTK_WIN_POS_CENTER</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>

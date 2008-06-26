@@ -207,7 +207,12 @@ mud_window_reconnect_cb(GtkWidget *widget, MudWindow *window)
 static void
 mud_window_closewindow_cb(GtkWidget *widget, MudWindow *window)
 {
-	if (window->priv->nr_of_tabs > 0)
+    mud_window_close_current_window(window);
+}
+
+void mud_window_close_current_window(MudWindow *window)
+{
+    if (window->priv->nr_of_tabs > 0)
 	{
 		gint nr = gtk_notebook_get_current_page(GTK_NOTEBOOK(window->priv->notebook));
 
@@ -216,7 +221,6 @@ mud_window_closewindow_cb(GtkWidget *widget, MudWindow *window)
 		if(window->priv->nr_of_tabs == 0)
 			mud_tray_update_icon(window->priv->tray, offline_connecting);
 	}
-
 }
 
 static gint
@@ -278,7 +282,7 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
 		{
 			base = mud_connection_view_get_parsebase(MUD_CONNECTION_VIEW(window->priv->current_view));
 			if(mud_parse_base_do_aliases(base, text))
-				mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), text);
+				    mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), text);
 		}
 
 		if (gconf_client_get_bool(window->priv->gconf_client,

@@ -26,6 +26,7 @@
 #include <glib-object.h>
 #include <glib/gi18n.h>
 #include <gtk/gtkcolorsel.h>
+#include <gtk/gtkcombobox.h>
 
 #include "gconf-helper.h"
 #include "mud-profile.h"
@@ -404,6 +405,55 @@ set_Scrollback(MudProfile *profile, const gint candidate)
 	}
 }
 
+static gboolean
+set_ProxyVersion(MudProfile *profile, const gchar *candidate)
+{
+   
+	if (candidate && strcmp(profile->priv->preferences.ProxyVersion, candidate) == 0)
+		return FALSE;
+	
+	if (candidate != NULL)
+	{
+		g_free(profile->priv->preferences.ProxyVersion);
+		profile->priv->preferences.ProxyVersion = g_strdup(candidate);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+set_ProxyHostname(MudProfile *profile, const gchar *candidate)
+{
+	if (candidate && strcmp(profile->priv->preferences.ProxyHostname, candidate) == 0)
+		return FALSE;
+	
+	if (candidate != NULL)
+	{
+		g_free(profile->priv->preferences.ProxyHostname);
+		profile->priv->preferences.ProxyHostname = g_strdup(candidate);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+set_Encoding(MudProfile *profile, const gchar *candidate)
+{
+	if (candidate && strcmp(profile->priv->preferences.Encoding, candidate) == 0)
+		return FALSE;
+	
+	if (candidate != NULL)
+	{
+		g_free(profile->priv->preferences.Encoding);
+		profile->priv->preferences.Encoding = g_strdup(candidate);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static const gchar*
 mud_profile_gconf_get_key(MudProfile *profile, const gchar *key)
 {
@@ -494,8 +544,13 @@ else if (strcmp(key, KName) == 0)                   \
 		UPDATE_STRING("foreground_color",	Foreground,		"#FFFFFF");
 		UPDATE_STRING("background_color",	Background,		"#000000");
 		UPDATE_STRING("palette",			Colors,			"#000000:#AA0000:#00AA00:#AA5500:#0000AA:#AA00AA:#00AAAA:#AAAAAA:#555555:#FF5555:#55FF55:#FFFF55:#5555FF:#FF55FF:#55FFFF:#FFFFFF");
+	    UPDATE_STRING("proxy_version", ProxyVersion, "5");
+	    UPDATE_STRING("proxy_hostname", ProxyHostname, "127.0.0.1");
+	    UPDATE_STRING("encoding", Encoding, "ISO-8859-1");
+	    UPDATE_BOOLEAN("use_proxy", UseProxy, FALSE);
+	    UPDATE_BOOLEAN("remote_encoding", UseRemoteEncoding, FALSE);   
 	}
-	
+
 #undef UPDATE_BOOLEAN
 #undef UPDATE_STRING
 #undef UPDATE_INTEGER
@@ -554,6 +609,63 @@ mud_profile_set_terminal (MudProfile *profile, const gchar *value)
 	RETURN_IF_NOTIFYING(profile);
 
 	gconf_client_set_string(profile->priv->gconf_client, key, value, NULL);
+}
+
+void 
+mud_profile_set_encoding_combo(MudProfile *profile, const gchar *e)
+{
+    GError *error = NULL;
+    const gchar *key = mud_profile_gconf_get_key(profile, "functionality/encoding");
+	RETURN_IF_NOTIFYING(profile);
+
+	gconf_client_set_string(profile->priv->gconf_client, key, e, &error);
+}
+
+void 
+mud_profile_set_encoding_check (MudProfile *profile, const gint value)
+{
+	const gchar *key = mud_profile_gconf_get_key(profile, "functionality/remote_encoding");
+	RETURN_IF_NOTIFYING(profile);
+
+	gconf_client_set_bool(profile->priv->gconf_client, key, value, NULL);
+}
+
+void 
+mud_profile_set_proxy_check (MudProfile *profile, const gint value)
+{
+    const gchar *key = mud_profile_gconf_get_key(profile, "functionality/use_proxy");
+	RETURN_IF_NOTIFYING(profile);
+
+	gconf_client_set_bool(profile->priv->gconf_client, key, value, NULL);
+}
+
+static void 
+mud_profile_set_proxy_combo_full(MudProfile *profile, gchar *version)
+{
+    const gchar *key = mud_profile_gconf_get_key(profile, "functionality/proxy_version");
+	RETURN_IF_NOTIFYING(profile);
+    
+	gconf_client_set_string(profile->priv->gconf_client, key, version, NULL);
+}
+
+void 
+mud_profile_set_proxy_combo(MudProfile *profile, GtkComboBox *combo)
+{
+    gchar *version = gtk_combo_box_get_active_text(combo);
+    
+	mud_profile_set_proxy_combo_full(profile, version);
+}
+
+void 
+mud_profile_set_proxy_entry (MudProfile *profile, const gchar *value)
+{
+    const gchar *key = mud_profile_gconf_get_key(profile, "functionality/proxy_hostname");
+	RETURN_IF_NOTIFYING(profile);
+
+    if(value)
+	    gconf_client_set_string(profile->priv->gconf_client, key, value, NULL);
+	else
+	    gconf_client_set_string(profile->priv->gconf_client, key, "", NULL);
 }
 
 void
@@ -700,6 +812,11 @@ mud_profile_copy_preferences(MudProfile *from, MudProfile *to)
 					      from->preferences->Colors[i].green,
 					      from->preferences->Colors[i].blue);
 	}
+	mud_profile_set_encoding_combo(to, from->preferences->Encoding);
+	mud_profile_set_encoding_check(to, from->preferences->UseRemoteEncoding);
+	mud_profile_set_proxy_check(to, from->preferences->UseProxy);
+	mud_profile_set_proxy_combo_full(to, from->preferences->ProxyVersion);
+	mud_profile_set_proxy_entry(to, from->preferences->ProxyHostname);
 }
 
 GList *
@@ -708,11 +825,14 @@ mud_profile_process_command(MudProfile *profile, const gchar *data, GList *comma
 	gint i;
 	gchar **commands = g_strsplit(data, profile->preferences->CommDev, -1);
 
-	commandlist = g_list_append(commandlist, g_strdup(commands[0]));
+    if(commands[0])
+    {
+	    commandlist = g_list_append(commandlist, g_strdup(commands[0]));
 
-	for (i = 1; commands[i] != NULL; i++)
-	{
-		commandlist = mud_profile_process_command(profile, commands[i], commandlist);
+	    for (i = 1; commands[i] != NULL; i++)
+	    {
+		    commandlist = mud_profile_process_command(profile, commands[i], commandlist);
+	    }
 	}
 
 	g_strfreev(commands);

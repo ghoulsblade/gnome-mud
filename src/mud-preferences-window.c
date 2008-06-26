@@ -29,6 +29,7 @@
 #include <gtk/gtkcellrenderer.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcolorbutton.h>
+#include <gtk/gtkcombobox.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkfontbutton.h>
 #include <gtk/gtknotebook.h>
@@ -36,6 +37,8 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtktreestore.h>
+#include <gtk/gtkliststore.h>
+#include <gtk/gtktreemodel.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeviewcolumn.h>
 #include <gtk/gtktextbuffer.h>
@@ -70,9 +73,13 @@ struct _MudPreferencesWindowPrivate
 	GtkWidget *cb_scrollback;
 
 	GtkWidget *entry_commdev;
-	GtkWidget *entry_terminal;
 	
-	GtkWidget *sb_history;
+	GtkWidget *encoding_combo;
+	GtkWidget *encoding_check;
+	GtkWidget *proxy_check;
+	GtkWidget *proxy_combo;
+	GtkWidget *proxy_entry;
+	
 	GtkWidget *sb_lines;
 
 	GtkWidget *fp_font;
@@ -134,6 +141,8 @@ struct _MudPreferencesWindowPrivate
 	gulong signal;
 
 	gint notification_count;
+	
+	gchar *current_encoding;
 };
 
 enum
@@ -197,8 +206,6 @@ static void mud_preferences_window_keeptext_cb        (GtkWidget *widget, MudPre
 static void mud_preferences_window_disablekeys_cb     (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_scrolloutput_cb    (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_commdev_cb         (GtkWidget *widget, MudPreferencesWindow *window);
-static void mud_preferences_window_terminal_cb        (GtkWidget *widget, MudPreferencesWindow *window);
-static void mud_preferences_window_history_cb         (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_scrollback_cb      (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_font_cb            (GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_foreground_cb      (GtkWidget *widget, MudPreferencesWindow *window);
@@ -207,18 +214,28 @@ static void mud_preferences_window_colors_cb          (GtkWidget *widget, MudPre
 
 static void mud_preferences_window_changed_cb         (MudProfile *profile, MudProfileMask *mask, MudPreferencesWindow *window);
 
+static void mud_preferences_window_encoding_combo_cb(GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_encoding_check_cb(GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_proxy_check_cb(GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_proxy_combo_cb(GtkWidget *widget, MudPreferencesWindow *window);
+static void mud_preferences_window_proxy_entry_cb(GtkWidget *widget, MudPreferencesWindow *window);
+
+
 static void mud_preferences_window_update_echotext    (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_keeptext    (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_disablekeys (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_scrolloutput(MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_commdev     (MudPreferencesWindow *window, MudPrefs *preferences);
-static void mud_preferences_window_update_terminaltype(MudPreferencesWindow *window, MudPrefs *preferences);
-static void mud_preferences_window_update_history     (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_scrollback  (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_font        (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_foreground  (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_background  (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_colors      (MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_proxy_check(MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_proxy_combo(MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_proxy_entry(MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_encoding_check(MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_encoding_combo(MudPreferencesWindow *window, MudPrefs *preferences);
 
 void mud_preferences_window_populate_trigger_treeview(MudPreferencesWindow *window);
 void mud_preferences_window_populate_alias_treeview(MudPreferencesWindow *window);
@@ -307,10 +324,14 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 	preferences->priv->cb_scrollback = glade_xml_get_widget(glade, "cb_scrollback");
 
 	preferences->priv->entry_commdev = glade_xml_get_widget(glade, "entry_commdev");
-	preferences->priv->entry_terminal = glade_xml_get_widget(glade, "entry_terminal");
 	
-	preferences->priv->sb_history = glade_xml_get_widget(glade, "sb_history");
 	preferences->priv->sb_lines = glade_xml_get_widget(glade, "sb_lines");
+	
+	preferences->priv->encoding_combo = glade_xml_get_widget(glade, "encoding_combo");
+	preferences->priv->encoding_check = glade_xml_get_widget(glade, "encoding_check");
+	preferences->priv->proxy_check = glade_xml_get_widget(glade, "proxy_check");
+	preferences->priv->proxy_combo = glade_xml_get_widget(glade, "proxy_combo");
+	preferences->priv->proxy_entry = glade_xml_get_widget(glade, "proxy_entry");
 
 	preferences->priv->fp_font = glade_xml_get_widget(glade, "fp_font");
 
@@ -424,7 +445,7 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
   	gtk_tree_view_column_add_attribute(preferences->priv->trigger_match_text_col,  preferences->priv->trigger_match_text_renderer, 
 									  "text", TRIGGER_MATCH_TEXT_COLUMN);
 
-	// Setup trigger match treeview
+	// Setup alias match treeview
 	gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(preferences->priv->alias_match_treeview), TRUE);
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(preferences->priv->alias_match_treeview), FALSE);
 	preferences->priv->alias_match_store = gtk_tree_store_new(TRIGGER_MATCH_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
@@ -903,12 +924,24 @@ mud_preferences_window_connect_callbacks(MudPreferencesWindow *window)
 	g_signal_connect(G_OBJECT(window->priv->entry_commdev), "changed",
 					 G_CALLBACK(mud_preferences_window_commdev_cb),
 					 window);
-	g_signal_connect(G_OBJECT(window->priv->entry_terminal), "changed",
-					 G_CALLBACK(mud_preferences_window_terminal_cb),
+					 
+	g_signal_connect(G_OBJECT(window->priv->encoding_combo), "changed",
+					 G_CALLBACK(mud_preferences_window_encoding_combo_cb),
 					 window);
-	g_signal_connect(G_OBJECT(window->priv->sb_history), "changed",
-					 G_CALLBACK(mud_preferences_window_history_cb),
+	g_signal_connect(G_OBJECT(window->priv->encoding_check), "toggled",
+					 G_CALLBACK(mud_preferences_window_encoding_check_cb),
 					 window);
+	
+	g_signal_connect(G_OBJECT(window->priv->proxy_check), "toggled",
+					 G_CALLBACK(mud_preferences_window_proxy_check_cb),
+					 window);
+	g_signal_connect(G_OBJECT(window->priv->proxy_combo), "changed",
+					 G_CALLBACK(mud_preferences_window_proxy_combo_cb),
+					 window);
+	g_signal_connect(G_OBJECT(window->priv->proxy_entry), "changed",
+					 G_CALLBACK(mud_preferences_window_proxy_entry_cb),
+					 window);
+					 
 	g_signal_connect(G_OBJECT(window->priv->sb_lines), "changed",
 					 G_CALLBACK(mud_preferences_window_scrollback_cb),
 					 window);
@@ -949,13 +982,16 @@ mud_preferences_window_set_preferences(MudPreferencesWindow *window)
 	mud_preferences_window_update_disablekeys(window, profile->preferences);
 	mud_preferences_window_update_scrolloutput(window, profile->preferences);
 	mud_preferences_window_update_commdev(window, profile->preferences);
-	mud_preferences_window_update_terminaltype(window, profile->preferences);
-	mud_preferences_window_update_history(window, profile->preferences);
 	mud_preferences_window_update_scrollback(window, profile->preferences);
 	mud_preferences_window_update_font(window, profile->preferences);
 	mud_preferences_window_update_foreground(window, profile->preferences);
 	mud_preferences_window_update_background(window, profile->preferences);
 	mud_preferences_window_update_colors(window, profile->preferences);
+	mud_preferences_window_update_proxy_check(window, profile->preferences);
+	mud_preferences_window_update_proxy_combo(window, profile->preferences);
+	mud_preferences_window_update_proxy_entry(window, profile->preferences);
+	mud_preferences_window_update_encoding_check(window, profile->preferences);
+	mud_preferences_window_update_encoding_combo(window, profile->preferences);
 }
 
 static void
@@ -997,6 +1033,7 @@ mud_preferences_window_echo_cb(GtkWidget *widget, MudPreferencesWindow *window)
 static void
 mud_preferences_window_commdev_cb(GtkWidget *widget, MudPreferencesWindow *window)
 {
+    
 	const gchar *s = gtk_entry_get_text(GTK_ENTRY(widget));
 	RETURN_IF_CHANGING_PROFILES(window);
 
@@ -1004,21 +1041,48 @@ mud_preferences_window_commdev_cb(GtkWidget *widget, MudPreferencesWindow *windo
 }
 
 static void
-mud_preferences_window_terminal_cb(GtkWidget *widget, MudPreferencesWindow *window)
+mud_preferences_window_encoding_combo_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{
+	const gchar *s = gtk_combo_box_get_active_text(GTK_COMBO_BOX(widget));
+	RETURN_IF_CHANGING_PROFILES(window);
+
+	mud_profile_set_encoding_combo(window->priv->profile, s);
+}
+
+static void
+mud_preferences_window_encoding_check_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
+	RETURN_IF_CHANGING_PROFILES(window);
+
+	mud_profile_set_encoding_check(window->priv->profile, value);
+}
+
+static void
+mud_preferences_window_proxy_check_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
+	RETURN_IF_CHANGING_PROFILES(window);
+
+	mud_profile_set_proxy_check(window->priv->profile, value);
+}
+
+static void
+mud_preferences_window_proxy_combo_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{
+	RETURN_IF_CHANGING_PROFILES(window);
+
+	mud_profile_set_proxy_combo(window->priv->profile, GTK_COMBO_BOX(widget));
+}
+
+static void
+mud_preferences_window_proxy_entry_cb(GtkWidget *widget, MudPreferencesWindow *window)
 {
 	const gchar *s = gtk_entry_get_text(GTK_ENTRY(widget));
 	RETURN_IF_CHANGING_PROFILES(window);
 
-	mud_profile_set_terminal(window->priv->profile, s);
-}
-
-static void
-mud_preferences_window_history_cb(GtkWidget *widget, MudPreferencesWindow *window)
-{
-	const gint value = (gint) gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
-	RETURN_IF_CHANGING_PROFILES(window);
-
-	mud_profile_set_history(window->priv->profile, value);
+    if(s)
+	    mud_profile_set_proxy_entry(window->priv->profile, s);
 }
 
 static void
@@ -1423,10 +1487,6 @@ mud_preferences_window_changed_cb(MudProfile *profile, MudProfileMask *mask, Mud
 		mud_preferences_window_update_scrolloutput(window, profile->preferences);
 	if (mask->CommDev)
 		mud_preferences_window_update_commdev(window, profile->preferences);
-	if (mask->TerminalType)
-		mud_preferences_window_update_terminaltype(window, profile->preferences);
-	if (mask->History)
-		mud_preferences_window_update_history(window, profile->preferences);
 	if (mask->Scrollback)
 		mud_preferences_window_update_scrollback(window, profile->preferences);
 	if (mask->FontName)
@@ -1437,12 +1497,16 @@ mud_preferences_window_changed_cb(MudProfile *profile, MudProfileMask *mask, Mud
 		mud_preferences_window_update_background(window, profile->preferences);
 	if (mask->Colors)
 		mud_preferences_window_update_colors(window, profile->preferences);
-}
-
-static void
-mud_preferences_window_update_terminaltype(MudPreferencesWindow *window, MudPrefs *preferences)
-{
-	gtk_entry_set_text(GTK_ENTRY(window->priv->entry_terminal), preferences->TerminalType);
+	if (mask->UseProxy)
+	    mud_preferences_window_update_proxy_check(window, profile->preferences);
+	if (mask->UseRemoteEncoding)
+	    mud_preferences_window_update_encoding_check(window, profile->preferences);
+	if (mask->ProxyHostname)
+	    mud_preferences_window_update_proxy_entry(window, profile->preferences);
+	if (mask->ProxyVersion)
+	    mud_preferences_window_update_proxy_combo(window, profile->preferences);
+	if (mask->Encoding)
+	    mud_preferences_window_update_encoding_combo(window, profile->preferences);
 }
 
 static void
@@ -1464,6 +1528,102 @@ mud_preferences_window_update_disablekeys(MudPreferencesWindow *window, MudPrefs
 }
 
 static void
+mud_preferences_window_update_proxy_check(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->proxy_check), preferences->UseProxy);
+	
+}
+
+static void
+mud_preferences_window_update_proxy_combo(MudPreferencesWindow *window, MudPrefs *preferences)
+{   
+	gchar *profile_name;
+	GConfClient *client;
+	
+    gchar buf[2048];
+	gchar extra_path[512] = "";
+	gchar *version;
+	gint active;
+	gint current;
+
+	profile_name = mud_profile_get_name(window->priv->profile);
+	
+	if (strcmp(profile_name, "Default"))
+	{
+		g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
+	}
+
+	g_snprintf(buf, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/proxy_version");
+	client = gconf_client_get_default();
+	version = gconf_client_get_string(client, buf, NULL);
+	
+	if(version)
+	{
+	    current = gtk_combo_box_get_active(GTK_COMBO_BOX(window->priv->proxy_combo));
+	    
+	    if(strcmp(version,"4") == 0)
+	        active = 0;
+	    else
+	        active = 1;
+	   
+	   
+	   if(current != active)
+	    gtk_combo_box_set_active(GTK_COMBO_BOX(window->priv->proxy_combo), active);
+	    
+	   current = gtk_combo_box_get_active(GTK_COMBO_BOX(window->priv->proxy_combo));
+	}
+	
+}
+
+static void
+mud_preferences_window_update_proxy_entry(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	if(preferences->ProxyHostname)
+	    gtk_entry_set_text(GTK_ENTRY(window->priv->proxy_entry), preferences->ProxyHostname);
+	
+}
+
+static void
+mud_preferences_window_update_encoding_combo(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	GtkTreeModel *encodings = gtk_combo_box_get_model(GTK_COMBO_BOX(window->priv->encoding_combo));
+	GtkTreeIter iter;
+	gboolean valid;
+	gint count = 0;
+	
+	valid = gtk_tree_model_get_iter_first(encodings, &iter);
+	
+	if(!preferences->Encoding)
+	    return;
+	
+	while(valid)
+	{
+	    gchar *encoding;
+	    
+	    gtk_tree_model_get(encodings, &iter, 0, &encoding, -1);
+	    
+	    if(!encoding)
+	        continue;
+	        
+	    if(strcmp(encoding, preferences->Encoding) == 0)
+	        break;
+	    
+	    count++;
+	    
+	    valid = gtk_tree_model_iter_next(encodings, &iter);
+	}
+	
+	gtk_combo_box_set_active(GTK_COMBO_BOX(window->priv->encoding_combo), count);
+}
+
+static void
+mud_preferences_window_update_encoding_check(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->encoding_check), preferences->UseRemoteEncoding);
+	
+}
+
+static void
 mud_preferences_window_update_keeptext(MudPreferencesWindow *window, MudPrefs *preferences)
 {
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->cb_keep), preferences->KeepText);
@@ -1473,12 +1633,6 @@ static void
 mud_preferences_window_update_echotext(MudPreferencesWindow *window, MudPrefs *preferences)
 {
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->cb_echo), preferences->EchoText);
-}
-
-static void
-mud_preferences_window_update_history(MudPreferencesWindow *window, MudPrefs *preferences)
-{
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(window->priv->sb_history), preferences->History);
 }
 
 static void

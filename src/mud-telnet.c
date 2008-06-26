@@ -141,6 +141,7 @@ mud_telnet_new(MudConnectionView *parent, GConn *connection)
 	telnet->parent = parent;
 	telnet->conn = connection;
 	telnet->tel_state = TEL_STATE_TEXT;
+	telnet->ttype_iteration = 0;
 	
 	memset(telnet->telopt_states, 0, sizeof(telnet->telopt_states));
 	memset(telnet->handlers, 0, sizeof(telnet->handlers));
@@ -198,6 +199,15 @@ mud_telnet_register_handlers(MudTelnet *telnet)
     telnet->handlers[3].enable = MudHandler_EOR_Enable;
     telnet->handlers[3].disable = MudHandler_EOR_Disable;
     telnet->handlers[3].handle_sub_neg = MudHandler_EOR_HandleSubNeg;
+    
+    /* CHARSET */
+    telnet->handlers[4].type = HANDLER_CHARSET;
+    telnet->handlers[4].option_number = (guchar)TELOPT_CHARSET;
+    telnet->handlers[4].enabled = TRUE;
+    telnet->handlers[4].enable = MudHandler_CHARSET_Enable;
+    telnet->handlers[4].disable = MudHandler_CHARSET_Disable;
+    telnet->handlers[4].handle_sub_neg = MudHandler_CHARSET_HandleSubNeg;
+    
 }
 
 gint
@@ -226,6 +236,17 @@ mud_telnet_set_parent_naws(MudTelnet *telnet, gint enabled)
 }
 
 void 
+mud_telnet_set_parent_remote_encode(MudTelnet *telnet, gint enabled, gchar *encoding)
+{
+    telnet->parent->remote_encode = enabled;
+    
+    if(enabled)
+        telnet->parent->remote_encoding = g_strdup(encoding);
+    else if(telnet->parent->remote_encoding)
+        g_free(telnet->parent->remote_encoding);
+}
+
+void 
 mud_telnet_set_local_echo(MudTelnet *telnet, gint enabled)
 {
     telnet->parent->local_echo = enabled;
@@ -243,8 +264,6 @@ mud_telnet_send_naws(MudTelnet *telnet, gint width, gint height)
     h0 = height & 0xff;
     
     mud_telnet_send_sub_req(telnet, 5, (guchar)TELOPT_NAWS, w1, w0, h1, h0);
-    
-    g_message("Sending NAWS: %d %d %d %d", w1, w0, h1, h0);
 }
 
 MudTelnetBuffer 
@@ -391,11 +410,10 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count)
 				else if (buf[i] == (guchar)TEL_SE)
 				{
 				    g_message("STATE_TEL_SE");
-					g_message("Subrequest for option %d succesfully received with length %d", 
-					    telnet->subreq_buffer[0], telnet->subreq_pos-1);
-					g_message("Subreq buffer content: %d %d %d %d", 
-					    telnet->subreq_buffer[0], telnet->subreq_buffer[1], 
-					    telnet->subreq_buffer[2], telnet->subreq_buffer[3]);
+				    telnet->subreq_buffer[telnet->subreq_pos++] = buf[i];
+				    
+					g_message("Subrequest for option %d succesfully received with length %d %s", 
+					    telnet->subreq_buffer[0], telnet->subreq_pos-1, (telnet->subreq_buffer[telnet->subreq_pos-1] == (guchar)TEL_SE) ? "SE" : "");
 					    
 					mud_telnet_on_handle_subnego(telnet);
 					telnet->tel_state = TEL_STATE_TEXT;
@@ -480,6 +498,38 @@ mud_telnet_get_telopt_string(guchar ch)
 	g_string_free(string, FALSE);
 	
 	return ret;
+}
+
+void 
+mud_telnet_send_charset_req(MudTelnet *telnet, gchar *encoding)
+{
+    guchar byte;
+	guint32 i;
+
+    /* Writes IAC SB CHARSET ACCEPTED <charset> IAC SE to server */
+	byte = (guchar)TEL_IAC;
+	
+	gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+	byte = (guchar)TEL_SB;
+	gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+    byte = (guchar)TELOPT_CHARSET;
+    gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+    byte = (guchar)TEL_CHARSET_ACCEPT;
+    gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+    
+	for (i = 0; i < strlen(encoding); ++i)
+	{
+		byte = (guchar)encoding[i];
+		gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+		
+		if (byte == (guchar)TEL_IAC)
+			gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+	}
+
+	byte = (guchar)TEL_IAC;
+	gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+	byte = (guchar)TEL_SE;
+	gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
 }
 
 void 
@@ -569,7 +619,6 @@ mud_telnet_on_enable_opt(MudTelnet *telnet, const guchar opt_no, gint him)
 {
     int index;
     
-    g_message("Trying to enable option %d", opt_no);
     if((index = mud_telnet_get_index_by_option(telnet, opt_no)) == -1)
     {
         g_warning("Invalid Telnet Option passed: %d", opt_no);
@@ -658,12 +707,12 @@ mud_telnet_handle_positive_nego(MudTelnet *telnet,
 			if (mud_telnet_get_telopt_queue(opt, bitshift) == TELOPT_STATE_QUEUE_EMPTY)
 			{
 				mud_telnet_set_telopt_state(opt, TELOPT_STATE_NO, bitshift);
-				g_message("TELNET NEGOTIATION: DONT answered by WILL; ill-behaved server. Ignoring IAC WILL %d. him = NO\n", opt_no);
+				g_warning("TELNET NEGOTIATION: DONT answered by WILL; ill-behaved server. Ignoring IAC WILL %d. him = NO\n", opt_no);
 				return FALSE;
 			} else { // The opposite is queued
 				mud_telnet_set_telopt_state(opt, TELOPT_STATE_YES, bitshift);
 				mud_telnet_set_telopt_queue(opt, TELOPT_STATE_QUEUE_EMPTY, bitshift);
-				g_message("TELNET NEGOTIATION: DONT answered by WILL; ill-behaved server. Ignoring IAC WILL %d. him = YES, himq = EMPTY\n", opt_no);
+				g_warning("TELNET NEGOTIATION: DONT answered by WILL; ill-behaved server. Ignoring IAC WILL %d. him = YES, himq = EMPTY\n", opt_no);
 				return FALSE;
 			}
 			break;
@@ -678,7 +727,6 @@ mud_telnet_handle_positive_nego(MudTelnet *telnet,
 			} else { // The opposite is queued
 				mud_telnet_set_telopt_state(opt, TELOPT_STATE_WANTNO, bitshift);
 				mud_telnet_set_telopt_queue(opt, TELOPT_STATE_QUEUE_EMPTY, bitshift);
-				//printf("Server, you should make up your mind. Fine DONT do %d then.\n", opt_no);
 				mud_telnet_send_iac(telnet, negative, opt_no);
 				return FALSE;
 			}
@@ -706,7 +754,6 @@ mud_telnet_handle_negative_nego(MudTelnet *telnet,
 
 		case TELOPT_STATE_YES:
 			mud_telnet_set_telopt_state(opt, TELOPT_STATE_NO, bitshift);
-		    //printf("Ok, server, I ACK that you DONT do %d\n", opt_no);
 			mud_telnet_send_iac(telnet, negative, opt_no);
 			mud_telnet_on_disable_opt(telnet, opt_no, him);
 			return TRUE;
@@ -716,10 +763,9 @@ mud_telnet_handle_negative_nego(MudTelnet *telnet,
 			{
 				mud_telnet_set_telopt_state(opt, TELOPT_STATE_NO, bitshift);
 				return FALSE;
-			} else { // but the opposite is queued...
+			} else {
 				mud_telnet_set_telopt_state(opt, TELOPT_STATE_WANTYES, bitshift);
 				mud_telnet_set_telopt_queue(opt, TELOPT_STATE_QUEUE_EMPTY, bitshift);
-				//printf("Ok, server, you are making me angry. DO %d", opt_no);
 			    mud_telnet_send_iac(telnet, affirmative, opt_no);
 				mud_telnet_on_enable_opt(telnet, opt_no, him); // FIXME: Is this correct?
 				return TRUE;

@@ -52,6 +52,13 @@ G_BEGIN_DECLS
 #   define TEL_EOR_BYTE     239 // End of record byte.
 #define TELOPT_NAWS			 31	// Window size			- RFC 1073
 #define TELOPT_CHARSET		 42	// Charset				- RFC 2066
+#   define TEL_CHARSET_REQUEST              1
+#   define TEL_CHARSET_ACCEPT               2
+#   define TEL_CHARSET_REJECT               3
+#   define TEL_CHARSET_TTABLE_IS            4
+#   define TEL_CHARSET_TTABLE_REJECTED      5
+#   define TEL_CHARSET_TTABLE_ACK           6
+#   define TEL_CHARSET_TTABLE_NAK           7
 #define TELOPT_MCCP			 85	// MCCP
 #define TELOPT_MCCP2		 86	// MCCP2
 #define TELOPT_CLIENT		 88	// Client name - from Clandestine MUD protocol
@@ -103,7 +110,8 @@ enum TelnetHandlerType
     HANDLER_TTYPE,
     HANDLER_NAWS,
     HANDLER_ECHO,
-    HANDLER_EOR
+    HANDLER_EOR,
+    HANDLER_CHARSET
 };
 
 struct _MudTelnetClass
@@ -145,6 +153,7 @@ struct _MudTelnet
 	
 	guchar telopt_states[256];
 	gint eor_enabled;
+	gint ttype_iteration;
 	
 	GConn *conn;
 	MudConnectionView *parent;
@@ -163,8 +172,10 @@ void mud_telnet_send_sub_req(MudTelnet *telnet, guint32 count, ...);
 void mud_telnet_get_parent_size(MudTelnet *telnet, gint *w, gint *h);
 void mud_telnet_send_raw(MudTelnet *telnet, guint32 count, ...);
 void mud_telnet_set_parent_naws(MudTelnet *telnet, gint enabled);
+void mud_telnet_set_parent_remote_encode(MudTelnet *telnet, gint enabled, gchar *encoding);
 void mud_telnet_send_naws(MudTelnet *telnet, gint w, gint h);
 void mud_telnet_set_local_echo(MudTelnet *telnet, gint enabled);
+void mud_telnet_send_charset_req(MudTelnet *telnet, gchar *encoding);
 
 G_END_DECLS
 
