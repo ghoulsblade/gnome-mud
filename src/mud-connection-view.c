@@ -38,6 +38,7 @@
 #include "mud-log.h"
 #include "mud-parse-base.h"
 #include "mud-telnet.h"
+#include "mud-telnet-zmp.h"
 
 /* Hack, will refactor with plugin rewrite -lh */
 extern gboolean PluginGag;
@@ -372,6 +373,8 @@ mud_connection_view_finalize (GObject *object)
             
     if(connection_view->priv->history)
         g_queue_free(connection_view->priv->history);
+    
+    mud_zmp_finalize(connection_view->priv->telnet);
     
     gnet_conn_disconnect(connection_view->connection);
     gnet_conn_unref(connection_view->connection);

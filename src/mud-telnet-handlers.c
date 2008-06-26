@@ -32,6 +32,7 @@
 #include "gnome-mud.h"
 #include "mud-telnet.h"
 #include "mud-telnet-handlers.h"
+#include "mud-telnet-zmp.h"
 
 /* TTYPE */
 
@@ -52,7 +53,6 @@ void
 MudHandler_TType_HandleSubNeg(MudTelnet *telnet, guchar *buf,
                               guint len, MudTelnetHandler *handler)
 {
-	if (len == 1 && buf[0] == TEL_TTYPE_SEND)
 	    switch(telnet->ttype_iteration)
 	    {
 	        case 0:
@@ -94,7 +94,7 @@ MudHandler_TType_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 	                                 'U','N','K','N','O','W','N');
 	            telnet->ttype_iteration = 0;
 	        break;
-	    }
+	       }
 }
 
 /* NAWS */
@@ -233,3 +233,67 @@ MudHandler_CHARSET_HandleSubNeg(MudTelnet *telnet, guchar *buf,
         break;
     }
 }
+
+/* ZMP */
+void 
+MudHandler_ZMP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
+{
+    handler->enabled = TRUE;
+    mud_zmp_init(telnet);
+}
+
+void 
+MudHandler_ZMP_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
+{
+	/* Cannot disable ZMP once enabled per specification */
+    return;
+}
+
+void 
+MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
+    guint len, MudTelnetHandler *handler)
+{
+	gchar command_buf[1024];
+	gint count = 0;
+	gint index = 0;
+	GString *args = g_string_new(NULL);
+	gchar **argv;
+	gint argc;
+	MudZMPFunction zmp_handler = NULL;
+	
+	while(buf[count] != '\0' && count < len)
+		command_buf[index++] = buf[count++];
+	command_buf[index] = '\0';
+	
+	while(count < len - 1)
+	{
+		if(buf[count] == '\0')
+		{
+			g_string_append(args,"|gmud_sep|");
+			count++;
+			continue;
+		}
+		
+		g_string_append_c(args, buf[count++]);
+	}
+	
+	g_string_prepend(args, command_buf);
+	
+	argv = g_strsplit(args->str, "|gmud_sep|", -1);
+	argc = g_strv_length(argv);
+	
+	if(mud_zmp_has_command(telnet, command_buf))
+	{
+		zmp_handler = mud_zmp_get_function(telnet, command_buf);
+		
+		if(zmp_handler)
+			zmp_handler(telnet, argc, argv);
+		else
+			g_warning("NULL ZMP functioned returned.");
+	}
+	
+	g_strfreev(argv);
+	g_string_free(args, TRUE);
+	
+}
+

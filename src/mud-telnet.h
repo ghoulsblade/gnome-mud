@@ -111,7 +111,8 @@ enum TelnetHandlerType
     HANDLER_NAWS,
     HANDLER_ECHO,
     HANDLER_EOR,
-    HANDLER_CHARSET
+    HANDLER_CHARSET,
+    HANDLER_ZMP
 };
 
 struct _MudTelnetClass
@@ -141,6 +142,7 @@ struct _MudTelnetHandler
 
 #include <gnet.h>
 #include <mud-connection-view.h>
+#include <mud-telnet-zmp.h>
 struct _MudTelnet
 {
 	GObject parent_instance;
@@ -159,6 +161,9 @@ struct _MudTelnet
 	MudConnectionView *parent;
 
 	MudTelnetHandler handlers[TEL_HANDLERS_SIZE];
+	
+	GHashTable *zmp_commands;
+	MudZMPCommand commands[2048];
 };
 
 GType mud_telnet_get_type (void) G_GNUC_CONST;

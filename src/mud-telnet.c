@@ -33,6 +33,7 @@
 #include "gnome-mud.h"
 #include "mud-telnet.h"
 #include "mud-telnet-handlers.h"
+#include "mud-telnet-zmp.h"
 
 #define TELNET_TRACE_MASK _("telnet")
 
@@ -208,6 +209,14 @@ mud_telnet_register_handlers(MudTelnet *telnet)
     telnet->handlers[4].disable = MudHandler_CHARSET_Disable;
     telnet->handlers[4].handle_sub_neg = MudHandler_CHARSET_HandleSubNeg;
     
+    /* ZMP */
+    telnet->handlers[5].type = HANDLER_ZMP;
+    telnet->handlers[5].option_number = (guchar)TELOPT_ZMP;
+    telnet->handlers[5].enabled = TRUE;
+    telnet->handlers[5].enable = MudHandler_ZMP_Enable;
+    telnet->handlers[5].disable = MudHandler_ZMP_Disable;
+    telnet->handlers[5].handle_sub_neg = MudHandler_ZMP_HandleSubNeg;
+    
 }
 
 gint
@@ -287,52 +296,42 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count)
 				break;
 
 			case TEL_STATE_IAC:
-			    g_message("IAC");
 				switch (buf[i])
 				{
 					case (guchar)TEL_IAC:
-					    g_message("\tIAC");
 						processed[pos++] = buf[i];
 						telnet->tel_state = TEL_STATE_TEXT;
 						break;
 
 					case (guchar)TEL_DO:
-					    g_message("\tDO");
 						telnet->tel_state = TEL_STATE_DO;
 						break;
 
 					case (guchar)TEL_DONT:
-					    g_message("\tDONT");
 						telnet->tel_state = TEL_STATE_DONT;
 						break;
 
 					case (guchar)TEL_WILL:
-					    g_message("\tWILL");
 						telnet->tel_state = TEL_STATE_WILL;
 						break;
 						
 					case (guchar)TEL_NOP:
-					    g_message("\tNOP");
 					    telnet->tel_state = TEL_STATE_TEXT;
 					    break;
 
                     case (guchar)TEL_GA:
-                        g_message("\tGA");
                         telnet->tel_state = TEL_STATE_TEXT;
                         break;
                         
                     case (guchar)TEL_EOR_BYTE:
-                        g_message("\tEOR");
                         telnet->tel_state = TEL_STATE_TEXT;
                         break;
 
 					case (guchar)TEL_WONT:
-					    g_message("\tWONT");
 						telnet->tel_state = TEL_STATE_WONT;
 						break;
 
 					case (guchar)TEL_SB:
-						g_message("Receiving subrequest");
 						telnet->tel_state = TEL_STATE_SB;
 						telnet->subreq_pos = 0;
 						break;
@@ -345,41 +344,33 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count)
 				break;
 
 			case TEL_STATE_DO:
-			    g_message("STATE_DO");
 				mud_telnet_handle_positive_nego(telnet, buf[i], 
 				    (guchar)TEL_WILL, (guchar)TEL_WONT, FALSE);
 				telnet->tel_state = TEL_STATE_TEXT;
 
 			case TEL_STATE_WILL:
-			    g_message("STATE_WILL");
 				mud_telnet_handle_positive_nego(telnet, buf[i], 
 				    (guchar)TEL_DO, (guchar)TEL_DONT, TRUE);
 				telnet->tel_state = TEL_STATE_TEXT;
 				break;
 
 			case TEL_STATE_DONT:
-			    g_message("STATE_DONT");
 				mud_telnet_handle_negative_nego(telnet, 
 				    buf[i], (guchar)TEL_WILL, (guchar)TEL_WONT, FALSE);
 				telnet->tel_state = TEL_STATE_TEXT;
 				break;
 
 			case TEL_STATE_WONT:
-			    g_message("STATE_WONT: Won't do telopt: %d", buf[i]);
 				mud_telnet_handle_negative_nego(telnet, 
 				    buf[i], (guchar)TEL_DO, (guchar)TEL_DONT, TRUE);
 				telnet->tel_state = TEL_STATE_TEXT;
 				break;
 
 			case TEL_STATE_SB:
-			    g_message("STATE_SB");
 				if (buf[i] == (guchar)TEL_IAC)
 					telnet->tel_state = TEL_STATE_SB_IAC;
 				else
 				{
-					if (telnet->subreq_pos == 0)
-						g_message("Subrequest for option %d", buf[i]);
-
 					// FIXME: Handle overflow
 					if (telnet->subreq_pos >= TEL_SUBREQ_BUFFER_SIZE)
 					{
@@ -393,7 +384,6 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count)
 				break;
 
 			case TEL_STATE_SB_IAC:
-			    g_message("STATE_SB_IAC");
 				if (buf[i] == (guchar)TEL_IAC)
 				{
 					if (telnet->subreq_pos >= TEL_SUBREQ_BUFFER_SIZE)
@@ -409,12 +399,7 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count)
 				}
 				else if (buf[i] == (guchar)TEL_SE)
 				{
-				    g_message("STATE_TEL_SE");
-				    telnet->subreq_buffer[telnet->subreq_pos++] = buf[i];
-				    
-					g_message("Subrequest for option %d succesfully received with length %d %s", 
-					    telnet->subreq_buffer[0], telnet->subreq_pos-1, (telnet->subreq_buffer[telnet->subreq_pos-1] == (guchar)TEL_SE) ? "SE" : "");
-					    
+				    telnet->subreq_buffer[telnet->subreq_pos++] = buf[i];	    
 					mud_telnet_on_handle_subnego(telnet);
 					telnet->tel_state = TEL_STATE_TEXT;
 				} else {
@@ -506,6 +491,9 @@ mud_telnet_send_charset_req(MudTelnet *telnet, gchar *encoding)
     guchar byte;
 	guint32 i;
 
+	if(!encoding)
+		return;
+		
     /* Writes IAC SB CHARSET ACCEPTED <charset> IAC SE to server */
 	byte = (guchar)TEL_IAC;
 	
@@ -693,7 +681,6 @@ mud_telnet_handle_positive_nego(MudTelnet *telnet,
 				mud_telnet_on_enable_opt(telnet, opt_no, him);
 				return TRUE;
 			} else {
-				//printf("Server, you DONT do %d\n", opt_no);
 				mud_telnet_send_iac(telnet, negative, opt_no);
 				return FALSE;
 			}

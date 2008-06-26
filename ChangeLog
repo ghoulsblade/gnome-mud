@@ -1,4 +1,11 @@
-2008-06-25  Les Harris <me@lesharris.com>
+2008-06-26  Les Harris  <me@lesharris.com>
+	* src/Makefile.am: Added mud-telnet-zmp.[ch]
+
+	* src/mud-telnet.[ch]: Added support for ZMP, removed debugging messages.
+
+	* src/mud-connection-view.c: Added function call to clean up after ZMP.
+
+2008-06-25  Les Harris  <me@lesharris.com>
 	* ui/*.glade: Updated windows hints and made every window resizable to
 	increase usability.
 	

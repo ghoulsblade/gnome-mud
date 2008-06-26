@@ -49,6 +49,8 @@ gnome_mud_SOURCES =				\
 	mud-telnet.h                \
 	mud-telnet-handlers.c		\
 	mud-telnet-handlers.h		\
+	mud-telnet-zmp.c			\
+	mud-telnet-zmp.h			\
 	mud-tray.c					\
 	mud-tray.h					\
 	mud-window.c				\
