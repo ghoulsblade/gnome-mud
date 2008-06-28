@@ -17,7 +17,7 @@ typedef struct _MudParseTriggerPrivate     MudParseTriggerPrivate;
 struct _MudParseTrigger
 {
 	GObject parent_instance;
-	
+
 	MudParseTriggerPrivate *priv;
 };
 

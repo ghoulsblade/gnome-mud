@@ -17,7 +17,7 @@ typedef struct _MudRegexPrivate     MudRegexPrivate;
 struct _MudRegex
 {
 	GObject parent_instance;
-	
+
 	MudRegexPrivate *priv;
 };
 

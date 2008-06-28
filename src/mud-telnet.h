@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
- 
+
  /* Code originally from wxMUD. Converted to a GObject by Les Harris.
   * wxMUD - an open source cross-platform MUD client.
   * Copyright (C) 2003-2008 Mart Raudsepp
@@ -81,7 +81,7 @@ typedef struct _MudTelnetHandler     MudTelnetHandler;
 
 typedef void(*MudTelnetOnEnableFunc)(MudTelnet *telnet, MudTelnetHandler *handler);
 typedef void(*MudTelnetOnDisableFunc)(MudTelnet *telnet, MudTelnetHandler *handler);
-typedef void(*MudTelnetOnHandleSubNegFunc)(MudTelnet *telnet, 
+typedef void(*MudTelnetOnHandleSubNegFunc)(MudTelnet *telnet,
     guchar *buf, guint len, MudTelnetHandler *handler);
 
 enum TelnetState
@@ -130,11 +130,11 @@ struct _MudTelnetHandler
 {
     enum TelnetHandlerType type;
     guchar option_number;
-    
+
     gint enabled;
-    
+
     MudTelnet *instance;
-    
+
     MudTelnetOnEnableFunc enable;
     MudTelnetOnDisableFunc disable;
     MudTelnetOnHandleSubNegFunc handle_sub_neg;
@@ -146,22 +146,22 @@ struct _MudTelnetHandler
 struct _MudTelnet
 {
 	GObject parent_instance;
-	
+
 	MudTelnetPrivate *priv;
-	
+
 	enum TelnetState tel_state;
 	guchar subreq_buffer[TEL_SUBREQ_BUFFER_SIZE];
 	guint32 subreq_pos;
-	
+
 	guchar telopt_states[256];
 	gint eor_enabled;
 	gint ttype_iteration;
-	
+
 	GConn *conn;
 	MudConnectionView *parent;
 
 	MudTelnetHandler handlers[TEL_HANDLERS_SIZE];
-	
+
 	GHashTable *zmp_commands;
 	MudZMPCommand commands[2048];
 };

@@ -101,6 +101,90 @@
 	
 		<!-- functionality settings -->
 		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/encoding</key>
+			<applyto>/apps/gnome-mud/functionality/encoding</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>ISO-8859-1</default>
+			<locale name="C">
+				<short>Encoding</short>
+				<long>
+				The encoding for the terminal widget.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/encoding_index</key>
+			<applyto>/apps/gnome-mud/functionality/encoding_index</applyto>
+			<owner>gnome-mud</owner>
+			<type>int</type>
+			<default>0</default>
+			<locale name="C">
+				<short>Encoding Index</short>
+				<long>
+				The index of the currently selected encoding.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/proxy_hostname</key>
+			<applyto>/apps/gnome-mud/functionality/proxy_hostname</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>127.0.0.1</default>
+			<locale name="C">
+				<short>Proxy Hostname</short>
+				<long>
+				The hostname for the SOCKS proxy server.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/proxy_version</key>
+			<applyto>/apps/gnome-mud/functionality/proxy_version</applyto>
+			<owner>gnome-mud</owner>
+			<type>string</type>
+			<default>5</default>
+			<locale name="C">
+				<short>Proxy Version</short>
+				<long>
+				The SOCKS Version to be used.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/remote_encoding</key>
+			<applyto>/apps/gnome-mud/functionality/remote_encoding</applyto>
+			<owner>gnome-mud</owner>
+			<type>bool</type>
+			<default>false</default>
+			<locale name="C">
+				<short>Remote Encoding</short>
+				<long>
+				Use Remote Encoding charset negotiation.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/use_proxy</key>
+			<applyto>/apps/gnome-mud/functionality/use_proxy</applyto>
+			<owner>gnome-mud</owner>
+			<type>bool</type>
+			<default>false</default>
+			<locale name="C">
+				<short>Use Proxy</short>
+				<long>
+				Use a proxy server to connect to the mud.
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
 			<key>/schemas/apps/gnome-mud/functionality/commdev</key>
 			<applyto>/apps/gnome-mud/functionality/commdev</applyto>
 			<owner>gnome-mud</owner>

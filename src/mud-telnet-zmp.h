@@ -38,4 +38,3 @@ gboolean mud_zmp_has_command(MudTelnet *telnet, gchar *name);
 MudZMPFunction mud_zmp_get_function(MudTelnet *telnet, gchar *name);
 
 #endif // MUD_TELNET_ZMP_H
-

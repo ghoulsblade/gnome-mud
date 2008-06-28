@@ -25,11 +25,11 @@ struct _MudConnectionView
 	MudConnectionViewPrivate *priv;
 
 	GConn *connection;
-	
+
 	gint naws_enabled;
-	
+
 	gint local_echo;
-	
+
 	gint remote_encode;
 	gchar *remote_encoding;
 };

@@ -60,7 +60,7 @@ struct _MudWindowPrivate
 	GConfClient *gconf_client;
 
 	GSList *mud_views_list;
-	
+
 	GtkWidget *window;
 	GtkWidget *notebook;
 	GtkWidget *textview;
@@ -74,7 +74,7 @@ struct _MudWindowPrivate
 	GtkWidget *current_view;
 
 	GtkWidget *mi_profiles;
-	
+
 	GtkWidget *image;
 
 	GSList *profileMenuList;
@@ -84,7 +84,7 @@ struct _MudWindowPrivate
 
 	gint nr_of_tabs;
 	gint textview_line_height;
-	
+
 	MudTray *tray;
 };
 
@@ -104,10 +104,20 @@ mud_window_close(GtkWidget *widget, MudWindow *window)
 	return TRUE;
 }
 
-GtkWidget* 
+GtkWidget*
 mud_window_get_window(MudWindow *window)
 {
 	return window->priv->window;
+}
+
+static gboolean
+mud_window_grab_entry_focus_cb(GtkWidget *widget,
+GdkEventFocus *event, gpointer user_data)
+{
+	MudWindow *window = (MudWindow *)user_data;
+	gtk_widget_grab_focus(window->priv->textview);
+
+	return TRUE;
 }
 
 void
@@ -115,9 +125,10 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view, gchar
 {
 	gint nr;
 	MudViewEntry *entry;
+	GtkWidget *terminal;
 
 	entry = g_new(MudViewEntry, 1);
-	
+
 	g_assert(window != NULL);
 	g_assert(view != NULL);
 
@@ -126,7 +137,7 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view, gchar
 		gtk_notebook_remove_page(GTK_NOTEBOOK(window->priv->notebook), 0);
 		window->priv->image = NULL;
 	}
-	
+
 	nr = gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), mud_connection_view_get_viewport(view), gtk_label_new(tabLbl));
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(window->priv->notebook), nr);
 
@@ -136,11 +147,14 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view, gchar
 	mud_connection_view_set_id(view, nr);
 	mud_connection_view_set_parent(view, window);
 
+	terminal = mud_connection_view_get_terminal(view);
+	g_signal_connect(terminal, "focus-in-event", G_CALLBACK(mud_window_grab_entry_focus_cb), window);
+
 	entry->id = nr;
 	entry->view = view;
-	
+
 	window->priv->mud_views_list = g_slist_append(window->priv->mud_views_list, entry);
-	
+
 	if (window->priv->nr_of_tabs > 1)
 	{
 		gtk_notebook_set_show_tabs(GTK_NOTEBOOK(window->priv->notebook), TRUE);
@@ -151,13 +165,13 @@ static void
 mud_window_remove_connection_view(MudWindow *window, gint nr)
 {
 	GSList *entry, *rementry;
-	
+
 	rementry = NULL;
 	rementry = g_slist_append(rementry, NULL);
-	
+
 	g_object_unref(window->priv->current_view);
 	gtk_notebook_remove_page(GTK_NOTEBOOK(window->priv->notebook), nr);
-	
+
 	for(entry = window->priv->mud_views_list; entry != NULL; entry = g_slist_next(entry))
 	{
 		if(((MudViewEntry *)entry->data)->id == nr)
@@ -178,15 +192,15 @@ mud_window_remove_connection_view(MudWindow *window, gint nr)
 	    gint w, h;
 	    GdkPixbuf *buf;
 	    GError *gerr = NULL;
-	
+
 	    gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
-	
+
 	    window->priv->image = gtk_image_new();
 		buf = gdk_pixbuf_new_from_file_at_size(GMPIXMAPSDIR "/gnome-mud.svg", w >> 1, h >> 1, &gerr);
 		gtk_image_set_from_pixbuf(GTK_IMAGE(window->priv->image), buf);
-		
+
 		gtk_widget_show(window->priv->image);
-		
+
 		gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), window->priv->image, NULL);
 	}
 }
@@ -217,7 +231,7 @@ void mud_window_close_current_window(MudWindow *window)
 		gint nr = gtk_notebook_get_current_page(GTK_NOTEBOOK(window->priv->notebook));
 
 		mud_window_remove_connection_view(window, nr);
-		
+
 		if(window->priv->nr_of_tabs == 0)
 			mud_tray_update_icon(window->priv->tray, offline_connecting);
 	}
@@ -267,7 +281,7 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->textview));
 	GtkTextIter start, end;
 	MudParseBase *base;
-	
+
 	if ((event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) &&
 			(event->state & gtk_accelerator_get_default_mod_mask()) == 0)
 	{
@@ -297,28 +311,28 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
 	}
 
 	if(window->priv->current_view)
-	{	
+	{
 		if(event->keyval == GDK_Up)
 		{
 		    text = mud_connection_view_get_history_item(
 		        MUD_CONNECTION_VIEW(window->priv->current_view), HISTORY_UP);
-	    
+
 	   		gtk_text_buffer_set_text(buffer, text, strlen(text));
 	   	 	gtk_text_buffer_get_bounds(buffer, &start, &end);
 	   	 	gtk_text_buffer_select_range(buffer, &start, &end);
-	    
+
 	    	return TRUE;
 		}
-	
+
 		if(event->keyval == GDK_Down)
 		{
 		    text = mud_connection_view_get_history_item(
 		        MUD_CONNECTION_VIEW(window->priv->current_view), HISTORY_DOWN);
-	    
+
 		    gtk_text_buffer_set_text(buffer, text, strlen(text));
 		    gtk_text_buffer_get_bounds(buffer, &start, &end);
 		    gtk_text_buffer_select_range(buffer, &start, &end);
-	    
+
 		    return TRUE;
 		}
 	}
@@ -336,7 +350,7 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 	if (window->priv->nr_of_tabs != 0)
 	{
 		name = mud_profile_get_name(mud_connection_view_get_current_profile(MUD_CONNECTION_VIEW(window->priv->current_view)));
-	
+
 		mud_window_profile_menu_set_active(name, window);
 
 		if(mud_connection_view_islogging(MUD_CONNECTION_VIEW(window->priv->current_view)))
@@ -388,28 +402,28 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
         "Les Harris <me@lesharris.com>",
         NULL
     };
-    
+
     static const gchar * const documenters[] = {
         "Jordi Mallach <jordi@sindominio.net>",
         "Petter E. Stokke <gibreel@project23.no>",
         NULL
     };
-    
+
     static const gchar * const artists[] = {
         "Daniel Taylor <DanTaylor@web.de>",
         "Andreas Nilsson <andreasn@gnome.org>",
         NULL
     };
-    
+
     static const gchar copyright[] = "Copyright \xc2\xa9 1998-2008 Robin Ericsson";
-    
+
     static const gchar comments[] = N_("A Multi-User Dungeon (MUD) client for GNOME");
-    
+
     GdkPixbuf *logo;
-    
-    logo = gdk_pixbuf_new_from_file_at_size(GMPIXMAPSDIR "/gnome-mud.svg", 
+
+    logo = gdk_pixbuf_new_from_file_at_size(GMPIXMAPSDIR "/gnome-mud.svg",
         128, 128, NULL);
-    
+
     gtk_show_about_dialog(GTK_WINDOW(window->priv->window),
         "artists", artists,
         "authors", authors,
@@ -422,44 +436,44 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
         "website", "http://amcl.sourceforge.net/",
         "name", "gnome-mud",
         NULL);
-        
+
     if(logo)
         g_object_unref(logo);
-    
+
 }
 
 static void
 mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *window)
 {
 	GtkWidget *mywig;
-	
+
 	mywig = window->priv->window;
-	
+
 	mud_window_mconnect_new(window, mywig, window->priv->tray);
 }
 
 gboolean
 mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer user_data)
-{	
+{
 	gint w, h;
 	GdkPixbuf *buf;
 	GError *gerr = NULL;
 	MudWindow *window = (MudWindow *)user_data;
-	
+
 	gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
-	
+
 	if (window->priv->nr_of_tabs == 0)
 	{
 		buf = gdk_pixbuf_new_from_file_at_size(GMPIXMAPSDIR "/gnome-mud.svg", w >> 1, h >> 1, &gerr);
-	
+
 		gtk_image_set_from_pixbuf(GTK_IMAGE(window->priv->image), buf);
 	}
 
 	gtk_widget_grab_focus(window->priv->textview);
-	
+
 	// FIXME: Should send naws to all views.
 	mud_connection_view_send_naws(MUD_CONNECTION_VIEW(window->priv->current_view));
-	
+
 	return FALSE;
 }
 
@@ -474,7 +488,7 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 
 	glade = glade_xml_new(GLADEDIR "/connect.glade", "connect_window", NULL);
 	dialog = glade_xml_get_widget(glade, "connect_window");
-	
+
 	entry_host = glade_xml_get_widget(glade, "entry_host");
 	entry_port = glade_xml_get_widget(glade, "entry_post");
 	gtk_entry_set_text(GTK_ENTRY(entry_host), window->priv->host);
@@ -486,7 +500,7 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 		MudConnectionView *view;
 		const gchar *host, *port;
 		gint iport;
-		
+
 		g_free(window->priv->host);
 		host = gtk_entry_get_text(GTK_ENTRY(entry_host));
 		window->priv->host = g_strdup(host);
@@ -495,25 +509,25 @@ mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
 		port = gtk_entry_get_text(GTK_ENTRY(entry_port));
 		window->priv->port = g_strdup(port);
 		iport = atoi(port);
-		
+
 		if (iport < 1)
 		{
 			iport = 23;
 		}
-		
+
 		mud_tray_update_icon(window->priv->tray, offline);
-		
+
 		view = mud_connection_view_new("Default", host, iport, window->priv->window, (GtkWidget *)window->priv->tray, g_strdup(host));
 		mud_window_add_connection_view(window, view, g_strdup(host));
 
-		
+
 	}
 
 	gtk_widget_destroy(dialog);
 	g_object_unref(glade);
 }
 
-gboolean 
+gboolean
 save_dialog_vte_cb (VteTerminal *terminal,glong column,glong row,gpointer data)
 {
 	return TRUE;
@@ -525,36 +539,36 @@ mud_window_buffer_cb(GtkWidget *widget, MudWindow *window)
 	GladeXML *glade;
 	GtkWidget *dialog;
 	gint result;
-	
+
 	glade = glade_xml_new(GLADEDIR "/main.glade", "save_dialog", NULL);
 	dialog = glade_xml_get_widget(glade, "save_dialog");
-	
+
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), "buffer.txt");
 	result = gtk_dialog_run(GTK_DIALOG(dialog));
 	if(result == GTK_RESPONSE_OK)
 	{
 		gchar *filename;
 		FILE *file;
-		
+
 		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 		file = fopen(filename, "w");
-		
+
 		if(!file)
 		{
 			GtkWidget *errDialog;
-	
+
 			errDialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("Could not save the file in specified location!"));
 
 			gtk_dialog_run(GTK_DIALOG(errDialog));
 			gtk_widget_destroy(errDialog);
-		}	
+		}
 		else
 		{
 			gchar *bufferText;
 			GtkWidget *term;
-			
+
 			term = mud_connection_view_get_terminal(MUD_CONNECTION_VIEW(window->priv->current_view));
-			
+
 			bufferText = vte_terminal_get_text_range(VTE_TERMINAL(term),0,0,
 											vte_terminal_get_row_count(VTE_TERMINAL(term)),
 											vte_terminal_get_column_count(VTE_TERMINAL(term)),
@@ -563,12 +577,12 @@ mud_window_buffer_cb(GtkWidget *widget, MudWindow *window)
 											NULL);
 
 			fwrite(bufferText, 1, strlen(bufferText), file);
-			fclose(file);	
+			fclose(file);
 		}
-		
+
 		g_free(filename);
 	}
-	
+
 	gtk_widget_destroy(dialog);
 	g_object_unref(glade);
 }
@@ -611,7 +625,7 @@ mud_window_select_profile(GtkWidget *widget, MudWindow *window)
 {
 	MudProfile *profile;
 	GtkWidget *profileLabel;
-	
+
 	profileLabel = gtk_bin_get_child(GTK_BIN(widget));
 
 	if (window->priv->current_view)
@@ -623,15 +637,15 @@ mud_window_select_profile(GtkWidget *widget, MudWindow *window)
 	}
 }
 
-void 
+void
 mud_window_profile_menu_set_cb(GtkWidget *widget, gpointer data)
 {
 	gchar *name = (gchar *)data;
 	GtkWidget *label;
-	
+
 	label = gtk_bin_get_child(GTK_BIN(widget));
 
-	
+
 	if (GTK_IS_LABEL(label) && !strcmp(name,gtk_label_get_text(GTK_LABEL(label))))
 	{
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget), TRUE);
@@ -644,7 +658,7 @@ mud_window_startlog_cb(GtkWidget *widget, MudWindow *window)
 	mud_connection_view_start_logging(MUD_CONNECTION_VIEW(window->priv->current_view));
 	gtk_widget_set_sensitive(window->priv->startlog, FALSE);
 	gtk_widget_set_sensitive(window->priv->stoplog, TRUE);
-	
+
 }
 
 void
@@ -655,14 +669,14 @@ mud_window_stoplog_cb(GtkWidget *widget, MudWindow *window)
 	gtk_widget_set_sensitive(window->priv->startlog, TRUE);
 }
 
-void 
+void
 mud_window_profile_menu_set_active(gchar *name, MudWindow *window)
 {
 	gtk_container_foreach(GTK_CONTAINER(window->priv->mi_profiles),mud_window_profile_menu_set_cb,(gpointer)name);
 }
 
 void mud_window_clear_profiles_menu(GtkWidget *widget, gpointer data)
-{	
+{
 	gtk_widget_destroy(widget);
 }
 
@@ -675,11 +689,11 @@ mud_window_populate_profiles_menu(MudWindow *window)
 	GtkWidget *sep;
 	GtkWidget *manage;
 	GtkWidget *icon;
-	
+
 	window->priv->profileMenuList = NULL;
-	
+
 	profiles = mud_profile_get_profiles();
-	
+
 	gtk_container_foreach(GTK_CONTAINER(window->priv->mi_profiles), mud_window_clear_profiles_menu, NULL);
 
 	for (entry = (GList *)profiles; entry != NULL; entry = g_list_next(entry))
@@ -719,7 +733,7 @@ mud_window_init (MudWindow *window)
 	window->priv->port = g_strdup("");
 
 	window->priv->mud_views_list = NULL;
-	
+
 	/* start glading */
 	glade = glade_xml_new(GLADEDIR "/main.glade", "main_window", NULL);
 	window->priv->window = glade_xml_get_widget(glade, "main_window");
@@ -762,7 +776,7 @@ G_CALLBACK(mud_window_list_cb), window);
 	g_signal_connect(glade_xml_get_widget(glade, "menu_preferences"), "activate", G_CALLBACK(mud_window_preferences_cb), window);
 
 	g_signal_connect(glade_xml_get_widget(glade, "menu_about"), "activate", G_CALLBACK(mud_window_about_cb), window);
-	
+
 	/* other objects */
 	window->priv->notebook = glade_xml_get_widget(glade, "notebook");
 	g_signal_connect(window->priv->notebook, "switch-page", G_CALLBACK(mud_window_notebook_page_change), window);
@@ -793,20 +807,20 @@ G_CALLBACK(mud_window_list_cb), window);
 	window->priv->image = glade_xml_get_widget(glade, "image");
 
 	g_signal_connect(glade_xml_get_widget(glade, "plugin_list"), "activate", G_CALLBACK(do_plugin_information), NULL);
-	
+
 	pluginMenu = glade_xml_get_widget(glade, "plugin_menu_menu");
 
 	window->priv->current_view = NULL;
 	window->priv->nr_of_tabs = 0;
 
-	
+
 	g_signal_connect(window->priv->window, "configure-event", G_CALLBACK(mud_window_size_request), window);
 
 	window->priv->profileMenuList = NULL;
 	mud_window_populate_profiles_menu(window);
 
 	window->priv->tray = mud_tray_new(window, window->priv->window);
-	
+
 	g_object_unref(glade);
 }
 
@@ -830,9 +844,9 @@ mud_window_finalize (GObject *object)
 
 	for(entry = window->priv->mud_views_list; entry != NULL; entry = g_slist_next(entry))
 	{
-		g_object_unref(((MudViewEntry *)entry->data)->view);	
+		g_object_unref(((MudViewEntry *)entry->data)->view);
 	}
-	
+
 	g_free(window->priv);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
@@ -850,13 +864,13 @@ mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, guint length,
 	PLUGIN_DATA *pd;
 
 	viewlist = window->priv->mud_views_list;
-	
+
 	for(entry = viewlist; entry != NULL; entry = g_slist_next(entry))
 	{
 		mudview = (MudViewEntry *)entry->data;
-		
+
 		if(mudview->id == id)
-		{	
+		{
 			if(dir)
 			{
 				for(plugin_list = g_list_first(Plugin_data_list); plugin_list != NULL; plugin_list = plugin_list->next)
@@ -864,17 +878,17 @@ mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, guint length,
 					if(plugin_list->data != NULL)
 					{
 						pd = (PLUGIN_DATA *)plugin_list->data;
-			
+
 						if(pd->plugin && pd->plugin->enabled && (pd->dir == PLUGIN_DATA_IN))
 						{
 						    GString *buf = g_string_new(NULL);
 						    int i;
-						    
+
 						    for(i = 0; i < length; i++)
 						        g_string_append_c(buf, data[i]);
-						        
+
 							(*pd->datafunc)(pd->plugin, buf->str, length, mudview->view);
-							
+
 							g_string_free(buf, FALSE);
 						}
 					}
@@ -888,17 +902,17 @@ mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, guint length,
 					if(plugin_list->data != NULL)
 					{
 						pd = (PLUGIN_DATA *)plugin_list->data;
-			
+
 						if(pd->plugin && pd->plugin->enabled && (pd->dir == PLUGIN_DATA_OUT))
 						{
 							GString *buf = g_string_new(NULL);
 						    int i;
-						    
+
 						    for(i = 0; i < length; i++)
 						        g_string_append_c(buf, data[i]);
-						        
+
 							(*pd->datafunc)(pd->plugin, buf->str, length, mudview->view);
-							
+
 							g_string_free(buf, FALSE);
 						}
 					}
@@ -912,10 +926,9 @@ MudWindow*
 mud_window_new (GConfClient *client)
 {
 	MudWindow *window;
-	
+
 	window = g_object_new(MUD_TYPE_WINDOW, NULL);
 	window->priv->gconf_client = client;
 
 	return window;
 }
-

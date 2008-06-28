@@ -40,17 +40,17 @@ struct _MudListWindowPrivate
 	gchar *CurrSelRowText;
 	gchar *CurrSelMud;
 	gchar *CurrIterStr;
-	
+
 	GtkWidget *dialog;
-	
+
 	GtkWidget *btnAdd;
 	GtkWidget *btnEdit;
 	GtkWidget *btnDel;
 	GtkWidget *btnClose;
-	
+
 	GtkWidget *MudListTreeView;
 	GtkWidget *MudDetailTextView;
-	
+
 	GtkTreeStore *MudListTreeStore;
 	GtkTreeViewColumn *col;
 	GtkCellRenderer *renderer;
@@ -113,10 +113,10 @@ mud_list_window_init (MudListWindow *mudlist)
 	GladeXML *glade;
 
 	mudlist->priv = g_new0(MudListWindowPrivate, 1);
-	
+
 	mudlist->priv->mudList = NULL;
 	mudlist->priv->CurrSelRow = -1; // Nothing selected.
-	
+
 	glade = glade_xml_new(GLADEDIR "/muds.glade", "mudlist_window", NULL);
 	mudlist->priv->dialog = glade_xml_get_widget(glade, "mudlist_window");
 	mudlist->priv->btnAdd = glade_xml_get_widget(glade, "btnAdd");
@@ -125,31 +125,31 @@ mud_list_window_init (MudListWindow *mudlist)
 	mudlist->priv->btnClose = glade_xml_get_widget(glade, "btnClose");
 	mudlist->priv->MudListTreeView = glade_xml_get_widget(glade, "MudListTreeView");
 	mudlist->priv->MudDetailTextView = glade_xml_get_widget(glade, "MudDetailTextView");
-	
+
 	g_signal_connect(G_OBJECT(mudlist->priv->btnAdd), "clicked", G_CALLBACK(mud_list_window_add_cb), mudlist);
 	g_signal_connect(G_OBJECT(mudlist->priv->btnEdit), "clicked", G_CALLBACK(mud_list_window_edit_cb), mudlist);
 	g_signal_connect(G_OBJECT(mudlist->priv->btnDel), "clicked", G_CALLBACK(mud_list_window_del_cb), mudlist);
-	g_signal_connect(G_OBJECT(mudlist->priv->btnClose), "clicked", G_CALLBACK(mud_list_window_close_cb), mudlist);	
-	
+	g_signal_connect(G_OBJECT(mudlist->priv->btnClose), "clicked", G_CALLBACK(mud_list_window_close_cb), mudlist);
+
 	/* I hate GtkTreeView and its loathsome ilk */
   	mudlist->priv->MudListTreeStore = gtk_tree_store_new(N_COLUMNS, G_TYPE_STRING);
   	gtk_tree_view_set_model(GTK_TREE_VIEW(mudlist->priv->MudListTreeView), GTK_TREE_MODEL(mudlist->priv->MudListTreeStore));
-  	
+
   	gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(mudlist->priv->MudListTreeView), TRUE);
   	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(mudlist->priv->MudListTreeView), FALSE);
   	mudlist->priv->col = gtk_tree_view_column_new();
- 	
+
   	gtk_tree_view_append_column(GTK_TREE_VIEW(mudlist->priv->MudListTreeView), mudlist->priv->col);
   	mudlist->priv->renderer = gtk_cell_renderer_text_new();
   	gtk_tree_view_column_pack_start(mudlist->priv->col, mudlist->priv->renderer, TRUE);
   	gtk_tree_view_column_add_attribute(mudlist->priv->col, mudlist->priv->renderer, "text", NAME_COLUMN);
-  	
+
   	gtk_tree_selection_set_select_function(gtk_tree_view_get_selection(GTK_TREE_VIEW(mudlist->priv->MudListTreeView)), mud_list_window_tree_select_cb, mudlist, NULL);
-	
+
 	mud_list_window_populate_treeview(mudlist);
-	
+
 	gtk_window_resize(GTK_WINDOW(mudlist->priv->dialog), 400,200);
-	
+
 	gtk_widget_show_all(mudlist->priv->dialog);
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(mudlist->priv->dialog), TRUE);
 	gtk_window_present(GTK_WINDOW(mudlist->priv->dialog));
@@ -172,14 +172,14 @@ mud_list_window_finalize (GObject *object)
 	GObjectClass *parent_class;
 
 	mudlist = MUD_LIST_WINDOW(object);
-	
+
 	g_free(mudlist->priv);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
 	parent_class->finalize(object);
 }
 
-void 
+void
 mud_list_window_populate_treeview(MudListWindow *mudlist)
 {
 	GtkTreeStore* store = GTK_TREE_STORE(mudlist->priv->MudListTreeStore);
@@ -190,43 +190,43 @@ mud_list_window_populate_treeview(MudListWindow *mudlist)
 	GConfClient *client;
 	GError *error = NULL;
 	gchar keyname[2048];
-	
+
 	client = gconf_client_get_default();
 
 	gtk_tree_store_clear(store);
-	
+
 	gtk_widget_set_sensitive(mudlist->priv->btnEdit, FALSE);
 	gtk_widget_set_sensitive(mudlist->priv->btnDel, FALSE);
-	
+
 	gtk_text_buffer_set_text(buffer, "", 0);
-	
+
 	muds = gconf_client_get_list(gconf_client_get_default(), "/apps/gnome-mud/muds/list", GCONF_VALUE_STRING, NULL);
 
 	for (entry = muds; entry != NULL; entry = g_slist_next(entry))
 	{
 		mname = g_strdup((gchar *) entry->data);
-		
+
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/name", mname);
-		
+
 		gtk_tree_store_append(store, &iter, NULL);
 		gtk_tree_store_set(store, &iter, NAME_COLUMN, gconf_client_get_string(client, keyname, &error), -1);
 		g_free(mname);
-	}	
+	}
 	g_slist_free(muds);
 }
 
 // Mudlist Callbacks
-void 
+void
 mud_list_window_add_cb(GtkWidget *widget, MudListWindow *mudlist)
 {
 	gchar name[1024];
 
 	g_snprintf(name, 1024, "New MUD %d", gtk_tree_model_iter_n_children(GTK_TREE_MODEL(mudlist->priv->MudListTreeStore),NULL) + 1);
-	
+
 	mud_window_mudedit_new(name, mudlist,TRUE);
 }
 
-void 
+void
 mud_list_window_edit_cb(GtkWidget *widget, MudListWindow *mudlist)
 {
 	mud_window_mudedit_new(mudlist->priv->CurrSelRowText, mudlist, FALSE);
@@ -238,12 +238,12 @@ mud_list_window_del_cb(GtkWidget *widget, MudListWindow *mudlist)
 	GSList *muds, *entry, *rementry;
 	GConfClient *client;
 	GError *error = NULL;
-	
+
 	rementry = NULL;
 	rementry = g_slist_append(rementry, NULL);
 
 	client = gconf_client_get_default();
-	
+
 	muds = gconf_client_get_list(client, "/apps/gnome-mud/muds/list", GCONF_VALUE_STRING, &error);
 
 	for (entry = muds; entry != NULL; entry = g_slist_next(entry))
@@ -253,28 +253,28 @@ mud_list_window_del_cb(GtkWidget *widget, MudListWindow *mudlist)
 			rementry->data = entry->data;
 		}
 	}
-			
-	
+
+
 	muds = g_slist_remove(muds, rementry->data);
-	 
-	gconf_client_set_list(client, "/apps/gnome-mud/muds/list", GCONF_VALUE_STRING, muds, &error);	
-	
-	mud_list_window_populate_treeview(mudlist);	
+
+	gconf_client_set_list(client, "/apps/gnome-mud/muds/list", GCONF_VALUE_STRING, muds, &error);
+
+	mud_list_window_populate_treeview(mudlist);
 }
 
-void 
+void
 mud_list_window_close_cb(GtkWidget *widget, MudListWindow *mudlist)
 {
 	gtk_widget_destroy(mudlist->priv->dialog);
 	mud_list_window_finalize(G_OBJECT(mudlist));
 }
 
-gboolean 
+gboolean
 mud_list_window_tree_select_cb(GtkTreeSelection *selection,
 			       GtkTreeModel     *model,
 			       GtkTreePath      *path,
 			       gboolean          path_currently_selected,
-			       gpointer          userdata) 
+			       gpointer          userdata)
 {
 	GtkTreeIter iter;
 	MudListWindow *mudlist = (MudListWindow *)userdata;
@@ -285,13 +285,13 @@ mud_list_window_tree_select_cb(GtkTreeSelection *selection,
 	GError *error = NULL;
 
 	gtk_text_buffer_set_text(buffer, "", 0);
-	
-	if (gtk_tree_model_get_iter(model, &iter, path)) 
+
+	if (gtk_tree_model_get_iter(model, &iter, path))
 	{
 		client = gconf_client_get_default();
-		
+
 		gtk_tree_model_get(model, &iter, 0, &mudlist->priv->CurrSelRowText, -1);
-    	
+
 		mudlist->priv->CurrSelRow = (gtk_tree_path_get_indices(path))[0];
 		mudlist->priv->CurrIterStr = gtk_tree_model_get_string_from_iter(model, &iter);
 
@@ -299,16 +299,16 @@ mud_list_window_tree_select_cb(GtkTreeSelection *selection,
 		gtk_widget_set_sensitive(mudlist->priv->btnDel, TRUE);
 
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/desc", remove_whitespace(mudlist->priv->CurrSelRowText));
-		
+
 		desc = gconf_client_get_string(client, keyname, &error);
 		if(desc)
 		{
 			gtk_text_buffer_set_text(buffer, desc, strlen(desc));
-			g_free(desc);			
+			g_free(desc);
 		}
-		
+
 	}
-	
+
 	return TRUE;
 }
 
@@ -320,5 +320,5 @@ mud_window_mudlist_new(void)
 
 	mudlist = g_object_new(MUD_TYPE_LIST_WINDOW, NULL);
 
-	return mudlist;	
+	return mudlist;
 }

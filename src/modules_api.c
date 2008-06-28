@@ -63,20 +63,20 @@ gboolean plugin_register_menu (GModule *handle, gchar *name, gchar *function)
 	/* Stupid hack for gmodule */
 	temp = (void *)&sig_function;
 	sigptr = (gpointer *)temp;
-	
+
     if (!g_module_symbol(handle, function, sigptr))
 	{
     		g_message (_("Error while registering the menu: %s"), g_module_error());
     		return FALSE;
   	}
-  	
+
 	newMenuItem = gtk_menu_item_new_with_label(name);
 	gtk_widget_show(newMenuItem);
-	
+
 	gtk_menu_shell_prepend(GTK_MENU_SHELL(pluginMenu), newMenuItem);
 
 	gtk_signal_connect(GTK_OBJECT(newMenuItem), "activate", sig_function, NULL);
-	
+
 	return TRUE;
 }
 
@@ -90,7 +90,7 @@ gboolean plugin_register_data (GModule *handle, gchar *function, PLUGIN_DATA_DIR
   /* Stupid hack for Gmodule */
   temp = (void *)&datafunc;
   dataptr = (gpointer *)temp;
-  
+
   if (!g_module_symbol(handle, function, dataptr))
   {
     g_message (_("Error while registering data %s: %s"), dir == PLUGIN_DATA_IN ? "incoming" : "outgoing",
@@ -109,7 +109,7 @@ gboolean plugin_register_data (GModule *handle, gchar *function, PLUGIN_DATA_DIR
   Plugin_data_list = g_list_append(Plugin_data_list, (gpointer) data);
 
   PluginGag = FALSE;
-  
+
   return TRUE;
 }
 

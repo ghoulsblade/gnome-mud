@@ -25,8 +25,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "mud-regex.h" 
-#include "mud-parse-base.h"   
+#include "mud-regex.h"
+#include "mud-parse-base.h"
 #include "mud-parse-alias.h"
 #include "mud-parse-trigger.h"
 #include "mud-connection-view.h"
@@ -50,7 +50,7 @@ struct _MudParseBasePrivate
 	MudRegex *regex;
 	MudParseAlias *alias;
 	MudParseTrigger *trigger;
-	
+
 	MudConnectionView *parentview;
 };
 
@@ -90,9 +90,9 @@ mud_parse_base_get_type (void)
 
 static void
 mud_parse_base_init (MudParseBase *pb)
-{	
+{
 	pb->priv = g_new0(MudParseBasePrivate, 1);
-	
+
 	pb->priv->regex = mud_regex_new();
 	pb->priv->alias = mud_parse_alias_new();
 	pb->priv->trigger = mud_parse_trigger_new();
@@ -113,7 +113,7 @@ mud_parse_base_finalize (GObject *object)
 	GObjectClass *parent_class;
 
 	parse_base = MUD_PARSE_BASE(object);
-	
+
 	g_free(parse_base->priv);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
@@ -121,19 +121,19 @@ mud_parse_base_finalize (GObject *object)
 }
 
 // MudParseBase Methods
-gboolean 
+gboolean
 mud_parse_base_do_triggers(MudParseBase *base, gchar *data)
 {
 	return mud_parse_trigger_do(data, base->priv->parentview, base->priv->regex, base->priv->trigger);
 }
 
-gboolean 
+gboolean
 mud_parse_base_do_aliases(MudParseBase *base, gchar *data)
 {
 	return mud_parse_alias_do(data, base->priv->parentview, base->priv->regex, base->priv->alias);
 }
 
-void 
+void
 mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020], MudConnectionView *view, MudRegex *regex)
 {
 	gint i, state, len, reg_num, reg_len, startword, endword, replace_len, curr_char;
@@ -143,7 +143,7 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
 	gchar *send_line = NULL;
 	ParseObject *po = NULL;
 	GSList *parse_list, *entry;
-	
+
 	parse_list = NULL;
 	len = strlen(data);
 
@@ -152,7 +152,7 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
 		state = PARSE_STATE_REGISTER;
 	else
 		state = PARSE_STATE_TEXT;
-		
+
 	for(i = 0; i < len; i++)
 	{
 		switch(state)
@@ -165,7 +165,7 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
 
 				po->data = g_strdup(charbuf);
 				po->type = TOKEN_TYPE_TEXT;
-				
+
 				if(i + 1 <= len)
 				{
 					if((data[i+1] == '%' && i + 2 <=len && !g_ascii_isdigit(data[i+2])) || data[i+1] != '%')
@@ -174,16 +174,16 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
 						state = PARSE_STATE_REGISTER;
 				}
 			break;
-			
+
 			case PARSE_STATE_INTEXT:
 				g_snprintf(charbuf, 2, "%c", data[i]);
 				po->data = g_strconcat((const gchar *)po->data, charbuf, NULL);
-				
+
 				if(i + 2 <= len)
 					if(data[i+1] == '%' && g_ascii_isdigit(data[i+2])) // % by itself isn't a register.
-						state = PARSE_STATE_REGISTER;			
+						state = PARSE_STATE_REGISTER;
 			break;
-			
+
 			case PARSE_STATE_REGISTER:
 				po = g_malloc(sizeof(ParseObject));
 				parse_list = g_slist_prepend(parse_list, (gpointer)po);
@@ -191,14 +191,14 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
 				g_snprintf(charbuf, 2, "%%");
 				po->data = g_strdup(charbuf);
 				po->type = TOKEN_TYPE_REGISTER;
-				
+
 				state = PARSE_STATE_INREGISTER;
 			break;
-			
+
 			case PARSE_STATE_INREGISTER:
 				g_snprintf(charbuf, 2, "%c", data[i]);
 				po->data = g_strconcat((const gchar *)po->data, charbuf, NULL);
-				
+
 				if(i + 1 <= len)
 				{
 					if(data[i + 1] == '%' && g_ascii_isdigit(data[i+2]))
@@ -212,19 +212,19 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
 
 
 	/* We prepend items to the list for speed but we need
-	   to reverse it back into the proper order */ 
+	   to reverse it back into the proper order */
 	if(parse_list)
 		parse_list = g_slist_reverse(parse_list);
-	
-	
+
+
 	// Parse what our lexer/tokenizer gave us.
 
 	for(entry = parse_list; entry != NULL; entry = g_slist_next(entry))
 	{
 		ParseObject *myParse;
-		
+
 		myParse = (ParseObject *)entry->data;
-		
+
 		switch(myParse->type)
 		{
 			case TOKEN_TYPE_TEXT:
@@ -236,34 +236,34 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
 				else
 					send_line = g_strconcat((const gchar *)send_line, (const gchar *)myParse->data, NULL);
 			break;
-			
+
 			case TOKEN_TYPE_REGISTER:
 				reg_len = strlen((gchar *)myParse->data);
-				
+
 				/* If you need more than 510 registers, tough luck ;) -lh */
 				if(reg_len < 512)
 				{
 					gint k;
 					gint curr_digit;
 					gchar reg_buf[512];
-					
+
 					for(k=0,curr_digit=1; k < strlen((gchar *)myParse->data)-1; ++k, ++curr_digit)
 						reg_buf[k] = (gchar)myParse->data[curr_digit];
 					reg_buf[strlen((gchar *)myParse->data)-1] = '\0';
-					
+
 					reg_num = (gint)g_strtod(reg_buf, NULL);
-					
+
 					startword = ovector[reg_num << 1];
 					endword = ovector[(reg_num << 1) + 1];
-					
+
 					replace_len = endword - startword;
-					
+
 					replace_text = malloc(replace_len * sizeof(gchar));
-					
+
 					for(i = 0, curr_char = startword; i < replace_len; i++, curr_char++)
 						replace_text[i] = stripped_data[curr_char];
 					replace_text[replace_len] = '\0';
-					
+
 					if(new_send_line)
 					{
 						new_send_line = FALSE;
@@ -271,7 +271,7 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
 					}
 					else
 						send_line = g_strconcat((const gchar *)send_line, (const gchar *)replace_text, NULL);
-						
+
 					g_free(replace_text);
 				}
 				else
@@ -284,17 +284,17 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
 	for(entry = parse_list; entry != NULL; entry = g_slist_next(entry))
 	{
 		ParseObject *myParse;
-		
+
 		myParse = (ParseObject *)entry->data;
-		
+
 		g_free((myParse->data));
 		g_free(myParse);
 	}
-	
+
 	g_slist_free(parse_list);
-	
+
 	// We're done, send our parsed trigger actions!
-	mud_connection_view_send(view, (const gchar *)send_line);	
+	mud_connection_view_send(view, (const gchar *)send_line);
 	g_free(send_line);
 }
 
@@ -303,10 +303,10 @@ MudParseBase*
 mud_parse_base_new(MudConnectionView *parentview)
 {
 	MudParseBase *pb;
-	
+
 	pb = g_object_new(MUD_TYPE_PARSE_BASE, NULL);
-	
+
 	pb->priv->parentview = parentview;
-	
-	return pb;	
+
+	return pb;
 }

@@ -39,7 +39,7 @@ struct _MudLogPrivate
 	gchar *name;
 	gchar *filename;
 	gchar *dir;
-	
+
 	FILE *logfile;
 };
 
@@ -85,7 +85,7 @@ static void
 mud_log_init (MudLog *log)
 {
 	log->priv = g_new0(MudLogPrivate, 1);
-	
+
 	log->priv->active = FALSE;
 	log->priv->logfile = NULL;
 	log->priv->name = NULL;
@@ -106,7 +106,7 @@ mud_log_finalize (GObject *object)
 	GObjectClass *parent_class;
 
 	MLog = MUD_LOG(object);
-		
+
 	g_free(MLog->priv);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
@@ -115,7 +115,7 @@ mud_log_finalize (GObject *object)
 
 // MudLog Methods
 
-void 
+void
 mud_log_open(MudLog *log)
 {
 	gchar buf[1024];
@@ -123,77 +123,77 @@ mud_log_open(MudLog *log)
 	time_t t;
 
 	g_snprintf(buf, 1024, "%s/.gnome-mud/logs/%s", g_get_home_dir(), log->priv->name);
-	
+
 	log->priv->dir = g_strdup(buf);
-	
+
 	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
-		if(mkdir(buf, 0777 ) == -1) 
+		if(mkdir(buf, 0777 ) == -1)
 			return;
 
 	g_snprintf(nameBuf, 1024, "%s.log", log->priv->name);
-	
+
 	log->priv->filename = g_build_path( G_DIR_SEPARATOR_S, log->priv->dir, nameBuf, NULL);
 	log->priv->logfile = fopen(log->priv->filename, "a");
 
 	if (log->priv->logfile)
 	{
-		time(&t); 
-		strftime(buf, 1024, 
-				 _("\n*** Log starts *** %d/%m/%Y %H:%M:%S\n"), 
+		time(&t);
+		strftime(buf, 1024,
+				 _("\n*** Log starts *** %d/%m/%Y %H:%M:%S\n"),
 				 localtime(&t));
 		fprintf(log->priv->logfile, buf);
 	}
-	
+
 	log->priv->active = TRUE;
 }
 
-void 
-mud_log_write(MudLog *log, gchar *data, gsize size) 
+void
+mud_log_write(MudLog *log, gchar *data, gsize size)
 {
 	gchar *stripData;
 	gint stripSize = 0;
-	
+
 	if(log->priv->logfile == NULL || data == NULL)
 		return;
-	
+
 	stripData = strip_ansi((const gchar *)data);
 	stripSize = strlen(stripData);
-	
+
 	fwrite(stripData, 1, stripSize, log->priv->logfile);
-	
+
 	g_free(stripData);
 }
 
-void 
-mud_log_close(MudLog *log) 
+void
+mud_log_close(MudLog *log)
 {
 	gchar buf[255];
 	time_t t;
-	
+
 	if(log->priv->logfile == NULL)
 		return;
-		
-	time(&t); 
+
+	time(&t);
 	strftime(buf, 255,
 			_("\n *** Log stops *** %d/%m/%Y %H:%M:%S\n"),
 			localtime(&t));
 
 	fprintf(log->priv->logfile, buf);
 	fclose(log->priv->logfile);
-	
+
 	log->priv->active = FALSE;
 }
 
-void 
-mud_log_remove(MudLog *log) 
+void
+mud_log_remove(MudLog *log)
 {
 	if(log->priv->active)
 		mud_log_close(log);
-	
+
 	unlink(log->priv->filename);
 }
 
-gboolean 
+gboolean
 mud_log_islogging(MudLog *log)
 {
 	return log->priv->active;
@@ -201,7 +201,7 @@ mud_log_islogging(MudLog *log)
 
 // MudLog Utility Functions
 
-void 
+void
 mud_log_write_hook(MudLog *log, gchar *data, gint length)
 {
 	if(log->priv->active)
@@ -213,13 +213,13 @@ MudLog*
 mud_log_new(gchar *mudName)
 {
 	MudLog *MLog;
-	
+
 	if( mudName == NULL)
 		return NULL;
-		
+
 	MLog = g_object_new(MUD_TYPE_LOG, NULL);
-	
+
 	MLog->priv->name = mudName;
-	
-	return MLog;	
+
+	return MLog;
 }

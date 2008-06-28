@@ -29,38 +29,37 @@
 /* TTYPE */
 void MudHandler_TType_Enable(MudTelnet *telnet, MudTelnetHandler *handler);
 void MudHandler_TType_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
-void MudHandler_TType_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
+void MudHandler_TType_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     guint len, MudTelnetHandler *handler);
-    
+
 /* NAWS */
 void MudHandler_NAWS_Enable(MudTelnet *telnet, MudTelnetHandler *handler);
 void MudHandler_NAWS_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
-void MudHandler_NAWS_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
+void MudHandler_NAWS_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     guint len, MudTelnetHandler *handler);
-    
+
 /* ECHO */
 void MudHandler_ECHO_Enable(MudTelnet *telnet, MudTelnetHandler *handler);
 void MudHandler_ECHO_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
-void MudHandler_ECHO_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
+void MudHandler_ECHO_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     guint len, MudTelnetHandler *handler);
-    
+
 /* EOR */
 void MudHandler_EOR_Enable(MudTelnet *telnet, MudTelnetHandler *handler);
 void MudHandler_EOR_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
-void MudHandler_EOR_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
+void MudHandler_EOR_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     guint len, MudTelnetHandler *handler);
-    
+
 /* CHARSET */
 void MudHandler_CHARSET_Enable(MudTelnet *telnet, MudTelnetHandler *handler);
 void MudHandler_CHARSET_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
-void MudHandler_CHARSET_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
+void MudHandler_CHARSET_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     guint len, MudTelnetHandler *handler);
 
 /* ZMP */
 void MudHandler_ZMP_Enable(MudTelnet *telnet, MudTelnetHandler *handler);
 void MudHandler_ZMP_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
-void MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
+void MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     guint len, MudTelnetHandler *handler);
-    
-#endif // MUD_TELNET_HANDLERS_H
 
+#endif // MUD_TELNET_HANDLERS_H

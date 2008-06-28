@@ -17,7 +17,7 @@ typedef struct _MudParseAliasPrivate     MudParseAliasPrivate;
 struct _MudParseAlias
 {
 	GObject parent_instance;
-	
+
 	MudParseAliasPrivate *priv;
 };
 

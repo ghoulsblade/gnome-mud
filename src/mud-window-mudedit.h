@@ -19,7 +19,7 @@ typedef struct _MudEditWindowPrivate     MudEditWindowPrivate;
 struct _MudEditWindow
 {
 	GObject parent_instance;
-	
+
 	MudEditWindowPrivate *priv;
 };
 

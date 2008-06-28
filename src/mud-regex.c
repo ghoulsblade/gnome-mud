@@ -26,8 +26,8 @@
 #include <string.h>
 #include <glib/gprintf.h>
 
-#include "mud-regex.h"    
-            
+#include "mud-regex.h"
+
 struct _MudRegexPrivate
 {
 	const gchar **substring_list;
@@ -71,8 +71,8 @@ mud_regex_get_type (void)
 static void
 mud_regex_init (MudRegex *regex)
 {
-	regex->priv = g_new0(MudRegexPrivate, 1);	
-	
+	regex->priv = g_new0(MudRegexPrivate, 1);
+
 	regex->priv->substring_list = NULL;
 	regex->priv->substring_count = 0;
 }
@@ -92,7 +92,7 @@ mud_regex_finalize (GObject *object)
 	GObjectClass *parent_class;
 
 	regex = MUD_REGEX(object);
-	
+
 	g_free(regex->priv);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
@@ -101,7 +101,7 @@ mud_regex_finalize (GObject *object)
 
 // MudRegex Methods
 
-gboolean 
+gboolean
 mud_regex_check(const gchar *data, guint length, const gchar *rx, gint ovector[1020], MudRegex *regex)
 {
 	pcre *re = NULL;
@@ -109,41 +109,41 @@ mud_regex_check(const gchar *data, guint length, const gchar *rx, gint ovector[1
 	gint errorcode;
 	gint erroroffset;
 	gint rc;
-	
+
 	re = pcre_compile2(rx, 0, &errorcode, &error, &erroroffset, NULL);
-	
+
 	if(!re)
 	{
 		gint i;
-		
+
 		/* This should never be called since we check the regex validity
 		   at entry time.  But You Never Know(tm) so its here to catch
 		   any runtime errors that cosmic rays, evil magic, errant gconf
 		   editing, and Monday mornings might produce.					*/
-		   
+
 		g_warning("Error in Regex! - ErrCode: %d - %s", errorcode, error);
 		g_printf("--> %s\n    ", rx);
-		
+
 		for(i = 0; i < erroroffset - 1; i++)
 			g_printf(" ");
-		
+
 		g_printf("^\n");
-		
+
 		return FALSE;
-		
+
 	}
 
 	rc = pcre_exec(re, NULL, data, length, 0, 0, ovector, 1020);
 
 	if(rc < 0)
 		return FALSE;
-		
+
 	if(regex->priv->substring_list)
 		pcre_free_substring_list(regex->priv->substring_list);
-		
+
 	pcre_get_substring_list(data, ovector, rc, &regex->priv->substring_list);
 	regex->priv->substring_count = rc;
-	
+
 	return TRUE;
 }
 
@@ -153,23 +153,23 @@ mud_regex_test(const gchar *data, guint length, const gchar *rx, gint *rc, const
 	pcre *re = NULL;
 	gint ovector[1020];
 	const gchar **sub_list;
-	
+
 	if(!data)
 	    return NULL;
-	    
+
 	re = pcre_compile2(rx, 0, errorcode, error, erroroffset, NULL);
 
 	if(!re)
 		return NULL;
-	
+
 	*rc = pcre_exec(re, NULL, data, length, 0, 0, ovector, 1020);
-	
+
 	pcre_get_substring_list(data, ovector, *rc, &sub_list);
-	
+
 	return sub_list;
 }
 
-void 
+void
 mud_regex_substring_clear(const gchar **substring_list)
 {
 	pcre_free_substring_list(substring_list);
@@ -188,8 +188,8 @@ MudRegex*
 mud_regex_new(void)
 {
 	MudRegex *regex;
-	
+
 	regex = g_object_new(MUD_TYPE_REGEX, NULL);
-	
-	return regex;	
+
+	return regex;
 }

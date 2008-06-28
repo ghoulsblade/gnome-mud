@@ -40,14 +40,14 @@ void gm_gconf_load_preferences(MudProfile *profile)
 	gchar     dirname[256], buf[256];
 	gchar    *p = NULL;
 	gchar     extra_path[512] = "", keyname[2048];
-	
+
 	gconf_client = gconf_client_get_default();
 	prefs = profile->preferences;
 
 	if (strcmp(profile->name, "Default"))
 	{
 		GError *error = NULL;
-		
+
 		/* Sanity check for whether profile has data or not */
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/functionality/terminal_type", profile->name);
 		p = gconf_client_get_string(gconf_client, keyname, &error);
@@ -57,12 +57,12 @@ void gm_gconf_load_preferences(MudProfile *profile)
 			mud_profile_copy_preferences(mud_profile_new("Default"), profile);
 		}
 		else
-		{	
+		{
 			g_snprintf(extra_path, 512, "profiles/%s/", profile->name);
 		}
 	}
 
-	
+
 	/*
 	 * Check for ~/.gnome-mud
 	 */
@@ -75,7 +75,7 @@ void gm_gconf_load_preferences(MudProfile *profile)
 			//popup_window (buf); FIXME
 			return;
 		}
-	} 
+	}
 	else /* it must not exist */
 	{
 		if ((mkdir (dirname, 0777)) != 0) /* this isn't dangerous, umask modifies it */
@@ -98,7 +98,7 @@ void gm_gconf_load_preferences(MudProfile *profile)
 #define GCONF_GET_INT(entry, subdir, variable)                                             \
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/%s" #subdir "/" #entry, extra_path); \
 	prefs->variable = gconf_client_get_int(gconf_client, keyname, NULL);
-	
+
 #define GCONF_GET_COLOR(entry, subdir, variable)                                           \
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/%s" #subdir "/" #entry, extra_path); \
 	p = gconf_client_get_string(gconf_client, keyname, NULL);\
@@ -107,7 +107,7 @@ void gm_gconf_load_preferences(MudProfile *profile)
 		prefs->variable = color;                                                            \
 	}
 
-	GCONF_GET_STRING(font, 				ui,				FontName); 
+	GCONF_GET_STRING(font, 				ui,				FontName);
 	GCONF_GET_COLOR(foreground_color,	ui,				Foreground);
 	GCONF_GET_COLOR(background_color,	ui,				Background);
 	GCONF_GET_INT(scrollback_lines,		ui,				Scrollback);
@@ -126,7 +126,7 @@ void gm_gconf_load_preferences(MudProfile *profile)
 	GCONF_GET_BOOLEAN(use_proxy,        functionality,  UseProxy);
 	GCONF_GET_BOOLEAN(remote_encoding,  functionality,  UseRemoteEncoding);
 	GCONF_GET_STRING(proxy_hostname,    functionality,  ProxyHostname);
-	
+
 	/* palette */
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/%sui/palette", extra_path);
 	p = gconf_client_get_string(gconf_client, keyname, NULL);
@@ -138,7 +138,7 @@ void gm_gconf_load_preferences(MudProfile *profile)
 		{
 		        g_printerr(ngettext("Palette had %d entry instead of %d\n",
 					    "Palette had %d entries instead of %d\n",
-					    n_colors), 
+					    n_colors),
 				   n_colors, C_MAX);
 		}
 		memcpy(prefs->Colors, colors, C_MAX * sizeof(GdkColor));
@@ -168,7 +168,7 @@ void gm_gconf_load_preferences(MudProfile *profile)
 		gchar** unusual_exits;
 		unusual_exits = g_malloc0(sizeof(char) * (strlen(p) + 2));
 		unusual_exits = g_strsplit(p, ";", 100);
-	
+
 		for (i = 0; unusual_exits[i] != NULL; i++)
 		{
 			unusual_exits[i] = g_strstrip(unusual_exits[i]);

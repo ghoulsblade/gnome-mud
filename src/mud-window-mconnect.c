@@ -44,11 +44,11 @@ struct _MudMConnectWindowPrivate
 	gchar *SelChar;
 	gchar *SelConnect;
 	gint SelPort;
-	
+
 	GtkWidget *dialog;
 
 	GtkWidget *mudView;
-	
+
 	GtkWidget *btnConnect;
 	GtkWidget *btnClose;
 
@@ -64,7 +64,7 @@ struct _MudMConnectWindowPrivate
 
 	MudWindow *window;
 	GtkWidget *winwidget;
-	
+
 	MudTray *tray;
 };
 
@@ -125,13 +125,13 @@ mud_mconnect_window_init (MudMConnectWindow *mconnect)
 	GladeXML *glade;
 
 	mconnect->priv = g_new0(MudMConnectWindowPrivate, 1);
-	
+
 	glade = glade_xml_new(GLADEDIR "/connect.glade", "main_connect", NULL);
-	
+
 	mconnect->priv->dialog = glade_xml_get_widget(glade, "main_connect");
-	
+
 	mconnect->priv->mudView = glade_xml_get_widget(glade, "mudView");
-	
+
 	mconnect->priv->btnConnect = glade_xml_get_widget(glade, "btnConnect");
 	mconnect->priv->btnClose = glade_xml_get_widget(glade, "btnClose");
 
@@ -145,19 +145,19 @@ mud_mconnect_window_init (MudMConnectWindow *mconnect)
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(mconnect->priv->profileCombo), mconnect->priv->comborender, "text", 0, NULL);
 
 	mud_mconnect_populate_profiles(mconnect);
-	
+
 	mconnect->priv->store = gtk_tree_store_new(N_COLUMNS, G_TYPE_STRING);
   	gtk_tree_view_set_model(GTK_TREE_VIEW(mconnect->priv->mudView), GTK_TREE_MODEL(mconnect->priv->store));
-  	
+
   	gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(mconnect->priv->mudView), TRUE);
   	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(mconnect->priv->mudView), FALSE);
   	mconnect->priv->col = gtk_tree_view_column_new();
- 	
+
   	gtk_tree_view_append_column(GTK_TREE_VIEW(mconnect->priv->mudView), mconnect->priv->col);
   	mconnect->priv->renderer = gtk_cell_renderer_text_new();
   	gtk_tree_view_column_pack_start(mconnect->priv->col, mconnect->priv->renderer, TRUE);
   	gtk_tree_view_column_add_attribute(mconnect->priv->col, mconnect->priv->renderer, "text", NAME_COLUMN);
-  	
+
   	gtk_tree_selection_set_select_function(gtk_tree_view_get_selection(GTK_TREE_VIEW(mconnect->priv->mudView)), mud_mconnect_select_cb, mconnect, NULL);
 
 	mud_mconnect_window_populate_treeview(mconnect);
@@ -166,7 +166,7 @@ mud_mconnect_window_init (MudMConnectWindow *mconnect)
 	g_signal_connect(G_OBJECT(mconnect->priv->btnClose), "clicked", G_CALLBACK(mud_mconnect_window_close_cb), mconnect);
 
 	gtk_window_resize(GTK_WINDOW(mconnect->priv->dialog), 400,200);
-	
+
 	gtk_widget_show_all(mconnect->priv->dialog);
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(mconnect->priv->dialog), TRUE);
 	gtk_window_present(GTK_WINDOW(mconnect->priv->dialog));
@@ -189,14 +189,14 @@ mud_mconnect_window_finalize (GObject *object)
 	GObjectClass *parent_class;
 
 	MudMConnect = MUD_MCONNECT_WINDOW(object);
-	
+
 	g_free(MudMConnect->priv);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
 	parent_class->finalize(object);
 }
 
-void 
+void
 mud_mconnect_populate_profiles(MudMConnectWindow *mconnect)
 {
 	GSList *profiles, *entry;
@@ -206,9 +206,9 @@ mud_mconnect_populate_profiles(MudMConnectWindow *mconnect)
 	GtkTreeIter iter;
 
 	client = gconf_client_get_default();
-	
+
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/list");
-	
+
 	profiles = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
 	for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
 	{
@@ -228,33 +228,33 @@ mud_mconnect_window_populate_treeview(MudMConnectWindow *mconnect)
 	GError *error = NULL;
 	gchar keyname[2048];
 	int show;
-	
+
 	gtk_tree_store_clear(store);
-	
+
 	client = gconf_client_get_default();
-	
+
 	muds = gconf_client_get_list(client, "/apps/gnome-mud/muds/list", GCONF_VALUE_STRING, &error);
 
 	gtk_widget_set_sensitive(mconnect->priv->btnConnect,FALSE);
-	
+
 	for (entry = muds; entry != NULL; entry = g_slist_next(entry))
 	{
 		mname = g_strdup((gchar *) entry->data);
-		
+
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/show", mname);
-		
+
 		show = gconf_client_get_int(client, keyname, &error);
 
 		if(show)
 		{
 			g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/name", mname);
-			
+
 			gtk_tree_store_append(store, &iter, NULL);
 			gtk_tree_store_set(store, &iter, NAME_COLUMN, gconf_client_get_string(client, keyname, &error), -1);
 
 			g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/list", mname);
 			chars = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
-			
+
 			for(centry = chars; centry != NULL; centry = g_slist_next(centry))
 			{
 				gtk_tree_store_append(store, &child, &iter);
@@ -263,19 +263,19 @@ mud_mconnect_window_populate_treeview(MudMConnectWindow *mconnect)
 		}
 
 		g_free(mname);
-	}	
+	}
 }
 // MudMConnectWindow Callbacks
-void 
+void
 mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconnect)
 {
 	if(mconnect->priv->SelPort < 1)
 		mconnect->priv->SelPort = 23;
-		
+
 	mud_tray_update_icon(mconnect->priv->tray, offline);
-	
+
 	mconnect->priv->view = mud_connection_view_new("Default", mconnect->priv->SelHost, mconnect->priv->SelPort, mconnect->priv->winwidget, (GtkWidget *)mconnect->priv->tray, mconnect->priv->CurrSelMud);
-	
+
 	mud_window_add_connection_view(mconnect->priv->window, mconnect->priv->view, mconnect->priv->CurrSelMud);
 
 	mud_connection_view_set_profile(mconnect->priv->view, get_profile((const gchar *)mud_profile_from_number(gtk_combo_box_get_active(GTK_COMBO_BOX(mconnect->priv->profileCombo)))));
@@ -289,13 +289,13 @@ mud_mconnect_window_connect_cb(GtkWidget *widget, MudMConnectWindow *mconnect)
 	gtk_widget_destroy(mconnect->priv->dialog);
 }
 
-void 
+void
 mud_mconnect_window_close_cb(GtkWidget *widget, MudMConnectWindow *mconnect)
 {
 	gtk_widget_destroy(mconnect->priv->dialog);
 }
 
-gboolean 
+gboolean
 mud_mconnect_select_cb(GtkTreeSelection *selection,
                       GtkTreeModel     *model,
                       GtkTreePath      *path,
@@ -310,29 +310,29 @@ mud_mconnect_select_cb(GtkTreeSelection *selection,
 	gchar keyname[2048];
 	gchar *name = NULL;
 
-	
+
 	client = gconf_client_get_default();
 
 	mconnect->priv->SelChar = NULL;
 	mconnect->priv->SelConnect = NULL;
-		
-	if (gtk_tree_model_get_iter(model, &iter, path)) 
-	{		
+
+	if (gtk_tree_model_get_iter(model, &iter, path))
+	{
 		gtk_tree_model_get(model, &iter, 0, &mconnect->priv->CurrSelRowText, -1);
-    	
+
 		mconnect->priv->CurrSelRow = (gtk_tree_path_get_indices(path))[0];
-		mconnect->priv->CurrIterStr = gtk_tree_model_get_string_from_iter(model, &iter);	
-		
+		mconnect->priv->CurrIterStr = gtk_tree_model_get_string_from_iter(model, &iter);
+
 		apath = gtk_tree_path_new_from_indices(mconnect->priv->CurrSelRow,-1);
-		
+
 		gtk_tree_model_get_iter(model, &top, apath);
 		gtk_tree_model_get(model, &top, 0, &mconnect->priv->CurrSelMud,-1);
-		
+
 		name = remove_whitespace(mconnect->priv->CurrSelMud);
-		
+
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/host", name);
 		mconnect->priv->SelHost = gconf_client_get_string(client, keyname, &error);
-		
+
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/port",name);
 		mconnect->priv->SelPort = gconf_client_get_int(client, keyname, &error);
 		if(strcmp(mconnect->priv->CurrSelRowText,mconnect->priv->CurrSelMud) != 0)
@@ -341,15 +341,15 @@ mud_mconnect_select_cb(GtkTreeSelection *selection,
 			g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/chars/%s/connect", name, mconnect->priv->SelChar);
 			mconnect->priv->SelConnect = gconf_client_get_string(client, keyname, &error);
 		}
-		
+
 		g_snprintf(keyname, 2048, "/apps/gnome-mud/muds/%s/profile", name);
 		gtk_combo_box_set_active(GTK_COMBO_BOX(mconnect->priv->profileCombo),gconf_client_get_int(client, keyname, &error));
 
 		gtk_widget_set_sensitive(mconnect->priv->btnConnect,TRUE);
-		
+
 		g_free(name);
 	}
-	
+
 	return TRUE;
 }
 
@@ -358,12 +358,12 @@ MudMConnectWindow*
 mud_window_mconnect_new(MudWindow *win, GtkWidget *winwidget, MudTray *tray)
 {
 	MudMConnectWindow *MudMConnect;
-	
+
 	MudMConnect = g_object_new(MUD_TYPE_MCONNECT_WINDOW, NULL);
 
 	MudMConnect->priv->window = win;
 	MudMConnect->priv->winwidget = winwidget;
 	MudMConnect->priv->tray = tray;
-	
-	return MudMConnect;	
+
+	return MudMConnect;
 }

@@ -67,7 +67,7 @@ mud_parse_alias_get_type (void)
 static void
 mud_parse_alias_init (MudParseAlias *pa)
 {
-	
+
 }
 
 static void
@@ -85,14 +85,14 @@ mud_parse_alias_finalize (GObject *object)
 	GObjectClass *parent_class;
 
 	parse_alias = MUD_PARSE_ALIAS(object);
-	
+
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
 	parent_class->finalize(object);
 }
 
 // MudParseAlias Methods
-gboolean 
+gboolean
 mud_parse_alias_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudParseAlias *alias)
 {
 	gchar *profile_name;
@@ -105,40 +105,40 @@ mud_parse_alias_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudPar
 	gint enabled;
 	gint ovector[1020];
 	gboolean send_line = TRUE;
-	
+
 	client = gconf_client_get_default();
-	
+
 	profile_name = mud_profile_get_name(mud_connection_view_get_current_profile(view));
-	
+
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/aliases/list", profile_name);
 	aliases = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
-	
+
 	for (entry = aliases; entry != NULL; entry = g_slist_next(entry))
-	{	
-		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/aliases/%s/enabled", profile_name, (gchar *)entry->data);	
+	{
+		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/aliases/%s/enabled", profile_name, (gchar *)entry->data);
 		enabled = gconf_client_get_int(client, keyname, &error);
 
 		if(enabled)
-		{			
+		{
 			g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/aliases/%s/regex", profile_name, (gchar *)entry->data);
 			regexstr = gconf_client_get_string(client, keyname, &error);
-			
+
 			if(mud_regex_check((const gchar *)data, strlen(data), regexstr, ovector, regex))
-			{		
+			{
 				g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/aliases/%s/actions", profile_name, (gchar *)entry->data);
 				actions = gconf_client_get_string(client, keyname, &error);
-				
+
 				send_line = FALSE;
 				mud_parse_base_parse((const gchar *)actions, data, ovector, view, regex);
-				
+
 				if(actions)
 					g_free(actions);
 			}
-			
+
 			if(regexstr)
 				g_free(regexstr);
 		}
-	}	
+	}
 
 	if(aliases)
 		g_slist_free(aliases);
@@ -151,8 +151,8 @@ MudParseAlias*
 mud_parse_alias_new(void)
 {
 	MudParseAlias *pa;
-	
+
 	pa = g_object_new(MUD_TYPE_PARSE_ALIAS, NULL);
-	
-	return pa;	
+
+	return pa;
 }

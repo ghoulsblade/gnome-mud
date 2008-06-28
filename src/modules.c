@@ -17,7 +17,7 @@
  */
 
 /*
-** This module/plug-in API is slighly based on the API in gEdit. 
+** This module/plug-in API is slighly based on the API in gEdit.
 */
 
 #ifndef __MODULES_C__
@@ -68,7 +68,7 @@ PLUGIN_OBJECT *plugin_get_plugin_object_by_handle (GModule  *handle)
   GList         *t;
 
   for (t = g_list_first(Plugin_list); t != NULL; t = t->next) {
-      
+
     if (t->data != NULL) {
       p = (PLUGIN_OBJECT *) t->data;
 
@@ -90,14 +90,14 @@ PLUGIN_OBJECT static *plugin_get_plugin_object_by_name (gchar *name)
 		if (t->data != NULL)
 		{
 			p = (PLUGIN_OBJECT *) t->data;
-      
+
 			if (!strcmp (p->info->plugin_name, name))
 			{
 				return p;
 			}
 		}
 	}
-    
+
 	return NULL;
 }
 
@@ -109,7 +109,7 @@ static void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
   GError *err = NULL;
 
   client = gconf_client_get_default();
-  
+
   gtk_clist_get_text ((GtkCList *) data, plugin_selected_row, 0, &text);
 
   p = plugin_get_plugin_object_by_name (text);
@@ -124,7 +124,7 @@ static void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
     }
 
     g_snprintf(path, 128, "/apps/gnome-mud/Plugins/%s/enbl", p->name);
-    gconf_client_set_bool(client, path, p->enabled, &err);    
+    gconf_client_set_bool(client, path, p->enabled, &err);
   }
 }
 
@@ -142,14 +142,14 @@ static void plugin_clist_select_row_cb (GtkWidget *clist, gint r, gint c, GdkEve
 	{
 		GtkTextBuffer *buffer;
 		GtkWidget *plugin_desc_text = gtk_object_get_data(GTK_OBJECT(clist), "plugin_desc_text");
-	  
+
 		gtk_entry_set_text (GTK_ENTRY (gtk_object_get_data(GTK_OBJECT(clist), "plugin_name_entry")),    p->info->plugin_name);
 		gtk_entry_set_text (GTK_ENTRY (gtk_object_get_data(GTK_OBJECT(clist), "plugin_author_entry")),  p->info->plugin_author);
 		gtk_entry_set_text (GTK_ENTRY (gtk_object_get_data(GTK_OBJECT(clist), "plugin_version_entry")), p->info->plugin_version);
 
 		buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(plugin_desc_text));
 		gtk_text_buffer_set_text(buffer, p->info->plugin_descr, -1);
-    
+
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtk_object_get_data(GTK_OBJECT(clist), "plugin_enable_check")), p->enabled);
 	}
 }
@@ -187,7 +187,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   GtkWidget *plugin_version_entry;
   GtkWidget *plugin_desc_text;
   GtkWidget *plugin_enable_check;
-  
+
   if (dialog1 != NULL) {
     gtk_window_present (GTK_WINDOW (dialog1));
     return;
@@ -196,7 +196,7 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   dialog1 = gtk_dialog_new();
   gtk_object_set_data (GTK_OBJECT (dialog1), "dialog1", dialog1);
   gtk_widget_set_usize (dialog1, 430, -2);
- 
+
   gtk_window_set_title(GTK_WINDOW(dialog1), _("Plugin Information"));
   gtk_window_set_policy (GTK_WINDOW (dialog1), FALSE, FALSE, FALSE);
 
@@ -362,11 +362,11 @@ void do_plugin_information(GtkWidget *widget, gpointer data)
   gtk_object_set_data(GTK_OBJECT(clist1), "plugin_author_entry",  plugin_author_entry);
   gtk_object_set_data(GTK_OBJECT(clist1), "plugin_version_entry", plugin_version_entry);
   gtk_object_set_data(GTK_OBJECT(clist1), "plugin_desc_text",     plugin_desc_text);
-  gtk_object_set_data(GTK_OBJECT(clist1), "plugin_enable_check",  plugin_enable_check);  
+  gtk_object_set_data(GTK_OBJECT(clist1), "plugin_enable_check",  plugin_enable_check);
 
   g_list_foreach (Plugin_list, (GFunc) plugin_clist_append, clist1);
   gtk_clist_select_row (GTK_CLIST (clist1), 0, 0);
- 
+
   gtk_widget_show(dialog1);
 }
 
@@ -380,32 +380,32 @@ int init_modules(char *path)
     g_message(_("Plugin error (%s)"), path);
     return FALSE;
   }
-  
+
   while ((direntity = readdir(directory))) {
     PLUGIN_OBJECT *plugin;
     gchar *suffix;
-    
+
     if (strrchr(direntity->d_name, '/'))
       shortname = (gchar *) strrchr(direntity->d_name, '/') + 1;
     else
       shortname = direntity->d_name;
-    
+
     if (!strcmp(shortname, ".") || !strcmp(shortname, ".."))
       continue;
-    
+
     suffix = (gchar *) strrchr(direntity->d_name, '.');
     if (!suffix || strcmp(suffix, ".plugin"))
       continue;
-    
+
     plugin = plugin_query(direntity->d_name, path);
     if (!plugin)
       continue;
-    
+
     plugin_register(plugin);
   }
-  
+
   closedir(directory);
-  
+
   return TRUE;
 }
 
@@ -416,9 +416,9 @@ PLUGIN_OBJECT *plugin_query (gchar *plugin_name, gchar *plugin_path)
 
     new_plugin->name = g_strdup(plugin_name);
     sprintf (filename, "%s%s", plugin_path, plugin_name);
-    
+
 	new_plugin->handle = g_module_open(filename, G_MODULE_BIND_LAZY);
-	
+
     if(new_plugin == NULL)
     {
         g_message (_("Error getting plugin handle (%s): %s."), plugin_name, g_module_error());
@@ -426,7 +426,7 @@ PLUGIN_OBJECT *plugin_query (gchar *plugin_name, gchar *plugin_path)
     } else {
         void *data = &new_plugin->info;
         gpointer *info = (gpointer *)data;
-        
+
  		if(!g_module_symbol(new_plugin->handle, "gnomemud_plugin_info", info))
         {
             g_message (_("Error, %s not an GNOME-Mud module: %s."), plugin_name, g_module_error());
@@ -462,7 +462,7 @@ void plugin_register(PLUGIN_OBJECT *plugin)
     plugin_check_enable(plugin);
 
     Plugin_list = g_list_append(Plugin_list, (gpointer) plugin);
-    
+
     if (plugin->info->init_function) {
       plugin->info->init_function(NULL, plugin->handle);
     }
@@ -470,14 +470,14 @@ void plugin_register(PLUGIN_OBJECT *plugin)
 void popup_message(const gchar *data)
 {
 	GtkWidget *dialog;
-	
+
 	dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, data);
 
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
 }
 
-void 	       
+void
 init_modules_win(MudWindow *win)
 {
 	gGMudWindow = win;

@@ -27,15 +27,15 @@ remove_whitespace(gchar *string)
 	gint i;
 	GString *s = g_string_new(NULL);
 	gchar *ret;
-	
+
 	for(i = 0; i < strlen(string); i++)
 		if(!g_ascii_isspace(string[i]))
 			g_string_append_c(s, string[i]);
-			
+
 	ret = g_strdup(s->str);
-	
+
 	g_string_free(s, TRUE);
-	
+
 	return ret;
 }
 
@@ -46,13 +46,13 @@ strip_ansi(const gchar *orig)
   const gchar *c;
   gint currChar = 0;
 
-  if (!orig) 
+  if (!orig)
     return NULL;
 
   buf = g_malloc(strlen(orig) * sizeof(gchar));
-  for (c = orig; *c;) 
+  for (c = orig; *c;)
   {
-    switch (*c) 
+    switch (*c)
     {
     	case '\x1B': // Esc Character
       		while (*c && *c++ != 'm') ;
@@ -66,7 +66,7 @@ strip_ansi(const gchar *orig)
 			buf[currChar++] = *c++;
     }
   }
-  
+
   return buf;
 }
 
@@ -75,4 +75,3 @@ utils_activate_url(GtkAboutDialog *about, const gchar *url, gpointer data)
 {
     // use gtk_show_uri when available.
 }
-

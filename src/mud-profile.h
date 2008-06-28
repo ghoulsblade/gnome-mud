@@ -37,10 +37,10 @@ struct _MudPrefs
 	gint       FlushInterval;
 	GdkColor   Foreground;
 	GdkColor   Background;
-	
+
 	GSList	  *alias_names;
 	GSList	  *trigger_names;
-	
+
 	gboolean UseRemoteEncoding;
 	gboolean UseProxy;
 	gchar *Encoding;
@@ -83,7 +83,7 @@ typedef struct
 struct _MudProfileClass
 {
 	GObjectClass parent_class;
-	
+
 	void (* changed) (MudProfile *profile, MudProfileMask *mask, gpointer data);
 };
 

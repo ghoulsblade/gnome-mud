@@ -1,4 +1,15 @@
+2008-06-27  Les Harris  <me@lesharris.com>
+
+	* gnome-mud-schemas.in: Added in the new schemas for the new gconf
+	preferences.
+
+	* src/mud-window.c: Made the text entry widget auto-grab focus when
+	the terminal comes into focus.
+
+	* src/*.[ch]: Removed trailing whitespace in all source files.
+
 2008-06-26  Les Harris  <me@lesharris.com>
+
 	* src/Makefile.am: Added mud-telnet-zmp.[ch]
 
 	* src/mud-telnet.[ch]: Added support for ZMP, removed debugging messages.
@@ -6,26 +17,28 @@
 	* src/mud-connection-view.c: Added function call to clean up after ZMP.
 
 2008-06-25  Les Harris  <me@lesharris.com>
+
 	* ui/*.glade: Updated windows hints and made every window resizable to
 	increase usability.
-	
+
 	* ui/prefs.glade: Removed Terminal type preference and Command History
 	preference. Added ui for proxy and encoding support.
-	
+
 	* src/mud-profile.[ch]: Added in gconf handling and profile support for
 	proxies and encoding. Fixed a segmentation fault when the command seperator
 	was NULL and when the command seperator was entered by itself.
-	
+
 	* src/gconf-helper.[ch]: Added support for the new proxy and encoding
 	preferences.
-	
+
 	* src/mud-connection-view.[ch]: Fixed an issue involving local echo and
 	trigger responses.  Added support for proxy use and encoding.
-	
+
 	* src/mud-telnet-handlers.[ch], mud-telnet.[ch]: Added support for the
 	CHARSET telnet option.
 
 2008-06-25  Les Harris  <me@lesharris.com>
+
 	* src/Makefile.am: Added mud-telnet-handlers.[ch]
 	* src/mud-telnet-handlers.[ch]: New files which implement the telnet
 	options. ECHO, NAWS, and TTYPE.
@@ -49,21 +62,23 @@
 	for the EOR telnet option.  Implemented functions for NAWS and ECHO
 	support.  The telnet parser now handles NOP.  The telnet parsers handles
 	GA and TEL_EOR_BYTE as NOPs currently (this will change, they will be used
-	to pass text to triggers).  
+	to pass text to triggers).
 
 	* src/mud-window.c: Added call to mud_connection_view_send_naws() in the
 	size-request callback.
 
 2008-06-21  Les Harris  <me@lesharris.com>
+
 	* configure.ac: Removed gnomevfs, will wait for gtk 2.14.
 
 	* src/Makefile.am: Converted spaces to tabs.
-	
+
 	* src/utils.[ch]: Removed gnome vfs url show.
 
 	* src/mud-telnet.[ch]: Actually added the files now, whoops.
 
 2008-06-21  Les Harris  <me@lesharris.com>
+
 	* src/Makefile.am: Added mud-telnet.[ch]
 	* src/mud-telnet.[ch]: New files which implement the telnet protocol.
 	Converted from wxMud's implementation.
@@ -71,6 +86,7 @@
 	network code.
 
 2008-06-20  Les Harris  <me@lesharris.com>
+
 	* plugins/test.plug/Makefile, plugins/statusbars/Makefile,
 	plugins/outputwindows/Makefile, plugins/automapper/Makefile:
 	Updated the dependencies in the plugins makefiles.  Added -fPIC to
@@ -80,8 +96,8 @@
 	plugins/statusbars/main.c, plugins/test.plugin/main.c: Updated the
 	data_in_function to accept a parameter passing the length of the data.
 
-	* src/mudregex.[ch], src/mud-parse-alias.c, src/mud-parse-trigger.c, 
-	src/mud-window.c, src/mud-connection-view.c, src/modules-structures.h: 
+	* src/mudregex.[ch], src/mud-parse-alias.c, src/mud-parse-trigger.c,
+	src/mud-window.c, src/mud-connection-view.c, src/modules-structures.h:
 	Changed the plugin api to provide the length of the data recieved. This
 	helps stop segmentation faults when malformed (non-null terminated) data
 	is passed in.
@@ -91,8 +107,9 @@
 	most current addition.
 
 2008-06-20  Les Harris  <me@lesharris.com>
+
 	* configure.ac: Removed dependency on libgnetwork, added dependency to gnet.
-	* src/gnome-mud.[ch], src/mud-connection-view.[ch]: Removed libgnetwork 
+	* src/gnome-mud.[ch], src/mud-connection-view.[ch]: Removed libgnetwork
 	calls and replaced them with gnet calls.
 
 	* src/mud-window.c: Stopped using glade for the about box, moved it
@@ -101,17 +118,19 @@
 
 	* src/mud-connection-view.c, src/mud-window.c, src/mud-window-mudedit.c,
 	src/mud-window-mconnect.c, src/mud-parse-base.c, src/modules.c,
-	src/mud-window-mudlist.c, src/mud-window-profile.c, src/mud-profile.c: 
+	src/mud-window-mudlist.c, src/mud-window-profile.c, src/mud-profile.c:
 	Fixed various include problems to remove compile time warnings.
 
 	* src/modules.c: Added explicit cast from void* to gpointer* to avoid type-
 	punning warning at compile time.
 
 2008-06-20  Les Harris  <me@lesharris.com>
+
 	* src/mud-window.c: Fixed a segmentation fault when history was used with
 	no open connection.
 
 2008-06-17  Les Harris  <me@lesharris.com>
+
 	* src/mud-window.c, src/mud-connection-view.c, src/mud-connection-view.h:
 	Added in input history support for our text entry widget.
 
@@ -227,7 +246,7 @@
 
 	* src/mud-window.c, ui/main.glade: Re-implement the input box as
 	a GtkTextView that adjusts its height as necessary.
-	
+
 	Return/Enter sends text, Return/Enter with any modifier keys goes
 	to next line in the input box, adjusting height as necessary.
 	A largest height of 5 is used, after which a scrollbar is used --
@@ -262,7 +281,7 @@
 	Buffer menu items to not sensitive on startup.
 
 	* src/gnome-mud.c: Now adds various folders into its directory if they
-	do not exist (plugins, logs).  
+	do not exist (plugins, logs).
 
 	* src/mud-connection-view.[ch]: Added in support for the MudLog
 	object.	Also added in two accessor functions to facilitate logging
@@ -276,23 +295,23 @@
 
 2006-04-09  Paul Esson  <paul.esson@gmail.com>
 
-	* src/mud-tray.c: Bugfix, fixes problem with two text boxes 
+	* src/mud-tray.c: Bugfix, fixes problem with two text boxes
 	appearing simultaneously.
 
 	* ui/main.glade:  Adds Connect, Disconnect & Reconnect buttons.
 	Changes menu icons for Connect & Reconnect to gtk-standard icons.
-	
-	* src/mud-window.c (mud_window_inputtoggle_cb, 
+
+	* src/mud-window.c (mud_window_inputtoggle_cb,
 	mud_window_size_request, mud_window_init): Stops use of gtkpaned
 	replaced with vbox in glade edit.
 
-	* src/mud-window.[ch] (mud_window_init): Added callback for 
+	* src/mud-window.[ch] (mud_window_init): Added callback for
 	buttons from glade edit.
 
-	(mud_window_add_connection_view): Added code to display either 
-	the MUDs name as listed in the mudlist, or the MUDs hostname, 
+	(mud_window_add_connection_view): Added code to display either
+	the MUDs name as listed in the mudlist, or the MUDs hostname,
 	depending on the connection method.
-	
+
 2006-02-14  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/mud-preferences.[ch]: Removed.
@@ -300,7 +319,7 @@
 2006-02-08  Daniel Patton  <seven-nation@army.com>
 
 	* src/gnome-mud.h:  Removed a whole heap of cruft.
-	
+
 2006-02-03  Daniel Patton  <seven-nation@army.com>
 
 	* src/mud-window.c (mud_window_textentry_activate): Added code to
@@ -391,10 +410,10 @@
 
 	* src/svg/Makefile.am: Added file, will install gnome-mud.svg into
 	  gmud's datadir.
-	  
+
 	* src/mud-window-profile.c, src/mud-window-profile.h: Added files,
 	  they implement the profile managment window.
-	
+
 	* src/mud-preferences.c, src/mud-preferences.h,
 	  src/mud-connection-view.c, src/mud-connection-view.h,
 	  src/mud-profile.c, src/mud-profile.h, src/mud-window.c,
@@ -402,7 +421,7 @@
 	  src/mud-window-mconnect.h, mud-window-mudedit.c,
 	  mud-window-mudedit.h: Implemented profile gui allowing users to
 	  change and manage their profiles on a mud by mud basis.
-	 
+
 	* src/mud-window.c: Replaced compilation information with our
 	  attractive gnome-mud svg.
 
@@ -522,7 +541,7 @@
 	src/mud-window.c: add slashes to all glade file references.
 
 2005-12-26  Les Harris  <lescom@comcast.net>
-	
+
 	* Add Mud List support.
 	* Add Mud Connection support with data derived from Mud List.
 	* ui/main.glade: Split into multiple glade files.
@@ -591,7 +610,7 @@
 
 2005-03-07  Robin Ericsson  <lobbin@localhost.nu>
 
-	* gnome-mud.schemas.in, ui/directions.glade: Changed short name to 
+	* gnome-mud.schemas.in, ui/directions.glade: Changed short name to
 	"Directional keybindings", fixes bugs #169184.
 
 2005-03-04  Robin Ericsson  <lobbin@localhost.nu>
@@ -647,7 +666,7 @@
 	(mud_connection_view_init): Changed callback for profile-change.
 	(mud_connection_view_send): Now process command for separator.
 	(mud_connection_view_set_*): Changed prefs to profile.
-	(mud_connection_view_profile_changed_cb): Added callback for 
+	(mud_connection_view_profile_changed_cb): Added callback for
 	profile changes.
 	(mud_connection_view_new): Now loads default profile.
 
@@ -670,9 +689,9 @@
 	added return if notifying.
 
 	* src/mud-profile.c [_MudProfilePrivate]: Added gconf_client, prefs
-	and in_notification_count. 
+	and in_notification_count.
 	(General): Moved a lot of functions from mud-preferences.c to
-	mud-profile.c and renamed. 
+	mud-profile.c and renamed.
 
 	* ui/main.glade: Added aliases tab.
 
@@ -863,7 +882,7 @@
 	* src/mud-profile.h [_MudPrefs]: Added.
 	[_MudProfile]: Added preferences member.
 
-	* ui/main.glade [preferences-window]: Changed responsetype of 
+	* ui/main.glade [preferences-window]: Changed responsetype of
 	button to GTK_RESPONSE_CLOSE.
 
 2004-06-16  Robin Ericsson  <lobbin@localhost.nu>
@@ -899,7 +918,7 @@
 	(mud_preferences_window_new): Takes a MudPreferences as argument
 	instead of GConfClient.
 
-	* src/mud-preferences-window.h (mud_preferences_window_new): 
+	* src/mud-preferences-window.h (mud_preferences_window_new):
 	Changed prototype.
 
 	* src/mud-preferences.c [MudPreferencesPrivate]: Added profile_list.
@@ -951,7 +970,7 @@
 
 	* src/mud-window.c [_MudWindowPrivate]: Added current_view and
 	nr_of_tabs.
-	(mud_window_add_connection_view): Added checks for whether the 
+	(mud_window_add_connection_view): Added checks for whether the
 	standard label should be removed and whether to display the tabs.
 	(mud_window_get_current_view): Removed.
 	(mud_window_remove_connection_view): Added.
@@ -973,7 +992,7 @@
 	* src/mud-connection-view.c (mud_connection_view_reconnect): Added.
 	(mud_connection_view_send): Added.
 	(mud_connection_view_new): Added authentication-type and proxy-type.
-	
+
 	* src/mud-connection-view.h: Added prototypes.
 
 	* src/mud-window.c [_MudWindowPrivate]: Added textentry.
@@ -981,7 +1000,7 @@
 	(mud_window_textentry_keypress): Added.
 	(mud_window_textentry_activate): Added.
 	(mud_window_init): Connect reconnect button and textentry.
-	
+
 	* ui/main.glade: Added default width and height.
 	Changed named of reconnect-buttons and textentries.
 
@@ -1011,7 +1030,7 @@
 	(mud_connection_view_disconnect): Added.
 	(mud_connection_view_new_with_params): Moved into _new().
 
-	* src/mud-connection-view.h [_MudConnection]: Changed connection from 
+	* src/mud-connection-view.h [_MudConnection]: Changed connection from
 	MudConnection to GNetworkTcpConnection.
 	[MudConnectionColorType]: Added.
 
@@ -1031,7 +1050,7 @@
 	* configure.ac: Tipped version, added libglade and changed version of
 	libgnome, libgnomeui and vte.
 
-	* src/Makefile.am: Added GLADEDIR define, also removed a lot of 
+	* src/Makefile.am: Added GLADEDIR define, also removed a lot of
 	sourcefiles to be compiled, these will have to added later.
 
 	* src/gnome-mud.c: Remove globals, and code not used for the moment.
@@ -1141,7 +1160,7 @@
 2004-01-09  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/tray.c (tray_menu): Show/Hide labels were inverted.
-	
+
 	* src/pixmaps/Makefile.am: Embarrasing error...
 
 2004-01-09  Jordi Mallach  <jordi@sindominio.net>
@@ -1189,7 +1208,7 @@
 	intltool-modules/XML/Parser/Style/OrigTree.pm.
 
 	* NEWS: Updated.
-	
+
 	* configure.ac: Released gnome-mud 0.10.4a.
 
 2003-12-22  Jordi Mallach  <jordi@sindominio.net>
@@ -1199,7 +1218,7 @@
 2003-12-22  Jordi Mallach  <jordi@sindominio.net>
 
 	* NEWS: Updated for 0.10.4.
-	
+
 	* configure.ac: Release gnome-mud 0.10.4.
 
 2003-12-19  Robin Ericsson  <lobbin@localhost.nu>
@@ -1207,7 +1226,7 @@
 	* Applied patch from Quim Rovira.
 
 	* NEWS: Updated.
-	
+
 	* src/modules_api.c (plugin_connection_send): Added.
 
 	* src/modules_api.h (plugin_connection_send): Prototype added.
@@ -1216,7 +1235,7 @@
 	trigger parsing will only occur once.
 	(connection_send_data): Pass data through plugins registerd for
 	outbound data.
-	
+
 2003-12-18  Jordi Mallach  <jordi@sindominio.net>
 
 	* NEWS: Updated.
@@ -1354,7 +1373,7 @@
 
 	* src/data.c, src/profiles.c: Escape wizard- and profilenames when
 	used in gconf. Fixes bug #117241.
-	
+
 2003-07-14  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c (window_menu_help_about): Remove obsolete comment.
@@ -1435,7 +1454,7 @@
 
 2003-07-02  Abigail Brady  <morwen@evilmagic.org>
 
-	* src/telnet.c: Make it send out valid NAWS subnegs if our screen 
+	* src/telnet.c: Make it send out valid NAWS subnegs if our screen
 	size happens to contain	255 in its serialisation.
 
 	* src/telnet.c: Null-terminate the output buffer. Oops.
@@ -1456,18 +1475,18 @@
 
 2003-06-30  Robin Ericsson  <lobbin@localhost.nu>
 
-	* plugins/text.plugin: Make it compile again.	
+	* plugins/text.plugin: Make it compile again.
 
 	* src/Makefile.am: Remove GTK_ENABLE_BROKEN=1
 
 	* src/modules.c (plugin_clist_select_row_cb):
-	Changed from GtkText to GtkTextView. 
+	Changed from GtkText to GtkTextView.
 	(do_plugin_information): Ditto.
 
 	* src/modules_api.c [__MODULE__]: Remove define.
 
 	* src/mudlist.c: Rewrote to use GtkTreeModel and
-	GtkTextView instead of GtkTree and GtkText.  
+	GtkTextView instead of GtkTree and GtkText.
 
 2003-06-25  Jordi Mallach  <jordi@sindominio.net>
 
@@ -1560,9 +1579,9 @@ Wed Jun  4 19:53:54 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 Wed Jun  4 19:00:20 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/Makefile.am: Pass a few needed variables at compile time.
-	
+
 	* src/gnome-mud.c (main): Init gnome properly with gnome_program_init.
-	
+
 	* src/init.c (window_menu_help_manual_activate_cb): Show an error
 	message if viewing help fails.
 	(window_menu_plugin_api_manual_activate_cb): Likewise.
@@ -1613,7 +1632,7 @@ Wed May 28 13:26:44 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 Wed May 28 10:43:31 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
 
-	* Restructuring of gconf keys.	
+	* Restructuring of gconf keys.
 
 Tue May 20 12:41:44 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
@@ -1642,19 +1661,19 @@ Fri Apr  4 19:19:37 IST 2003  Naba Kumar   <naba@gnome.org>
 	* src/keybinding.c(keybind_button_add_clicked_cb): Fixed a memory leak.
 	Fixed a crash bug due to inappropriate looping of KEYBIND_DATA list
 	in a for loop (crash occurs when we try to add the second keybinding).
-	
+
 	* src/gnome-mud.h(main): Calls gnome_init() before
 	gconf_client_get_default() (and fixes a crash bug).
-	
+
 	* src/data.c(data_button_add): Fixed a crash bug (which occurs
 	when we try to add the second trigger definition). The argument
 	to the strdupv() should be a NULL terminated -- added third item
 	in list[] and set it to NULL.
-	
+
 Sat Apr  5 00:14:55 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: Define and substitute GETTEXT_PACKAGE.
-	
+
 	* src/prefs.c (window_prefs): Added missing mnemonic.
 
 Thu Apr  3 19:53:42 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
@@ -1663,10 +1682,10 @@ Thu Apr  3 19:53:42 CEST 2003  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/prefs.c (window_prefs): Reword some tooltips.
 	Add mnemonics to preferences.
-	
+
 	* src/init.c (window_menu_help_about): Unmark author names for
 	translation, as they have no non-ASCII characters.
-	
+
 	[help_menu]: Change help items to GNOME_APP_UI_ITEM.
 	(window_menu_help_manual_activate_cb): New function, launch User
 	Manual help.
@@ -1688,7 +1707,7 @@ Wed Apr  2 15:23:34 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 Wed Apr  2 10:23:57 CEST 2003  Robin Ericsson  <lobbin@localhost.nu>
 
-	* src/data.c (window_data): Changed to stock buttons. 
+	* src/data.c (window_data): Changed to stock buttons.
 
 	* src/init.c (destroy): Dialog rewritten.
 	(window_menu_file_connect): Dialog rewritten.
@@ -1767,7 +1786,7 @@ Tue Mar 11 10:47:28 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* configure.ac: VTE changed from 0.10.20 -> 0.10.26
 
-	* gnome-mud.schemas.int: Added keys last_log_dir and 
+	* gnome-mud.schemas.int: Added keys last_log_dir and
 	scrollback_lines.
 
 	* src/gnome-mud.h [system_data]: Added Scrollback.
@@ -1799,7 +1818,7 @@ Mon Mar 10 16:13:10 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/gnome-mud.h: Define TAB_LOCATION_*
 	[system_data]: Added TabLocation
-	
+
 	* src/init.c (main_window): Do not force GTK_POS_BOTTOM, remove
 	commented code.
 
@@ -1841,7 +1860,7 @@ Fri Mar  7 16:06:17 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 	* gnome-mud.schemas.in: Added keys terminal_type, mudlist_file,
 	background_color, foreground_color.
 
-	* src/init.c (create_connection_data): Set right colors on the 
+	* src/init.c (create_connection_data): Set right colors on the
 	terminal. Fixes bug #577598.
 
 	* src/prefs.c (color_to_string): Added.
@@ -1892,7 +1911,7 @@ Mon Feb 24 12:43:57 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 Fri Feb 21 12:27:34 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
-	* src/gnome-mud.h: Cleanup	
+	* src/gnome-mud.h: Cleanup
 
 	* src/init.c (create_connection_data): Created
 	(main_window): Cleanup
@@ -1911,7 +1930,7 @@ Tue Feb 18 15:22:32 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 Tue Feb 18 11:36:21 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Added patch from Petter which adds support for python-gtk2
-	
+
 	* src/init.c, log.c, net.c, window.c: initial support for vte
 
 	* src/precs.c (prefs_color_frame): Remove pango error.
@@ -1946,7 +1965,7 @@ Thu Jan  9 00:13:41 CET 2003  Jordi Mallach  <jordi@sindominio.net>
 	* gnome-mud.desktop: replaced...
 	* gnome-mud.desktop.in: ... by this.
 	* .cvsignore: update ignorable files.
-	
+
 
 Wed Jan  8 21:52:12 CET 2003  Jordi Mallach  <jordi@sindominio.net>
 
@@ -1995,7 +2014,7 @@ Wed Jan  8 09:34:47 CET 2003  Robin Ericsson  <lobbin@localhost.nu>
 	* po/*.po: Updated.
 
 	* src/*.c: GNOME2 changes.
-	
+
 Tue Nov 12 11:32:48 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/profiles.c: apply dos2unix to remove CRLF strings. Have been
@@ -2204,7 +2223,7 @@ Thu Feb 28 13:04:48 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* po/{es, de, ca, fr}.po: make update-po
 	* po/sv.po: added one missing string.
-	
+
 	* src/net.c (connection_send_telnet_control): Compile fix for
 	bug #523666.
 
@@ -2407,7 +2426,7 @@ Tue Feb  5 15:26:15 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 	(window_mudlist): Different behavior if called from wizard
 	or not.
 
-	* src/profiles.c (connections_fields_clean): Moved from 
+	* src/profiles.c (connections_fields_clean): Moved from
 	connections_button_info_cancel_cb.
 	(connections_button_info_fethc_cb): Added.
 
@@ -2486,13 +2505,13 @@ Fri Feb  1 17:35:44 CET 2002  Jordi Mallach  <jordi@sindominio.net>
 	python stuff.
 
 Fri Feb  1 15:34:32 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
-	
+
 	* Added patch from Vashti <vashti@jml.net> which adds support
 	for keypad keys for directions.
 
 	* CONTRIBUTERS: Added.
 	* src/gnome-mud.h (system_data): Added bool DisableKeys;
-	
+
 	* src/init.c (text_entry_send_command): Added.
 	(text_entry_key_press_cb): profilekeybinds can now override
 	system keybinds.
@@ -2527,7 +2546,7 @@ Fri Feb  1 09:19:36 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/gnome-mud.h (connection_data): Added foreground/background.
 	(system_data): Added Foreground/Background and Colors[16].
-	
+
 	* src/init.c (init_window): Use colors from prefs instead of
 	extern variables.
 
@@ -2547,7 +2566,7 @@ Fri Feb  1 09:19:36 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 	(prefs_set_color): Added.
 	(prefs_color_frame): Added.
 	(prefs_window): Added color frame. Removed old frame.
-	
+
 	* src/python.c: textfield_add fixed.
 
 	* src/window.c: Changed from extern colors to prefs.
@@ -2596,10 +2615,10 @@ Mon Jan 14 12:21:18 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/init.c (text_entry_key_press_cb): Added support for Page Up
 	and Page Down (Bug #481493)
-	(init_window): scrollbar changed to scrolled window, and now 
+	(init_window): scrollbar changed to scrolled window, and now
 	mousewheel works aswell :)
 
-	* src/net.c (make_connection): Removed scrollbar, and added 
+	* src/net.c (make_connection): Removed scrollbar, and added
 	scrolled window.
 
 Fri Jan 11 14:58:10 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
@@ -2611,7 +2630,7 @@ Fri Jan 11 14:58:10 CET 2002  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/gnome-mud.h [system_data]: Added MudListFile.
 	(window_mudlist): Added.
-	
+
 	* src/init.c [file_menu]: Added MudList to menu.
 
 	* src/mudlist.c: Added.
@@ -2794,7 +2813,7 @@ Thu Oct 25 15:04:56 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 Thu Oct 25 13:05:43 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
-	* src/profiles.c (profilelist_new_cb): Close this window when 
+	* src/profiles.c (profilelist_new_cb): Close this window when
 	parent window closes.
 	(profilelist_delete_cb): Close this window when parent window
 	closes.
@@ -2902,7 +2921,7 @@ Thu Oct 18 15:38:25 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 Thu Oct 18 14:38:10 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
-	* src/net.c [open_connection]: A little fix when not entering a 
+	* src/net.c [open_connection]: A little fix when not entering a
 	port.
 
 Thu Oct 18 10:22:21 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
@@ -2960,15 +2979,15 @@ Wed Oct 10 18:22:53 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 Wed Oct 10 16:52:38 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/init.c: renamed Connection Wizard menu entry.
-	
+
 	* configure.in: fixed things so po/ works again.
-	
+
 	* po/es.po: updated.
 
 Wed Oct 10 16:17:35 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/Makefile.am: dialog.c deleted.
-	
+
 	* src/dialog.c: Removed.
 
 	* src/init.c: Removed README and AUTHORS menu.
@@ -2985,20 +3004,20 @@ Wed Oct 10 13:32:21 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* mkhelp lobotomy! Removed Anything related to version.c or
 	author and readme .h's.
-	
+
 	* src/Makefile.mkhelp src/config.h.in src/mkhelp.c src/version.c
 	src/version.h.in: removed.
-	
+
 	* configure.in. Removed VERSION and PACKAGE cruft. It now
 	outputs	these defines to config.h.
-	
+
 	* Robin bumped version to 0.7.99.
-	
+
 	* po/POTFILES.in: removed version.c.
-	
+
 	* dialog.c: README and AUTHORS options should be removed. Right now,
 	they display a nice, blank box.
-	
+
 	* init.c: don't call get_version_info()
 
 	* automake.sh: removed echo's about version.c & cia.
@@ -3019,7 +3038,7 @@ Tue Oct  9 16:08:42 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 	* src/gnome-mud.c (main): Commented out some signaling, removed
 	loading of plugins, and loading of keys.
 
-	* src/gnome-mud.h: window_keybind() changed, and 
+	* src/gnome-mud.h: window_keybind() changed, and
 	profiledata_savekeys() added.
 
 	* src/init.c (destroy): Added profiledata_savekeys().
@@ -3065,7 +3084,7 @@ Thu Oct  4 15:23:18 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/gnome-mud.h, src/net.c (make_connection): Now takes a third
 	argument which is the profile being used, and Default if not found.
-	
+
 	* src/init.c, src/wizard.c: Pass profilename "Default" to
 	make_connection()
 
@@ -3092,7 +3111,7 @@ Thu Oct  4 13:56:33 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 Wed Oct  3 13:18:50 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
-	* src/data.c (save_data, load_data, data_button_delete):    
+	* src/data.c (save_data, load_data, data_button_delete):
 	Removed sensitivity of button_save, which is not in use
 	anymore.
 
@@ -3101,25 +3120,25 @@ Wed Oct  3 13:18:50 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 	(profilelist_new_cb): append clist with gnome_dialog call.
 	(profilelist_delete_cb): Check and delete from right ProfileList
 	and CList.
-	(window_profile_edit): Added a few signal for button new/delete    
+	(window_profile_edit): Added a few signal for button new/delete
 	and CList.
 
 Thu Sep 13 11:44:41 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Small changes to README.
-	
+
 Thu Aug 30 09:55:43 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/gnome-mud.h: Added window_profile_edit()
 
 	* src/init.c: Added "Profiles" to toolbarmenu.
 
-	* src/profiles.c (load_profiles): Fixed crash that appeared   
+	* src/profiles.c (load_profiles): Fixed crash that appeared
 	when running AMCL first time without config.
 	(window_profile_edit): Added better editor for profiles.
 
 	* po/*.po: make update-po, with profiles.c included.
-												
+
 Mon Aug 27 18:43:58 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* po/es.po: minor typo fix.
@@ -3129,7 +3148,7 @@ Sun Aug 12 20:52:41 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 	* src/net.c (read_from_connection): Changed buf from 2048 to 3000.
 
 	* src/window.c (textfield_add): Removed some old commented code.
-	
+
 Mon Jul  9 15:34:24 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 	* config.sub, config.guess: updated to latest versions to fix
@@ -3137,7 +3156,7 @@ Mon Jul  9 15:34:24 CEST 2001  Jordi Mallach  <jordi@sindominio.net>
 
 Tue Jun 19 22:58:29 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
-	* po/POTFILES.in, *.po: Added profiles.c to the list, and updated 
+	* po/POTFILES.in, *.po: Added profiles.c to the list, and updated
 	.po files.
 
 	* src/color.c: Small fixes, removed some GTK warnings.
@@ -3151,7 +3170,7 @@ Tue Jun 19 22:58:29 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/init.c (destroy): Added saving for profiles and connections.
 	(init_window): Added profiles, and remove old data*
-	
+
 	* src/data.c (data_button_close): Changed to new profiles.
 	(window_data): Changed to new profiles.
 
@@ -3188,7 +3207,7 @@ Thu May 31 22:05:49 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 Thu May 31 21:15:27 CEST 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/profiles.c: Added, going to contain the new connection wizard
-	
+
 	* src/gnome-mud.h, src/init.c: Added new function-def and added
 	new wizard to menu.
 
@@ -3209,10 +3228,10 @@ Wed Jan 24 20:59:31 CET 2001  Robin Ericsson  <lobbin@localhost.nu>
 
 Sat Jan 20 02:29:40 2001  Robin Ericsson  <lobbin@localhost.nu>
 
-	* Makefile.am, amcl-lsm, gnome-mud.lsm: renamed amcl.lsm 
+	* Makefile.am, amcl-lsm, gnome-mud.lsm: renamed amcl.lsm
 	to gnome-mud.lsm.
-	
-	* NEWS, PLUGIN.API, README, autogen.sh, configure.in: 
+
+	* NEWS, PLUGIN.API, README, autogen.sh, configure.in:
 	Changed AMCL to GNOME-Mud.
 
 	* src/amcl.c, src/gnome-mud.c, Makefile.am: amcl.c renamed
@@ -3302,8 +3321,8 @@ Tue Dec 26 15:42:34 2000  Robin Ericsson  <lobbin@localhost.nu>
 Sat Dec 23 11:24:08 CET 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Made a lot of changes, trying to make it completly gnome.
-	
-	* Added newer files for the gnome macros, and edited almost 
+
+	* Added newer files for the gnome macros, and edited almost
 	every file ;).
 
 Tue Dec 19 18:22:09 2000  Robin Ericsson  <lobbin@localhost.nu>
@@ -3312,7 +3331,7 @@ Tue Dec 19 18:22:09 2000  Robin Ericsson  <lobbin@localhost.nu>
 	Benjamin Geiger <bgeiger@ithink.net>
 
 	* src/init.c [about_window]: changed url to homepage.
-	
+
 	* configure.in: Moved back to 0.7.5.
 
 	* Makefile.am: changed README-NLS to ABOUT-NLS.
@@ -3349,7 +3368,7 @@ Thu Sep  7 01:11:58 CEST 2000 Jordi Mallach <jordi@debian.org>
 
 Thu Aug 31 23:34:30 CEST 2000 Jorge Garcia <jorge.garcia@uv.es>
 
-	* Added Vars. (generic 'data' functions to work with alias, actions 
+	* Added Vars. (generic 'data' functions to work with alias, actions
                        and vars):
 	  + src/data.c: created (absorving code of alias.c and action.c)
 		- src/Makefile.am (+data.c -alias.c -action.c)
@@ -3357,7 +3376,7 @@ Thu Aug 31 23:34:30 CEST 2000 Jorge Garcia <jorge.garcia@uv.es>
 		- src/init.c: some modifications (alias and action -> data)
 	  + src/amcl.c: moved load_alias and load_actions to init.c (load_data)
 	  + src/net.c: [action_send_to_connection] more 'gtktized' and
-                       needed modifications to allow vars.c     
+                       needed modifications to allow vars.c
 	* src/init.c:
 	  + converted some global variables to local
 	  + removed all gtk_widget_show(...) and added gtk_widget_show_all(...)
@@ -3428,7 +3447,7 @@ Mon Jul 17 16:04:20 2000  Robin Ericsson  <robin@noname4us.com>
 	* src/modules_api.c: added stdio.h
 
 	* src/net.c [make_connection]: added call to mudcompress_new()
-	[mccp_pendingresponse]: timer function to check for compress data to 
+	[mccp_pendingresponse]: timer function to check for compress data to
 	send.
 	[disconnect]: clear mccp, and initialize it again.
 	[open_connection]: added timer to mccp_pendingresponse(), also alot
@@ -3443,16 +3462,16 @@ Tue Jul 11 02:16:04 CEST 2000  Jorge Garcia <Jorge.Garcia@uv.es>
 
 	* Moved most global variables from init.c to proper files and
           same about extern declarations.
-	
+
 	* src/alias.c: Added check_aliases with same structure of
           check_actions.
-	
+
 	* src/amcl.h: Removed comented header functions and declaration of
           extern global variables.
-        
+
 	* src/init.c: Removed comented functions. Added key accelerators to
           basic menu items.
-	
+
         * src/net.c: Removed redundant code and some minor optimizations
           [str_replace]: Absorved by read_from_connection and optimized
           [alias_check]: Absorved data from action_send_to_connection and
@@ -3621,7 +3640,7 @@ Fri Mar 24 22:07:10 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* Fixed bugs:
 	[103014]: Scroll bar only works for the main window
-	
+
 	* acconfig.h/autogen.sh/configure.in: Changed some checkings
 	mostly regarding dlopen stuff.
 
@@ -3667,7 +3686,7 @@ Mon Mar 13 19:03:35 2000  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/wizard.c: Added version to wizard savefile.
 	(window_wizard): Password is now not seen.
-	
+
 	* src/telnet.c: Added, functions for TELNET protocol.
 
 Mon Feb 28 19:36:49 2000  Robin Ericsson  <lobbin@localhost.nu>
@@ -3712,7 +3731,7 @@ Mon Jan  3 20:50:22 2000  Robin Ericsson  <lobbin@localhost.nu>
 	* README: Fixed up a little bit.
 
 	* PLUGIN.API: File which describes the plugin API added.
-	
+
 	* src/error.xpm, src/ok.xpm: removed
 
 	* src/modules.c: Removed the silly nonsens about pixmaps in
@@ -3721,16 +3740,16 @@ Mon Jan  3 20:50:22 2000  Robin Ericsson  <lobbin@localhost.nu>
 Sat Nov 20 18:42:55 1999  Robin Ericsson  <lobbin@localhost.nu>
 
 	* NEWS: Added information about the news in version 0.7.0.
-	
+
 	* TODO: Added information about ongoing development and new
 	ideas.
-	
+
 	* src/amcl.c: removed comment
-	
+
 	* src/error.xpm, src/ok.xpm: added.
-	
+
 	* src/map.c: cleaned up a little bit.
-	
+
 	* src/modules.c: Plugin information now has a pixmap, red
 	or green depended of if module is enabled or disabled.
 
@@ -3767,7 +3786,7 @@ Thu Nov 11 20:19:04 1999  Robin Ericsson  <lobbin@localhost.nu>
 1999-09-24  Robin Ericsson  <lobbin@localhost.nu>
 
 	* README: Added info about that is compiles under FreeBSD 3.3-STABLE.
-	
+
 	* src/Makefile.am: amcl.o is now compiled by it self so $(pkgdatadir)
 	can be added to compilation. Also misc.c was added.
 
@@ -3864,14 +3883,14 @@ Thu Nov 11 20:19:04 1999  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/amcl.h (make_connection): Changed to CONNECTION_DATA
 	*make_connection(gchar *host, gchar *port);
-	(connection_send): Changed to 
+	(connection_send): Changed to
 	void connection_send(CONNECTION_DATA *cd, gchar *message).
 
 	* autogen.sh: automake changed again to just automake.
 
-	* src/init.c (do_connection): Added to use make_connection from a 
+	* src/init.c (do_connection): Added to use make_connection from a
 	function instead of calling make_connection directly from the menu.
-	(init_window): Added "Plugin Information" menu item which will 
+	(init_window): Added "Plugin Information" menu item which will
 	display information about the plugins ala Gimp.
 
 	* src/modules.c (plugin->info->init_function()): now gets called with
@@ -3949,7 +3968,7 @@ Tue Mar  9 18:27:42 CET 1999  Robin Ericsson  <lobbin@localhost.nu>
 	* src/init.c [!WITHOUT_GNOME]: Fixed the GNOME compiling
 	bugs.
 
-	* src/net.c: Fixed the bug that accured when you recieved 
+	* src/net.c: Fixed the bug that accured when you recieved
 	alot of data from the at one time.
 
 	* src/wizard.c: Fixed the bug in connection wizard.
@@ -3980,7 +3999,7 @@ Mon Mar  1 20:56:06 CET 1999  Robin Ericsson  <lobbin@localhost.nu>
 	without the automapper.
 
 	* Added RCS/CVS $Id tags to the files.
-	
+
 Tue Feb 23 18:15:41 CET 1999  Robin Ericsson  <lobbin@localhost.nu>
 
         * Alot of changes..., action.c, mkhelp.c and dialog.c added.
@@ -3994,15 +4013,15 @@ Tue Feb 23 18:15:41 CET 1999  Robin Ericsson  <lobbin@localhost.nu>
 
 	* src/net.c, action.c: Bret Robideaux new trigger system.
 
- 
+
 Thu Jan 28 20:14:54 CET 1999  Robin Ericsson  <lobbin@localhost.nu>
-	
+
 	* src/color.c added.
 
-	* src/amcl.h: Changed some colorvariables. Added declares 
+	* src/amcl.h: Changed some colorvariables. Added declares
 	for some calls in color.c
 
-	* src/init.c: Added some functions in color initiation 
+	* src/init.c: Added some functions in color initiation
  	(from Robert's patch).
 	(init_window): Added call to create_color_box().
 
@@ -4031,7 +4050,7 @@ Fri Jan  8 21:35:39 CET 1999  Robin Ericsson  <lobbin@localhost.nu>
 	* Changed homepage and email addresses.
 
 	* Applied Paul's patch so it will compile on GTK+ >= 1.1.3
-	
+
 Tue Dec  8 20:46:11 CET 1998  Robin Ericsson  <lobbin@spikdildo.nu>
 
 	* src/alias.c, src/window.c: Alias specific code moved into
@@ -4041,7 +4060,7 @@ Tue Dec  8 20:46:11 CET 1998  Robin Ericsson  <lobbin@spikdildo.nu>
 	making my own popup function I'm using the gnome built in
 	function gnome_app_message().
 	(textfield_add): If Freeze option is on then use gtk_text_freeze/
-	gtk_text_thaw.	
+	gtk_text_thaw.
 
 	* src/amcl.h (system_data): bool Freeze, new member.
 
@@ -4054,10 +4073,10 @@ Tue Oct 20 18:57:34 CEST 1998  Robin Ericsson  <lobbin@lobbin.ml.org>
 	* src/init.c (init_window): Fixed the resizing missfeature.
 
 Mon Oct 19 19:00:06 CEST 1998  Robin Ericsson  <lobbin@lobbin.ml.org>
-	
+
 	* Version 0.5.1 Released!
-	
-	* net.c: Applied a patch I recieved, you could create a buffer 
+
+	* net.c: Applied a patch I recieved, you could create a buffer
 	if you sent text bigger then 300 chars.
 
 	* prefs.c [!HAVE_DEVGTK]: Stable GTK+ (1.0.x) doesn't have the

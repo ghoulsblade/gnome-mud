@@ -75,7 +75,7 @@ static void
 mud_parse_trigger_init (MudParseTrigger *pt)
 {
 	pt->priv = g_new0(MudParseTriggerPrivate, 1);
-	
+
 }
 
 static void
@@ -93,7 +93,7 @@ mud_parse_trigger_finalize (GObject *object)
 	GObjectClass *parent_class;
 
 	parse_trigger = MUD_PARSE_TRIGGER(object);
-	
+
 	g_free(parse_trigger->priv);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
@@ -101,7 +101,7 @@ mud_parse_trigger_finalize (GObject *object)
 }
 
 // MudParseTrigger Methods
-gboolean 
+gboolean
 mud_parse_trigger_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudParseTrigger *trig)
 {
 	gchar *profile_name;
@@ -116,26 +116,26 @@ mud_parse_trigger_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudP
 	gint gag;
 	gint ovector[1020];
 	gboolean doGag = FALSE;
-	
+
 	client = gconf_client_get_default();
-	
+
 	profile_name = mud_profile_get_name(mud_connection_view_get_current_profile(view));
-	
+
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/list", profile_name);
 	triggers = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
-	
+
 	for (entry = triggers; entry != NULL; entry = g_slist_next(entry))
-	{	
-		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/enabled", profile_name, (gchar *)entry->data);	
+	{
+		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/enabled", profile_name, (gchar *)entry->data);
 		enabled = gconf_client_get_int(client, keyname, &error);
 
 		if(enabled)
 		{
 			g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/regex", profile_name, (gchar *)entry->data);
 			regexstr = gconf_client_get_string(client, keyname, &error);
-			
+
 			stripped_data = strip_ansi((const gchar *) data);
-			
+
 			if(mud_regex_check((const gchar *)stripped_data, strlen(stripped_data), (const gchar *)regexstr, ovector, regex))
 			{
 				g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/gag", profile_name, (gchar *)entry->data);
@@ -145,16 +145,16 @@ mud_parse_trigger_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudP
 				// way of doing this in here. - lh
 				if(gag)
 					doGag = TRUE;
-					
+
 				g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/actions", profile_name, (gchar *)entry->data);
 				actions = gconf_client_get_string(client, keyname, &error);
-				
+
 				mud_parse_base_parse((const gchar *)actions, stripped_data, ovector, view, regex);
-				
+
 				if(actions)
 					g_free(actions);
 			}
-			
+
 			if(stripped_data)
 				g_free(stripped_data);
 		}
@@ -171,8 +171,8 @@ MudParseTrigger*
 mud_parse_trigger_new(void)
 {
 	MudParseTrigger *pt;
-	
+
 	pt = g_object_new(MUD_TYPE_PARSE_TRIGGER, NULL);
-	
-	return pt;	
+
+	return pt;
 }

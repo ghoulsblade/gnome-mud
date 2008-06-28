@@ -56,7 +56,7 @@ get_profile(const gchar *name)
 {
 	GList *entry = NULL;
 	MudProfile *profile;
-	
+
 	entry = profile_list;
 
 	for (entry = profile_list; entry != NULL; entry = entry->next)
@@ -152,13 +152,13 @@ mud_profile_finalize (GObject *object)
 
 	profile = MUD_PROFILE(object);
 
-	g_free(profile->priv->preferences.FontName);	
-	g_free(profile->priv->preferences.TabLocation);	
-	g_free(profile->priv->preferences.CommDev);	
-	g_free(profile->priv->preferences.TerminalType);	
+	g_free(profile->priv->preferences.FontName);
+	g_free(profile->priv->preferences.TabLocation);
+	g_free(profile->priv->preferences.CommDev);
+	g_free(profile->priv->preferences.TerminalType);
 	g_free(profile->priv->preferences.MudListFile);
 	g_free(profile->priv->preferences.LastLogDir);
-	
+
 	g_free(profile->priv);
 	g_free(profile->name);
 
@@ -174,18 +174,18 @@ mud_profile_delete(const gchar *name)
 	GError *error = NULL;
 	gchar buf[512];
 	GConfClient *client;
-	
+
 
 	client = gconf_client_get_default();
-	
+
 	rementry = NULL;
 	rementry = g_slist_append(rementry, NULL);
 	profile = get_profile(name);
-	
+
 	if (profile)
 	{
 		profile_list = g_list_remove(profile_list, profile);
-		
+
 		g_snprintf(buf, 512, "/apps/gnome-mud/profiles/list");
 		profiles = gconf_client_get_list(client, buf, GCONF_VALUE_STRING, &error);
 		for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
@@ -197,7 +197,7 @@ mud_profile_delete(const gchar *name)
 		}
 
 		profiles = g_slist_remove(profiles, rementry->data);
-		gconf_client_set_list(client, buf, GCONF_VALUE_STRING, profiles, &error);		
+		gconf_client_set_list(client, buf, GCONF_VALUE_STRING, profiles, &error);
 	}
 }
 
@@ -213,19 +213,19 @@ mud_profile_new (const gchar *name)
 
 	profile = get_profile(name);
 	if (profile == NULL)
-	{	
+	{
 		profile = g_object_new(MUD_TYPE_PROFILE, NULL);
 		profile->name = g_strdup(name);
 		profile->preferences = &profile->priv->preferences;
 
-		gm_gconf_load_preferences(profile);	
+		gm_gconf_load_preferences(profile);
 
 		profile_list = g_list_append(profile_list, profile);
 
 		if (!strcmp(name, "Default"))
 		{
 			gconf_client_notify_add(profile->priv->gconf_client,
-						"/apps/gnome-mud", 
+						"/apps/gnome-mud",
 						mud_profile_gconf_changed,
 						profile, NULL, NULL);
 		}
@@ -234,7 +234,7 @@ mud_profile_new (const gchar *name)
 			gchar buf[512];
 
 			newflag = 1;
-			
+
 			g_snprintf(buf, 512, "/apps/gnome-mud/profiles/list");
 			profiles = gconf_client_get_list(gconf_client_get_default(), buf, GCONF_VALUE_STRING, &error);
 
@@ -249,10 +249,10 @@ mud_profile_new (const gchar *name)
 			if (newflag)
 			{
 				profiles = g_slist_append(profiles, (void *)g_strdup(name));
-				gconf_client_set_list(gconf_client_get_default(), buf, GCONF_VALUE_STRING, profiles, &error);	
+				gconf_client_set_list(gconf_client_get_default(), buf, GCONF_VALUE_STRING, profiles, &error);
 			}
-					
-			g_snprintf(buf, 512, "/apps/gnome-mud/profiles/%s", name);	
+
+			g_snprintf(buf, 512, "/apps/gnome-mud/profiles/%s", name);
 			gconf_client_notify_add(profile->priv->gconf_client,
 						buf,
 						mud_profile_gconf_changed,
@@ -332,7 +332,7 @@ set_Colors(MudProfile *profile, const gchar *candidate)
 		{
 			g_printerr(ngettext("Palette had %d entry instead of %d\n",
 								"Palette had %d entries instead of %d\n",
-								n_colors), 
+								n_colors),
 					   n_colors, C_MAX);
 
 			return FALSE;
@@ -366,7 +366,7 @@ set_CommDev(MudProfile *profile, const gchar *candidate)
 {
 	if (candidate && strcmp(profile->priv->preferences.CommDev, candidate) == 0)
 		return FALSE;
-	
+
 	if (candidate != NULL)
 	{
 		g_free(profile->priv->preferences.CommDev);
@@ -408,10 +408,10 @@ set_Scrollback(MudProfile *profile, const gint candidate)
 static gboolean
 set_ProxyVersion(MudProfile *profile, const gchar *candidate)
 {
-   
+
 	if (candidate && strcmp(profile->priv->preferences.ProxyVersion, candidate) == 0)
 		return FALSE;
-	
+
 	if (candidate != NULL)
 	{
 		g_free(profile->priv->preferences.ProxyVersion);
@@ -427,7 +427,7 @@ set_ProxyHostname(MudProfile *profile, const gchar *candidate)
 {
 	if (candidate && strcmp(profile->priv->preferences.ProxyHostname, candidate) == 0)
 		return FALSE;
-	
+
 	if (candidate != NULL)
 	{
 		g_free(profile->priv->preferences.ProxyHostname);
@@ -443,7 +443,7 @@ set_Encoding(MudProfile *profile, const gchar *candidate)
 {
 	if (candidate && strcmp(profile->priv->preferences.Encoding, candidate) == 0)
 		return FALSE;
-	
+
 	if (candidate != NULL)
 	{
 		g_free(profile->priv->preferences.Encoding);
@@ -526,9 +526,9 @@ else if (strcmp(key, KName) == 0)                   \
 			setting = gconf_value_get_int(val);     \
 				                                    \
 		mask.FName = set_##FName(profile, setting);
-		
 
-	
+
+
 	if (0)
 	{
 		;
@@ -548,7 +548,7 @@ else if (strcmp(key, KName) == 0)                   \
 	    UPDATE_STRING("proxy_hostname", ProxyHostname, "127.0.0.1");
 	    UPDATE_STRING("encoding", Encoding, "ISO-8859-1");
 	    UPDATE_BOOLEAN("use_proxy", UseProxy, FALSE);
-	    UPDATE_BOOLEAN("remote_encoding", UseRemoteEncoding, FALSE);   
+	    UPDATE_BOOLEAN("remote_encoding", UseRemoteEncoding, FALSE);
 	}
 
 #undef UPDATE_BOOLEAN
@@ -611,7 +611,7 @@ mud_profile_set_terminal (MudProfile *profile, const gchar *value)
 	gconf_client_set_string(profile->priv->gconf_client, key, value, NULL);
 }
 
-void 
+void
 mud_profile_set_encoding_combo(MudProfile *profile, const gchar *e)
 {
     GError *error = NULL;
@@ -621,7 +621,7 @@ mud_profile_set_encoding_combo(MudProfile *profile, const gchar *e)
 	gconf_client_set_string(profile->priv->gconf_client, key, e, &error);
 }
 
-void 
+void
 mud_profile_set_encoding_check (MudProfile *profile, const gint value)
 {
 	const gchar *key = mud_profile_gconf_get_key(profile, "functionality/remote_encoding");
@@ -630,7 +630,7 @@ mud_profile_set_encoding_check (MudProfile *profile, const gint value)
 	gconf_client_set_bool(profile->priv->gconf_client, key, value, NULL);
 }
 
-void 
+void
 mud_profile_set_proxy_check (MudProfile *profile, const gint value)
 {
     const gchar *key = mud_profile_gconf_get_key(profile, "functionality/use_proxy");
@@ -639,24 +639,24 @@ mud_profile_set_proxy_check (MudProfile *profile, const gint value)
 	gconf_client_set_bool(profile->priv->gconf_client, key, value, NULL);
 }
 
-static void 
+static void
 mud_profile_set_proxy_combo_full(MudProfile *profile, gchar *version)
 {
     const gchar *key = mud_profile_gconf_get_key(profile, "functionality/proxy_version");
 	RETURN_IF_NOTIFYING(profile);
-    
+
 	gconf_client_set_string(profile->priv->gconf_client, key, version, NULL);
 }
 
-void 
+void
 mud_profile_set_proxy_combo(MudProfile *profile, GtkComboBox *combo)
 {
     gchar *version = gtk_combo_box_get_active_text(combo);
-    
+
 	mud_profile_set_proxy_combo_full(profile, version);
 }
 
-void 
+void
 mud_profile_set_proxy_entry (MudProfile *profile, const gchar *value)
 {
     const gchar *key = mud_profile_gconf_get_key(profile, "functionality/proxy_hostname");
@@ -683,13 +683,13 @@ mud_profile_set_foreground (MudProfile *profile, guint r, guint g, guint b)
 	GdkColor color;
 	gchar *s;
 	const gchar *key = mud_profile_gconf_get_key(profile, "ui/foreground_color");
-	
+
 	RETURN_IF_NOTIFYING(profile);
 
 	color.red = r;
 	color.green = g;
 	color.blue = b;
-	
+
 	s = color_to_string(&color);
 
 	gconf_client_set_string(profile->priv->gconf_client, key, s, NULL);
@@ -702,13 +702,13 @@ mud_profile_set_background (MudProfile *profile, guint r, guint g, guint b)
 	GdkColor color;
 	gchar *s;
 	const gchar *key = mud_profile_gconf_get_key(profile, "ui/background_color");
-	
+
 	RETURN_IF_NOTIFYING(profile);
 
 	color.red = r;
 	color.green = g;
 	color.blue = b;
-	
+
 	s = color_to_string(&color);
 	gconf_client_set_string(profile->priv->gconf_client, key, s, NULL);
 	g_free(s);
@@ -768,7 +768,7 @@ mud_profile_load_profiles ()
 	GSList *profiles, *entry;
 
 	g_return_if_fail(profile_list == NULL);
-	
+
 	profiles = gconf_client_get_list(gconf_client_get_default(), "/apps/gnome-mud/profiles/list", GCONF_VALUE_STRING, NULL);
 
 	for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
@@ -851,32 +851,32 @@ mud_profile_from_number(gint num)
 {
 	GList *entry;
 	gint counter = 0;
-	
+
 	for (entry = (GList *)profile_list; entry != NULL; entry = g_list_next(entry))
 	{
 		if (counter == num)
 		{
 			return (gchar *)MUD_PROFILE(entry->data)->name;
-		}	
+		}
 
 		counter++;
 	}
-	
+
 	return NULL;
 }
 
-gint 
+gint
 mud_profile_num_from_name(gchar *name)
 {
 	GList *entry;
 	gint counter = 0;
-	
+
 	for (entry = (GList *)profile_list; entry != NULL; entry = g_list_next(entry))
 	{
 		if (!strcmp((gchar *)MUD_PROFILE(entry->data)->name,name))
 		{
 			return counter;
-		}	
+		}
 
 		counter++;
 	}
@@ -895,4 +895,3 @@ mud_profile_get_profiles ()
 {
 	return profile_list;
 }
-

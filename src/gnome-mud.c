@@ -44,7 +44,7 @@ gboolean gconf_sanity_check_string (GConfClient *client, const gchar* key)
 {
   gchar *string;
   GError *error = NULL;
-  
+
   string = gconf_client_get_string (client, key, &error);
 
   if (error) {
@@ -101,9 +101,9 @@ int main (gint argc, char *argv[])
 
     /* Initialize the Gnet library */
     gnet_init();
-    
+
 	gtk_init(&argc, &argv);
-	
+
 	/* Start a GConf client */
 	gconf_client = gconf_client_get_default();
 	if (!gconf_sanity_check_string (gconf_client, "/apps/gnome-mud/functionality/terminal_type")) {
@@ -113,10 +113,10 @@ int main (gint argc, char *argv[])
 
 
 	mud_profile_load_profiles();
-	
-	gtk_window_set_icon_from_file(GTK_WINDOW(mud_window_get_window(mud_window_new(gconf_client))), 
+
+	gtk_window_set_icon_from_file(GTK_WINDOW(mud_window_get_window(mud_window_new(gconf_client))),
 					PIXMAPSDIR "/gnome-mud.png", &err);
-	
+
 #ifdef USE_PYTHON
 	//Py_SetProgramName(argv[0]);
 	//Py_Initialize();
@@ -130,12 +130,12 @@ int main (gint argc, char *argv[])
 
 	init_modules(buf);
 	init_modules(PKGDATADIR);
-  
+
 	g_snprintf(buf, 500, "%s/.gnome-mud/logs/", g_get_home_dir());
 	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
-		mkdir(buf, 0777 );	
+		mkdir(buf, 0777 );
 
-	gtk_about_dialog_set_url_hook(utils_activate_url, NULL, NULL);	
+	gtk_about_dialog_set_url_hook(utils_activate_url, NULL, NULL);
 	gtk_main();
 	gconf_client_suggest_sync(gconf_client, &err);
 

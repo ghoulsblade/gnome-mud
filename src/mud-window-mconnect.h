@@ -19,7 +19,7 @@ typedef struct _MudMConnectWindowPrivate     MudMConnectWindowPrivate;
 struct _MudMConnectWindow
 {
 	GObject parent_instance;
-	
+
 	MudMConnectWindowPrivate *priv;
 };
 
