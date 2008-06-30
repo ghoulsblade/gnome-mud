@@ -20,6 +20,8 @@
 #  include "config.h"
 #endif
 
+#ifdef ENABLE_GST
+
 #include <glib.h>
 #include <gnet.h>
 #include <string.h>
@@ -889,3 +891,4 @@ mud_telnet_msp_music_bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 
 	return TRUE;
 }
+#endif

@@ -105,7 +105,11 @@ static void
 mud_telnet_init (MudTelnet *telnet)
 {
 	telnet->priv = g_new0(MudTelnetPrivate, 1);
+
+#ifdef ENABLE_GST
 	telnet->msp_parser.enabled = FALSE;
+#endif
+
 	telnet->priv->processed = g_string_new(NULL);
 	telnet->prev_buffer = NULL;
 }
@@ -156,6 +160,7 @@ mud_telnet_new(MudConnectionView *parent, GConn *connection, gchar *mud_name)
 
 	telnet->mud_name = g_strdup(mud_name);
 
+#ifdef ENABLE_GST
 	telnet->sound[0].files = NULL;
 	telnet->sound[0].current_command = NULL;
 	telnet->sound[0].playing = FALSE;
@@ -167,6 +172,7 @@ mud_telnet_new(MudConnectionView *parent, GConn *connection, gchar *mud_name)
 	telnet->sound[1].files_len = 0;
 
 	telnet->base_url = NULL;
+#endif
 
 	return telnet;
 }
@@ -234,6 +240,7 @@ mud_telnet_register_handlers(MudTelnet *telnet)
     telnet->handlers[5].disable = MudHandler_ZMP_Disable;
     telnet->handlers[5].handle_sub_neg = MudHandler_ZMP_HandleSubNeg;
 
+#ifdef ENABLE_GST
     /* MSP */
     telnet->handlers[6].type = HANDLER_MSP;
     telnet->handlers[6].option_number = (guchar)TELOPT_MSP;
@@ -241,6 +248,8 @@ mud_telnet_register_handlers(MudTelnet *telnet)
     telnet->handlers[6].enable = MudHandler_MSP_Enable;
     telnet->handlers[6].disable = MudHandler_MSP_Disable;
     telnet->handlers[6].handle_sub_neg = MudHandler_MSP_HandleSubNeg;
+#endif
+
 }
 
 gint

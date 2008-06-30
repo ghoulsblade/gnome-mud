@@ -12,8 +12,8 @@ INCLUDES =												\
 	-DDATADIR=\""$(datadir)"\"							\
 	-DLIBDIR=\""$(libdir)"\"							\
 	-DGLADEDIR=\""$(pkgdatadir)"\"						\
-	$(GMUD_CFLAGS) $(GMUD_DEBUG)
-LDADD   = $(GMUD_LIBS) $(Z_LIBS)
+	$(GMUD_CFLAGS) $(GMUD_DEBUG) $(MSP_CFLAGS)
+LDADD   = $(GMUD_LIBS) $(Z_LIBS) $(MSP_LIBS)
 AM_CPPFLAGS = -DPKGDATADIR=\"$(pkgdatadir)\"
 
 gamesdir = $(prefix)/games

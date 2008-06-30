@@ -19,6 +19,8 @@
 #ifndef MUD_TELNET_MSP_H
 #define MUD_TELNET_MSP_H
 
+#ifdef ENABLE_GST
+
 #include <glib.h>
 #include "mud-telnet.h"
 
@@ -98,5 +100,7 @@ void mud_telnet_msp_init(MudTelnet *telnet);
 void mud_telnet_msp_parser_clear(MudTelnet *telnet);
 void mud_telnet_msp_download_item_free(MudMSPDownloadItem *item);
 GString *mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len);
+
+#endif
 
 #endif // MUD_TELNET_MSP_H

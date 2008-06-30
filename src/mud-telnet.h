@@ -138,7 +138,10 @@ struct _MudTelnetHandler
 #include <gnet.h>
 #include "mud-connection-view.h"
 #include "mud-telnet-zmp.h"
-#include "mud-telnet-msp.h"
+
+#ifdef ENABLE_GST
+	#include "mud-telnet-msp.h"
+#endif
 
 struct _MudTelnet
 {
@@ -162,10 +165,12 @@ struct _MudTelnet
 	GHashTable *zmp_commands;
 	MudZMPCommand commands[2048];
 
+#ifdef ENABLE_GST
 	MudMSPParser msp_parser;
 	MudMSPTypes msp_type;
 	MudMSPSound sound[2];
 	gchar *base_url;
+#endif
 
 	GString *prev_buffer;
 

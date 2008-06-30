@@ -34,6 +34,10 @@
 #include "mud-telnet-handlers.h"
 #include "mud-telnet-zmp.h"
 
+#ifdef ENABLE_GST
+	#include "mud-telnet-msp.h"
+#endif
+
 /* TTYPE */
 
 void
@@ -297,6 +301,7 @@ MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 
 }
 
+#ifdef ENABLE_GST
 /* MSP */
 void
 MudHandler_MSP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
@@ -318,3 +323,4 @@ MudHandler_MSP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 {
     return;
 }
+#endif

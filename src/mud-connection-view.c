@@ -80,9 +80,11 @@ struct _MudConnectionViewPrivate
 
 	gchar *mud_name;
 
+#ifdef ENABLE_GST
 	GQueue *download_queue;
 	GConnHttp *dl_conn;
 	gboolean downloading;
+#endif
 
 	GString *processed;
 };
@@ -100,8 +102,11 @@ static gboolean mud_connection_view_button_press_event   (GtkWidget *widget, Gdk
 static void mud_connection_view_popup                    (MudConnectionView *view, GdkEventButton *event);
 static void mud_connection_view_reread_profile           (MudConnectionView *view);
 static void mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer data);
+
+#ifdef ENABLE_GST
 static void mud_connection_view_http_cb(GConnHttp *conn, GConnHttpEvent *event, gpointer data);
 static void mud_connection_view_cancel_dl_cb(GtkWidget *widget, MudConnectionView *view);
+#endif
 
 GType
 mud_connection_view_get_type (void)
@@ -325,12 +330,15 @@ mud_connection_view_init (MudConnectionView *connection_view)
 
   	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
 
-    connection_view->priv->history = g_queue_new();
-    connection_view->priv->current_history_index = 0;
+	connection_view->priv->history = g_queue_new();
+	connection_view->priv->current_history_index = 0;
 
-    connection_view->priv->download_queue = g_queue_new();
-    connection_view->priv->dl_conn = NULL;
-    connection_view->priv->processed = NULL;
+#ifdef ENABLE_GST
+	connection_view->priv->download_queue = g_queue_new();
+	connection_view->priv->dl_conn = NULL;
+#endif
+
+	connection_view->priv->processed = NULL;
 
 	connection_view->priv->parse = mud_parse_base_new(connection_view);
 
@@ -345,7 +353,10 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	connection_view->priv->progressbar = gtk_progress_bar_new();
 	gtk_progress_bar_set_pulse_step (GTK_PROGRESS_BAR(connection_view->priv->progressbar), 0.1);
 	connection_view->priv->dl_button = gtk_button_new_from_stock("gtk-cancel");
+
+#ifdef ENABLE_GST
 	connection_view->priv->downloading = FALSE;
+#endif
 
 	gtk_box_pack_start(GTK_BOX(dl_vbox), connection_view->priv->dl_label, FALSE, FALSE, 0);
 
@@ -366,8 +377,10 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	g_object_set_data(G_OBJECT(connection_view->priv->terminal),
 					  "connection-view", connection_view);
 
+#ifdef ENABLE_GST
 	g_signal_connect(connection_view->priv->dl_button, "clicked",
 		G_CALLBACK(mud_connection_view_cancel_dl_cb), connection_view);
+#endif
 
 	connection_view->priv->scrollbar = gtk_vscrollbar_new(NULL);
 	gtk_range_set_adjustment(GTK_RANGE(connection_view->priv->scrollbar), VTE_TERMINAL(connection_view->priv->terminal)->adjustment);
@@ -413,26 +426,31 @@ mud_connection_view_finalize (GObject *object)
 	MudConnectionView *connection_view;
 	GObjectClass *parent_class;
 	gchar *history_item;
+
+#ifdef ENABLE_GST
 	MudMSPDownloadItem *item;
+#endif
 
 	connection_view = MUD_CONNECTION_VIEW(object);
 
     while((history_item = (gchar *)g_queue_pop_head(connection_view->priv->history)) != NULL)
 		g_free(history_item);
 
-    if(connection_view->priv->history)
-        g_queue_free(connection_view->priv->history);
+	if(connection_view->priv->history)
+		g_queue_free(connection_view->priv->history);
 
+#ifdef ENABLE_GST
 	while((item = (MudMSPDownloadItem *)g_queue_pop_head(connection_view->priv->download_queue)) != NULL)
 		mud_telnet_msp_download_item_free(item);
 
 	if(connection_view->priv->download_queue)
         g_queue_free(connection_view->priv->download_queue);
+#endif
 
-    mud_zmp_finalize(connection_view->priv->telnet);
+    	mud_zmp_finalize(connection_view->priv->telnet);
 
-    gnet_conn_disconnect(connection_view->connection);
-    gnet_conn_unref(connection_view->connection);
+    	gnet_conn_disconnect(connection_view->connection);
+    	gnet_conn_unref(connection_view->connection);
 
 	g_free(connection_view->priv);
 
@@ -451,24 +469,28 @@ mud_connection_view_set_connect_string(MudConnectionView *view, gchar *connect_s
 void
 mud_connection_view_disconnect(MudConnectionView *view)
 {
+#ifdef ENABLE_GST
 	MudMSPDownloadItem *item;
+#endif
 
 	g_assert(view != NULL);
 
+#ifdef ENABLE_GST
 	while((item = (MudMSPDownloadItem *)g_queue_pop_head(view->priv->download_queue)) != NULL)
 		mud_telnet_msp_download_item_free(item);
 
 	if(view->priv->download_queue)
-        g_queue_free(view->priv->download_queue);
+        	g_queue_free(view->priv->download_queue);
 
 	view->priv->download_queue = NULL;
+#endif
 
 	if(view->priv->processed)
 		g_string_free(view->priv->processed, TRUE);
 
 	view->priv->processed = NULL;
 
-    mud_zmp_finalize(view->priv->telnet);
+	mud_zmp_finalize(view->priv->telnet);
 
 	gnet_conn_disconnect(view->connection);
 
@@ -480,14 +502,19 @@ mud_connection_view_disconnect(MudConnectionView *view)
 void
 mud_connection_view_reconnect(MudConnectionView *view)
 {
-    gchar *buf;
-    MudMSPDownloadItem *item;
+	gchar *buf;
+
+#ifdef ENABLE_GST
+	MudMSPDownloadItem *item;
+#endif
 
 	g_assert(view != NULL);
 
 
 	if(gnet_conn_is_connected(view->connection))
 	{
+
+#ifdef ENABLE_GST
 		while((item = (MudMSPDownloadItem *)g_queue_pop_head(view->priv->download_queue)) != NULL)
 			mud_telnet_msp_download_item_free(item);
 
@@ -495,13 +522,14 @@ mud_connection_view_reconnect(MudConnectionView *view)
 	        g_queue_free(view->priv->download_queue);
 
 		view->priv->download_queue = NULL;
+#endif
 
 		if(view->priv->processed)
 			g_string_free(view->priv->processed, TRUE);
 
 		view->priv->processed = NULL;
 
-	    mud_zmp_finalize(view->priv->telnet);
+		mud_zmp_finalize(view->priv->telnet);
 
 		gnet_conn_disconnect(view->connection);
 
@@ -509,7 +537,9 @@ mud_connection_view_reconnect(MudConnectionView *view)
 
 		mud_connection_view_add_text(view, _("*** Connection closed.\n"), System);
 
+#ifdef ENABLE_GST
 		view->priv->download_queue = g_queue_new();
+#endif
 
 		view->naws_enabled = FALSE;
 
@@ -971,15 +1001,18 @@ static void
 
 	       if(view->priv->processed != NULL)
 	       {
+#ifdef ENABLE_GST
 	       	   if(view->priv->telnet->msp_parser.enabled)
 	       	   {
 					view->priv->processed = mud_telnet_msp_parse(
 						view->priv->telnet, view->priv->processed, &length);
 			   }
-
+#endif
 			   if(view->priv->processed != NULL)
 			   {
+#ifdef ENABLE_GST
 			   	   mud_telnet_msp_parser_clear(view->priv->telnet);
+#endif
 		           buf = view->priv->processed->str;
 
 		           temp = view->local_echo;
@@ -1049,6 +1082,7 @@ mud_connection_view_send_naws(MudConnectionView *view)
     }
 }
 
+#ifdef ENABLE_GST
 static void
 mud_connection_view_start_download(MudConnectionView *view)
 {
@@ -1246,3 +1280,4 @@ mud_connection_view_cancel_dl_cb(GtkWidget *widget, MudConnectionView *view)
 	if(!g_queue_is_empty(view->priv->download_queue))
 		mud_connection_view_start_download(view);
 }
+#endif

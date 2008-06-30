@@ -28,7 +28,10 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <gnet.h>
+
+#ifdef ENABLE_GST
 #include <gst/gst.h>
+#endif
 
 #ifdef USE_PYTHON
 //#include <Python.h>
@@ -100,11 +103,13 @@ int main (gint argc, char *argv[])
 		return 1;
 	}
 
-    /* Initialize the Gnet library */
-    gnet_init();
+	/* Initialize the Gnet library */
+	gnet_init();
 
+#ifdef ENABLE_GST
 	/* Initialize GStreamer */
 	gst_init(&argc, &argv);
+#endif
 
 	gtk_init(&argc, &argv);
 

@@ -1,5 +1,17 @@
 2008-06-30  Les Harris  <me@lesharris.com>
 
+	* configure.ac: Made gstreamer0.10 a conditional option, cleaned up
+	a bit.
+
+	* src/Makefile.am: Added MSP_CFLAGS and MSP_LIBS to build parameters.
+
+	* src/gnome-mud.c, src/mud-connection-view.c,
+	src/mud-telnet-handlers.[ch], src/mud-telnet-msp.[ch],
+	src/mud-telnet.[ch]: Added conditionals to support disabling
+	MSP support.
+
+2008-06-30  Les Harris  <me@lesharris.com>
+
 	* configure.ac: Added dependency for gstreamer0.10
 
 	* gnome-mud-schemas.in: Added new schema for MSP remote downloading.
