@@ -112,18 +112,13 @@ enum TelnetHandlerType
     HANDLER_ECHO,
     HANDLER_EOR,
     HANDLER_CHARSET,
-    HANDLER_ZMP
+    HANDLER_ZMP,
+    HANDLER_MSP
 };
 
 struct _MudTelnetClass
 {
 	GObjectClass parent_class;
-};
-
-struct _MudTelnetBuffer
-{
-    guchar *buffer;
-    size_t len;
 };
 
 struct _MudTelnetHandler
@@ -141,8 +136,10 @@ struct _MudTelnetHandler
 };
 
 #include <gnet.h>
-#include <mud-connection-view.h>
-#include <mud-telnet-zmp.h>
+#include "mud-connection-view.h"
+#include "mud-telnet-zmp.h"
+#include "mud-telnet-msp.h"
+
 struct _MudTelnet
 {
 	GObject parent_instance;
@@ -164,15 +161,24 @@ struct _MudTelnet
 
 	GHashTable *zmp_commands;
 	MudZMPCommand commands[2048];
+
+	MudMSPParser msp_parser;
+	MudMSPTypes msp_type;
+	MudMSPSound sound[2];
+	gchar *base_url;
+
+	GString *prev_buffer;
+
+	gchar *mud_name;
 };
 
 GType mud_telnet_get_type (void) G_GNUC_CONST;
 
-MudTelnet *mud_telnet_new(MudConnectionView *parent, GConn *connection);
+MudTelnet *mud_telnet_new(MudConnectionView *parent, GConn *connection, gchar *mud_name);
 
 void mud_telnet_register_handlers(MudTelnet *telnet);
 gint mud_telnet_isenabled(MudTelnet *telnet, guint8 option_number, gint him);
-MudTelnetBuffer mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count);
+GString *mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count, gint *length);
 void mud_telnet_send_sub_req(MudTelnet *telnet, guint32 count, ...);
 void mud_telnet_get_parent_size(MudTelnet *telnet, gint *w, gint *h);
 void mud_telnet_send_raw(MudTelnet *telnet, guint32 count, ...);

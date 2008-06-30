@@ -549,6 +549,7 @@ else if (strcmp(key, KName) == 0)                   \
 	    UPDATE_STRING("encoding", Encoding, "ISO-8859-1");
 	    UPDATE_BOOLEAN("use_proxy", UseProxy, FALSE);
 	    UPDATE_BOOLEAN("remote_encoding", UseRemoteEncoding, FALSE);
+	    UPDATE_BOOLEAN("remote_download", UseRemoteDownload, FALSE);
 	}
 
 #undef UPDATE_BOOLEAN
@@ -634,6 +635,15 @@ void
 mud_profile_set_proxy_check (MudProfile *profile, const gint value)
 {
     const gchar *key = mud_profile_gconf_get_key(profile, "functionality/use_proxy");
+	RETURN_IF_NOTIFYING(profile);
+
+	gconf_client_set_bool(profile->priv->gconf_client, key, value, NULL);
+}
+
+void
+mud_profile_set_msp_check (MudProfile *profile, const gint value)
+{
+    const gchar *key = mud_profile_gconf_get_key(profile, "functionality/remote_download");
 	RETURN_IF_NOTIFYING(profile);
 
 	gconf_client_set_bool(profile->priv->gconf_client, key, value, NULL);
@@ -815,6 +825,7 @@ mud_profile_copy_preferences(MudProfile *from, MudProfile *to)
 	mud_profile_set_encoding_combo(to, from->preferences->Encoding);
 	mud_profile_set_encoding_check(to, from->preferences->UseRemoteEncoding);
 	mud_profile_set_proxy_check(to, from->preferences->UseProxy);
+	mud_profile_set_msp_check(to, from->preferences->UseRemoteDownload);
 	mud_profile_set_proxy_combo_full(to, from->preferences->ProxyVersion);
 	mud_profile_set_proxy_entry(to, from->preferences->ProxyHostname);
 }

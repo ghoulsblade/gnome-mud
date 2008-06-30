@@ -80,6 +80,8 @@ struct _MudPreferencesWindowPrivate
 	GtkWidget *proxy_combo;
 	GtkWidget *proxy_entry;
 
+	GtkWidget *msp_check;
+
 	GtkWidget *sb_lines;
 
 	GtkWidget *fp_font;
@@ -219,7 +221,7 @@ static void mud_preferences_window_encoding_check_cb(GtkWidget *widget, MudPrefe
 static void mud_preferences_window_proxy_check_cb(GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_proxy_combo_cb(GtkWidget *widget, MudPreferencesWindow *window);
 static void mud_preferences_window_proxy_entry_cb(GtkWidget *widget, MudPreferencesWindow *window);
-
+static void mud_preferences_window_msp_check_cb(GtkWidget *widget, MudPreferencesWindow *window);
 
 static void mud_preferences_window_update_echotext    (MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_keeptext    (MudPreferencesWindow *window, MudPrefs *preferences);
@@ -236,6 +238,7 @@ static void mud_preferences_window_update_proxy_combo(MudPreferencesWindow *wind
 static void mud_preferences_window_update_proxy_entry(MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_encoding_check(MudPreferencesWindow *window, MudPrefs *preferences);
 static void mud_preferences_window_update_encoding_combo(MudPreferencesWindow *window, MudPrefs *preferences);
+static void mud_preferences_window_update_msp_check(MudPreferencesWindow *window, MudPrefs *preferences);
 
 void mud_preferences_window_populate_trigger_treeview(MudPreferencesWindow *window);
 void mud_preferences_window_populate_alias_treeview(MudPreferencesWindow *window);
@@ -332,6 +335,7 @@ mud_preferences_window_init (MudPreferencesWindow *preferences)
 	preferences->priv->proxy_check = glade_xml_get_widget(glade, "proxy_check");
 	preferences->priv->proxy_combo = glade_xml_get_widget(glade, "proxy_combo");
 	preferences->priv->proxy_entry = glade_xml_get_widget(glade, "proxy_entry");
+	preferences->priv->msp_check = glade_xml_get_widget(glade, "msp_check");
 
 	preferences->priv->fp_font = glade_xml_get_widget(glade, "fp_font");
 
@@ -942,6 +946,10 @@ mud_preferences_window_connect_callbacks(MudPreferencesWindow *window)
 					 G_CALLBACK(mud_preferences_window_proxy_entry_cb),
 					 window);
 
+	g_signal_connect(G_OBJECT(window->priv->msp_check), "toggled",
+					 G_CALLBACK(mud_preferences_window_msp_check_cb),
+					 window);
+
 	g_signal_connect(G_OBJECT(window->priv->sb_lines), "changed",
 					 G_CALLBACK(mud_preferences_window_scrollback_cb),
 					 window);
@@ -992,6 +1000,7 @@ mud_preferences_window_set_preferences(MudPreferencesWindow *window)
 	mud_preferences_window_update_proxy_entry(window, profile->preferences);
 	mud_preferences_window_update_encoding_check(window, profile->preferences);
 	mud_preferences_window_update_encoding_combo(window, profile->preferences);
+	mud_preferences_window_update_msp_check(window, profile->preferences);
 }
 
 static void
@@ -1065,6 +1074,15 @@ mud_preferences_window_proxy_check_cb(GtkWidget *widget, MudPreferencesWindow *w
 	RETURN_IF_CHANGING_PROFILES(window);
 
 	mud_profile_set_proxy_check(window->priv->profile, value);
+}
+
+static void
+mud_preferences_window_msp_check_cb(GtkWidget *widget, MudPreferencesWindow *window)
+{
+	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
+	RETURN_IF_CHANGING_PROFILES(window);
+
+	mud_profile_set_msp_check(window->priv->profile, value);
 }
 
 static void
@@ -1507,6 +1525,8 @@ mud_preferences_window_changed_cb(MudProfile *profile, MudProfileMask *mask, Mud
 	    mud_preferences_window_update_proxy_combo(window, profile->preferences);
 	if (mask->Encoding)
 	    mud_preferences_window_update_encoding_combo(window, profile->preferences);
+	if (mask->UseRemoteDownload)
+	    mud_preferences_window_update_msp_check(window, profile->preferences);
 }
 
 static void
@@ -1531,6 +1551,13 @@ static void
 mud_preferences_window_update_proxy_check(MudPreferencesWindow *window, MudPrefs *preferences)
 {
 	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->proxy_check), preferences->UseProxy);
+
+}
+
+static void
+mud_preferences_window_update_msp_check(MudPreferencesWindow *window, MudPrefs *preferences)
+{
+	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(window->priv->msp_check), preferences->UseRemoteDownload);
 
 }
 

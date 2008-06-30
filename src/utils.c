@@ -42,14 +42,13 @@ remove_whitespace(gchar *string)
 gchar *
 strip_ansi(const gchar *orig)
 {
-  gchar *buf;
+  GString *buf = g_string_new(NULL);
   const gchar *c;
-  gint currChar = 0;
+  gchar *ret = NULL;
 
   if (!orig)
     return NULL;
 
-  buf = g_malloc(strlen(orig) * sizeof(gchar));
   for (c = orig; *c;)
   {
     switch (*c)
@@ -63,11 +62,15 @@ strip_ansi(const gchar *orig)
       	break;
 
     	default:
-			buf[currChar++] = *c++;
+			g_string_append_c(buf,  *c++);
     }
   }
 
-  return buf;
+  ret = g_strdup(buf->str);
+
+  g_string_free(buf, TRUE);
+
+  return ret;
 }
 
 void

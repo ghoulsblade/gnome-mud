@@ -126,6 +126,7 @@ void gm_gconf_load_preferences(MudProfile *profile)
 	GCONF_GET_BOOLEAN(use_proxy,        functionality,  UseProxy);
 	GCONF_GET_BOOLEAN(remote_encoding,  functionality,  UseRemoteEncoding);
 	GCONF_GET_STRING(proxy_hostname,    functionality,  ProxyHostname);
+	GCONF_GET_BOOLEAN(remote_download,  functionality,  UseRemoteDownload);
 
 	/* palette */
 	g_snprintf(keyname, 2048, "/apps/gnome-mud/%sui/palette", extra_path);

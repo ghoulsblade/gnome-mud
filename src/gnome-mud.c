@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <gnet.h>
+#include <gst/gst.h>
 
 #ifdef USE_PYTHON
 //#include <Python.h>
@@ -102,6 +103,9 @@ int main (gint argc, char *argv[])
     /* Initialize the Gnet library */
     gnet_init();
 
+	/* Initialize GStreamer */
+	gst_init(&argc, &argv);
+
 	gtk_init(&argc, &argv);
 
 	/* Start a GConf client */
@@ -132,6 +136,10 @@ int main (gint argc, char *argv[])
 	init_modules(PKGDATADIR);
 
 	g_snprintf(buf, 500, "%s/.gnome-mud/logs/", g_get_home_dir());
+	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
+		mkdir(buf, 0777 );
+
+	g_snprintf(buf, 500, "%s/.gnome-mud/audio/", g_get_home_dir());
 	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
 		mkdir(buf, 0777 );
 

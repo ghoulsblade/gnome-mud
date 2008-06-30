@@ -38,6 +38,7 @@
 #include <gtk/gtktextbuffer.h>
 #include <gtk/gtktextiter.h>
 #include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkprogressbar.h>
 #include <vte/vte.h>
 #include <glib/gstring.h>
 #include <string.h>
@@ -317,9 +318,12 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
 		    text = mud_connection_view_get_history_item(
 		        MUD_CONNECTION_VIEW(window->priv->current_view), HISTORY_UP);
 
-	   		gtk_text_buffer_set_text(buffer, text, strlen(text));
-	   	 	gtk_text_buffer_get_bounds(buffer, &start, &end);
-	   	 	gtk_text_buffer_select_range(buffer, &start, &end);
+			if(text)
+			{
+		   		gtk_text_buffer_set_text(buffer, text, strlen(text));
+		   	 	gtk_text_buffer_get_bounds(buffer, &start, &end);
+		   	 	gtk_text_buffer_select_range(buffer, &start, &end);
+	   	 	}
 
 	    	return TRUE;
 		}
@@ -329,9 +333,12 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
 		    text = mud_connection_view_get_history_item(
 		        MUD_CONNECTION_VIEW(window->priv->current_view), HISTORY_DOWN);
 
-		    gtk_text_buffer_set_text(buffer, text, strlen(text));
-		    gtk_text_buffer_get_bounds(buffer, &start, &end);
-		    gtk_text_buffer_select_range(buffer, &start, &end);
+			if(text)
+			{
+			    gtk_text_buffer_set_text(buffer, text, strlen(text));
+			    gtk_text_buffer_get_bounds(buffer, &start, &end);
+			    gtk_text_buffer_select_range(buffer, &start, &end);
+		    }
 
 		    return TRUE;
 		}
@@ -737,7 +744,7 @@ mud_window_init (MudWindow *window)
 	/* start glading */
 	glade = glade_xml_new(GLADEDIR "/main.glade", "main_window", NULL);
 	window->priv->window = glade_xml_get_widget(glade, "main_window");
-	gtk_widget_show_all(window->priv->window);
+	//gtk_widget_show_all(window->priv->window);
 
 	/* connect quit buttons */
 	g_signal_connect(window->priv->window, "destroy", G_CALLBACK(mud_window_close), window);

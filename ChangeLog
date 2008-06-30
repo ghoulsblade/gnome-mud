@@ -1,3 +1,40 @@
+2008-06-30  Les Harris  <me@lesharris.com>
+
+	* configure.ac: Added dependency for gstreamer0.10
+
+	* gnome-mud-schemas.in: Added new schema for MSP remote downloading.
+
+	* ui/prefs.glade: Added ui for MSP remote downloading.
+
+	* ui/main.glade: Added downloading ui.
+
+	* src/Makefile.am: Added files for MSP.
+
+	* src/mud-msp-telnet.[ch]: New files which implement MSP.
+
+	* src/gnome-mud.c: Added gstreamer initialization.
+
+	* src/mud-connection-view.[ch]:  Added ui for downloading. Fixed
+	disconnect and reconnect callbacks to propery dispose of and create
+	the telnet object.  Changed the netcode to make a chain of processing
+	such that a later link in the chain does not execute until the current
+	link is finished.
+
+	* src/mud-window.c: Fixed history code to avoid a potential crash when
+	the history queue is empty.
+
+	* src/mud-preferences-window.[ch], src/mud-profile.[ch],
+	src/gconf-helper.c: Added in code to handle the new msp preference.
+
+	* src/mud-telnet-handlers.[ch]: Added in MSP option handlers.
+
+	* src/mud-telnet.[ch]: Added in MSP support. Changed mud_telnet_process
+	to use a buffer that persists across calls to better handle cases where
+	telnet control codes are broken across packets.
+
+	* src/utils.c: Changed strip_ansi to use a GString to ensure a valid
+	string return when malformed data is passed.
+
 2008-06-27  Les Harris  <me@lesharris.com>
 
 	* gnome-mud-schemas.in: Added in the new schemas for the new gconf

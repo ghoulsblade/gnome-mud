@@ -62,4 +62,10 @@ void MudHandler_ZMP_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
 void MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     guint len, MudTelnetHandler *handler);
 
+/* MSP */
+void MudHandler_MSP_Enable(MudTelnet *telnet, MudTelnetHandler *handler);
+void MudHandler_MSP_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
+void MudHandler_MSP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
+    guint len, MudTelnetHandler *handler);
+
 #endif // MUD_TELNET_HANDLERS_H

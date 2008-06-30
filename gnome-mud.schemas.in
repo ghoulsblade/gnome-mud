@@ -185,6 +185,20 @@
 		</schema>
 
 		<schema>
+			<key>/schemas/apps/gnome-mud/functionality/remote_download</key>
+			<applyto>/apps/gnome-mud/functionality/remote_download</applyto>
+			<owner>gnome-mud</owner>
+			<type>bool</type>
+			<default>true</default>
+			<locale name="C">
+				<short>Remote Download</short>
+				<long>
+				Enable sound file downloading on MSP enabled MUDs
+				</long>
+			</locale>
+		</schema>
+
+		<schema>
 			<key>/schemas/apps/gnome-mud/functionality/commdev</key>
 			<applyto>/apps/gnome-mud/functionality/commdev</applyto>
 			<owner>gnome-mud</owner>

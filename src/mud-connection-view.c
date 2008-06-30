@@ -39,6 +39,7 @@
 #include "mud-parse-base.h"
 #include "mud-telnet.h"
 #include "mud-telnet-zmp.h"
+#include "mud-telnet-msp.h"
 
 /* Hack, will refactor with plugin rewrite -lh */
 extern gboolean PluginGag;
@@ -54,6 +55,9 @@ struct _MudConnectionViewPrivate
 	GtkWidget *scrollbar;
 	GtkWidget *box;
 	GtkWidget *popup_menu;
+	GtkWidget *progressbar;
+	GtkWidget *dl_label;
+	GtkWidget *dl_button;
 
 	MudProfile *profile;
 	MudLog *log;
@@ -73,6 +77,14 @@ struct _MudConnectionViewPrivate
 	MudTelnet *telnet;
 	gchar *hostname;
 	guint port;
+
+	gchar *mud_name;
+
+	GQueue *download_queue;
+	GConnHttp *dl_conn;
+	gboolean downloading;
+
+	GString *processed;
 };
 
 static void mud_connection_view_init                     (MudConnectionView *connection_view);
@@ -88,6 +100,8 @@ static gboolean mud_connection_view_button_press_event   (GtkWidget *widget, Gdk
 static void mud_connection_view_popup                    (MudConnectionView *view, GdkEventButton *event);
 static void mud_connection_view_reread_profile           (MudConnectionView *view);
 static void mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer data);
+static void mud_connection_view_http_cb(GConnHttp *conn, GConnHttpEvent *event, gpointer data);
+static void mud_connection_view_cancel_dl_cb(GtkWidget *widget, MudConnectionView *view);
 
 GType
 mud_connection_view_get_type (void)
@@ -305,22 +319,46 @@ static void
 mud_connection_view_init (MudConnectionView *connection_view)
 {
 	GtkWidget *box;
+	GtkWidget *dl_vbox;
+	GtkWidget *dl_hbox;
+	GtkWidget *term_box;
 
   	connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
 
     connection_view->priv->history = g_queue_new();
     connection_view->priv->current_history_index = 0;
 
+    connection_view->priv->download_queue = g_queue_new();
+    connection_view->priv->dl_conn = NULL;
+    connection_view->priv->processed = NULL;
+
 	connection_view->priv->parse = mud_parse_base_new(connection_view);
 
 	connection_view->priv->connect_hook = FALSE;
 
-	box = gtk_hbox_new(FALSE, 0);
+	box = gtk_vbox_new(FALSE, 0);
+	dl_vbox = gtk_vbox_new(FALSE, 0);
+	dl_hbox = gtk_hbox_new(FALSE, 0);
+	term_box = gtk_hbox_new(FALSE, 0);
+
+	connection_view->priv->dl_label = gtk_label_new("Downloading...");
+	connection_view->priv->progressbar = gtk_progress_bar_new();
+	gtk_progress_bar_set_pulse_step (GTK_PROGRESS_BAR(connection_view->priv->progressbar), 0.1);
+	connection_view->priv->dl_button = gtk_button_new_from_stock("gtk-cancel");
+	connection_view->priv->downloading = FALSE;
+
+	gtk_box_pack_start(GTK_BOX(dl_vbox), connection_view->priv->dl_label, FALSE, FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(dl_hbox), connection_view->priv->progressbar, TRUE, TRUE, 0);
+
+	gtk_box_pack_end(GTK_BOX(dl_hbox), connection_view->priv->dl_button, FALSE, FALSE, 0);
+
+	gtk_box_pack_end(GTK_BOX(dl_vbox), dl_hbox, TRUE, TRUE, 0);
 
 	connection_view->priv->terminal = vte_terminal_new();
 	vte_terminal_set_encoding(VTE_TERMINAL(connection_view->priv->terminal), "ISO-8859-1");
 
-	gtk_box_pack_start(GTK_BOX(box), connection_view->priv->terminal, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(term_box), connection_view->priv->terminal, TRUE, TRUE, 0);
 	g_signal_connect(G_OBJECT(connection_view->priv->terminal),
 					 "button_press_event",
 					 G_CALLBACK(mud_connection_view_button_press_event),
@@ -328,11 +366,22 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	g_object_set_data(G_OBJECT(connection_view->priv->terminal),
 					  "connection-view", connection_view);
 
+	g_signal_connect(connection_view->priv->dl_button, "clicked",
+		G_CALLBACK(mud_connection_view_cancel_dl_cb), connection_view);
+
 	connection_view->priv->scrollbar = gtk_vscrollbar_new(NULL);
 	gtk_range_set_adjustment(GTK_RANGE(connection_view->priv->scrollbar), VTE_TERMINAL(connection_view->priv->terminal)->adjustment);
-	gtk_box_pack_start(GTK_BOX(box), connection_view->priv->scrollbar, FALSE, FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(term_box), connection_view->priv->scrollbar, FALSE, FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(box), dl_vbox, FALSE, FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(box), term_box, TRUE, TRUE, 0);
 
 	gtk_widget_show_all(box);
+
+	gtk_widget_hide(connection_view->priv->progressbar);
+	gtk_widget_hide(connection_view->priv->dl_label);
+	gtk_widget_hide(connection_view->priv->dl_button);
+
 	g_object_set_data(G_OBJECT(box), "connection-view", connection_view);
 
 	connection_view->priv->box = box;
@@ -364,15 +413,21 @@ mud_connection_view_finalize (GObject *object)
 	MudConnectionView *connection_view;
 	GObjectClass *parent_class;
 	gchar *history_item;
+	MudMSPDownloadItem *item;
 
 	connection_view = MUD_CONNECTION_VIEW(object);
 
     while((history_item = (gchar *)g_queue_pop_head(connection_view->priv->history)) != NULL)
-        if(history_item != NULL)
-            g_free(history_item);
+		g_free(history_item);
 
     if(connection_view->priv->history)
         g_queue_free(connection_view->priv->history);
+
+	while((item = (MudMSPDownloadItem *)g_queue_pop_head(connection_view->priv->download_queue)) != NULL)
+		mud_telnet_msp_download_item_free(item);
+
+	if(connection_view->priv->download_queue)
+        g_queue_free(connection_view->priv->download_queue);
 
     mud_zmp_finalize(connection_view->priv->telnet);
 
@@ -396,9 +451,29 @@ mud_connection_view_set_connect_string(MudConnectionView *view, gchar *connect_s
 void
 mud_connection_view_disconnect(MudConnectionView *view)
 {
+	MudMSPDownloadItem *item;
+
 	g_assert(view != NULL);
 
+	while((item = (MudMSPDownloadItem *)g_queue_pop_head(view->priv->download_queue)) != NULL)
+		mud_telnet_msp_download_item_free(item);
+
+	if(view->priv->download_queue)
+        g_queue_free(view->priv->download_queue);
+
+	view->priv->download_queue = NULL;
+
+	if(view->priv->processed)
+		g_string_free(view->priv->processed, TRUE);
+
+	view->priv->processed = NULL;
+
+    mud_zmp_finalize(view->priv->telnet);
+
 	gnet_conn_disconnect(view->connection);
+
+	g_object_unref(view->priv->telnet);
+
 	mud_connection_view_add_text(view, _("*** Connection closed.\n"), System);
 }
 
@@ -406,11 +481,42 @@ void
 mud_connection_view_reconnect(MudConnectionView *view)
 {
     gchar *buf;
+    MudMSPDownloadItem *item;
 
 	g_assert(view != NULL);
 
-	gnet_conn_disconnect(view->connection);
-	mud_connection_view_add_text(view, _("*** Connection closed.\n"), System);
+
+	if(gnet_conn_is_connected(view->connection))
+	{
+		while((item = (MudMSPDownloadItem *)g_queue_pop_head(view->priv->download_queue)) != NULL)
+			mud_telnet_msp_download_item_free(item);
+
+		if(view->priv->download_queue)
+	        g_queue_free(view->priv->download_queue);
+
+		view->priv->download_queue = NULL;
+
+		if(view->priv->processed)
+			g_string_free(view->priv->processed, TRUE);
+
+		view->priv->processed = NULL;
+
+	    mud_zmp_finalize(view->priv->telnet);
+
+		gnet_conn_disconnect(view->connection);
+
+		g_object_unref(view->priv->telnet);
+
+		mud_connection_view_add_text(view, _("*** Connection closed.\n"), System);
+
+		view->priv->download_queue = g_queue_new();
+
+		view->naws_enabled = FALSE;
+
+		view->priv->telnet = mud_telnet_new(view, view->connection, view->priv->mud_name);
+
+		view->local_echo = TRUE;
+	}
 
 	buf = g_strdup_printf(_("*** Making connection to %s, port %d.\n"),
 	    view->priv->hostname, view->priv->port);
@@ -687,7 +793,7 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint
 
 	view->naws_enabled = FALSE;
 
-	view->priv->telnet = mud_telnet_new(view, view->connection);
+	view->priv->telnet = mud_telnet_new(view, view->connection, name);
 
 	view->local_echo = TRUE;
 
@@ -824,23 +930,21 @@ MudConnectionHistoryDirection direction)
 }
 
 static void
-mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pview)
+ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pview)
 {
     gint gag;
 	gint pluggag;
-	gint i;
-	MudTelnetBuffer buffer;
-	GString *string;
 	gchar *buf;
 	gboolean temp;
     MudConnectionView *view = MUD_CONNECTION_VIEW(pview);
+    gint length;
 
     g_assert(view != NULL);
 
     switch(event->type)
     {
         case GNET_CONN_ERROR:
-            mud_connection_view_add_text(view, _("*** Could not connect."), Error);
+            mud_connection_view_add_text(view, _("*** Could not connect.\n"), Error);
         break;
 
         case GNET_CONN_CONNECT:
@@ -862,43 +966,48 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
 		      mud_tray_update_icon(view->priv->tray, online);
 	       }
 
-	       buffer = mud_telnet_process(view->priv->telnet, (guchar *)event->buffer, event->length);
+	       view->priv->processed = mud_telnet_process(view->priv->telnet,
+	       				(guchar *)event->buffer, event->length, &length);
 
-	       if(buffer.len != 0)
+	       if(view->priv->processed != NULL)
 	       {
-	           string = g_string_new(NULL);
-	           for(i = 0; i < buffer.len; i++)
-	                g_string_append_c(string, buffer.buffer[i]);
+	       	   if(view->priv->telnet->msp_parser.enabled)
+	       	   {
+					view->priv->processed = mud_telnet_msp_parse(
+						view->priv->telnet, view->priv->processed, &length);
+			   }
 
-	           buf = string->str;
+			   if(view->priv->processed != NULL)
+			   {
+			   	   mud_telnet_msp_parser_clear(view->priv->telnet);
+		           buf = view->priv->processed->str;
 
-	           temp = view->local_echo;
-	           view->local_echo = FALSE;
-	           gag = mud_parse_base_do_triggers(view->priv->parse,
-	                    buf);
-	           view->local_echo = temp;
+		           temp = view->local_echo;
+		           view->local_echo = FALSE;
+		           gag = mud_parse_base_do_triggers(view->priv->parse,
+		                    buf);
+		           view->local_echo = temp;
 
-	           mud_window_handle_plugins(view->priv->window, view->priv->id,
-	                    buf, buffer.len, 1);
+		           mud_window_handle_plugins(view->priv->window, view->priv->id,
+		                    buf, length, 1);
 
-	           pluggag = PluginGag;
-	           PluginGag = FALSE;
+		           pluggag = PluginGag;
+		           PluginGag = FALSE;
 
-	            if(!gag && !pluggag)
-	            {
+		            if(!gag && !pluggag)
+		            {
+		    	        vte_terminal_feed(VTE_TERMINAL(view->priv->terminal),
+		    	            buf, length);
+		    	        mud_log_write_hook(view->priv->log, buf, length);
+		            }
 
-	    	        vte_terminal_feed(VTE_TERMINAL(view->priv->terminal),
-	    	            buf, buffer.len);
-	    	        mud_log_write_hook(view->priv->log, buf, buffer.len);
+	                if (view->priv->connect_hook) {
+	                    mud_connection_view_send (view, view->priv->connect_string);
+	                    view->priv->connect_hook = FALSE;
+	               }
+
+	               buf = NULL;
 	            }
-
-                if (view->priv->connect_hook) {
-                    mud_connection_view_send (view, view->priv->connect_string);
-                    view->priv->connect_hook = FALSE;
-               }
-
-                g_string_free(string, TRUE);
-                buf = NULL;
             }
 
             gnet_conn_read(view->connection);
@@ -938,4 +1047,202 @@ mud_connection_view_send_naws(MudConnectionView *view)
                 VTE_TERMINAL(view->priv->terminal)->column_count,
                 VTE_TERMINAL(view->priv->terminal)->row_count);
     }
+}
+
+static void
+mud_connection_view_start_download(MudConnectionView *view)
+{
+	MudMSPDownloadItem *item;
+
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(view->priv->progressbar), 0.0);
+	gtk_label_set_text(GTK_LABEL(view->priv->dl_label), _("Connecting..."));
+	gtk_widget_show(view->priv->progressbar);
+	gtk_widget_show(view->priv->dl_label);
+	gtk_widget_show(view->priv->dl_button);
+
+	if(!view->priv->downloading && view->priv->dl_conn)
+		gnet_conn_http_delete(view->priv->dl_conn);
+
+	item = g_queue_peek_head(view->priv->download_queue);
+	view->priv->dl_conn = gnet_conn_http_new();
+	gnet_conn_http_set_uri(view->priv->dl_conn, item->url);
+	gnet_conn_http_set_user_agent (view->priv->dl_conn, "gnome-mud");
+
+	view->priv->downloading = TRUE;
+
+	gnet_conn_http_run_async(view->priv->dl_conn,
+		mud_connection_view_http_cb, view);
+}
+
+void
+mud_connection_view_queue_download(MudConnectionView *view, gchar *url, gchar *file)
+{
+	MudMSPDownloadItem *item;
+	guint i, size;
+	GConfClient *client;
+	gboolean download;
+
+    gchar key[2048];
+	gchar extra_path[512] = "";
+
+    client = gconf_client_get_default();
+
+    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/remote_download");
+    download = gconf_client_get_bool(client, key, NULL);
+
+    if(download)
+    {
+		size = g_queue_get_length(view->priv->download_queue);
+
+		for(i = 0; i < size; ++i) // Don't add items twice.
+		{
+			item = (MudMSPDownloadItem *)g_queue_peek_nth(view->priv->download_queue, i);
+
+			if(strcmp(item->url, url) == 0)
+				return;
+		}
+
+		item = NULL;
+		item = g_malloc(sizeof(MudMSPDownloadItem));
+
+		item->url = g_strdup(url);
+		item->file = g_strdup(file);
+
+		g_queue_push_tail(view->priv->download_queue, item);
+
+		item = NULL;
+
+		if(view->priv->downloading == FALSE)
+			mud_connection_view_start_download(view);
+	}
+}
+
+static void
+mud_connection_view_http_cb(GConnHttp *conn, GConnHttpEvent *event, gpointer data)
+{
+	MudConnectionView *view = (MudConnectionView *)data;
+	MudMSPDownloadItem *item;
+	gchar **uri;
+	GString *file_name;
+	GConnHttpEventData *event_data;
+
+	switch(event->type)
+	{
+		case GNET_CONN_HTTP_CONNECTED:
+		break;
+
+		case GNET_CONN_HTTP_DATA_PARTIAL:
+			event_data = (GConnHttpEventData *)event;
+
+			if(event_data->content_length == 0)
+				gtk_progress_bar_pulse(GTK_PROGRESS_BAR(view->priv->progressbar));
+			else
+				gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(view->priv->progressbar),
+					(gdouble)((gdouble)event_data->data_received / (gdouble)event_data->content_length));
+		break;
+
+		case GNET_CONN_HTTP_DATA_COMPLETE:
+			event_data = (GConnHttpEventData *)event;
+
+			gtk_widget_hide(view->priv->progressbar);
+			gtk_widget_hide(view->priv->dl_label);
+			gtk_widget_hide(view->priv->dl_button);
+
+			item = g_queue_pop_head(view->priv->download_queue);
+
+			g_file_set_contents(item->file, event_data->buffer,
+				event_data->buffer_length, NULL);
+
+			mud_telnet_msp_download_item_free(item);
+
+			view->priv->downloading = FALSE;
+
+			if(!g_queue_is_empty(view->priv->download_queue))
+				mud_connection_view_start_download(view);
+		break;
+
+		case GNET_CONN_HTTP_TIMEOUT:
+			if(!view->priv->downloading)
+				break;
+
+			gtk_widget_hide(view->priv->progressbar);
+			gtk_widget_hide(view->priv->dl_label);
+			gtk_widget_hide(view->priv->dl_button);
+
+			g_warning(_("Connection timed out."));
+
+			item = g_queue_pop_head(view->priv->download_queue);
+			mud_telnet_msp_download_item_free(item);
+
+			view->priv->downloading = FALSE;
+
+			if(!g_queue_is_empty(view->priv->download_queue))
+				mud_connection_view_start_download(view);
+		break;
+
+		case GNET_CONN_HTTP_ERROR:
+			gtk_widget_hide(view->priv->progressbar);
+			gtk_widget_hide(view->priv->dl_label);
+			gtk_widget_hide(view->priv->dl_button);
+
+			g_warning(_("There was an internal http connection error."));
+
+			item = g_queue_pop_head(view->priv->download_queue);
+			mud_telnet_msp_download_item_free(item);
+
+			view->priv->downloading = FALSE;
+
+			if(!g_queue_is_empty(view->priv->download_queue))
+				mud_connection_view_start_download(view);
+
+		break;
+
+		case GNET_CONN_HTTP_RESOLVED:
+			break;
+
+		case GNET_CONN_HTTP_RESPONSE:
+			item = g_queue_peek_head(view->priv->download_queue);
+
+			uri = g_strsplit(item->url, "/", 0);
+
+			file_name = g_string_new(NULL);
+
+			g_string_append(file_name, _("Downloading"));
+			g_string_append_c(file_name, ' ');
+			g_string_append(file_name, uri[g_strv_length(uri) - 1]);
+			g_string_append(file_name, "...");
+
+			gtk_label_set_text(GTK_LABEL(view->priv->dl_label), file_name->str);
+
+			g_string_free(file_name, TRUE);
+			g_strfreev(uri);
+			break;
+
+		case GNET_CONN_HTTP_REDIRECT:
+			break;
+	}
+}
+
+static void
+mud_connection_view_cancel_dl_cb(GtkWidget *widget, MudConnectionView *view)
+{
+	MudMSPDownloadItem *item;
+
+	gtk_widget_hide(view->priv->progressbar);
+	gtk_widget_hide(view->priv->dl_label);
+	gtk_widget_hide(view->priv->dl_button);
+
+	if(view->priv->dl_conn)
+	{
+		gnet_conn_http_delete(view->priv->dl_conn);
+		view->priv->dl_conn = NULL;
+	}
+
+	item = g_queue_pop_head(view->priv->download_queue);
+	mud_telnet_msp_download_item_free(item);
+
+	view->priv->downloading = FALSE;
+
+	if(!g_queue_is_empty(view->priv->download_queue))
+		mud_connection_view_start_download(view);
 }

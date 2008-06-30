@@ -43,6 +43,7 @@ struct _MudPrefs
 
 	gboolean UseRemoteEncoding;
 	gboolean UseProxy;
+	gboolean UseRemoteDownload;
 	gchar *Encoding;
 	gchar *ProxyVersion;
 	gchar *ProxyHostname;
@@ -78,6 +79,7 @@ typedef struct
 	unsigned int Encoding : 1;
 	unsigned int ProxyVersion : 1;
 	unsigned int ProxyHostname : 1;
+	unsigned int UseRemoteDownload : 1;
 } MudProfileMask;
 
 struct _MudProfileClass
@@ -116,6 +118,7 @@ void mud_profile_set_encoding_check (MudProfile *profile, const gint value);
 void mud_profile_set_proxy_check (MudProfile *profile, const gint value);
 void mud_profile_set_proxy_combo(MudProfile *profile, GtkComboBox *combo);
 void mud_profile_set_proxy_entry (MudProfile *profile, const gchar *value);
+void mud_profile_set_msp_check (MudProfile *profile, const gint value);
 
 gchar *mud_profile_from_number(gint num);
 gint mud_profile_num_from_name(gchar *name);

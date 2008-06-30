@@ -296,3 +296,25 @@ MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 	g_string_free(args, TRUE);
 
 }
+
+/* MSP */
+void
+MudHandler_MSP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
+{
+	handler->enabled = TRUE;
+	mud_telnet_msp_init(telnet);
+	telnet->msp_parser.enabled = TRUE;
+}
+
+void
+MudHandler_MSP_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
+{
+    handler->enabled = FALSE;
+}
+
+void
+MudHandler_MSP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
+    guint len, MudTelnetHandler *handler)
+{
+    return;
+}
