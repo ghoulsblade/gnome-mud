@@ -21,7 +21,7 @@ gnome_mud_SOURCES =				\
 	gconf-helper.c				\
 	gconf-helper.h				\
 	gnome-mud.c					\
-	gnome.mud.h					\
+	gnome-mud.h					\
 	modules_api.c				\
 	modules_api.h				\
 	modules.c					\

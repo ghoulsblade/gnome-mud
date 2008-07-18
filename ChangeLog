@@ -11,6 +11,8 @@
 	* src/Makefile.am, src/mud-tray.c: use the new SVG icon path for
 	the tray icon.
 
+	* src/Makefile.am: Fix typo in a filename which broke make dist.
+
 2008-06-30  Les Harris  <me@lesharris.com>
 
 	* configure.ac: Made gstreamer0.10 a conditional option, cleaned up
