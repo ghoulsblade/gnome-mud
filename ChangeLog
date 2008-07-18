@@ -1,5 +1,10 @@
 2008-07-18  Jordi Mallach  <jordi@sindominio.net>
 
+	* configure.ac: Comment out all references to mapper and MCCP
+	support, these features need to be rewritten in a future release.
+
+2008-07-18  Jordi Mallach  <jordi@sindominio.net>
+
 	* Makefile.am: Make schema installation conditional to
 	GCONF_SCHEMAS_INSTALL.
 
