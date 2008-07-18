@@ -165,7 +165,7 @@
 			<locale name="C">
 				<short>Remote Encoding</short>
 				<long>
-				Use Remote Encoding charset negotiation.
+				Use Remote Encoding negotiation.
 				</long>
 			</locale>
 		</schema>

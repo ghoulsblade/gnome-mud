@@ -506,7 +506,7 @@ WINDOWS-1258</property>
 				  <child>
 				    <widget class="GtkComboBox" id="proxy_combo">
 				      <property name="visible">True</property>
-				      <property name="items" translatable="yes">4
+				      <property name="items">4
 5</property>
 				      <property name="add_tearoffs">False</property>
 				      <property name="focus_on_click">True</property>

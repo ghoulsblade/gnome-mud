@@ -1,5 +1,13 @@
 2008-07-18  Jordi Mallach  <jordi@sindominio.net>
 
+	* Makefile.am: Make schema installation conditional to
+	GCONF_SCHEMAS_INSTALL.
+
+	* gnome-mud.schemas.in: Remove "charset" from a string.
+	* ui/prefs.glade: Mark a string as non-translatable.
+
+2008-07-18  Jordi Mallach  <jordi@sindominio.net>
+
 	* Get rid of all .cvsignore files, and add svn:ignore properties as
 	needed.
 
