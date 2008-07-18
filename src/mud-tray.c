@@ -186,7 +186,7 @@ void mud_tray_update_icon(MudTray *tray, enum mud_tray_status icon)
                         break;
                 case offline_connecting:
                 case online_connecting:
-                        icon_name = GMPIXMAPSDIR "/gnome-mud-tray-icon.png";
+                        icon_name = GMPIXMAPSDIR "/gnome-mud.svg";
                         break;
                 case online:
                         icon_name = GMPIXMAPSDIR "/connection-online.png";

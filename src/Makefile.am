@@ -1,17 +1,15 @@
-SUBDIRS = pixmaps svg
-
 GMUD_DEBUG = -Wall -O0 -g
 
 localedir = $(datadir)/locale
-INCLUDES =												\
-	-DLOCALEDIR=\"$(localedir)\"						\
+INCLUDES =								\
+	-DLOCALEDIR=\"$(localedir)\"					\
 	-DPIXMAPSDIR=\""$(datadir)/pixmaps"\"				\
-	-DGMPIXMAPSDIR=\""$(datadir)/pixmaps/gnome-mud"\"	\
-	-DPREFIX=\""$(prefix)"\"							\
-	-DSYSCONFDIR=\""$(sysconfdir)"\"					\
-	-DDATADIR=\""$(datadir)"\"							\
-	-DLIBDIR=\""$(libdir)"\"							\
-	-DGLADEDIR=\""$(pkgdatadir)"\"						\
+	-DGMPIXMAPSDIR=\""$(datadir)/icons/hicolor/scalable/apps"\"	\
+	-DPREFIX=\""$(prefix)"\"					\
+	-DSYSCONFDIR=\""$(sysconfdir)"\"				\
+	-DDATADIR=\""$(datadir)"\"					\
+	-DLIBDIR=\""$(libdir)"\"					\
+	-DGLADEDIR=\""$(pkgdatadir)"\"					\
 	$(GMUD_CFLAGS) $(GMUD_DEBUG) $(MSP_CFLAGS)
 LDADD   = $(GMUD_LIBS) $(Z_LIBS) $(MSP_LIBS)
 AM_CPPFLAGS = -DPKGDATADIR=\"$(pkgdatadir)\"

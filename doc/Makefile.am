@@ -1,5 +1,5 @@
-SUBDIRS = gnome-mud-manual
+SUBDIRS = 
 
 man_MANS = gnome-mud.6
 
-EXTRA_DIST = xmldocs.make $(man_MANS)
+EXTRA_DIST = $(man_MANS)

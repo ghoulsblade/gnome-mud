@@ -1,3 +1,16 @@
+2008-07-18  Jordi Mallach  <jordi@sindominio.net>
+
+	* Get rid of all .cvsignore files, and add svn:ignore properties as
+	needed.
+
+	* configure.ac, doc/Makefile.am: Don't ship the GNOME-Mud manual
+	for now, as it's outdated and not yet migrated to PO format.
+
+	* configure.ac, src/Makefile.am, src/pixmaps, src/svg: Get rid of the
+	old icons from the distribution.
+	* src/Makefile.am, src/mud-tray.c: use the new SVG icon path for
+	the tray icon.
+
 2008-06-30  Les Harris  <me@lesharris.com>
 
 	* configure.ac: Made gstreamer0.10 a conditional option, cleaned up

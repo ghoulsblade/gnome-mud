@@ -159,10 +159,7 @@ AC_CONFIG_FILES([
   data/icons/scalable/Makefile
   data/icons/scalable/apps/Makefile
   doc/Makefile
-  doc/gnome-mud-manual/Makefile
   src/Makefile
-  src/pixmaps/Makefile
-  src/svg/Makefile
   plugins/Makefile
   plugins/python/Makefile
   po/Makefile.in
