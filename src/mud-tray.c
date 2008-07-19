@@ -182,18 +182,18 @@ void mud_tray_update_icon(MudTray *tray, enum mud_tray_status icon)
 
         switch (icon) {
                 case offline:
-                        icon_name = GMPIXMAPSDIR "/connection-offline.png";
+                        //icon_name = GMPIXMAPSDIR "/connection-offline.png";
                         break;
                 case offline_connecting:
                 case online_connecting:
-                        icon_name = GMPIXMAPSDIR "/gnome-mud.svg";
+                        icon_name = "gnome-mud";
                         break;
                 case online:
-                        icon_name = GMPIXMAPSDIR "/connection-online.png";
+                        //icon_name = GMPIXMAPSDIR "/connection-online.png";
                         break;
         }
 
-        gtk_status_icon_set_from_file(tray->priv->icon, icon_name);
+        gtk_status_icon_set_from_icon_name(tray->priv->icon, icon_name);
 }
 
 void

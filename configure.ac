@@ -71,11 +71,9 @@ AC_ISC_POSIX
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_HEADER_DIRENT
 AC_HEADER_TIME
-AC_CHECK_HEADERS(fcntl.h unistd.h malloc.h termios.h termio.h limits.h getopt.h regex.h)
-AC_CHECK_HEADERS(fcntl.h strings.h unistd.h)
-AC_CHECK_HEADERS(sys/time.h)
+AC_HEADER_DIRENT
+AC_CHECK_HEADERS(strings.h)
 
 AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])
 
@@ -138,26 +136,12 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_C_INLINE
 
-dnl Checks for library functions.
-AC_CHECK_FUNC(bzero)
-AC_CHECK_FUNCS(getaddrinfo getnameinfo mkdir socket strdup strerror strstr)
-
 AC_CONFIG_FILES([
   Makefile
   gnome-mud.lsm
   gnome-mud.spec
   data/Makefile
   data/icons/Makefile
-  data/icons/16x16/Makefile
-  data/icons/16x16/apps/Makefile
-  data/icons/22x22/Makefile
-  data/icons/22x22/apps/Makefile
-  data/icons/24x24/Makefile
-  data/icons/24x24/apps/Makefile
-  data/icons/32x32/Makefile
-  data/icons/32x32/apps/Makefile
-  data/icons/scalable/Makefile
-  data/icons/scalable/apps/Makefile
   doc/Makefile
   src/Makefile
   plugins/Makefile

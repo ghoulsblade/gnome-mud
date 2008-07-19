@@ -20,12 +20,13 @@ games_PROGRAMS = gnome-mud
 gnome_mud_SOURCES =				\
 	gconf-helper.c				\
 	gconf-helper.h				\
-	gnome-mud.c					\
-	gnome-mud.h					\
+	gnome-mud.c				\
+	gnome-mud.h				\
+	gnome-mud-icons.h \
 	modules_api.c				\
 	modules_api.h				\
-	modules.c					\
-	modules.h					\
+	modules.c				\
+	modules.h				\
 	modules-structures.h		\
 	mud-connection-view.c		\
 	mud-connection-view.h		\
@@ -41,8 +42,8 @@ gnome_mud_SOURCES =				\
 	mud-preferences-window.h	\
 	mud-profile.c				\
 	mud-profile.h				\
-	mud-regex.c					\
-	mud-regex.h					\
+	mud-regex.c				\
+	mud-regex.h				\
 	mud-telnet.c                \
 	mud-telnet.h                \
 	mud-telnet-handlers.c		\
@@ -51,8 +52,8 @@ gnome_mud_SOURCES =				\
 	mud-telnet-msp.h			\
 	mud-telnet-zmp.c			\
 	mud-telnet-zmp.h			\
-	mud-tray.c					\
-	mud-tray.h					\
+	mud-tray.c				\
+	mud-tray.h				\
 	mud-window.c				\
 	mud-window.h				\
 	mud-window-mconnect.h		\
@@ -63,5 +64,5 @@ gnome_mud_SOURCES =				\
 	mud-window-mudlist.h		\
 	mud-window-profile.c		\
 	mud-window-profile.h		\
-	utils.c						\
+	utils.c					\
 	utils.h

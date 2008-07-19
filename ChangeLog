@@ -1,3 +1,21 @@
+2008-07-18  Les Harris  <mes@lesharris.com>
+
+	* configure.ac: Updated icon Makefiles, removed obsolete
+	header and function checks.
+
+	* src/Makefile.am: Added gnome-mud-icons.h.
+
+	* src/gnome-mud-icons.h: A new header which holds a
+	definition of our icon's name.
+
+	* src/gnome-mud.c: Properly set our icon based on our
+	icon name rather than pointing to a file. Removed
+	obsolete python code.
+
+	* src/mud-tray.c: Removed references to our connection
+	status icons, properly set our tray icon based on our
+	icon name.
+
 2008-07-18  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: Comment out all references to mapper and MCCP

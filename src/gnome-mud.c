@@ -38,6 +38,7 @@
 #endif
 
 #include "gnome-mud.h"
+#include "gnome-mud-icons.h"
 #include "mud-connection-view.h"
 #include "mud-window.h"
 #include "mud-profile.h"
@@ -120,18 +121,11 @@ int main (gint argc, char *argv[])
 	}
 	gconf_client_add_dir(gconf_client, "/apps/gnome-mud", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 
-
 	mud_profile_load_profiles();
 
-	gtk_window_set_icon_from_file(GTK_WINDOW(mud_window_get_window(mud_window_new(gconf_client))),
-					PIXMAPSDIR "/gnome-mud.png", &err);
+	gtk_window_set_default_icon_name(GMUD_STOCK_ICON);
 
-#ifdef USE_PYTHON
-	//Py_SetProgramName(argv[0]);
-	//Py_Initialize();
-	//PySys_SetArgv(argc, argv);
-	//python_init();
-#endif
+	mud_window_new(gconf_client);
 
 	g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
 	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
@@ -149,14 +143,10 @@ int main (gint argc, char *argv[])
 		mkdir(buf, 0777 );
 
 	gtk_about_dialog_set_url_hook(utils_activate_url, NULL, NULL);
-	gtk_main();
-	gconf_client_suggest_sync(gconf_client, &err);
 
-#ifdef USE_PYTHON
-	//python_end();
-	//Py_Finalize();
-#endif
-	//gdk_exit (0);
+	gtk_main();
+	
+	gconf_client_suggest_sync(gconf_client, &err);
 
 	return 0;
 }
