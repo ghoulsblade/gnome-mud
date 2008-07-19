@@ -45,6 +45,7 @@
 #include <stdlib.h>
 
 #include "gnome-mud.h"
+#include "gnome-mud-icons.h"
 #include "mud-connection-view.h"
 #include "mud-preferences-window.h"
 #include "mud-window.h"
@@ -196,13 +197,17 @@ mud_window_remove_connection_view(MudWindow *window, gint nr)
 
 	    gtk_window_get_size(GTK_WINDOW(window->priv->window), &w, &h);
 
-	    window->priv->image = gtk_image_new();
-		buf = gdk_pixbuf_new_from_file_at_size(GMPIXMAPSDIR "/gnome-mud.svg", w >> 1, h >> 1, &gerr);
-		gtk_image_set_from_pixbuf(GTK_IMAGE(window->priv->image), buf);
+	    if(window->priv->image)
+		    g_object_unref(window->priv->image);
 
-		gtk_widget_show(window->priv->image);
+	    buf = gtk_icon_theme_load_icon(gtk_icon_theme_get_default(), "gnome-mud", w >> 1, GTK_ICON_LOOKUP_FORCE_SVG, &gerr);
+	    window->priv->image = gtk_image_new_from_pixbuf(buf);
+	    gtk_widget_show(window->priv->image);
 
-		gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), window->priv->image, NULL);
+	    gtk_notebook_append_page(GTK_NOTEBOOK(window->priv->notebook), window->priv->image, NULL);
+
+	    if(buf)
+		    g_object_unref(buf);
 	}
 }
 static void
@@ -426,10 +431,8 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
 
     static const gchar comments[] = N_("A Multi-User Dungeon (MUD) client for GNOME");
 
-    GdkPixbuf *logo;
-
-    logo = gdk_pixbuf_new_from_file_at_size(GMPIXMAPSDIR "/gnome-mud.svg",
-        128, 128, NULL);
+    GdkPixbuf *logo = gtk_icon_theme_load_icon(gtk_icon_theme_get_default(), "gnome-mud", 
+		    128, GTK_ICON_LOOKUP_FORCE_SVG, NULL);
 
     gtk_show_about_dialog(GTK_WINDOW(window->priv->window),
         "artists", artists,
@@ -437,7 +440,7 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
         "comments", _(comments),
         "copyright", copyright,
         "documenters", documenters,
-        "logo", logo,
+	"logo", logo,
         "translator-credits", _("translator-credits"),
         "version", VERSION,
         "website", "http://amcl.sourceforge.net/",
@@ -445,8 +448,7 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
         NULL);
 
     if(logo)
-        g_object_unref(logo);
-
+	    g_object_unref(logo);
 }
 
 static void

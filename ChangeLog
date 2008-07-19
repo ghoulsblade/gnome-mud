@@ -1,5 +1,11 @@
 2008-07-18  Les Harris  <me@lesharris.com>
 
+	* src/mud-window.c: Updated window background
+	icon and aboutbox icon to use the default
+	gtk icon theme.
+
+2008-07-18  Les Harris  <me@lesharris.com>
+
 	* src/mud-tray.c: Set the icon name for all
 	tray states to gnome-mud to prevent some harmless
 	Gtk-CRITICAL's from showing up at runtime.
