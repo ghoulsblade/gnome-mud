@@ -856,6 +856,8 @@ mud_window_finalize (GObject *object)
 		g_object_unref(((MudViewEntry *)entry->data)->view);
 	}
 
+	
+
 	g_free(window->priv);
 
 	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));

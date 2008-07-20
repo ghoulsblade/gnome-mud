@@ -1,3 +1,10 @@
+2008-07-19  Les Harris  <me@lesharris.com>
+
+	* src/mud-connection-view.c: Explicitly set VTE
+	to use xterm emulation.
+
+	* src/mud-telnet.c: Removed unused #define.
+
 2008-07-18  Les Harris  <me@lesharris.com>
 
 	* src/mud-window.c: Updated window background

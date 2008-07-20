@@ -368,6 +368,7 @@ mud_connection_view_init (MudConnectionView *connection_view)
 
 	connection_view->priv->terminal = vte_terminal_new();
 	vte_terminal_set_encoding(VTE_TERMINAL(connection_view->priv->terminal), "ISO-8859-1");
+	vte_terminal_set_emulation(VTE_TERMINAL(connection_view->priv->terminal), "xterm");
 
 	gtk_box_pack_start(GTK_BOX(term_box), connection_view->priv->terminal, TRUE, TRUE, 0);
 	g_signal_connect(G_OBJECT(connection_view->priv->terminal),

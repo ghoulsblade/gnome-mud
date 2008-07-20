@@ -35,8 +35,6 @@
 #include "mud-telnet-handlers.h"
 #include "mud-telnet-zmp.h"
 
-#define TELNET_TRACE_MASK _("telnet")
-
 struct _MudTelnetPrivate
 {
 	GString *processed;
@@ -755,7 +753,6 @@ mud_telnet_handle_positive_nego(MudTelnet *telnet,
 				mud_telnet_on_enable_opt(telnet, opt_no, him);
 				return TRUE;
 			} else { // The opposite is queued
-				g_message("Refusing %d", opt_no);
 				mud_telnet_set_telopt_state(opt, TELOPT_STATE_WANTNO, bitshift);
 				mud_telnet_set_telopt_queue(opt, TELOPT_STATE_QUEUE_EMPTY, bitshift);
 				mud_telnet_send_iac(telnet, negative, opt_no);
