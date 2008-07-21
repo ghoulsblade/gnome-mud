@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.10.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-02 17:10+0200\n"
-"PO-Revision-Date: 2008-07-02 18:28+0200\n"
+"POT-Creation-Date: 2008-07-21 10:42+0200\n"
+"PO-Revision-Date: 2008-07-21 10:42+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr ""
 "l», que s'enviarà al MUD com quatre ordres diferents."
 
 #: ../gnome-mud.schemas.in.h:3 ../src/mud-preferences-window.c:543
-#: ../src/mud-preferences-window.c:579 ../ui/prefs.glade.h:8
+#: ../src/mud-preferences-window.c:579 ../ui/prefs.glade.h:6
 msgid "Aliases"
 msgstr "Àlies"
 
@@ -93,7 +93,8 @@ msgstr "Índex de codificacions"
 
 #: ../gnome-mud.schemas.in.h:14
 msgid "File where the mud list (used in the MudList dialog) will be read"
-msgstr "El fitxer d'on es llig la llista de muds (emprat al diàleg «Llista de muds»)"
+msgstr ""
+"El fitxer d'on es llig la llista de muds (emprat al diàleg «Llista de muds»)"
 
 #: ../gnome-mud.schemas.in.h:15
 msgid "Font"
@@ -141,7 +142,7 @@ msgstr ""
 "Aquestes assignacions es poden reemplaçar amb les vostres assignacions "
 "personalitzades, o poden ser deshabilitades per complet amb aquesta opció."
 
-#: ../gnome-mud.schemas.in.h:22 ../ui/prefs.glade.h:26
+#: ../gnome-mud.schemas.in.h:22 ../ui/prefs.glade.h:24
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
@@ -149,7 +150,7 @@ msgstr ""
 "Si s'habilita, tot el text que s'envii es mostrarà en la terminal, fent més "
 "fàcil el control del que s'està enviant."
 
-#: ../gnome-mud.schemas.in.h:23 ../ui/prefs.glade.h:27
+#: ../gnome-mud.schemas.in.h:23 ../ui/prefs.glade.h:25
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
@@ -159,7 +160,7 @@ msgstr ""
 "selecció en el camp d'entrada. Si no, el camp d'entrada de text es netejarà "
 "després de cada introducció de text."
 
-#: ../gnome-mud.schemas.in.h:24 ../ui/prefs.glade.h:28
+#: ../gnome-mud.schemas.in.h:24 ../ui/prefs.glade.h:26
 msgid ""
 "If enabled, whenever there's new output the terminal will be scrolled to the "
 "bottom."
@@ -298,7 +299,7 @@ msgstr ""
 "«right», «top» i «bottom»."
 
 #: ../gnome-mud.schemas.in.h:51 ../src/mud-preferences-window.c:549
-#: ../src/mud-preferences-window.c:586 ../ui/prefs.glade.h:40
+#: ../src/mud-preferences-window.c:586 ../ui/prefs.glade.h:38
 msgid "Triggers"
 msgstr "Gallets"
 
@@ -307,8 +308,8 @@ msgid "Use Proxy"
 msgstr "Utilitza el servidor intermediari"
 
 #: ../gnome-mud.schemas.in.h:53
-msgid "Use Remote Encoding charset negotiation."
-msgstr "Empra la negociació de la codificació del joc de caràcters remot."
+msgid "Use Remote Encoding negotiation."
+msgstr "Empra la negociació de la codificació remota."
 
 #: ../gnome-mud.schemas.in.h:54
 msgid "Use a proxy server to connect to the mud."
@@ -351,18 +352,18 @@ msgid_plural "Palette had %d entries instead of %d\n"
 msgstr[0] "La paleta tenia %d entrada en comptes de %d\n"
 msgstr[1] "La paleta tenia %d entrades en comptes de %d\n"
 
-#: ../src/gnome-mud.c:60
+#: ../src/gnome-mud.c:61
 #, c-format
 msgid "There was an error accessing GConf: %s"
 msgstr "S'ha produït un error en accedir a GConf: %s"
 
-#: ../src/gnome-mud.c:73
+#: ../src/gnome-mud.c:74
 msgid "The default configuration values could not be retrieved correctly."
 msgstr ""
 "No s'han pogut obtindre correctament els valors predeterminats de la "
 "configuració."
 
-#: ../src/gnome-mud.c:74
+#: ../src/gnome-mud.c:75
 msgid ""
 "Please check your GConf configuration, specifically that the schemas have "
 "been installed correctly."
@@ -370,7 +371,7 @@ msgstr ""
 "\"Si us plau, comproveu la vostra configuració de GConf, específicament que "
 "els esquemes estan instal·lats correctament."
 
-#: ../src/gnome-mud.c:101
+#: ../src/gnome-mud.c:102
 #, c-format
 msgid "Failed to init GConf: %s"
 msgstr "No s'ha pogut iniciar GConf: %s"
@@ -437,49 +438,49 @@ msgstr ""
 "S'ha produït un error en carregar el valor de la configuració sobre si "
 "carregar o no imatges als menús (%s)\n"
 
-#: ../src/mud-connection-view.c:499 ../src/mud-connection-view.c:538
-#: ../src/mud-connection-view.c:986
+#: ../src/mud-connection-view.c:500 ../src/mud-connection-view.c:539
+#: ../src/mud-connection-view.c:987
 msgid "*** Connection closed.\n"
 msgstr "*** S'ha tancat la connexió.\n"
 
-#: ../src/mud-connection-view.c:551 ../src/mud-connection-view.c:856
+#: ../src/mud-connection-view.c:552 ../src/mud-connection-view.c:857
 #, c-format
 msgid "*** Making connection to %s, port %d.\n"
 msgstr "*** S'està realitzant la connexió a %s, port %d.\n"
 
-#: ../src/mud-connection-view.c:707
+#: ../src/mud-connection-view.c:708
 msgid "Close"
 msgstr "Tanca"
 
-#: ../src/mud-connection-view.c:727
+#: ../src/mud-connection-view.c:728
 msgid "Change P_rofile"
 msgstr "Canvia de pe_rfil"
 
-#: ../src/mud-connection-view.c:766
+#: ../src/mud-connection-view.c:767
 msgid "_Input Methods"
 msgstr "_Mètodes d'entrada"
 
-#: ../src/mud-connection-view.c:977
+#: ../src/mud-connection-view.c:978
 msgid "*** Could not connect.\n"
 msgstr "*** No s'ha pogut connectar.\n"
 
-#: ../src/mud-connection-view.c:981
+#: ../src/mud-connection-view.c:982
 msgid "*** Connected.\n"
 msgstr "*** S'ha connectat.\n"
 
-#: ../src/mud-connection-view.c:1092
+#: ../src/mud-connection-view.c:1093
 msgid "Connecting..."
 msgstr "S'està connectant..."
 
-#: ../src/mud-connection-view.c:1206
+#: ../src/mud-connection-view.c:1207
 msgid "Connection timed out."
 msgstr "S'ha exhaurit el temps d'espera per a la connexió."
 
-#: ../src/mud-connection-view.c:1222
+#: ../src/mud-connection-view.c:1223
 msgid "There was an internal http connection error."
 msgstr "S'ha produït un error intern de connexió HTTP."
 
-#: ../src/mud-connection-view.c:1244
+#: ../src/mud-connection-view.c:1245
 msgid "Downloading"
 msgstr "S'està baixant"
 
@@ -524,7 +525,7 @@ msgid "Gag"
 msgstr "Silencia"
 
 #: ../src/mud-preferences-window.c:536 ../src/mud-preferences-window.c:573
-#: ../ui/prefs.glade.h:33
+#: ../ui/prefs.glade.h:31
 msgid "Preferences"
 msgstr "Preferències"
 
@@ -536,20 +537,20 @@ msgstr "Hi ha una errada a l'expressió regular."
 msgid "No match."
 msgstr "No hi ha cap coincidència."
 
-#: ../src/mud-window.c:427
+#: ../src/mud-window.c:432
 msgid "A Multi-User Dungeon (MUD) client for GNOME"
 msgstr "Un client «Multi-User Dungeon» (MUD) per al GNOME."
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: ../src/mud-window.c:441 ../ui/main.glade.h:29
+#: ../src/mud-window.c:444 ../ui/main.glade.h:29
 msgid "translator-credits"
 msgstr "Jordi Mallach <jordi@sindominio.net>"
 
-#: ../src/mud-window.c:567
+#: ../src/mud-window.c:569
 msgid "Could not save the file in specified location!"
 msgstr "No s'ha pogut desar el fitxer a la ubicació especificada!"
 
-#: ../src/mud-window.c:724
+#: ../src/mud-window.c:726
 msgid "_Manage Profiles..."
 msgstr "_Gestiona els perfils..."
 
@@ -877,7 +878,7 @@ msgstr "_Edita..."
 msgid "_Host/IP:"
 msgstr "_Servidor/IP:"
 
-#: ../ui/muds.glade.h:52 ../ui/prefs.glade.h:46
+#: ../ui/muds.glade.h:52 ../ui/prefs.glade.h:44
 msgid "_Name:"
 msgstr "_Nom:"
 
@@ -901,87 +902,83 @@ msgstr "_Tema:"
 msgid ""
 "\n"
 "Mud Sound Protocol:\n"
-msgstr "\nProtocol de so dels MUD:\n"
+msgstr ""
+"\n"
+"Protocol de so dels MUD:\n"
 
 #: ../ui/prefs.glade.h:4
 msgid " SOCKS Host:"
 msgstr " Servidor SOCKS:"
 
 #: ../ui/prefs.glade.h:5
-msgid ""
-"4\n"
-"5"
-msgstr ""
-
-#: ../ui/prefs.glade.h:7
 msgid "<b>New Profile Name:</b>"
 msgstr "<b>Nom del perfil nou:</b>"
 
-#: ../ui/prefs.glade.h:9
+#: ../ui/prefs.glade.h:7
 msgid "Appearence"
 msgstr "Aparença"
 
-#: ../ui/prefs.glade.h:10
+#: ../ui/prefs.glade.h:8
 msgid "Background color:"
 msgstr "Color de fons:"
 
-#: ../ui/prefs.glade.h:11
+#: ../ui/prefs.glade.h:9
 msgid "Blank"
 msgstr "Buit"
 
-#: ../ui/prefs.glade.h:12
+#: ../ui/prefs.glade.h:10
 msgid "Color and Fonts"
 msgstr "Colors i fonts"
 
-#: ../ui/prefs.glade.h:13
+#: ../ui/prefs.glade.h:11
 msgid "Color palette:"
 msgstr "Paleta de colors:"
 
-#: ../ui/prefs.glade.h:14
+#: ../ui/prefs.glade.h:12
 msgid "Command division character:"
 msgstr "Caràcter de divisió d'ordres:"
 
-#: ../ui/prefs.glade.h:15
+#: ../ui/prefs.glade.h:13
 msgid "Disable _System Keys"
 msgstr "Inhabilita les tecles del _sistema"
 
-#: ../ui/prefs.glade.h:16
+#: ../ui/prefs.glade.h:14
 msgid "E_ncoding:"
 msgstr "C_odificació:"
 
-#: ../ui/prefs.glade.h:17
+#: ../ui/prefs.glade.h:15
 msgid "Enable Encoding Negotiation"
 msgstr "Habilita la negociació de la codificació"
 
-#: ../ui/prefs.glade.h:18
+#: ../ui/prefs.glade.h:16
 msgid "Enable Remote Downloading"
 msgstr "Habilita la baixada remota"
 
-#: ../ui/prefs.glade.h:19
+#: ../ui/prefs.glade.h:17
 msgid "Error At:"
 msgstr "Error a:"
 
-#: ../ui/prefs.glade.h:20
+#: ../ui/prefs.glade.h:18
 msgid "Error Code:"
 msgstr "Codi d'error:"
 
-#: ../ui/prefs.glade.h:21
+#: ../ui/prefs.glade.h:19
 msgid "Error String:"
 msgstr "Cadena d'error:"
 
-#: ../ui/prefs.glade.h:22
+#: ../ui/prefs.glade.h:20
 msgid "Font:"
 msgstr "Tipus de lletra:"
 
-#: ../ui/prefs.glade.h:23
+#: ../ui/prefs.glade.h:21
 msgid "Foreground color:"
 msgstr "Color del text:"
 
-#: ../ui/prefs.glade.h:24
+#: ../ui/prefs.glade.h:22
 msgid "Functionality"
 msgstr "Funcionalitats"
 
-#: ../ui/prefs.glade.h:25
+#: ../ui/prefs.glade.h:23
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
 "overriden by custom keybindings, or they can be disabled completely with "
@@ -991,43 +988,43 @@ msgstr ""
 "Aquestes assignacions es poden reemplaçar amb les vostres assignacions "
 "personalitzades, o es poden inhabilitar per complet amb aquesta opció."
 
-#: ../ui/prefs.glade.h:29
+#: ../ui/prefs.glade.h:27
 msgid "Match Text:"
 msgstr "Text a comprovar:"
 
-#: ../ui/prefs.glade.h:30
+#: ../ui/prefs.glade.h:28
 msgid "Match:"
 msgstr "Coincidència:"
 
-#: ../ui/prefs.glade.h:31
+#: ../ui/prefs.glade.h:29
 msgid "New Profile"
 msgstr "Perfil nou"
 
-#: ../ui/prefs.glade.h:32
+#: ../ui/prefs.glade.h:30
 msgid "Number of lines to save in the scrollback."
 msgstr "Número de línies a desar en el desplaçament."
 
-#: ../ui/prefs.glade.h:34
+#: ../ui/prefs.glade.h:32
 msgid "Profiles"
 msgstr "Perfils"
 
-#: ../ui/prefs.glade.h:35
+#: ../ui/prefs.glade.h:33
 msgid "Regex Error"
 msgstr "Error de l'expressió regular"
 
-#: ../ui/prefs.glade.h:36
+#: ../ui/prefs.glade.h:34
 msgid "S_croll on output"
 msgstr "_Desplaça en sortida"
 
-#: ../ui/prefs.glade.h:37
+#: ../ui/prefs.glade.h:35
 msgid "Scrollback:"
 msgstr "Desplaçament:"
 
-#: ../ui/prefs.glade.h:38
+#: ../ui/prefs.glade.h:36
 msgid "Test"
 msgstr "Prova"
 
-#: ../ui/prefs.glade.h:39
+#: ../ui/prefs.glade.h:37
 msgid ""
 "The character used to divide commands sent to the mud. For example \";\" "
 "will let the string \"w;look\" be sent to the mud as two separate commands."
@@ -1036,39 +1033,39 @@ msgstr ""
 "exemple, «;» farà que la cadena «w;look» s'envie al MUD com dos ordres "
 "separades."
 
-#: ../ui/prefs.glade.h:41
+#: ../ui/prefs.glade.h:39
 msgid "Use SOCKS Proxy"
 msgstr "Utilitza el servidor intermediari de SOCKS"
 
-#: ../ui/prefs.glade.h:42
+#: ../ui/prefs.glade.h:40
 msgid "Version:"
 msgstr "Versió:"
 
-#: ../ui/prefs.glade.h:43
+#: ../ui/prefs.glade.h:41
 msgid "_Action List:"
 msgstr "Llista d'_accions:"
 
-#: ../ui/prefs.glade.h:44
+#: ../ui/prefs.glade.h:42
 msgid "_Echo the text sent"
 msgstr "_Mostra el text enviat"
 
-#: ../ui/prefs.glade.h:45
+#: ../ui/prefs.glade.h:43
 msgid "_Keep the text entered"
 msgstr "_Mantin el text introduït"
 
-#: ../ui/prefs.glade.h:47
+#: ../ui/prefs.glade.h:45
 msgid "_Proxy:"
 msgstr "_Servidor intermediari:"
 
-#: ../ui/prefs.glade.h:48
+#: ../ui/prefs.glade.h:46
 msgid "_Regex:"
 msgstr "Exp_ressió regular:"
 
-#: ../ui/prefs.glade.h:49
+#: ../ui/prefs.glade.h:47
 msgid "_Trigger:"
 msgstr "Galle_t:"
 
-#: ../ui/prefs.glade.h:50
+#: ../ui/prefs.glade.h:48
 msgid "lines"
 msgstr "línies"
 

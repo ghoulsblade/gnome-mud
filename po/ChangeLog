@@ -1,3 +1,9 @@
+2008-07-21  Jordi Mallach  <jordi@sindominio.net>
+
+	* LINGUAS: Added "el".
+	* ca.po: Updated Catalan translation.
+	* hr.po: Fixed Plural-Form header.
+
 2008-07-02  Yannig Marchegay <yannig@marchegay.org>
 
 	* oc.po: Updated Occitan translation.
