@@ -3,7 +3,7 @@
 %define	RELEASE	1
 %define	rel %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
 
-Summary:	A simple Mud client for GNOME
+Summary:	A MUD client for GNOME
 Name:		%name
 Version:	%ver
 Release:	%rel

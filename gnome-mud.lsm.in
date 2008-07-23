@@ -8,7 +8,7 @@ Description:    GNOME-Mud is a simple mudclient designed for robustness,
 Keywords:       gnome-mud x11 games mud gtk moo mush gnome
 Author:         lobbin@localhost.nu (Robin Ericsson)
 Maintained-by:  lobbin@localhost.nu (Robin Ericsson)
-Primary-site:   http://amcl.sourceforge.net/
+Primary-site:   http://live.gnome.org/GnomeMud
 Platforms:      Linux Unix X11 GTK GNOME
 Copying-policy: GPL
 End

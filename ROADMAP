@@ -1,35 +1,6 @@
 ROADMAP
 =======
 
-Feature roadmap. It lists most fo the currently planned features and 
-details the schedule for release.
+See the wiki for information on future plans and new features being added.
 
-These are not hard deadlines and things are subject to change. Please
-feel free to suggest features, contribute, or comment.
-
-
-0.11.0
-
-* Complete GNOME2 (no BROKEN or DEPRECATED code)
-* Rewrite net-releated code
-* Right-click menu for connection-tabs
-  - able close connection, get connection info such as connected
-    to what host, which profile in use, bytes transfered, etc.
-* Other marker on tab to show if using MCCP or not
-
-0.12.0
-
-* Rewrite connection wizard step 2
-	+ be able to ping host...
-* MSP, Mud Sound Protocol (are there many muds using this?)
-* SOCKS support
-* Use splitscreen feature from GTK 2.0 (waiting for response from vte)
-* AutoReconnect
-
-
-When time comes
-
-* User defineable buttonbar
-* Customizable statusline
-* Tab completion, and separate history for each connection
-* Make it run on Windows
+  http://live.gnome.org/GnomeMud

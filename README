@@ -8,7 +8,7 @@ This program is under GPL. See file COPYING for details.
     code used from Bezerk, Xwhois.
 
     Latest version of GNOME-Mud can always be found at
-    <URL:http://amcl.sourceforge.net/>
+    <URL:http://download.gnome.org/sources/gnome-mud/>
 
 
 2. Requirements.
@@ -58,7 +58,7 @@ This program is under GPL. See file COPYING for details.
 
     Things that is in constant need of contrib is:
 
-    * translations, only a handful of languages are currently supported.
+    * translations
     * useful plugins
     * ... what would you like?
 
@@ -71,9 +71,6 @@ This program is under GPL. See file COPYING for details.
 
 
 7. Contacting.
-
-    Robin Ericsson
-    lobbin@localhost.nu
 
     GNOME-Mud mailing list
     gnome-mud-list@gnome.org

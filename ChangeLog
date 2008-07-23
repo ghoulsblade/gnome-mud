@@ -1,3 +1,13 @@
+2008-07-24  Jordi Mallach  <jordi@sindominio.net>
+
+	* NEWS: Update for 0.11.
+
+	* README, gnome-mud.lsm.in, src/mud-window.c: Update website
+	references to point at our wiki page at
+	http://live.gnome.org/GnomeMud.
+
+	* ROADMAP: Replace content with a link to wiki.
+
 2008-07-23  Les Harris  <me@lesharris.com>
 
 	* gnome-mud.spec.in: Updated dependencies, package
@@ -258,7 +268,7 @@
 	* configure.ac, Makefile.am: Prepare for icon changes.
 	* src/pixmaps/Makefile.am: do not distribute the old icon for now.
 
-	* data/icons/*: New Tango icons from Andreass Nilsson. Many thanks!
+	* data/icons/*: New Tango icons from Andreas Nilsson. Many thanks!
 
 	* ui/main.glade: Add Andreas to credits.
 

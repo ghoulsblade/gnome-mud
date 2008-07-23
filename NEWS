@@ -1,6 +1,47 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
+GNOME-Mud 0.11 (24/07/2008)
+
+GNOME-Mud has gone under a substantian rewrite. Improvements include:
+- Proper telnet support including telnet options: TTYPE, NAWS, ECHO, CHARSET
+  and EOR [Les, Mart Raudsepp]
+- Full MSP support (Mud Sound Protocol) [Les]
+- ZMP support (core package only at the moment) [Les]
+- Separate input history for all connections [Les]
+- New input widget that dynamically resizes based on amount of text
+  entered [Les]
+- SOCKS proxy support (version 4 and 5) [Les]
+- Full encoding support including the ability to negotiate text encoding
+  (if the server supports the CHARSET telnet option) [Les]
+- Triggers and aliases with perl compatible regular expression matching [Les]
+- Support for profiles [Les]
+- No dependencies on deprecated libraries [Les]
+- Nice new Tango icon [Andreas Nilsson]
+- Added translations:
+  + Ukrainian [Maxim Dziumanenko]
+  + Nepali [Pawan Chitrakar]
+  + Vietnamese [Clytie Siddall]
+  + Arabic [Djihed Afifi]
+  + Dzongkha [Pema Geyleg]
+- Updated translations:
+  + German [Jens Seidel, Hendrik Richter]
+  + Dutch [Tino Meinen]
+  + Canadian English [Adam Weinberger]
+  + Spanish [Francisco Javier F. Serrador]
+  + Catalan [Jordi Mallach]
+  + Swedish [Daniel Nylander]
+  + British English [David Lodge]
+  + French [Bruno Brouard, Stéphane Raimbault]
+  + Occitan [Yannig Marchegay]
+  + Greek [Nikos Charonitakis]
+
+There are a few regressions in this release:
+- The python plugin API is not available. It will come back with the upcoming
+  Plugin API rewrite.
+- Support for variables, MCCP and key bindings are temporarily missing and
+  will probably be back on our next major release.
+
 GNOME-Mud 0.10.7 (16/05/2005)
 
 - Fixed a typo that would prevent directional keys from being saved

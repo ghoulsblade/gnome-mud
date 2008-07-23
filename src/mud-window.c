@@ -443,7 +443,7 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
 	"logo", logo,
         "translator-credits", _("translator-credits"),
         "version", VERSION,
-        "website", "http://amcl.sourceforge.net/",
+        "website", "http://live.gnome.org/GnomeMud",
         "name", "gnome-mud",
         NULL);
 
