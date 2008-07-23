@@ -9,17 +9,22 @@ Version:	%ver
 Release:	%rel
 License:	GPL
 Group:		Applications/Internet
-Source:		http://ftp.gnome.org/pub/gnome/sources/%{name}/0.10/%{name}-%{ver}.tar.gz
-URL:		http://amcl.sourceforge.net/
+Source:		http://ftp.gnome.org/pub/gnome/sources/%{name}/0.11/%{name}-%{ver}.tar.gz
+URL:		http://live.gnome.org/GnomeMud
 BuildRoot:	%{_tmppath}/%{name}-%{ver}-root
 Docdir:		%{_prefix}/doc
 
-Requires:	vte >= 0.10.26
-Requires:	libgnome >= 2.0.0
-Requires:	libgnomeui >= 2.0.0
+Requires:	vte >= 0.11.0
+Requires:       gstreamer >= 0.10
+Requires:       libpcre >= 6.0.0
+Requires:       gconf-2.0 >= 2.12.0
+Requires:       gtk+-2.0 >= 2.12.0
+Requires:       gnet-2.0 >= 2.0.0
+BuildRequires:  gtk+-2.0-devel >= 2.12.0
+BuildRequires:  libpcre-devel > = 6.0.0
+BuildRequires   gstreamer-devel >= 0.10
+BuildRequires   gnet-2.0-devel >= 2.0.0
 BuildRequires:	vte-devel >= 0.10.26
-BuildRequires:	libgnome-devel >= 2.0.0
-BuildRequires:	libgnomeui >= 2.0.0
 BuildRequires:  scrollkeeper >= @SCROLLKEEPER_BUILD_REQUIRED@
 
 %description
@@ -30,7 +35,7 @@ GNOME-MUD is a simple MUD client for GNOME. It supports scripting in Python and 
 #%patch0 -p 1
 
 %build
-%configure --prefix=%{rpm_prefix} --enable-mccp
+%configure --prefix=%{rpm_prefix} --enable-mccp --enable-gstreamer
 make
 
 %install
@@ -57,12 +62,15 @@ scrollkeeper-update -p /var/scrollkeeper
 %files
 %defattr(-,root,root)
 %doc AUTHORS COPYING ChangeLog INSTALL
-%doc NEWS README THANKS ROADMAP help
+%doc NEWS README THANKS
 
 %{rpm_prefix}
 
 
 %changelog
+* Wed Jul 23 2008 Les Harris
+- Updated dependencies, package information.
+
 * Wed Feb 16 2005 Jordi Mallach
 - Fixups and simplifications for autogeneration.
 

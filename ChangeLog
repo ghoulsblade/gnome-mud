@@ -1,3 +1,8 @@
+2008-07-23  Les Harris  <me@lesharris.com>
+
+	* gnome-mud.spec.in: Updated dependencies, package
+	information.
+
 2008-07-19  Les Harris  <me@lesharris.com>
 
 	* src/mud-connection-view.c: Explicitly set VTE
