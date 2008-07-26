@@ -1,5 +1,11 @@
 2008-07-26  Les Harris  <me@lesharris.com>
 
+	* Makefile.am: Removed gnome-doc-utils.make
+	from EXTRA_DIST and DIST_CLEAN_FILES until
+	we have updated documentation.
+
+2008-07-26  Les Harris  <me@lesharris.com>
+
 	* configure.ac: Changed to load gconf macros before
 	checking for the tool.  Added test to check for 
 	gconftool-2 presence.

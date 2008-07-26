@@ -11,6 +11,9 @@ Applicationsdir = $(datadir)/applications
 Applications_in_files = gnome-mud.desktop.in
 Applications_DATA = $(Applications_in_files:.desktop.in=.desktop)
 
+# Removed gnome-doc-utils.make. Will need to be replaced with
+# updated docs.
+
 EXTRA_DIST = \
 	ABOUT-NLS \
 	AUTHORS \
@@ -23,7 +26,6 @@ EXTRA_DIST = \
 	README \
 	ROADMAP \
 	config.rpath \
-	gnome-doc-utils.make \
 	gnome-mud.desktop.in \
 	gnome-mud.lsm \
 	gnome-mud.spec \
@@ -34,7 +36,6 @@ EXTRA_DIST = \
 	$(schema_DATA)
 
 DISTCLEANFILES =		\
-	gnome-doc-utils.make	\
 	intltool-extract	\
 	intltool-merge		\
 	intltool-update
