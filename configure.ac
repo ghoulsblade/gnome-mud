@@ -36,7 +36,8 @@ AM_MAINTAINER_MODE
 IT_PROG_INTLTOOL([0.35.0])
 
 GNOME_COMMON_INIT
-GNOME_DOC_INIT
+# Docs are disabled for now
+#GNOME_DOC_INIT
 GNOME_MAINTAINER_MODE_DEFINES
 GNOME_COMPILE_WARNINGS
 GNOME_DEBUG_CHECK
@@ -109,7 +110,7 @@ dnl Check whether to include MCCP code or not
 dnl Check whether to include GStreamer code or not
 AC_ARG_ENABLE(gstreamer,
 	AC_HELP_STRING([--enable-gstreamer],
-		       [Enable GStreamer Used for MSP (Mud Sound Protocol)]),,
+		       [Enable GStreamer used for MSP (Mud Sound Protocol)]),,
 		enable_gstreamer=auto)
 if test "x$enable_gstreamer" != "xno"; then
 	PKG_CHECK_EXISTS(gstreamer-0.10, have_gst=yes, have_gst=no)	
