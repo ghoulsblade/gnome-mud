@@ -1,3 +1,16 @@
+2008-07-26  Les Harris  <me@lesharris.com>
+
+	* configure.ac: Changed to load gconf macros before
+	checking for the tool.  Added test to check for 
+	gconftool-2 presence.
+
+	* Makefile.am: Changed schema installation to use
+	GCONF_SCHEMA_FILE_DIR.
+
+	* src/Makefile.am: Removed gamesdir path setting,
+	switched to bin_PROGRAMS to let autotools do its
+	job.
+
 2008-07-26  Jordi Mallach  <jordi@sindominio.net>
 
 	* configure.ac: Don't use GNOME_DOC_INIT, we have no docs.

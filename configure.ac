@@ -49,8 +49,12 @@ AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE(GETTEXT_PACKAGE, "gnome-mud", [Gettext domain name])
 
 dnl gconf tests
-AC_PATH_PROG(GCONFTOOL, gconftool-2)
 AM_GCONF_SOURCE_2
+AC_PATH_PROG(GCONFTOOL, gconftool-2)
+
+if test x"$GCONFTOOL" = xno; then
+	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
+fi
 
 dnl pkg-config dep checks
 GMODULE_REQUIRED=2.0.0

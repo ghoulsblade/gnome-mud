@@ -14,8 +14,7 @@ INCLUDES =								\
 LDADD   = $(GMUD_LIBS) $(Z_LIBS) $(MSP_LIBS)
 AM_CPPFLAGS = -DPKGDATADIR=\"$(pkgdatadir)\"
 
-gamesdir = $(prefix)/games
-games_PROGRAMS = gnome-mud
+bin_PROGRAMS = gnome-mud
 
 gnome_mud_SOURCES =				\
 	gconf-helper.c				\
