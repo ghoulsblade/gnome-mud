@@ -1,5 +1,25 @@
 2008-07-26  Les Harris  <me@lesharris.com>
 
+	* configure.ac: Reenabled MCCP checks.
+	
+	* src/Makefile.am: Added mud-telnet-mccp.[ch]
+
+	* src/mud-telnet-mccp.[ch]: New files which
+	implement experimental mccpv2.
+
+	* src/mud-telnet-handlers.[ch]: Added new 
+	handler for mccpv2.
+	
+	* src/mud-telnet.[ch]: Integrated the 
+	experimental mccpv2 handler into the 
+	parser. Telnet subnegotiation currently
+	broken with mccp enabled.
+
+	* src/mud-connection-view.c: Added checks
+	so we don't try to free empty queues.
+
+2008-07-26  Les Harris  <me@lesharris.com>
+
 	* Makefile.am: Removed gnome-doc-utils.make
 	from EXTRA_DIST and DIST_CLEAN_FILES until
 	we have updated documentation.

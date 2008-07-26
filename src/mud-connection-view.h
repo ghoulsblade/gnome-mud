@@ -69,7 +69,10 @@ MudConnectionHistoryDirection direction);
 void mud_connection_view_get_term_size(MudConnectionView *view, gint *w, gint *h);
 void mud_connection_view_set_naws(MudConnectionView *view, gint enabled);
 void mud_connection_view_send_naws(MudConnectionView *view);
+
+#ifdef ENABLE_GST
 void mud_connection_view_queue_download(MudConnectionView *view, gchar *url, gchar *file);
+#endif
 
 #include "mud-profile.h"
 void mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profile);

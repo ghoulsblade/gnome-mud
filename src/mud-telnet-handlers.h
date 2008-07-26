@@ -70,4 +70,12 @@ void MudHandler_MSP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     guint len, MudTelnetHandler *handler);
 #endif
 
+#ifdef ENABLE_MCCP
+/* MCCP */
+void MudHandler_MCCP_Enable(MudTelnet *telnet, MudTelnetHandler *handler);
+void MudHandler_MCCP_Disable(MudTelnet *telnet, MudTelnetHandler *handler);
+void MudHandler_MCCP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
+    guint len, MudTelnetHandler *handler);
+#endif
+
 #endif // MUD_TELNET_HANDLERS_H

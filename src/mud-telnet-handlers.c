@@ -38,6 +38,12 @@
 	#include "mud-telnet-msp.h"
 #endif
 
+#ifdef ENABLE_MCCP
+    #include <zlib.h>
+    #include <stdlib.h>
+	#include "mud-telnet-mccp.h"
+#endif
+
 /* TTYPE */
 
 void
@@ -322,5 +328,58 @@ MudHandler_MSP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     guint len, MudTelnetHandler *handler)
 {
     return;
+}
+#endif
+
+#ifdef ENABLE_MCCP
+/* MCCP */
+void
+MudHandler_MCCP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
+{
+	handler->enabled = TRUE;
+	telnet->mccp = FALSE;
+}
+
+void
+MudHandler_MCCP_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
+{
+	handler->enabled = FALSE;
+	telnet->mccp = FALSE;
+
+	if (telnet->compress_out != NULL)
+	{
+		inflateEnd(telnet->compress_out);
+
+		g_free(telnet->compress_out);
+		g_free(telnet->compress_out_buf);
+
+		telnet->compress_out = NULL;
+	}
+}
+
+void
+MudHandler_MCCP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
+    guint len, MudTelnetHandler *handler)
+{
+    telnet->mccp = TRUE;
+    telnet->mccp_new = TRUE;
+
+	telnet->compress_out = (z_stream *) calloc(1, sizeof(z_stream));
+	telnet->compress_out_buf = (guchar *) calloc(4096, sizeof(guchar));
+
+	telnet->compress_out->next_out = telnet->compress_out_buf;
+	telnet->compress_out->avail_out = 4096;
+
+	if (inflateInit(telnet->compress_out) != Z_OK)
+	{
+	    g_critical("Failed to initialize compression.");
+
+		g_free(telnet->compress_out);
+		g_free(telnet->compress_out_buf);
+		telnet->compress_out = NULL;
+		telnet->compress_out_buf = NULL;
+
+		mud_connection_view_disconnect (telnet->parent);
+	}
 }
 #endif

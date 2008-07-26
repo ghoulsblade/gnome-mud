@@ -41,6 +41,14 @@
 #include "mud-telnet-zmp.h"
 #include "mud-telnet-msp.h"
 
+#ifdef ENABLE_MCCP
+    #include "mud-telnet-mccp.h"
+#endif
+
+#ifdef ENABLE_GST
+    #include "mud-telnet-msp.h"
+#endif
+
 /* Hack, will refactor with plugin rewrite -lh */
 extern gboolean PluginGag;
 
@@ -368,7 +376,6 @@ mud_connection_view_init (MudConnectionView *connection_view)
 
 	connection_view->priv->terminal = vte_terminal_new();
 	vte_terminal_set_encoding(VTE_TERMINAL(connection_view->priv->terminal), "ISO-8859-1");
-	vte_terminal_set_emulation(VTE_TERMINAL(connection_view->priv->terminal), "xterm");
 
 	gtk_box_pack_start(GTK_BOX(term_box), connection_view->priv->terminal, TRUE, TRUE, 0);
 	g_signal_connect(G_OBJECT(connection_view->priv->terminal),
@@ -434,15 +441,20 @@ mud_connection_view_finalize (GObject *object)
 
 	connection_view = MUD_CONNECTION_VIEW(object);
 
-    while((history_item = (gchar *)g_queue_pop_head(connection_view->priv->history)) != NULL)
-		g_free(history_item);
+    if(connection_view->priv->history && !g_queue_is_empty(connection_view->priv->history))
+        while((history_item = (gchar *)g_queue_pop_head(connection_view->priv->history)) != NULL)
+		    g_free(history_item);
 
 	if(connection_view->priv->history)
 		g_queue_free(connection_view->priv->history);
 
 #ifdef ENABLE_GST
-	while((item = (MudMSPDownloadItem *)g_queue_pop_head(connection_view->priv->download_queue)) != NULL)
-		mud_telnet_msp_download_item_free(item);
+    if(connection_view->priv->download_queue
+        && !g_queue_is_empty(connection_view->priv->download_queue))
+        	while(
+        	    (item = (MudMSPDownloadItem *)g_queue_pop_head(
+        	    connection_view->priv->download_queue)) != NULL)
+        		    mud_telnet_msp_download_item_free(item);
 
 	if(connection_view->priv->download_queue)
         g_queue_free(connection_view->priv->download_queue);
@@ -477,8 +489,9 @@ mud_connection_view_disconnect(MudConnectionView *view)
 	g_assert(view != NULL);
 
 #ifdef ENABLE_GST
-	while((item = (MudMSPDownloadItem *)g_queue_pop_head(view->priv->download_queue)) != NULL)
-		mud_telnet_msp_download_item_free(item);
+    if(view->priv->download_queue)
+	    while((item = (MudMSPDownloadItem *)g_queue_pop_head(view->priv->download_queue)) != NULL)
+		    mud_telnet_msp_download_item_free(item);
 
 	if(view->priv->download_queue)
         	g_queue_free(view->priv->download_queue);
@@ -997,8 +1010,8 @@ static void
 		      mud_tray_update_icon(view->priv->tray, online);
 	       }
 
-	       view->priv->processed = mud_telnet_process(view->priv->telnet,
-	       				(guchar *)event->buffer, event->length, &length);
+	       mud_telnet_process(view->priv->telnet, (guchar *)event->buffer,
+	        event->length, &length, &(view->priv->processed));
 
 	       if(view->priv->processed != NULL)
 	       {
@@ -1102,6 +1115,8 @@ mud_connection_view_start_download(MudConnectionView *view)
 	view->priv->dl_conn = gnet_conn_http_new();
 	gnet_conn_http_set_uri(view->priv->dl_conn, item->url);
 	gnet_conn_http_set_user_agent (view->priv->dl_conn, "gnome-mud");
+	// 30 minute timeout, if the file didn't download in 30 minutes, its not going to happen.
+	gnet_conn_http_set_timeout(view->priv->dl_conn, 1800000);
 
 	view->priv->downloading = TRUE;
 
@@ -1188,8 +1203,7 @@ mud_connection_view_http_cb(GConnHttp *conn, GConnHttpEvent *event, gpointer dat
 			g_file_set_contents(item->file, event_data->buffer,
 				event_data->buffer_length, NULL);
 
-			mud_telnet_msp_download_item_free(item);
-
+            mud_telnet_msp_download_item_free(item);
 			view->priv->downloading = FALSE;
 
 			if(!g_queue_is_empty(view->priv->download_queue))

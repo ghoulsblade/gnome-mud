@@ -93,23 +93,23 @@ dnl Check whether to include mapper support (defaults to no)
 #fi
 
 dnl Check whether to include MCCP code or not
-#AC_ARG_ENABLE(mccp,
-#	AC_HELP_STRING([--enable-mccp],
-#		       [Enable MCCP (MUD Client Compression Protocol)]),,
-#		enable_mccp=auto)
-#if test "x$enable_mccp" != "xno"; then
-#	AC_CHECK_HEADER(zlib.h, have_zlib=yes, have_zlib=no)
-#	if test "x$have_zlib" = "xno" -a "x$enable_mccp" = "xyes"; then
-#	  AC_MSG_ERROR([MCCP support explicitly requested but zlib was not found])
-#	fi
-#	if test "x$have_zlib" = "xyes"; then
-#	  AC_DEFINE(ENABLE_MCCP, 1, [Define if MCCP should be enabled])
-#	  enable_mccp=yes
-#	  Z_LIBS="-lz"
-#	fi
-#fi
-#AM_CONDITIONAL(USE_MCCP, test "x$enable_mccp" = xyes)
-#AC_SUBST(Z_LIBS)
+AC_ARG_ENABLE(mccp,
+	AC_HELP_STRING([--enable-mccp],
+		       [Enable MCCP (MUD Client Compression Protocol)]),,
+		enable_mccp=auto)
+if test "x$enable_mccp" != "xno"; then
+	AC_CHECK_HEADER(zlib.h, have_zlib=yes, have_zlib=no)
+	if test "x$have_zlib" = "xno" -a "x$enable_mccp" = "xyes"; then
+	  AC_MSG_ERROR([MCCP support explicitly requested but zlib was not found])
+	fi
+	if test "x$have_zlib" = "xyes"; then
+	  AC_DEFINE(ENABLE_MCCP, 1, [Define if MCCP should be enabled])
+	  enable_mccp=yes
+	  Z_LIBS="-lz"
+	fi
+fi
+AM_CONDITIONAL(USE_MCCP, test "x$enable_mccp" = xyes)
+AC_SUBST(Z_LIBS)
 
 dnl Check whether to include GStreamer code or not
 AC_ARG_ENABLE(gstreamer,
@@ -158,12 +158,12 @@ AC_OUTPUT
 
 AC_MSG_NOTICE([GNOME-Mud has been configured with the following options:])
 
-#if test "x$enable_mccp" = xyes; then
-#	AC_MSG_NOTICE([    * MCCP support is enabled])
-#else
-#	AC_MSG_NOTICE([    * MCCP support is disabled])
-#fi
-#
+if test "x$enable_mccp" = xyes; then
+	AC_MSG_NOTICE([    * MCCP support is enabled])
+else
+	AC_MSG_NOTICE([    * MCCP support is disabled])
+fi
+
 #if test "x$enable_mapper" = xyes; then
 #	AC_MSG_NOTICE([    * Mapper support is enabled])
 #else

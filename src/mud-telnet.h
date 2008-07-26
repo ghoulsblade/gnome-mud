@@ -59,7 +59,7 @@ G_BEGIN_DECLS
 #   define TEL_CHARSET_TTABLE_REJECTED      5
 #   define TEL_CHARSET_TTABLE_ACK           6
 #   define TEL_CHARSET_TTABLE_NAK           7
-#define TELOPT_MCCP			 85	// MCCP
+#define TELOPT_MCCP			 85	// MCCP is not support by GnomeMud.
 #define TELOPT_MCCP2		 86	// MCCP2
 #define TELOPT_CLIENT		 88	// Client name - from Clandestine MUD protocol
 #define TELOPT_CLIENTVER	 89	// Client version - from Clandestine MUD protocol
@@ -113,7 +113,8 @@ enum TelnetHandlerType
     HANDLER_EOR,
     HANDLER_CHARSET,
     HANDLER_ZMP,
-    HANDLER_MSP
+    HANDLER_MSP,
+    HANDLER_MCCP2
 };
 
 struct _MudTelnetClass
@@ -141,6 +142,11 @@ struct _MudTelnetHandler
 
 #ifdef ENABLE_GST
 	#include "mud-telnet-msp.h"
+#endif
+
+#ifdef ENABLE_MCCP
+    #include <zlib.h>
+    typedef struct z_stream_s z_stream;
 #endif
 
 struct _MudTelnet
@@ -172,7 +178,17 @@ struct _MudTelnet
 	gchar *base_url;
 #endif
 
+#ifdef ENABLE_MCCP
+    z_stream * compress_out;
+	guchar * compress_out_buf;
+	gboolean mccp;
+	gboolean mccp_new;
+#endif
+
 	GString *prev_buffer;
+	GString *processed;
+	GString *buffer;
+	size_t pos;
 
 	gchar *mud_name;
 };
@@ -183,7 +199,7 @@ MudTelnet *mud_telnet_new(MudConnectionView *parent, GConn *connection, gchar *m
 
 void mud_telnet_register_handlers(MudTelnet *telnet);
 gint mud_telnet_isenabled(MudTelnet *telnet, guint8 option_number, gint him);
-GString *mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count, gint *length);
+void mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count, gint *length, GString **out_buf);
 void mud_telnet_send_sub_req(MudTelnet *telnet, guint32 count, ...);
 void mud_telnet_get_parent_size(MudTelnet *telnet, gint *w, gint *h);
 void mud_telnet_send_raw(MudTelnet *telnet, guint32 count, ...);
