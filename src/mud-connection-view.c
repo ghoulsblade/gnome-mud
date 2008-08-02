@@ -376,6 +376,7 @@ mud_connection_view_init (MudConnectionView *connection_view)
 
 	connection_view->priv->terminal = vte_terminal_new();
 	vte_terminal_set_encoding(VTE_TERMINAL(connection_view->priv->terminal), "ISO-8859-1");
+	vte_terminal_set_emulation(VTE_TERMINAL(connection_view->priv->terminal), "xterm");
 
 	gtk_box_pack_start(GTK_BOX(term_box), connection_view->priv->terminal, TRUE, TRUE, 0);
 	g_signal_connect(G_OBJECT(connection_view->priv->terminal),
@@ -575,13 +576,20 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
 	GList *commands, *command;
 	gchar *text;
 
-    if(view->local_echo) // Prevent password from being cached.
-        g_queue_push_head(view->priv->history, (gpointer)g_strdup(data));
-    else
-        g_queue_push_head(view->priv->history, (gpointer)g_strdup(" "));
+	if(view->local_echo) // Prevent password from being cached.
+	{
+		gchar *head = g_queue_peek_head(view->priv->history);
 
-    view->priv->current_history_index = 0;
+		if( (head && strcmp(head, data) != 0 && head[0] != '\n') 
+		     || g_queue_is_empty(view->priv->history))
+			g_queue_push_head(view->priv->history,
+					(gpointer)g_strdup(data));
+	}
+	else
+		g_queue_push_head(view->priv->history,
+			(gpointer)g_strdup(_("<password removed>")));
 
+	view->priv->current_history_index = 0;
 	commands = mud_profile_process_commands(view->priv->profile, data);
 
 	for (command = g_list_first(commands); command != NULL; command = command->next)

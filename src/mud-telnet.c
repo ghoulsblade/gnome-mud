@@ -63,15 +63,15 @@ static void mud_telnet_set_telopt_queue(guchar *storage,
     gint bit_on, const guint bitshift);
 static gint mud_telnet_handle_positive_nego(MudTelnet *telnet,
                                 const guchar opt_no,
-								const guchar affirmative,
-								const guchar negative,
-								gint him);
+				const guchar affirmative,
+				const guchar negative,
+				gint him);
 static gint
 mud_telnet_handle_negative_nego(MudTelnet *telnet,
                                 const guchar opt_no,
-								const guchar affirmative,
-								const guchar negative,
-								gint him);
+				const guchar affirmative,
+				const guchar negative,
+				gint him);
 
 // MudTelnet class functions
 GType
@@ -270,7 +270,7 @@ mud_telnet_register_handlers(MudTelnet *telnet)
     /* MCCP */
     telnet->handlers[7].type = HANDLER_MCCP2;
     telnet->handlers[7].option_number = (guchar)TELOPT_MCCP2;
-    telnet->handlers[7].enabled = TRUE;
+    telnet->handlers[7].enabled = FALSE;
     telnet->handlers[7].enable = MudHandler_MCCP_Enable;
     telnet->handlers[7].disable = MudHandler_MCCP_Disable;
     telnet->handlers[7].handle_sub_neg = MudHandler_MCCP_HandleSubNeg;
@@ -346,11 +346,11 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len, GStrin
 #ifdef ENABLE_MCCP
     if(telnet->mccp)
     {
-        GString *ret;
+        GString *ret = NULL;
         gchar *str;
 
         // decompress the buffer.
-        ret = mud_mccp_decompress(telnet, buf, c);
+        //ret = mud_mccp_decompress(telnet, buf, c);
 
         if(ret == NULL)
             return;
@@ -379,11 +379,11 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len, GStrin
                    that remains after the subnegotation takes place */
                 if(telnet->mccp && telnet->mccp_new)
                 {
-                    GString *ret;
+                    GString *ret = NULL;
                     telnet->mccp_new = FALSE;
 
                     // decompress the rest of the buffer.
-                    ret = mud_mccp_decompress(telnet, &buf[i], c - i);
+                    //ret = mud_mccp_decompress(telnet, &buf[i], c - i);
 
                     if(ret == NULL)
                     {

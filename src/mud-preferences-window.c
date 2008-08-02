@@ -1071,6 +1071,10 @@ static void
 mud_preferences_window_proxy_check_cb(GtkWidget *widget, MudPreferencesWindow *window)
 {
 	gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
+
+	gtk_widget_set_sensitive(window->priv->proxy_entry, value);
+	gtk_widget_set_sensitive(window->priv->proxy_combo, value);
+
 	RETURN_IF_CHANGING_PROFILES(window);
 
 	mud_profile_set_proxy_check(window->priv->profile, value);

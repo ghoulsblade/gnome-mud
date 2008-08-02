@@ -49,13 +49,12 @@
 #include "mud-connection-view.h"
 #include "mud-preferences-window.h"
 #include "mud-window.h"
-#include "mud-window-mudlist.h"
 #include "mud-tray.h"
-#include "mud-window-mconnect.h"
 #include "modules.h"
 #include "mud-profile.h"
 #include "mud-window-profile.h"
 #include "mud-parse-base.h"
+#include "mud-connections.h"
 
 struct _MudWindowPrivate
 {
@@ -393,12 +392,6 @@ mud_window_preferences_cb(GtkWidget *widget, MudWindow *window)
 }
 
 static void
-mud_window_list_cb(GtkWidget *widget, MudWindow *window)
-{
-	mud_window_mudlist_new();
-}
-
-static void
 mud_window_profiles_cb(GtkWidget *widget, MudWindow *window)
 {
 	mud_window_profile_new(window);
@@ -408,10 +401,10 @@ static void
 mud_window_about_cb(GtkWidget *widget, MudWindow *window)
 {
     static const gchar * const authors[] = {
-        "Robin Ericsson <lobbin@localhost.nu>",
+        "Les Harris <me@lesharris.com>",
         "Jordi Mallach <jordi@sindominio.net>",
         "Daniel Patton <seven-nation@army.com>",
-        "Les Harris <me@lesharris.com>",
+	"Robin Ericsson <lobbin@localhost.nu>",
         NULL
     };
 
@@ -444,7 +437,7 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
         "translator-credits", _("translator-credits"),
         "version", VERSION,
         "website", "http://live.gnome.org/GnomeMud",
-        "name", "gnome-mud",
+        "name", "Gnome-Mud",
         NULL);
 
     if(logo)
@@ -454,11 +447,7 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
 static void
 mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *window)
 {
-	GtkWidget *mywig;
-
-	mywig = window->priv->window;
-
-	mud_window_mconnect_new(window, mywig, window->priv->tray);
+	mud_connections_new(window, window->priv->window, window->priv->tray);
 }
 
 gboolean
@@ -755,8 +744,8 @@ mud_window_init (MudWindow *window)
 	/* connect connect buttons */
 	g_signal_connect(glade_xml_get_widget(glade, "main_connect"), "activate", G_CALLBACK(mud_window_mconnect_dialog), window);
 	g_signal_connect(glade_xml_get_widget(glade, "menu_connect"), "activate", G_CALLBACK(mud_window_connect_dialog), window);
-	g_signal_connect(glade_xml_get_widget(glade, "menu_mudlist"), "activate",
-G_CALLBACK(mud_window_list_cb), window);
+	/*g_signal_connect(glade_xml_get_widget(glade, "menu_mudlist"), "activate",
+G_CALLBACK(mud_window_list_cb), window);*/
 	g_signal_connect(glade_xml_get_widget(glade, "toolbar_connect"), "clicked", G_CALLBACK(mud_window_connect_dialog), window);
 
 	/* connect disconnect buttons */

@@ -18,16 +18,21 @@
 
 #include <glib.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
-#include <gtk/gtkaboutdialog.h>
+#include <gtk/gtk.h>
 
 gchar *
-remove_whitespace(gchar *string)
+remove_whitespace(const gchar *string)
 {
 	gint i;
-	GString *s = g_string_new(NULL);
+	GString *s;
 	gchar *ret;
 
+	if(string == NULL)
+		return NULL;
+
+	s = g_string_new(NULL);
 	for(i = 0; i < strlen(string); i++)
 		if(!g_ascii_isspace(string[i]))
 			g_string_append_c(s, string[i]);
@@ -78,3 +83,44 @@ utils_activate_url(GtkAboutDialog *about, const gchar *url, gpointer data)
 {
     // use gtk_show_uri when available.
 }
+
+void
+utils_error_message(GtkWidget *parent, const gchar *title, const gchar *fmt, ...)
+{
+	GtkWidget *dialog, *label, *icon, *hbox;
+	va_list args;
+	gchar *message;
+
+	dialog = gtk_dialog_new_with_buttons(title, GTK_WINDOW(parent),
+			GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK,
+			GTK_RESPONSE_NONE, NULL);
+
+	if(fmt)
+	{
+		va_start(args, fmt);
+		message = g_strdup_vprintf(fmt, args);
+		va_end(args);
+
+		label = gtk_label_new(message);
+		gtk_label_set_selectable(GTK_LABEL(label), TRUE);
+		g_free(message);
+	}
+	else
+	{
+		label = gtk_label_new("Unknown error.");
+		gtk_label_set_selectable(GTK_LABEL(label), TRUE);
+	}
+
+	icon = gtk_image_new_from_icon_name("gtk-dialog-error", GTK_ICON_SIZE_DIALOG);
+	hbox = gtk_hbox_new(FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), icon, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+
+	gtk_widget_show_all(dialog);
+
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
+}
+

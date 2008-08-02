@@ -35,10 +35,10 @@
 #define TOKEN_TYPE_REGISTER 0
 #define TOKEN_TYPE_TEXT		1
 
-#define PARSE_STATE_TEXT 		0
-#define PARSE_STATE_INTEXT		1
+#define PARSE_STATE_TEXT 	0
+#define PARSE_STATE_INTEXT	1
 #define PARSE_STATE_REGISTER 	2
-#define PARSE_STATE_INREGISTER 	3
+#define PARSE_STATE_INREGISTER  3
 
 typedef struct ParseObject {
 	gchar *data;

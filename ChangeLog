@@ -1,3 +1,51 @@
+2008-08-01  Les Harris  <me@lesharris.com>
+
+	* src/Makefile.am: Removed mud-window-mudedit.[ch],
+	mud-window-mudlist.[ch], mud-window-mconnect.[ch].
+	Added mud-connections.[ch]
+
+	* src/mud-connections.[ch]: New files which
+	implement an iconview-based appraoch to 
+	handling mud connections.
+
+	* src/mud-window-mudedit.[ch],
+	  src/mud-window-mconnect.[ch],
+	  src/mud-window-mudlist.[ch]: Removed these
+	  files as their functionality is replaced
+	  by mud-connections.[ch]
+	
+	* src/mud-log.h: Added GPL license information
+	to file.
+
+	* src/mud-telnet.c: Disabled mccp support 
+	even if MCCP is compiled in. Currently broken.
+
+	* src/mud-window.c: Updated to use the new
+	mud-connections class.
+
+	* src/mud-connection-view.c: Explicitly set
+	the terminal to xterm emulation.  Updated
+	history so duplicate items are not stored
+	more than once.
+
+	* src/mud-preferences-window.c: Changed so
+	the proxy entry and checkbox are set
+	insensitive if proxy use is disabled.
+
+	* src/utils.[ch]: Changed remove_whitespace
+	to return if passed a NULL value. Added
+	utils_error_message which displays an
+	error message in a dialog box easily.
+
+	* ui/prefs.glade: Redid the preference pane
+	to make it cleaner and more usable. Enable
+	Sound checkbox is currently not functional.
+
+	* ui/muds.glade, ui/prefs.glade, ui/main.glade:
+	Removed various windows that no longer are used,
+	saved them all with glade3 so we can use that
+	instead of glade2 from now on.
+
 2008-07-26  Les Harris  <me@lesharris.com>
 
 	* configure.ac: Reenabled MCCP checks.

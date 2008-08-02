@@ -28,6 +28,8 @@ gnome_mud_SOURCES =				\
 	modules.h				\
 	modules-structures.h		\
 	mud-connection-view.c		\
+	mud-connections.c \
+	mud-connections.h \
 	mud-connection-view.h		\
 	mud-log.c					\
 	mud-log.h					\
@@ -57,12 +59,6 @@ gnome_mud_SOURCES =				\
 	mud-tray.h				\
 	mud-window.c				\
 	mud-window.h				\
-	mud-window-mconnect.h		\
-	mud-window-mconnect.c		\
-	mud-window-mudedit.c		\
-	mud-window-mudedit.h		\
-	mud-window-mudlist.c		\
-	mud-window-mudlist.h		\
 	mud-window-profile.c		\
 	mud-window-profile.h		\
 	utils.c					\
