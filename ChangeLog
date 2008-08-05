@@ -1,3 +1,8 @@
+2008-08-04  Les Harris  <me@lesharris.com>
+
+	* ui/prefs.glade: Committed the proper
+	glade file with the ui cleanup in it.
+
 2008-08-01  Les Harris  <me@lesharris.com>
 
 	* src/Makefile.am: Removed mud-window-mudedit.[ch],
