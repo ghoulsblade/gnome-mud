@@ -1,3 +1,15 @@
+2008-08-08  Les Harris  <me@lesharris.com>
+
+	* src/mud-window-profile.c: Added
+	a destroy callback, removed old
+	close signal.
+
+	* src/mud-window.c: Properly unref
+	the logo pixbuf to stop memory leak.
+
+	* ui/prefs.glade: Refactored profile
+	manager dialog to be cleaner.
+
 2008-08-04  Les Harris  <me@lesharris.com>
 
 	* ui/prefs.glade: Committed the proper

@@ -33,14 +33,13 @@
 
 struct _MudProfileWindowPrivate
 {
-	MudWindow *window;
+	MudWindow *parent;
 
-	GtkWidget *dialog;
+	GtkWidget *window;
 	GtkWidget *treeview;
 
 	GtkWidget *btnAdd;
 	GtkWidget *btnDelete;
-	GtkWidget *btnClose;
 
 	gint CurrSelRow;
 	gchar *CurrSelRowText;
@@ -61,13 +60,13 @@ static void mud_profile_window_init (MudProfileWindow *preferences);
 static void mud_profile_window_class_init (MudProfileWindowClass *klass);
 static void mud_profile_window_finalize (GObject *object);
 
-void mud_profile_window_close_cb(GtkWidget *widget, MudProfileWindow *profwin);
-void mud_profile_window_add_cb(GtkWidget *widget, MudProfileWindow *profwin);
-void mud_profile_window_del_cb(GtkWidget *widget, MudProfileWindow *profwin);
+static gint mud_profile_window_close_cb(GtkWidget *widget, MudProfileWindow *profwin);
+static void mud_profile_window_add_cb(GtkWidget *widget, MudProfileWindow *profwin);
+static void mud_profile_window_del_cb(GtkWidget *widget, MudProfileWindow *profwin);
 
-void mud_profile_window_populate_treeview(MudProfileWindow *profwin);
+static void mud_profile_window_populate_treeview(MudProfileWindow *profwin);
 
-gboolean mud_profile_window_tree_select_cb(GtkTreeSelection *selection,
+static gboolean mud_profile_window_tree_select_cb(GtkTreeSelection *selection,
                      			   GtkTreeModel     *model,
                      			   GtkTreePath      *path,
                    			   gboolean        path_currently_selected,
@@ -111,11 +110,10 @@ mud_profile_window_init (MudProfileWindow *profwin)
 
 	glade = glade_xml_new(GLADEDIR "/prefs.glade", "profiles_window", NULL);
 
-	profwin->priv->dialog = glade_xml_get_widget(glade, "profiles_window");
+	profwin->priv->window = glade_xml_get_widget(glade, "profiles_window");
 
 	profwin->priv->btnAdd = glade_xml_get_widget(glade, "btnAdd");
 	profwin->priv->btnDelete = glade_xml_get_widget(glade, "btnDelete");
-	profwin->priv->btnClose = glade_xml_get_widget(glade, "btnClose");
 
 	profwin->priv->treeview = glade_xml_get_widget(glade, "profilesView");
   	profwin->priv->treestore = gtk_tree_store_new(N_COLUMNS, G_TYPE_STRING);
@@ -135,15 +133,15 @@ mud_profile_window_init (MudProfileWindow *profwin)
 
 	mud_profile_window_populate_treeview(profwin);
 
-	g_signal_connect(G_OBJECT(profwin->priv->btnClose), "clicked", G_CALLBACK(mud_profile_window_close_cb), profwin);
-	g_signal_connect(G_OBJECT(profwin->priv->btnAdd), "clicked", G_CALLBACK(mud_profile_window_add_cb), profwin);
-	g_signal_connect(G_OBJECT(profwin->priv->btnDelete), "clicked", G_CALLBACK(mud_profile_window_del_cb), profwin);
-
-	gtk_widget_show_all(profwin->priv->dialog);
-	gtk_window_set_destroy_with_parent(GTK_WINDOW(profwin->priv->dialog), TRUE);
-	gtk_window_present(GTK_WINDOW(profwin->priv->dialog));
-
-	gtk_window_resize(GTK_WINDOW(profwin->priv->dialog), 300,300);
+	g_signal_connect(profwin->priv->window, "destroy",
+			G_CALLBACK(mud_profile_window_close_cb),
+			profwin);
+	g_signal_connect(profwin->priv->btnAdd, "clicked",
+			G_CALLBACK(mud_profile_window_add_cb),
+			profwin);
+	g_signal_connect(profwin->priv->btnDelete, "clicked",
+			G_CALLBACK(mud_profile_window_del_cb),
+		       	profwin);
 
 	g_object_unref(glade);
 }
@@ -171,22 +169,26 @@ mud_profile_window_finalize (GObject *object)
 }
 
 // MudProfileWindow Callbacks
-void
+static void
 mud_profile_window_add_cb(GtkWidget *widget, MudProfileWindow *profwin)
 {
 	GladeXML *glade;
-	GtkWidget *dialog;
+	GtkWidget *window;
 	GtkWidget *entry_profile;
 	gchar *profile;
 	gint result;
 	MudProfile *def, *prof;
 
 	glade = glade_xml_new(GLADEDIR "/prefs.glade", "newprofile_dialog", NULL);
-	dialog = glade_xml_get_widget(glade, "newprofile_dialog");
+	window = glade_xml_get_widget(glade, "newprofile_dialog");
+
+	gtk_window_set_transient_for(
+			GTK_WINDOW(window),
+			GTK_WINDOW(profwin->priv->window));
 
 	entry_profile = glade_xml_get_widget(glade, "entry_profile");
 
-	result = gtk_dialog_run(GTK_DIALOG(dialog));
+	result = gtk_dialog_run(GTK_DIALOG(window));
 	if (result == GTK_RESPONSE_OK)
 	{
 		profile = remove_whitespace((gchar *)gtk_entry_get_text(GTK_ENTRY(entry_profile)));
@@ -197,14 +199,14 @@ mud_profile_window_add_cb(GtkWidget *widget, MudProfileWindow *profwin)
 		mud_profile_copy_preferences(def, prof);
 
 		mud_profile_window_populate_treeview(profwin);
-		mud_window_populate_profiles_menu(profwin->priv->window);
+		mud_window_populate_profiles_menu(profwin->priv->parent);
 	}
 
-	gtk_widget_destroy(dialog);
+	gtk_widget_destroy(window);
 	g_object_unref(glade);
 }
 
-void
+static void
 mud_profile_window_del_cb(GtkWidget *widget, MudProfileWindow *profwin)
 {
 
@@ -213,18 +215,19 @@ mud_profile_window_del_cb(GtkWidget *widget, MudProfileWindow *profwin)
 		mud_profile_delete(profwin->priv->CurrSelRowText);
 
 		mud_profile_window_populate_treeview(profwin);
-		mud_window_populate_profiles_menu(profwin->priv->window);
+		mud_window_populate_profiles_menu(profwin->priv->parent);
 	}
 }
 
-void
+static gint
 mud_profile_window_close_cb(GtkWidget *widget, MudProfileWindow *profwin)
 {
-	gtk_widget_destroy(profwin->priv->dialog);
 	g_object_unref(profwin);
+
+	return TRUE;
 }
 
-gboolean
+static gboolean
 mud_profile_window_tree_select_cb(GtkTreeSelection *selection,
                      		  GtkTreeModel     *model,
                      	          GtkTreePath      *path,
@@ -248,7 +251,7 @@ mud_profile_window_tree_select_cb(GtkTreeSelection *selection,
 }
 
 // MudProfileWindow Util Functions
-void
+static void
 mud_profile_window_populate_treeview(MudProfileWindow *profwin)
 {
 	const GList *profiles;
@@ -276,8 +279,12 @@ mud_window_profile_new(MudWindow *window)
 	MudProfileWindow *profwin;
 
 	profwin = g_object_new(MUD_TYPE_PROFILE_WINDOW, NULL);
+	profwin->priv->parent = window;
 
-	profwin->priv->window = window;
+	gtk_window_set_transient_for(
+			GTK_WINDOW(profwin->priv->window),
+			GTK_WINDOW(mud_window_get_window(profwin->priv->parent)));
+	gtk_widget_show_all(profwin->priv->window);
 
 	return profwin;
 }

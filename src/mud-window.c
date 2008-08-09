@@ -465,6 +465,8 @@ mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer us
 		buf = gdk_pixbuf_new_from_file_at_size(GMPIXMAPSDIR "/gnome-mud.svg", w >> 1, h >> 1, &gerr);
 
 		gtk_image_set_from_pixbuf(GTK_IMAGE(window->priv->image), buf);
+
+		g_object_unref(buf);
 	}
 
 	gtk_widget_grab_focus(window->priv->textview);
