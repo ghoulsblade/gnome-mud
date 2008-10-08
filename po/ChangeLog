@@ -1,3 +1,8 @@
+2008-10-08  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* LINGUAS: Added 'nb'.
+	* nb.po: Added Norwegian bokmål translation.
+
 2008-08-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation by Ulises Victor Genis Cuevas

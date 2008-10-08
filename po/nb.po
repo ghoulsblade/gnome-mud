@@ -1,0 +1,1132 @@
+# Norwegian translation of the gnome-games module (bokmål dialect).
+# Copyright © 1998-2002 Free Software Foundation, Inc.
+# Kjartan Maraas <kmaraas@gnome.org>, 1998-2008.
+# Terance Edward Sola <terance@lyse.net>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-games 2.23.x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-08 21:05+0200\n"
+"PO-Revision-Date: 2008-10-08 21:22+0200\n"
+"Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
+"Language-Team: Norwegian Bokmal <i18n-nb@lister.ping.uio.no>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../gnome-mud.desktop.in.h:1
+msgid "GNOME-Mud"
+msgstr "GNOME-mud"
+
+#: ../gnome-mud.desktop.in.h:2
+msgid "The GNOME MUD Client"
+msgstr "GNOME MUD-klient"
+
+#: ../gnome-mud.schemas.in.h:1
+msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:2
+msgid ""
+"A character that is used to split commands in a string like \"w;w;w;l\", "
+"which will be sent to the MUD as 4 separate commands."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:3 ../src/mud-preferences-window.c:543
+#: ../src/mud-preferences-window.c:579 ../ui/prefs.glade.h:6
+msgid "Aliases"
+msgstr "Alias"
+
+#: ../gnome-mud.schemas.in.h:4
+msgid "Color palette"
+msgstr "Fargepalett"
+
+#: ../gnome-mud.schemas.in.h:5
+msgid "Command Divider"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:6
+#, fuzzy
+msgid "Default color of the background"
+msgstr "Del ut en ny runde"
+
+#: ../gnome-mud.schemas.in.h:7
+msgid ""
+"Default color of the background, as a color specification (can be HTML-style "
+"hex digits, or a color name such as \"red\")."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:8
+#, fuzzy
+msgid "Default color of the text"
+msgstr "Del ut et kort fra stokken"
+
+#: ../gnome-mud.schemas.in.h:9
+msgid ""
+"Default color of the text, as a color specification (can be HTML-style hex "
+"digits, or a color name such as \"red\")."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:10 ../ui/directions.glade.h:1
+msgid "Directional keybindings"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:11
+msgid "Enable sound file downloading on MSP enabled MUDs"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:12
+msgid "Encoding"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:13
+msgid "Encoding Index"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:14
+msgid "File where the mud list (used in the MudList dialog) will be read"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:15
+msgid "Font"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:16
+msgid ""
+"GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in "
+"the form of a colon-separated list of color names. Color names should be in "
+"hex format e.g. \"#FF00FF\"."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:17
+msgid ""
+"GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
+"the MUD requests one. This option sets the terminal type that will be sent."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:18
+msgid "How many entries to keep in the command history"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:19
+msgid "How many entries to keep in the command history."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:20
+msgid "How often in seconds gnome-mud should flush logfiles."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:21
+msgid ""
+"If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
+"overridden by custom keybindings, or they can be disabled completely with "
+"this option."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:22
+msgid ""
+"If enabled, all the text typed in will be echoed in the terminal, making it "
+"easier to control what is sent."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:23
+msgid ""
+"If enabled, the text that is sent to the connection will be left as a "
+"selection in the entry box. Otherwise, the text entry box will be cleared "
+"after each text input."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:24 ../ui/prefs.glade.h:25
+msgid ""
+"If enabled, whenever there's new output the terminal will be scrolled to the "
+"bottom."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:25
+msgid "Keybindings"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:26
+msgid "Last log file"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:27
+msgid ""
+"List of MUDs known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/muds"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:28
+#, fuzzy
+msgid "List of Muds"
+msgstr "Liste med spillere:"
+
+#: ../gnome-mud.schemas.in.h:29
+msgid ""
+"List of commands which will be treated as movement commands by the "
+"automapper. A semicolon is used to separate each command."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:30
+#, fuzzy
+msgid "List of connections"
+msgstr "Koble fra"
+
+#: ../gnome-mud.schemas.in.h:31
+msgid ""
+"List of connections known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/connections."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:32
+msgid "List of movement commands"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:33
+#, fuzzy
+msgid "List of profiles"
+msgstr "Liste med spillere:"
+
+#: ../gnome-mud.schemas.in.h:34
+msgid ""
+"List of profiles known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/profiles."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:35
+msgid "Log flush interval"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:36
+#, fuzzy
+msgid "Mudlist file"
+msgstr "Rediger profiler"
+
+#: ../gnome-mud.schemas.in.h:37
+msgid "Number of lines to keep in scrollback"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:38
+msgid ""
+"Number of scrollback lines to keep around. You can scroll back in the "
+"terminal by this number of lines; lines that don't fit in the scrollback are "
+"discarded."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:39
+msgid "Proxy Hostname"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:40
+msgid "Proxy Version"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:41
+#, fuzzy
+msgid "Remote Download"
+msgstr "Fjern toerene"
+
+#: ../gnome-mud.schemas.in.h:42
+#, fuzzy
+msgid "Remote Encoding"
+msgstr "Fjern kongene"
+
+#: ../gnome-mud.schemas.in.h:43
+msgid "Tab location"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:44
+msgid "Terminal type"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:45
+msgid "The SOCKS Version to be used."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:46
+msgid "The encoding for the terminal widget."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:47
+msgid "The file in which a mudlog was last saved."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:48
+msgid "The hostname for the SOCKS proxy server."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:49
+msgid "The index of the currently selected encoding."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:50
+msgid ""
+"The location of the connection tabs. Valid options are \"left\", \"right\", "
+"\"top\" and \"bottom\"."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:51 ../src/mud-preferences-window.c:549
+#: ../src/mud-preferences-window.c:586 ../ui/prefs.glade.h:37
+msgid "Triggers"
+msgstr "Utløsere"
+
+#: ../gnome-mud.schemas.in.h:52
+msgid "Use Proxy"
+msgstr "Bruk proxy"
+
+#: ../gnome-mud.schemas.in.h:53
+msgid "Use Remote Encoding negotiation."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:54
+msgid "Use a proxy server to connect to the mud."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:55
+msgid "Variables"
+msgstr "Variabler"
+
+#: ../gnome-mud.schemas.in.h:56
+#, fuzzy
+msgid "Whether to echo sent text to the connection"
+msgstr "Om animasjoner skal brukes eller ikke."
+
+#: ../gnome-mud.schemas.in.h:57
+msgid "Whether to enable or disable the system keys"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:58
+#, fuzzy
+msgid "Whether to keep text sent to the connection"
+msgstr "Om animasjoner skal brukes eller ikke."
+
+#: ../gnome-mud.schemas.in.h:59
+msgid "Whether to scroll to the bottom when there's new output"
+msgstr ""
+
+#: ../src/gconf-helper.c:74
+#, c-format
+msgid "%s already exists and is not a directory!"
+msgstr ""
+
+#: ../src/gconf-helper.c:83
+#, c-format
+msgid "%s does not exist and can NOT be created: %s"
+msgstr ""
+
+#: ../src/gconf-helper.c:140
+#, c-format
+msgid "Palette had %d entry instead of %d\n"
+msgid_plural "Palette had %d entries instead of %d\n"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/gnome-mud.c:61
+#, fuzzy, c-format
+msgid "There was an error accessing GConf: %s"
+msgstr "Det oppsto en feil ved sending av samtalen."
+
+#: ../src/gnome-mud.c:74
+msgid "The default configuration values could not be retrieved correctly."
+msgstr ""
+
+#: ../src/gnome-mud.c:75
+msgid ""
+"Please check your GConf configuration, specifically that the schemas have "
+"been installed correctly."
+msgstr ""
+
+#: ../src/gnome-mud.c:102
+#, c-format
+msgid "Failed to init GConf: %s"
+msgstr ""
+
+#: ../src/modules.c:200
+msgid "Plugin Information"
+msgstr "Informasjon om tillegg"
+
+#: ../src/modules.c:216
+msgid "Plugin Name:"
+msgstr "Navn på tillegg:"
+
+#: ../src/modules.c:236
+msgid "Plugin Author:"
+msgstr "Forfatter av tillegg:"
+
+#: ../src/modules.c:246
+msgid "Plugin Version:"
+msgstr "Versjon for tillegg:"
+
+#: ../src/modules.c:256
+msgid "Plugin Description:"
+msgstr "Beskrivelse av tillegg:"
+
+#: ../src/modules.c:266
+msgid "Enable plugin"
+msgstr "Aktiver tillegg"
+
+#: ../src/modules.c:380
+#, c-format
+msgid "Plugin error (%s)"
+msgstr ""
+
+#: ../src/modules.c:424
+#, fuzzy, c-format
+msgid "Error getting plugin handle (%s): %s."
+msgstr "Feil under avspilling av lyd %s: %s\n"
+
+#: ../src/modules.c:432
+#, c-format
+msgid "Error, %s not an GNOME-Mud module: %s."
+msgstr ""
+
+#: ../src/modules_api.c:69
+#, fuzzy, c-format
+msgid "Error while registering the menu: %s"
+msgstr "Feil under forsøk på å forlate bord: %s"
+
+#: ../src/modules_api.c:96
+#, fuzzy, c-format
+msgid "Error while registering data %s: %s"
+msgstr "Feil under forsøk på å forlate bord: %s"
+
+#: ../src/modules_api.c:104
+msgid "Error while getting plugin from handle."
+msgstr ""
+
+#: ../src/mud-connection-view.c:167
+#, c-format
+msgid ""
+"There was an error loading config value for whether to use image in menus. (%"
+"s)\n"
+msgstr ""
+
+#: ../src/mud-connection-view.c:514 ../src/mud-connection-view.c:553
+#: ../src/mud-connection-view.c:1008
+msgid "*** Connection closed.\n"
+msgstr ""
+
+#: ../src/mud-connection-view.c:566 ../src/mud-connection-view.c:878
+#, c-format
+msgid "*** Making connection to %s, port %d.\n"
+msgstr ""
+
+#: ../src/mud-connection-view.c:590
+msgid "<password removed>"
+msgstr "<passord fjernet>"
+
+#: ../src/mud-connection-view.c:729
+msgid "Close"
+msgstr "Lukk"
+
+#: ../src/mud-connection-view.c:749
+msgid "Change P_rofile"
+msgstr "Bytt p_rofil"
+
+#: ../src/mud-connection-view.c:788
+msgid "_Input Methods"
+msgstr ""
+
+#: ../src/mud-connection-view.c:999
+msgid "*** Could not connect.\n"
+msgstr ""
+
+#: ../src/mud-connection-view.c:1003
+msgid "*** Connected.\n"
+msgstr "*** Koblet til.\n"
+
+#: ../src/mud-connection-view.c:1114
+msgid "Connecting..."
+msgstr "Kobler til..."
+
+#: ../src/mud-connection-view.c:1229
+msgid "Connection timed out."
+msgstr ""
+
+#: ../src/mud-connection-view.c:1245
+msgid "There was an internal http connection error."
+msgstr ""
+
+#: ../src/mud-connection-view.c:1267
+msgid "Downloading"
+msgstr ""
+
+#: ../src/mud-log.c:142
+msgid ""
+"\n"
+"*** Log starts *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+
+#: ../src/mud-log.c:178
+msgid ""
+"\n"
+" *** Log stops *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+
+#: ../src/mud-tray.c:161
+msgid "_Hide window"
+msgstr ""
+
+#: ../src/mud-tray.c:163
+msgid "_Show window"
+msgstr "Vi_s vindu"
+
+#: ../src/mud-tray.c:168
+msgid "_Quit"
+msgstr "A_vslutt"
+
+#: ../src/mud-preferences-window.c:385 ../src/mud-preferences-window.c:411
+msgid "Name"
+msgstr "Navn"
+
+#: ../src/mud-preferences-window.c:386 ../src/mud-preferences-window.c:412
+msgid "Enabled"
+msgstr "Aktivert"
+
+#: ../src/mud-preferences-window.c:413
+msgid "Gag"
+msgstr ""
+
+#: ../src/mud-preferences-window.c:536 ../src/mud-preferences-window.c:573
+#: ../ui/prefs.glade.h:30
+msgid "Preferences"
+msgstr "Brukervalg"
+
+#: ../src/mud-preferences-window.c:1775 ../src/mud-preferences-window.c:1880
+#, fuzzy
+msgid "Error in Regex."
+msgstr "Feil med å bli med"
+
+#: ../src/mud-preferences-window.c:1820 ../src/mud-preferences-window.c:1925
+msgid "No match."
+msgstr ""
+
+#: ../src/mud-window.c:425
+msgid "A Multi-User Dungeon (MUD) client for GNOME"
+msgstr ""
+
+#: ../src/mud-window.c:437
+msgid "translator-credits"
+msgstr ""
+"Kjartan Maraas <kmaraas@gnome.org>\n"
+"Espen Stefansen <espens@svn.gnome.org>"
+
+#: ../src/mud-window.c:560
+msgid "Could not save the file in specified location!"
+msgstr ""
+
+#: ../src/mud-window.c:717
+msgid "_Manage Profiles..."
+msgstr ""
+
+#: ../ui/connect.glade.h:1
+msgid "<b>Quick connect</b>"
+msgstr ""
+
+#: ../ui/connect.glade.h:2
+msgid "Connect..."
+msgstr "Koble til..."
+
+#: ../ui/connect.glade.h:3 ../ui/muds.glade.h:9 ../ui/prefs.glade.h:24
+msgid "Host:"
+msgstr "Vert:"
+
+#: ../ui/connect.glade.h:4 ../ui/muds.glade.h:12
+msgid "Port:"
+msgstr "Port:"
+
+#: ../ui/directions.glade.h:2 ../plugins/automapper/map.c:1832
+#: ../plugins/automapper/map.c:3679
+msgid "Down"
+msgstr "Ned"
+
+#: ../ui/directions.glade.h:3
+msgid "East"
+msgstr "Øst"
+
+#: ../ui/directions.glade.h:4
+msgid "Look"
+msgstr "Se"
+
+#: ../ui/directions.glade.h:5
+msgid "North"
+msgstr "Nord"
+
+#: ../ui/directions.glade.h:6
+msgid "Northeast"
+msgstr "Nordøst"
+
+#: ../ui/directions.glade.h:7
+msgid "Northwest"
+msgstr "Nordvest"
+
+#: ../ui/directions.glade.h:8
+msgid "South"
+msgstr "Sør"
+
+#: ../ui/directions.glade.h:9
+msgid "Southeast"
+msgstr "Sørøst"
+
+#: ../ui/directions.glade.h:10
+msgid "Southwest"
+msgstr "Sørvest"
+
+#: ../ui/directions.glade.h:11 ../plugins/automapper/map.c:1831
+#: ../plugins/automapper/map.c:3678
+msgid "Up"
+msgstr "Opp"
+
+#: ../ui/directions.glade.h:12
+msgid "West"
+msgstr "Vest"
+
+#: ../ui/main.glade.h:1
+msgid "C_onnection..."
+msgstr "Tilk_obling..."
+
+#: ../ui/main.glade.h:2
+msgid "Close _Window"
+msgstr "Lukk _vinduet"
+
+#: ../ui/main.glade.h:3
+msgid "Connect"
+msgstr "Koble til"
+
+#: ../ui/main.glade.h:4
+msgid "Connect to MUD"
+msgstr "Koble til MUD"
+
+#: ../ui/main.glade.h:5
+msgid "Connect to host"
+msgstr "Koble til vert"
+
+#: ../ui/main.glade.h:6
+msgid "Disconnect"
+msgstr "Koble fra"
+
+#: ../ui/main.glade.h:7
+#, fuzzy
+msgid "Disconnect from current MUD"
+msgstr "Koblet fra tjener."
+
+#: ../ui/main.glade.h:8
+#, fuzzy
+msgid "Disconnect from current host"
+msgstr "Koblet fra tjener."
+
+#: ../ui/main.glade.h:9
+msgid "Gnome-Mud"
+msgstr ""
+
+#: ../ui/main.glade.h:10
+msgid "P_rofiles"
+msgstr "P_rofiler"
+
+#: ../ui/main.glade.h:11
+#, fuzzy
+msgid "Plugin _Information..."
+msgstr "Spillerinformasjon"
+
+#: ../ui/main.glade.h:12
+msgid "Q_uick Connect..."
+msgstr ""
+
+#: ../ui/main.glade.h:13
+#, fuzzy
+msgid "Reconnect"
+msgstr "Kobler til på nytt"
+
+#: ../ui/main.glade.h:14
+msgid "Reconnect to current MUD"
+msgstr ""
+
+#: ../ui/main.glade.h:15
+msgid "Save buffer as..."
+msgstr ""
+
+#: ../ui/main.glade.h:16
+msgid "Start _Logging..."
+msgstr ""
+
+#: ../ui/main.glade.h:17
+#, fuzzy
+msgid "Stop Lo_gging"
+msgstr "Logger inn"
+
+#: ../ui/main.glade.h:18
+#, fuzzy
+msgid "_Disconnect"
+msgstr "Koble fra"
+
+#: ../ui/main.glade.h:19
+msgid "_File"
+msgstr "_Fil"
+
+#: ../ui/main.glade.h:20
+msgid "_Help"
+msgstr "_Hjelp"
+
+#: ../ui/main.glade.h:21
+msgid "_Plugins"
+msgstr "_Tillegg"
+
+#: ../ui/main.glade.h:22
+#, fuzzy
+msgid "_Reconnect"
+msgstr "Kobler til på nytt"
+
+#: ../ui/main.glade.h:23
+msgid "_Save Buffer..."
+msgstr ""
+
+#: ../ui/main.glade.h:24
+msgid "_Settings"
+msgstr "_Innstillinger"
+
+#: ../ui/muds.glade.h:1
+msgid "<b>Character</b>"
+msgstr "<b>Karakter</b>"
+
+#: ../ui/muds.glade.h:2
+msgid "<b>Mud</b>"
+msgstr "<b>Mud</b>"
+
+#: ../ui/muds.glade.h:3
+msgid "<b>Profile</b>"
+msgstr "<b>Profil</b>"
+
+#: ../ui/muds.glade.h:4
+#, fuzzy
+msgid "Are you sure you want to delete this mud?"
+msgstr "Er du sikker på at du vil avslutte?"
+
+#: ../ui/muds.glade.h:5
+#, fuzzy
+msgid "Close _without Saving"
+msgstr "Lukk _uten å lagre"
+
+#: ../ui/muds.glade.h:6
+#, fuzzy
+msgid "Connection Properties"
+msgstr "Egenskaper"
+
+#: ../ui/muds.glade.h:7
+#, fuzzy
+msgid "Connections"
+msgstr "Kobler til"
+
+#: ../ui/muds.glade.h:8
+msgid "Delete Mud?"
+msgstr ""
+
+#: ../ui/muds.glade.h:10
+#, fuzzy
+msgid "Logon:"
+msgstr "Pålogging"
+
+#: ../ui/muds.glade.h:11
+msgid "Name:"
+msgstr "Navn:"
+
+#: ../ui/muds.glade.h:13
+msgid "Select A Folder"
+msgstr "Velg en mappe"
+
+#: ../ui/muds.glade.h:14
+msgid "Select An Icon..."
+msgstr "Velg et ikon..."
+
+#: ../ui/muds.glade.h:15
+msgid "Unsaved Changes"
+msgstr ""
+
+#: ../ui/muds.glade.h:16
+msgid "You have unsaved changes. Do you want to save before closing?"
+msgstr ""
+
+#: ../ui/prefs.glade.h:1
+msgid "<b>Encoding</b>"
+msgstr ""
+
+#: ../ui/prefs.glade.h:2
+#, fuzzy
+msgid "<b>Input</b>"
+msgstr "<b>Vanskelighetsgrad</b>"
+
+#: ../ui/prefs.glade.h:3
+#, fuzzy
+msgid "<b>New Profile Name:</b>"
+msgstr "<b>Egenskaper for spill</b>"
+
+#: ../ui/prefs.glade.h:4
+msgid "<b>Proxy</b>"
+msgstr "<b>Proxy</b>"
+
+#: ../ui/prefs.glade.h:5
+msgid "<b>Sound</b>"
+msgstr "<b>Lyd</b>"
+
+#: ../ui/prefs.glade.h:7
+msgid "Background color:"
+msgstr "Bakgrunnsfarge:"
+
+#: ../ui/prefs.glade.h:8
+msgid "Blank"
+msgstr ""
+
+#: ../ui/prefs.glade.h:9
+msgid "Character Set:"
+msgstr "Tegnsett:"
+
+#: ../ui/prefs.glade.h:10
+#, fuzzy
+msgid "Color and Fonts"
+msgstr "Tøm notater og hint"
+
+#: ../ui/prefs.glade.h:11
+msgid "Color palette:"
+msgstr "Fargepalett:"
+
+#: ../ui/prefs.glade.h:12
+msgid "Command Division Character:"
+msgstr ""
+
+#: ../ui/prefs.glade.h:13
+msgid "Disable _System Keys"
+msgstr ""
+
+#: ../ui/prefs.glade.h:14
+#, fuzzy
+msgid "Enable Encoding Negotiation"
+msgstr "Aktiver _animasjon"
+
+#: ../ui/prefs.glade.h:15
+#, fuzzy
+msgid "Enable Proxy"
+msgstr "Aktiver lyder"
+
+#: ../ui/prefs.glade.h:16
+#, fuzzy
+msgid "Enable Remote Download"
+msgstr "Aktiver lyder"
+
+#: ../ui/prefs.glade.h:17
+#, fuzzy
+msgid "Enable Sound"
+msgstr "Aktiver lyder"
+
+#: ../ui/prefs.glade.h:18
+#, fuzzy
+msgid "Error At:"
+msgstr "Feil"
+
+#: ../ui/prefs.glade.h:19
+#, fuzzy
+msgid "Error Code:"
+msgstr "Feil"
+
+#: ../ui/prefs.glade.h:20
+#, fuzzy
+msgid "Error String:"
+msgstr "Feil ved å se på"
+
+#: ../ui/prefs.glade.h:21
+msgid "Font:"
+msgstr "Skrift:"
+
+#: ../ui/prefs.glade.h:22
+msgid "Foreground color:"
+msgstr "Forgrunnsfarge:"
+
+#: ../ui/prefs.glade.h:23
+msgid "Functionality"
+msgstr ""
+
+#: ../ui/prefs.glade.h:26
+msgid "Match Text:"
+msgstr ""
+
+#: ../ui/prefs.glade.h:27
+#, fuzzy
+msgid "Match:"
+msgstr "Overvåk"
+
+#: ../ui/prefs.glade.h:28
+msgid "New Profile"
+msgstr "Ny profil"
+
+#: ../ui/prefs.glade.h:29
+msgid "Number of lines to save in the scrollback."
+msgstr ""
+
+#: ../ui/prefs.glade.h:31
+msgid "Profiles"
+msgstr "Profiler"
+
+#: ../ui/prefs.glade.h:32
+#, fuzzy
+msgid "Regex Error"
+msgstr "Feil med spillet"
+
+#: ../ui/prefs.glade.h:33
+msgid "S_croll on output"
+msgstr ""
+
+#: ../ui/prefs.glade.h:34
+msgid "Scrollback:"
+msgstr ""
+
+#: ../ui/prefs.glade.h:35
+msgid "Terminal"
+msgstr "Terminal"
+
+#: ../ui/prefs.glade.h:36
+msgid "Test"
+msgstr "Test"
+
+#: ../ui/prefs.glade.h:38
+msgid "Version:"
+msgstr "Versjon:"
+
+#: ../ui/prefs.glade.h:39
+msgid "_Action List:"
+msgstr ""
+
+#: ../ui/prefs.glade.h:40
+#, fuzzy
+msgid "_Echo the Text Sent"
+msgstr "Vis neste trekk"
+
+#: ../ui/prefs.glade.h:41
+msgid "_Keep the Text Entered"
+msgstr ""
+
+#: ../ui/prefs.glade.h:42
+msgid "_Name:"
+msgstr "_Navn:"
+
+#: ../ui/prefs.glade.h:43
+#, fuzzy
+msgid "_Regex:"
+msgstr "_Nullstill"
+
+#: ../ui/prefs.glade.h:44
+msgid "_Trigger:"
+msgstr ""
+
+#: ../ui/prefs.glade.h:45
+msgid "lines"
+msgstr "linjer"
+
+#. Free the create_link_data structure
+#: ../plugins/automapper/map.c:641
+msgid "Ready."
+msgstr "Klar."
+
+#: ../plugins/automapper/map.c:642
+msgid "Canceled."
+msgstr "Avbrutt"
+
+#: ../plugins/automapper/map.c:678
+msgid "A link already exists here!"
+msgstr ""
+
+#. Create the hint label
+#: ../plugins/automapper/map.c:730 ../plugins/automapper/map.c:3642
+#: ../plugins/automapper/map.c:3645
+msgid "Ready"
+msgstr "Klar"
+
+#: ../plugins/automapper/map.c:731
+msgid "Link created"
+msgstr ""
+
+#: ../plugins/automapper/map.c:735
+msgid "Can't create a node here"
+msgstr ""
+
+#: ../plugins/automapper/map.c:966
+msgid "New Map"
+msgstr "Nytt kart"
+
+#. Translator: "path" means "line of travel", ie "road"
+#: ../plugins/automapper/map.c:975
+msgid "Creating a path"
+msgstr ""
+
+#. The radio button (new map)
+#: ../plugins/automapper/map.c:983
+msgid "Path leads to a new map"
+msgstr ""
+
+#: ../plugins/automapper/map.c:990
+msgid "New map"
+msgstr "Nytt kart"
+
+#. The radio button (default)
+#: ../plugins/automapper/map.c:1007
+msgid "Path follows an already existing path:"
+msgstr ""
+
+#: ../plugins/automapper/map.c:1026
+msgid "Create"
+msgstr "Lag"
+
+#: ../plugins/automapper/map.c:1195
+msgid "Enter in a path"
+msgstr ""
+
+#: ../plugins/automapper/map.c:1202
+#, fuzzy
+msgid "Create a new path:"
+msgstr "Del ut et nytt kort"
+
+#: ../plugins/automapper/map.c:1219
+#, fuzzy
+msgid "Enter in existing path:"
+msgstr "Bli med i et eksisterende spill"
+
+#: ../plugins/automapper/map.c:1270
+msgid ""
+"This node has already 8 links. Destroy one of these before trying to create "
+"a new one"
+msgstr ""
+
+#. Change the automap state
+#: ../plugins/automapper/map.c:1277
+msgid "Enter to finish, Esc to quit"
+msgstr ""
+
+#: ../plugins/automapper/map.c:1278
+msgid "Use move buttons to build the link."
+msgstr ""
+
+#: ../plugins/automapper/map.c:1456
+msgid "Zoom In"
+msgstr "Zoom inn"
+
+#: ../plugins/automapper/map.c:1457
+msgid "Zoom Out"
+msgstr "Zoom ut"
+
+#: ../plugins/automapper/map.c:1458
+#, fuzzy
+msgid "Configure Automap"
+msgstr "Sett opp spillet"
+
+#. Teleport here
+#: ../plugins/automapper/map.c:1498
+msgid "Teleport here"
+msgstr "Teleporter hit"
+
+#.
+#. /* Set node properties */
+#. properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#. gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#. gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#. Create new link
+#: ../plugins/automapper/map.c:1508
+msgid "Create new link"
+msgstr ""
+
+#. Translator: this is an action, not a key
+#: ../plugins/automapper/map.c:1515
+msgid "Enter"
+msgstr ""
+
+#. Can easily be optimised ... but why bother ?
+#. Translator: "N" means "North" here
+#. Create button directions
+#: ../plugins/automapper/map.c:1816 ../plugins/automapper/map.c:3670
+msgid "N"
+msgstr "N"
+
+#. Translator: "NE" means "Northeast" here
+#: ../plugins/automapper/map.c:1818 ../plugins/automapper/map.c:3671
+msgid "NE"
+msgstr "NØ"
+
+#. Translator: "E" means "East" here
+#: ../plugins/automapper/map.c:1820 ../plugins/automapper/map.c:3672
+msgid "E"
+msgstr "Ø"
+
+#. Translator: "SE" means "Southeast" here
+#: ../plugins/automapper/map.c:1822 ../plugins/automapper/map.c:3673
+msgid "SE"
+msgstr "SØ"
+
+#. Translator: "S" means "South" here
+#: ../plugins/automapper/map.c:1824 ../plugins/automapper/map.c:3674
+msgid "S"
+msgstr "S"
+
+#. Translator: "SW" means "Southwest" here
+#: ../plugins/automapper/map.c:1826 ../plugins/automapper/map.c:3675
+msgid "SW"
+msgstr "SV"
+
+#. Translator: "W" means "West" here
+#: ../plugins/automapper/map.c:1828 ../plugins/automapper/map.c:3676
+msgid "W"
+msgstr "V"
+
+#. Translator: "NW" means "Northwest" here
+#: ../plugins/automapper/map.c:1830 ../plugins/automapper/map.c:3677
+msgid "NW"
+msgstr "NV"
+
+#: ../plugins/automapper/map.c:1833 ../plugins/automapper/map.c:3667
+msgid "Remove"
+msgstr "Fjern"
+
+#. Some buttons
+#: ../plugins/automapper/map.c:1834 ../plugins/automapper/map.c:3665
+msgid "Load"
+msgstr "Last"
+
+#: ../plugins/automapper/map.c:1835 ../plugins/automapper/map.c:3666
+msgid "Save"
+msgstr "Lagre"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Load map"
+msgstr "Last kart"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Save map"
+msgstr "Lagre kart:"
+
+#: ../plugins/automapper/map.c:3142
+msgid "No link existed in that direction"
+msgstr ""
+
+#: ../plugins/automapper/map.c:3148
+msgid "Cannot break links to a node going up or down"
+msgstr ""
+
+#. It would seem this node already has a connection to here, That's
+#. * possible so we need to inform the user that his move is illegal.
+#.
+#: ../plugins/automapper/map.c:3257
+msgid "Destination node has already a connection here"
+msgstr ""
+
+#: ../plugins/automapper/map.c:3406
+msgid "Can't create a link to another floor!"
+msgstr ""
+
+#: ../plugins/automapper/map.c:3412
+#, fuzzy
+msgid "There is already a link here!"
+msgstr "Dette brukernavnet er allerede i bruk."
+
+#. Set the title
+#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
+#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
+#: ../plugins/automapper/map.c:3550
+msgid "GNOME-Mud AutoMapper"
+msgstr ""
