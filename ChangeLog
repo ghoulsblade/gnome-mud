@@ -1,3 +1,8 @@
+2008-11-01  Les Harris  <me@lesharris.com>
+
+	* src/mud-connections.c: Remove some
+	code that was causing double frees.
+
 2008-08-08  Les Harris  <me@lesharris.com>
 
 	* src/mud-window-profile.c: Added

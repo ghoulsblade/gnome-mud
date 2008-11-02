@@ -321,8 +321,8 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
 	g_object_unref(client);
 
 	// Safe only because the iconview is in single select mode.
-	g_free(selected->data);
-	g_list_free(selected);
+	/*g_free(selected->data);
+	g_list_free(selected);*/
 
 }
 
@@ -385,8 +385,8 @@ mud_connections_delete_cb(GtkWidget *widget, MudConnections *conn)
 	g_object_unref(client);
 
 	// Safe only because the iconview is in single select mode.
-	g_free(selected->data);
-	g_list_free(selected);
+	/*g_free(selected->data);
+	g_list_free(selected);*/
 }
 
 static void
@@ -402,13 +402,11 @@ mud_connections_properties_cb(GtkWidget *widget, MudConnections *conn)
 	gtk_tree_model_get_iter(conn->priv->icon_model, &iter, (GtkTreePath *)selected->data);
 	gtk_tree_model_get(conn->priv->icon_model, &iter, 0, &buf, -1);
 
+	g_message("%s", buf);
 	mud_connections_show_properties(conn, g_strdup(buf));
+	g_message("After show props...");
 
 	g_free(buf);
-	
-	// Safe only because the iconview is in single select mode.
-	g_free(selected->data);
-	g_list_free(selected);
 }
 
 static void
@@ -587,8 +585,8 @@ mud_connections_popup(MudConnections *conn, GdkEventButton *event)
 			event ? event->time : gtk_get_current_event_time());
 
 	// Safe only because the iconview is in single select mode.
-	g_free(selected->data);
-	g_list_free(selected);
+	/*g_free(selected->data);
+	g_list_free(selected);*/
 }
 
 static gboolean
@@ -1227,8 +1225,8 @@ mud_connections_icon_select_cb(GtkIconView *view, MudConnections *conn)
 	g_free(buf);
 
 	// Safe only because the iconview is in single select mode.
-	g_free(selected->data);
-	g_list_free(selected);
+	/*g_free(selected->data);
+	g_list_free(selected);*/
 }
 
 // Instantiate MudConnections
