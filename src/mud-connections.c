@@ -402,9 +402,7 @@ mud_connections_properties_cb(GtkWidget *widget, MudConnections *conn)
 	gtk_tree_model_get_iter(conn->priv->icon_model, &iter, (GtkTreePath *)selected->data);
 	gtk_tree_model_get(conn->priv->icon_model, &iter, 0, &buf, -1);
 
-	g_message("%s", buf);
 	mud_connections_show_properties(conn, g_strdup(buf));
-	g_message("After show props...");
 
 	g_free(buf);
 }

@@ -1,3 +1,13 @@
+2008-11-13  Les Harris  <lharris@gnome.org>
+
+	* src/mud-connections.c: Removed
+	logging g_messages.
+
+	* ui/muds.ui, ui/prefs.ui: Changed
+	the glade generated GtkSpinButton
+	adjustment page size to 0 as it
+	should be.
+
 2008-11-01  Les Harris  <me@lesharris.com>
 
 	* src/mud-connections.c: Remove some
