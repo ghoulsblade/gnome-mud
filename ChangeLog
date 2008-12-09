@@ -1,3 +1,10 @@
+2008-12-09  Les Harris  <lharris@gnome.org>
+
+	* gnome-mud-desktop.in: Applied 
+	patch from Emilio Pozeulo Monfort
+	bringing the desktop file up to
+	current standards (Bug# 563846)
+
 2008-11-13  Les Harris  <lharris@gnome.org>
 
 	* src/mud-connections.c: Removed

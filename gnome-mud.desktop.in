@@ -1,13 +1,12 @@
 [Desktop Entry]
-Encoding=UTF-8
 _Name=GNOME-Mud
 _Comment=The GNOME MUD Client
 Exec=gnome-mud
-Icon=gnome-mud.png
+Icon=gnome-mud
 StartupNotify=true
 Terminal=false
 Type=Application
-Categories=GNOME;Application;Game;Adventure;
+Categories=GNOME;Game;
 X-GNOME-Bugzilla-Bugzilla=GNOME
 X-GNOME-Bugzilla-Product=gnome-mud
 X-GNOME-Bugzilla-Component=general
