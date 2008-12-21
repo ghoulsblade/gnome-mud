@@ -2,19 +2,20 @@
 # Copyright (C) 2003, 2004 gnome-mud
 # This file is distributed under the same license as the gnome-mud package.
 # Everson Santos Araujo <nobios@por.com.br>, 2004
-#
+# Leonardo Ferreira Fontenelle <leonardof@gnome.org>, 2008
 msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-11-07 13:11+0100\n"
-"PO-Revision-Date: 2008-12-19 15:08-0200\n"
-"Last-Translator: Flamarion Jorge <jorge.flamarion@gmail.com>\n"
+"PO-Revision-Date: 2008-12-21 20:34-0200\n"
+"Last-Translator: Leonardo Ferreira Fontenelle <leonardof@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.2\n"
 
 #: ../gnome-mud.desktop.in.h:1
 msgid "GNOME-Mud"
@@ -34,7 +35,7 @@ msgid ""
 "A character that is used to split commands in a string like \"w;w;w;l\", "
 "which will be sent to the MUD as 4 separate commands."
 msgstr ""
-"Caracter que será utilizado para separar comandos em uma expressão tal como "
+"Caractere que será utilizado para separar comandos em uma expressão tal como "
 "\"w;w;w;l\", que serão enviados para o MUD como 4 comandos separados."
 
 #: ../gnome-mud.schemas.in.h:3 ../src/mud-preferences-window.c:543
@@ -373,27 +374,27 @@ msgstr "Falha ao inicializar GConf: %s"
 
 #: ../src/modules.c:200
 msgid "Plugin Information"
-msgstr "Informação de plug-plug"
+msgstr "Informações do plug-in"
 
 #: ../src/modules.c:216
 msgid "Plugin Name:"
-msgstr "Nome do plug-plug:"
+msgstr "Nome do plug-in:"
 
 #: ../src/modules.c:236
 msgid "Plugin Author:"
-msgstr "Autor do plug-plug:"
+msgstr "Autor do plug-in:"
 
 #: ../src/modules.c:246
 msgid "Plugin Version:"
-msgstr "Versão do plug-plug:"
+msgstr "Versão do plug-in:"
 
 #: ../src/modules.c:256
 msgid "Plugin Description:"
-msgstr "Descrição do plug-plug:"
+msgstr "Descrição do plug-in:"
 
 #: ../src/modules.c:266
 msgid "Enable plugin"
-msgstr "Habilitar plug-plug"
+msgstr "Habilitar plug-in"
 
 #: ../src/modules.c:380
 #, c-format
@@ -403,7 +404,7 @@ msgstr "Erro de plug-in (%s)"
 #: ../src/modules.c:424
 #, c-format
 msgid "Error getting plugin handle (%s): %s."
-msgstr "Erro pegando manipulador de plug-plug (%s): %s."
+msgstr "Erro pegando manipulador de plug-in (%s): %s."
 
 #: ../src/modules.c:432
 #, c-format
@@ -422,7 +423,7 @@ msgstr "Erro ao registar dados %s: %s"
 
 #: ../src/modules_api.c:104
 msgid "Error while getting plugin from handle."
-msgstr "Erro pegando plug-plug do manipulador."
+msgstr "Erro pegando plug-in do manipulador."
 
 #: ../src/mud-connection-view.c:167
 #, c-format
@@ -1142,7 +1143,7 @@ msgstr "AutoMapeador GNOME-Mud"
 #~ msgstr "Não são permitidos caracteres vazios."
 
 #~ msgid "Character '%c' not allowed."
-#~ msgstr "Caracter '%c' não é permitido."
+#~ msgstr "Caractere \"%c\" não é permitido."
 
 #~ msgid "%s too big."
 #~ msgstr "%s muito grande."
@@ -1211,10 +1212,10 @@ msgstr "AutoMapeador GNOME-Mud"
 #~ msgstr "Exibir o manual de usuário GNOME-Mud"
 
 #~ msgid "Plugin API Manual"
-#~ msgstr "Manual da API de Plug-Plugs"
+#~ msgstr "Manual da API de Plug-ins"
 
 #~ msgid "Display the GNOME-Mud Plugin API Manual"
-#~ msgstr "Exibir o manual da API de plug-plugs GNOME-Mud"
+#~ msgstr "Exibir o manual da API de plug-ins GNOME-Mud"
 
 #~ msgid "Main"
 #~ msgstr "Principal"
@@ -1271,7 +1272,7 @@ msgstr "AutoMapeador GNOME-Mud"
 #~ msgstr "Selecione um arquivo de log..."
 
 #~ msgid "Registering plugin `%s' under the name `%s'."
-#~ msgstr "Registrando plug-plug '%s' sob o nome `%s'."
+#~ msgstr "Registrando plug-in \"%s\" sob o nome \"%s\"."
 
 #~ msgid "Could not open MudList file for reading"
 #~ msgstr "não foi possível abrir arquivo de Lista Mud para leitura"
@@ -1349,7 +1350,7 @@ msgstr "AutoMapeador GNOME-Mud"
 #~ "\", will let the string \"w;look\" be sent to the mud as 2 separate "
 #~ "commands."
 #~ msgstr ""
-#~ "O caracter utilizado para dividir comandos enviados para o mud. Por "
+#~ "O caractere utilizado para dividir comandos enviados para o mud. Por "
 #~ "exemplo, \";\" fará com que o texto \"w;look\" seja enviado para o mud "
 #~ "como 2 comandos distintos."
 
