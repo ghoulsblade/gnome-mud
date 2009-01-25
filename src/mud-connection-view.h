@@ -3,7 +3,7 @@
 
 G_BEGIN_DECLS
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <gnet.h>
 
 

@@ -24,7 +24,7 @@
 #include <glib-object.h>
 #include <glib/gi18n.h>
 #include <string.h>
-#include <glib/gprintf.h>
+#include <glib.h>
 
 #include "mud-regex.h"
 

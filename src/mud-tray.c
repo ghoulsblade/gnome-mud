@@ -20,9 +20,7 @@
  */
 
 #include <glib/gi18n.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"

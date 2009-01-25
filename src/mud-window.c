@@ -22,25 +22,11 @@
 
 #include <glade/glade-xml.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkimage.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkaboutdialog.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkimage.h>
-#include <gdk/gdkpixbuf.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkpaned.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtktextbuffer.h>
-#include <gtk/gtktextiter.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkprogressbar.h>
+#include <gdk/gdk.h>
 #include <vte/vte.h>
-#include <glib/gstring.h>
+#include <glib.h>
 #include <string.h>
 #include <stdlib.h>
 

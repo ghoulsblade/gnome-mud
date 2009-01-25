@@ -1,3 +1,18 @@
+2008-12-13  Przemysław Grzegorczyk  <pgrzegorczyk@gmail.com>
+
+	* src/gconf-helper.c:
+	* src/gnome-mud.c:
+	* src/modules.c:
+	* src/mud-connection-view.c:
+	* src/mud-connection-view.h:
+	* src/mud-preferences-window.c:
+	* src/mud-profile.c:
+	* src/mud-profile.h:
+	* src/mud-regex.c:
+	* src/mud-tray.c:
+	* src/mud-window.c: Cleaned up gtk and glib includes
+	to use only toplevel headers. Bug #564363.
+
 2008-12-09  Les Harris  <lharris@gnome.org>
 
 	* gnome-mud-desktop.in: Applied 

@@ -23,8 +23,8 @@
 #include <gconf/gconf-client.h>
 #include <glib-object.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkmenu.h>
-#include <glib/gqueue.h>
+#include <gtk/gtk.h>
+#include <glib.h>
 #include <vte/vte.h>
 #define GNET_EXPERIMENTAL
 #include <gnet.h>

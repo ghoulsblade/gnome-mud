@@ -3,7 +3,7 @@
 
 G_BEGIN_DECLS
 
-#include <gdk/gdkcolor.h>
+#include <gdk/gdk.h>
 
 #define MUD_TYPE_PROFILE              (mud_profile_get_type ())
 #define MUD_PROFILE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_PROFILE, MudProfile))
@@ -100,7 +100,7 @@ MudProfile* get_profile(const gchar *name);
 void mud_profile_copy_preferences (MudProfile *from, MudProfile *to);
 GList* mud_profile_process_commands (MudProfile *profile, const gchar *data);
 
-#include <gtk/gtkcombobox.h>
+#include <gtk/gtk.h>
 void mud_profile_set_echotext (MudProfile *profile, gboolean value);
 void mud_profile_set_keeptext (MudProfile *profile, gboolean value);
 void mud_profile_set_disablekeys (MudProfile *profile, gboolean value);

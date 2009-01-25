@@ -20,9 +20,9 @@
 #  include "config.h"
 #endif
 
-#include <gdk/gdkcolor.h>
+#include <gdk/gdk.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkcolorsel.h>
+#include <gtk/gtk.h>
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>

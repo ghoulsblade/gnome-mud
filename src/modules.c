@@ -29,7 +29,7 @@
 
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 #if HAVE_DIRENT_H

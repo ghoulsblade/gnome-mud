@@ -25,8 +25,7 @@
 #include <gconf/gconf-client.h>
 #include <glib-object.h>
 #include <glib/gi18n.h>
-#include <gtk/gtkcolorsel.h>
-#include <gtk/gtkcombobox.h>
+#include <gtk/gtk.h>
 
 #include "gconf-helper.h"
 #include "mud-profile.h"
