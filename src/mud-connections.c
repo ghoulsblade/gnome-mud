@@ -1025,9 +1025,6 @@ mud_connections_property_save(MudConnections *conn)
 	stripped_name = remove_whitespace(conn->priv->original_name);
 	strip_name_new = remove_whitespace(name);
 
-	g_message("stripped_name: %s", stripped_name);
-	g_message("strip_name_new: %s", strip_name_new);
-
 	key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters",
 			      stripped_name);
 	chars = gconf_client_all_dirs(client, key, NULL);

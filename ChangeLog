@@ -1,4 +1,13 @@
 2009-02-05  Les Harris  <lharris@gnome.org>
+
+	* src/mud-telnet-mccp.[ch]: Removed files.
+	* src/mud-telnet.[ch], src/mud-telnet-handlers.[ch],
+	  src/mud-connection-view.c: Removed MCCP related code.
+	* src/Makefile.am: Removed references to removed files.
+	* configure.ac: Disabled MCCP check.
+
+2009-02-05  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connections.c: Fixed reimplemented
 	certain list frees to the recommend form.
 	Fixed a corner case where renaming a mud 

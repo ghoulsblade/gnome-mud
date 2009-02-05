@@ -41,10 +41,6 @@
 #include "mud-telnet-zmp.h"
 #include "mud-telnet-msp.h"
 
-#ifdef ENABLE_MCCP
-    #include "mud-telnet-mccp.h"
-#endif
-
 #ifdef ENABLE_GST
     #include "mud-telnet-msp.h"
 #endif

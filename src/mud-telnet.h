@@ -178,13 +178,6 @@ struct _MudTelnet
 	gchar *base_url;
 #endif
 
-#ifdef ENABLE_MCCP
-    z_stream * compress_out;
-	guchar * compress_out_buf;
-	gboolean mccp;
-	gboolean mccp_new;
-#endif
-
 	GString *prev_buffer;
 	GString *processed;
 	GString *buffer;
