@@ -97,13 +97,15 @@ MudHandler_TType_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 	            telnet->ttype_iteration++;
 	        break;
 
-	        case 4:
-	            mud_telnet_send_sub_req(telnet, 9,
-	                                (guchar)TELOPT_TTYPE,
-                                    (guchar)TEL_TTYPE_IS,
-	                                 'U','N','K','N','O','W','N');
-	            telnet->ttype_iteration = 0;
-	        break;
+		/* RFC 1091 says we need to repeat the last type */
+		case 4:
+		    mud_telnet_send_sub_req(telnet, 9,
+				    (guchar)TELOPT_TTYPE,
+				    (gchar)TEL_TTYPE_IS,
+				    'U','N','K','N','O','W','N');
+		    telnet->ttype_iteration = 0;
+		    break;
+			
 	       }
 }
 

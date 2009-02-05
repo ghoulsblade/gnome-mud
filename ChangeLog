@@ -1,3 +1,10 @@
+2009-02-05  Les Harris  <lharris@gnome.org>
+	* src/mud-connections.c: Fixed reimplemented
+	certain list frees to the recommend form.
+	Fixed a corner case where renaming a mud 
+	would not delete the previous named mud from
+	gconf.
+
 2008-12-13  Przemysław Grzegorczyk  <pgrzegorczyk@gmail.com>
 
 	* src/gconf-helper.c:
