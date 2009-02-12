@@ -141,7 +141,7 @@ mud_log_open(MudLog *log)
 		strftime(buf, 1024,
 				 _("\n*** Log starts *** %d/%m/%Y %H:%M:%S\n"),
 				 localtime(&t));
-		fprintf(log->priv->logfile, buf);
+		fprintf(log->priv->logfile, "%s", buf);
 	}
 
 	log->priv->active = TRUE;
@@ -159,7 +159,8 @@ mud_log_write(MudLog *log, gchar *data, gsize size)
 	stripData = strip_ansi((const gchar *)data);
 	stripSize = strlen(stripData);
 
-	fwrite(stripData, 1, stripSize, log->priv->logfile);
+	if(!fwrite(stripData, 1, stripSize, log->priv->logfile))
+		g_critical(_("Could not write data to log file!"));
 
 	g_free(stripData);
 }
@@ -178,7 +179,7 @@ mud_log_close(MudLog *log)
 			_("\n *** Log stops *** %d/%m/%Y %H:%M:%S\n"),
 			localtime(&t));
 
-	fprintf(log->priv->logfile, buf);
+	fprintf(log->priv->logfile, "%s", buf);
 	fclose(log->priv->logfile);
 
 	log->priv->active = FALSE;

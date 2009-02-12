@@ -562,7 +562,9 @@ mud_window_buffer_cb(GtkWidget *widget, MudWindow *window)
 											NULL,
 											NULL);
 
-			fwrite(bufferText, 1, strlen(bufferText), file);
+			if(!fwrite(bufferText, 1, strlen(bufferText), file))
+				g_critical(_("Could not write buffer to disk!"));
+
 			fclose(file);
 		}
 

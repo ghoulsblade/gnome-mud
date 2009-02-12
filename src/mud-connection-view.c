@@ -239,7 +239,7 @@ mud_connection_view_str_replace (gchar *buf, const gchar *s, const gchar *repl)
 	for ( pc = buf, out = out_buf; *pc && (out-out_buf) < (4608-len-4);)
 		if ( !strncasecmp(pc, s, len))
 		{
-			out += sprintf (out, repl);
+			out += sprintf (out, "%s", repl);
 			pc += len;
 			found = TRUE;
 		}

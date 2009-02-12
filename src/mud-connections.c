@@ -927,14 +927,8 @@ mud_connections_property_delete_cb(GtkWidget *widget,
 	    return FALSE;
 	    break;	
 	case 1:
-	    if(mud_connections_property_save(conn))
-	    {
-		return FALSE;
-	    }
-	    else
-		return TRUE;
+	    return mud_connections_property_save(conn);
 	    break;
-
 	case 0:
 	    return TRUE;
 	    break;
@@ -1010,6 +1004,9 @@ mud_connections_property_save(MudConnections *conn)
 
 	if(logon)
 	    g_free(logon);
+
+	if(profile)
+	    g_free(profile);
 
 	return FALSE;
     }
