@@ -1,3 +1,8 @@
+2009-02-13  Les Harris  <lharris@gnome.org>
+
+	* ui/prefs.glade: Changed GtkSpinButton's page size
+	to 0 as it should be, fixes our spin button.
+
 2009-02-12  Les Harris  <lharris@gnome.org>
 
 	* src/mud-connections.c: Closed memory leak. Simplified logic
