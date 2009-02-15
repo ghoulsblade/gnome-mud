@@ -16,10 +16,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
- /* Code originally from wxMUD. Converted to a GObject by Les Harris.
-  * wxMUD - an open source cross-platform MUD client.
-  * Copyright (C) 2003-2008 Mart Raudsepp
-  */
+/* Code originally from wxMUD. Converted to a GObject by Les Harris.
+ * wxMUD - an open source cross-platform MUD client.
+ * Copyright (C) 2003-2008 Mart Raudsepp
+ */
 
 #ifndef MUD_TELNET_H
 #define MUD_TELNET_H
@@ -42,7 +42,7 @@ G_BEGIN_DECLS
 #define TEL_DO				253	// Please, you use this option
 #define TEL_DONT			254	// You are not to use this option
 #define TEL_IAC				255	// Interpret as command escape sequence - prefix to all telnet commands
-								// Two IAC's in a row means Data Byte 255
+// Two IAC's in a row means Data Byte 255
 
 #define TELOPT_ECHO			  1	// Echo					- RFC  857
 #define TELOPT_TTYPE		 24	// Terminal type		- RFC 1091
@@ -82,26 +82,26 @@ typedef struct _MudTelnetHandler     MudTelnetHandler;
 typedef void(*MudTelnetOnEnableFunc)(MudTelnet *telnet, MudTelnetHandler *handler);
 typedef void(*MudTelnetOnDisableFunc)(MudTelnet *telnet, MudTelnetHandler *handler);
 typedef void(*MudTelnetOnHandleSubNegFunc)(MudTelnet *telnet,
-    guchar *buf, guint len, MudTelnetHandler *handler);
+        guchar *buf, guint len, MudTelnetHandler *handler);
 
 enum TelnetState
 {
-	TEL_STATE_TEXT,
-	TEL_STATE_IAC,
-	TEL_STATE_WILL,
-	TEL_STATE_WONT,
-	TEL_STATE_DO,
-	TEL_STATE_DONT,
-	TEL_STATE_SB,
-	TEL_STATE_SB_IAC
+    TEL_STATE_TEXT,
+    TEL_STATE_IAC,
+    TEL_STATE_WILL,
+    TEL_STATE_WONT,
+    TEL_STATE_DO,
+    TEL_STATE_DONT,
+    TEL_STATE_SB,
+    TEL_STATE_SB_IAC
 };
 
 enum TelnetOptionState
 {
-	TELOPT_STATE_NO = 0,      // bits 00
-	TELOPT_STATE_WANTNO = 1,  // bits 01
-	TELOPT_STATE_WANTYES = 2, // bits 10
-	TELOPT_STATE_YES = 3,     // bits 11
+    TELOPT_STATE_NO = 0,      // bits 00
+    TELOPT_STATE_WANTNO = 1,  // bits 01
+    TELOPT_STATE_WANTYES = 2, // bits 10
+    TELOPT_STATE_YES = 3,     // bits 11
 };
 
 enum TelnetHandlerType
@@ -119,7 +119,7 @@ enum TelnetHandlerType
 
 struct _MudTelnetClass
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
 };
 
 struct _MudTelnetHandler
@@ -141,49 +141,56 @@ struct _MudTelnetHandler
 #include "mud-telnet-zmp.h"
 
 #ifdef ENABLE_GST
-	#include "mud-telnet-msp.h"
+#include "mud-telnet-msp.h"
 #endif
 
 #ifdef ENABLE_MCCP
-    #include <zlib.h>
-    typedef struct z_stream_s z_stream;
+#include <zlib.h>
+typedef struct z_stream_s z_stream;
 #endif
 
 struct _MudTelnet
 {
-	GObject parent_instance;
+    GObject parent_instance;
 
-	MudTelnetPrivate *priv;
+    MudTelnetPrivate *priv;
 
-	enum TelnetState tel_state;
-	guchar subreq_buffer[TEL_SUBREQ_BUFFER_SIZE];
-	guint32 subreq_pos;
+    enum TelnetState tel_state;
+    guchar subreq_buffer[TEL_SUBREQ_BUFFER_SIZE];
+    guint32 subreq_pos;
 
-	guchar telopt_states[256];
-	gint eor_enabled;
-	gint ttype_iteration;
+    guchar telopt_states[256];
+    gint eor_enabled;
+    gint ttype_iteration;
 
-	GConn *conn;
-	MudConnectionView *parent;
+    GConn *conn;
+    MudConnectionView *parent;
 
-	MudTelnetHandler handlers[TEL_HANDLERS_SIZE];
+    MudTelnetHandler handlers[TEL_HANDLERS_SIZE];
 
-	GHashTable *zmp_commands;
-	MudZMPCommand commands[2048];
+    GHashTable *zmp_commands;
+    MudZMPCommand commands[2048];
 
 #ifdef ENABLE_GST
-	MudMSPParser msp_parser;
-	MudMSPTypes msp_type;
-	MudMSPSound sound[2];
-	gchar *base_url;
+    MudMSPParser msp_parser;
+    MudMSPTypes msp_type;
+    MudMSPSound sound[2];
+    gchar *base_url;
 #endif
 
-	GString *prev_buffer;
-	GString *processed;
-	GString *buffer;
-	size_t pos;
+#ifdef ENABLE_MCCP
+    z_stream *compress_out;
+    guchar *compress_out_buf;
+    gboolean mccp;
+    gboolean mccp_new;
+#endif
 
-	gchar *mud_name;
+    GString *prev_buffer;
+    GString *processed;
+    GString *buffer;
+    size_t pos;
+
+    gchar *mud_name;
 };
 
 GType mud_telnet_get_type (void) G_GNUC_CONST;

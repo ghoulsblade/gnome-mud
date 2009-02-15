@@ -274,58 +274,52 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkHandleBox" id="handlebox1">
+          <widget class="GtkToolbar" id="toolbar1">
             <property name="visible">True</property>
-            <property name="shadow_type">GTK_SHADOW_OUT</property>
+            <property name="toolbar_style">GTK_TOOLBAR_BOTH</property>
             <child>
-              <widget class="GtkToolbar" id="toolbar1">
+              <widget class="GtkToolButton" id="toolbar_connect">
                 <property name="visible">True</property>
-                <property name="toolbar_style">GTK_TOOLBAR_BOTH</property>
-                <child>
-                  <widget class="GtkToolButton" id="toolbar_connect">
-                    <property name="visible">True</property>
-                    <property name="tooltip" translatable="yes">Connect to MUD</property>
-                    <property name="label" translatable="yes">Connect</property>
-                    <property name="use_underline">True</property>
-                    <property name="stock_id">gtk-connect</property>
-                    <accessibility>
-                      <atkproperty name="AtkObject::accessible_name" translatable="yes">Connect</atkproperty>
-                      <atkproperty name="AtkObject::accessible_description" translatable="yes">Connect to host</atkproperty>
-                    </accessibility>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkToolButton" id="toolbar_disconnect">
-                    <property name="visible">True</property>
-                    <property name="tooltip" translatable="yes">Disconnect from current MUD</property>
-                    <property name="label" translatable="yes">Disconnect</property>
-                    <property name="use_underline">True</property>
-                    <property name="stock_id">gtk-disconnect</property>
-                    <accessibility>
-                      <atkproperty name="AtkObject::accessible_name" translatable="yes">Disconnect</atkproperty>
-                      <atkproperty name="AtkObject::accessible_description" translatable="yes">Disconnect from current host</atkproperty>
-                    </accessibility>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkToolButton" id="toolbar_reconnect">
-                    <property name="visible">True</property>
-                    <property name="tooltip" translatable="yes">Reconnect to current MUD</property>
-                    <property name="label" translatable="yes">Reconnect</property>
-                    <property name="use_underline">True</property>
-                    <property name="stock_id">gtk-refresh</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                  </packing>
-                </child>
+                <property name="tooltip" translatable="yes">Connect to MUD</property>
+                <property name="label" translatable="yes">Connect</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-connect</property>
+                <accessibility>
+                  <atkproperty name="AtkObject::accessible_name" translatable="yes">Connect</atkproperty>
+                  <atkproperty name="AtkObject::accessible_description" translatable="yes">Connect to host</atkproperty>
+                </accessibility>
               </widget>
+              <packing>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="toolbar_disconnect">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Disconnect from current MUD</property>
+                <property name="label" translatable="yes">Disconnect</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-disconnect</property>
+                <accessibility>
+                  <atkproperty name="AtkObject::accessible_name" translatable="yes">Disconnect</atkproperty>
+                  <atkproperty name="AtkObject::accessible_description" translatable="yes">Disconnect from current host</atkproperty>
+                </accessibility>
+              </widget>
+              <packing>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="toolbar_reconnect">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Reconnect to current MUD</property>
+                <property name="label" translatable="yes">Reconnect</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-refresh</property>
+              </widget>
+              <packing>
+                <property name="homogeneous">True</property>
+              </packing>
             </child>
           </widget>
           <packing>

@@ -213,7 +213,7 @@ static void
 ZMP_ident(MudTelnet *telnet, gint argc, gchar **argv)
 {
 	mud_zmp_send_command(telnet, 4,
-		"zmp.ident", "gnome-mud", "0.11",
+		"zmp.ident", "gnome-mud", VERSION,
 		"A mud client written for the GNOME environment.");
 }
 

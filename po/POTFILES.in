@@ -9,6 +9,7 @@ src/modules.c
 src/modules_api.c
 src/mud-connection-view.c
 src/mud-log.c
+src/mud-telnet-mccp.c
 src/mud-tray.c
 src/mud-preferences-window.c
 src/mud-window.c

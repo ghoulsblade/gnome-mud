@@ -387,7 +387,7 @@ static void
 mud_window_about_cb(GtkWidget *widget, MudWindow *window)
 {
     static const gchar * const authors[] = {
-        "Les Harris <me@lesharris.com>",
+        "Les Harris <lharris@gnome.org>",
         "Jordi Mallach <jordi@sindominio.net>",
         "Daniel Patton <seven-nation@army.com>",
 	"Robin Ericsson <lobbin@localhost.nu>",

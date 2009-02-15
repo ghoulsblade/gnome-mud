@@ -1,3 +1,17 @@
+2009-02-15  Les Harris  <lharris@gnome.org>
+
+	* configure.ac: Reenabled Zlib check.
+	* src/Makefile.am: Readded mud-telnet-mccp.[ch]
+	* src/mud-telnet-mccp.[ch]: Added files which decompress a
+	zlib stream.
+	* src/mud-connection-view.c:
+	* src/mud-telnet-handlers.[ch]:
+	* src/mud-telnet.[ch]: Reenabled MCCP related code.
+	* src/mud-telnet-zmp.c (ZMP_ident): Made ident use VERSION
+	from config.h.
+	* src/mud-window.c (mud_window_about_cb): Updated email address.
+	* ui/main.glade: Removed the toolbar from the handlebox.
+
 2009-02-14  Les Harris  <lharris@gnome.org>
 
 	* src/mud-connection-view.c (mud_connection_view_init),

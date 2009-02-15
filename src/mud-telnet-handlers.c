@@ -35,7 +35,13 @@
 #include "mud-telnet-zmp.h"
 
 #ifdef ENABLE_GST
-	#include "mud-telnet-msp.h"
+#include "mud-telnet-msp.h"
+#endif
+
+#ifdef ENABLE_MCCP
+#include <zlib.h>
+#include <stdlib.h>
+#include "mud-telnet-mccp.h"
 #endif
 
 /* TTYPE */
@@ -55,52 +61,52 @@ MudHandler_TType_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
 
 void
 MudHandler_TType_HandleSubNeg(MudTelnet *telnet, guchar *buf,
-                              guint len, MudTelnetHandler *handler)
+        guint len, MudTelnetHandler *handler)
 {
-	    switch(telnet->ttype_iteration)
-	    {
-	        case 0:
-	            mud_telnet_send_sub_req(telnet, 11,
-	                                (guchar)TELOPT_TTYPE,
-                                    (guchar)TEL_TTYPE_IS,
-	                                 'g','n','o','m','e','-','m','u','d');
-	            telnet->ttype_iteration++;
-	        break;
+    switch(telnet->ttype_iteration)
+    {
+        case 0:
+            mud_telnet_send_sub_req(telnet, 11,
+                    (guchar)TELOPT_TTYPE,
+                    (guchar)TEL_TTYPE_IS,
+                    'g','n','o','m','e','-','m','u','d');
+            telnet->ttype_iteration++;
+            break;
 
-	        case 1:
-	            mud_telnet_send_sub_req(telnet, 7,
-	                                (guchar)TELOPT_TTYPE,
-                                    (guchar)TEL_TTYPE_IS,
-	                                 'x','t','e','r','m');
-	            telnet->ttype_iteration++;
-	        break;
+        case 1:
+            mud_telnet_send_sub_req(telnet, 7,
+                    (guchar)TELOPT_TTYPE,
+                    (guchar)TEL_TTYPE_IS,
+                    'x','t','e','r','m');
+            telnet->ttype_iteration++;
+            break;
 
-	        case 2:
-	            mud_telnet_send_sub_req(telnet, 6,
-	                                (guchar)TELOPT_TTYPE,
-                                    (guchar)TEL_TTYPE_IS,
-	                                 'a','n','s','i');
-	            telnet->ttype_iteration++;
-	        break;
+        case 2:
+            mud_telnet_send_sub_req(telnet, 6,
+                    (guchar)TELOPT_TTYPE,
+                    (guchar)TEL_TTYPE_IS,
+                    'a','n','s','i');
+            telnet->ttype_iteration++;
+            break;
 
-	        case 3:
-	            mud_telnet_send_sub_req(telnet, 9,
-	                                (guchar)TELOPT_TTYPE,
-                                    (guchar)TEL_TTYPE_IS,
-	                                 'U','N','K','N','O','W','N');
-	            telnet->ttype_iteration++;
-	        break;
+        case 3:
+            mud_telnet_send_sub_req(telnet, 9,
+                    (guchar)TELOPT_TTYPE,
+                    (guchar)TEL_TTYPE_IS,
+                    'U','N','K','N','O','W','N');
+            telnet->ttype_iteration++;
+            break;
 
-		/* RFC 1091 says we need to repeat the last type */
-		case 4:
-		    mud_telnet_send_sub_req(telnet, 9,
-				    (guchar)TELOPT_TTYPE,
-				    (gchar)TEL_TTYPE_IS,
-				    'U','N','K','N','O','W','N');
-		    telnet->ttype_iteration = 0;
-		    break;
-			
-	       }
+            /* RFC 1091 says we need to repeat the last type */
+        case 4:
+            mud_telnet_send_sub_req(telnet, 9,
+                    (guchar)TELOPT_TTYPE,
+                    (gchar)TEL_TTYPE_IS,
+                    'U','N','K','N','O','W','N');
+            telnet->ttype_iteration = 0;
+            break;
+
+    }
 }
 
 /* NAWS */
@@ -126,7 +132,7 @@ MudHandler_NAWS_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
 
 void
 MudHandler_NAWS_HandleSubNeg(MudTelnet *telnet, guchar *buf,
-    guint len, MudTelnetHandler *handler)
+        guint len, MudTelnetHandler *handler)
 {
     return;
 }
@@ -146,7 +152,7 @@ MudHandler_ECHO_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
 
 void
 MudHandler_ECHO_HandleSubNeg(MudTelnet *telnet, guchar *buf,
-    guint len, MudTelnetHandler *handler)
+        guint len, MudTelnetHandler *handler)
 {
     return;
 }
@@ -166,7 +172,7 @@ MudHandler_EOR_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
 
 void
 MudHandler_EOR_HandleSubNeg(MudTelnet *telnet, guchar *buf,
-    guint len, MudTelnetHandler *handler)
+        guint len, MudTelnetHandler *handler)
 {
     return;
 }
@@ -187,7 +193,7 @@ MudHandler_CHARSET_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
 
 void
 MudHandler_CHARSET_HandleSubNeg(MudTelnet *telnet, guchar *buf,
-    guint len, MudTelnetHandler *handler)
+        guint len, MudTelnetHandler *handler)
 {
     gint index = 0;
     guchar sep;
@@ -206,9 +212,9 @@ MudHandler_CHARSET_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 
             if(strcmp((gchar *)tbuf, "[TTABLE]") == 0)
             {
-	            mud_telnet_send_sub_req(telnet, 2,
-	                                (guchar)TELOPT_CHARSET,
-                                    (guchar)TEL_CHARSET_TTABLE_REJECTED);
+                mud_telnet_send_sub_req(telnet, 2,
+                        (guchar)TELOPT_CHARSET,
+                        (guchar)TEL_CHARSET_TTABLE_REJECTED);
                 return;
             }
 
@@ -236,7 +242,7 @@ MudHandler_CHARSET_HandleSubNeg(MudTelnet *telnet, guchar *buf,
             g_string_free(encoding, TRUE);
             g_strfreev(encodings);
 
-        break;
+            break;
     }
 }
 
@@ -251,55 +257,55 @@ MudHandler_ZMP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 void
 MudHandler_ZMP_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
-	/* Cannot disable ZMP once enabled per specification */
+    /* Cannot disable ZMP once enabled per specification */
     return;
 }
 
 void
 MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
-    guint len, MudTelnetHandler *handler)
+        guint len, MudTelnetHandler *handler)
 {
-	gchar command_buf[1024];
-	gint count = 0;
-	gint index = 0;
-	GString *args = g_string_new(NULL);
-	gchar **argv;
-	gint argc;
-	MudZMPFunction zmp_handler = NULL;
+    gchar command_buf[1024];
+    gint count = 0;
+    gint index = 0;
+    GString *args = g_string_new(NULL);
+    gchar **argv;
+    gint argc;
+    MudZMPFunction zmp_handler = NULL;
 
-	while(buf[count] != '\0' && count < len)
-		command_buf[index++] = buf[count++];
-	command_buf[index] = '\0';
+    while(buf[count] != '\0' && count < len)
+        command_buf[index++] = buf[count++];
+    command_buf[index] = '\0';
 
-	while(count < len - 1)
-	{
-		if(buf[count] == '\0')
-		{
-			g_string_append(args,"|gmud_sep|");
-			count++;
-			continue;
-		}
+    while(count < len - 1)
+    {
+        if(buf[count] == '\0')
+        {
+            g_string_append(args,"|gmud_sep|");
+            count++;
+            continue;
+        }
 
-		g_string_append_c(args, buf[count++]);
-	}
+        g_string_append_c(args, buf[count++]);
+    }
 
-	g_string_prepend(args, command_buf);
+    g_string_prepend(args, command_buf);
 
-	argv = g_strsplit(args->str, "|gmud_sep|", -1);
-	argc = g_strv_length(argv);
+    argv = g_strsplit(args->str, "|gmud_sep|", -1);
+    argc = g_strv_length(argv);
 
-	if(mud_zmp_has_command(telnet, command_buf))
-	{
-		zmp_handler = mud_zmp_get_function(telnet, command_buf);
+    if(mud_zmp_has_command(telnet, command_buf))
+    {
+        zmp_handler = mud_zmp_get_function(telnet, command_buf);
 
-		if(zmp_handler)
-			zmp_handler(telnet, argc, argv);
-		else
-			g_warning("NULL ZMP functioned returned.");
-	}
+        if(zmp_handler)
+            zmp_handler(telnet, argc, argv);
+        else
+            g_warning("NULL ZMP functioned returned.");
+    }
 
-	g_strfreev(argv);
-	g_string_free(args, TRUE);
+    g_strfreev(argv);
+    g_string_free(args, TRUE);
 
 }
 
@@ -308,9 +314,9 @@ MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 void
 MudHandler_MSP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
-	handler->enabled = TRUE;
-	mud_telnet_msp_init(telnet);
-	telnet->msp_parser.enabled = TRUE;
+    handler->enabled = TRUE;
+    mud_telnet_msp_init(telnet);
+    telnet->msp_parser.enabled = TRUE;
 }
 
 void
@@ -321,9 +327,62 @@ MudHandler_MSP_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
 
 void
 MudHandler_MSP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
-    guint len, MudTelnetHandler *handler)
+        guint len, MudTelnetHandler *handler)
 {
     return;
+}
+#endif
+
+#ifdef ENABLE_MCCP
+void
+MudHandler_MCCP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
+{
+    handler->enabled = TRUE;
+    telnet->mccp = FALSE;
+}
+
+void
+MudHandler_MCCP_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
+{
+    handler->enabled = FALSE;
+    telnet->mccp = FALSE;
+
+    if (telnet->compress_out != NULL)
+    {
+        inflateEnd(telnet->compress_out);
+
+        g_free(telnet->compress_out);
+        g_free(telnet->compress_out_buf);
+        
+        telnet->compress_out = NULL;
+    }
+}
+
+void
+MudHandler_MCCP_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
+        guint len, MudTelnetHandler *handler)
+{
+    telnet->mccp = TRUE;
+    telnet->mccp_new = TRUE;
+
+    telnet->compress_out = (z_stream *) calloc(1, sizeof(z_stream));
+    telnet->compress_out_buf = (guchar *) calloc(4096, sizeof(guchar));
+
+    telnet->compress_out->next_out = telnet->compress_out_buf;
+    telnet->compress_out->avail_out = 4096;
+
+    if(inflateInit(telnet->compress_out) != Z_OK)
+    {
+        g_critical("Failed to initialize compression.");
+
+        g_free(telnet->compress_out);
+        g_free(telnet->compress_out_buf);
+
+        telnet->compress_out = NULL;
+        telnet->compress_out_buf = NULL;
+
+        mud_connection_view_disconnect(telnet->parent);
+    }
 }
 #endif
 
