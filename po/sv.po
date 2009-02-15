@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-mud\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-11 21:34+0100\n"
-"PO-Revision-Date: 2009-02-11 21:36+0100\n"
+"POT-Creation-Date: 2009-02-15 12:40+0100\n"
+"PO-Revision-Date: 2009-02-15 12:40+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -359,60 +359,60 @@ msgstr "Fel vid registrering av data %s: %s"
 msgid "Error while getting plugin from handle."
 msgstr "Fel vid hämtande av insticksmodul från handtag."
 
-#: ../src/mud-connection-view.c:163
+#: ../src/mud-connection-view.c:166
 #, c-format
 msgid "There was an error loading config value for whether to use image in menus. (%s)\n"
 msgstr "Det inträffade ett fel vid inläsning av konfigurationsvärdet för huruvida bilder ska användas i menyer. (%s)\n"
 
-#: ../src/mud-connection-view.c:510
-#: ../src/mud-connection-view.c:549
-#: ../src/mud-connection-view.c:1004
+#: ../src/mud-connection-view.c:516
+#: ../src/mud-connection-view.c:555
+#: ../src/mud-connection-view.c:1010
 msgid "*** Connection closed.\n"
 msgstr "*** Anslutning avslutad.\n"
 
-#: ../src/mud-connection-view.c:562
-#: ../src/mud-connection-view.c:874
+#: ../src/mud-connection-view.c:568
+#: ../src/mud-connection-view.c:880
 #, c-format
 msgid "*** Making connection to %s, port %d.\n"
 msgstr "*** Skapar anslutning till %s, port %d.\n"
 
-#: ../src/mud-connection-view.c:586
+#: ../src/mud-connection-view.c:592
 msgid "<password removed>"
 msgstr "<lösenord borttaget>"
 
-#: ../src/mud-connection-view.c:725
+#: ../src/mud-connection-view.c:731
 msgid "Close"
 msgstr "Stäng"
 
-#: ../src/mud-connection-view.c:745
+#: ../src/mud-connection-view.c:751
 msgid "Change P_rofile"
 msgstr "Ändra p_rofil"
 
-#: ../src/mud-connection-view.c:784
+#: ../src/mud-connection-view.c:790
 msgid "_Input Methods"
 msgstr "_Inmatningsmetoder"
 
-#: ../src/mud-connection-view.c:995
+#: ../src/mud-connection-view.c:1001
 msgid "*** Could not connect.\n"
 msgstr "*** Kunde inte ansluta.\n"
 
-#: ../src/mud-connection-view.c:999
+#: ../src/mud-connection-view.c:1005
 msgid "*** Connected.\n"
 msgstr "*** Ansluten.\n"
 
-#: ../src/mud-connection-view.c:1110
+#: ../src/mud-connection-view.c:1121
 msgid "Connecting..."
 msgstr "Ansluter..."
 
-#: ../src/mud-connection-view.c:1225
+#: ../src/mud-connection-view.c:1236
 msgid "Connection timed out."
 msgstr "Anslutningens tidsgräns överstegs."
 
-#: ../src/mud-connection-view.c:1241
+#: ../src/mud-connection-view.c:1252
 msgid "There was an internal http connection error."
 msgstr "Det inträffade ett internt fel i http-anslutningen."
 
-#: ../src/mud-connection-view.c:1263
+#: ../src/mud-connection-view.c:1274
 msgid "Downloading"
 msgstr "Hämtar"
 
@@ -424,7 +424,11 @@ msgstr ""
 "\n"
 "*** Logg startar *** %Y/%m/%d %H:%M:%S\n"
 
-#: ../src/mud-log.c:178
+#: ../src/mud-log.c:163
+msgid "Could not write data to log file!"
+msgstr "Kunde inte skriva data till loggfil!"
+
+#: ../src/mud-log.c:179
 msgid ""
 "\n"
 " *** Log stops *** %d/%m/%Y %H:%M:%S\n"
@@ -490,7 +494,11 @@ msgstr ""
 msgid "Could not save the file in specified location!"
 msgstr "Kunde inte spara filen på angiven plats!"
 
-#: ../src/mud-window.c:703
+#: ../src/mud-window.c:566
+msgid "Could not write buffer to disk!"
+msgstr "Kunde inte skriva buffert till disk!"
+
+#: ../src/mud-window.c:705
 msgid "_Manage Profiles..."
 msgstr "_Hantera profiler..."
 
