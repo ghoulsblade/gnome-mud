@@ -31,7 +31,7 @@
 GString *
 mud_mccp_decompress(MudTelnet *telnet, guchar *buffer, guint32 length)
 {
-    GString *ret = g_string_new(NULL);
+    GString *ret = NULL;
     gint zstatus;
     gint i;
 
@@ -40,6 +40,8 @@ mud_mccp_decompress(MudTelnet *telnet, guchar *buffer, guint32 length)
 
     telnet->compress_out->next_in = buffer;
     telnet->compress_out->avail_in = length;
+
+    ret = g_string_new(NULL);
 
     while(1)
     {
@@ -80,7 +82,7 @@ mud_mccp_decompress(MudTelnet *telnet, guchar *buffer, guint32 length)
             telnet->mccp = FALSE;
             telnet->mccp_new = TRUE;
 
-            return ret;
+            break;
         }
 
         if(zstatus == Z_BUF_ERROR)

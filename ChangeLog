@@ -1,4 +1,10 @@
 2009-02-15  Les Harris  <lharris@gnome.org>
+	
+	* ui/prefs.glade: Rehid notebook tabs in prefs dialog.
+	* src/mud-telnet-mccp.c: Rearranged things a bit to
+	prevent a possible memory leak.
+
+2009-02-15  Les Harris  <lharris@gnome.org>
 
 	* configure.ac: Reenabled Zlib check.
 	* src/Makefile.am: Readded mud-telnet-mccp.[ch]
