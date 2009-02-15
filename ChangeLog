@@ -1,3 +1,10 @@
+2009-02-15  Mart Raudsepp  <leio@gentoo.org>
+
+	* src/mud-telnet.c (mud_telnet_process): Add a missing break
+	after TEL_STATE_DO handler to stop the WILL code to be
+	executed as well. Fixes telnet options negotiated by the
+	server with a DO request, such as NAWS and TTYPE.
+
 2009-02-13  Les Harris  <lharris@gnome.org>
 
 	* ui/prefs.glade: Changed GtkSpinButton's page size

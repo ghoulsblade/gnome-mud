@@ -395,6 +395,7 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len, GStrin
 	    mud_telnet_handle_positive_nego(telnet, (guchar)telnet->buffer->str[i],
 					    (guchar)TEL_WILL, (guchar)TEL_WONT, FALSE);
 	    telnet->tel_state = TEL_STATE_TEXT;
+	    break;
 
 	case TEL_STATE_WILL:
 	    opt = mud_telnet_get_telopt_string((guchar)telnet->buffer->str[i]);
