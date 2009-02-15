@@ -1,3 +1,11 @@
+2009-02-14  Les Harris  <lharris@gnome.org>
+
+	* src/mud-connection-view.c (mud_connection_view_init),
+	(mud_connection_view_send_naws): Will now only send NAWS
+	subrequests when the window size has actually changed.
+	* src/mud-telnet.c (mud_telnet_register_handlers): Reenabled
+	all telnet options now that telnet parsing works.
+
 2009-02-15  Mart Raudsepp  <leio@gentoo.org>
 
 	* src/mud-telnet.c (mud_telnet_process): Add a missing break

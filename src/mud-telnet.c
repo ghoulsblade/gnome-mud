@@ -201,7 +201,7 @@ mud_telnet_register_handlers(MudTelnet *telnet)
     telnet->handlers[0].enable = MudHandler_TType_Enable;
     telnet->handlers[0].disable = MudHandler_TType_Disable;
     telnet->handlers[0].handle_sub_neg = MudHandler_TType_HandleSubNeg;
-#if 0
+    
     /* NAWS */
     telnet->handlers[1].type = HANDLER_NAWS;
     telnet->handlers[1].option_number = (guchar)TELOPT_NAWS;
@@ -241,7 +241,7 @@ mud_telnet_register_handlers(MudTelnet *telnet)
     telnet->handlers[5].enable = MudHandler_ZMP_Enable;
     telnet->handlers[5].disable = MudHandler_ZMP_Disable;
     telnet->handlers[5].handle_sub_neg = MudHandler_ZMP_HandleSubNeg;
-#endif
+
 #ifdef ENABLE_GST
     /* MSP */
     telnet->handlers[6].type = HANDLER_MSP;

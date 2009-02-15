@@ -91,6 +91,9 @@ struct _MudConnectionViewPrivate
 #endif
 
 	GString *processed;
+
+	guint width;
+	guint height;
 };
 
 static void mud_connection_view_init                     (MudConnectionView *connection_view);
@@ -295,12 +298,12 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
 
 	    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/encoding");
 	    encoding = gconf_client_get_string(client, key, NULL);
-	}
+    }
 
     vte_terminal_set_encoding(VTE_TERMINAL(view->priv->terminal), encoding);
 
-	switch (type)
-	{
+    switch (type)
+    {
 		case Sent:
 			mud_connection_view_feed_text(view, "\e[1;33m");
 			break;
@@ -316,7 +319,7 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
 		case Normal:
 		default:
 			break;
-	}
+    }
 
     if(view->local_echo)
 	    mud_connection_view_feed_text(view, message);
@@ -373,7 +376,10 @@ mud_connection_view_init (MudConnectionView *connection_view)
 	connection_view->priv->terminal = vte_terminal_new();
 	vte_terminal_set_encoding(VTE_TERMINAL(connection_view->priv->terminal), "ISO-8859-1");
 	vte_terminal_set_emulation(VTE_TERMINAL(connection_view->priv->terminal), "xterm");
-
+	
+	connection_view->priv->width = VTE_TERMINAL(connection_view->priv->terminal)->column_count;
+	connection_view->priv->height = VTE_TERMINAL(connection_view->priv->terminal)->row_count;
+	
 	gtk_box_pack_start(GTK_BOX(term_box), connection_view->priv->terminal, TRUE, TRUE, 0);
 	g_signal_connect(G_OBJECT(connection_view->priv->terminal),
 					 "button_press_event",
@@ -1094,9 +1100,14 @@ mud_connection_view_send_naws(MudConnectionView *view)
 {
     if(view && view->naws_enabled)
     {
-        mud_telnet_send_naws(view->priv->telnet,
-                VTE_TERMINAL(view->priv->terminal)->column_count,
-                VTE_TERMINAL(view->priv->terminal)->row_count);
+	guint curr_width = VTE_TERMINAL(view->priv->terminal)->column_count;
+	guint curr_height = VTE_TERMINAL(view->priv->terminal)->row_count;
+
+	if(curr_width != view->priv->width || curr_height != view->priv->height)
+        	mud_telnet_send_naws(view->priv->telnet, curr_width, curr_height);
+
+	view->priv->width = curr_width;
+	view->priv->height = curr_height;
     }
 }
 
