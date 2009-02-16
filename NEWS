@@ -1,6 +1,26 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
+GNOME-Mud 0.11.1 (16/02/2009)
+
+- Added MCCPv2 support [Les]
+- New icon-based connection selector [Les]
+- Removed duplicate entries from history [Les]
+- Cleanups and improvements for several preference dialogs [Les]
+- Fix a few segfaults and leaks [Les]
+- Update Desktop file to current standards [Emilio Pozuelo Monfort]
+- Use only toplevel GTK and GLib includes [Les]
+- Telnet negotiation fixes (NAWS and TTYPE) [Les and Mart]
+- Several improvements to the build system [Les]
+- Updated translations:
+  + Arabic [Djihed Afifi]
+  + Spanish [Ulises Victor Genis Cuevas and Gabriel Ruiz]
+  + Norwegian bokmål [Kjartan Maraas]
+  + French [Yannick Tailliez and Claude Paroz]
+  + Brazilian Portuguese [Flamarion Jorge and Leonardo Ferreira]
+  + Swedish [Daniel Nylander]
+  + Catalan [Jordi Mallach]
+
 GNOME-Mud 0.11 (24/07/2008)
 
 GNOME-Mud has gone under a substantial rewrite. Improvements include:

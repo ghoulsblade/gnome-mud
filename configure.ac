@@ -19,7 +19,7 @@ dnl
 dnl Process this file with  autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
-AC_INIT([GNOME-Mud],[0.11], [gnome-mud-list@gnome.org], [gnome-mud])
+AC_INIT([GNOME-Mud],[0.11.1], [gnome-mud-list@gnome.org], [gnome-mud])
 AC_CONFIG_SRCDIR(src/gnome-mud.c)
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE
@@ -28,7 +28,7 @@ AC_CONFIG_HEADERS([config.h])
 PKG_PROG_PKG_CONFIG(0.9.0)
 
 dnl Release date on LSM format (date +%d%b%y).
-LSMDATE="24Jul2008"
+LSMDATE="16Feb2009"
 AC_SUBST(LSMDATE)
 
 AM_MAINTAINER_MODE

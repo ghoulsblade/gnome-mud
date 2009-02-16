@@ -1,3 +1,9 @@
+2009-02-16  Jordi Mallach  <jordi@sindominio.net>
+
+	* NEWS: Update for 0.11.1.
+
+	* configure.ac: Release GNOME-Mud 0.11.1.
+
 2009-02-15  Les Harris  <lharris@gnome.org>
 	
 	* ui/prefs.glade: Rehid notebook tabs in prefs dialog.
