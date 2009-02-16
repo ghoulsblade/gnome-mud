@@ -1,5 +1,11 @@
 2009-02-16  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_disconnect): Removed
+	the free of the processed buffer in disconnect since it is already
+	freed by that point with the previous changes.
+
+2009-02-16  Les Harris  <lharris@gnome.org>
+
 	* src/Makefile.am: Removed GMUD_DEBUG variable. The configure script
 	should add the debug flags.
 	* src/mud-connection-view.c (mud_connection_view_network_event_cb):

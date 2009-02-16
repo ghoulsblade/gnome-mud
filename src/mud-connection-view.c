@@ -507,11 +507,6 @@ mud_connection_view_disconnect(MudConnectionView *view)
     view->priv->download_queue = NULL;
 #endif
 
-    if(view->priv->processed)
-        g_string_free(view->priv->processed, TRUE);
-
-    view->priv->processed = NULL;
-
     gnet_conn_disconnect(view->connection);
 
     if(view->priv->telnet)
