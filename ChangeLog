@@ -1,3 +1,18 @@
+2009-02-16  Les Harris  <lharris@gnome.org>
+
+	* src/Makefile.am: Removed GMUD_DEBUG variable. The configure script
+	should add the debug flags.
+	* src/mud-connection-view.c (mud_connection_view_network_event_cb):
+	No longer relies on called functions to free the processed buffer.
+	* src/mud-connections.c (mud_connections_populate_iconview): Closed
+	a memory leak where two GSLists were not freed.
+	* src/mud-telnet-handlers.c: Added some debug info.
+	* src/mud-telnet-msp.c (mud_telnet_msp_parse): Now properly frees it's
+	buffer.
+	* src/mud-telnet.[ch] (mud_telnet_process): Simplified how the
+	function returns it's processed buffer.  Fixed a corner case where
+	MCCP data would try to decompress twice.
+
 2009-02-16  Jordi Mallach  <jordi@sindominio.net>
 
 	* NEWS: Update for 0.11.1.

@@ -553,9 +553,27 @@ mud_connections_populate_iconview(MudConnections *conn)
 	    g_free(display_name);
 	}
 
+        for(char_entry = characters; char_entry != NULL;
+                char_entry = g_slist_next(char_entry))
+            if(char_entry->data)
+                g_free(char_entry->data);
+
+        if(characters)
+            g_slist_free(characters);
+
 	g_free(mud_name);
 	g_free(name_strip);
     }
+
+    for(mud_entry = muds; mud_entry != NULL;
+            mud_entry = g_slist_next(mud_entry))
+        if(mud_entry->data)
+            g_free(mud_entry->data);
+
+    if(muds)
+        g_slist_free(muds);
+
+
 }
 
 static void

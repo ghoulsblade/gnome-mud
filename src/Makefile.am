@@ -1,5 +1,3 @@
-GMUD_DEBUG = -Wall -O0 -g
-
 localedir = $(datadir)/locale
 INCLUDES =								\
 	-DLOCALEDIR=\"$(localedir)\"					\
@@ -10,7 +8,7 @@ INCLUDES =								\
 	-DDATADIR=\""$(datadir)"\"					\
 	-DLIBDIR=\""$(libdir)"\"					\
 	-DGLADEDIR=\""$(pkgdatadir)"\"					\
-	$(GMUD_CFLAGS) $(GMUD_DEBUG) $(MSP_CFLAGS)
+	$(GMUD_CFLAGS) $(MSP_CFLAGS)
 LDADD   = $(GMUD_LIBS) $(Z_LIBS) $(MSP_LIBS)
 AM_CPPFLAGS = -DPKGDATADIR=\"$(pkgdatadir)\"
 

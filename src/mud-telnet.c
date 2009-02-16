@@ -338,8 +338,8 @@ mud_telnet_send_naws(MudTelnet *telnet, gint width, gint height)
     mud_telnet_send_sub_req(telnet, 5, (guchar)TELOPT_NAWS, w1, w0, h1, h0);
 }
 
-void
-mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len, GString **out_buf)
+GString *
+mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
 {
     guint32 i;
     guint32 count;
@@ -351,19 +351,23 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len, GStrin
     if(telnet->mccp)
     {
         GString *ret = NULL;
-        gchar *str;
 
         // decompress the buffer.
         ret = mud_mccp_decompress(telnet, buf, c);
 
+        telnet->mccp_new = FALSE;
+
         if(ret == NULL)
-            return;
+        {
+            if(telnet->buffer)
+                g_string_free(telnet->buffer, TRUE);
+
+            return ret;
+        }
         else
         {
-            str = g_strdup(ret->str);
-            g_string_append(telnet->buffer, str);
+            g_string_append(telnet->buffer, ret->str);
             g_string_free(ret, TRUE);
-            g_free(str);
         }
     }
     else
@@ -391,8 +395,8 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len, GStrin
 
                 if(ret == NULL)
                 {
-                    if(*out_buf != NULL) g_string_free(*out_buf, TRUE);
-                    *out_buf = g_string_new_len(telnet->processed->str, telnet->pos);
+                    GString *ret_string =
+                        g_string_new_len(telnet->processed->str, telnet->pos);
                     *len = telnet->pos;
 
                     telnet->pos= 0;
@@ -409,7 +413,7 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len, GStrin
                         telnet->buffer = NULL;
                     }
 
-                    return;
+                    return ret_string;
                 }
 
                 if(telnet->buffer)
@@ -422,8 +426,8 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len, GStrin
 
                 if(telnet->buffer->len == 0)
                 {
-                    if(*out_buf != NULL) g_string_free(*out_buf, TRUE);
-                    *out_buf = g_string_new_len(telnet->processed->str, telnet->pos);
+                    GString *ret_string =
+                        g_string_new_len(telnet->processed->str, telnet->pos);
                     *len = telnet->pos;
 
                     telnet->pos= 0;
@@ -439,7 +443,7 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len, GStrin
                         g_string_free(telnet->buffer, TRUE);
                         telnet->buffer = NULL;
                     }
-                    return;
+                    return ret_string;
                 }
 
                 i = 0;
@@ -573,28 +577,30 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len, GStrin
 	}
     }
 
-    if(telnet->tel_state == TEL_STATE_TEXT)
-    {
-	if(*out_buf != NULL) g_string_free(*out_buf, TRUE);
-	*out_buf = g_string_new_len(g_strdup(telnet->processed->str), telnet->pos);
-	*len = telnet->pos;
-
-        telnet->pos= 0;
-
-        if(telnet->processed)
-        {
-	    g_string_free(telnet->processed, TRUE);
-	    telnet->processed = g_string_new(NULL);
-	}
-    }
-    else
-	*out_buf = NULL;
-
     if(telnet->buffer)
     {
         g_string_free(telnet->buffer, TRUE);
         telnet->buffer = NULL;
     }
+
+    if(telnet->tel_state == TEL_STATE_TEXT)
+    {
+        GString *ret =
+            g_string_new_len(g_strdup(telnet->processed->str), telnet->pos);
+        *len = telnet->pos;
+
+        telnet->pos= 0;
+
+        if(telnet->processed)
+        {
+            g_string_free(telnet->processed, TRUE);
+            telnet->processed = g_string_new(NULL);
+        }
+
+        return ret;
+    }
+
+    return NULL;
 }
 
 gchar*

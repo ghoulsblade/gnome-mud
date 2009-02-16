@@ -188,6 +188,10 @@ mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
 	*len = telnet->msp_parser.output->len;
     }
 
+    g_message("Free'ing view->priv->processed.");
+    g_string_free(buf, TRUE);
+    *(&buf) = NULL;
+
     return ret;
 }
 

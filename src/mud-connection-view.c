@@ -1024,8 +1024,9 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
             mud_tray_update_icon(view->priv->tray, online);
         }
 
-        mud_telnet_process(view->priv->telnet, (guchar *)event->buffer,
-                           event->length, &length, &(view->priv->processed));
+        view->priv->processed =
+            mud_telnet_process(view->priv->telnet, (guchar *)event->buffer,
+                           event->length, &length);
 
         if(view->priv->processed != NULL)
         {
@@ -1065,6 +1066,12 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
                 if (view->priv->connect_hook) {
                     mud_connection_view_send (view, view->priv->connect_string);
                     view->priv->connect_hook = FALSE;
+                }
+
+                if(view->priv->processed != NULL)
+                {
+                    g_message("freeing processed in m-c-v");
+                    g_string_free(view->priv->processed, TRUE);
                 }
 
                 buf = NULL;

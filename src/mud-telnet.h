@@ -199,7 +199,7 @@ MudTelnet *mud_telnet_new(MudConnectionView *parent, GConn *connection, gchar *m
 
 void mud_telnet_register_handlers(MudTelnet *telnet);
 gint mud_telnet_isenabled(MudTelnet *telnet, guint8 option_number, gint him);
-void mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count, gint *length, GString **out_buf);
+GString *mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count, gint *length);
 void mud_telnet_send_sub_req(MudTelnet *telnet, guint32 count, ...);
 void mud_telnet_get_parent_size(MudTelnet *telnet, gint *w, gint *h);
 void mud_telnet_send_raw(MudTelnet *telnet, guint32 count, ...);
