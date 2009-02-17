@@ -309,7 +309,7 @@
                           <widget class="GtkSpinButton" id="port_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="adjustment">22 1 100000 1 10 0</property>
+                            <property name="adjustment">23 1 100000 1 10 0</property>
                             <property name="climb_rate">1</property>
                             <property name="numeric">True</property>
                           </widget>

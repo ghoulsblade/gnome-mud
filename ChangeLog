@@ -1,5 +1,9 @@
 2009-02-16  Les Harris  <lharris@gnome.org>
 
+	* ui/muds.glade: Changed the default port entry value to 23.
+
+2009-02-16  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connections.c (mud_connections_connect_cb): Connections
 	window will now close upon mud connection.
 
