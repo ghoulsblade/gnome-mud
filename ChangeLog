@@ -1,5 +1,10 @@
 2009-02-16  Les Harris  <lharris@gnome.org>
 
+	* src/mud-window.c (mud_window_remove_connection_view): GnomeMud
+	picture will now be the correct size when the last view is closed.
+
+2009-02-16  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_send_naws): Will no
 	longer try to send NAWS when unconnected.
 	* src/mud-window.c (mud_window_size_request): Now properly notifies

@@ -184,8 +184,13 @@ mud_window_remove_connection_view(MudWindow *window, gint nr)
 
         if(window->priv->image)
             g_object_unref(window->priv->image);
+        
+        buf = gdk_pixbuf_new_from_file_at_size(
+                GMPIXMAPSDIR "/gnome-mud.svg", 
+                w >> 1, 
+                h >> 1, 
+                &gerr);
 
-        buf = gtk_icon_theme_load_icon(gtk_icon_theme_get_default(), "gnome-mud", w >> 1, GTK_ICON_LOOKUP_FORCE_SVG, &gerr);
         window->priv->image = gtk_image_new_from_pixbuf(buf);
         gtk_widget_show(window->priv->image);
 
