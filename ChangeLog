@@ -1,5 +1,10 @@
 2009-02-16  Les Harris  <lharris@gnome.org>
 
+	* configure.ac, plugins/Makefile.am: Removed obsolete plugin from
+	autofoo.
+
+2009-02-16  Les Harris  <lharris@gnome.org>
+
 	* plugins/python/*: Removed obsolete plugin.
 
 2009-02-16  Les Harris  <lharris@gnome.org>

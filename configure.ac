@@ -150,7 +150,6 @@ AC_CONFIG_FILES([
   doc/Makefile
   src/Makefile
   plugins/Makefile
-  plugins/python/Makefile
   po/Makefile.in
   ui/Makefile
 ])
