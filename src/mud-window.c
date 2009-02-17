@@ -342,11 +342,16 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 {
     gchar *name;
 
-    window->priv->current_view = g_object_get_data(G_OBJECT(gtk_notebook_get_nth_page(notebook, arg)), "connection-view");
+    window->priv->current_view =
+        g_object_get_data(
+                G_OBJECT(gtk_notebook_get_nth_page(notebook, arg)),
+                "connection-view");
 
     if (window->priv->nr_of_tabs != 0)
     {
-        name = mud_profile_get_name(mud_connection_view_get_current_profile(MUD_CONNECTION_VIEW(window->priv->current_view)));
+        name = mud_profile_get_name(
+                mud_connection_view_get_current_profile(
+                    MUD_CONNECTION_VIEW(window->priv->current_view)));
 
         mud_window_profile_menu_set_active(name, window);
 
@@ -439,7 +444,7 @@ mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *window)
 gboolean
 mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer user_data)
 {
-    gint w, h;
+    gint w, h, i, n;
     GdkPixbuf *buf;
     GError *gerr = NULL;
     MudWindow *window = (MudWindow *)user_data;
@@ -457,8 +462,19 @@ mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer us
 
     gtk_widget_grab_focus(window->priv->textview);
 
-    // FIXME: Should send naws to all views.
-    mud_connection_view_send_naws(MUD_CONNECTION_VIEW(window->priv->current_view));
+    n = gtk_notebook_get_n_pages(GTK_NOTEBOOK(window->priv->notebook));
+
+    for(i = 0; i < n; ++i)
+    {
+        MudConnectionView *iter =
+            g_object_get_data(
+                    G_OBJECT(
+                        gtk_notebook_get_nth_page(
+                            GTK_NOTEBOOK(window->priv->notebook),
+                            i)),
+                    "connection-view");
+        mud_connection_view_send_naws(iter);
+    }
 
     return FALSE;
 }

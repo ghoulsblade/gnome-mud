@@ -1,5 +1,12 @@
 2009-02-16  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_send_naws): Will no
+	longer try to send NAWS when unconnected.
+	* src/mud-window.c (mud_window_size_request): Now properly notifies
+	each view of size change.
+
+2009-02-16  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_disconnect),
 	(mud_connection_view_reconnect), (mud_connection_view_send),
 	(mud_connection_view_new): Disconnect and Reconnect now completely

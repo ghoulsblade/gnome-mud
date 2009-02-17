@@ -460,18 +460,21 @@ mud_connection_view_finalize (GObject *object)
 
 #ifdef ENABLE_GST                               
     if(connection_view->priv->download_queue
-    && !g_queue_is_empty(connection_view->priv->download_queue))
-    while(
-        (item = (MudMSPDownloadItem *)g_queue_pop_head(
-            connection_view->priv->download_queue)) != NULL)
-        mud_telnet_msp_download_item_free(item);
+            && !g_queue_is_empty(connection_view->priv->download_queue))
+        while((item = (MudMSPDownloadItem *)
+                    g_queue_pop_head(connection_view->priv->download_queue)) != NULL)
+            mud_telnet_msp_download_item_free(item);
 
-if(connection_view->priv->download_queue)
-    g_queue_free(connection_view->priv->download_queue);
+    if(connection_view->priv->download_queue)
+        g_queue_free(connection_view->priv->download_queue);
 #endif
 
-    gnet_conn_disconnect(connection_view->connection);
-    gnet_conn_unref(connection_view->connection);
+    if(connection_view->connection && 
+            gnet_conn_is_connected(connection_view->connection))
+        gnet_conn_disconnect(connection_view->connection);
+
+    if(connection_view->connection)
+        gnet_conn_unref(connection_view->connection);
 
     g_free(connection_view->priv);
 
@@ -1163,7 +1166,9 @@ mud_connection_view_set_naws(MudConnectionView *view, gint enabled)
 void
 mud_connection_view_send_naws(MudConnectionView *view)
 {
-    if(view && view->naws_enabled)
+    if(view && view->connection 
+            && gnet_conn_is_connected(view->connection) 
+            && view->naws_enabled)
     {
         guint curr_width = VTE_TERMINAL(view->priv->terminal)->column_count;
         guint curr_height = VTE_TERMINAL(view->priv->terminal)->row_count;
