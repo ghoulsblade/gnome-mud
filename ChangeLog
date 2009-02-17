@@ -1,5 +1,13 @@
 2009-02-16  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_disconnect),
+	(mud_connection_view_reconnect): Fixed an issue where the connection
+	could get into an inconsistant state.
+	* src/mud-telnet.c (mud_telnet_process): Check if buffer exists before
+	creating a new buffer.
+
+2009-02-16  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_reconnect): Added
 	newline to reconnect.
 	* src/mud-window.c (mud_window_init): Toolbar connect button now opens

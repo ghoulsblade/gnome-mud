@@ -345,6 +345,9 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
     guint32 count;
     g_assert(telnet != NULL);
 
+    if(telnet->buffer != NULL)
+        g_string_free(telnet->buffer, TRUE);
+
     telnet->buffer = g_string_new(NULL);
 
 #ifdef ENABLE_MCCP
