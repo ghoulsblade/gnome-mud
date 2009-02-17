@@ -97,7 +97,7 @@ MudHandler_TType_HandleSubNeg(MudTelnet *telnet, guchar *buf,
             telnet->ttype_iteration++;
             break;
 
-            /* RFC 1091 says we need to repeat the last type */
+        /* RFC 1091 says we need to repeat the last type */
         case 4:
             mud_telnet_send_sub_req(telnet, 9,
                     (guchar)TELOPT_TTYPE,

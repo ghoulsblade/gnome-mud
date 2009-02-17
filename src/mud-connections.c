@@ -362,6 +362,7 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
     g_list_foreach(selected, (GFunc)gtk_tree_path_free, NULL);
     g_list_free(selected);
 
+    gtk_widget_destroy(conn->priv->window);
 }
 
 static void
