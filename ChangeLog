@@ -1,5 +1,12 @@
 2009-02-16  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_reconnect): Added
+	newline to reconnect.
+	* src/mud-window.c (mud_window_init): Toolbar connect button now opens
+	main connection window.
+
+2009-02-16  Les Harris  <lharris@gnome.org>
+
 	* ui/muds.glade: Changed the default port entry value to 23.
 
 2009-02-16  Les Harris  <lharris@gnome.org>

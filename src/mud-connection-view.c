@@ -546,7 +546,7 @@ mud_connection_view_reconnect(MudConnectionView *view)
 
         g_object_unref(view->priv->telnet);
 
-        mud_connection_view_add_text(view, _("*** Connection closed.\n"), System);
+        mud_connection_view_add_text(view, _("\n*** Connection closed.\n"), System);
 
 #ifdef ENABLE_GST
         view->priv->download_queue = g_queue_new();
