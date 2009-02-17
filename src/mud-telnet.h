@@ -183,9 +183,9 @@ struct _MudTelnet
     guchar *compress_out_buf;
     gboolean mccp;
     gboolean mccp_new;
+    GString *prev_buffer;
 #endif
 
-    GString *prev_buffer;
     GString *processed;
     GString *buffer;
     size_t pos;

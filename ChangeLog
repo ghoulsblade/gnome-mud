@@ -1,6 +1,19 @@
 2009-02-16  Les Harris  <lharris@gnome.org>
 
 	* src/mud-connection-view.c (mud_connection_view_disconnect),
+	(mud_connection_view_reconnect), (mud_connection_view_send),
+	(mud_connection_view_new): Disconnect and Reconnect now completely
+	tear down the connection. Reconnect will then instantiate a new
+	connection.  Fixed a leak on instantiation where we weren't freeing
+	gconf returned strings.
+	* src/mud-telnet.[ch] (mud_telnet_init), (mud_telnet_finalize): Make sure
+	we properly free all allocated buffers on finalization. Moved
+	prev_buffer references into ENABLE_GST blocks as it is only used when
+	MSP is enabled.
+
+2009-02-16  Les Harris  <lharris@gnome.org>
+
+	* src/mud-connection-view.c (mud_connection_view_disconnect),
 	(mud_connection_view_reconnect): Fixed an issue where the connection
 	could get into an inconsistant state.
 	* src/mud-telnet.c (mud_telnet_process): Check if buffer exists before

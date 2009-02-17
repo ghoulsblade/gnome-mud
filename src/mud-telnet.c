@@ -111,7 +111,10 @@ mud_telnet_init (MudTelnet *telnet)
     telnet->priv = g_new0(MudTelnetPrivate, 1);
 
     telnet->processed = g_string_new(NULL);
+
+#ifdef ENABLE_GST
     telnet->prev_buffer = NULL;
+#endif
 }
 
 static void
@@ -132,7 +135,17 @@ mud_telnet_finalize (GObject *object)
 
     if(telnet->processed)
         g_string_free(telnet->processed, TRUE);
-    g_free(telnet->priv);
+
+    if(telnet->buffer)
+        g_string_free(telnet->buffer, TRUE);
+
+    if(telnet->mud_name)
+        g_free(telnet->mud_name);
+
+#ifdef ENABLE_GST
+    if(telnet->prev_buffer)
+        g_string_free(telnet->prev_buffer, TRUE);
+#endif
 
 #ifdef ENABLE_MCCP
     if(telnet->compress_out != NULL)
@@ -143,6 +156,8 @@ mud_telnet_finalize (GObject *object)
         g_free(telnet->compress_out_buf);
     }
 #endif
+
+    g_free(telnet->priv);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);

@@ -496,7 +496,7 @@ mud_connection_view_disconnect(MudConnectionView *view)
 
     g_assert(view != NULL);
 
-    if(gnet_conn_is_connected(view->connection))
+    if(view->connection && gnet_conn_is_connected(view->connection))
     {
 #ifdef ENABLE_GST
         if(view->priv->download_queue)
@@ -512,6 +512,8 @@ mud_connection_view_disconnect(MudConnectionView *view)
         view->priv->processed = NULL;
 
         gnet_conn_disconnect(view->connection);
+        gnet_conn_unref(view->connection);
+        view->connection = NULL;
 
         if(view->priv->telnet)
             g_object_unref(view->priv->telnet);
@@ -523,7 +525,11 @@ mud_connection_view_disconnect(MudConnectionView *view)
 void
 mud_connection_view_reconnect(MudConnectionView *view)
 {
-    gchar *buf;
+    gchar *buf, *profile_name, *proxy_host, *version;
+    gchar key[2048];
+    gchar extra_path[512] = "";
+    gboolean use_proxy;
+    GConfClient *client;
 
 #ifdef ENABLE_GST
     MudMSPDownloadItem *item;
@@ -531,7 +537,7 @@ mud_connection_view_reconnect(MudConnectionView *view)
 
     g_assert(view != NULL);
 
-    if(gnet_conn_is_connected(view->connection))
+    if(view->connection && gnet_conn_is_connected(view->connection))
     {
 
 #ifdef ENABLE_GST
@@ -548,12 +554,54 @@ mud_connection_view_reconnect(MudConnectionView *view)
         view->priv->processed = NULL;
 
         gnet_conn_disconnect(view->connection);
+        gnet_conn_unref(view->connection);
+        view->connection = NULL;
 
         g_object_unref(view->priv->telnet);
 
         mud_connection_view_add_text(view,
                 _("\n*** Connection closed.\n"), System);
     }
+
+    view->connection = gnet_conn_new(view->priv->hostname, view->priv->port,
+            mud_connection_view_network_event_cb, view);
+    gnet_conn_ref(view->connection);
+    gnet_conn_set_watch_error(view->connection, TRUE);
+
+    profile_name = mud_profile_get_name(view->priv->profile);
+
+    if (strcmp(profile_name, "Default") != 0)
+    {
+        g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
+    }
+
+    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/use_proxy");
+    client = gconf_client_get_default();
+    use_proxy = gconf_client_get_bool(client, key, NULL);
+
+    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/proxy_hostname");
+    proxy_host = gconf_client_get_string(client, key, NULL);
+
+    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/proxy_version");
+    version = gconf_client_get_string(client, key, NULL);
+
+    if(use_proxy)
+    {
+        if(proxy_host && version)
+        {
+            gnet_socks_set_enabled(TRUE);
+            gnet_socks_set_server(gnet_inetaddr_new(proxy_host,GNET_SOCKS_PORT));
+            gnet_socks_set_version((strcmp(version, "4") == 0) ? 4 : 5);
+        }
+    }
+    else
+        gnet_socks_set_enabled(FALSE);
+
+    if(proxy_host)
+        g_free(proxy_host);
+
+    if(version)
+        g_free(version);
 
 #ifdef ENABLE_GST
     view->priv->download_queue = g_queue_new();
@@ -579,38 +627,41 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
     GList *commands, *command;
     gchar *text;
 
-    if(view->local_echo) // Prevent password from being cached.
+    if(view->connection && gnet_conn_is_connected(view->connection))
     {
-        gchar *head = g_queue_peek_head(view->priv->history);
+        if(view->local_echo) // Prevent password from being cached.
+        {
+            gchar *head = g_queue_peek_head(view->priv->history);
 
-        if( (head && strcmp(head, data) != 0 && head[0] != '\n') 
-                || g_queue_is_empty(view->priv->history))
+            if( (head && strcmp(head, data) != 0 && head[0] != '\n') 
+                    || g_queue_is_empty(view->priv->history))
+                g_queue_push_head(view->priv->history,
+                        (gpointer)g_strdup(data));
+        }
+        else
             g_queue_push_head(view->priv->history,
-                    (gpointer)g_strdup(data));
+                    (gpointer)g_strdup(_("<password removed>")));
+
+        view->priv->current_history_index = 0;
+        commands = mud_profile_process_commands(view->priv->profile, data);
+
+        for (command = g_list_first(commands); command != NULL; command = command->next)
+        {
+            text = g_strdup_printf("%s\r\n", (gchar *) command->data);
+
+            // Give plugins first crack at it.
+            mud_window_handle_plugins(view->priv->window, view->priv->id,
+                    (gchar *)text, strlen(text), 0);
+
+            gnet_conn_write(view->connection, text, strlen(text));
+
+            if (view->priv->profile->preferences->EchoText && view->local_echo)
+                mud_connection_view_add_text(view, text, Sent);
+            g_free(text);
+        }
+
+        g_list_free(commands);
     }
-    else
-        g_queue_push_head(view->priv->history,
-                (gpointer)g_strdup(_("<password removed>")));
-
-    view->priv->current_history_index = 0;
-    commands = mud_profile_process_commands(view->priv->profile, data);
-
-    for (command = g_list_first(commands); command != NULL; command = command->next)
-    {
-        text = g_strdup_printf("%s\r\n", (gchar *) command->data);
-
-        // Give plugins first crack at it.
-        mud_window_handle_plugins(view->priv->window, view->priv->id,
-                (gchar *)text, strlen(text), 0);
-
-        gnet_conn_write(view->connection, text, strlen(text));
-
-        if (view->priv->profile->preferences->EchoText && view->local_echo)
-            mud_connection_view_add_text(view, text, Sent);
-        g_free(text);
-    }
-
-    g_list_free(commands);
 }
 
 static void
@@ -912,6 +963,12 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname,
     }
     else
         gnet_socks_set_enabled(FALSE);
+
+    if(proxy_host)
+        g_free(proxy_host);
+
+    if(version)
+        g_free(version);
 
     gnet_conn_connect(view->connection);
 
