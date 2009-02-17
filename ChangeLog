@@ -1,4 +1,4 @@
-2009-02-16  Les Harris  <les@les-desktop>
+2009-02-16  Les Harris  <lharris@gnome.org>
 
 	* src/mud-connection-view.c (mud_connection_view_reconnect): No longer
 	free processed buffer in reconnect.
