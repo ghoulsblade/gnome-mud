@@ -1,5 +1,9 @@
 2009-02-16  Les Harris  <lharris@gnome.org>
 
+	* plugins/python/*: Removed obsolete plugin.
+
+2009-02-16  Les Harris  <lharris@gnome.org>
+
 	* src/mud-window.c (mud_window_remove_connection_view): GnomeMud
 	picture will now be the correct size when the last view is closed.
 
