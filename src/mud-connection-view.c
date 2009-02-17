@@ -1054,6 +1054,10 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
     MudConnectionView *view = MUD_CONNECTION_VIEW(pview);
     gint length;
 
+#ifdef ENABLE_GST
+    MudMSPDownloadItem *item;
+#endif
+
     g_assert(view != NULL);
 
     switch(event->type)
@@ -1068,6 +1072,26 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
             break;
 
         case GNET_CONN_CLOSE:
+#ifdef ENABLE_GST
+            if(view->priv->download_queue)
+                while((item = (MudMSPDownloadItem *)g_queue_pop_head(view->priv->download_queue)) != NULL)
+                    mud_telnet_msp_download_item_free(item);
+
+            if(view->priv->download_queue)
+                g_queue_free(view->priv->download_queue);
+
+            view->priv->download_queue = NULL;
+#endif
+
+            view->priv->processed = NULL;
+
+            gnet_conn_disconnect(view->connection);
+            gnet_conn_unref(view->connection);
+            view->connection = NULL;
+
+            if(view->priv->telnet)
+                g_object_unref(view->priv->telnet);
+
             mud_connection_view_add_text(view, _("*** Connection closed.\n"), Error);
             break;
 

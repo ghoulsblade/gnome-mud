@@ -1,3 +1,9 @@
+2009-02-17  Les Harris  <lharris@gnome.org>
+
+	* src/mud-connection-view.c (mud_connection_view_network_event_cb):
+	The server disconnecting the user now behaves in the same way as the
+	user disconnecting itself.
+
 2009-02-16  Les Harris  <lharris@gnome.org>
 
 	* configure.ac, plugins/Makefile.am: Removed obsolete plugin from
