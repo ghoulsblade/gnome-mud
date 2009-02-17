@@ -1,3 +1,10 @@
+2009-02-16  Les Harris  <les@les-desktop>
+
+	* src/mud-connection-view.c (mud_connection_view_reconnect): No longer
+	free processed buffer in reconnect.
+	* src/mud-telnet-handlers.c:
+	* src/mud-telnet-msp.c (mud_telnet_msp_parse): Removed logging.
+
 2009-02-16  Les Harris  <lharris@gnome.org>
 
 	* src/mud-connection-view.c (mud_connection_view_disconnect): Removed

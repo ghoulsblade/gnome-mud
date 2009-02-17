@@ -540,12 +540,7 @@ mud_connection_view_reconnect(MudConnectionView *view)
         view->priv->download_queue = NULL;
 #endif
 
-        if(view->priv->processed)
-            g_string_free(view->priv->processed, TRUE);
-
         view->priv->processed = NULL;
-
-        mud_zmp_finalize(view->priv->telnet);
 
         gnet_conn_disconnect(view->connection);
 
@@ -1065,8 +1060,8 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
 
                 if(view->priv->processed != NULL)
                 {
-                    g_message("freeing processed in m-c-v");
                     g_string_free(view->priv->processed, TRUE);
+                    view->priv->processed = NULL;
                 }
 
                 buf = NULL;

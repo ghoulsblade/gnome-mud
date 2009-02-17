@@ -485,10 +485,12 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
 		break;
 
 	    case (guchar)TEL_GA:
+                // TODO: Hook up to triggers.
 		telnet->tel_state = TEL_STATE_TEXT;
 		break;
 
 	    case (guchar)TEL_EOR_BYTE:
+                // TODO: Hook up to triggers.
 		telnet->tel_state = TEL_STATE_TEXT;
 		break;
 

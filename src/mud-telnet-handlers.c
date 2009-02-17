@@ -49,7 +49,6 @@
 void
 MudHandler_TType_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
-    g_message("TTYPE enabled.");
     handler->enabled = TRUE;
     telnet->ttype_iteration = 0;
 }
@@ -116,7 +115,6 @@ MudHandler_NAWS_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
     gint w, h;
 
-    g_message("NAWS enabled.");
     mud_telnet_get_parent_size(telnet, &w, &h);
     mud_telnet_set_parent_naws(telnet, TRUE);
 
@@ -143,7 +141,6 @@ MudHandler_NAWS_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 void
 MudHandler_ECHO_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
-    g_message("ECHO enabled.");
     mud_telnet_set_local_echo(telnet, FALSE);
 }
 
@@ -164,7 +161,6 @@ MudHandler_ECHO_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 void
 MudHandler_EOR_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
-    g_message("EOR enabled.");
     telnet->eor_enabled = TRUE;
 }
 
@@ -185,7 +181,6 @@ MudHandler_EOR_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 void
 MudHandler_CHARSET_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
-    g_message("CHARSET enabled.");
     handler->enabled = TRUE;
 }
 
@@ -255,7 +250,6 @@ MudHandler_CHARSET_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 void
 MudHandler_ZMP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
-    g_message("ZMP enabled.");
     handler->enabled = TRUE;
     mud_zmp_init(telnet);
 }
@@ -320,7 +314,6 @@ MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 void
 MudHandler_MSP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
-    g_message("MSP enabled.");
     handler->enabled = TRUE;
     mud_telnet_msp_init(telnet);
     telnet->msp_parser.enabled = TRUE;
@@ -344,7 +337,6 @@ MudHandler_MSP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 void
 MudHandler_MCCP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
-    g_message("MCCP enabled.");
     handler->enabled = TRUE;
     telnet->mccp = FALSE;
 }
@@ -370,7 +362,6 @@ void
 MudHandler_MCCP_HandleSubNeg(MudTelnet *telnet, guchar *buf, 
         guint len, MudTelnetHandler *handler)
 {
-    g_message("MCCP Subneq.");
     telnet->mccp = TRUE;
     telnet->mccp_new = TRUE;
 
