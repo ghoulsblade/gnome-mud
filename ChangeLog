@@ -1,5 +1,11 @@
 2009-02-17  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_add_text): All
+	gnome-mud messages sent to the terminal are now encoded to the
+	encoding of the terminal.
+
+2009-02-17  Les Harris  <lharris@gnome.org>
+
 	* src/mud-telnet-msp.c (mud_telnet_msp_process_command): Fixed
 	formatting.
 	* src/mud-window.c (mud_window_textview_keypress): We now convert user

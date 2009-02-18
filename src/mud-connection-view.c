@@ -276,15 +276,20 @@ mud_connection_view_feed_text(MudConnectionView *view, gchar *message)
 void
 mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type)
 {
-    gchar *encoding;
+    gchar *encoding, *buf, *text;
+    const gchar *local_codeset;
     gchar *profile_name;
     GConfClient *client;
     gboolean remote;
+    gsize bytes_read, bytes_written;
+    GError *error = NULL;
 
     gchar key[2048];
     gchar extra_path[512] = "";
 
     client = gconf_client_get_default();
+
+    text = g_strdup(message);
 
     g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/remote_encoding");
     remote = gconf_client_get_bool(client, key, NULL);
@@ -304,7 +309,18 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
         encoding = gconf_client_get_string(client, key, NULL);
     }
 
+    buf = text;
+
+    g_get_charset(&local_codeset);
+
+    text = g_convert(text, -1,
+            encoding,
+            local_codeset, 
+            &bytes_read, &bytes_written, &error);
+
     vte_terminal_set_encoding(VTE_TERMINAL(view->priv->terminal), encoding);
+
+    g_free(encoding);
 
     switch (type)
     {
@@ -326,8 +342,10 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
     }
 
     if(view->local_echo)
-        mud_connection_view_feed_text(view, message);
+        mud_connection_view_feed_text(view, text);
     mud_connection_view_feed_text(view, "\e[0m");
+
+    g_free(text);
 }
 
 
