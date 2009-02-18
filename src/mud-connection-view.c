@@ -318,6 +318,11 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
             local_codeset, 
             &bytes_read, &bytes_written, &error);
 
+    g_free(buf);
+
+    if(error)
+        g_message("%s", error->message);
+
     vte_terminal_set_encoding(VTE_TERMINAL(view->priv->terminal), encoding);
 
     g_free(encoding);

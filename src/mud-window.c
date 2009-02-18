@@ -273,14 +273,10 @@ mud_window_textview_buffer_changed(GtkTextBuffer *buffer, MudWindow *window)
 static gboolean
 mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *window)
 {
-    gchar *text, *buf;
-    const gchar *local_codeset;
+    gchar *text;
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->textview));
     GtkTextIter start, end;
     MudParseBase *base;
-    gsize bytes_read, bytes_written;
-    GError *error = NULL;
-    MudProfile *profile;
 
     if ((event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) &&
             (event->state & gtk_accelerator_get_default_mod_mask()) == 0)
@@ -293,19 +289,6 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
 
             if (g_str_equal(text, ""))
                 text = g_strdup(" ");
-
-            buf = text;
-
-            g_get_charset(&local_codeset);
-            profile = mud_connection_view_get_current_profile(
-                    MUD_CONNECTION_VIEW(window->priv->current_view));
-
-            text = g_convert(text, -1,
-                    profile->preferences->Encoding,
-                    local_codeset, 
-                    &bytes_read, &bytes_written, &error);
-
-            g_free(buf);
 
             base = mud_connection_view_get_parsebase(MUD_CONNECTION_VIEW(window->priv->current_view));
 

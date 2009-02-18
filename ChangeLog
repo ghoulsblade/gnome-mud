@@ -1,5 +1,11 @@
 2009-02-17  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_add_text):
+	* src/mud-window.c (mud_window_textview_keypress): Consolidated
+	encoding conversion into a single place.
+
+2009-02-17  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_add_text): All
 	gnome-mud messages sent to the terminal are now encoded to the
 	encoding of the terminal.
