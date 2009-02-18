@@ -1,5 +1,13 @@
 2009-02-17  Les Harris  <lharris@gnome.org>
 
+	* src/mud-telnet-msp.c (mud_telnet_msp_process_command): Fixed
+	formatting.
+	* src/mud-window.c (mud_window_textview_keypress): We now convert user
+	input from the current locale into the encoding specified in the
+	preferences.
+
+2009-02-17  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_network_event_cb):
 	The server disconnecting the user now behaves in the same way as the
 	user disconnecting itself.

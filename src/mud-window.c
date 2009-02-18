@@ -273,26 +273,46 @@ mud_window_textview_buffer_changed(GtkTextBuffer *buffer, MudWindow *window)
 static gboolean
 mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *window)
 {
-    gchar *text;
+    gchar *text, *buf;
+    const gchar *local_codeset;
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->textview));
     GtkTextIter start, end;
     MudParseBase *base;
+    gsize bytes_read, bytes_written;
+    GError *error = NULL;
+    MudProfile *profile;
 
     if ((event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) &&
             (event->state & gtk_accelerator_get_default_mod_mask()) == 0)
     {
         gtk_text_buffer_get_bounds(buffer, &start, &end);
 
-        text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-
-        if (g_str_equal(text, ""))
-            text = g_strdup(" ");
-
         if (window->priv->current_view)
         {
+            text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+
+            if (g_str_equal(text, ""))
+                text = g_strdup(" ");
+
+            buf = text;
+
+            g_get_charset(&local_codeset);
+            profile = mud_connection_view_get_current_profile(
+                    MUD_CONNECTION_VIEW(window->priv->current_view));
+
+            text = g_convert(text, -1,
+                    profile->preferences->Encoding,
+                    local_codeset, 
+                    &bytes_read, &bytes_written, &error);
+
+            g_free(buf);
+
             base = mud_connection_view_get_parsebase(MUD_CONNECTION_VIEW(window->priv->current_view));
+
             if(mud_parse_base_do_aliases(base, text))
                 mud_connection_view_send(MUD_CONNECTION_VIEW(window->priv->current_view), text);
+
+            g_free(text);
         }
 
         if (gconf_client_get_bool(window->priv->gconf_client,
@@ -300,8 +320,6 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
             gtk_text_buffer_delete(buffer, &start, &end);
         else
             gtk_text_buffer_select_range(buffer, &start, &end);
-
-        g_free(text);
 
         return TRUE;
     }

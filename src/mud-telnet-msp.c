@@ -37,18 +37,18 @@ static void mud_telnet_msp_parser_args(MudTelnet *telnet);
 static void mud_telnet_msp_command_free(MudMSPCommand *command);
 static gboolean mud_telnet_msp_parser_is_param_char(gchar c);
 static gboolean mud_telnet_msp_parser_switch_on_param_char(gint *state,
-							   gchar *buf,
-							   gint index,
-							   gint len);
+        gchar *buf,
+        gint index,
+        gint len);
 static void mud_telnet_msp_process_command(MudTelnet *telnet,
-					   MudMSPCommand *command);
+        MudMSPCommand *command);
 static void mud_telnet_msp_stop_playing(MudTelnet *telnet, MudMSPTypes type);
 static void mud_telnet_msp_start_playing(MudTelnet *telnet, MudMSPTypes type);
 static gboolean mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type);
 static gboolean mud_telnet_msp_sound_bus_call (GstBus *bus,
-					       GstMessage *msg, gpointer data);
+        GstMessage *msg, gpointer data);
 static gboolean mud_telnet_msp_music_bus_call (GstBus *bus,
-					       GstMessage *msg, gpointer data);
+        GstMessage *msg, gpointer data);
 
 GString *
 mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
@@ -61,131 +61,131 @@ mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
 
     if(telnet->prev_buffer)
     {
-	g_string_prepend(buf, telnet->prev_buffer->str);
-	g_string_free(telnet->prev_buffer, TRUE);
-	telnet->prev_buffer = NULL;
+        g_string_prepend(buf, telnet->prev_buffer->str);
+        g_string_free(telnet->prev_buffer, TRUE);
+        telnet->prev_buffer = NULL;
     }
 
     while(telnet->msp_parser.lex_pos_start < *len)
     {
-	switch(telnet->msp_parser.state)
-	{
-	case MSP_STATE_TEXT:
-	    if(buf->str[telnet->msp_parser.lex_pos_start] == '!')
-		telnet->msp_parser.state = MSP_STATE_POSSIBLE_COMMAND;
-	    else
-	    {
-		g_string_append_c(telnet->msp_parser.output,
-				  buf->str[telnet->msp_parser.lex_pos_start++]);
-	    }
-	    break;
+        switch(telnet->msp_parser.state)
+        {
+            case MSP_STATE_TEXT:
+                if(buf->str[telnet->msp_parser.lex_pos_start] == '!')
+                    telnet->msp_parser.state = MSP_STATE_POSSIBLE_COMMAND;
+                else
+                {
+                    g_string_append_c(telnet->msp_parser.output,
+                            buf->str[telnet->msp_parser.lex_pos_start++]);
+                }
+                break;
 
-	case MSP_STATE_POSSIBLE_COMMAND:
-	    if(telnet->msp_parser.lex_pos_start + 1 == *len)
-		continue;
-	    else if(buf->str[telnet->msp_parser.lex_pos_start + 1] != '!')
-	    {
-		g_string_append_c(telnet->msp_parser.output,
-				  buf->str[telnet->msp_parser.lex_pos_start++]);
-		telnet->msp_parser.state = MSP_STATE_TEXT;
-		continue;
-	    }
+            case MSP_STATE_POSSIBLE_COMMAND:
+                if(telnet->msp_parser.lex_pos_start + 1 == *len)
+                    continue;
+                else if(buf->str[telnet->msp_parser.lex_pos_start + 1] != '!')
+                {
+                    g_string_append_c(telnet->msp_parser.output,
+                            buf->str[telnet->msp_parser.lex_pos_start++]);
+                    telnet->msp_parser.state = MSP_STATE_TEXT;
+                    continue;
+                }
 
-	    telnet->msp_parser.state = MSP_STATE_COMMAND;
-	    break;
+                telnet->msp_parser.state = MSP_STATE_COMMAND;
+                break;
 
-	case MSP_STATE_COMMAND:
-	    if(telnet->msp_parser.lex_pos_start + 8 >= *len)
-	    {
-		telnet->prev_buffer = g_string_new(NULL);
+            case MSP_STATE_COMMAND:
+                if(telnet->msp_parser.lex_pos_start + 8 >= *len)
+                {
+                    telnet->prev_buffer = g_string_new(NULL);
 
-		count = telnet->msp_parser.lex_pos_start;
+                    count = telnet->msp_parser.lex_pos_start;
 
-		while(count != buf->len)
-		    g_string_append_c(telnet->prev_buffer, buf->str[count++]);
+                    while(count != buf->len)
+                        g_string_append_c(telnet->prev_buffer, buf->str[count++]);
 
-		telnet->msp_parser.lex_pos_start += count;
-		continue;
-	    }
+                    telnet->msp_parser.lex_pos_start += count;
+                    continue;
+                }
 
-	    if(buf->str[telnet->msp_parser.lex_pos_start + 2] == 'S' &&
-	       buf->str[telnet->msp_parser.lex_pos_start + 3] == 'O' &&
-	       buf->str[telnet->msp_parser.lex_pos_start + 4] == 'U' &&
-	       buf->str[telnet->msp_parser.lex_pos_start + 5] == 'N' &&
-	       buf->str[telnet->msp_parser.lex_pos_start + 6] == 'D')
-		telnet->msp_type = MSP_TYPE_SOUND;
-	    else if(buf->str[telnet->msp_parser.lex_pos_start + 2] == 'M' &&
-		    buf->str[telnet->msp_parser.lex_pos_start + 3] == 'U' &&
-		    buf->str[telnet->msp_parser.lex_pos_start + 4] == 'S' &&
-		    buf->str[telnet->msp_parser.lex_pos_start + 5] == 'I' &&
-		    buf->str[telnet->msp_parser.lex_pos_start + 6] == 'C')
-		telnet->msp_type = MSP_TYPE_MUSIC;
-	    else
-	    {
-		/* Not an msp command, bail out. */
-		g_string_append_c(telnet->msp_parser.output,
-				  buf->str[telnet->msp_parser.lex_pos_start++]);
-		g_string_append_c(telnet->msp_parser.output,
-				  buf->str[telnet->msp_parser.lex_pos_start++]);
+                if(buf->str[telnet->msp_parser.lex_pos_start + 2] == 'S' &&
+                        buf->str[telnet->msp_parser.lex_pos_start + 3] == 'O' &&
+                        buf->str[telnet->msp_parser.lex_pos_start + 4] == 'U' &&
+                        buf->str[telnet->msp_parser.lex_pos_start + 5] == 'N' &&
+                        buf->str[telnet->msp_parser.lex_pos_start + 6] == 'D')
+                    telnet->msp_type = MSP_TYPE_SOUND;
+                else if(buf->str[telnet->msp_parser.lex_pos_start + 2] == 'M' &&
+                        buf->str[telnet->msp_parser.lex_pos_start + 3] == 'U' &&
+                        buf->str[telnet->msp_parser.lex_pos_start + 4] == 'S' &&
+                        buf->str[telnet->msp_parser.lex_pos_start + 5] == 'I' &&
+                        buf->str[telnet->msp_parser.lex_pos_start + 6] == 'C')
+                    telnet->msp_type = MSP_TYPE_MUSIC;
+                else
+                {
+                    /* Not an msp command, bail out. */
+                    g_string_append_c(telnet->msp_parser.output,
+                            buf->str[telnet->msp_parser.lex_pos_start++]);
+                    g_string_append_c(telnet->msp_parser.output,
+                            buf->str[telnet->msp_parser.lex_pos_start++]);
 
-		telnet->msp_parser.state = MSP_STATE_TEXT;
-		continue;
-	    }
+                    telnet->msp_parser.state = MSP_STATE_TEXT;
+                    continue;
+                }
 
-	    // Skip leading (
-	    telnet->msp_parser.lex_pos_start += 8;
-	    telnet->msp_parser.state = MSP_STATE_GET_ARGS;
-	    continue;
-	    break;
+                // Skip leading (
+                telnet->msp_parser.lex_pos_start += 8;
+                telnet->msp_parser.state = MSP_STATE_GET_ARGS;
+                continue;
+                break;
 
-	case MSP_STATE_GET_ARGS:
-	    telnet->msp_parser.lex_pos_end = telnet->msp_parser.lex_pos_start;
+            case MSP_STATE_GET_ARGS:
+                telnet->msp_parser.lex_pos_end = telnet->msp_parser.lex_pos_start;
 
-	    if(telnet->msp_parser.arg_buffer == NULL)
-		telnet->msp_parser.arg_buffer = g_string_new(NULL);
-	    else
-	    {
-		/* This stops some craziness where g_string_append_c
-		   doesn't actually update the gstring. Glib bug? */
-		temp = g_strdup(telnet->msp_parser.arg_buffer->str);
-		g_string_free(telnet->msp_parser.arg_buffer, TRUE);
-		telnet->msp_parser.arg_buffer = g_string_new(temp);
-		g_free(temp);
-	    }
+                if(telnet->msp_parser.arg_buffer == NULL)
+                    telnet->msp_parser.arg_buffer = g_string_new(NULL);
+                else
+                {
+                    /* This stops some craziness where g_string_append_c
+                       doesn't actually update the gstring. Glib bug? */
+                    temp = g_strdup(telnet->msp_parser.arg_buffer->str);
+                    g_string_free(telnet->msp_parser.arg_buffer, TRUE);
+                    telnet->msp_parser.arg_buffer = g_string_new(temp);
+                    g_free(temp);
+                }
 
-	    while(telnet->msp_parser.lex_pos_end < *len &&
-		  buf->str[telnet->msp_parser.lex_pos_end] != ')')
-		g_string_append_c(telnet->msp_parser.arg_buffer,
-				  buf->str[telnet->msp_parser.lex_pos_end++]);
+                while(telnet->msp_parser.lex_pos_end < *len &&
+                        buf->str[telnet->msp_parser.lex_pos_end] != ')')
+                    g_string_append_c(telnet->msp_parser.arg_buffer,
+                            buf->str[telnet->msp_parser.lex_pos_end++]);
 
-	    if(telnet->msp_parser.lex_pos_end >= *len &&
-	       buf->str[telnet->msp_parser.lex_pos_end - 1] != ')')
-	    {
-		telnet->msp_parser.lex_pos_start =
-		    telnet->msp_parser.lex_pos_end;
-		continue;
-	    }
+                if(telnet->msp_parser.lex_pos_end >= *len &&
+                        buf->str[telnet->msp_parser.lex_pos_end - 1] != ')')
+                {
+                    telnet->msp_parser.lex_pos_start =
+                        telnet->msp_parser.lex_pos_end;
+                    continue;
+                }
 
-	    telnet->msp_parser.state = MSP_STATE_PARSE_ARGS;
+                telnet->msp_parser.state = MSP_STATE_PARSE_ARGS;
 
-	    break;
+                break;
 
-	case MSP_STATE_PARSE_ARGS:
-	    mud_telnet_msp_parser_args(telnet);
+            case MSP_STATE_PARSE_ARGS:
+                mud_telnet_msp_parser_args(telnet);
 
-	    g_string_free(telnet->msp_parser.arg_buffer, TRUE);
-	    telnet->msp_parser.arg_buffer = NULL;
-	    telnet->msp_parser.lex_pos_start =
-		telnet->msp_parser.lex_pos_end + 2;
-	    telnet->msp_parser.state = MSP_STATE_TEXT;
-	    break;
-	}
+                g_string_free(telnet->msp_parser.arg_buffer, TRUE);
+                telnet->msp_parser.arg_buffer = NULL;
+                telnet->msp_parser.lex_pos_start =
+                    telnet->msp_parser.lex_pos_end + 2;
+                telnet->msp_parser.state = MSP_STATE_TEXT;
+                break;
+        }
     }
 
     if(telnet->msp_parser.state == MSP_STATE_TEXT)
     {
-	ret = g_string_new(g_strdup(telnet->msp_parser.output->str));
-	*len = telnet->msp_parser.output->len;
+        ret = g_string_new(g_strdup(telnet->msp_parser.output->str));
+        *len = telnet->msp_parser.output->len;
     }
 
     g_string_free(buf, TRUE);
@@ -553,7 +553,6 @@ mud_telnet_msp_process_command(MudTelnet *telnet, MudMSPCommand *command)
 	{
 	    if(telnet->base_url)
 		g_free(telnet->base_url);
-
 
 	    telnet->base_url = g_strdup(command->U);
 	}
