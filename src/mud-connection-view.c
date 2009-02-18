@@ -276,7 +276,7 @@ mud_connection_view_feed_text(MudConnectionView *view, gchar *message)
 void
 mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type)
 {
-    gchar *encoding, *buf, *text;
+    gchar *encoding, *text;
     const gchar *local_codeset;
     gchar *profile_name;
     GConfClient *client;
@@ -309,19 +309,12 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
         encoding = gconf_client_get_string(client, key, NULL);
     }
 
-    buf = text;
-
     g_get_charset(&local_codeset);
 
-    text = g_convert(text, -1,
+    text = g_convert(message, -1,
             encoding,
             local_codeset, 
             &bytes_read, &bytes_written, &error);
-
-    g_free(buf);
-
-    if(error)
-        g_message("%s", error->message);
 
     vte_terminal_set_encoding(VTE_TERMINAL(view->priv->terminal), encoding);
 
@@ -329,21 +322,21 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
 
     switch (type)
     {
-    case Sent:
-        mud_connection_view_feed_text(view, "\e[1;33m");
-        break;
+        case Sent:
+            mud_connection_view_feed_text(view, "\e[1;33m");
+            break;
 
-    case Error:
-        mud_connection_view_feed_text(view, "\e[1;31m");
-        break;
+        case Error:
+            mud_connection_view_feed_text(view, "\e[1;31m");
+            break;
 
-    case System:
-        mud_connection_view_feed_text(view, "\e[1;32m");
-        break;
+        case System:
+            mud_connection_view_feed_text(view, "\e[1;32m");
+            break;
 
-    case Normal:
-    default:
-        break;
+        case Normal:
+        default:
+            break;
     }
 
     if(view->local_echo)

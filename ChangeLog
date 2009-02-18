@@ -1,5 +1,10 @@
 2009-02-17  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_add_text): Removed a
+	useless buffer, removed logging.
+
+2009-02-17  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_add_text):
 	* src/mud-window.c (mud_window_textview_keypress): Consolidated
 	encoding conversion into a single place.
