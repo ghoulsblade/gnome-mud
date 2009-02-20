@@ -1,5 +1,10 @@
 2009-02-20  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_add_text): Color will
+	now be properly reset if there is a conversion error in add_text.
+
+2009-02-20  Les Harris  <lharris@gnome.org>
+
 	* src/mud-profile.c (mud_profile_copy_preferences): Fixed copying the
 	foreground color to the background.
 

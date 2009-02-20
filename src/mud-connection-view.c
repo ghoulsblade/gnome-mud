@@ -339,13 +339,10 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
             break;
     }
 
-    if(!error)
-    {
-        if(view->local_echo)
-            mud_connection_view_feed_text(view, text);
-        mud_connection_view_feed_text(view, "\e[0m");
-    }
+    if(view->local_echo)
+        mud_connection_view_feed_text(view, (!error) ? text : message);
 
+    mud_connection_view_feed_text(view, "\e[0m");
     g_free(text);
 }
 
