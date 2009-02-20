@@ -174,7 +174,6 @@ mud_profile_delete(const gchar *name)
 	gchar buf[512];
 	GConfClient *client;
 
-
 	client = gconf_client_get_default();
 
 	rementry = NULL;
@@ -812,9 +811,9 @@ mud_profile_copy_preferences(MudProfile *from, MudProfile *to)
 	mud_profile_set_foreground(to, from->preferences->Foreground.red,
 				       from->preferences->Foreground.green,
 				       from->preferences->Foreground.blue);
-	mud_profile_set_background(to, from->preferences->Foreground.red,
-				       from->preferences->Foreground.green,
-				       from->preferences->Foreground.blue);
+	mud_profile_set_background(to, from->preferences->Background.red,
+				       from->preferences->Background.green,
+				       from->preferences->Background.blue);
 	for (i = 0; i < C_MAX; i++)
 	{
 		mud_profile_set_colors(to, i, from->preferences->Colors[i].red,

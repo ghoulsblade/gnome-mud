@@ -1,5 +1,10 @@
 2009-02-20  Les Harris  <lharris@gnome.org>
 
+	* src/mud-profile.c (mud_profile_copy_preferences): Fixed copying the
+	foreground color to the background.
+
+2009-02-20  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_add_text),
 	(mud_connection_view_send): Workaround for a g_convert() problem where
 	it doesn't return NULL when there is a conversion error.
