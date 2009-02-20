@@ -1,5 +1,10 @@
 2009-02-20  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_send): Send UTF-8
+	input if conversion to terminal codeset fails.
+
+2009-02-20  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_send): Pass the
 	correct string length to gnet_conn_write after conversion.
 
