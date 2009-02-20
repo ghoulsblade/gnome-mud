@@ -716,7 +716,8 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             if (view->priv->profile->preferences->EchoText && view->local_echo)
                 mud_connection_view_add_text(view, text, Sent);
 
-            g_free(conv_text);
+            if(conv_text != NULL)
+                g_free(conv_text);
             g_free(text);
         }
 

@@ -1,5 +1,10 @@
 2009-02-20  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_send): Check for null
+	before freeing conv_text.
+
+2009-02-20  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_send): Send UTF-8
 	input if conversion to terminal codeset fails.
 
