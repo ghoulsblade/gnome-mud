@@ -644,7 +644,16 @@ void
 mud_connection_view_send(MudConnectionView *view, const gchar *data)
 {
     GList *commands, *command;
-    gchar *text;
+    gchar *text, *encoding, *conv_text;
+    const gchar *local_codeset;
+    gchar *profile_name;
+    GConfClient *client;
+    gboolean remote;
+    gsize bytes_read, bytes_written;
+    GError *error = NULL;
+
+    gchar key[2048];
+    gchar extra_path[512] = "";
 
     if(view->connection && gnet_conn_is_connected(view->connection))
     {
@@ -661,6 +670,28 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             g_queue_push_head(view->priv->history,
                     (gpointer)g_strdup(_("<password removed>")));
 
+        client = gconf_client_get_default();
+
+        g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/remote_encoding");
+        remote = gconf_client_get_bool(client, key, NULL);
+
+        if(view->remote_encode && remote)
+            encoding = view->remote_encoding;
+        else
+        {
+            profile_name = mud_profile_get_name(view->priv->profile);
+
+            if (strcmp(profile_name, "Default"))
+            {
+                g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
+            }
+
+            g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/encoding");
+            encoding = gconf_client_get_string(client, key, NULL);
+        }
+
+        g_get_charset(&local_codeset);
+
         view->priv->current_history_index = 0;
         commands = mud_profile_process_commands(view->priv->profile, data);
 
@@ -668,14 +699,21 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
         {
             text = g_strdup_printf("%s\r\n", (gchar *) command->data);
 
+            conv_text = g_convert(text, -1,
+                encoding,
+                local_codeset, 
+                &bytes_read, &bytes_written, &error);
+
             // Give plugins first crack at it.
             mud_window_handle_plugins(view->priv->window, view->priv->id,
                     (gchar *)text, strlen(text), 0);
 
-            gnet_conn_write(view->connection, text, strlen(text));
+            gnet_conn_write(view->connection, conv_text, strlen(text));
 
             if (view->priv->profile->preferences->EchoText && view->local_echo)
                 mud_connection_view_add_text(view, text, Sent);
+
+            g_free(conv_text);
             g_free(text);
         }
 

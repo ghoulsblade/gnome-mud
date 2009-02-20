@@ -1,3 +1,8 @@
+2009-02-20  Les Harris  <lharris@gnome.org>
+
+	* src/mud-connection-view.c (mud_connection_view_send): Now convert
+	user input to terminal encoding.
+
 2009-02-17  Les Harris  <lharris@gnome.org>
 
 	* src/mud-connection-view.c (mud_connection_view_add_text): Removed a
