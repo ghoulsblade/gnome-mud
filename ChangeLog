@@ -1,5 +1,11 @@
 2009-02-20  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_add_text),
+	(mud_connection_view_send): Workaround for a g_convert() problem where
+	it doesn't return NULL when there is a conversion error.
+
+2009-02-20  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_send): Check for null
 	before freeing conv_text.
 
