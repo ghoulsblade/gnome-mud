@@ -708,7 +708,7 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             mud_window_handle_plugins(view->priv->window, view->priv->id,
                     (gchar *)text, strlen(text), 0);
 
-            gnet_conn_write(view->connection, conv_text, strlen(text));
+            gnet_conn_write(view->connection, conv_text, strlen(conv_text));
 
             if (view->priv->profile->preferences->EchoText && view->local_echo)
                 mud_connection_view_add_text(view, text, Sent);
