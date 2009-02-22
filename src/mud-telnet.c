@@ -61,11 +61,13 @@ static void  mud_telnet_set_telopt_state(guchar *storage,
 static gint mud_telnet_get_index_by_option(MudTelnet *telnet, guchar option_number);
 static void mud_telnet_set_telopt_queue(guchar *storage,
 					gint bit_on, const guint bitshift);
-static gint mud_telnet_handle_positive_nego(MudTelnet *telnet,
-					    const guchar opt_no,
-					    const guchar affirmative,
-					    const guchar negative,
-					    gint him);
+
+static gint 
+mud_telnet_handle_positive_nego(MudTelnet *telnet,
+				const guchar opt_no,
+				const guchar affirmative,
+				const guchar negative,
+				gint him);
 static gint
 mud_telnet_handle_negative_nego(MudTelnet *telnet,
                                 const guchar opt_no,
@@ -114,6 +116,7 @@ mud_telnet_init (MudTelnet *telnet)
 
 #ifdef ENABLE_GST
     telnet->prev_buffer = NULL;
+    telnet->base_url = NULL;
 #endif
 }
 
@@ -143,8 +146,13 @@ mud_telnet_finalize (GObject *object)
         g_free(telnet->mud_name);
 
 #ifdef ENABLE_GST
+    mud_telnet_msp_stop_playing(telnet, MSP_TYPE_SOUND);
+    mud_telnet_msp_stop_playing(telnet, MSP_TYPE_MUSIC);
+    
     if(telnet->prev_buffer)
         g_string_free(telnet->prev_buffer, TRUE);
+    if(telnet->base_url)
+        g_free(telnet->base_url);
 #endif
 
 #ifdef ENABLE_MCCP
@@ -156,6 +164,8 @@ mud_telnet_finalize (GObject *object)
         g_free(telnet->compress_out_buf);
     }
 #endif
+
+    mud_zmp_finalize(telnet);
 
     g_free(telnet->priv);
 
@@ -189,6 +199,8 @@ mud_telnet_new(MudConnectionView *parent, GConn *connection, gchar *mud_name)
     telnet->buffer = NULL;
     telnet->pos = 0;
     telnet->subreq_pos = 0;
+
+    telnet->zmp_commands = NULL;
 
 #ifdef ENABLE_GST
     telnet->sound[0].files = NULL;

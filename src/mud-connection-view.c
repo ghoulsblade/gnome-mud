@@ -499,6 +499,25 @@ mud_connection_view_finalize (GObject *object)
     if(connection_view->connection)
         gnet_conn_unref(connection_view->connection);
 
+    if(connection_view->priv->hostname)
+        g_free(connection_view->priv->hostname);
+
+    if(connection_view->priv->connect_string)
+        g_free(connection_view->priv->connect_string);
+    
+    if(connection_view->priv->mud_name)
+        g_free(connection_view->priv->mud_name);
+    
+    if(connection_view->priv->processed)
+        g_string_free(connection_view->priv->processed, TRUE);
+    
+    if(connection_view->priv->telnet)
+        g_object_unref(connection_view->priv->telnet);
+   
+    g_object_unref(connection_view->priv->log);
+    g_object_unref(connection_view->priv->parse);
+    g_object_unref(connection_view->priv->profile);
+
     g_free(connection_view->priv);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
@@ -542,7 +561,10 @@ mud_connection_view_disconnect(MudConnectionView *view)
         view->connection = NULL;
 
         if(view->priv->telnet)
+        {
             g_object_unref(view->priv->telnet);
+            view->priv->telnet = NULL;
+        }
 
         mud_connection_view_add_text(view, _("\n*** Connection closed.\n"), System);
     }
@@ -584,6 +606,7 @@ mud_connection_view_reconnect(MudConnectionView *view)
         view->connection = NULL;
 
         g_object_unref(view->priv->telnet);
+        view->priv->telnet = NULL;
 
         mud_connection_view_add_text(view,
                 _("\n*** Connection closed.\n"), System);
@@ -1164,7 +1187,10 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
             view->connection = NULL;
 
             if(view->priv->telnet)
+            {
                 g_object_unref(view->priv->telnet);
+                view->priv->telnet = NULL;
+            }
 
             mud_connection_view_add_text(view, _("*** Connection closed.\n"), Error);
 

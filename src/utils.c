@@ -27,55 +27,46 @@ remove_whitespace(const gchar *string)
 {
 	gint i;
 	GString *s;
-	gchar *ret;
 
 	if(string == NULL)
 		return NULL;
 
 	s = g_string_new(NULL);
-	for(i = 0; i < strlen(string); i++)
+	
+        for(i = 0; i < strlen(string); i++)
 		if(!g_ascii_isspace(string[i]))
-			g_string_append_c(s, string[i]);
+			s = g_string_append_c(s, string[i]);
 
-	ret = g_strdup(s->str);
-
-	g_string_free(s, TRUE);
-
-	return ret;
+	return g_string_free(s, FALSE);
 }
 
 gchar *
 strip_ansi(const gchar *orig)
 {
-  GString *buf = g_string_new(NULL);
-  const gchar *c;
-  gchar *ret = NULL;
+    GString *buf = g_string_new(NULL);
+    const gchar *c;
 
-  if (!orig)
-    return NULL;
+    if (!orig)
+        return NULL;
 
-  for (c = orig; *c;)
-  {
-    switch (*c)
+    for (c = orig; *c;)
     {
-    	case '\x1B': // Esc Character
-      		while (*c && *c++ != 'm') ;
-      	break;
+        switch (*c)
+        {
+            case '\x1B': // Esc Character
+                while (*c && *c++ != 'm') ;
+                break;
 
-    	case '\02': // HTML Open bracket
-      		while (*c && *c++ != '\03'); // HTML Close bracket
-      	break;
+            case '\02': // HTML Open bracket
+                while (*c && *c++ != '\03'); // HTML Close bracket
+                break;
 
-    	default:
-			g_string_append_c(buf,  *c++);
+            default:
+                buf = g_string_append_c(buf,  *c++);
+        }
     }
-  }
 
-  ret = g_strdup(buf->str);
-
-  g_string_free(buf, TRUE);
-
-  return ret;
+    return g_string_free(buf, FALSE);
 }
 
 void
@@ -87,40 +78,40 @@ utils_activate_url(GtkAboutDialog *about, const gchar *url, gpointer data)
 void
 utils_error_message(GtkWidget *parent, const gchar *title, const gchar *fmt, ...)
 {
-	GtkWidget *dialog, *label, *icon, *hbox;
-	va_list args;
-	gchar *message;
+    GtkWidget *dialog, *label, *icon, *hbox;
+    va_list args;
+    gchar *message;
 
-	dialog = gtk_dialog_new_with_buttons(title, GTK_WINDOW(parent),
-			GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK,
-			GTK_RESPONSE_NONE, NULL);
+    dialog = gtk_dialog_new_with_buttons(title, GTK_WINDOW(parent),
+            GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK,
+            GTK_RESPONSE_NONE, NULL);
 
-	if(fmt)
-	{
-		va_start(args, fmt);
-		message = g_strdup_vprintf(fmt, args);
-		va_end(args);
+    if(fmt)
+    {
+        va_start(args, fmt);
+        message = g_strdup_vprintf(fmt, args);
+        va_end(args);
 
-		label = gtk_label_new(message);
-		gtk_label_set_selectable(GTK_LABEL(label), TRUE);
-		g_free(message);
-	}
-	else
-	{
-		label = gtk_label_new("Unknown error.");
-		gtk_label_set_selectable(GTK_LABEL(label), TRUE);
-	}
+        label = gtk_label_new(message);
+        gtk_label_set_selectable(GTK_LABEL(label), TRUE);
+        g_free(message);
+    }
+    else
+    {
+        label = gtk_label_new("Unknown error.");
+        gtk_label_set_selectable(GTK_LABEL(label), TRUE);
+    }
 
-	icon = gtk_image_new_from_icon_name("gtk-dialog-error", GTK_ICON_SIZE_DIALOG);
-	hbox = gtk_hbox_new(FALSE, 0);
+    icon = gtk_image_new_from_icon_name("gtk-dialog-error", GTK_ICON_SIZE_DIALOG);
+    hbox = gtk_hbox_new(FALSE, 0);
 
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), icon, FALSE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), icon, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-	gtk_widget_show_all(dialog);
+    gtk_widget_show_all(dialog);
 
-	gtk_dialog_run(GTK_DIALOG(dialog));
-	gtk_widget_destroy(dialog);
+    gtk_dialog_run(GTK_DIALOG(dialog));
+    gtk_widget_destroy(dialog);
 }
 

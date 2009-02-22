@@ -96,6 +96,9 @@ mud_regex_finalize (GObject *object)
 
     regex = MUD_REGEX(object);
 
+    if(regex->priv->substring_list)
+         pcre_free_substring_list(regex->priv->substring_list);
+
     g_free(regex->priv);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));

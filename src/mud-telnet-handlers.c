@@ -224,7 +224,7 @@ MudHandler_CHARSET_HandleSubNeg(MudTelnet *telnet, guchar *buf,
             encoding = g_string_new(NULL);
 
             while(buf[index] != (guchar)TEL_SE)
-                g_string_append_c(encoding, buf[index++]);
+                encoding = g_string_append_c(encoding, buf[index++]);
 
             sep_buf[0] = (gchar)sep;
             sep_buf[1] = '\0';
@@ -281,7 +281,7 @@ MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     {
         if(buf[count] == '\0')
         {
-            g_string_append(args,"|gmud_sep|");
+            args = g_string_append(args,"|gmud_sep|");
             count++;
             continue;
         }
@@ -289,7 +289,7 @@ MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
         g_string_append_c(args, buf[count++]);
     }
 
-    g_string_prepend(args, command_buf);
+    args = g_string_prepend(args, command_buf);
 
     argv = g_strsplit(args->str, "|gmud_sep|", -1);
     argc = g_strv_length(argv);

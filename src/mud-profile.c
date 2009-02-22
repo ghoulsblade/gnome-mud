@@ -134,35 +134,35 @@ mud_profile_class_init (MudProfileClass *klass)
 
     object_class->finalize = mud_profile_finalize;
     signal_changed =
-    g_signal_new("changed",
-				 G_OBJECT_CLASS_TYPE(object_class),
-				 G_SIGNAL_RUN_LAST,
-				 G_STRUCT_OFFSET(MudProfileClass, changed),
-				 NULL, NULL,
-				 g_cclosure_marshal_VOID__POINTER,
-				 G_TYPE_NONE, 1, G_TYPE_POINTER);
+        g_signal_new("changed",
+                G_OBJECT_CLASS_TYPE(object_class),
+                G_SIGNAL_RUN_LAST,
+                G_STRUCT_OFFSET(MudProfileClass, changed),
+                NULL, NULL,
+                g_cclosure_marshal_VOID__POINTER,
+                G_TYPE_NONE, 1, G_TYPE_POINTER);
 }
 
 static void
 mud_profile_finalize (GObject *object)
 {
-	MudProfile *profile;
-	GObjectClass *parent_class;
+    MudProfile *profile;
+    GObjectClass *parent_class;
 
-	profile = MUD_PROFILE(object);
+    profile = MUD_PROFILE(object);
 
-	g_free(profile->priv->preferences.FontName);
-	g_free(profile->priv->preferences.TabLocation);
-	g_free(profile->priv->preferences.CommDev);
-	g_free(profile->priv->preferences.TerminalType);
-	g_free(profile->priv->preferences.MudListFile);
-	g_free(profile->priv->preferences.LastLogDir);
+    g_free(profile->priv->preferences.FontName);
+    g_free(profile->priv->preferences.TabLocation);
+    g_free(profile->priv->preferences.CommDev);
+    g_free(profile->priv->preferences.TerminalType);
+    g_free(profile->priv->preferences.MudListFile);
+    g_free(profile->priv->preferences.LastLogDir);
 
-	g_free(profile->priv);
-	g_free(profile->name);
+    g_free(profile->priv);
+    g_free(profile->name);
 
-	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
-	parent_class->finalize(object);
+    parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
+    parent_class->finalize(object);
 }
 
 void

@@ -63,250 +63,254 @@ static void mud_parse_base_finalize (GObject *object);
 GType
 mud_parse_base_get_type (void)
 {
-	static GType object_type = 0;
+    static GType object_type = 0;
 
-	g_type_init();
+    g_type_init();
 
-	if (!object_type)
-	{
-		static const GTypeInfo object_info =
-		{
-			sizeof (MudParseBaseClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) mud_parse_base_class_init,
-			NULL,
-			NULL,
-			sizeof (MudParseBase),
-			0,
-			(GInstanceInitFunc) mud_parse_base_init,
-		};
+    if (!object_type)
+    {
+        static const GTypeInfo object_info =
+        {
+            sizeof (MudParseBaseClass),
+            NULL,
+            NULL,
+            (GClassInitFunc) mud_parse_base_class_init,
+            NULL,
+            NULL,
+            sizeof (MudParseBase),
+            0,
+            (GInstanceInitFunc) mud_parse_base_init,
+        };
 
-		object_type = g_type_register_static(G_TYPE_OBJECT, "MudParseBase", &object_info, 0);
-	}
+        object_type = g_type_register_static(G_TYPE_OBJECT, "MudParseBase", &object_info, 0);
+    }
 
-	return object_type;
+    return object_type;
 }
 
 static void
 mud_parse_base_init (MudParseBase *pb)
 {
-	pb->priv = g_new0(MudParseBasePrivate, 1);
+    pb->priv = g_new0(MudParseBasePrivate, 1);
 
-	pb->priv->regex = mud_regex_new();
-	pb->priv->alias = mud_parse_alias_new();
-	pb->priv->trigger = mud_parse_trigger_new();
+    pb->priv->regex = mud_regex_new();
+    pb->priv->alias = mud_parse_alias_new();
+    pb->priv->trigger = mud_parse_trigger_new();
 }
 
 static void
 mud_parse_base_class_init (MudParseBaseClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS(klass);
+    GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-	object_class->finalize = mud_parse_base_finalize;
+    object_class->finalize = mud_parse_base_finalize;
 }
 
 static void
 mud_parse_base_finalize (GObject *object)
 {
-	MudParseBase *parse_base;
-	GObjectClass *parent_class;
+    MudParseBase *parse_base;
+    GObjectClass *parent_class;
 
-	parse_base = MUD_PARSE_BASE(object);
+    parse_base = MUD_PARSE_BASE(object);
 
-	g_free(parse_base->priv);
+    g_object_unref(parse_base->priv->regex);
+    g_object_unref(parse_base->priv->alias);
+    g_object_unref(parse_base->priv->trigger);
 
-	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
-	parent_class->finalize(object);
+    g_free(parse_base->priv);
+
+    parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
+    parent_class->finalize(object);
 }
 
 // MudParseBase Methods
 gboolean
 mud_parse_base_do_triggers(MudParseBase *base, gchar *data)
 {
-	return mud_parse_trigger_do(data, base->priv->parentview, base->priv->regex, base->priv->trigger);
+    return mud_parse_trigger_do(data, base->priv->parentview, base->priv->regex, base->priv->trigger);
 }
 
 gboolean
 mud_parse_base_do_aliases(MudParseBase *base, gchar *data)
 {
-	return mud_parse_alias_do(data, base->priv->parentview, base->priv->regex, base->priv->alias);
+    return mud_parse_alias_do(data, base->priv->parentview, base->priv->regex, base->priv->alias);
 }
 
 void
 mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020], MudConnectionView *view, MudRegex *regex)
 {
-	gint i, state, len, reg_num, reg_len, startword, endword, replace_len, curr_char;
-	gchar *replace_text;
-	gchar charbuf[2];
-	gboolean new_send_line = TRUE;
-	gchar *send_line = NULL;
-	ParseObject *po = NULL;
-	GSList *parse_list, *entry;
+    gint i, state, len, reg_num, reg_len, startword, endword, replace_len, curr_char;
+    gchar *replace_text;
+    gchar charbuf[2];
+    gboolean new_send_line = TRUE;
+    gchar *send_line = NULL;
+    ParseObject *po = NULL;
+    GSList *parse_list, *entry;
 
-	parse_list = NULL;
-	len = strlen(data);
+    parse_list = NULL;
+    len = strlen(data);
 
-	// Lexer/Tokenizer
-	if(data[0] == '%' && len > 1 && g_ascii_isdigit(data[1]))
-		state = PARSE_STATE_REGISTER;
-	else
-		state = PARSE_STATE_TEXT;
+    // Lexer/Tokenizer
+    if(data[0] == '%' && len > 1 && g_ascii_isdigit(data[1]))
+        state = PARSE_STATE_REGISTER;
+    else
+        state = PARSE_STATE_TEXT;
 
-	for(i = 0; i < len; i++)
-	{
-		switch(state)
-		{
-			case PARSE_STATE_TEXT:
-				po = g_malloc(sizeof(ParseObject));
-				parse_list = g_slist_prepend(parse_list, (gpointer) po);
+    for(i = 0; i < len; i++)
+    {
+        switch(state)
+        {
+            case PARSE_STATE_TEXT:
+                po = g_malloc(sizeof(ParseObject));
+                parse_list = g_slist_prepend(parse_list, (gpointer) po);
 
-				g_snprintf(charbuf, 2, "%c", data[i]);
+                g_snprintf(charbuf, 2, "%c", data[i]);
 
-				po->data = g_strdup(charbuf);
-				po->type = TOKEN_TYPE_TEXT;
+                po->data = g_strdup(charbuf);
+                po->type = TOKEN_TYPE_TEXT;
 
-				if(i + 1 <= len)
-				{
-					if((data[i+1] == '%' && i + 2 <=len && !g_ascii_isdigit(data[i+2])) || data[i+1] != '%')
-						state = PARSE_STATE_INTEXT;
-					else
-						state = PARSE_STATE_REGISTER;
-				}
-			break;
+                if(i + 1 <= len)
+                {
+                    if((data[i+1] == '%' &&
+                         i + 2 <=len && 
+                        !g_ascii_isdigit(data[i+2])) || data[i+1] != '%')
+                        state = PARSE_STATE_INTEXT;
+                    else
+                        state = PARSE_STATE_REGISTER;
+                }
+                break;
 
-			case PARSE_STATE_INTEXT:
-				g_snprintf(charbuf, 2, "%c", data[i]);
-				po->data = g_strconcat((const gchar *)po->data, charbuf, NULL);
+            case PARSE_STATE_INTEXT:
+                g_snprintf(charbuf, 2, "%c", data[i]);
+                po->data = g_strconcat((const gchar *)po->data, charbuf, NULL);
 
-				if(i + 2 <= len)
-					if(data[i+1] == '%' && g_ascii_isdigit(data[i+2])) // % by itself isn't a register.
-						state = PARSE_STATE_REGISTER;
-			break;
+                if(i + 2 <= len)
+                    if(data[i+1] == '%' && g_ascii_isdigit(data[i+2])) // % by itself isn't a register.
+                        state = PARSE_STATE_REGISTER;
+                break;
 
-			case PARSE_STATE_REGISTER:
-				po = g_malloc(sizeof(ParseObject));
-				parse_list = g_slist_prepend(parse_list, (gpointer)po);
+            case PARSE_STATE_REGISTER:
+                po = g_malloc(sizeof(ParseObject));
+                parse_list = g_slist_prepend(parse_list, (gpointer)po);
 
-				g_snprintf(charbuf, 2, "%%");
-				po->data = g_strdup(charbuf);
-				po->type = TOKEN_TYPE_REGISTER;
+                g_snprintf(charbuf, 2, "%%");
+                po->data = g_strdup(charbuf);
+                po->type = TOKEN_TYPE_REGISTER;
 
-				state = PARSE_STATE_INREGISTER;
-			break;
+                state = PARSE_STATE_INREGISTER;
+                break;
 
-			case PARSE_STATE_INREGISTER:
-				g_snprintf(charbuf, 2, "%c", data[i]);
-				po->data = g_strconcat((const gchar *)po->data, charbuf, NULL);
+            case PARSE_STATE_INREGISTER:
+                g_snprintf(charbuf, 2, "%c", data[i]);
+                po->data = g_strconcat((const gchar *)po->data, charbuf, NULL);
 
-				if(i + 1 <= len)
-				{
-					if(data[i + 1] == '%' && g_ascii_isdigit(data[i+2]))
-						state = PARSE_STATE_REGISTER;
-					else if(!g_ascii_isdigit(data[i+1]))
-						state = PARSE_STATE_TEXT;
-				}
-			break;
-		}
-	}
+                if(i + 1 <= len)
+                {
+                    if(data[i + 1] == '%' && g_ascii_isdigit(data[i+2]))
+                        state = PARSE_STATE_REGISTER;
+                    else if(!g_ascii_isdigit(data[i+1]))
+                        state = PARSE_STATE_TEXT;
+                }
+                break;
+        }
+    }
 
+    /* We prepend items to the list for speed but we need
+       to reverse it back into the proper order */
+    if(parse_list)
+        parse_list = g_slist_reverse(parse_list);
 
-	/* We prepend items to the list for speed but we need
-	   to reverse it back into the proper order */
-	if(parse_list)
-		parse_list = g_slist_reverse(parse_list);
+    // Parse what our lexer/tokenizer gave us.
 
+    for(entry = parse_list; entry != NULL; entry = g_slist_next(entry))
+    {
+        ParseObject *myParse;
 
-	// Parse what our lexer/tokenizer gave us.
+        myParse = (ParseObject *)entry->data;
 
-	for(entry = parse_list; entry != NULL; entry = g_slist_next(entry))
-	{
-		ParseObject *myParse;
+        switch(myParse->type)
+        {
+            case TOKEN_TYPE_TEXT:
+                if(new_send_line)
+                {
+                    new_send_line = FALSE;
+                    send_line = g_strdup(myParse->data);
+                }
+                else
+                    send_line = g_strconcat((const gchar *)send_line, (const gchar *)myParse->data, NULL);
+                break;
 
-		myParse = (ParseObject *)entry->data;
+            case TOKEN_TYPE_REGISTER:
+                reg_len = strlen((gchar *)myParse->data);
 
-		switch(myParse->type)
-		{
-			case TOKEN_TYPE_TEXT:
-				if(new_send_line)
-				{
-					new_send_line = FALSE;
-					send_line = g_strdup(myParse->data);
-				}
-				else
-					send_line = g_strconcat((const gchar *)send_line, (const gchar *)myParse->data, NULL);
-			break;
+                /* If you need more than 510 registers, tough luck ;) -lh */
+                if(reg_len < 512)
+                {
+                    gint k;
+                    gint curr_digit;
+                    gchar reg_buf[512];
 
-			case TOKEN_TYPE_REGISTER:
-				reg_len = strlen((gchar *)myParse->data);
+                    for(k=0,curr_digit=1; k < strlen((gchar *)myParse->data)-1; ++k, ++curr_digit)
+                        reg_buf[k] = (gchar)myParse->data[curr_digit];
+                    reg_buf[strlen((gchar *)myParse->data)-1] = '\0';
 
-				/* If you need more than 510 registers, tough luck ;) -lh */
-				if(reg_len < 512)
-				{
-					gint k;
-					gint curr_digit;
-					gchar reg_buf[512];
+                    reg_num = (gint)g_strtod(reg_buf, NULL);
 
-					for(k=0,curr_digit=1; k < strlen((gchar *)myParse->data)-1; ++k, ++curr_digit)
-						reg_buf[k] = (gchar)myParse->data[curr_digit];
-					reg_buf[strlen((gchar *)myParse->data)-1] = '\0';
+                    startword = ovector[reg_num << 1];
+                    endword = ovector[(reg_num << 1) + 1];
 
-					reg_num = (gint)g_strtod(reg_buf, NULL);
+                    replace_len = endword - startword;
 
-					startword = ovector[reg_num << 1];
-					endword = ovector[(reg_num << 1) + 1];
+                    replace_text = malloc(replace_len * sizeof(gchar));
 
-					replace_len = endword - startword;
+                    for(i = 0, curr_char = startword; i < replace_len; i++, curr_char++)
+                        replace_text[i] = stripped_data[curr_char];
+                    replace_text[replace_len] = '\0';
 
-					replace_text = malloc(replace_len * sizeof(gchar));
+                    if(new_send_line)
+                    {
+                        new_send_line = FALSE;
+                        send_line = g_strdup(replace_text);
+                    }
+                    else
+                        send_line = g_strconcat((const gchar *)send_line, (const gchar *)replace_text, NULL);
 
-					for(i = 0, curr_char = startword; i < replace_len; i++, curr_char++)
-						replace_text[i] = stripped_data[curr_char];
-					replace_text[replace_len] = '\0';
+                    g_free(replace_text);
+                }
+                else
+                    g_warning("Register number exceeded maximum - 510.");
+                break;
+        }
+    }
 
-					if(new_send_line)
-					{
-						new_send_line = FALSE;
-						send_line = g_strdup(replace_text);
-					}
-					else
-						send_line = g_strconcat((const gchar *)send_line, (const gchar *)replace_text, NULL);
+    // Free our memory
+    for(entry = parse_list; entry != NULL; entry = g_slist_next(entry))
+    {
+        ParseObject *myParse;
 
-					g_free(replace_text);
-				}
-				else
-					g_warning("Register number exceeded maximum - 510.");
-			break;
-		}
-	}
+        myParse = (ParseObject *)entry->data;
 
-	// Free our memory
-	for(entry = parse_list; entry != NULL; entry = g_slist_next(entry))
-	{
-		ParseObject *myParse;
+        g_free((myParse->data));
+        g_free(myParse);
+    }
 
-		myParse = (ParseObject *)entry->data;
+    g_slist_free(parse_list);
 
-		g_free((myParse->data));
-		g_free(myParse);
-	}
-
-	g_slist_free(parse_list);
-
-	// We're done, send our parsed trigger actions!
-	mud_connection_view_send(view, (const gchar *)send_line);
-	g_free(send_line);
+    // We're done, send our parsed trigger actions!
+    mud_connection_view_send(view, (const gchar *)send_line);
+    g_free(send_line);
 }
 
 // Instantiate MudParseBase
 MudParseBase*
 mud_parse_base_new(MudConnectionView *parentview)
 {
-	MudParseBase *pb;
+    MudParseBase *pb;
 
-	pb = g_object_new(MUD_TYPE_PARSE_BASE, NULL);
+    pb = g_object_new(MUD_TYPE_PARSE_BASE, NULL);
 
-	pb->priv->parentview = parentview;
+    pb->priv->parentview = parentview;
 
-	return pb;
+    return pb;
 }

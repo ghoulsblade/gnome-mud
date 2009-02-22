@@ -42,7 +42,6 @@ static gboolean mud_telnet_msp_parser_switch_on_param_char(gint *state,
         gint len);
 static void mud_telnet_msp_process_command(MudTelnet *telnet,
         MudMSPCommand *command);
-static void mud_telnet_msp_stop_playing(MudTelnet *telnet, MudMSPTypes type);
 static void mud_telnet_msp_start_playing(MudTelnet *telnet, MudMSPTypes type);
 static gboolean mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type);
 static gboolean mud_telnet_msp_sound_bus_call (GstBus *bus,
@@ -598,7 +597,7 @@ mud_telnet_msp_process_command(MudTelnet *telnet, MudMSPCommand *command)
     }
 }
 
-static void
+void
 mud_telnet_msp_stop_playing(MudTelnet *telnet, MudMSPTypes type)
 {
     telnet->sound[type].playing = FALSE;

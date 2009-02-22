@@ -1,3 +1,28 @@
+2009-02-22  Les Harris  <lharris@gnome.org>
+
+	* src/mud-connection-view.c (mud_connection_view_finalize),
+	(mud_connection_view_disconnect), (mud_connection_view_reconnect),
+	(mud_connection_view_network_event_cb): Closed memory leaks.
+	* src/mud-log.c (mud_log_finalize), (mud_log_write), (mud_log_new):
+	Log no longer erroneously reports write failures.  GString fixes.
+	Closed memory leaks.
+	* src/mud-parse-alias.c (mud_parse_alias_finalize),
+	(mud_parse_alias_do), (mud_parse_alias_new): Closed memory leaks.
+	* src/mud-parse-base.c (mud_parse_base_finalize),
+	(mud_parse_base_parse): Closed memory leaks.
+	* src/mud-parse-trigger.c (mud_parse_trigger_do),
+	(mud_parse_trigger_new): Closed memory leaks.
+	* src/mud-regex.c (mud_regex_finalize): Free substring array if it
+	exists.
+	* src/mud-telnet-handlers.c (MudHandler_CHARSET_HandleSubNeg),
+	(MudHandler_ZMP_HandleSubNeg): GString fixes
+	* src/mud-telnet-msp.[ch]: Added function to allow sound to be stopped
+	externally of a MSP command.
+	* src/mud-telnet.[ch] (mud_telnet_init), (mud_telnet_finalize),
+	(mud_telnet_new): Close memory leaks, stop playing sound on
+	finalization of the class.
+	* src/utils.c (remove_whitespace), (strip_ansi): GString fixes.
+
 2009-02-21  Les Harris  <lharris@gnome.org>
 
 	reviewed by: <delete if not using a buddy>

@@ -176,6 +176,7 @@ struct _MudTelnet
     MudMSPTypes msp_type;
     MudMSPSound sound[2];
     gchar *base_url;
+    GString *prev_buffer;
 #endif
 
 #ifdef ENABLE_MCCP
@@ -183,7 +184,6 @@ struct _MudTelnet
     guchar *compress_out_buf;
     gboolean mccp;
     gboolean mccp_new;
-    GString *prev_buffer;
 #endif
 
     GString *processed;

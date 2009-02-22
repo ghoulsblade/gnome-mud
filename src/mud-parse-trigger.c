@@ -104,75 +104,77 @@ mud_parse_trigger_finalize (GObject *object)
 gboolean
 mud_parse_trigger_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudParseTrigger *trig)
 {
-	gchar *profile_name;
-	gchar *actions;
-	gchar *regexstr;
-	gchar *stripped_data;
-	GSList *triggers, *entry;
-	GConfClient *client;
-	GError *error = NULL;
-	gchar keyname[2048];
-	gint enabled;
-	gint gag;
-	gint ovector[1020];
-	gboolean doGag = FALSE;
+    gchar *profile_name;
+    gchar *actions;
+    gchar *regexstr;
+    gchar *stripped_data;
+    GSList *triggers, *entry;
+    GConfClient *client;
+    GError *error = NULL;
+    gchar keyname[2048];
+    gint enabled;
+    gint gag;
+    gint ovector[1020];
+    gboolean doGag = FALSE;
 
-	client = gconf_client_get_default();
+    client = gconf_client_get_default();
 
-	profile_name = mud_profile_get_name(mud_connection_view_get_current_profile(view));
+    profile_name = mud_profile_get_name(mud_connection_view_get_current_profile(view));
 
-	g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/list", profile_name);
-	triggers = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
+    g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/list", profile_name);
+    triggers = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, &error);
 
-	for (entry = triggers; entry != NULL; entry = g_slist_next(entry))
-	{
-		g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/enabled", profile_name, (gchar *)entry->data);
-		enabled = gconf_client_get_int(client, keyname, &error);
+    for (entry = triggers; entry != NULL; entry = g_slist_next(entry))
+    {
+        g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/enabled", profile_name, (gchar *)entry->data);
+        enabled = gconf_client_get_int(client, keyname, &error);
 
-		if(enabled)
-		{
-			g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/regex", profile_name, (gchar *)entry->data);
-			regexstr = gconf_client_get_string(client, keyname, &error);
+        if(enabled)
+        {
+            g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/regex", profile_name, (gchar *)entry->data);
+            regexstr = gconf_client_get_string(client, keyname, &error);
 
-			stripped_data = strip_ansi((const gchar *) data);
+            stripped_data = strip_ansi((const gchar *) data);
 
-			if(mud_regex_check((const gchar *)stripped_data, strlen(stripped_data), (const gchar *)regexstr, ovector, regex))
-			{
-				g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/gag", profile_name, (gchar *)entry->data);
-				gag = gconf_client_get_int(client, keyname, &error);
+            if(mud_regex_check((const gchar *)stripped_data, strlen(stripped_data), (const gchar *)regexstr, ovector, regex))
+            {
+                g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/gag", profile_name, (gchar *)entry->data);
+                gag = gconf_client_get_int(client, keyname, &error);
 
-				// FIXME: Kill this global and get a sane
-				// way of doing this in here. - lh
-				if(gag)
-					doGag = TRUE;
+                // FIXME: Kill this global and get a sane
+                // way of doing this in here. - lh
+                if(gag)
+                    doGag = TRUE;
 
-				g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/actions", profile_name, (gchar *)entry->data);
-				actions = gconf_client_get_string(client, keyname, &error);
+                g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/actions", profile_name, (gchar *)entry->data);
+                actions = gconf_client_get_string(client, keyname, &error);
 
-				mud_parse_base_parse((const gchar *)actions, stripped_data, ovector, view, regex);
+                mud_parse_base_parse((const gchar *)actions, stripped_data, ovector, view, regex);
 
-				if(actions)
-					g_free(actions);
-			}
+                if(actions)
+                    g_free(actions);
+            }
 
-			if(stripped_data)
-				g_free(stripped_data);
-		}
-	}
+            if(stripped_data)
+                g_free(stripped_data);
+        }
+    }
 
-	if(triggers)
-		g_slist_free(triggers);
+    for(entry = triggers; entry != NULL; entry = g_slist_next(entry))
+        if(entry->data)
+            g_free(entry->data);
 
-	return doGag;
+    if(triggers)
+        g_slist_free(triggers);
+
+    g_object_unref(client);
+
+    return doGag;
 }
 
 // Instantiate MudParseTrigger
 MudParseTrigger*
 mud_parse_trigger_new(void)
 {
-	MudParseTrigger *pt;
-
-	pt = g_object_new(MUD_TYPE_PARSE_TRIGGER, NULL);
-
-	return pt;
+    return g_object_new(MUD_TYPE_PARSE_TRIGGER, NULL);
 }

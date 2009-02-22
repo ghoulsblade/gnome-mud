@@ -100,6 +100,7 @@ void mud_telnet_msp_init(MudTelnet *telnet);
 void mud_telnet_msp_parser_clear(MudTelnet *telnet);
 void mud_telnet_msp_download_item_free(MudMSPDownloadItem *item);
 GString *mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len);
+void mud_telnet_msp_stop_playing(MudTelnet *telnet, MudMSPTypes type);
 
 #endif
 
