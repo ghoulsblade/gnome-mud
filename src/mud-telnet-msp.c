@@ -61,7 +61,7 @@ mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
 
     if(telnet->prev_buffer)
     {
-        g_string_prepend(buf, telnet->prev_buffer->str);
+        buf = g_string_prepend(buf, telnet->prev_buffer->str);
         g_string_free(telnet->prev_buffer, TRUE);
         telnet->prev_buffer = NULL;
     }
@@ -75,7 +75,8 @@ mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
                     telnet->msp_parser.state = MSP_STATE_POSSIBLE_COMMAND;
                 else
                 {
-                    g_string_append_c(telnet->msp_parser.output,
+                    telnet->msp_parser.output = 
+                        g_string_append_c(telnet->msp_parser.output,
                             buf->str[telnet->msp_parser.lex_pos_start++]);
                 }
                 break;
@@ -85,7 +86,8 @@ mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
                     continue;
                 else if(buf->str[telnet->msp_parser.lex_pos_start + 1] != '!')
                 {
-                    g_string_append_c(telnet->msp_parser.output,
+                    telnet->msp_parser.output = 
+                        g_string_append_c(telnet->msp_parser.output,
                             buf->str[telnet->msp_parser.lex_pos_start++]);
                     telnet->msp_parser.state = MSP_STATE_TEXT;
                     continue;
@@ -102,7 +104,8 @@ mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
                     count = telnet->msp_parser.lex_pos_start;
 
                     while(count != buf->len)
-                        g_string_append_c(telnet->prev_buffer, buf->str[count++]);
+                        telnet->prev_buffer = 
+                            g_string_append_c(telnet->prev_buffer, buf->str[count++]);
 
                     telnet->msp_parser.lex_pos_start += count;
                     continue;
@@ -123,9 +126,11 @@ mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
                 else
                 {
                     /* Not an msp command, bail out. */
-                    g_string_append_c(telnet->msp_parser.output,
+                    telnet->msp_parser.output = 
+                        g_string_append_c(telnet->msp_parser.output,
                             buf->str[telnet->msp_parser.lex_pos_start++]);
-                    g_string_append_c(telnet->msp_parser.output,
+                    telnet->msp_parser.output = 
+                        g_string_append_c(telnet->msp_parser.output,
                             buf->str[telnet->msp_parser.lex_pos_start++]);
 
                     telnet->msp_parser.state = MSP_STATE_TEXT;
@@ -155,8 +160,9 @@ mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
 
                 while(telnet->msp_parser.lex_pos_end < *len &&
                         buf->str[telnet->msp_parser.lex_pos_end] != ')')
-                    g_string_append_c(telnet->msp_parser.arg_buffer,
-                            buf->str[telnet->msp_parser.lex_pos_end++]);
+                    telnet->msp_parser.arg_buffer = 
+                        g_string_append_c(telnet->msp_parser.arg_buffer,
+                                buf->str[telnet->msp_parser.lex_pos_end++]);
 
                 if(telnet->msp_parser.lex_pos_end >= *len &&
                         buf->str[telnet->msp_parser.lex_pos_end - 1] != ')')
@@ -292,7 +298,7 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
 		buffer = g_string_new(NULL);
 	    }
 	    else
-		g_string_append_c(buffer, args[i]);
+		buffer = g_string_append_c(buffer, args[i]);
 	    break;
 
 	case ARG_STATE_V:
@@ -304,7 +310,7 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
 		buffer = g_string_new(NULL);
 	    }
 	    else
-		g_string_append_c(buffer, args[i]);
+		buffer = g_string_append_c(buffer, args[i]);
 	    break;
 
 	case ARG_STATE_L:
@@ -316,7 +322,7 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
 		buffer = g_string_new(NULL);
 	    }
 	    else
-		g_string_append_c(buffer, args[i]);
+		buffer = g_string_append_c(buffer, args[i]);
 	    break;
 
 	case ARG_STATE_C:
@@ -328,7 +334,7 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
 		buffer = g_string_new(NULL);
 	    }
 	    else
-		g_string_append_c(buffer, args[i]);
+		buffer = g_string_append_c(buffer, args[i]);
 	    break;
 
 	case ARG_STATE_T:
@@ -340,7 +346,7 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
 		buffer = g_string_new(NULL);
 	    }
 	    else
-		g_string_append_c(buffer, args[i]);
+		buffer = g_string_append_c(buffer, args[i]);
 	    break;
 
 	case ARG_STATE_U:
@@ -348,14 +354,14 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
 	       mud_telnet_msp_parser_switch_on_param_char(&state, args, i, len))
 	    {
 		if(buffer->str[buffer->len - 1] != '/')
-		    g_string_append_c(buffer, '/');
+		    buffer = g_string_append_c(buffer, '/');
 
 		command->U = g_strdup(buffer->str);
 		g_string_free(buffer, TRUE);
 		buffer = g_string_new(NULL);
 	    }
 	    else
-		g_string_append_c(buffer, args[i]);
+		buffer = g_string_append_c(buffer, args[i]);
 	    break;
 
 	case ARG_STATE_P:
@@ -367,7 +373,7 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
 		buffer = g_string_new(NULL);
 	    }
 	    else
-		g_string_append_c(buffer, args[i]);
+		buffer = g_string_append_c(buffer, args[i]);
 	    break;
 	}
     }
@@ -396,7 +402,7 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
 
     case ARG_STATE_U:
 	if(buffer->str[buffer->len - 1] != '/')
-	    g_string_append_c(buffer, '/');
+	    buffer = g_string_append_c(buffer, '/');
 
 	command->U = g_strdup(buffer->str);
 	break;
@@ -685,8 +691,8 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
 
     for(i = 0; i < depth - 1; ++i)
     {
-	g_string_append(subdir, structure[i]);
-	g_string_append_c(subdir, '/');
+	subdir = g_string_append(subdir, structure[i]);
+	subdir = g_string_append_c(subdir, '/');
     }
 
     file_name = g_string_new(structure[depth - 1]);
@@ -694,10 +700,10 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
     g_strfreev(structure);
 
     full_dir = g_string_new(sound_dir);
-    g_string_append(full_dir, subdir->str);
+    full_dir = g_string_append(full_dir, subdir->str);
 
     if(telnet->sound[type].current_command->T)
-	g_string_append(full_dir, telnet->sound[type].current_command->T);
+	full_dir = g_string_append(full_dir, telnet->sound[type].current_command->T);
 
     if(!g_file_test(full_dir->str, G_FILE_TEST_IS_DIR))
 	g_mkdir_with_parents(full_dir->str, 0777);
@@ -712,11 +718,11 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
     {
 	if(g_pattern_match_string(regex, file))
 	{
-	    g_string_append(file_output, "file://");
-	    g_string_append(file_output, full_dir->str);
-	    g_string_append_c(file_output, '/');
-	    g_string_append(file_output, file);
-	    g_string_append_c(file_output, '\n');
+	    file_output = g_string_append(file_output, "file://");
+	    file_output = g_string_append(file_output, full_dir->str);
+	    file_output = g_string_append_c(file_output, '/');
+	    file_output = g_string_append(file_output, file);
+	    file_output = g_string_append_c(file_output, '\n');
 	}
     }
 
@@ -730,7 +736,7 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
     {
 	g_string_free(full_dir, TRUE);
 	full_dir = g_string_new(sound_dir);
-	g_string_append(full_dir, subdir->str);
+	full_dir = g_string_append(full_dir, subdir->str);
 
 	dir = g_dir_open(full_dir->str, 0, NULL);
 
@@ -738,11 +744,11 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
 	{
 	    if(g_pattern_match_string(regex, file))
 	    {
-		g_string_append(file_output, "file://");
-		g_string_append(file_output, full_dir->str);
-		g_string_append_c(file_output, '/');
-		g_string_append(file_output, file);
-		g_string_append_c(file_output, '\n');
+		file_output = g_string_append(file_output, "file://");
+		file_output = g_string_append(file_output, full_dir->str);
+		file_output = g_string_append_c(file_output, '/');
+		file_output = g_string_append(file_output, file);
+		file_output = g_string_append_c(file_output, '\n');
 	    }
 	}
 
@@ -758,25 +764,25 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
 	if(telnet->base_url || telnet->sound[type].current_command->U)
 	{
 	    if(telnet->base_url)
-		g_string_append(url_output, telnet->base_url);
+		url_output = g_string_append(url_output, telnet->base_url);
 	    else
-		g_string_append(url_output, telnet->sound[type].current_command->U);
+		url_output = g_string_append(url_output, telnet->sound[type].current_command->U);
 
 	    if(subdir->len != 0)
-		g_string_append(url_output, subdir->str);
+		url_output = g_string_append(url_output, subdir->str);
 
 	    if(telnet->sound[type].current_command->T)
 	    {
-		g_string_append(url_output, telnet->sound[type].current_command->T);
-		g_string_append_c(url_output, '/');
+		url_output = g_string_append(url_output, telnet->sound[type].current_command->T);
+		url_output = g_string_append_c(url_output, '/');
 	    }
 
-	    g_string_append(url_output, file_name->str);
+	    url_output = g_string_append(url_output, file_name->str);
 
-	    g_string_append(file_output, full_dir->str);
+	    file_output = g_string_append(file_output, full_dir->str);
 	    if(telnet->sound[type].current_command->T)
-		g_string_append_c(file_output, '/');
-	    g_string_append(file_output, file_name->str);
+		file_output = g_string_append_c(file_output, '/');
+	    file_output = g_string_append(file_output, file_name->str);
 
 	    telnet->sound[type].current_command->priority = 0;
 

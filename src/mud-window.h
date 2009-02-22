@@ -38,6 +38,7 @@ void mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, guint le
 void mud_window_populate_profiles_menu(MudWindow *window);
 void mud_window_profile_menu_set_active(gchar *name, MudWindow *window);
 void mud_window_close_current_window(MudWindow *window);
+void mud_window_disconnected(MudWindow *window);
 
 GtkWidget* mud_window_get_window(MudWindow *window);
 

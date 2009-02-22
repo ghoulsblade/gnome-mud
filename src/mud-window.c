@@ -57,6 +57,12 @@ struct _MudWindowPrivate
 	GtkWidget *stoplog;
 	GtkWidget *bufferdump;
 
+        GtkWidget *menu_close;
+        GtkWidget *menu_reconnect;
+        GtkWidget *menu_disconnect;
+        GtkWidget *toolbar_disconnect;
+        GtkWidget *toolbar_reconnect;
+
 	GtkWidget *blank_label;
 	GtkWidget *current_view;
 
@@ -130,6 +136,11 @@ mud_window_add_connection_view(MudWindow *window, MudConnectionView *view, gchar
 
     gtk_widget_set_sensitive(window->priv->startlog, TRUE);
     gtk_widget_set_sensitive(window->priv->bufferdump, TRUE);
+    gtk_widget_set_sensitive(window->priv->menu_close, TRUE);
+    gtk_widget_set_sensitive(window->priv->menu_reconnect, TRUE);
+    gtk_widget_set_sensitive(window->priv->menu_disconnect, TRUE);
+    gtk_widget_set_sensitive(window->priv->toolbar_disconnect, TRUE);
+    gtk_widget_set_sensitive(window->priv->toolbar_reconnect, TRUE);
 
     mud_connection_view_set_id(view, nr);
     mud_connection_view_set_parent(view, window);
@@ -204,14 +215,31 @@ static void
 mud_window_disconnect_cb(GtkWidget *widget, MudWindow *window)
 {
     if (window->priv->current_view != NULL)
+    {
+        gtk_widget_set_sensitive(window->priv->startlog, FALSE);
+        gtk_widget_set_sensitive(window->priv->menu_disconnect, FALSE);
+        gtk_widget_set_sensitive(window->priv->toolbar_disconnect, FALSE);
         mud_connection_view_disconnect(MUD_CONNECTION_VIEW(window->priv->current_view));
+    }
 }
 
 static void
 mud_window_reconnect_cb(GtkWidget *widget, MudWindow *window)
 {
     if (window->priv->current_view != NULL)
+    {
+        gtk_widget_set_sensitive(window->priv->menu_disconnect, TRUE);
+        gtk_widget_set_sensitive(window->priv->toolbar_disconnect, TRUE);
         mud_connection_view_reconnect(MUD_CONNECTION_VIEW(window->priv->current_view));
+    }
+}
+
+void
+mud_window_disconnected(MudWindow *window)
+{
+    gtk_widget_set_sensitive(window->priv->startlog, FALSE);
+    gtk_widget_set_sensitive(window->priv->menu_disconnect, FALSE);
+    gtk_widget_set_sensitive(window->priv->toolbar_disconnect, FALSE);
 }
 
 static void
@@ -347,6 +375,7 @@ static void
 mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gint arg, MudWindow *window)
 {
     gchar *name;
+    gboolean connected;
 
     window->priv->current_view =
         g_object_get_data(
@@ -361,6 +390,9 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 
         mud_window_profile_menu_set_active(name, window);
 
+        connected = mud_connection_view_is_connected(
+                MUD_CONNECTION_VIEW(window->priv->current_view));
+
         if(mud_connection_view_islogging(MUD_CONNECTION_VIEW(window->priv->current_view)))
         {
             gtk_widget_set_sensitive(window->priv->startlog, FALSE);
@@ -371,12 +403,26 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
             gtk_widget_set_sensitive(window->priv->startlog, TRUE);
             gtk_widget_set_sensitive(window->priv->stoplog, FALSE);
         }
+
+        if(!connected)
+        {
+            gtk_widget_set_sensitive(window->priv->startlog, FALSE);
+            gtk_widget_set_sensitive(window->priv->stoplog, FALSE);
+        }
+
+        gtk_widget_set_sensitive(window->priv->menu_disconnect, connected);
+        gtk_widget_set_sensitive(window->priv->toolbar_disconnect, connected);
     }
     else
     {
         gtk_widget_set_sensitive(window->priv->startlog, FALSE);
         gtk_widget_set_sensitive(window->priv->stoplog, FALSE);
         gtk_widget_set_sensitive(window->priv->bufferdump, FALSE);
+        gtk_widget_set_sensitive(window->priv->menu_close, FALSE);
+        gtk_widget_set_sensitive(window->priv->menu_reconnect, FALSE);
+        gtk_widget_set_sensitive(window->priv->menu_disconnect, FALSE);
+        gtk_widget_set_sensitive(window->priv->toolbar_disconnect, FALSE);
+        gtk_widget_set_sensitive(window->priv->toolbar_reconnect, FALSE);
     }
 
     gtk_widget_grab_focus(window->priv->textview);
@@ -479,6 +525,7 @@ mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer us
                             GTK_NOTEBOOK(window->priv->notebook),
                             i)),
                     "connection-view");
+
         mud_connection_view_send_naws(iter);
     }
 
@@ -747,7 +794,6 @@ mud_window_init (MudWindow *window)
     /* start glading */
     glade = glade_xml_new(GLADEDIR "/main.glade", "main_window", NULL);
     window->priv->window = glade_xml_get_widget(glade, "main_window");
-    //gtk_widget_show_all(window->priv->window);
 
     /* connect quit buttons */
     g_signal_connect(window->priv->window, "destroy", G_CALLBACK(mud_window_close), window);
@@ -756,20 +802,23 @@ mud_window_init (MudWindow *window)
     /* connect connect buttons */
     g_signal_connect(glade_xml_get_widget(glade, "main_connect"), "activate", G_CALLBACK(mud_window_mconnect_dialog), window);
     g_signal_connect(glade_xml_get_widget(glade, "menu_connect"), "activate", G_CALLBACK(mud_window_connect_dialog), window);
-    /*g_signal_connect(glade_xml_get_widget(glade, "menu_mudlist"), "activate",
-      G_CALLBACK(mud_window_list_cb), window);*/
     g_signal_connect(glade_xml_get_widget(glade, "toolbar_connect"), "clicked", G_CALLBACK(mud_window_mconnect_dialog), window);
 
     /* connect disconnect buttons */
-    g_signal_connect(glade_xml_get_widget(glade, "menu_disconnect"), "activate", G_CALLBACK(mud_window_disconnect_cb), window);
-    g_signal_connect(glade_xml_get_widget(glade, "toolbar_disconnect"), "clicked", G_CALLBACK(mud_window_disconnect_cb), window);
+    window->priv->menu_disconnect = glade_xml_get_widget(glade, "menu_disconnect");
+    window->priv->toolbar_disconnect = glade_xml_get_widget(glade, "toolbar_disconnect");
+    g_signal_connect(window->priv->menu_disconnect, "activate", G_CALLBACK(mud_window_disconnect_cb), window);
+    g_signal_connect(window->priv->toolbar_disconnect, "clicked", G_CALLBACK(mud_window_disconnect_cb), window);
 
     /* connect reconnect buttons */
-    g_signal_connect(glade_xml_get_widget(glade, "menu_reconnect"), "activate", G_CALLBACK(mud_window_reconnect_cb), window);
-    g_signal_connect(glade_xml_get_widget(glade, "toolbar_reconnect"), "clicked", G_CALLBACK(mud_window_reconnect_cb), window);
+    window->priv->menu_reconnect = glade_xml_get_widget(glade, "menu_reconnect");
+    window->priv->toolbar_reconnect = glade_xml_get_widget(glade, "toolbar_reconnect");
+    g_signal_connect(window->priv->menu_reconnect, "activate", G_CALLBACK(mud_window_reconnect_cb), window);
+    g_signal_connect(window->priv->toolbar_reconnect, "clicked", G_CALLBACK(mud_window_reconnect_cb), window);
 
     /* connect close window button */
-    g_signal_connect(glade_xml_get_widget(glade, "menu_closewindow"), "activate", G_CALLBACK(mud_window_closewindow_cb), window);
+    window->priv->menu_close = glade_xml_get_widget(glade, "menu_closewindow");
+    g_signal_connect(window->priv->menu_close, "activate", G_CALLBACK(mud_window_closewindow_cb), window);
 
     /* logging */
     window->priv->startlog = glade_xml_get_widget(glade, "menu_start_logging");

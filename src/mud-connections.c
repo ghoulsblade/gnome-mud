@@ -153,22 +153,22 @@ mud_connections_get_type (void)
 
     if (!object_type)
     {
-	static const GTypeInfo object_info =
-	    {
-		sizeof (MudConnectionsClass),
-		NULL,
-		NULL,
-		(GClassInitFunc) mud_connections_class_init,
-		NULL,
-		NULL,
-		sizeof (MudConnections),
-		0,
-		(GInstanceInitFunc) mud_connections_init,
-	    };
+        static const GTypeInfo object_info =
+        {
+            sizeof (MudConnectionsClass),
+            NULL,
+            NULL,
+            (GClassInitFunc) mud_connections_class_init,
+            NULL,
+            NULL,
+            sizeof (MudConnections),
+            0,
+            (GInstanceInitFunc) mud_connections_init,
+        };
 
-	object_type =
-	    g_type_register_static(G_TYPE_OBJECT,
-				   "MudConnections", &object_info, 0);
+        object_type =
+            g_type_register_static(G_TYPE_OBJECT,
+                    "MudConnections", &object_info, 0);
     }
 
     return object_type;
@@ -188,49 +188,49 @@ mud_connections_init (MudConnections *conn)
     conn->priv->iconview = glade_xml_get_widget(glade, "iconview");
 
     conn->priv->icon_model =
-	GTK_TREE_MODEL(gtk_list_store_new(MODEL_COLUMN_N,
-					  G_TYPE_STRING,
-					  GDK_TYPE_PIXBUF));
-    
+        GTK_TREE_MODEL(gtk_list_store_new(MODEL_COLUMN_N,
+                    G_TYPE_STRING,
+                    GDK_TYPE_PIXBUF));
+
     conn->priv->original_name = NULL;
     conn->priv->original_char_name = NULL;
 
     gtk_icon_view_set_model(GTK_ICON_VIEW(conn->priv->iconview),
-			    conn->priv->icon_model);
+            conn->priv->icon_model);
     gtk_icon_view_set_text_column(GTK_ICON_VIEW(conn->priv->iconview),
-				  MODEL_COLUMN_STRING);
+            MODEL_COLUMN_STRING);
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(conn->priv->iconview),
-				    MODEL_COLUMN_PIXBUF);
+            MODEL_COLUMN_PIXBUF);
 
     client = gconf_client_get_default();
     gconf_client_add_dir(client, "/apps/gnome-mud/muds",
-			 GCONF_CLIENT_PRELOAD_NONE, NULL);
-    
+            GCONF_CLIENT_PRELOAD_NONE, NULL);
+
     conn->priv->connection =
-	gconf_client_notify_add(client, "/apps/gnome-mud/muds",
-				(GConfClientNotifyFunc)
-				mud_connections_gconf_notify_cb,
-				conn, NULL, NULL);
+        gconf_client_notify_add(client, "/apps/gnome-mud/muds",
+                (GConfClientNotifyFunc)
+                mud_connections_gconf_notify_cb,
+                conn, NULL, NULL);
 
     g_signal_connect(conn->priv->iconview, "item-activated",
-		     G_CALLBACK(mud_connections_iconview_activate_cb),
-		     conn);
+            G_CALLBACK(mud_connections_iconview_activate_cb),
+            conn);
     g_signal_connect(conn->priv->iconview, "button-press-event",
-		     G_CALLBACK(mud_connections_button_press_cb),
-		     conn);
+            G_CALLBACK(mud_connections_button_press_cb),
+            conn);
     g_signal_connect(conn->priv->window, "destroy",
-		     G_CALLBACK(mud_connections_close_cb), conn);
+            G_CALLBACK(mud_connections_close_cb), conn);
     g_signal_connect(glade_xml_get_widget(glade, "connect_button"),
-		     "clicked", G_CALLBACK(mud_connections_connect_cb),
-		     conn);
+            "clicked", G_CALLBACK(mud_connections_connect_cb),
+            conn);
     g_signal_connect(glade_xml_get_widget(glade, "add_button"),
-		     "clicked", G_CALLBACK(mud_connections_add_cb), conn);
+            "clicked", G_CALLBACK(mud_connections_add_cb), conn);
     g_signal_connect(glade_xml_get_widget(glade, "delete_button"),
-		     "clicked", G_CALLBACK(mud_connections_delete_cb),
-		     conn);
+            "clicked", G_CALLBACK(mud_connections_delete_cb),
+            conn);
     g_signal_connect(glade_xml_get_widget(glade, "properties_button"),
-		     "clicked", G_CALLBACK(mud_connections_properties_cb),
-		     conn);
+            "clicked", G_CALLBACK(mud_connections_properties_cb),
+            conn);
 
     mud_connections_populate_iconview(conn);
 
@@ -336,11 +336,11 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
 
     if(char_name && strlen(char_name) > 0)
     {
-	key = g_strdup_printf(
-	    "/apps/gnome-mud/muds/%s/characters/%s/logon", 
-	    strip_name, char_name);
-	logon = gconf_client_get_string(client, key, NULL);
-	g_free(key);
+        key = g_strdup_printf(
+                "/apps/gnome-mud/muds/%s/characters/%s/logon", 
+                strip_name, char_name);
+        logon = gconf_client_get_string(client, key, NULL);
+        g_free(key);
     }
 
     mud_tray_update_icon(conn->priv->tray, offline);
@@ -573,8 +573,6 @@ mud_connections_populate_iconview(MudConnections *conn)
 
     if(muds)
         g_slist_free(muds);
-
-
 }
 
 static void
@@ -611,12 +609,12 @@ mud_connections_button_press_cb(GtkWidget *widget,
 				MudConnections *conn)
 {
     if ((event->button == 3) &&
-	!(event->state & (GDK_SHIFT_MASK |
-			  GDK_CONTROL_MASK |
-			  GDK_MOD1_MASK)))
+            !(event->state & (GDK_SHIFT_MASK |
+                    GDK_CONTROL_MASK |
+                    GDK_MOD1_MASK)))
     {
-	mud_connections_popup(conn, event);
-	return TRUE;
+        mud_connections_popup(conn, event);
+        return TRUE;
     }
 
     return FALSE;
@@ -902,7 +900,6 @@ static void
 mud_connections_property_cancel_cb(GtkWidget *widget, MudConnections *conn)
 {
     gtk_widget_destroy(conn->priv->properties_window);
-
 }
 
 static void
@@ -1228,7 +1225,7 @@ mud_connections_show_icon_dialog(MudConnections *conn)
 	GTK_ICON_VIEW(conn->priv->icon_dialog_view),
 	MODEL_COLUMN_PIXBUF);
 
-    if(conn->priv->icon_current == NULL)
+    if(conn->priv->icon_current != NULL)
 	g_free(conn->priv->icon_current);
     conn->priv->icon_current = NULL;
 
@@ -1291,17 +1288,21 @@ mud_connections_icon_fileset_cb(GtkFileChooserButton *chooser,
 		full_path, 48, 48, NULL);
 	    GtkTreeIter iter;
 
-	    gtk_list_store_append(
-		GTK_LIST_STORE(conn->priv->icon_dialog_view_model),
-		&iter);
-	    gtk_list_store_set(
-		GTK_LIST_STORE(conn->priv->icon_dialog_view_model),
-		&iter,
-		MODEL_COLUMN_STRING, file,
-		MODEL_COLUMN_PIXBUF, icon,
-		-1);
-			
-	    g_object_unref(icon);
+            if(icon)
+            {
+                gtk_list_store_append(
+                        GTK_LIST_STORE(conn->priv->icon_dialog_view_model),
+                        &iter);
+                gtk_list_store_set(
+                        GTK_LIST_STORE(conn->priv->icon_dialog_view_model),
+                        &iter,
+                        MODEL_COLUMN_STRING, file,
+                        MODEL_COLUMN_PIXBUF, icon,
+                        -1);
+
+                g_object_unref(icon);
+            }
+
 	    g_free(full_path);
 	}
 

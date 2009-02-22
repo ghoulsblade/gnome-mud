@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--*- mode: xml -*-->
+<?xml version="1.0"?>
 <glade-interface>
+  <!-- interface-requires gtk+ 2.10 -->
+  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkDialog" id="preferences_window">
     <property name="visible">True</property>
     <property name="title" translatable="yes">Preferences</property>
-    <property name="window_position">GTK_WIN_POS_CENTER</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="window_position">center</property>
+    <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
     <child internal-child="vbox">
@@ -22,9 +22,9 @@
                 <property name="width_request">185</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                <property name="shadow_type">GTK_SHADOW_IN</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <property name="shadow_type">in</property>
                 <child>
                   <widget class="GtkTreeView" id="treeview">
                     <property name="visible">True</property>
@@ -33,6 +33,9 @@
                   </widget>
                 </child>
               </widget>
+              <packing>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkNotebook" id="notebook">
@@ -50,8 +53,8 @@
                     <property name="label" translatable="yes">Blank</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
                 <child>
@@ -70,6 +73,7 @@
                           </widget>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -83,6 +87,7 @@
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -90,25 +95,26 @@
                                 <property name="visible">True</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="cb_echo">
+                                    <property name="label" translatable="yes">_Echo the Text Sent</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">_Echo the Text Sent</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkCheckButton" id="cb_keep">
+                                    <property name="label" translatable="yes">_Keep the Text Entered</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">_Keep the Text Entered</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
@@ -119,11 +125,11 @@
                                 </child>
                                 <child>
                                   <widget class="GtkCheckButton" id="cb_system">
+                                    <property name="label" translatable="yes">Disable _System Keys</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Disable _System Keys</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
@@ -154,6 +160,7 @@
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
                                         <property name="padding">2</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -219,6 +226,7 @@
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -233,6 +241,7 @@
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -297,11 +306,11 @@ WINDOWS-1258</property>
                                 </child>
                                 <child>
                                   <widget class="GtkCheckButton" id="encoding_check">
+                                    <property name="label" translatable="yes">Enable Encoding Negotiation</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Enable Encoding Negotiation</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
@@ -346,6 +355,7 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -353,16 +363,17 @@ WINDOWS-1258</property>
                                 <property name="visible">True</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="proxy_check">
+                                    <property name="label" translatable="yes">Enable Proxy</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Enable Proxy</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -376,6 +387,7 @@ WINDOWS-1258</property>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -395,6 +407,7 @@ WINDOWS-1258</property>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
                                                 <property name="padding">2</property>
+                                                <property name="position">0</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -421,6 +434,9 @@ WINDOWS-1258</property>
                                               </packing>
                                             </child>
                                           </widget>
+                                          <packing>
+                                            <property name="position">0</property>
+                                          </packing>
                                         </child>
                                       </widget>
                                       <packing>
@@ -443,6 +459,7 @@ WINDOWS-1258</property>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -459,6 +476,7 @@ WINDOWS-1258</property>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="padding">2</property>
+                                            <property name="position">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -529,6 +547,7 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -536,25 +555,26 @@ WINDOWS-1258</property>
                                 <property name="visible">True</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="sound_check">
+                                    <property name="label" translatable="yes">Enable Sound</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Enable Sound</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkCheckButton" id="msp_check">
+                                    <property name="label" translatable="yes">Enable Remote Download</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Enable Remote Download</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
@@ -592,8 +612,8 @@ WINDOWS-1258</property>
                         <property name="label" translatable="yes">Functionality</property>
                       </widget>
                       <packing>
-                        <property name="type">tab</property>
                         <property name="tab_fill">False</property>
+                        <property name="type">tab</property>
                       </packing>
                     </child>
                     <child>
@@ -608,7 +628,7 @@ WINDOWS-1258</property>
                           <widget class="GtkColorButton" id="cp_background">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="response_id">0</property>
+                            <property name="receives_default">False</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -623,7 +643,7 @@ WINDOWS-1258</property>
                           <widget class="GtkColorButton" id="cp_foreground">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="response_id">0</property>
+                            <property name="receives_default">False</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -638,7 +658,7 @@ WINDOWS-1258</property>
                           <widget class="GtkFontButton" id="fp_font">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="response_id">0</property>
+                            <property name="receives_default">False</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -656,7 +676,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp15">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">7</property>
@@ -671,7 +691,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp14">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">6</property>
@@ -686,7 +706,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp13">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">5</property>
@@ -701,7 +721,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp12">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">4</property>
@@ -716,7 +736,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp11">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -731,7 +751,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp10">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -746,7 +766,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp9">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -761,7 +781,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp8">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="top_attach">1</property>
@@ -774,7 +794,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp7">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">7</property>
@@ -787,7 +807,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp6">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">6</property>
@@ -800,7 +820,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp5">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">5</property>
@@ -813,7 +833,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp4">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">4</property>
@@ -826,7 +846,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp3">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -839,7 +859,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp2">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -852,7 +872,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp1">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -865,7 +885,7 @@ WINDOWS-1258</property>
                               <widget class="GtkColorButton" id="cp0">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                               </widget>
                               <packing>
                                 <property name="x_options">GTK_FILL</property>
@@ -943,9 +963,9 @@ WINDOWS-1258</property>
                         <property name="label" translatable="yes">Color and Fonts</property>
                       </widget>
                       <packing>
-                        <property name="type">tab</property>
                         <property name="position">1</property>
                         <property name="tab_fill">False</property>
+                        <property name="type">tab</property>
                       </packing>
                     </child>
                     <child>
@@ -965,6 +985,7 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -995,16 +1016,17 @@ WINDOWS-1258</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
                           <widget class="GtkCheckButton" id="cb_scrollback">
+                            <property name="label" translatable="yes">S_croll on output</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
                             <property name="tooltip" translatable="yes">If enabled, whenever there's new output the terminal will be scrolled to the bottom.</property>
-                            <property name="label" translatable="yes">S_croll on output</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
@@ -1024,9 +1046,9 @@ WINDOWS-1258</property>
                         <property name="label" translatable="yes">Terminal</property>
                       </widget>
                       <packing>
-                        <property name="type">tab</property>
                         <property name="position">2</property>
                         <property name="tab_fill">False</property>
+                        <property name="type">tab</property>
                       </packing>
                     </child>
                   </widget>
@@ -1040,9 +1062,9 @@ WINDOWS-1258</property>
                     <property name="label" translatable="yes">Preferences</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="position">1</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
                 <child>
@@ -1056,9 +1078,9 @@ WINDOWS-1258</property>
                           <widget class="GtkScrolledWindow" id="scrolledwindow4">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                            <property name="shadow_type">GTK_SHADOW_IN</property>
+                            <property name="hscrollbar_policy">automatic</property>
+                            <property name="vscrollbar_policy">automatic</property>
+                            <property name="shadow_type">in</property>
                             <child>
                               <widget class="GtkTreeView" id="alias_treeview">
                                 <property name="visible">True</property>
@@ -1066,20 +1088,28 @@ WINDOWS-1258</property>
                               </widget>
                             </child>
                           </widget>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
                         </child>
                         <child>
                           <widget class="GtkVButtonBox" id="vbuttonbox2">
                             <property name="visible">True</property>
-                            <property name="layout_style">GTK_BUTTONBOX_START</property>
+                            <property name="layout_style">start</property>
                             <child>
                               <widget class="GtkButton" id="alias_del">
+                                <property name="label">gtk-delete</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
-                                <property name="label">gtk-delete</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_stock">True</property>
-                                <property name="response_id">0</property>
                               </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                           </widget>
                           <packing>
@@ -1111,19 +1141,22 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkEntry" id="alias_entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="invisible_char">*</property>
                               </widget>
                               <packing>
                                 <property name="position">1</property>
                               </packing>
                             </child>
                           </widget>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
                         </child>
                         <child>
                           <widget class="GtkHBox" id="hbox34">
@@ -1141,15 +1174,16 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkScrolledWindow" id="scrolledwindow11">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                <property name="shadow_type">GTK_SHADOW_IN</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <property name="shadow_type">in</property>
                                 <child>
                                   <widget class="GtkTextView" id="alias_regex_textview">
                                     <property name="visible">True</property>
@@ -1182,15 +1216,16 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkScrolledWindow" id="scrolledwindow12">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                <property name="shadow_type">GTK_SHADOW_IN</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <property name="shadow_type">in</property>
                                 <child>
                                   <widget class="GtkTextView" id="alias_textview">
                                     <property name="visible">True</property>
@@ -1228,13 +1263,13 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkEntry" id="alias_match_entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="invisible_char">*</property>
                               </widget>
                               <packing>
                                 <property name="position">1</property>
@@ -1244,7 +1279,7 @@ WINDOWS-1258</property>
                               <widget class="GtkButton" id="alias_match_test">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment2">
                                     <property name="visible">True</property>
@@ -1262,6 +1297,7 @@ WINDOWS-1258</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
+                                            <property name="position">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1318,6 +1354,7 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -1331,15 +1368,16 @@ WINDOWS-1258</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkScrolledWindow" id="scrolledwindow10">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                    <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                    <property name="shadow_type">GTK_SHADOW_IN</property>
+                                    <property name="hscrollbar_policy">automatic</property>
+                                    <property name="vscrollbar_policy">automatic</property>
+                                    <property name="shadow_type">in</property>
                                     <child>
                                       <widget class="GtkTreeView" id="alias_match_treeview">
                                         <property name="visible">True</property>
@@ -1373,16 +1411,21 @@ WINDOWS-1258</property>
                         <child>
                           <widget class="GtkHButtonBox" id="hbuttonbox4">
                             <property name="visible">True</property>
-                            <property name="layout_style">GTK_BUTTONBOX_END</property>
+                            <property name="layout_style">end</property>
                             <child>
                               <widget class="GtkButton" id="alias_ok">
+                                <property name="label">gtk-save</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
-                                <property name="label">gtk-ok</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_stock">True</property>
-                                <property name="response_id">0</property>
                               </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                           </widget>
                           <packing>
@@ -1407,9 +1450,9 @@ WINDOWS-1258</property>
                     <property name="label" translatable="yes">Aliases</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="position">2</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
                 <child>
@@ -1423,9 +1466,9 @@ WINDOWS-1258</property>
                           <widget class="GtkScrolledWindow" id="scrolledwindow6">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                            <property name="shadow_type">GTK_SHADOW_IN</property>
+                            <property name="hscrollbar_policy">automatic</property>
+                            <property name="vscrollbar_policy">automatic</property>
+                            <property name="shadow_type">in</property>
                             <child>
                               <widget class="GtkTreeView" id="trigger_treeview">
                                 <property name="visible">True</property>
@@ -1433,20 +1476,28 @@ WINDOWS-1258</property>
                               </widget>
                             </child>
                           </widget>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
                         </child>
                         <child>
                           <widget class="GtkVButtonBox" id="vbuttonbox3">
                             <property name="visible">True</property>
-                            <property name="layout_style">GTK_BUTTONBOX_START</property>
+                            <property name="layout_style">start</property>
                             <child>
                               <widget class="GtkButton" id="trigger_del">
+                                <property name="label">gtk-delete</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
-                                <property name="label">gtk-delete</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_stock">True</property>
-                                <property name="response_id">0</property>
                               </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                           </widget>
                           <packing>
@@ -1478,13 +1529,13 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkEntry" id="trigger_name_entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="invisible_char">*</property>
                               </widget>
                               <packing>
                                 <property name="position">1</property>
@@ -1493,6 +1544,7 @@ WINDOWS-1258</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -1511,15 +1563,16 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkScrolledWindow" id="scrolledwindow8">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                <property name="shadow_type">GTK_SHADOW_IN</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <property name="shadow_type">in</property>
                                 <child>
                                   <widget class="GtkTextView" id="trigger_regex_textview">
                                     <property name="visible">True</property>
@@ -1553,15 +1606,16 @@ WINDOWS-1258</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkScrolledWindow" id="scrolledwindow7">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                <property name="shadow_type">GTK_SHADOW_IN</property>
+                                <property name="hscrollbar_policy">automatic</property>
+                                <property name="vscrollbar_policy">automatic</property>
+                                <property name="shadow_type">in</property>
                                 <child>
                                   <widget class="GtkTextView" id="trigger_action_textview">
                                     <property name="visible">True</property>
@@ -1586,6 +1640,9 @@ WINDOWS-1258</property>
                               <widget class="GtkHSeparator" id="hseparator1">
                                 <property name="visible">True</property>
                               </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                           </widget>
                           <packing>
@@ -1610,13 +1667,13 @@ WINDOWS-1258</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkEntry" id="trigger_match_entry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
                                   </widget>
                                   <packing>
                                     <property name="position">1</property>
@@ -1626,7 +1683,7 @@ WINDOWS-1258</property>
                                   <widget class="GtkButton" id="trigger_match_button">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="response_id">0</property>
+                                    <property name="receives_default">False</property>
                                     <child>
                                       <widget class="GtkAlignment" id="alignment1">
                                         <property name="visible">True</property>
@@ -1644,6 +1701,7 @@ WINDOWS-1258</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
+                                                <property name="position">0</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -1672,6 +1730,7 @@ WINDOWS-1258</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -1681,6 +1740,9 @@ WINDOWS-1258</property>
                                   <widget class="GtkHSeparator" id="hseparator2">
                                     <property name="visible">True</property>
                                   </widget>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
                                 </child>
                               </widget>
                               <packing>
@@ -1702,6 +1764,7 @@ WINDOWS-1258</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1715,15 +1778,16 @@ WINDOWS-1258</property>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkScrolledWindow" id="scrolledwindow9">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                        <property name="shadow_type">GTK_SHADOW_IN</property>
+                                        <property name="hscrollbar_policy">automatic</property>
+                                        <property name="vscrollbar_policy">automatic</property>
+                                        <property name="shadow_type">in</property>
                                         <child>
                                           <widget class="GtkTreeView" id="trigger_match_treeview">
                                             <property name="visible">True</property>
@@ -1757,6 +1821,9 @@ WINDOWS-1258</property>
                               <widget class="GtkHSeparator" id="hseparator3">
                                 <property name="visible">True</property>
                               </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                           </widget>
                           <packing>
@@ -1770,18 +1837,26 @@ WINDOWS-1258</property>
                             <child>
                               <widget class="GtkHButtonBox" id="hbuttonbox3">
                                 <property name="visible">True</property>
-                                <property name="layout_style">GTK_BUTTONBOX_END</property>
+                                <property name="layout_style">end</property>
                                 <child>
                                   <widget class="GtkButton" id="trigger_ok">
+                                    <property name="label">gtk-save</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="can_default">True</property>
-                                    <property name="label">gtk-ok</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_stock">True</property>
-                                    <property name="response_id">0</property>
                                   </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
                                 </child>
                               </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                           </widget>
                           <packing>
@@ -1806,9 +1881,9 @@ WINDOWS-1258</property>
                     <property name="label" translatable="yes">Triggers</property>
                   </widget>
                   <packing>
-                    <property name="type">tab</property>
                     <property name="position">3</property>
                     <property name="tab_fill">False</property>
+                    <property name="type">tab</property>
                   </packing>
                 </child>
               </widget>
@@ -1824,21 +1899,28 @@ WINDOWS-1258</property>
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="hbuttonbox1">
             <property name="visible">True</property>
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <property name="layout_style">end</property>
             <child>
               <widget class="GtkButton" id="button1">
+                <property name="label">gtk-close</property>
+                <property name="response_id">-7</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
-                <property name="label">gtk-close</property>
+                <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">-7</property>
               </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </widget>
@@ -1847,9 +1929,9 @@ WINDOWS-1258</property>
   <widget class="GtkDialog" id="newprofile_dialog">
     <property name="visible">True</property>
     <property name="title" translatable="yes">New Profile</property>
-    <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
+    <property name="window_position">center-on-parent</property>
     <property name="default_width">350</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
     <child internal-child="vbox">
@@ -1867,13 +1949,13 @@ WINDOWS-1258</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <widget class="GtkEntry" id="entry_profile">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">*</property>
               </widget>
               <packing>
                 <property name="position">1</property>
@@ -1888,34 +1970,44 @@ WINDOWS-1258</property>
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area2">
             <property name="visible">True</property>
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <property name="layout_style">end</property>
             <child>
               <widget class="GtkButton" id="cancelbutton1">
+                <property name="label">gtk-cancel</property>
+                <property name="response_id">-6</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
-                <property name="label">gtk-cancel</property>
+                <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">-6</property>
               </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkButton" id="okbutton1">
+                <property name="label">gtk-ok</property>
+                <property name="response_id">-5</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
-                <property name="label">gtk-ok</property>
+                <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">-5</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </widget>
@@ -1924,8 +2016,8 @@ WINDOWS-1258</property>
   <widget class="GtkDialog" id="regex_error_dialog">
     <property name="visible">True</property>
     <property name="title" translatable="yes">Regex Error</property>
-    <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
     <child internal-child="vbox">
@@ -1948,6 +2040,7 @@ WINDOWS-1258</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -1961,6 +2054,9 @@ WINDOWS-1258</property>
                   </packing>
                 </child>
               </widget>
+              <packing>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkHBox" id="hbox28">
@@ -1976,6 +2072,7 @@ WINDOWS-1258</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -2002,12 +2099,13 @@ WINDOWS-1258</property>
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
                     <property name="label" translatable="yes">Error At:</property>
-                    <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                    <property name="justify">right</property>
                     <property name="width_chars">11</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -2033,21 +2131,28 @@ WINDOWS-1258</property>
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area3">
             <property name="visible">True</property>
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <property name="layout_style">end</property>
             <child>
               <widget class="GtkButton" id="closebutton1">
+                <property name="label">gtk-close</property>
+                <property name="response_id">-7</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
-                <property name="label">gtk-close</property>
+                <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">-7</property>
               </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </widget>
@@ -2055,7 +2160,7 @@ WINDOWS-1258</property>
   </widget>
   <widget class="GtkWindow" id="profiles_window">
     <property name="title" translatable="yes">Profiles</property>
-    <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
+    <property name="window_position">center-on-parent</property>
     <property name="default_width">300</property>
     <property name="default_height">350</property>
     <property name="destroy_with_parent">True</property>
@@ -2073,6 +2178,7 @@ WINDOWS-1258</property>
                 <property name="stock_id">gtk-add</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
@@ -2082,20 +2188,22 @@ WINDOWS-1258</property>
                 <property name="stock_id">gtk-delete</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
                 <property name="homogeneous">True</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
           <widget class="GtkScrolledWindow" id="scrolledwindow2">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <property name="hscrollbar_policy">automatic</property>
+            <property name="vscrollbar_policy">automatic</property>
             <child>
               <widget class="GtkTreeView" id="profilesView">
                 <property name="visible">True</property>

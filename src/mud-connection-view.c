@@ -316,6 +316,11 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
             local_codeset, 
             &bytes_read, &bytes_written, &error);
 
+    if(error)
+    {
+        text = NULL;
+    }
+
     vte_terminal_set_encoding(VTE_TERMINAL(view->priv->terminal), encoding);
 
     g_free(encoding);
@@ -343,7 +348,9 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
         mud_connection_view_feed_text(view, (!error) ? text : message);
 
     mud_connection_view_feed_text(view, "\e[0m");
-    g_free(text);
+
+    if(text != NULL)
+        g_free(text);
 }
 
 
@@ -396,7 +403,7 @@ mud_connection_view_init (MudConnectionView *connection_view)
     connection_view->priv->terminal = vte_terminal_new();
     vte_terminal_set_encoding(VTE_TERMINAL(connection_view->priv->terminal), "ISO-8859-1");
     vte_terminal_set_emulation(VTE_TERMINAL(connection_view->priv->terminal), "xterm");
-        
+
     connection_view->priv->width = VTE_TERMINAL(connection_view->priv->terminal)->column_count;
     connection_view->priv->height = VTE_TERMINAL(connection_view->priv->terminal)->row_count;
         
@@ -755,7 +762,9 @@ mud_connection_view_stop_logging(MudConnectionView *view)
 gboolean
 mud_connection_view_islogging(MudConnectionView *view)
 {
-    return mud_log_islogging(view->priv->log);
+    return (view && view->connection && 
+            gnet_conn_is_connected(view->connection) &&
+                mud_log_islogging(view->priv->log));
 }
 
 static void
@@ -1128,6 +1137,7 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
     {
         case GNET_CONN_ERROR:
             mud_connection_view_add_text(view, _("*** Could not connect.\n"), Error);
+            mud_window_disconnected(view->priv->window);
             break;
 
         case GNET_CONN_CONNECT:
@@ -1157,6 +1167,8 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
                 g_object_unref(view->priv->telnet);
 
             mud_connection_view_add_text(view, _("*** Connection closed.\n"), Error);
+
+            mud_window_disconnected(view->priv->window);
             break;
 
         case GNET_CONN_TIMEOUT:
@@ -1267,6 +1279,12 @@ mud_connection_view_send_naws(MudConnectionView *view)
         view->priv->width = curr_width;
         view->priv->height = curr_height;
     }
+}
+
+gboolean
+mud_connection_view_is_connected(MudConnectionView *view)
+{
+    return (view && view->connection && gnet_conn_is_connected(view->connection));
 }
 
 #ifdef ENABLE_GST

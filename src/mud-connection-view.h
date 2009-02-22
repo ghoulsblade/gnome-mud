@@ -84,6 +84,7 @@ void mud_connection_view_set_parent(MudConnectionView *view, MudWindow *window);
 void mud_connection_view_start_logging(MudConnectionView *view);
 void mud_connection_view_stop_logging(MudConnectionView *view);
 gboolean mud_connection_view_islogging(MudConnectionView *view);
+gboolean mud_connection_view_is_connected(MudConnectionView *view);
 
 #include "mud-parse-base.h"
 MudParseBase *mud_connection_view_get_parsebase(MudConnectionView *view);

@@ -159,7 +159,8 @@ void mud_tray_popup_menu_cb(GtkStatusIcon *icon, guint button,
                 entry = gtk_menu_item_new_with_mnemonic(_("_Hide window"));
         else
                 entry = gtk_menu_item_new_with_mnemonic(_("_Show window"));
-        gtk_signal_connect(GTK_OBJECT(entry), "activate", G_CALLBACK(mud_tray_window_toggle), tray);
+        g_signal_connect(G_OBJECT(entry), "activate", G_CALLBACK(mud_tray_window_toggle), tray);
+
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
 	entry = gtk_separator_menu_item_new ();
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);

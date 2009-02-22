@@ -1,3 +1,39 @@
+2009-02-21  Les Harris  <lharris@gnome.org>
+
+	* src/mud-connection-view.[ch] (mud_connection_view_add_text),
+	(mud_connection_view_islogging),
+	(mud_connection_view_network_event_cb),
+	(mud_connection_view_is_connected): Fixed a possible double free,
+	added more runtime checks to islogging.  Now notifies the mud-window
+	when the server has broken connection for ui update.  Added new
+	function which allows other classes to query for connection status.
+	* src/mud-connections.c (mud_connections_populate_iconview),
+	(mud_connections_property_cancel_cb),
+	(mud_connections_show_icon_dialog),
+	(mud_connections_icon_fileset_cb): Formatting cleanups. The icon
+	picker dialog will no longer attempt to add a NULL icon to it's view.
+	* src/mud-telnet-mccp.c (mud_mccp_decompress): 
+	* src/mud-telnet-msp.c (mud_telnet_msp_parse),
+	(mud_telnet_msp_parser_args), (mud_telnet_msp_get_files): Now assigns 
+	the return value of all GString functions to the string being changed
+	as per the documentation.
+	* src/mud-telnet.c (mud_telnet_new), (mud_telnet_process),
+	(mud_telnet_get_telnet_string), (mud_telnet_get_telopt_string):
+	GString fixes.  Fixed a bug that broke ZMP parsing while MCCP is
+	enabled.
+	* src/mud-tray.c (mud_tray_popup_menu_cb): Changed deprecated
+	gtk_signal_connect to g_signal_connect.
+	* src/mud-window.[ch] (mud_window_add_connection_view),
+	(mud_window_disconnect_cb), (mud_window_reconnect_cb),
+	(mud_window_disconnected), (mud_window_notebook_page_change),
+	(mud_window_size_request), (mud_window_init): The ui will now update
+	to better reflect the available options when a mud is either connected
+	or disconnected. Added function to enable the view to notify the
+	window upon non-user disconnection.
+	* ui/main.glade: Close Window now has a stock icon.
+	* ui/muds.glade: Proposed Quick Connect merge added.
+	* ui/prefs.glade: 'Ok' changed to 'Save' in Alias/Trigger panes.
+
 2009-02-20  Les Harris  <lharris@gnome.org>
 
 	* src/mud-connection-view.c (mud_connection_view_add_text): Color will
