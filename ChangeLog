@@ -25,8 +25,6 @@
 
 2009-02-21  Les Harris  <lharris@gnome.org>
 
-	reviewed by: <delete if not using a buddy>
-
 	* src/mud-telnet.c (mud_telnet_process): Set subreq_position on TEL_SB
 	state change again.
 	* src/mud-window.c (mud_window_reconnect_cb): Now sets the Start Log
