@@ -516,7 +516,7 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
 
 	    case (guchar)TEL_SB:
 		telnet->tel_state = TEL_STATE_SB;
-		//telnet->subreq_pos = 0;
+		telnet->subreq_pos = 0;
 		break;
 
 	    default:

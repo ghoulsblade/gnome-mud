@@ -1,5 +1,14 @@
 2009-02-21  Les Harris  <lharris@gnome.org>
 
+	reviewed by: <delete if not using a buddy>
+
+	* src/mud-telnet.c (mud_telnet_process): Set subreq_position on TEL_SB
+	state change again.
+	* src/mud-window.c (mud_window_reconnect_cb): Now sets the Start Log
+	menuitem sensitive.
+
+2009-02-21  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.[ch] (mud_connection_view_add_text),
 	(mud_connection_view_islogging),
 	(mud_connection_view_network_event_cb),

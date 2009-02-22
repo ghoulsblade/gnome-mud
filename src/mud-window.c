@@ -228,6 +228,7 @@ mud_window_reconnect_cb(GtkWidget *widget, MudWindow *window)
 {
     if (window->priv->current_view != NULL)
     {
+        gtk_widget_set_sensitive(window->priv->startlog, TRUE);
         gtk_widget_set_sensitive(window->priv->menu_disconnect, TRUE);
         gtk_widget_set_sensitive(window->priv->toolbar_disconnect, TRUE);
         mud_connection_view_reconnect(MUD_CONNECTION_VIEW(window->priv->current_view));
