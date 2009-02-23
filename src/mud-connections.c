@@ -456,7 +456,7 @@ mud_connections_populate_iconview(MudConnections *conn)
 {
     GSList *muds, *characters, *mud_entry, *char_entry;
     gchar *key, *mud_name, *char_name, *display_name,
-	*name_strip, *char_strip, *buf;
+          *name_strip, *char_strip, *buf;
     GConfClient *client = gconf_client_get_default();
     GtkTreeIter iter;
     GdkPixbuf *icon;
@@ -466,93 +466,93 @@ mud_connections_populate_iconview(MudConnections *conn)
     g_free(key);
 
     for(mud_entry = muds; mud_entry != NULL;
-	mud_entry = g_slist_next(mud_entry))
+            mud_entry = g_slist_next(mud_entry))
     {
-	mud_name = g_path_get_basename((gchar *)mud_entry->data);
-	name_strip = NULL;
+        mud_name = g_path_get_basename((gchar *)mud_entry->data);
+        name_strip = NULL;
 
-	key = g_strdup_printf("/apps/gnome-mud/muds/%s/name", mud_name);
-	name_strip = gconf_client_get_string(client, key, NULL);
-	g_free(key);
+        key = g_strdup_printf("/apps/gnome-mud/muds/%s/name", mud_name);
+        name_strip = gconf_client_get_string(client, key, NULL);
+        g_free(key);
 
-	key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters",
-			      mud_name);
-	characters = gconf_client_all_dirs(client, key, NULL);
-	g_free(key);
+        key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters",
+                mud_name);
+        characters = gconf_client_all_dirs(client, key, NULL);
+        g_free(key);
 
-	char_entry = characters;
+        char_entry = characters;
 
-	if(char_entry == NULL) // No Characters
-	{
-	    key = g_strdup_printf("/apps/gnome-mud/muds/%s/icon", mud_name);
-	    buf = gconf_client_get_string(client, key, NULL);
-	    g_free(key);
+        if(char_entry == NULL) // No Characters
+        {
+            key = g_strdup_printf("/apps/gnome-mud/muds/%s/icon", mud_name);
+            buf = gconf_client_get_string(client, key, NULL);
+            g_free(key);
 
-	    if(buf && strcmp(buf, "gnome-mud") != 0)
-	    {
-		icon = gdk_pixbuf_new_from_file_at_size(
-		    buf, 48, 48, NULL);
-		g_free(buf);
-	    }
-	    else
-		icon =
-		    gtk_icon_theme_load_icon(gtk_icon_theme_get_default(),
-					     "gnome-mud", 48, 0, NULL);
+            if(buf && strcmp(buf, "gnome-mud") != 0)
+            {
+                icon = gdk_pixbuf_new_from_file_at_size(
+                        buf, 48, 48, NULL);
+                g_free(buf);
+            }
+            else
+                icon =
+                    gtk_icon_theme_load_icon(gtk_icon_theme_get_default(),
+                            "gnome-mud", 48, 0, NULL);
 
-	    gtk_list_store_append(
-		GTK_LIST_STORE(conn->priv->icon_model), &iter);
-	    gtk_list_store_set(
-		GTK_LIST_STORE(conn->priv->icon_model), &iter,
-		MODEL_COLUMN_STRING, name_strip,
-		MODEL_COLUMN_PIXBUF, icon,
-		-1);
+            gtk_list_store_append(
+                    GTK_LIST_STORE(conn->priv->icon_model), &iter);
+            gtk_list_store_set(
+                    GTK_LIST_STORE(conn->priv->icon_model), &iter,
+                    MODEL_COLUMN_STRING, name_strip,
+                    MODEL_COLUMN_PIXBUF, icon,
+                    -1);
 
-	    g_object_unref(icon);
-	    continue;
-	}
+            g_object_unref(icon);
+            continue;
+        }
 
-	for(char_entry = characters; char_entry != NULL;
-	    char_entry = g_slist_next(char_entry))
-	{
-	    char_strip = NULL;
-	    char_name = g_path_get_basename((gchar *)char_entry->data);
+        for(char_entry = characters; char_entry != NULL;
+                char_entry = g_slist_next(char_entry))
+        {
+            char_strip = NULL;
+            char_name = g_path_get_basename((gchar *)char_entry->data);
 
-	    key = g_strdup_printf(
-		"/apps/gnome-mud/muds/%s/characters/%s/name",
-		mud_name, char_name);
-	    char_strip = gconf_client_get_string(client, key, NULL);
-	    g_free(key);
+            key = g_strdup_printf(
+                    "/apps/gnome-mud/muds/%s/characters/%s/name",
+                    mud_name, char_name);
+            char_strip = gconf_client_get_string(client, key, NULL);
+            g_free(key);
 
-	    display_name = g_strconcat(char_strip, "\n", name_strip, NULL);
+            display_name = g_strconcat(char_strip, "\n", name_strip, NULL);
 
-	    key = g_strdup_printf("/apps/gnome-mud/muds/%s/icon", mud_name);
-	    buf = gconf_client_get_string(client, key, NULL);
-	    g_free(key);
+            key = g_strdup_printf("/apps/gnome-mud/muds/%s/icon", mud_name);
+            buf = gconf_client_get_string(client, key, NULL);
+            g_free(key);
 
-	    if(buf && strcmp(buf, "gnome-mud") != 0)
-	    {
-		icon = gdk_pixbuf_new_from_file_at_size(
-		    buf, 48, 48, NULL);
-		g_free(buf);
-	    }
-	    else
-		icon =
-		    gtk_icon_theme_load_icon(gtk_icon_theme_get_default(),
-					     "gnome-mud", 48, 0, NULL);
+            if(buf && strcmp(buf, "gnome-mud") != 0)
+            {
+                icon = gdk_pixbuf_new_from_file_at_size(
+                        buf, 48, 48, NULL);
+                g_free(buf);
+            }
+            else
+                icon =
+                    gtk_icon_theme_load_icon(gtk_icon_theme_get_default(),
+                            "gnome-mud", 48, 0, NULL);
 
-	    gtk_list_store_append(GTK_LIST_STORE(conn->priv->icon_model),
-				  &iter);
-	    gtk_list_store_set(GTK_LIST_STORE(conn->priv->icon_model),
-			       &iter,
-			       MODEL_COLUMN_STRING, display_name,
-			       MODEL_COLUMN_PIXBUF, icon,
-			       -1);
+            gtk_list_store_append(GTK_LIST_STORE(conn->priv->icon_model),
+                    &iter);
+            gtk_list_store_set(GTK_LIST_STORE(conn->priv->icon_model),
+                    &iter,
+                    MODEL_COLUMN_STRING, display_name,
+                    MODEL_COLUMN_PIXBUF, icon,
+                    -1);
 
-	    g_object_unref(icon);
-	    g_free(char_name);
-	    g_free(char_strip);
-	    g_free(display_name);
-	}
+            g_object_unref(icon);
+            g_free(char_name);
+            g_free(char_strip);
+            g_free(display_name);
+        }
 
         for(char_entry = characters; char_entry != NULL;
                 char_entry = g_slist_next(char_entry))
@@ -562,8 +562,8 @@ mud_connections_populate_iconview(MudConnections *conn)
         if(characters)
             g_slist_free(characters);
 
-	g_free(mud_name);
-	g_free(name_strip);
+        g_free(mud_name);
+        g_free(name_strip);
     }
 
     for(mud_entry = muds; mud_entry != NULL;

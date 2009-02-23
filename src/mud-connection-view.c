@@ -186,6 +186,8 @@ append_stock_menuitem(GtkWidget *menu, const gchar *text, GCallback callback, gp
                          "activate",
                          callback, data);
 
+    g_object_unref(client);
+
     return menu_item;
 }
 
@@ -351,6 +353,8 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
 
     if(text != NULL)
         g_free(text);
+
+    g_object_unref(client);
 }
 
 
@@ -667,6 +671,8 @@ mud_connection_view_reconnect(MudConnectionView *view)
     mud_connection_view_add_text(view, buf, System);
     g_free(buf);
 
+    g_object_unref(client);
+
     gnet_conn_connect(view->connection);
 }
 
@@ -758,6 +764,7 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
         }
 
         g_list_free(commands);
+        g_object_unref(client);
     }
 }
 
@@ -1069,6 +1076,8 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname,
     if(version)
         g_free(version);
 
+    g_object_unref(client);
+
     gnet_conn_connect(view->connection);
 
     return view;
@@ -1366,7 +1375,10 @@ mud_connection_view_queue_download(MudConnectionView *view, gchar *url, gchar *f
             item = (MudMSPDownloadItem *)g_queue_peek_nth(view->priv->download_queue, i);
 
             if(strcmp(item->url, url) == 0)
+            {
+                g_object_unref(client);
                 return;
+            }
         }
 
         item = NULL;
@@ -1382,6 +1394,8 @@ mud_connection_view_queue_download(MudConnectionView *view, gchar *url, gchar *f
         if(view->priv->downloading == FALSE)
             mud_connection_view_start_download(view);
     }
+
+    g_object_unref(client);
 }
 
 static void

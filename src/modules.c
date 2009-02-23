@@ -126,6 +126,8 @@ static void plugin_enable_check_cb (GtkWidget *widget, gpointer data)
     g_snprintf(path, 128, "/apps/gnome-mud/Plugins/%s/enbl", p->name);
     gconf_client_set_bool(client, path, p->enabled, &err);
   }
+
+  g_object_unref(client);
 }
 
 static void plugin_clist_select_row_cb (GtkWidget *clist, gint r, gint c, GdkEventButton *e, gpointer data)
@@ -455,6 +457,8 @@ static void plugin_check_enable(PLUGIN_OBJECT *plugin)
   g_snprintf(path, 128, "/apps/gnome-mud/Plugins/%s/enbl", plugin->name);
 
   plugin->enabled = gconf_client_get_bool(client, path, &err);
+
+  g_object_unref(client);
 }
 
 void plugin_register(PLUGIN_OBJECT *plugin)

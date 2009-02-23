@@ -286,7 +286,7 @@ MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
             continue;
         }
 
-        g_string_append_c(args, buf[count++]);
+        args = g_string_append_c(args, buf[count++]);
     }
 
     args = g_string_prepend(args, command_buf);

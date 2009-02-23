@@ -1,3 +1,31 @@
+2009-02-23  Les Harris  <lharris@gnome.org>
+
+	* src/modules.c (plugin_enable_check_cb), (plugin_check_enable):
+	* src/mud-connection-view.c (append_stock_menuitem),
+	(mud_connection_view_add_text), (mud_connection_view_reconnect),
+	(mud_connection_view_send), (mud_connection_view_new),
+	(mud_connection_view_queue_download): GConfClient Leak Fix
+	* src/mud-preferences-window.c
+	(mud_preferences_window_trigger_select_cb),
+	(mud_preferences_window_alias_select_cb),
+	(mud_preferences_window_trigger_enabled_toggle_cb),
+	(mud_preferences_window_trigger_gag_toggle_cb),
+	(mud_preferences_window_alias_enabled_toggle_cb),
+	(mud_preferences_window_trigger_del_cb),
+	(mud_preferences_window_alias_del_cb),
+	(mud_preferences_window_trigger_ok_cb),
+	(mud_preferences_window_alias_ok_cb),
+	(mud_preferences_window_populate_trigger_treeview),
+	(mud_preferences_window_populate_alias_treeview),
+	(mud_preferences_window_update_proxy_combo): Formatting, Gconf Client
+	Leak Fix
+	* src/mud-profile.c (mud_profile_finalize), (mud_profile_delete),
+	(mud_profile_new), (mud_profile_gconf_changed): Formatting,
+	GconfClient Leak Fix
+	* src/mud-telnet-handlers.c (MudHandler_ZMP_HandleSubNeg): GString
+	fix.
+	* src/mud-window.c (mud_window_finalize): GConfClient Leak Fix
+
 2009-02-22  Les Harris  <lharris@gnome.org>
 
 	* src/mud-connection-view.c (mud_connection_view_finalize),
