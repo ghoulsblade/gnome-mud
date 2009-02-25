@@ -147,15 +147,15 @@ mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
 
                 if(telnet->msp_parser.arg_buffer == NULL)
                     telnet->msp_parser.arg_buffer = g_string_new(NULL);
-                else
-                {
-                    /* This stops some craziness where g_string_append_c
-                       doesn't actually update the gstring. Glib bug? */
-                    temp = g_strdup(telnet->msp_parser.arg_buffer->str);
-                    g_string_free(telnet->msp_parser.arg_buffer, TRUE);
-                    telnet->msp_parser.arg_buffer = g_string_new(temp);
-                    g_free(temp);
-                }
+              //  else
+              //  {
+              //      /* This stops some craziness where g_string_append_c
+              //         doesn't actually update the gstring. Glib bug? */
+              //      temp = g_strdup(telnet->msp_parser.arg_buffer->str);
+              //      g_string_free(telnet->msp_parser.arg_buffer, TRUE);
+              //      telnet->msp_parser.arg_buffer = g_string_new(temp);
+              //      g_free(temp);
+              //  }
 
                 while(telnet->msp_parser.lex_pos_end < *len &&
                         buf->str[telnet->msp_parser.lex_pos_end] != ')')
@@ -535,7 +535,7 @@ mud_telnet_msp_command_free(MudMSPCommand *command)
 static void
 mud_telnet_msp_process_command(MudTelnet *telnet, MudMSPCommand *command)
 {
-    /*g_message("MSP Command Parse Results");
+      /*g_message("MSP Command Parse Results");
       g_print("Type: %s\n", (command->type == MSP_TYPE_SOUND) ? "Sound" :
       "Music" );
       g_print("Filename: %s\n", (command->fName != NULL) ? command->fName :
@@ -770,12 +770,12 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
 	    if(subdir->len != 0)
 		url_output = g_string_append(url_output, subdir->str);
 
-	    if(telnet->sound[type].current_command->T)
+/*	    if(telnet->sound[type].current_command->T)
 	    {
 		url_output = g_string_append(url_output, telnet->sound[type].current_command->T);
 		url_output = g_string_append_c(url_output, '/');
 	    }
-
+*/
 	    url_output = g_string_append(url_output, file_name->str);
 
 	    file_output = g_string_append(file_output, full_dir->str);

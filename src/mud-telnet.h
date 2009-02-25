@@ -68,7 +68,7 @@ G_BEGIN_DECLS
 #define TELOPT_ZMP			 93	// ZMP - http://www.awemud.net/zmp/draft.php
 
 // FIXME: What size should we use?
-#define TEL_SUBREQ_BUFFER_SIZE 256
+#define TEL_SUBREQ_BUFFER_SIZE 2048 
 #define TEL_HANDLERS_SIZE 256
 #define TELOPT_STATE_QUEUE_EMPTY	FALSE
 #define TELOPT_STATE_QUEUE_OPPOSITE	TRUE

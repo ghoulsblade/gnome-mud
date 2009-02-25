@@ -49,6 +49,10 @@ struct _MudConnectionsPrivate
     GtkTreeModel *icon_model;
     GtkTreeModel *profile_model;
 
+    GtkWidget *qconnect_host_entry;
+    GtkWidget *qconnect_port_entry;
+    GtkWidget *qconnect_connect_button;
+
     // Properties Dialog
     GtkWidget *properties_window;
     GtkWidget *name_entry;
@@ -110,6 +114,8 @@ static void mud_connections_property_save_cb(GtkWidget *widget,
 					     MudConnections *conn);
 static void mud_connections_property_icon_cb(GtkWidget *widget,
 					     MudConnections *conn);
+static void mud_connections_qconnect_cb(GtkWidget *widget,
+                                        MudConnections *conn);
 static gboolean mud_connections_property_changed_cb(GtkWidget *widget,
 						    GdkEventKey *event,
 						    MudConnections *conn);
@@ -187,6 +193,13 @@ mud_connections_init (MudConnections *conn)
     conn->priv->window = glade_xml_get_widget(glade, "mudviewwindow");
     conn->priv->iconview = glade_xml_get_widget(glade, "iconview");
 
+    conn->priv->qconnect_host_entry =
+        glade_xml_get_widget(glade, "qconnect_host_entry");
+    conn->priv->qconnect_port_entry =
+        glade_xml_get_widget(glade, "qconnect_port_entry");
+    conn->priv->qconnect_connect_button =
+        glade_xml_get_widget(glade, "qconnect_connect_button");
+
     conn->priv->icon_model =
         GTK_TREE_MODEL(gtk_list_store_new(MODEL_COLUMN_N,
                     G_TYPE_STRING,
@@ -231,11 +244,14 @@ mud_connections_init (MudConnections *conn)
     g_signal_connect(glade_xml_get_widget(glade, "properties_button"),
             "clicked", G_CALLBACK(mud_connections_properties_cb),
             conn);
+    g_signal_connect(conn->priv->qconnect_connect_button, "clicked",
+            G_CALLBACK(mud_connections_qconnect_cb), conn);
 
     mud_connections_populate_iconview(conn);
 
     gtk_widget_show_all(conn->priv->window);
     g_object_unref(glade);
+    g_object_unref(client);
 }
 
 static void
@@ -262,6 +278,8 @@ mud_connections_finalize (GObject *object)
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
+
+    g_object_unref(client);
 }
 
 // MudConnections Private Methods
@@ -366,6 +384,29 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
 }
 
 static void
+mud_connections_qconnect_cb(GtkWidget *widget, MudConnections *conn)
+{
+    MudConnectionView *view;
+    const gchar *host;
+    gint port =
+        gtk_spin_button_get_value_as_int(
+                GTK_SPIN_BUTTON(conn->priv->qconnect_port_entry));
+
+    host = gtk_entry_get_text(GTK_ENTRY(conn->priv->qconnect_host_entry));
+
+    if(strlen(host) != 0)
+    {
+        mud_tray_update_icon(conn->priv->tray, offline);
+        view = mud_connection_view_new("Default", host, port,
+                                       conn->priv->winwidget,
+                                       (GtkWidget *)conn->priv->tray, (gchar *)host);
+        mud_window_add_connection_view(conn->priv->parent, view, (gchar *)host);
+
+        gtk_widget_destroy(conn->priv->window);
+    }
+}
+
+static void
 mud_connections_add_cb(GtkWidget *widget, MudConnections *conn)
 {
     mud_connections_show_properties(conn, NULL);
@@ -378,7 +419,8 @@ mud_connections_delete_cb(GtkWidget *widget, MudConnections *conn)
 	gtk_icon_view_get_selected_items(
 	    GTK_ICON_VIEW(conn->priv->iconview));
     GtkTreeIter iter;
-    gchar *buf, *mud_name, *key, *strip_name;
+    gchar *buf, *mud_name, *key, *strip_name,
+          *strip_char_name,  *char_name;
     gchar **mud_tuple;
     gint len;
     GConfClient *client = gconf_client_get_default();
@@ -386,41 +428,77 @@ mud_connections_delete_cb(GtkWidget *widget, MudConnections *conn)
     if(g_list_length(selected) == 0)
 	return;
 
+    char_name = NULL;
+
     gtk_tree_model_get_iter(conn->priv->icon_model, &iter,
 			    (GtkTreePath *)selected->data);
     gtk_tree_model_get(conn->priv->icon_model, &iter, 0, &buf, -1);
 	
     mud_tuple = g_strsplit(buf, "\n", -1);
+    g_free(buf);
 
     len = g_strv_length(mud_tuple);
 
     switch(len)
     {
-    case 1:
-	mud_name = g_strdup(mud_tuple[0]);
-	break;
+        /* Delete Mud */
+        case 1:
+            mud_name = g_strdup(mud_tuple[0]);
+            break;
 
-    case 2:
-	mud_name = g_strdup(mud_tuple[1]);
-	break;
+        /* Delete Character */
+        case 2:
+            char_name = g_strdup(mud_tuple[0]);
+            mud_name = g_strdup(mud_tuple[1]);
+            break;
 
-    default:
-	g_warning("Malformed mud name passed to delete.");
+        default:
+            g_warning("Malformed mud name passed to delete.");
+            return;
+    }
+
+    if(!mud_connections_delete_confirm(mud_tuple[0]))
+    {
+        g_free(mud_name);
+
+        if(char_name)
+            g_free(char_name);
+
+        g_strfreev(mud_tuple);
+        g_object_unref(client);
+
 	return;
     }
 
     g_strfreev(mud_tuple);
 
-    if(!mud_connections_delete_confirm(buf))
-	return;
+    if(len == 1)
+    {
+        strip_name = remove_whitespace(mud_name);
+        
+        key = g_strdup_printf("/apps/gnome-mud/muds/%s", strip_name);
+        gconf_client_recursive_unset(client, key, 0, NULL);
+        
+        g_free(key);
+        
+        gconf_client_suggest_sync(client, NULL);
+    }
+    else if(len == 2)
+    {
+        strip_name = remove_whitespace(mud_name);
+        strip_char_name = remove_whitespace(char_name);
 
-    g_free(buf);
+        key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters/%s",
+                strip_name, strip_char_name);
 
-    strip_name = remove_whitespace(mud_name);
-    key = g_strdup_printf("/apps/gnome-mud/muds/%s", strip_name);
-    gconf_client_recursive_unset(client, key, 0, NULL);
-    g_free(key);
-    gconf_client_suggest_sync(client, NULL);
+        gconf_client_recursive_unset(client, key, 0, NULL);
+
+        g_free(key);
+        g_free(strip_char_name);
+        g_free(char_name);
+
+        gconf_client_suggest_sync(client, NULL);
+    }
 
     g_free(mud_name);
     g_free(strip_name);
@@ -446,9 +524,7 @@ mud_connections_properties_cb(GtkWidget *widget, MudConnections *conn)
 			    (GtkTreePath *)selected->data);
     gtk_tree_model_get(conn->priv->icon_model, &iter, 0, &buf, -1);
 
-    mud_connections_show_properties(conn, g_strdup(buf));
-
-    g_free(buf);
+    mud_connections_show_properties(conn, buf);
 }
 
 static void

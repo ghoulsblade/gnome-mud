@@ -1,8 +1,17 @@
-2009-02-23  Les Harris  <lharris@gnome.org>
+2009-02-24  Les Harris  <lharris@gnome.org>
 
-	* src/modules.c (plugin_enable_check_cb), (plugin_check_enable):
-	* src/mud-connection-view.c (append_stock_menuitem),
-	(mud_connection_view_add_text), (mud_connection_view_reconnect),
+	* src/mud-connections.c (mud_connections_init),
+	(mud_connections_finalize), (mud_connections_qconnect_cb),
+	(mud_connections_delete_cb), (mud_connections_properties_cb): Closed
+	some memory leaks. Now deletes characters properly without deleting
+	the entire mud. Added quick connect.
+	* src/mud-telnet-msp.c (mud_telnet_msp_parse),
+	(mud_telnet_msp_get_files): Disabled Zone in filepath for now since
+	all MSP muds seems to ignore the standard.
+	* src/mud-telnet.h: Increased subreq buffer to 2k
+	* ui/muds.glade: Added quickconnect ui.
+
+2009-02-24  Les Harris  <lharris@gnome.orgiew_reconnect),
 	(mud_connection_view_send), (mud_connection_view_new),
 	(mud_connection_view_queue_download): GConfClient Leak Fix
 	* src/mud-preferences-window.c
