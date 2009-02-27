@@ -1,3 +1,7 @@
+2009-02-27  Les Harris  <lharris@gnome.org>
+
+	* src/mud-telnet-mccp.c (mud_mccp_decompress): Reverted MCCP code.
+
 2009-02-27  Jordi Mallach  <jordi@sindominio.net>
 
 	* NEWS: Updated for 0.11.2.
