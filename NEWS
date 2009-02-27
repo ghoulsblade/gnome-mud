@@ -1,6 +1,23 @@
 NEWS for veteran GNOME-Mud users
 ================================
 
+GNOME-Mud 0.11.2 (27/02/2009)
+
+- Fix several crashers on connect and reconnect to muds [Les]
+- Fix other problems when disconnecting and reconnecting [Les]
+- The two connect dialogs are now merged into one [Les]
+- Removed Python plugins from the distribution [Les]
+- Fix character set issues. Convert client messages to the user's
+  character set before printing them. Avoid crashes if the user inputs
+  a character that cannot be converted to his character set [Les]
+- Fix default color settings for new profiles [Les]
+- Disable several options from the UI if no connection is active [Les]
+- Fix many memory leaks throughout the codebase [Les]
+- Remove several obsolete preference items [Les]
+- Several other bugfixes
+- Translations:
+  + Catalan [Jordi Mallach]
+
 GNOME-Mud 0.11.1 (16/02/2009)
 
 - Added MCCPv2 support [Les]
