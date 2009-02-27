@@ -1,5 +1,11 @@
 2009-02-27  Les Harris  <lharris@gnome.org>
 
+	* src/mud-preferences-window.c
+	(mud_preferences_window_fill_profiles): Preference window now auto
+	selects the default functionality pane on opening.
+
+2009-02-27  Les Harris  <lharris@gnome.org>
+
 	* src/gconf-helper.c (gm_gconf_load_preferences): Formatting, closed
 	leak.
 	* src/gnome-mud.c (main): Create .gnome-mud dir.

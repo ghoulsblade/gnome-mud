@@ -499,6 +499,7 @@ mud_preferences_window_fill_profiles (MudPreferencesWindow *window)
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
     GtkTreeSelection *selection;
+    GtkTreePath *path;
 
     store = gtk_tree_store_new (N_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_INT);
     gtk_tree_view_set_model(GTK_TREE_VIEW(window->priv->treeview), GTK_TREE_MODEL(store));
@@ -571,6 +572,9 @@ mud_preferences_window_fill_profiles (MudPreferencesWindow *window)
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
     g_signal_connect(G_OBJECT(selection), "changed",
             G_CALLBACK(mud_preferences_window_tree_selection_cb), window);
+
+    path = gtk_tree_path_new_first();
+    gtk_tree_selection_select_path(selection, path);
 }
 
 gboolean
