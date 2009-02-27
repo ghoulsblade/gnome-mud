@@ -445,10 +445,11 @@ static void
 mud_window_about_cb(GtkWidget *widget, MudWindow *window)
 {
     static const gchar * const authors[] = {
-        "Les Harris <lharris@gnome.org>",
+        "Robin Ericsson <lobbin@localhost.nu>",
         "Jordi Mallach <jordi@sindominio.net>",
         "Daniel Patton <seven-nation@army.com>",
-        "Robin Ericsson <lobbin@localhost.nu>",
+        "Les Harris <lharris@gnome.org>",
+        "Mart Raudsepp <leio@gentoo.org>"
         NULL
     };
 
@@ -464,7 +465,8 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
         NULL
     };
 
-    static const gchar copyright[] = "Copyright \xc2\xa9 1998-2008 Robin Ericsson";
+    static const gchar copyright[] = "Copyright \xc2\xa9 1998-2005 Robin Ericsson\n"
+                                     "Copyright \xc2\xa9 2005-2009 Les Harris";
 
     static const gchar comments[] = N_("A Multi-User Dungeon (MUD) client for GNOME");
 
