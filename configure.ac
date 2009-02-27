@@ -1,6 +1,6 @@
 dnl Configuration for GNOME-Mud -- a MUD client for the GNOME Desktop
 dnl
-dnl Copyright (C) 1999,2000,2001,2002,2003,2004,2005 Free Software Foundation, Inc.
+dnl Copyright (C) 1999,2000,2001,2002,2003,2004,2005,2006,2008,2009 Free Software Foundation, Inc.
 dnl
 dnl GNOME-Mud is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
@@ -19,17 +19,13 @@ dnl
 dnl Process this file with  autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
-AC_INIT([GNOME-Mud],[0.11.1], [gnome-mud-list@gnome.org], [gnome-mud])
+AC_INIT([GNOME-Mud],[0.11.2], [gnome-mud-list@gnome.org], [gnome-mud])
 AC_CONFIG_SRCDIR(src/gnome-mud.c)
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS([config.h])
 
 PKG_PROG_PKG_CONFIG(0.9.0)
-
-dnl Release date on LSM format (date +%d%b%y).
-LSMDATE="16Feb2009"
-AC_SUBST(LSMDATE)
 
 AM_MAINTAINER_MODE
 
@@ -143,7 +139,6 @@ AC_C_INLINE
 
 AC_CONFIG_FILES([
   Makefile
-  gnome-mud.lsm
   gnome-mud.spec
   data/Makefile
   data/icons/Makefile

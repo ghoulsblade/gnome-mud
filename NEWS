@@ -14,6 +14,8 @@ GNOME-Mud 0.11.2 (27/02/2009)
 - Disable several options from the UI if no connection is active [Les]
 - Fix many memory leaks throughout the codebase [Les]
 - Remove several obsolete preference items [Les]
+- Optimizations for MCCP code [Les]
+- Update credits dialog [Jordi]
 - Several other bugfixes
 - Translations:
   + Catalan [Jordi Mallach]
