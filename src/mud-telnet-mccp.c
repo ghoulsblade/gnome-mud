@@ -55,21 +55,22 @@ mud_mccp_decompress(MudTelnet *telnet, guchar *buffer, guint32 length)
 
         if(zstatus == Z_OK)
         {
-            for(i = 0; i < (4096 - telnet->compress_out->avail_out); ++i)
-                    ret = g_string_append_c(ret,
-                        (gchar)telnet->compress_out_buf[i]);
+            ret = g_string_append_len(ret, 
+                    telnet->compress_out_buf, 
+                    (4096 - telnet->compress_out->avail_out));
             continue;
         }
 
         if(zstatus == Z_STREAM_END)
         {
-            for(i = 0; i < (4096 - telnet->compress_out->avail_out); ++i)
-                ret = g_string_append_c(ret, (gchar)telnet->compress_out_buf[i]);
+            ret = g_string_append_len(ret, 
+                    telnet->compress_out_buf, 
+                    (4096 - telnet->compress_out->avail_out));
 
             if(telnet->compress_out->avail_in > 0)
-                for(i = 0; i < telnet->compress_out->avail_in; ++i)
-                    ret = g_string_append_c(ret,
-                            (gchar)telnet->compress_out->next_in[i]);
+                ret = g_string_append_len(ret, 
+                        telnet->compress_out->next_in, 
+                        telnet->compress_out->avail_in);
 
             inflateEnd(telnet->compress_out);
 

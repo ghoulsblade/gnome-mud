@@ -1,5 +1,12 @@
 2009-02-27  Les Harris  <lharris@gnome.org>
 
+	* src/mud-telnet-mccp.c (mud_mccp_decompress): Replaced character
+	iteration with g_string_append_len.
+	* ui/prefs.glade: Set the left treeview to no expand so the ui on the
+	right expands properly.
+
+2009-02-27  Les Harris  <lharris@gnome.org>
+
 	* gnome-mud.schemas.in: Pruned unused keys from schema.
 	* plugins/Makefile.am:
 	* plugins/automapper/Makefile:
