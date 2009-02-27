@@ -13,10 +13,7 @@ src/mud-telnet-mccp.c
 src/mud-tray.c
 src/mud-preferences-window.c
 src/mud-window.c
-ui/connect.glade
 ui/directions.glade
 ui/main.glade
 ui/muds.glade
 ui/prefs.glade
-
-plugins/automapper/map.c

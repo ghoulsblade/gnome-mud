@@ -67,22 +67,6 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/ui/tab_location</key>
-			<applyto>/apps/gnome-mud/ui/tab_location</applyto>
-			<owner>gnome-mud</owner>
-			<type>string</type>
-			<default>bottom</default>
-			<locale name="C">
-				<short>Tab location</short>
-				<long>
-				 The location of the connection tabs. Valid
-				 options are "left", "right", "top" and
-				 "bottom".
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
 			<key>/schemas/apps/gnome-mud/ui/scrollback_lines</key>
 			<applyto>/apps/gnome-mud/ui/scrollback_lines</applyto>
 			<owner>gnome-mud</owner>
@@ -265,38 +249,6 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/functionality/terminal_type</key>
-			<applyto>/apps/gnome-mud/functionality/terminal_type</applyto>
-			<owner>gnome-mud</owner>
-			<type>string</type>
-			<default>xterm</default>
-			<locale name="C">
-				<short>Terminal type</short>
-				<long>
-				 GNOME-Mud will attempt to transmit a terminal
-				 type (like ANSI or VT100) if the MUD requests
-				 one. This option sets the terminal type that
-				 will be sent.
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/functionality/mudlist_file</key>
-			<applyto>/apps/gnome-mud/functionality/mudlist_file</applyto>
-			<owner>gnome-mud</owner>
-			<type>string</type>
-			<default></default>
-			<locale name="C">
-				<short>Mudlist file</short>
-				<long>
-				 File where the mud list (used in the
-				 MudList dialog) will be read
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
 			<key>/schemas/apps/gnome-mud/functionality/scroll_on_output</key>
 			<applyto>/apps/gnome-mud/functionality/scroll_on_output</applyto>
 			<owner>gnome-mud</owner>
@@ -307,21 +259,6 @@
 				<long>
 				 If enabled, whenever there's new output the
 				 terminal will be scrolled to the bottom.
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/functionality/history_count</key>
-			<applyto>/apps/gnome-mud/functionality/history_count</applyto>
-			<owner>gnome-mud</owner>
-			<type>int</type>
-			<default>10</default>
-			<locale name="C">
-				<short>How many entries to keep in the command history</short>
-				<long>
-				 How many entries to keep in the command
-				 history.
 				</long>
 			</locale>
 		</schema>
@@ -356,23 +293,6 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/muds/list</key>
-			<applyto>/apps/gnome-mud/muds/list</applyto>
-			<owner>gnome-mud</owner>
-			<type>list</type>
-			<list_type>string</list_type>
-			<default>[]</default>
-			<locale name="C">
-				<short>List of Muds</short>
-				<long>
-				List of MUDs known to GNOME-Mud. The
-				list contains strings naming subdirectories
-				relative to /apps/gnome-mud/muds
-				</long>
-			</locale>
-		</schema>
-		
-		<schema>
 			<key>/schemas/apps/gnome-mud/profiles/list</key>
 			<applyto>/apps/gnome-mud/profiles/list</applyto>
 			<owner>gnome-mud</owner>
@@ -385,39 +305,6 @@
 				 List of profiles known to GNOME-Mud. The
 				 list contains strings naming subdirectories
 				 relative to /apps/gnome-mud/profiles.
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/connections/list</key>
-			<applyto>/apps/gnome-mud/connections/list</applyto>
-			<owner>gnome-mud</owner>
-			<type>list</type>
-			<list_type>string</list_type>
-			<default>[]</default>
-			<locale name="C">
-				<short>List of connections</short>
-				<long>
-				 List of connections known to GNOME-Mud. The
-				 list contains strings naming subdirectories
-				 relative to /apps/gnome-mud/connections.
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
-			<key>/schemas/apps/gnome-mud/mapper/unusual_exits</key>
-			<applyto>/apps/gnome-mud/mapper/unusual_exits</applyto>
-			<owner>gnome-mud</owner>
-			<type>string</type>
-			<default>path;in;out;town;farm;gates;gate;cave;valley;ruins;enter;hole;cottage</default>
-			<locale name="C">
-				<short>List of movement commands</short>
-				<long>
-				 List of commands which will be treated as
-				 movement commands by the automapper. A
-				 semicolon is used to separate each command.
 				</long>
 			</locale>
 		</schema>
@@ -477,7 +364,7 @@
 			<owner>gnome-mud</owner>
 			<type>list</type>
 			<list_type>string</list_type>
-			<default>[n,nw,e,se,s,sw,w,nw,u,d,look]</default>
+			<default>[n,nw,e,se,s,sw,w,ne,u,d,look]</default>
 			<locale name="C">
 				<short>Directional keybindings</short>
 			</locale>

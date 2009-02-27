@@ -538,56 +538,6 @@ mud_window_size_request(GtkWidget *widget, GdkEventConfigure *event, gpointer us
     return FALSE;
 }
 
-static void
-mud_window_connect_dialog(GtkWidget *widget, MudWindow *window)
-{
-    GladeXML *glade;
-    GtkWidget *dialog;
-    GtkWidget *entry_host;
-    GtkWidget *entry_port;
-    gint result;
-
-    glade = glade_xml_new(GLADEDIR "/connect.glade", "connect_window", NULL);
-    dialog = glade_xml_get_widget(glade, "connect_window");
-
-    entry_host = glade_xml_get_widget(glade, "entry_host");
-    entry_port = glade_xml_get_widget(glade, "entry_post");
-    gtk_entry_set_text(GTK_ENTRY(entry_host), window->priv->host);
-    gtk_entry_set_text(GTK_ENTRY(entry_port), window->priv->port);
-
-    result = gtk_dialog_run(GTK_DIALOG(dialog));
-    if (result == GTK_RESPONSE_OK)
-    {
-        MudConnectionView *view;
-        const gchar *host, *port;
-        gint iport;
-
-        g_free(window->priv->host);
-        host = gtk_entry_get_text(GTK_ENTRY(entry_host));
-        window->priv->host = g_strdup(host);
-
-        g_free(window->priv->port);
-        port = gtk_entry_get_text(GTK_ENTRY(entry_port));
-        window->priv->port = g_strdup(port);
-        iport = atoi(port);
-
-        if (iport < 1)
-        {
-            iport = 23;
-        }
-
-        mud_tray_update_icon(window->priv->tray, offline);
-
-        view = mud_connection_view_new("Default", host, iport, window->priv->window, (GtkWidget *)window->priv->tray, g_strdup(host));
-        mud_window_add_connection_view(window, view, g_strdup(host));
-
-
-    }
-
-    gtk_widget_destroy(dialog);
-    g_object_unref(glade);
-}
-
 gboolean
 save_dialog_vte_cb (VteTerminal *terminal,glong column,glong row,gpointer data)
 {
@@ -807,7 +757,6 @@ mud_window_init (MudWindow *window)
 
     /* connect connect buttons */
     g_signal_connect(glade_xml_get_widget(glade, "main_connect"), "activate", G_CALLBACK(mud_window_mconnect_dialog), window);
-    g_signal_connect(glade_xml_get_widget(glade, "menu_connect"), "activate", G_CALLBACK(mud_window_connect_dialog), window);
     g_signal_connect(glade_xml_get_widget(glade, "toolbar_connect"), "clicked", G_CALLBACK(mud_window_mconnect_dialog), window);
 
     /* connect disconnect buttons */

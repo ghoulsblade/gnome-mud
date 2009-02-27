@@ -1,6 +1,5 @@
 gladedir = $(pkgdatadir)
 glade_DATA = \
-	connect.glade		\
 	directions.glade	\
 	main.glade		\
 	muds.glade		\

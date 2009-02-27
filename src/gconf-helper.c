@@ -111,15 +111,12 @@ void gm_gconf_load_preferences(MudProfile *profile)
     GCONF_GET_COLOR(foreground_color,	ui,				Foreground);
     GCONF_GET_COLOR(background_color,	ui,				Background);
     GCONF_GET_INT(scrollback_lines,		ui,				Scrollback);
-    GCONF_GET_STRING(tab_location,		ui,				TabLocation);
     GCONF_GET_STRING(commdev, 			functionality,	CommDev);
     GCONF_GET_BOOLEAN(echo,     		functionality,	EchoText);
     GCONF_GET_BOOLEAN(keeptext,			functionality,	KeepText);
     GCONF_GET_BOOLEAN(system_keys,		functionality,	DisableKeys);
-    GCONF_GET_STRING(terminal_type,		functionality,	TerminalType);
     GCONF_GET_STRING(mudlist_file,		functionality,	MudListFile);
     GCONF_GET_BOOLEAN(scroll_on_output,	functionality,	ScrollOnOutput);
-    GCONF_GET_INT(history_count,		functionality,	History);
     GCONF_GET_INT(flush_interval,		functionality,	FlushInterval);
     GCONF_GET_STRING(encoding,          functionality,  Encoding);
     GCONF_GET_STRING(proxy_version,     functionality,  ProxyVersion);

@@ -146,9 +146,8 @@ mud_profile_finalize (GObject *object)
     profile = MUD_PROFILE(object);
 
     g_free(profile->priv->preferences.FontName);
-    g_free(profile->priv->preferences.TabLocation);
     g_free(profile->priv->preferences.CommDev);
-    g_free(profile->priv->preferences.TerminalType);
+   // g_free(profile->priv->preferences.TerminalType);
     g_free(profile->priv->preferences.MudListFile);
     g_free(profile->priv->preferences.LastLogDir);
 
@@ -318,8 +317,6 @@ mud_profile_copy_preferences(MudProfile *from, MudProfile *to)
     mud_profile_set_disablekeys(to, from->preferences->DisableKeys);
     mud_profile_set_scrolloutput(to, from->preferences->ScrollOnOutput);
     mud_profile_set_commdev(to, from->preferences->CommDev);
-    mud_profile_set_terminal(to, from->preferences->TerminalType);
-    mud_profile_set_history(to, from->preferences->History);
     mud_profile_set_scrollback(to, from->preferences->Scrollback);
     mud_profile_set_font(to, from->preferences->FontName);
     mud_profile_set_foreground(to, from->preferences->Foreground.red,
@@ -563,15 +560,6 @@ mud_profile_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry,
             profile->priv->preferences.UseRemoteDownload = bool_setting;
         }
     }
-    else if(strcmp(key, "history_count") == 0)
-    {
-        int_setting = 10;
-
-        if(val && val->type == GCONF_VALUE_INT)
-            int_setting = gconf_value_get_int(val);
-
-        mask.History = set_History(profile, int_setting);
-    }
     else if(strcmp(key, "scrollback_lines") == 0)
     {
         int_setting = 500;
@@ -589,15 +577,6 @@ mud_profile_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry,
             string_setting = gconf_value_get_string(val);
 
         mask.CommDev = set_CommDev(profile, string_setting);
-    }
-    else if(strcmp(key, "terminal_type") == 0)
-    {
-        string_setting = "gnome-mud";
-
-        if(val && val->type == GCONF_VALUE_STRING)
-            string_setting = gconf_value_get_string(val);
-
-        mask.TerminalType = set_TerminalType(profile, string_setting);
     }
     else if(strcmp(key, "font") == 0)
     {
