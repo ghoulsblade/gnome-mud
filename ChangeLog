@@ -2,7 +2,7 @@
 
 	* NEWS: Updated for 0.11.2.
 
-	* configure.ac: Stop generating a .lsm file for ibiblio.
+	* Makefile.am, configure.ac: Stop generating a .lsm file for ibiblio.
 	* gnome-mud.lsm.in: Removed.
 
 	* configure.ac: Release gnome-mud 0.11.2.

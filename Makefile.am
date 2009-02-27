@@ -27,7 +27,6 @@ EXTRA_DIST = \
 	ROADMAP \
 	config.rpath \
 	gnome-mud.desktop.in \
-	gnome-mud.lsm \
 	gnome-mud.spec \
 	intltool-extract.in \
 	intltool-merge.in \
