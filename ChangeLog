@@ -1,5 +1,9 @@
 2009-02-27  Les Harris  <lharris@gnome.org>
 
+	* ui/muds.glade: Put the custom connect ui into a GtkExpander.
+
+2009-02-27  Les Harris  <lharris@gnome.org>
+
 	* src/mud-preferences-window.c
 	(mud_preferences_window_fill_profiles): Preference window now auto
 	selects the default functionality pane on opening.
