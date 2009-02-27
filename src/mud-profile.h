@@ -21,72 +21,72 @@ typedef struct _MudPrefs              MudPrefs;
 
 struct _MudPrefs
 {
-	gboolean   EchoText;
-	gboolean   KeepText;
-	gboolean   AutoSave;
-	gboolean   DisableKeys;
-	gboolean   ScrollOnOutput;
-	gchar     *FontName;
-	gchar     *CommDev;
-	gchar     *TerminalType;
-	gchar     *MudListFile;
-	gchar     *LastLogDir;
-	gchar     *TabLocation;
-	gint       History;
-	gint       Scrollback;
-	gint       FlushInterval;
-	GdkColor   Foreground;
-	GdkColor   Background;
+    gboolean   EchoText;
+    gboolean   KeepText;
+    gboolean   AutoSave;
+    gboolean   DisableKeys;
+    gboolean   ScrollOnOutput;
+    gchar     *FontName;
+    gchar     *CommDev;
+    gchar     *TerminalType;
+    gchar     *MudListFile;
+    gchar     *LastLogDir;
+    gchar     *TabLocation;
+    gint       History;
+    gint       Scrollback;
+    gint       FlushInterval;
+    GdkColor   Foreground;
+    GdkColor   Background;
 
-	GSList	  *alias_names;
-	GSList	  *trigger_names;
+    GSList	  *alias_names;
+    GSList	  *trigger_names;
 
-	gboolean UseRemoteEncoding;
-	gboolean UseProxy;
-	gboolean UseRemoteDownload;
-	gchar *Encoding;
-	gchar *ProxyVersion;
-	gchar *ProxyHostname;
-	GdkColor   Colors[C_MAX];
+    gboolean UseRemoteEncoding;
+    gboolean UseProxy;
+    gboolean UseRemoteDownload;
+    gchar *Encoding;
+    gchar *ProxyVersion;
+    gchar *ProxyHostname;
+    GdkColor   Colors[C_MAX];
 };
 
 struct _MudProfile
 {
-	GObject parent_instance;
+    GObject parent_instance;
 
-	MudProfilePrivate *priv;
+    MudProfilePrivate *priv;
 
-	gchar *name;
-	MudPrefs *preferences;
+    gchar *name;
+    MudPrefs *preferences;
 };
 
 typedef struct
 {
-	unsigned int EchoText : 1;
-	unsigned int KeepText : 1;
-	unsigned int DisableKeys : 1;
-	unsigned int ScrollOnOutput : 1;
-	unsigned int CommDev : 1;
-	unsigned int TerminalType : 1;
-	unsigned int History : 1;
-	unsigned int Scrollback : 1;
-	unsigned int FontName : 1;
-	unsigned int Foreground : 1;
-	unsigned int Background : 1;
-	unsigned int Colors : 1;
-	unsigned int UseRemoteEncoding : 1;
-	unsigned int UseProxy : 1;
-	unsigned int Encoding : 1;
-	unsigned int ProxyVersion : 1;
-	unsigned int ProxyHostname : 1;
-	unsigned int UseRemoteDownload : 1;
+    unsigned int EchoText : 1;
+    unsigned int KeepText : 1;
+    unsigned int DisableKeys : 1;
+    unsigned int ScrollOnOutput : 1;
+    unsigned int CommDev : 1;
+    unsigned int TerminalType : 1;
+    unsigned int History : 1;
+    unsigned int Scrollback : 1;
+    unsigned int FontName : 1;
+    unsigned int Foreground : 1;
+    unsigned int Background : 1;
+    unsigned int Colors : 1;
+    unsigned int UseRemoteEncoding : 1;
+    unsigned int UseProxy : 1;
+    unsigned int Encoding : 1;
+    unsigned int ProxyVersion : 1;
+    unsigned int ProxyHostname : 1;
+    unsigned int UseRemoteDownload : 1;
 } MudProfileMask;
 
 struct _MudProfileClass
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
 
-	void (* changed) (MudProfile *profile, MudProfileMask *mask, gpointer data);
+    void (* changed) (MudProfile *profile, MudProfileMask *mask, gpointer data);
 };
 
 GType mud_profile_get_type (void) G_GNUC_CONST;

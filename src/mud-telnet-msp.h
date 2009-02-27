@@ -26,74 +26,74 @@
 
 typedef enum
 {
-	MSP_TYPE_SOUND,
-	MSP_TYPE_MUSIC
+    MSP_TYPE_SOUND,
+    MSP_TYPE_MUSIC
 } MudMSPTypes;
 
 typedef enum
 {
-	MSP_STATE_TEXT,
-	MSP_STATE_POSSIBLE_COMMAND,
-	MSP_STATE_COMMAND,
-	MSP_STATE_GET_ARGS,
-	MSP_STATE_PARSE_ARGS
+    MSP_STATE_TEXT,
+    MSP_STATE_POSSIBLE_COMMAND,
+    MSP_STATE_COMMAND,
+    MSP_STATE_GET_ARGS,
+    MSP_STATE_PARSE_ARGS
 } MudMSPStates;
 
 typedef struct MudMSPParser
 {
-	gboolean enabled;
+    gboolean enabled;
 
-	MudMSPStates state;
+    MudMSPStates state;
 
-	gint lex_pos_start;
-	gint lex_pos_end;
+    gint lex_pos_start;
+    gint lex_pos_end;
 
-	GString *output;
-	GString *arg_buffer;
+    GString *output;
+    GString *arg_buffer;
 } MudMSPParser;
 
 typedef struct MudMSPCommand
 {
-	MudMSPTypes type;
+    MudMSPTypes type;
 
-	gchar *fName;
+    gchar *fName;
 
-	gchar *V;
-	gchar *L;
-	gchar *P;
-	gchar *C;
-	gchar *T;
-	gchar *U;
+    gchar *V;
+    gchar *L;
+    gchar *P;
+    gchar *C;
+    gchar *T;
+    gchar *U;
 
-	gchar *mud_name;
-	gchar *sfx_type;
+    gchar *mud_name;
+    gchar *sfx_type;
 
-	gint volume;
-	gint priority;
-	gint initial_repeat_count;
-	gint current_repeat_count;
-	gboolean loop;
-	gboolean cont;
+    gint volume;
+    gint priority;
+    gint initial_repeat_count;
+    gint current_repeat_count;
+    gboolean loop;
+    gboolean cont;
 
 } MudMSPCommand;
 
 typedef struct MudMSPDownloadItem
 {
-	gchar *url;
-	gchar *file;
+    gchar *url;
+    gchar *file;
 } MudMSPDownloadItem;
 
 #include <gst/gst.h>
 typedef struct MudMSPSound
 {
-	gboolean playing;
-	gchar **files;
-	gint files_len;
+    gboolean playing;
+    gchar **files;
+    gint files_len;
 
-	GstElement *play;
-	GstBus *bus;
+    GstElement *play;
+    GstBus *bus;
 
-	MudMSPCommand *current_command;
+    MudMSPCommand *current_command;
 } MudMSPSound;
 
 void mud_telnet_msp_init(MudTelnet *telnet);

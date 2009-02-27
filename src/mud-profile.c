@@ -36,95 +36,89 @@ GList *profile_list = NULL;
 
 struct _MudProfilePrivate
 {
-	GConfClient *gconf_client;
+    GConfClient *gconf_client;
 
-	MudPrefs preferences;
-	gint in_notification_count;
+    MudPrefs preferences;
+    gint in_notification_count;
 
 };
+
+#define RETURN_IF_NOTIFYING(profile)  if ((profile)->priv->in_notification_count) return
 
 static void mud_profile_init          (MudProfile *profile);
 static void mud_profile_class_init    (MudProfileClass *profile);
 static void mud_profile_finalize      (GObject *object);
 static void mud_profile_gconf_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data);
 
-#define RETURN_IF_NOTIFYING(profile)  if ((profile)->priv->in_notification_count) return
+/* Profile Set Functions */
+static gboolean set_FontName(MudProfile *profile, const gchar *candidate);
+static gboolean set_CommDev(MudProfile *profile, const gchar *candidate);
+static gboolean set_History(MudProfile *profile, const gint candidate);
+static gboolean set_Scrollback(MudProfile *profile, const gint candidate);
+static gboolean set_ProxyVersion(MudProfile *profile, const gchar *candidate);
+static gboolean set_ProxyHostname(MudProfile *profile, const gchar *candidate);
+static gboolean set_Encoding(MudProfile *profile, const gchar *candidate);
+static gboolean set_TerminalType(MudProfile *profile, const gchar *candidate);
+static gboolean set_Foreground(MudProfile *profile, const gchar *candidate);
+static gboolean set_Background(MudProfile *profile, const gchar *candidate);
+static gboolean set_Colors(MudProfile *profile, const gchar *candidate);
+static void mud_profile_set_proxy_combo_full(MudProfile *profile, gchar *version);
 
-MudProfile*
-get_profile(const gchar *name)
-{
-	GList *entry = NULL;
-	MudProfile *profile;
+void mud_profile_set_scrolloutput (MudProfile *profile, gboolean value);
+void mud_profile_set_disablekeys (MudProfile *profile, gboolean value);
+void mud_profile_set_keeptext (MudProfile *profile, gboolean value);
+void mud_profile_set_echotext (MudProfile *profile, gboolean value);
+void mud_profile_set_commdev (MudProfile *profile, const gchar *value);
+void mud_profile_set_terminal (MudProfile *profile, const gchar *value);
+void mud_profile_set_encoding_combo(MudProfile *profile, const gchar *e);
+void mud_profile_set_encoding_check (MudProfile *profile, const gint value);
+void mud_profile_set_proxy_check (MudProfile *profile, const gint value);
+void mud_profile_set_msp_check (MudProfile *profile, const gint value);
+void mud_profile_set_proxy_combo(MudProfile *profile, GtkComboBox *combo);
+void mud_profile_set_proxy_entry (MudProfile *profile, const gchar *value);
+void mud_profile_set_font (MudProfile *profile, const gchar *value);
+void mud_profile_set_foreground (MudProfile *profile, guint r, guint g, guint b);
+void mud_profile_set_background (MudProfile *profile, guint r, guint g, guint b);
+void mud_profile_set_colors (MudProfile *profile, gint nr, guint r, guint g, guint b);
+void mud_profile_set_history(MudProfile *profile, const gint value);
+void mud_profile_set_scrollback(MudProfile *profile, const gint value);
 
-	entry = profile_list;
-
-	for (entry = profile_list; entry != NULL; entry = entry->next)
-	{
-		profile = MUD_PROFILE(entry->data);
-
-		if (!strcmp(profile->name, name))
-		{
-			return profile;
-		}
-	}
-
-	return NULL;
-}
-
-static char*
-color_to_string(const GdkColor *c)
-{
-	char *s;
-	char *ptr;
-
-	s = g_strdup_printf("#%2X%2X%2X", c->red / 256, c->green / 256, c->blue / 256);
-
-	for (ptr = s; *ptr; ptr++)
-	{
-		if (*ptr == ' ')
-		{
-			*ptr = '0';
-		}
-	}
-
-	return s;
-}
-
+/* MudProfile Class Functions */
 GType
 mud_profile_get_type (void)
 {
-	static GType object_type = 0;
+    static GType object_type = 0;
 
-	g_type_init();
+    g_type_init();
 
-	if (!object_type)
-	{
-		static const GTypeInfo object_info =
-		{
-			sizeof (MudProfileClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) mud_profile_class_init,
-			NULL,
-			NULL,
-			sizeof (MudProfile),
-			0,
-			(GInstanceInitFunc) mud_profile_init,
-		};
+    if (!object_type)
+    {
+        static const GTypeInfo object_info =
+        {
+            sizeof (MudProfileClass),
+            NULL,
+            NULL,
+            (GClassInitFunc) mud_profile_class_init,
+            NULL,
+            NULL,
+            sizeof (MudProfile),
+            0,
+            (GInstanceInitFunc) mud_profile_init,
+        };
 
-		object_type = g_type_register_static(G_TYPE_OBJECT, "MudProfile", &object_info, 0);
-	}
+        object_type = g_type_register_static(G_TYPE_OBJECT, "MudProfile", &object_info, 0);
+    }
 
-	return object_type;
+    return object_type;
 }
 
 static void
 mud_profile_init (MudProfile *profile)
 {
-	profile->priv = g_new0(MudProfilePrivate, 1);
-	profile->priv->in_notification_count = 0;
+    profile->priv = g_new0(MudProfilePrivate, 1);
+    profile->priv->in_notification_count = 0;
 
-	profile->priv->gconf_client = gconf_client_get_default();
+    profile->priv->gconf_client = gconf_client_get_default();
 }
 
 static void
@@ -167,42 +161,7 @@ mud_profile_finalize (GObject *object)
     parent_class->finalize(object);
 }
 
-void
-mud_profile_delete(const gchar *name)
-{
-    MudProfile *profile;
-    GSList *profiles, *entry, *rementry;
-    GError *error = NULL;
-    gchar buf[512];
-    GConfClient *client;
-
-    client = gconf_client_get_default();
-
-    rementry = NULL;
-    rementry = g_slist_append(rementry, NULL);
-    profile = get_profile(name);
-
-    if (profile)
-    {
-        profile_list = g_list_remove(profile_list, profile);
-
-        g_snprintf(buf, 512, "/apps/gnome-mud/profiles/list");
-        profiles = gconf_client_get_list(client, buf, GCONF_VALUE_STRING, &error);
-        for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
-        {
-            if (strcmp((gchar *)entry->data, name) == 0)
-            {
-                rementry->data = entry->data;
-            }
-        }
-
-        profiles = g_slist_remove(profiles, rementry->data);
-        gconf_client_set_list(client, buf, GCONF_VALUE_STRING, profiles, &error);
-    }
-
-    g_object_unref(client);
-}
-
+/* MudProfile Public Methods */
 MudProfile*
 mud_profile_new (const gchar *name)
 {
@@ -265,88 +224,453 @@ mud_profile_new (const gchar *name)
     return profile;
 }
 
-static gboolean
-set_TerminalType(MudProfile *profile, const gchar *candidate)
+void
+mud_profile_delete(const gchar *name)
 {
-    if (candidate && strcmp(profile->priv->preferences.TerminalType, candidate) == 0)
-        return FALSE;
+    MudProfile *profile;
+    GSList *profiles, *entry, *rementry;
+    GError *error = NULL;
+    gchar buf[512];
+    GConfClient *client;
 
-    if (candidate != NULL)
+    client = gconf_client_get_default();
+
+    rementry = NULL;
+    rementry = g_slist_append(rementry, NULL);
+    profile = get_profile(name);
+
+    if (profile)
     {
-        g_free(profile->priv->preferences.TerminalType);
-        profile->priv->preferences.TerminalType = g_strdup(candidate);
-        return TRUE;
+        profile_list = g_list_remove(profile_list, profile);
+
+        g_snprintf(buf, 512, "/apps/gnome-mud/profiles/list");
+        profiles = gconf_client_get_list(client, buf, GCONF_VALUE_STRING, &error);
+        for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
+        {
+            if (strcmp((gchar *)entry->data, name) == 0)
+            {
+                rementry->data = entry->data;
+            }
+        }
+
+        profiles = g_slist_remove(profiles, rementry->data);
+        gconf_client_set_list(client, buf, GCONF_VALUE_STRING, profiles, &error);
     }
 
-    return FALSE;
+    g_object_unref(client);
 }
 
-static gboolean
-set_Foreground(MudProfile *profile, const gchar *candidate)
+MudProfile*
+get_profile(const gchar *name)
 {
-    GdkColor color;
+    GList *entry = NULL;
+    MudProfile *profile;
 
-    if (candidate && gdk_color_parse(candidate, &color))
+    entry = profile_list;
+
+    for (entry = profile_list; entry != NULL; entry = entry->next)
     {
-        if (!gdk_color_equal(&color, &profile->priv->preferences.Foreground))
-        {
-            profile->priv->preferences.Foreground.red = color.red;
-            profile->priv->preferences.Foreground.green = color.green;
-            profile->priv->preferences.Foreground.blue = color.blue;
+        profile = MUD_PROFILE(entry->data);
 
-            return TRUE;
+        if (!strcmp(profile->name, name))
+            return profile;
+    }
+
+    return NULL;
+}
+
+void
+mud_profile_load_profiles ()
+{
+    GSList *profiles, *entry;
+    GConfClient *client;
+
+    g_return_if_fail(profile_list == NULL);
+
+    client = gconf_client_get_default();
+
+    profiles = gconf_client_get_list(client, "/apps/gnome-mud/profiles/list", GCONF_VALUE_STRING, NULL);
+
+    for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
+    {
+        MudProfile *profile;
+        gchar *pname, *epname;
+
+        pname = g_strdup((gchar *) entry->data);
+        epname = gconf_escape_key(pname, -1);
+
+        profile = mud_profile_new(pname);
+
+        g_free(epname);
+        g_free(pname);
+    }
+
+    g_object_unref(client);
+}
+
+void
+mud_profile_copy_preferences(MudProfile *from, MudProfile *to)
+{
+    gint i;
+
+    mud_profile_set_echotext(to, from->preferences->EchoText);
+    mud_profile_set_keeptext(to, from->preferences->KeepText);
+    mud_profile_set_disablekeys(to, from->preferences->DisableKeys);
+    mud_profile_set_scrolloutput(to, from->preferences->ScrollOnOutput);
+    mud_profile_set_commdev(to, from->preferences->CommDev);
+    mud_profile_set_terminal(to, from->preferences->TerminalType);
+    mud_profile_set_history(to, from->preferences->History);
+    mud_profile_set_scrollback(to, from->preferences->Scrollback);
+    mud_profile_set_font(to, from->preferences->FontName);
+    mud_profile_set_foreground(to, from->preferences->Foreground.red,
+            from->preferences->Foreground.green,
+            from->preferences->Foreground.blue);
+    mud_profile_set_background(to, from->preferences->Background.red,
+            from->preferences->Background.green,
+            from->preferences->Background.blue);
+
+    for (i = 0; i < C_MAX; i++)
+    {
+        mud_profile_set_colors(to, i, from->preferences->Colors[i].red,
+                from->preferences->Colors[i].green,
+                from->preferences->Colors[i].blue);
+    }
+
+    mud_profile_set_encoding_combo(to, from->preferences->Encoding);
+    mud_profile_set_encoding_check(to, from->preferences->UseRemoteEncoding);
+    mud_profile_set_proxy_check(to, from->preferences->UseProxy);
+    mud_profile_set_msp_check(to, from->preferences->UseRemoteDownload);
+    mud_profile_set_proxy_combo_full(to, from->preferences->ProxyVersion);
+    mud_profile_set_proxy_entry(to, from->preferences->ProxyHostname);
+}
+
+GList *
+mud_profile_process_command(MudProfile *profile, const gchar *data, GList *commandlist)
+{
+    gint i;
+    gchar **commands = g_strsplit(data, profile->preferences->CommDev, -1);
+
+    if(commands[0])
+    {
+        commandlist = g_list_append(commandlist, g_strdup(commands[0]));
+
+        for (i = 1; commands[i] != NULL; i++)
+            commandlist =
+                mud_profile_process_command(profile, commands[i], commandlist);
+    }
+
+    g_strfreev(commands);
+
+    return commandlist;
+}
+
+GList *
+mud_profile_process_commands(MudProfile *profile, const gchar *data)
+{
+    return mud_profile_process_command(profile, data, NULL);
+}
+
+gchar *
+mud_profile_from_number(gint num)
+{
+    GList *entry;
+    gint counter = 0;
+
+    for (entry = (GList *)profile_list; entry != NULL; entry = g_list_next(entry))
+    {
+        if (counter == num)
+            return (gchar *)MUD_PROFILE(entry->data)->name;
+
+        counter++;
+    }
+
+    return NULL;
+}
+
+gint
+mud_profile_num_from_name(gchar *name)
+{
+    GList *entry;
+    gint counter = 0;
+
+    for (entry = (GList *)profile_list; entry != NULL; entry = g_list_next(entry))
+    {
+        if (strcmp((gchar *)MUD_PROFILE(entry->data)->name, name) == 0)
+            return counter;
+
+        counter++;
+    }
+
+    return -1;
+}
+
+gchar *
+mud_profile_get_name(MudProfile *profile)
+{
+    return profile->name;
+}
+
+const GList*
+mud_profile_get_profiles ()
+{
+    return profile_list;
+}
+
+/* MudProfile Private Methods */
+static gchar *
+color_to_string(const GdkColor *c)
+{
+    gchar *s;
+    gchar *ptr;
+
+    s = g_strdup_printf("#%2X%2X%2X", c->red / 256, c->green / 256, c->blue / 256);
+
+    for (ptr = s; *ptr; ptr++)
+        if (*ptr == ' ')
+            *ptr = '0';
+
+    return s;
+}
+
+static const gchar *
+mud_profile_gconf_get_key(MudProfile *profile, const gchar *key)
+{
+    static gchar buf[2048];
+    gchar extra_path[512] = "";
+
+    if (strcmp(profile->name, "Default"))
+        g_snprintf(extra_path, 512, "profiles/%s/", profile->name);
+
+    g_snprintf(buf, 2048, "/apps/gnome-mud/%s%s", extra_path, key);
+
+    return buf;
+}
+
+static void
+mud_profile_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
+{
+    MudProfile *profile = MUD_PROFILE(data);
+    MudProfileMask mask;
+    GConfValue *val;
+    gchar *key;
+    gchar **path = NULL;
+
+    gboolean bool_setting;
+    gint int_setting;
+    const gchar *string_setting;
+
+    path = g_strsplit_set(gconf_entry_get_key(entry), "/", 6);
+
+    if (!strcmp(profile->name, "Default") && !strcmp(path[3], "profiles"))
+    {
+        g_strfreev(path);
+        return;
+    }
+
+    g_strfreev(path);
+
+    val = gconf_entry_get_value(entry);
+    key = g_path_get_basename(gconf_entry_get_key(entry));
+
+    if(strcmp(key, "echo") == 0)
+    {
+        bool_setting = TRUE;
+
+        if(val && val->type == GCONF_VALUE_BOOL)
+            bool_setting = gconf_value_get_bool(val);
+
+        if(bool_setting != profile->priv->preferences.EchoText)
+        {
+            mask.EchoText = TRUE;
+            profile->priv->preferences.EchoText = bool_setting;
         }
     }
-
-    return FALSE;
-}
-
-static gboolean
-set_Background(MudProfile *profile, const gchar *candidate)
-{
-    GdkColor color;
-
-    if (candidate && gdk_color_parse(candidate, &color))
+    else if(strcmp(key, "keeptext") == 0)
     {
-        if (!gdk_color_equal(&color, &profile->priv->preferences.Background))
-        {
-            profile->priv->preferences.Background.red = color.red;
-            profile->priv->preferences.Background.green = color.green;
-            profile->priv->preferences.Background.blue = color.blue;
+        bool_setting = FALSE;
 
-            return TRUE;
+        if(val && val->type == GCONF_VALUE_BOOL)
+            bool_setting = gconf_value_get_bool(val);
+
+        if(bool_setting != profile->priv->preferences.KeepText)
+        {
+            mask.KeepText = TRUE;
+            profile->priv->preferences.KeepText = bool_setting;
         }
     }
-
-    return FALSE;
-}
-
-static gboolean
-set_Colors(MudProfile *profile, const gchar *candidate)
-{
-    GdkColor *colors;
-    gint n_colors;
-
-    if (candidate)
+    else if(strcmp(key, "system_keys") == 0)
     {
-        gtk_color_selection_palette_from_string(candidate, &colors, &n_colors);
-        if (n_colors < C_MAX)
-        {
-            g_printerr(ngettext("Palette had %d entry instead of %d\n",
-                        "Palette had %d entries instead of %d\n",
-                        n_colors),
-                    n_colors, C_MAX);
+        bool_setting = FALSE;
 
-            return FALSE;
+        if(val && val->type == GCONF_VALUE_BOOL)
+            bool_setting = gconf_value_get_bool(val);
+
+        if(bool_setting != profile->priv->preferences.DisableKeys)
+        {
+            mask.DisableKeys = TRUE;
+            profile->priv->preferences.DisableKeys = bool_setting;
         }
-        memcpy(profile->priv->preferences.Colors, colors, C_MAX * sizeof(GdkColor));
-        g_free(colors);
-        return TRUE;
+    }
+    else if(strcmp(key, "scroll_on_output") == 0)
+    {
+        bool_setting = FALSE;
+
+        if(val && val->type == GCONF_VALUE_BOOL)
+            bool_setting = gconf_value_get_bool(val);
+
+        if(bool_setting != profile->priv->preferences.ScrollOnOutput)
+        {
+            mask.ScrollOnOutput = TRUE;
+            profile->priv->preferences.ScrollOnOutput = bool_setting;
+        }
+    }
+    else if(strcmp(key, "use_proxy") == 0)
+    {
+        bool_setting = FALSE;
+
+        if(val && val->type == GCONF_VALUE_BOOL)
+            bool_setting = gconf_value_get_bool(val);
+
+        if(bool_setting != profile->priv->preferences.UseProxy)
+        {
+            mask.UseProxy = TRUE;
+            profile->priv->preferences.UseProxy = bool_setting;
+        }
+    }
+    else if(strcmp(key, "remote_encoding") == 0)
+    {
+        bool_setting = FALSE;
+
+        if(val && val->type == GCONF_VALUE_BOOL)
+            bool_setting = gconf_value_get_bool(val);
+
+        if(bool_setting != profile->priv->preferences.UseRemoteEncoding)
+        {
+            mask.UseRemoteEncoding = TRUE;
+            profile->priv->preferences.UseRemoteEncoding = bool_setting;
+        }
+    }
+    else if(strcmp(key, "remote_download") == 0)
+    {
+        bool_setting = FALSE;
+
+        if(val && val->type == GCONF_VALUE_BOOL)
+            bool_setting = gconf_value_get_bool(val);
+
+        if(bool_setting != profile->priv->preferences.UseRemoteDownload)
+        {
+            mask.UseRemoteDownload = TRUE;
+            profile->priv->preferences.UseRemoteDownload = bool_setting;
+        }
+    }
+    else if(strcmp(key, "history_count") == 0)
+    {
+        int_setting = 10;
+
+        if(val && val->type == GCONF_VALUE_INT)
+            int_setting = gconf_value_get_int(val);
+
+        mask.History = set_History(profile, int_setting);
+    }
+    else if(strcmp(key, "scrollback_lines") == 0)
+    {
+        int_setting = 500;
+
+        if(val && val->type == GCONF_VALUE_INT)
+            int_setting = gconf_value_get_int(val);
+
+        mask.Scrollback = set_Scrollback(profile, int_setting);
+    }
+    else if(strcmp(key, "commdev") == 0)
+    {
+        string_setting = ";";
+
+        if(val && val->type == GCONF_VALUE_STRING)
+            string_setting = gconf_value_get_string(val);
+
+        mask.CommDev = set_CommDev(profile, string_setting);
+    }
+    else if(strcmp(key, "terminal_type") == 0)
+    {
+        string_setting = "gnome-mud";
+
+        if(val && val->type == GCONF_VALUE_STRING)
+            string_setting = gconf_value_get_string(val);
+
+        mask.TerminalType = set_TerminalType(profile, string_setting);
+    }
+    else if(strcmp(key, "font") == 0)
+    {
+        string_setting = "monospace 12";
+
+        if(val && val->type == GCONF_VALUE_STRING)
+            string_setting = gconf_value_get_string(val);
+
+        mask.FontName = set_FontName(profile, string_setting);
+    }
+    else if(strcmp(key, "foreground_color") == 0)
+    {
+        string_setting = "#FFFFFF";
+
+        if(val && val->type == GCONF_VALUE_STRING)
+            string_setting = gconf_value_get_string(val);
+
+        mask.Foreground = set_Foreground(profile, string_setting);
+    }
+    else if(strcmp(key, "background_color") == 0)
+    {
+        string_setting = "#FFFFFF";
+
+        if(val && val->type == GCONF_VALUE_STRING)
+            string_setting = gconf_value_get_string(val);
+
+        mask.Background = set_Background(profile, string_setting);
+    }
+    else if(strcmp(key, "palette") == 0)
+    {
+        string_setting =
+            "#000000:#AA0000:#00AA00:#AA5500:#0000AA:#AA00AA:#00AAAA:#AAAAAA:#555555:#FF5555:#55FF55:#FFFF55:#5555FF:#FF55FF:#55FFFF:#FFFFFF";
+        if(val && val->type == GCONF_VALUE_STRING)
+            string_setting = gconf_value_get_string(val);
+
+        mask.Colors = set_Colors(profile, string_setting);
+    }
+    else if(strcmp(key, "proxy_version") == 0)
+    {
+        string_setting = "5";
+
+        if(val && val->type == GCONF_VALUE_STRING)
+            string_setting = gconf_value_get_string(val);
+
+        mask.ProxyVersion = set_ProxyVersion(profile, string_setting);
+    }
+    else if(strcmp(key, "proxy_hostname") == 0)
+    {
+        string_setting = "127.0.0.1";
+
+        if(val && val->type == GCONF_VALUE_STRING)
+            string_setting = gconf_value_get_string(val);
+
+        mask.ProxyHostname = set_ProxyHostname(profile, string_setting);
+    }
+    else if(strcmp(key, "encoding") == 0)
+    {
+        string_setting = "127.0.0.1";
+
+        if(val && val->type == GCONF_VALUE_STRING)
+            string_setting = gconf_value_get_string(val);
+
+        mask.Encoding = set_Encoding(profile, string_setting);
     }
 
-    return FALSE;
+    if(key)
+        g_free(key);
+
+    g_signal_emit(G_OBJECT(profile), signal_changed, 0, &mask);
 }
 
+
+/* Profile Set Functions */
 static gboolean
 set_FontName(MudProfile *profile, const gchar *candidate)
 {
@@ -454,110 +778,6 @@ set_Encoding(MudProfile *profile, const gchar *candidate)
     }
 
     return FALSE;
-}
-
-static const gchar*
-mud_profile_gconf_get_key(MudProfile *profile, const gchar *key)
-{
-    static gchar buf[2048];
-    gchar extra_path[512] = "";
-
-    if (strcmp(profile->name, "Default"))
-    {
-        g_snprintf(extra_path, 512, "profiles/%s/", profile->name);
-    }
-
-    g_snprintf(buf, 2048, "/apps/gnome-mud/%s%s", extra_path, key);
-
-    return buf;
-}
-
-static void
-mud_profile_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer data)
-{
-    MudProfile *profile = MUD_PROFILE(data);
-    MudProfileMask mask;
-    GConfValue *val;
-    gchar *key;
-    gchar **path = NULL;
-
-    path = g_strsplit_set(gconf_entry_get_key(entry), "/", 6);
-
-    if (!strcmp(profile->name, "Default") && !strcmp(path[3], "profiles"))
-    {
-        g_strfreev(path);
-        return;
-    }
-
-    g_strfreev(path);
-
-    val = gconf_entry_get_value(entry);
-    key = g_path_get_basename(gconf_entry_get_key(entry));
-
-#define UPDATE_BOOLEAN(KName, FName, Preset)        \
-}                                               \
-    else if (strcmp(key, KName) == 0)                   \
-{                                               \
-    gboolean setting = (Preset);                \
-    \
-    if (val && val->type == GCONF_VALUE_BOOL)   \
-    setting = gconf_value_get_bool(val);    \
-    \
-    if (setting != profile->priv->preferences.FName)    \
-    {                                           \
-        mask.FName = TRUE;                      \
-        profile->priv->preferences.FName = setting;     \
-    }
-#define UPDATE_STRING(KName, FName, Preset)         \
-}                                               \
-    else if (strcmp(key, KName) == 0)                   \
-{                                               \
-    const gchar *setting = (Preset);            \
-    \
-    if (val && val->type == GCONF_VALUE_STRING) \
-    setting = gconf_value_get_string(val);  \
-    \
-    mask.FName = set_##FName(profile, setting);
-#define UPDATE_INTEGER(KName, FName, Preset)        \
-}                                               \
-    else if (strcmp(key, KName) == 0)                   \
-{                                               \
-    gint setting = (Preset);                    \
-    \
-    if (val && val->type == GCONF_VALUE_INT)    \
-    setting = gconf_value_get_int(val);     \
-    \
-    mask.FName = set_##FName(profile, setting);
-
-
-
-    if (0)
-    {
-        ;
-        UPDATE_BOOLEAN("echo",				EchoText,		TRUE);
-        UPDATE_BOOLEAN("keeptext",			KeepText,		FALSE);
-        UPDATE_BOOLEAN("system_keys",		DisableKeys,	FALSE);
-        UPDATE_BOOLEAN("scroll_on_output",	ScrollOnOutput,	FALSE);
-        UPDATE_STRING("commdev",			CommDev,		";");
-        UPDATE_STRING("terminal_type",		TerminalType,	"ansi");
-        UPDATE_INTEGER("history_count",		History,		10);
-        UPDATE_INTEGER("scrollback_lines",	Scrollback,		500);
-        UPDATE_STRING("font",				FontName,		"monospace 12");
-        UPDATE_STRING("foreground_color",	Foreground,		"#FFFFFF");
-        UPDATE_STRING("background_color",	Background,		"#000000");
-        UPDATE_STRING("palette",			Colors,			"#000000:#AA0000:#00AA00:#AA5500:#0000AA:#AA00AA:#00AAAA:#AAAAAA:#555555:#FF5555:#55FF55:#FFFF55:#5555FF:#FF55FF:#55FFFF:#FFFFFF");
-        UPDATE_STRING("proxy_version", ProxyVersion, "5");
-        UPDATE_STRING("proxy_hostname", ProxyHostname, "127.0.0.1");
-        UPDATE_STRING("encoding", Encoding, "ISO-8859-1");
-        UPDATE_BOOLEAN("use_proxy", UseProxy, FALSE);
-        UPDATE_BOOLEAN("remote_encoding", UseRemoteEncoding, FALSE);
-        UPDATE_BOOLEAN("remote_download", UseRemoteDownload, FALSE);
-    }
-
-#undef UPDATE_BOOLEAN
-#undef UPDATE_STRING
-#undef UPDATE_INTEGER
-    g_signal_emit(G_OBJECT(profile), signal_changed, 0, &mask);
 }
 
 void
@@ -774,137 +994,85 @@ mud_profile_set_scrollback(MudProfile *profile, const gint value)
     gconf_client_set_int(profile->priv->gconf_client, key, value, NULL);
 }
 
-void
-mud_profile_load_profiles ()
+static gboolean
+set_TerminalType(MudProfile *profile, const gchar *candidate)
 {
-    GSList *profiles, *entry;
+    if (candidate && strcmp(profile->priv->preferences.TerminalType, candidate) == 0)
+        return FALSE;
 
-    g_return_if_fail(profile_list == NULL);
-
-    profiles = gconf_client_get_list(gconf_client_get_default(), "/apps/gnome-mud/profiles/list", GCONF_VALUE_STRING, NULL);
-
-    for (entry = profiles; entry != NULL; entry = g_slist_next(entry))
+    if (candidate != NULL)
     {
-        MudProfile *profile;
-        gchar *pname, *epname;
-
-        pname = g_strdup((gchar *) entry->data);
-        epname = gconf_escape_key(pname, -1);
-
-        profile = mud_profile_new(pname);
-
-        g_free(epname);
-        g_free(pname);
+        g_free(profile->priv->preferences.TerminalType);
+        profile->priv->preferences.TerminalType = g_strdup(candidate);
+        return TRUE;
     }
+
+    return FALSE;
 }
 
-void
-mud_profile_copy_preferences(MudProfile *from, MudProfile *to)
+static gboolean
+set_Foreground(MudProfile *profile, const gchar *candidate)
 {
-    gint i;
+    GdkColor color;
 
-    mud_profile_set_echotext(to, from->preferences->EchoText);
-    mud_profile_set_keeptext(to, from->preferences->KeepText);
-    mud_profile_set_disablekeys(to, from->preferences->DisableKeys);
-    mud_profile_set_scrolloutput(to, from->preferences->ScrollOnOutput);
-    mud_profile_set_commdev(to, from->preferences->CommDev);
-    mud_profile_set_terminal(to, from->preferences->TerminalType);
-    mud_profile_set_history(to, from->preferences->History);
-    mud_profile_set_scrollback(to, from->preferences->Scrollback);
-    mud_profile_set_font(to, from->preferences->FontName);
-    mud_profile_set_foreground(to, from->preferences->Foreground.red,
-            from->preferences->Foreground.green,
-            from->preferences->Foreground.blue);
-    mud_profile_set_background(to, from->preferences->Background.red,
-            from->preferences->Background.green,
-            from->preferences->Background.blue);
-    for (i = 0; i < C_MAX; i++)
+    if (candidate && gdk_color_parse(candidate, &color))
     {
-        mud_profile_set_colors(to, i, from->preferences->Colors[i].red,
-                from->preferences->Colors[i].green,
-                from->preferences->Colors[i].blue);
-    }
-    mud_profile_set_encoding_combo(to, from->preferences->Encoding);
-    mud_profile_set_encoding_check(to, from->preferences->UseRemoteEncoding);
-    mud_profile_set_proxy_check(to, from->preferences->UseProxy);
-    mud_profile_set_msp_check(to, from->preferences->UseRemoteDownload);
-    mud_profile_set_proxy_combo_full(to, from->preferences->ProxyVersion);
-    mud_profile_set_proxy_entry(to, from->preferences->ProxyHostname);
-}
-
-GList *
-mud_profile_process_command(MudProfile *profile, const gchar *data, GList *commandlist)
-{
-    gint i;
-    gchar **commands = g_strsplit(data, profile->preferences->CommDev, -1);
-
-    if(commands[0])
-    {
-        commandlist = g_list_append(commandlist, g_strdup(commands[0]));
-
-        for (i = 1; commands[i] != NULL; i++)
+        if (!gdk_color_equal(&color, &profile->priv->preferences.Foreground))
         {
-            commandlist = mud_profile_process_command(profile, commands[i], commandlist);
+            profile->priv->preferences.Foreground.red = color.red;
+            profile->priv->preferences.Foreground.green = color.green;
+            profile->priv->preferences.Foreground.blue = color.blue;
+
+            return TRUE;
         }
     }
 
-    g_strfreev(commands);
-
-    return commandlist;
+    return FALSE;
 }
 
-GList *
-mud_profile_process_commands(MudProfile *profile, const gchar *data)
+static gboolean
+set_Background(MudProfile *profile, const gchar *candidate)
 {
-    return mud_profile_process_command(profile, data, NULL);
-}
+    GdkColor color;
 
-gchar *
-mud_profile_from_number(gint num)
-{
-    GList *entry;
-    gint counter = 0;
-
-    for (entry = (GList *)profile_list; entry != NULL; entry = g_list_next(entry))
+    if (candidate && gdk_color_parse(candidate, &color))
     {
-        if (counter == num)
+        if (!gdk_color_equal(&color, &profile->priv->preferences.Background))
         {
-            return (gchar *)MUD_PROFILE(entry->data)->name;
-        }
+            profile->priv->preferences.Background.red = color.red;
+            profile->priv->preferences.Background.green = color.green;
+            profile->priv->preferences.Background.blue = color.blue;
 
-        counter++;
+            return TRUE;
+        }
     }
 
-    return NULL;
+    return FALSE;
 }
 
-gint
-mud_profile_num_from_name(gchar *name)
+static gboolean
+set_Colors(MudProfile *profile, const gchar *candidate)
 {
-    GList *entry;
-    gint counter = 0;
+    GdkColor *colors;
+    gint n_colors;
 
-    for (entry = (GList *)profile_list; entry != NULL; entry = g_list_next(entry))
+    if (candidate)
     {
-        if (!strcmp((gchar *)MUD_PROFILE(entry->data)->name,name))
+        gtk_color_selection_palette_from_string(candidate, &colors, &n_colors);
+        if (n_colors < C_MAX)
         {
-            return counter;
-        }
+            g_printerr(ngettext("Palette had %d entry instead of %d\n",
+                        "Palette had %d entries instead of %d\n",
+                        n_colors),
+                    n_colors, C_MAX);
 
-        counter++;
+            return FALSE;
+        }
+        memcpy(profile->priv->preferences.Colors, colors, C_MAX * sizeof(GdkColor));
+        g_free(colors);
+        return TRUE;
     }
 
-    return -1;
+    return FALSE;
 }
 
-gchar *
-mud_profile_get_name(MudProfile *profile)
-{
-    return profile->name;
-}
-
-const GList*
-mud_profile_get_profiles ()
-{
-    return profile_list;
-}

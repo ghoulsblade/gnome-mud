@@ -1,3 +1,22 @@
+2009-02-27  Les Harris  <lharris@gnome.org>
+
+	* src/gconf-helper.c (gm_gconf_load_preferences): Formatting, closed
+	leak.
+	* src/gnome-mud.c (main): Create .gnome-mud dir.
+	* src/modules.c: Closed leak.
+	* src/mud-connection-view.c (mud_connection_view_new),
+	(mud_connection_view_http_cb): Allocate the mud name into the view.
+	* src/mud-parse-trigger.c (mud_parse_trigger_init): Formatting fixes.
+	* src/mud-profile.c: Closed memory leaks, formatting changes.
+	* src/mud-telnet-msp.c (mud_telnet_msp_parse),
+	(mud_telnet_msp_get_files): Completely disabled T parameter,
+	formatting.
+	* src/mud-telnet.c (mud_telnet_process): Closed memory leak.
+	* src/mud-window.[ch] (mud_window_textview_keypress),
+	(mud_window_about_cb), (mud_window_finalize), (mud_window_new): Added
+	missing comma, removed use of a gconf client stored in private.
+	* ui/muds.glade: Marked untranslatable string as such.
+
 2009-02-27  Jordi Mallach  <jordi@sindominio.net>
 
 	* src/mud-window.c mud_window_about_cb): Add Les Harris to the

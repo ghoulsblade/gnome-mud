@@ -997,6 +997,7 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname,
 
     view->priv->hostname = g_strdup(hostname);
     view->priv->port = port;
+    view->priv->mud_name = g_strdup(name);
 
     view->connection = gnet_conn_new(hostname, port,
             mud_connection_view_network_event_cb, view);
@@ -1439,6 +1440,7 @@ mud_connection_view_http_cb(GConnHttp *conn, GConnHttpEvent *event, gpointer dat
 
             if(!g_queue_is_empty(view->priv->download_queue))
                 mud_connection_view_start_download(view);
+
             break;
 
         case GNET_CONN_HTTP_TIMEOUT:

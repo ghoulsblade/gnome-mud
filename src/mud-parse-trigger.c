@@ -46,58 +46,57 @@ static void mud_parse_trigger_finalize (GObject *object);
 GType
 mud_parse_trigger_get_type (void)
 {
-	static GType object_type = 0;
+    static GType object_type = 0;
 
-	g_type_init();
+    g_type_init();
 
-	if (!object_type)
-	{
-		static const GTypeInfo object_info =
-		{
-			sizeof (MudParseTriggerClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) mud_parse_trigger_class_init,
-			NULL,
-			NULL,
-			sizeof (MudParseTrigger),
-			0,
-			(GInstanceInitFunc) mud_parse_trigger_init,
-		};
+    if (!object_type)
+    {
+        static const GTypeInfo object_info =
+        {
+            sizeof (MudParseTriggerClass),
+            NULL,
+            NULL,
+            (GClassInitFunc) mud_parse_trigger_class_init,
+            NULL,
+            NULL,
+            sizeof (MudParseTrigger),
+            0,
+            (GInstanceInitFunc) mud_parse_trigger_init,
+        };
 
-		object_type = g_type_register_static(G_TYPE_OBJECT, "MudParseTrigger", &object_info, 0);
-	}
+        object_type = g_type_register_static(G_TYPE_OBJECT, "MudParseTrigger", &object_info, 0);
+    }
 
-	return object_type;
+    return object_type;
 }
 
 static void
 mud_parse_trigger_init (MudParseTrigger *pt)
 {
-	pt->priv = g_new0(MudParseTriggerPrivate, 1);
-
+    pt->priv = g_new0(MudParseTriggerPrivate, 1);
 }
 
 static void
 mud_parse_trigger_class_init (MudParseTriggerClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS(klass);
+    GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-	object_class->finalize = mud_parse_trigger_finalize;
+    object_class->finalize = mud_parse_trigger_finalize;
 }
 
 static void
 mud_parse_trigger_finalize (GObject *object)
 {
-	MudParseTrigger *parse_trigger;
-	GObjectClass *parent_class;
+    MudParseTrigger *parse_trigger;
+    GObjectClass *parent_class;
 
-	parse_trigger = MUD_PARSE_TRIGGER(object);
+    parse_trigger = MUD_PARSE_TRIGGER(object);
 
-	g_free(parse_trigger->priv);
+    g_free(parse_trigger->priv);
 
-	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
-	parent_class->finalize(object);
+    parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
+    parent_class->finalize(object);
 }
 
 // MudParseTrigger Methods

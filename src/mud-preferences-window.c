@@ -530,8 +530,6 @@ mud_preferences_window_fill_profiles (MudPreferencesWindow *window)
             TYPE_COLUMN, GINT_TO_POINTER(COLUMN_TRIGGERS),
             -1);
 
-
-
     list = mud_profile_get_profiles();
     for (entry = (GList *) list; entry != NULL; entry = g_list_next(entry))
     {

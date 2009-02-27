@@ -25,19 +25,19 @@
 gchar *
 remove_whitespace(const gchar *string)
 {
-	gint i;
-	GString *s;
+    gint i;
+    GString *s;
 
-	if(string == NULL)
-		return NULL;
+    if(string == NULL)
+        return NULL;
 
-	s = g_string_new(NULL);
-	
-        for(i = 0; i < strlen(string); i++)
-		if(!g_ascii_isspace(string[i]))
-			s = g_string_append_c(s, string[i]);
+    s = g_string_new(NULL);
 
-	return g_string_free(s, FALSE);
+    for(i = 0; i < strlen(string); i++)
+        if(!g_ascii_isspace(string[i]))
+            s = g_string_append_c(s, string[i]);
+
+    return g_string_free(s, FALSE);
 }
 
 gchar *
@@ -54,7 +54,7 @@ strip_ansi(const gchar *orig)
         switch (*c)
         {
             case '\x1B': // Esc Character
-                while (*c && *c++ != 'm') ;
+                while (*c && *c++ != 'm');
                 break;
 
             case '\02': // HTML Open bracket
@@ -62,7 +62,7 @@ strip_ansi(const gchar *orig)
                 break;
 
             default:
-                buf = g_string_append_c(buf,  *c++);
+                buf = g_string_append_c(buf, *c++);
         }
     }
 

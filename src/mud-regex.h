@@ -16,14 +16,14 @@ typedef struct _MudRegexPrivate     MudRegexPrivate;
 
 struct _MudRegex
 {
-	GObject parent_instance;
+    GObject parent_instance;
 
-	MudRegexPrivate *priv;
+    MudRegexPrivate *priv;
 };
 
 struct _MudRegexClass
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
 };
 
 GType mud_regex_get_type (void) G_GNUC_CONST;

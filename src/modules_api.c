@@ -35,92 +35,92 @@ gboolean PluginGag;
 
 void plugin_gag_flag(void)
 {
-	PluginGag = TRUE;
+    PluginGag = TRUE;
 }
 
 void plugin_popup_message (gchar *message)
 {
-   popup_message (message);
+    popup_message (message);
 }
 
 void plugin_connection_send(gchar *text, MudConnectionView *view)
 {
-	mud_connection_view_send (view, text);
+    mud_connection_view_send (view, text);
 }
 
 void plugin_add_connection_text(gchar *message, gint color, MudConnectionView *view)
 {
-	mud_connection_view_add_text(view, message, color);
+    mud_connection_view_add_text(view, message, color);
 }
 
 gboolean plugin_register_menu (GModule *handle, gchar *name, gchar *function)
 {
-  	GtkSignalFunc  sig_function;
-  	GtkWidget *newMenuItem;
-	void *temp;
-	gpointer *sigptr;
+    GtkSignalFunc  sig_function;
+    GtkWidget *newMenuItem;
+    void *temp;
+    gpointer *sigptr;
 
-	/* Stupid hack for gmodule */
-	temp = (void *)&sig_function;
-	sigptr = (gpointer *)temp;
+    /* Stupid hack for gmodule */
+    temp = (void *)&sig_function;
+    sigptr = (gpointer *)temp;
 
     if (!g_module_symbol(handle, function, sigptr))
-	{
-    		g_message (_("Error while registering the menu: %s"), g_module_error());
-    		return FALSE;
-  	}
+    {
+        g_message (_("Error while registering the menu: %s"), g_module_error());
+        return FALSE;
+    }
 
-	newMenuItem = gtk_menu_item_new_with_label(name);
-	gtk_widget_show(newMenuItem);
+    newMenuItem = gtk_menu_item_new_with_label(name);
+    gtk_widget_show(newMenuItem);
 
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(pluginMenu), newMenuItem);
+    gtk_menu_shell_prepend(GTK_MENU_SHELL(pluginMenu), newMenuItem);
 
-	gtk_signal_connect(GTK_OBJECT(newMenuItem), "activate", sig_function, NULL);
+    gtk_signal_connect(GTK_OBJECT(newMenuItem), "activate", sig_function, NULL);
 
-	return TRUE;
+    return TRUE;
 }
 
 gboolean plugin_register_data (GModule *handle, gchar *function, PLUGIN_DATA_DIRECTION dir)
 {
-  PLUGIN_DATA    * data;
-  plugin_datafunc  datafunc;
-  void *temp;
-  gpointer *dataptr;
+    PLUGIN_DATA    * data;
+    plugin_datafunc  datafunc;
+    void *temp;
+    gpointer *dataptr;
 
-  /* Stupid hack for Gmodule */
-  temp = (void *)&datafunc;
-  dataptr = (gpointer *)temp;
+    /* Stupid hack for Gmodule */
+    temp = (void *)&datafunc;
+    dataptr = (gpointer *)temp;
 
-  if (!g_module_symbol(handle, function, dataptr))
-  {
-    g_message (_("Error while registering data %s: %s"), dir == PLUGIN_DATA_IN ? "incoming" : "outgoing",
-	       g_module_error());
-    return FALSE;
-  }
+    if (!g_module_symbol(handle, function, dataptr))
+    {
+        g_message (_("Error while registering data %s: %s"), dir == PLUGIN_DATA_IN ? "incoming" : "outgoing",
+                g_module_error());
+        return FALSE;
+    }
 
-  data = g_new0(PLUGIN_DATA, 1);
+    data = g_new0(PLUGIN_DATA, 1);
 
-  if ((data->plugin = plugin_get_plugin_object_by_handle(handle)) == NULL)
-    g_message(_("Error while getting plugin from handle."));
+    if ((data->plugin = plugin_get_plugin_object_by_handle(handle)) == NULL)
+        g_message(_("Error while getting plugin from handle."));
 
-  data->datafunc = datafunc;
-  data->dir      = dir;
+    data->datafunc = datafunc;
+    data->dir      = dir;
 
-  Plugin_data_list = g_list_append(Plugin_data_list, (gpointer) data);
+    Plugin_data_list = g_list_append(Plugin_data_list, (gpointer) data);
 
-  PluginGag = FALSE;
+    PluginGag = FALSE;
 
-  return TRUE;
+    return TRUE;
 }
 
 gboolean plugin_register_data_incoming (GModule *handle, gchar *function)
 {
-  return plugin_register_data (handle, function, PLUGIN_DATA_IN);
+    return plugin_register_data (handle, function, PLUGIN_DATA_IN);
 }
 
 gboolean plugin_register_data_outgoing (GModule *handle, gchar *function)
 {
-  return plugin_register_data (handle, function, PLUGIN_DATA_OUT);
+    return plugin_register_data (handle, function, PLUGIN_DATA_OUT);
 }
 
 //#endif /* __MODULE__ */

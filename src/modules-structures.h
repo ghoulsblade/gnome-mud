@@ -21,25 +21,25 @@ typedef enum { PLUGIN_DATA_IN, PLUGIN_DATA_OUT } PLUGIN_DATA_DIRECTION;
  * Structures
  */
 struct _plugin_data {
-  PLUGIN_OBJECT         *plugin;
-  plugin_datafunc        datafunc;
-  PLUGIN_DATA_DIRECTION  dir;
+    PLUGIN_OBJECT         *plugin;
+    plugin_datafunc        datafunc;
+    PLUGIN_DATA_DIRECTION  dir;
 };
 
 struct _plugin_info {
-  gchar            *plugin_name;
-  gchar            *plugin_author;
-  gchar            *plugin_version;
-  gchar            *plugin_descr;
-  plugin_initfunc   init_function;
+    gchar            *plugin_name;
+    gchar            *plugin_author;
+    gchar            *plugin_version;
+    gchar            *plugin_descr;
+    plugin_initfunc   init_function;
 };
 
 struct _plugin_object {
-  GModule     *handle;
-  gchar    *name;
-  gchar    *filename;
-  gboolean  enabled;
-  PLUGIN_INFO *info;
+    GModule     *handle;
+    gchar    *name;
+    gchar    *filename;
+    gboolean  enabled;
+    PLUGIN_INFO *info;
 };
 
 #endif

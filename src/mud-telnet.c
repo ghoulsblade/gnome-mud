@@ -85,23 +85,23 @@ mud_telnet_get_type (void)
     static GType object_type = 0;
 
     g_type_init();
-	
+
     if (!object_type)
     {
-	static const GTypeInfo object_info =
-	    {
-		sizeof (MudTelnetClass),
-		NULL,
-		NULL,
-		(GClassInitFunc) mud_telnet_class_init,
-		NULL,
-		NULL,
-		sizeof (MudTelnet),
-		0,
-		(GInstanceInitFunc) mud_telnet_init,
-	    };
+        static const GTypeInfo object_info =
+        {
+            sizeof (MudTelnetClass),
+            NULL,
+            NULL,
+            (GClassInitFunc) mud_telnet_class_init,
+            NULL,
+            NULL,
+            sizeof (MudTelnet),
+            0,
+            (GInstanceInitFunc) mud_telnet_init,
+        };
 
-	object_type = g_type_register_static(G_TYPE_OBJECT, "MudTelnet", &object_info, 0);
+        object_type = g_type_register_static(G_TYPE_OBJECT, "MudTelnet", &object_info, 0);
     }
 
     return object_type;
@@ -410,225 +410,225 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
 
     for (i = 0; i < count; ++i)
     {
-	switch (telnet->tel_state)
-	{
-	case TEL_STATE_TEXT:
+        switch (telnet->tel_state)
+        {
+            case TEL_STATE_TEXT:
 #ifdef ENABLE_MCCP
-            /* The following is only done when compressing is first
-               enabled in order to decompress any part of the buffer
-               that remains after the subnegotation takes place */
-            if(telnet->mccp && telnet->mccp_new)
-            {
-                GString *ret = NULL;
-                telnet->mccp_new = FALSE;
-
-                // decompress the rest of the buffer.
-                ret = mud_mccp_decompress(telnet, &buf[i], count - i);
-
-                if(telnet->buffer)
+                /* The following is only done when compressing is first
+                   enabled in order to decompress any part of the buffer
+                   that remains after the subnegotation takes place */
+                if(telnet->mccp && telnet->mccp_new)
                 {
-                    g_string_free(telnet->buffer, TRUE);
-                    telnet->buffer = NULL;
-                }
+                    GString *ret = NULL;
+                    telnet->mccp_new = FALSE;
 
-                if(ret == NULL)
-                {
-                    GString *ret_string =
-                        g_string_new_len(telnet->processed->str, telnet->pos);
-                
-                    *len = telnet->pos;
-                    telnet->pos= 0;
-
-                    if(telnet->processed)
-                    {
-                        g_string_free(telnet->processed, TRUE);
-                        telnet->processed = g_string_new(NULL);
-                    }
-
-                    return ret_string;
-                }
-
-                telnet->buffer = g_string_new(ret->str);
-
-                if(telnet->buffer->len == 0)
-                {
-                    GString *ret_string =
-                        g_string_new_len(telnet->processed->str, telnet->pos);
-                    *len = telnet->pos;
-
-                    telnet->pos= 0;
-
-                    if(telnet->processed)
-                    {
-                        g_string_free(telnet->processed, TRUE);
-                        telnet->processed = g_string_new(NULL);
-                    }
+                    // decompress the rest of the buffer.
+                    ret = mud_mccp_decompress(telnet, &buf[i], count - i);
 
                     if(telnet->buffer)
                     {
                         g_string_free(telnet->buffer, TRUE);
                         telnet->buffer = NULL;
                     }
-                    return ret_string;
+
+                    if(ret == NULL)
+                    {
+                        GString *ret_string =
+                            g_string_new_len(telnet->processed->str, telnet->pos);
+
+                        *len = telnet->pos;
+                        telnet->pos= 0;
+
+                        if(telnet->processed)
+                        {
+                            g_string_free(telnet->processed, TRUE);
+                            telnet->processed = g_string_new(NULL);
+                        }
+
+                        return ret_string;
+                    }
+
+                    telnet->buffer = g_string_new(ret->str);
+
+                    if(telnet->buffer->len == 0)
+                    {
+                        GString *ret_string =
+                            g_string_new_len(telnet->processed->str, telnet->pos);
+                        *len = telnet->pos;
+
+                        telnet->pos= 0;
+
+                        if(telnet->processed)
+                        {
+                            g_string_free(telnet->processed, TRUE);
+                            telnet->processed = g_string_new(NULL);
+                        }
+
+                        if(telnet->buffer)
+                        {
+                            g_string_free(telnet->buffer, TRUE);
+                            telnet->buffer = NULL;
+                        }
+                        return ret_string;
+                    }
+
+                    i = 0;
+                    count = telnet->buffer->len;
                 }
-
-                i = 0;
-                count = telnet->buffer->len;
-            }
 #endif
-	    if ((guchar)telnet->buffer->str[i] == (guchar)TEL_IAC)
-		telnet->tel_state = TEL_STATE_IAC;
-	    else
-	    {
-		telnet->processed = 
-                    g_string_append_c(telnet->processed, telnet->buffer->str[i]);
-		telnet->pos++;
-	    }
-	    break;
+                if ((guchar)telnet->buffer->str[i] == (guchar)TEL_IAC)
+                    telnet->tel_state = TEL_STATE_IAC;
+                else
+                {
+                    telnet->processed = 
+                        g_string_append_c(telnet->processed, telnet->buffer->str[i]);
+                    telnet->pos++;
+                }
+                break;
 
-	case TEL_STATE_IAC:
-	    switch ((guchar)telnet->buffer->str[i])
-	    {
-	    case (guchar)TEL_IAC:
-		telnet->pos++;
-		telnet->processed = 
-                    g_string_append_c(telnet->processed, telnet->buffer->str[i]);
-		telnet->tel_state = TEL_STATE_TEXT;
-		break;
+            case TEL_STATE_IAC:
+                switch ((guchar)telnet->buffer->str[i])
+                {
+                    case (guchar)TEL_IAC:
+                        telnet->pos++;
+                        telnet->processed = 
+                            g_string_append_c(telnet->processed, telnet->buffer->str[i]);
+                        telnet->tel_state = TEL_STATE_TEXT;
+                        break;
 
-	    case (guchar)TEL_DO:
-		telnet->tel_state = TEL_STATE_DO;
-		break;
+                    case (guchar)TEL_DO:
+                        telnet->tel_state = TEL_STATE_DO;
+                        break;
 
-	    case (guchar)TEL_DONT:
-		telnet->tel_state = TEL_STATE_DONT;
-		break;
+                    case (guchar)TEL_DONT:
+                        telnet->tel_state = TEL_STATE_DONT;
+                        break;
 
-	    case (guchar)TEL_WILL:
-		telnet->tel_state = TEL_STATE_WILL;
-		break;
+                    case (guchar)TEL_WILL:
+                        telnet->tel_state = TEL_STATE_WILL;
+                        break;
 
-	    case (guchar)TEL_NOP:
-		telnet->tel_state = TEL_STATE_TEXT;
-		break;
+                    case (guchar)TEL_NOP:
+                        telnet->tel_state = TEL_STATE_TEXT;
+                        break;
 
-	    case (guchar)TEL_GA:
-                // TODO: Hook up to triggers.
-		telnet->tel_state = TEL_STATE_TEXT;
-		break;
+                    case (guchar)TEL_GA:
+                        // TODO: Hook up to triggers.
+                        telnet->tel_state = TEL_STATE_TEXT;
+                        break;
 
-	    case (guchar)TEL_EOR_BYTE:
-                // TODO: Hook up to triggers.
-		telnet->tel_state = TEL_STATE_TEXT;
-		break;
+                    case (guchar)TEL_EOR_BYTE:
+                        // TODO: Hook up to triggers.
+                        telnet->tel_state = TEL_STATE_TEXT;
+                        break;
 
-	    case (guchar)TEL_WONT:
-		telnet->tel_state = TEL_STATE_WONT;
-		break;
+                    case (guchar)TEL_WONT:
+                        telnet->tel_state = TEL_STATE_WONT;
+                        break;
 
-	    case (guchar)TEL_SB:
-		telnet->tel_state = TEL_STATE_SB;
-		telnet->subreq_pos = 0;
-		break;
+                    case (guchar)TEL_SB:
+                        telnet->tel_state = TEL_STATE_SB;
+                        telnet->subreq_pos = 0;
+                        break;
 
-	    default:
-		g_warning("Illegal IAC command %d received", telnet->buffer->str[i]);
-		telnet->tel_state = TEL_STATE_TEXT;
-		break;
-	    }
-	    break;
+                    default:
+                        g_warning("Illegal IAC command %d received", telnet->buffer->str[i]);
+                        telnet->tel_state = TEL_STATE_TEXT;
+                        break;
+                }
+                break;
 
-        case TEL_STATE_DO:
-            mud_telnet_handle_positive_nego(
-                    telnet,
-                    (guchar)telnet->buffer->str[i],
-                    (guchar)TEL_WILL,
-                    (guchar)TEL_WONT, FALSE);
+            case TEL_STATE_DO:
+                mud_telnet_handle_positive_nego(
+                        telnet,
+                        (guchar)telnet->buffer->str[i],
+                        (guchar)TEL_WILL,
+                        (guchar)TEL_WONT, FALSE);
 
-            telnet->tel_state = TEL_STATE_TEXT;
-            break;
-
-        case TEL_STATE_WILL:
-            mud_telnet_handle_positive_nego(
-                    telnet,
-                    (guchar)telnet->buffer->str[i],
-                    (guchar)TEL_DO,
-                    (guchar)TEL_DONT, TRUE);
-
-            telnet->tel_state = TEL_STATE_TEXT;
-            break;
-
-        case TEL_STATE_DONT:
-            mud_telnet_handle_negative_nego(
-                    telnet,
-                    (guchar)telnet->buffer->str[i],
-                    (guchar)TEL_WILL,
-                    (guchar)TEL_WONT, FALSE);
-
-            telnet->tel_state = TEL_STATE_TEXT;
-            break;
-
-        case TEL_STATE_WONT:
-            mud_telnet_handle_negative_nego(
-                    telnet,
-                    (guchar)telnet->buffer->str[i],
-                    (guchar)TEL_DO,
-                    (guchar)TEL_DONT, TRUE);
-
-            telnet->tel_state = TEL_STATE_TEXT;
-            break;
-
-	case TEL_STATE_SB:
-	    if ((guchar)telnet->buffer->str[i] == (guchar)TEL_IAC)
-		telnet->tel_state = TEL_STATE_SB_IAC;
-	    else
-	    {
-		// FIXME: Handle overflow
-		if (telnet->subreq_pos >= TEL_SUBREQ_BUFFER_SIZE)
-		{
-		    g_warning("Subrequest buffer full. Oddities in output will happen. Sorry.");
-		    telnet->subreq_pos = 0;
-		    telnet->tel_state = TEL_STATE_TEXT;
-		}
-		else
-		    telnet->subreq_buffer[telnet->subreq_pos++] =
-                        (guchar)telnet->buffer->str[i];
-	    }
-	    break;
-
-	case TEL_STATE_SB_IAC:
-	    if ((guchar)telnet->buffer->str[i] == (guchar)TEL_IAC)
-	    {
-		if (telnet->subreq_pos >= TEL_SUBREQ_BUFFER_SIZE)
-		{
-		    g_warning("Subrequest buffer full. Oddities in output will happen. Sorry.");
-		    telnet->subreq_pos = 0;
-		    telnet->tel_state = TEL_STATE_TEXT;
-		}
-		else
-		    telnet->subreq_buffer[telnet->subreq_pos++] =
-                        (guchar)telnet->buffer->str[i];
-
-		telnet->tel_state = TEL_STATE_SB;
-	    }
-            else if ((guchar)telnet->buffer->str[i] == (guchar)TEL_SE)
-            {
-                telnet->subreq_buffer[telnet->subreq_pos++] =
-                    (guchar)telnet->buffer->str[i];
-
-                mud_telnet_on_handle_subnego(telnet);
-
-                telnet->subreq_pos = 0;
                 telnet->tel_state = TEL_STATE_TEXT;
-            } else {
-                g_warning("Erronous byte %d after an IAC inside a subrequest",
-                        telnet->buffer->str[i]);
-                
-                telnet->subreq_pos = 0;
+                break;
+
+            case TEL_STATE_WILL:
+                mud_telnet_handle_positive_nego(
+                        telnet,
+                        (guchar)telnet->buffer->str[i],
+                        (guchar)TEL_DO,
+                        (guchar)TEL_DONT, TRUE);
+
                 telnet->tel_state = TEL_STATE_TEXT;
-	    }
-	    break;
-	}
+                break;
+
+            case TEL_STATE_DONT:
+                mud_telnet_handle_negative_nego(
+                        telnet,
+                        (guchar)telnet->buffer->str[i],
+                        (guchar)TEL_WILL,
+                        (guchar)TEL_WONT, FALSE);
+
+                telnet->tel_state = TEL_STATE_TEXT;
+                break;
+
+            case TEL_STATE_WONT:
+                mud_telnet_handle_negative_nego(
+                        telnet,
+                        (guchar)telnet->buffer->str[i],
+                        (guchar)TEL_DO,
+                        (guchar)TEL_DONT, TRUE);
+
+                telnet->tel_state = TEL_STATE_TEXT;
+                break;
+
+            case TEL_STATE_SB:
+                if ((guchar)telnet->buffer->str[i] == (guchar)TEL_IAC)
+                    telnet->tel_state = TEL_STATE_SB_IAC;
+                else
+                {
+                    // FIXME: Handle overflow
+                    if (telnet->subreq_pos >= TEL_SUBREQ_BUFFER_SIZE)
+                    {
+                        g_warning("Subrequest buffer full. Oddities in output will happen. Sorry.");
+                        telnet->subreq_pos = 0;
+                        telnet->tel_state = TEL_STATE_TEXT;
+                    }
+                    else
+                        telnet->subreq_buffer[telnet->subreq_pos++] =
+                            (guchar)telnet->buffer->str[i];
+                }
+                break;
+
+            case TEL_STATE_SB_IAC:
+                if ((guchar)telnet->buffer->str[i] == (guchar)TEL_IAC)
+                {
+                    if (telnet->subreq_pos >= TEL_SUBREQ_BUFFER_SIZE)
+                    {
+                        g_warning("Subrequest buffer full. Oddities in output will happen. Sorry.");
+                        telnet->subreq_pos = 0;
+                        telnet->tel_state = TEL_STATE_TEXT;
+                    }
+                    else
+                        telnet->subreq_buffer[telnet->subreq_pos++] =
+                            (guchar)telnet->buffer->str[i];
+
+                    telnet->tel_state = TEL_STATE_SB;
+                }
+                else if ((guchar)telnet->buffer->str[i] == (guchar)TEL_SE)
+                {
+                    telnet->subreq_buffer[telnet->subreq_pos++] =
+                        (guchar)telnet->buffer->str[i];
+
+                    mud_telnet_on_handle_subnego(telnet);
+
+                    telnet->subreq_pos = 0;
+                    telnet->tel_state = TEL_STATE_TEXT;
+                } else {
+                    g_warning("Erronous byte %d after an IAC inside a subrequest",
+                            telnet->buffer->str[i]);
+
+                    telnet->subreq_pos = 0;
+                    telnet->tel_state = TEL_STATE_TEXT;
+                }
+                break;
+        }
     }
 
     if(telnet->buffer)
@@ -640,7 +640,7 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
     if(telnet->tel_state == TEL_STATE_TEXT)
     {
         GString *ret =
-            g_string_new_len(g_strdup(telnet->processed->str), telnet->pos);
+            g_string_new_len(telnet->processed->str, telnet->pos);
         *len = telnet->pos;
 
         telnet->pos= 0;

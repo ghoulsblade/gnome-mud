@@ -31,10 +31,6 @@
 #include <gst/gst.h>
 #endif
 
-#ifdef USE_PYTHON
-//#include <Python.h>
-#endif
-
 #include "gnome-mud.h"
 #include "gnome-mud-icons.h"
 #include "mud-connection-view.h"
@@ -43,108 +39,72 @@
 #include "modules.h"
 #include "utils.h"
 
-gboolean gconf_sanity_check_string (GConfClient *client, const gchar* key)
-{
-  gchar *string;
-  GError *error = NULL;
-
-  string = gconf_client_get_string (client, key, &error);
-
-  if (error) {
-    GtkWidget *dialog;
-    dialog = gtk_message_dialog_new (NULL,
-                                     0,
-                                     GTK_MESSAGE_ERROR,
-                                     GTK_BUTTONS_OK,
-                                     _("There was an error accessing GConf: %s"),
-                                     error->message);
-    gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
-    gtk_dialog_run(GTK_DIALOG(dialog));
-    return FALSE;
-  }
-  if (!string) {
-    GtkWidget *dialog;
-    dialog = gtk_message_dialog_new (NULL,
-                                     0,
-                                     GTK_MESSAGE_ERROR,
-                                     GTK_BUTTONS_OK,
-                                     "<span weight=\"bold\" size=\"larger\">%s</span>\n\n%s",
-                                     _("The default configuration values could not be retrieved correctly."),
-                                     _("Please check your GConf configuration, specifically that the schemas have been installed correctly."));
-    gtk_label_set_use_markup (GTK_LABEL (GTK_MESSAGE_DIALOG (dialog)->label), TRUE);
-    gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
-    gtk_dialog_run(GTK_DIALOG(dialog));
-    gtk_widget_destroy (dialog);
-    return FALSE;
-  }
-  g_free (string);
-  return TRUE;
-}
-
 int main (gint argc, char *argv[])
 {
-	GConfClient  *gconf_client;
-	GError       *err = NULL;
-	gchar         buf[500];
+    GConfClient  *client;
+    GError       *err = NULL;
+    gchar         buf[2048];
 
 #ifdef ENABLE_NLS
-	/* Initialize internationalization */
-	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-	textdomain(GETTEXT_PACKAGE);
+    /* Initialize internationalization */
+    bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+    textdomain(GETTEXT_PACKAGE);
 #endif
 
-	/* Initialize the GConf library */
-	if (!gconf_init(argc, argv, &err))
-	{
-		g_error(_("Failed to init GConf: %s"), err->message);
-		g_error_free(err);
-		return 1;
-	}
+    /* Initialize the GConf library */
+    if (!gconf_init(argc, argv, &err))
+    {
+        g_error(_("Failed to init GConf: %s"), err->message);
+        g_error_free(err);
+        return 1;
+    }
 
-	/* Initialize the Gnet library */
-	gnet_init();
+    /* Initialize the Gnet library */
+    gnet_init();
 
 #ifdef ENABLE_GST
-	/* Initialize GStreamer */
-	gst_init(&argc, &argv);
+    /* Initialize GStreamer */
+    gst_init(&argc, &argv);
 #endif
 
-	gtk_init(&argc, &argv);
+    gtk_init(&argc, &argv);
 
-	/* Start a GConf client */
-	gconf_client = gconf_client_get_default();
-	if (!gconf_sanity_check_string (gconf_client, "/apps/gnome-mud/functionality/terminal_type")) {
-		return 1;
-	}
-	gconf_client_add_dir(gconf_client, "/apps/gnome-mud", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+    client = gconf_client_get_default();
+    gconf_client_add_dir(client, "/apps/gnome-mud",
+            GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 
-	mud_profile_load_profiles();
+    g_snprintf(buf, 2048, "%s/.gnome-mud/", g_get_home_dir());
+    if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
+        mkdir(buf, 0777);
 
-	gtk_window_set_default_icon_name(GMUD_STOCK_ICON);
+    g_snprintf(buf, 2048, "%s/.gnome-mud/plugins/", g_get_home_dir());
+    if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
+        mkdir(buf, 0777 );
 
-	mud_window_new(gconf_client);
+    g_snprintf(buf, 2048, "%s/.gnome-mud/logs/", g_get_home_dir());
+    if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
+        mkdir(buf, 0777 );
 
-	g_snprintf(buf, 500, "%s/.gnome-mud/plugins/", g_get_home_dir());
-	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
-		mkdir(buf, 0777 );
+    g_snprintf(buf, 2048, "%s/.gnome-mud/audio/", g_get_home_dir());
+    if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
+        mkdir(buf, 0777 );
 
-	init_modules(buf);
-	init_modules(PKGDATADIR);
+    init_modules(buf);
+    init_modules(PKGDATADIR);
 
-	g_snprintf(buf, 500, "%s/.gnome-mud/logs/", g_get_home_dir());
-	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
-		mkdir(buf, 0777 );
+    gtk_about_dialog_set_url_hook(utils_activate_url, NULL, NULL);
 
-	g_snprintf(buf, 500, "%s/.gnome-mud/audio/", g_get_home_dir());
-	if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
-		mkdir(buf, 0777 );
+    mud_profile_load_profiles();
 
-	gtk_about_dialog_set_url_hook(utils_activate_url, NULL, NULL);
+    gtk_window_set_default_icon_name(GMUD_STOCK_ICON);
 
-	gtk_main();
-	
-	gconf_client_suggest_sync(gconf_client, &err);
+    mud_window_new();
 
-	return 0;
+    gtk_main();
+
+    gconf_client_suggest_sync(client, &err);
+    g_object_unref(client);
+
+    return 0;
 }

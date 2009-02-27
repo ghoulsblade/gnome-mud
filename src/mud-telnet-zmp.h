@@ -26,9 +26,9 @@ typedef void(*MudZMPFunction)(MudTelnet *telnet, gint argc, gchar **argv);
 
 typedef struct MudZMPCommand
 {
-	gchar *package;
-	gchar *name;
-	MudZMPFunction execute;
+    gchar *package;
+    gchar *name;
+    MudZMPFunction execute;
 } MudZMPCommand;
 
 void mud_zmp_init(MudTelnet *telnet);

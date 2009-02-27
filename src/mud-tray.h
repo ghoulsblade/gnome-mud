@@ -18,22 +18,22 @@ typedef struct _MudTrayPrivate     MudTrayPrivate;
 
 struct _MudTray
 {
-	GObject parent_instance;
+    GObject parent_instance;
 
-	MudTrayPrivate *priv;
+    MudTrayPrivate *priv;
 };
 
 struct _MudTrayClass
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
 };
 
 enum mud_tray_status
 {
-        offline,
-        offline_connecting,
-        online,
-        online_connecting
+    offline,
+    offline_connecting,
+    online,
+    online_connecting
         // could use a few more
 };
 

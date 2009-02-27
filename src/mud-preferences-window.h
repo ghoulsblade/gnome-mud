@@ -18,14 +18,14 @@ typedef struct _MudPreferencesWindowPrivate     MudPreferencesWindowPrivate;
 
 struct _MudPreferencesWindow
 {
-	GObject parent_instance;
+    GObject parent_instance;
 
-	MudPreferencesWindowPrivate *priv;
+    MudPreferencesWindowPrivate *priv;
 };
 
 struct _MudPreferencesWindowClass
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
 };
 
 GType mud_preferences_window_get_type (void) G_GNUC_CONST;

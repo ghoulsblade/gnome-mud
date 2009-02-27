@@ -44,41 +44,39 @@
 
 struct _MudWindowPrivate
 {
-	GConfClient *gconf_client;
+    GSList *mud_views_list;
 
-	GSList *mud_views_list;
+    GtkWidget *window;
+    GtkWidget *notebook;
+    GtkWidget *textview;
+    GtkWidget *textviewscroll;
 
-	GtkWidget *window;
-	GtkWidget *notebook;
-	GtkWidget *textview;
-	GtkWidget *textviewscroll;
+    GtkWidget *startlog;
+    GtkWidget *stoplog;
+    GtkWidget *bufferdump;
 
-	GtkWidget *startlog;
-	GtkWidget *stoplog;
-	GtkWidget *bufferdump;
+    GtkWidget *menu_close;
+    GtkWidget *menu_reconnect;
+    GtkWidget *menu_disconnect;
+    GtkWidget *toolbar_disconnect;
+    GtkWidget *toolbar_reconnect;
 
-        GtkWidget *menu_close;
-        GtkWidget *menu_reconnect;
-        GtkWidget *menu_disconnect;
-        GtkWidget *toolbar_disconnect;
-        GtkWidget *toolbar_reconnect;
+    GtkWidget *blank_label;
+    GtkWidget *current_view;
 
-	GtkWidget *blank_label;
-	GtkWidget *current_view;
+    GtkWidget *mi_profiles;
 
-	GtkWidget *mi_profiles;
+    GtkWidget *image;
 
-	GtkWidget *image;
+    GSList *profileMenuList;
 
-	GSList *profileMenuList;
+    gchar *host;
+    gchar *port;
 
-	gchar *host;
-	gchar *port;
+    gint nr_of_tabs;
+    gint textview_line_height;
 
-	gint nr_of_tabs;
-	gint textview_line_height;
-
-	MudTray *tray;
+    MudTray *tray;
 };
 
 typedef struct MudViewEntry
@@ -306,6 +304,7 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->textview));
     GtkTextIter start, end;
     MudParseBase *base;
+    GConfClient *client = gconf_client_get_default();
 
     if ((event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) &&
             (event->state & gtk_accelerator_get_default_mod_mask()) == 0)
@@ -327,14 +326,18 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *w
             g_free(text);
         }
 
-        if (gconf_client_get_bool(window->priv->gconf_client,
+        if (gconf_client_get_bool(client,
                     "/apps/gnome-mud/functionality/keeptext", NULL) == FALSE)
             gtk_text_buffer_delete(buffer, &start, &end);
         else
             gtk_text_buffer_select_range(buffer, &start, &end);
 
+        g_object_unref(client);
+
         return TRUE;
     }
+
+    g_object_unref(client);
 
     if(window->priv->current_view)
     {
@@ -449,7 +452,7 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *window)
         "Jordi Mallach <jordi@sindominio.net>",
         "Daniel Patton <seven-nation@army.com>",
         "Les Harris <lharris@gnome.org>",
-        "Mart Raudsepp <leio@gentoo.org>"
+        "Mart Raudsepp <leio@gentoo.org>",
         NULL
     };
 
@@ -909,8 +912,6 @@ mud_window_finalize (GObject *object)
         g_object_unref(((MudViewEntry *)entry->data)->view);
     }
 
-    g_object_unref(window->priv->gconf_client);
-
     g_free(window->priv);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
@@ -987,12 +988,7 @@ mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, guint length,
 }
 
 MudWindow*
-mud_window_new (GConfClient *client)
+mud_window_new (void)
 {
-    MudWindow *window;
-
-    window = g_object_new(MUD_TYPE_WINDOW, NULL);
-    window->priv->gconf_client = client;
-
-    return window;
+    return g_object_new(MUD_TYPE_WINDOW, NULL);
 }

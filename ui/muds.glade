@@ -164,7 +164,7 @@
             </child>
             <child>
               <widget class="GtkButton" id="qconnect_connect_button">
-                <property name="label" translatable="yes">gtk-connect</property>
+                <property name="label" translatable="no">gtk-connect</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
