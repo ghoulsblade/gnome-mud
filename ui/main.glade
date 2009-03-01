@@ -532,6 +532,7 @@
             <child>
               <widget class="GtkToolButton" id="toolbar_clear">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-clear</property>
               </widget>

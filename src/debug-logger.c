@@ -52,6 +52,7 @@ typedef struct DomainHandler
     gboolean default_domain;
 
     GtkTreeView *view;
+    GtkWidget *child;
 } DomainHandler;
 
 enum
@@ -107,6 +108,8 @@ static void debug_logger_save_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_copy_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_select_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_clear_clicked(GtkWidget *widget, DebugLogger *logger);
+static void debug_logger_switch_page(GtkNotebook *notebook, GtkNotebookPage *page,
+                                     guint page_num, DebugLogger *logger);
 
 /* Class Functions */
 static void
@@ -137,6 +140,8 @@ debug_logger_init(DebugLogger *self)
 
     self->priv->notebook = GTK_NOTEBOOK(gtk_notebook_new());
 
+    g_object_set(self->priv->notebook, "homogeneous", TRUE, NULL);
+
     gtk_box_pack_end(GTK_BOX(self->priv->vbox), 
                      GTK_WIDGET(self->priv->notebook),
                      TRUE, TRUE, 0);
@@ -159,6 +164,10 @@ debug_logger_init(DebugLogger *self)
 
     g_signal_connect(self->priv->toolbar_clear, "clicked",
                      G_CALLBACK(debug_logger_clear_clicked),
+                     self);
+    
+    g_signal_connect(self->priv->notebook, "switch-page",
+                     G_CALLBACK(debug_logger_switch_page),
                      self);
 
     gtk_widget_show_all(GTK_WIDGET(self->priv->window));
@@ -640,6 +649,22 @@ debug_logger_clear_clicked(GtkWidget *widget, DebugLogger *logger)
     gtk_list_store_clear(store);
 }
 
+static void
+debug_logger_switch_page(GtkNotebook *notebook, GtkNotebookPage *page,
+                         guint page_num, DebugLogger *logger)
+{
+    GtkWidget *current_page =
+        gtk_notebook_get_nth_page(logger->priv->notebook, page_num);
+    GtkWidget *box = gtk_notebook_get_tab_label(logger->priv->notebook,
+            current_page);
+    GList *list = gtk_container_get_children(GTK_CONTAINER(box));
+    GtkImage *image = GTK_IMAGE(list->data);
+
+    g_list_free(list);
+
+    gtk_image_set_from_stock(image, GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU);
+}
+
 /* Private Methods */
 static void 
 debug_logger_log_func (const gchar *log_domain,
@@ -709,6 +734,19 @@ debug_logger_log_func (const gchar *log_domain,
                 MSG_COLUMN, message,
                 -1);
 
+    if(gtk_notebook_get_current_page(logger->priv->notebook) != 
+            gtk_notebook_page_num(logger->priv->notebook, handler->child))
+    {
+        GtkWidget *box = gtk_notebook_get_tab_label(logger->priv->notebook,
+                handler->child);
+        GList *list = gtk_container_get_children(GTK_CONTAINER(box));
+        GtkImage *image = GTK_IMAGE(list->data);
+
+        g_list_free(list);
+
+        gtk_image_set_from_stock(image, GTK_STOCK_ADD, GTK_ICON_SIZE_MENU);
+    }
+
     path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &iter);
     gtk_tree_view_scroll_to_cell(handler->view, path, NULL, FALSE, 0, 0);
     gtk_tree_path_free(path);
@@ -772,6 +810,8 @@ debug_logger_add_domain(DebugLogger *logger,
     GtkTreeViewColumn *column;
     GtkCellRenderer *renderer;
     GtkTreeSelection *selection;
+    GtkHBox *hbox;
+    GtkImage *image;
     DomainHandler *new_handler;
 
     g_return_if_fail(IS_DEBUG_LOGGER(logger));
@@ -781,6 +821,7 @@ debug_logger_add_domain(DebugLogger *logger,
 
     new_handler = g_new0(DomainHandler, 1);
     new_handler->view = NULL;
+    new_handler->child = NULL;
 
 #ifdef ENABLE_DEBUG_LOGGER
     tab_label = gtk_label_new(domain_name);
@@ -819,15 +860,28 @@ debug_logger_add_domain(DebugLogger *logger,
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
 
     gtk_container_add(GTK_CONTAINER(scrolled_window), treeview);
-    gtk_notebook_append_page(logger->priv->notebook, scrolled_window, tab_label);
+
+    hbox = GTK_HBOX(gtk_hbox_new(FALSE, 0));
+    image = GTK_IMAGE(gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU));
+
+    gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(image), FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), tab_label, TRUE, TRUE, 0);
+
+    gtk_widget_show_all(GTK_WIDGET(hbox));
+
+    gtk_notebook_append_page(logger->priv->notebook, scrolled_window, GTK_WIDGET(hbox));
+    gtk_notebook_set_tab_label_packing(logger->priv->notebook, scrolled_window,
+            TRUE, TRUE, GTK_PACK_START);
 
     gtk_widget_show_all(GTK_WIDGET(logger->priv->notebook));
 
+    new_handler->child = scrolled_window;
     new_handler->view = GTK_TREE_VIEW(treeview);
 
     gtk_widget_set_sensitive(logger->priv->toolbar_save, TRUE);
     gtk_widget_set_sensitive(logger->priv->toolbar_copy, TRUE);
     gtk_widget_set_sensitive(logger->priv->toolbar_select, TRUE);
+    gtk_widget_set_sensitive(logger->priv->toolbar_clear, TRUE);
 
 #endif
 
@@ -869,10 +923,14 @@ debug_logger_remove_domain(DebugLogger *logger,
             {
                 GtkWidget *current_page =
                     gtk_notebook_get_nth_page(logger->priv->notebook, i);
+                GtkWidget *box = gtk_notebook_get_tab_label(logger->priv->notebook,
+                        current_page);
+                GList *list = gtk_container_get_children(GTK_CONTAINER(box));
+                GtkLabel *label = GTK_LABEL(list->next->data);
 
-                if( strcmp(domain_name,
-                           gtk_notebook_get_tab_label_text(logger->priv->notebook, 
-                               current_page)) == 0)
+                g_list_free(list);
+
+                if( strcmp(domain_name, gtk_label_get_text(label)) == 0)
                 {
                     gtk_notebook_remove_page(logger->priv->notebook, i);
                     break;
@@ -895,6 +953,7 @@ debug_logger_remove_domain(DebugLogger *logger,
         gtk_widget_set_sensitive(logger->priv->toolbar_save, FALSE);
         gtk_widget_set_sensitive(logger->priv->toolbar_copy, FALSE);
         gtk_widget_set_sensitive(logger->priv->toolbar_select, FALSE);
+        gtk_widget_set_sensitive(logger->priv->toolbar_clear, FALSE);
     }
 }
 

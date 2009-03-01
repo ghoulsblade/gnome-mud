@@ -43,7 +43,7 @@
 int main (gint argc, char *argv[])
 {
     GConfClient *client;
-    DebugLogger *logger;
+    DebugLogger *logger, *logger2;
     GError      *err = NULL;
     gchar       buf[2048];
 
@@ -105,6 +105,9 @@ int main (gint argc, char *argv[])
 
     debug_logger_add_domain(logger, "Gnome-Mud", TRUE);
     debug_logger_add_domain(logger, "Telnet", FALSE);
+    debug_logger_add_domain(logger, "Gtk", FALSE);
+    debug_logger_add_domain(logger, "GLib", FALSE);
+    debug_logger_add_domain(logger, "GLib-GObject", FALSE);
 
     /* Turn on colored output in logger */
     g_object_set(logger, "use-color", TRUE, NULL);

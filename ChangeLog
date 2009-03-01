@@ -1,5 +1,15 @@
 2009-03-01  Les Harris  <lharris@gnome.org>
 
+	* src/debug-logger.c (debug_logger_init),
+	(debug_logger_switch_page), (debug_logger_log_func),
+	(debug_logger_add_domain), (debug_logger_remove_domain): Added
+	graphical status icon in tabs to show if text has been added in the
+	background.
+	* src/gnome-mud.c (main): Added Gtk, Glib, and GObject error domains.
+	* ui/main.glade: Set Clear button default insensitive.
+
+2009-03-01  Les Harris  <lharris@gnome.org>
+
 	* src/gnome-mud.c (main): Removed faux errors and messages.
 	* src/mud-telnet-handlers.c (MudHandler_MCCP_Enable),
 	(MudHandler_MCCP_Disable), (MudHandler_MCCP_HandleSubNeg): Log the
