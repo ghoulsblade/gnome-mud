@@ -17,6 +17,8 @@ bin_PROGRAMS = gnome-mud
 gnome_mud_SOURCES =				\
 	gconf-helper.c				\
 	gconf-helper.h				\
+	debug-logger.c				\
+	debug-logger.h				\
 	gnome-mud.c				\
 	gnome-mud.h				\
 	gnome-mud-icons.h \

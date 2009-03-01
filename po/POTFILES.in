@@ -13,7 +13,7 @@ src/mud-telnet-mccp.c
 src/mud-tray.c
 src/mud-preferences-window.c
 src/mud-window.c
-ui/directions.glade
+src/debug-logger.c
 ui/main.glade
 ui/muds.glade
 ui/prefs.glade

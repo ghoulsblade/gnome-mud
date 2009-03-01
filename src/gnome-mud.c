@@ -38,12 +38,14 @@
 #include "mud-profile.h"
 #include "modules.h"
 #include "utils.h"
+#include "debug-logger.h"
 
 int main (gint argc, char *argv[])
 {
-    GConfClient  *client;
-    GError       *err = NULL;
-    gchar         buf[2048];
+    GConfClient *client;
+    DebugLogger *logger;
+    GError      *err = NULL;
+    gchar       buf[2048];
 
 #ifdef ENABLE_NLS
     /* Initialize internationalization */
@@ -99,11 +101,18 @@ int main (gint argc, char *argv[])
 
     gtk_window_set_default_icon_name(GMUD_STOCK_ICON);
 
+    logger = g_object_new(DEBUG_LOGGER_TYPE, NULL);
+
+    debug_logger_add_domain(logger, "Gnome-Mud", TRUE);
+    debug_logger_add_domain(logger, "Telnet", FALSE);
+
     mud_window_new();
 
     gtk_main();
 
     gconf_client_suggest_sync(client, &err);
+    
+    g_object_unref(logger);
     g_object_unref(client);
 
     return 0;

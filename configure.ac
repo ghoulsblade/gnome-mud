@@ -78,20 +78,10 @@ AC_CHECK_HEADERS(strings.h)
 
 AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])
 
-dnl Check whether to include mapper support (defaults to no)
-#AC_ARG_ENABLE(mapper,
-#	AC_HELP_STRING([--enable-mapper],
-#		       [Enable automapper support (default=no)]),
-#		[enable_mapper=$enableval], [enable_mapper=no])
-#
-#if test "x$enable_mapper" = "xyes" ; then
-#	AC_DEFINE(ENABLE_MAPPER, 1, [Define if mapper support should be enabled])
-#fi
-
 dnl Check whether to include MCCP code or not
 AC_ARG_ENABLE(mccp,
               AC_HELP_STRING([--enable-mccp],
-                             [Enable MCCP (MUD Client Compression Protocol)]),,
+                             [Enable MCCP (MUD Client Compression Protocol) Default=auto]),,
                              enable_mccp=auto)
 if test "x$enable_mccp" != "xno"; then
     AC_CHECK_HEADER(zlib.h, have_zlib=yes, have_zlib=no)
@@ -110,7 +100,7 @@ AC_SUBST(Z_LIBS)
 dnl Check whether to include GStreamer code or not
 AC_ARG_ENABLE(gstreamer,
 	AC_HELP_STRING([--enable-gstreamer],
-		       [Enable GStreamer used for MSP (Mud Sound Protocol)]),,
+		       [Enable GStreamer used for MSP (Mud Sound Protocol) Default=auto]),,
 		enable_gstreamer=auto)
 if test "x$enable_gstreamer" != "xno"; then
 	PKG_CHECK_EXISTS(gstreamer-0.10, have_gst=yes, have_gst=no)	
@@ -126,6 +116,17 @@ fi
 AM_CONDITIONAL(USE_GSTREAMER, test "x$enable_gstreamer" = xyes)
 AC_SUBST(MSP_CFLAGS)
 AC_SUBST(MSP_LIBS)
+
+dnl Check whether to build debug logger or not.
+AC_ARG_ENABLE(debug-logger,
+              AC_HELP_STRING([--enable-debug-logger],
+                             [Enable debugging info logger Default=no]),,
+                             enable_debug_logger=no)
+if test "x$enable_debug_logger" != "xno"; then
+    AC_DEFINE(ENABLE_DEBUG_LOGGER, 1, [Define if Debug Logging is desired])
+    enable_debug_logger=yes
+fi
+AM_CONDITIONAL(USE_DEBUG_LOGGER, test "x$enable_debug_logger" = xyes)
 
 dnl Checks for programs.
 AC_ISC_POSIX
@@ -158,16 +159,16 @@ else
  	AC_MSG_NOTICE([    * MCCP support is disabled])
 fi
 
-#if test "x$enable_mapper" = xyes; then
-#	AC_MSG_NOTICE([    * Mapper support is enabled])
-#else
-#	AC_MSG_NOTICE([    * Mapper support is disabled])
-#fi
-
 if test "x$enable_gstreamer" = xyes; then
 	AC_MSG_NOTICE([    * GStreamer support is enabled])
 else
 	AC_MSG_NOTICE([    * GStreamer support is disabled])
+fi
+
+if test "x$enable_debug_logger" = xyes; then
+    AC_MSG_NOTICE([    * Debug logger is enabled])
+else
+    AC_MSG_NOTICE([    * Debug logger is disabled])
 fi
 
 if test -d $srcdir/.svn; then

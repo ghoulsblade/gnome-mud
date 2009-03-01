@@ -1,3 +1,18 @@
+2009-02-28  Les Harris  <lharris@gnome.org>
+
+	* configure.ac: Added autofoo for debug logger, off by default.
+	* src/Makefile.am: Autofoo for debug logger.
+	* src/debug-logger.[ch]: New files which implement the debug logger. 
+	* src/gnome-mud.c (main): Now creates two logger domains.
+	* src/mud-telnet-mccp.c (mud_mccp_decompress): Changed mccp
+	decompression back to faster method.
+	* src/mud-telnet.c (mud_telnet_process),
+	(mud_telnet_get_telopt_string): Changed logging to use new logger,
+	added more debug info in telopt_string.
+	* ui/Makefile.am:
+	* ui/directions.glade: Removed directions.glade.
+	* ui/main.glade: Added ui for debug logger.
+
 2009-02-27  Les Harris  <lharris@gnome.org>
 
 	* src/mud-telnet-mccp.c (mud_mccp_decompress): Reverted MCCP code.

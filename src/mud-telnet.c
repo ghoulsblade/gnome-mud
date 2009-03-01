@@ -371,6 +371,7 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
 {
     guint32 i;
     guint32 count;
+    gchar *opt;
 
     g_assert(telnet != NULL);
 
@@ -539,6 +540,10 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
                 break;
 
             case TEL_STATE_DO:
+                opt = mud_telnet_get_telopt_string((guchar)telnet->buffer->str[i]);
+                g_log("Telnet", G_LOG_LEVEL_MESSAGE, "Recieved: DO %s", opt);
+                g_free(opt);
+
                 mud_telnet_handle_positive_nego(
                         telnet,
                         (guchar)telnet->buffer->str[i],
@@ -549,6 +554,10 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
                 break;
 
             case TEL_STATE_WILL:
+                opt = mud_telnet_get_telopt_string((guchar)telnet->buffer->str[i]);
+                g_log("Telnet", G_LOG_LEVEL_MESSAGE, "Recieved: WILL %s", opt);
+                g_free(opt);
+
                 mud_telnet_handle_positive_nego(
                         telnet,
                         (guchar)telnet->buffer->str[i],
@@ -559,6 +568,10 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
                 break;
 
             case TEL_STATE_DONT:
+                opt = mud_telnet_get_telopt_string((guchar)telnet->buffer->str[i]);
+                g_log("Telnet", G_LOG_LEVEL_MESSAGE, "Recieved: DONT %s", opt);
+                g_free(opt);
+
                 mud_telnet_handle_negative_nego(
                         telnet,
                         (guchar)telnet->buffer->str[i],
@@ -569,6 +582,9 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
                 break;
 
             case TEL_STATE_WONT:
+                opt = mud_telnet_get_telopt_string((guchar)telnet->buffer->str[i]);
+                g_log("Telnet", G_LOG_LEVEL_MESSAGE, "Recieved: WONT %s", opt);
+                g_free(opt);
                 mud_telnet_handle_negative_nego(
                         telnet,
                         (guchar)telnet->buffer->str[i],
@@ -745,6 +761,9 @@ mud_telnet_get_telopt_string(guchar ch)
     case TELOPT_ZMP:
 	string = g_string_append(string, "ZMP");
 	break;
+
+    default:
+        g_string_printf(string, "Dec: %d Hex: %x Ascii: %c", ch, ch, ch);
     }
 
     return g_string_free(string, FALSE);
