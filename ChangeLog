@@ -1,5 +1,17 @@
 2009-03-01  Les Harris  <lharris@gnome.org>
 
+	* src/debug-logger.c (debug_logger_log_func): Now scrolls to the
+	newest item.
+	* src/gnome-mud.c (main): Fixed use-color property setting.
+	* src/mud-telnet-handlers.c (MudHandler_ZMP_HandleSubNeg):
+	* src/mud-telnet-msp.c (mud_telnet_msp_process_command):
+	* src/mud-telnet-zmp.c (mud_zmp_send_command):
+	* src/mud-telnet.c (mud_telnet_send_charset_req),
+	(mud_telnet_send_sub_req), (mud_telnet_handle_positive_nego),
+	(mud_telnet_handle_negative_nego): Added logging.
+
+2009-03-01  Les Harris  <lharris@gnome.org>
+
 	* src/debug-logger.c (debug_logger_get_property): Added get method for
 	use-color property.
 

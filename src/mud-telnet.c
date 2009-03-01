@@ -778,6 +778,8 @@ mud_telnet_send_charset_req(MudTelnet *telnet, gchar *encoding)
     if(!encoding)
 	return;
 
+    g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sending Charset Accepted SubReq");
+
     /* Writes IAC SB CHARSET ACCEPTED <charset> IAC SE to server */
     byte = (guchar)TEL_IAC;
 
@@ -812,6 +814,8 @@ mud_telnet_send_sub_req(MudTelnet *telnet, guint32 count, ...)
     va_list va;
     va_start(va, count);
 
+    g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sending Subreq...");
+    
     byte = (guchar)TEL_IAC;
 
     gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
@@ -950,6 +954,7 @@ mud_telnet_handle_positive_nego(MudTelnet *telnet,
 {
     const guint bitshift = him ? 4 : 0;
     guchar * opt = &(telnet->telopt_states[opt_no]);
+    gchar *tel_string, *opt_string;
 
     switch (mud_telnet_get_telopt_state(opt, bitshift))
     {
@@ -960,11 +965,25 @@ mud_telnet_handle_positive_nego(MudTelnet *telnet,
 	// FIXME: What to do in the opposite "him" gint value case?
 	if (mud_telnet_isenabled(telnet, opt_no, him))
 	{
+            tel_string = mud_telnet_get_telnet_string(affirmative);
+            opt_string = mud_telnet_get_telopt_string(opt_no);
+            g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sent: %s %s",
+                    tel_string, opt_string );
+            g_free(tel_string);
+            g_free(opt_string);
+
 	    mud_telnet_set_telopt_state(opt, TELOPT_STATE_YES, bitshift);
 	    mud_telnet_send_iac(telnet, affirmative, opt_no);
 	    mud_telnet_on_enable_opt(telnet, opt_no, him);
 	    return TRUE;
 	} else {
+            tel_string = mud_telnet_get_telnet_string(negative);
+            opt_string = mud_telnet_get_telopt_string(opt_no);
+            g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sent: %s %s",
+                    tel_string, opt_string );
+            g_free(tel_string);
+            g_free(opt_string);
+
 	    mud_telnet_send_iac(telnet, negative, opt_no);
 	    return FALSE;
 	}
@@ -991,11 +1010,25 @@ mud_telnet_handle_positive_nego(MudTelnet *telnet,
     case TELOPT_STATE_WANTYES:
 	if (mud_telnet_get_telopt_queue(opt, bitshift) == TELOPT_STATE_QUEUE_EMPTY)
 	{
+            tel_string = mud_telnet_get_telnet_string(affirmative);
+            opt_string = mud_telnet_get_telopt_string(opt_no);
+            g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sent: %s %s",
+                    tel_string, opt_string );
+            g_free(tel_string);
+            g_free(opt_string);
+
 	    mud_telnet_set_telopt_state(opt, TELOPT_STATE_YES, bitshift);
 	    mud_telnet_send_iac(telnet, affirmative, opt_no);
 	    mud_telnet_on_enable_opt(telnet, opt_no, him);
 	    return TRUE;
 	} else { // The opposite is queued
+            tel_string = mud_telnet_get_telnet_string(negative);
+            opt_string = mud_telnet_get_telopt_string(opt_no);
+            g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sent: %s %s",
+                    tel_string, opt_string );
+            g_free(tel_string);
+            g_free(opt_string);
+
 	    mud_telnet_set_telopt_state(opt, TELOPT_STATE_WANTNO, bitshift);
 	    mud_telnet_set_telopt_queue(opt, TELOPT_STATE_QUEUE_EMPTY, bitshift);
 	    mud_telnet_send_iac(telnet, negative, opt_no);
@@ -1016,6 +1049,7 @@ mud_telnet_handle_negative_nego(MudTelnet *telnet,
 {
     const guint bitshift = him ? 4 : 0;
     guchar * opt = &(telnet->telopt_states[opt_no]);
+    gchar *opt_string, *tel_string;
 
     switch (mud_telnet_get_telopt_state(opt, bitshift))
     {
@@ -1024,23 +1058,37 @@ mud_telnet_handle_negative_nego(MudTelnet *telnet,
 	return FALSE;
 
     case TELOPT_STATE_YES:
+        tel_string = mud_telnet_get_telnet_string(negative);
+        opt_string = mud_telnet_get_telopt_string(opt_no);
+        g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sent: %s %s",
+            tel_string, opt_string );
+        g_free(tel_string);
+        g_free(opt_string);
+
 	mud_telnet_set_telopt_state(opt, TELOPT_STATE_NO, bitshift);
 	mud_telnet_send_iac(telnet, negative, opt_no);
 	mud_telnet_on_disable_opt(telnet, opt_no, him);
 	return TRUE;
 
     case TELOPT_STATE_WANTNO:
-	if (mud_telnet_get_telopt_queue(opt, bitshift) == TELOPT_STATE_QUEUE_EMPTY)
-	{
-	    mud_telnet_set_telopt_state(opt, TELOPT_STATE_NO, bitshift);
-	    return FALSE;
-	} else {
-	    mud_telnet_set_telopt_state(opt, TELOPT_STATE_WANTYES, bitshift);
-	    mud_telnet_set_telopt_queue(opt, TELOPT_STATE_QUEUE_EMPTY, bitshift);
-	    mud_telnet_send_iac(telnet, affirmative, opt_no);
-	    mud_telnet_on_enable_opt(telnet, opt_no, him); // FIXME: Is this correct?
-	    return TRUE;
-	}
+        if (mud_telnet_get_telopt_queue(opt, bitshift) == TELOPT_STATE_QUEUE_EMPTY)
+        {
+            mud_telnet_set_telopt_state(opt, TELOPT_STATE_NO, bitshift);
+            return FALSE;
+        } else {
+            tel_string = mud_telnet_get_telnet_string(affirmative);
+            opt_string = mud_telnet_get_telopt_string(opt_no);
+            g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sent: %s %s",
+                    tel_string, opt_string );
+            g_free(tel_string);
+            g_free(opt_string);
+
+            mud_telnet_set_telopt_state(opt, TELOPT_STATE_WANTYES, bitshift);
+            mud_telnet_set_telopt_queue(opt, TELOPT_STATE_QUEUE_EMPTY, bitshift);
+            mud_telnet_send_iac(telnet, affirmative, opt_no);
+            mud_telnet_on_enable_opt(telnet, opt_no, him); // FIXME: Is this correct?
+            return TRUE;
+        }
 
     case TELOPT_STATE_WANTYES:
 	if (mud_telnet_get_telopt_queue(opt, bitshift) == TELOPT_STATE_QUEUE_EMPTY)

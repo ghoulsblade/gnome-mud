@@ -294,6 +294,10 @@ MudHandler_ZMP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
     argv = g_strsplit(args->str, "|gmud_sep|", -1);
     argc = g_strv_length(argv);
 
+    g_log("Telnet", G_LOG_LEVEL_MESSAGE, "Received: ZMP Command: %s", command_buf);
+    for(count = 0; count < argc - 1; ++count)
+        g_log("Telnet", G_LOG_LEVEL_MESSAGE, "\t%s", argv[count]);
+
     if(mud_zmp_has_command(telnet, command_buf))
     {
         zmp_handler = mud_zmp_get_function(telnet, command_buf);

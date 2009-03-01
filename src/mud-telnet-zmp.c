@@ -127,6 +127,8 @@ mud_zmp_send_command(MudTelnet *telnet, guint32 count, ...)
     va_start(va, count);
     gchar *arg;
 
+    g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sending ZMP Command:");
+
     gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
     byte = (guchar)TEL_SB;
     gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
@@ -136,6 +138,8 @@ mud_zmp_send_command(MudTelnet *telnet, guint32 count, ...)
     for (i = 0; i < count; ++i)
     {
         arg = (gchar *)va_arg(va, gchar *);
+
+        g_log("Telnet", G_LOG_LEVEL_DEBUG, "\t%s", arg);
 
         for(j = 0; j < strlen(arg); ++j)
         {

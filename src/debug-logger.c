@@ -618,6 +618,7 @@ debug_logger_log_func (const gchar *log_domain,
     GtkTreeIter iter;
     GtkListStore *store;
     GString *color, *type;
+    GtkTreePath *path;
 
     DomainHandler *handler =
         debug_logger_get_handler_by_name(logger, log_domain);
@@ -674,6 +675,10 @@ debug_logger_log_func (const gchar *log_domain,
                 TYPE_COLUMN, type->str,
                 MSG_COLUMN, message,
                 -1);
+
+    path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &iter);
+    gtk_tree_view_scroll_to_cell(handler->view, path, NULL, FALSE, 0, 0);
+    gtk_tree_path_free(path);
 
     g_string_free(type, TRUE);
     g_string_free(color, TRUE);

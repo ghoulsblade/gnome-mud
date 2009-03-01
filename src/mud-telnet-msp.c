@@ -526,22 +526,31 @@ mud_telnet_msp_command_free(MudMSPCommand *command)
 static void
 mud_telnet_msp_process_command(MudTelnet *telnet, MudMSPCommand *command)
 {
-    /*g_message("MSP Command Parse Results");
-    g_print("Type: %s\n", (command->type == MSP_TYPE_SOUND) ? "Sound" :
+    g_log("Telnet", G_LOG_LEVEL_INFO, "MSP Command Parse Results");
+    g_log("Telnet", G_LOG_LEVEL_INFO, 
+            "Type: %s", (command->type == MSP_TYPE_SOUND) ? "Sound" :
             "Music" );
-    g_print("Filename: %s\n", (command->fName != NULL) ? command->fName :
+    g_log("Telnet", G_LOG_LEVEL_INFO,
+            "Filename: %s", (command->fName != NULL) ? command->fName :
             "<null>");
-    g_print("V: %s\n", (command->V != NULL) ? command->V : "<null>");
-    g_print("L: %s\n", (command->L != NULL) ? command->L : "<null>");
-    g_print("C: %s\n", (command->C != NULL) ? command->C : "<null>");
-    g_print("T: %s\n", (command->T != NULL) ? command->T : "<null>");
-    g_print("U: %s\n", (command->U != NULL) ? command->U : "<null>");
-    g_print("P: %s\n", (command->P != NULL) ? command->P : "<null>");
-    g_print("Sfx Type: %s Volume: %d  Priority: %d  Repeat %d times. %s %s\n",
+    g_log("Telnet", G_LOG_LEVEL_INFO,
+            "V: %s", (command->V != NULL) ? command->V : "<null>");
+    g_log("Telnet", G_LOG_LEVEL_INFO,
+            "L: %s", (command->L != NULL) ? command->L : "<null>");
+    g_log("Telnet", G_LOG_LEVEL_INFO,
+            "C: %s", (command->C != NULL) ? command->C : "<null>");
+    g_log("Telnet", G_LOG_LEVEL_INFO, 
+            "T: %s", (command->T != NULL) ? command->T : "<null>");
+    g_log("Telnet", G_LOG_LEVEL_INFO,
+            "U: %s", (command->U != NULL) ? command->U : "<null>");
+    g_log("Telnet", G_LOG_LEVEL_INFO,
+            "P: %s", (command->P != NULL) ? command->P : "<null>");
+    g_log("Telnet", G_LOG_LEVEL_INFO,
+            "Sfx Type: %s Volume: %d  Priority: %d  Repeat %d times. %s %s",
             (command->sfx_type) ? command->sfx_type:"None", command->volume,
             command->priority, command->initial_repeat_count, (command->loop) ?
             "Looping" : "Not Looping",
-            (command->cont) ? "Continue" : "Stop");*/
+            (command->cont) ? "Continue" : "Stop");
 
     if(command->fName && strcmp(command->fName, "Off") == 0)
     {
