@@ -341,6 +341,7 @@ MudHandler_MSP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 void
 MudHandler_MCCP_Enable(MudTelnet *telnet, MudTelnetHandler *handler)
 {
+    g_log("Telnet", G_LOG_LEVEL_INFO, "MCCP Requested.");
     handler->enabled = TRUE;
     telnet->mccp = FALSE;
 }
@@ -360,6 +361,8 @@ MudHandler_MCCP_Disable(MudTelnet *telnet, MudTelnetHandler *handler)
         
         telnet->compress_out = NULL;
     }
+
+    g_log("Telnet", G_LOG_LEVEL_INFO, "MCCP Disabled.");
 }
 
 void
@@ -387,6 +390,8 @@ MudHandler_MCCP_HandleSubNeg(MudTelnet *telnet, guchar *buf,
 
         mud_connection_view_disconnect(telnet->parent);
     }
+
+    g_log("Telnet", G_LOG_LEVEL_INFO, "MCCP Enabled.");
 }
 #endif
 

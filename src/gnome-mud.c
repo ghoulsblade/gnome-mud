@@ -109,12 +109,6 @@ int main (gint argc, char *argv[])
     /* Turn on colored output in logger */
     g_object_set(logger, "use-color", TRUE, NULL);
 
-    g_critical("Foobar");
-    g_warning("Barfoo");
-    g_message("spam spam spam");
-    g_log(NULL, G_LOG_LEVEL_INFO, "Bazfoo");
-    g_log(NULL, G_LOG_LEVEL_DEBUG, "Foobazbar");
-
     mud_window_new();
 
     gtk_main();
