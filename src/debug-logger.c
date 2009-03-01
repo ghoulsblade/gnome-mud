@@ -430,6 +430,10 @@ debug_logger_get_property(GObject *object,
             g_value_set_string(value, logger->unknown_color);
             break;
 
+        case PROP_USE_COLOR:
+            g_value_set_boolean(value, logger->use_color);
+            break;
+
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
             break;

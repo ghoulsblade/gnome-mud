@@ -1,5 +1,10 @@
 2009-03-01  Les Harris  <lharris@gnome.org>
 
+	* src/debug-logger.c (debug_logger_get_property): Added get method for
+	use-color property.
+
+2009-03-01  Les Harris  <lharris@gnome.org>
+
 	* src/debug-logger.[ch] (debug_logger_init),
 	(debug_logger_class_init), (debug_logger_set_property),
 	(debug_logger_get_property), (debug_logger_copy_clicked),
