@@ -486,6 +486,15 @@
               </packing>
             </child>
             <child>
+              <widget class="GtkSeparatorToolItem" id="toolbutton1">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
               <widget class="GtkToolButton" id="toolbar_copy">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
@@ -505,6 +514,26 @@
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-select-all</property>
                 <accelerator key="a" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolbutton2">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="toolbar_clear">
+                <property name="visible">True</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-clear</property>
               </widget>
               <packing>
                 <property name="expand">False</property>

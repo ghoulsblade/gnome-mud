@@ -1,5 +1,11 @@
 2009-03-01  Les Harris  <lharris@gnome.org>
 
+	* src/debug-logger.c (debug_logger_init),
+	(debug_logger_clear_clicked): Can now clear the log.
+	* ui/main.glade: Added Clear button to logger.
+
+2009-03-01  Les Harris  <lharris@gnome.org>
+
 	* src/debug-logger.c (debug_logger_log_func): Now scrolls to the
 	newest item.
 	* src/gnome-mud.c (main): Fixed use-color property setting.

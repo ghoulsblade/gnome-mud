@@ -40,6 +40,7 @@ struct _DebugLoggerPrivate
     GtkWidget *toolbar_save;
     GtkWidget *toolbar_copy;
     GtkWidget *toolbar_select;
+    GtkWidget *toolbar_clear;
 
     GSList *domains;
 };
@@ -105,6 +106,7 @@ static void debug_logger_log_func (const gchar *log_domain,
 static void debug_logger_save_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_copy_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_select_clicked(GtkWidget *widget, DebugLogger *logger);
+static void debug_logger_clear_clicked(GtkWidget *widget, DebugLogger *logger);
 
 /* Class Functions */
 static void
@@ -127,9 +129,11 @@ debug_logger_init(DebugLogger *self)
 
     self->priv->window = GTK_WINDOW(glade_xml_get_widget(glade, "log_window"));
     self->priv->vbox = GTK_VBOX(glade_xml_get_widget(glade, "vbox"));
+
     self->priv->toolbar_save = glade_xml_get_widget(glade, "toolbar_save");
     self->priv->toolbar_copy = glade_xml_get_widget(glade, "toolbar_copy");
     self->priv->toolbar_select = glade_xml_get_widget(glade, "toolbar_selectall");
+    self->priv->toolbar_clear = glade_xml_get_widget(glade, "toolbar_clear");
 
     self->priv->notebook = GTK_NOTEBOOK(gtk_notebook_new());
 
@@ -151,6 +155,10 @@ debug_logger_init(DebugLogger *self)
 
     g_signal_connect(self->priv->toolbar_select, "clicked",
                      G_CALLBACK(debug_logger_select_clicked),
+                     self);
+
+    g_signal_connect(self->priv->toolbar_clear, "clicked",
+                     G_CALLBACK(debug_logger_clear_clicked),
                      self);
 
     gtk_widget_show_all(GTK_WIDGET(self->priv->window));
@@ -605,6 +613,31 @@ debug_logger_select_clicked(GtkWidget *widget, DebugLogger *logger)
     selection = gtk_tree_view_get_selection(view);
 
     gtk_tree_selection_select_all(selection);
+}
+
+static void
+debug_logger_clear_clicked(GtkWidget *widget, DebugLogger *logger)
+{
+    GtkTreeView *view;
+    GtkListStore *store;
+    gint current_page;
+
+    g_return_if_fail(IS_DEBUG_LOGGER(logger));
+
+    if(gtk_notebook_get_n_pages(logger->priv->notebook) == 0)
+        return;
+
+    current_page = gtk_notebook_get_current_page(logger->priv->notebook);
+
+    view =
+        GTK_TREE_VIEW(gtk_bin_get_child(
+                    GTK_BIN(gtk_notebook_get_nth_page(
+                            GTK_NOTEBOOK(logger->priv->notebook),
+                            current_page))));
+
+    store = GTK_LIST_STORE(gtk_tree_view_get_model(view));
+
+    gtk_list_store_clear(store);
 }
 
 /* Private Methods */
