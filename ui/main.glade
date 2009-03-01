@@ -475,6 +475,7 @@
             <child>
               <widget class="GtkToolButton" id="toolbar_save">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-save</property>
                 <accelerator key="s" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
@@ -487,6 +488,7 @@
             <child>
               <widget class="GtkToolButton" id="toolbar_copy">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-copy</property>
                 <accelerator key="c" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
@@ -499,6 +501,7 @@
             <child>
               <widget class="GtkToolButton" id="toolbar_selectall">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-select-all</property>
                 <accelerator key="a" signal="clicked" modifiers="GDK_CONTROL_MASK"/>

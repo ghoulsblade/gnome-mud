@@ -1,5 +1,16 @@
 2009-02-28  Les Harris  <lharris@gnome.org>
 
+	* src/debug-logger.c (debug_logger_init), (debug_logger_finalize),
+	(debug_logger_save_clicked), (debug_logger_copy_clicked),
+	(debug_logger_select_clicked), (debug_logger_log_func),
+	(debug_logger_add_domain), (debug_logger_remove_domain): Now frees
+	domain handlers on remove.  UI dims/undims as needed. Added Type
+	column in treeview.  Wrapped text in gettext macros.
+	* src/gnome-mud.c (main): Temp log spam added.
+	* ui/main.glade: Added accelerators for the debug logger's ui.
+
+2009-02-28  Les Harris  <lharris@gnome.org>
+
 	* configure.ac: Added autofoo for debug logger, off by default.
 	* src/Makefile.am: Autofoo for debug logger.
 	* src/debug-logger.[ch]: New files which implement the debug logger. 

@@ -23,6 +23,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <glade/glade-xml.h>
 #include <string.h>
@@ -54,6 +55,7 @@ typedef struct DomainHandler
 
 enum
 {
+    TYPE_COLUMN,
     MSG_COLUMN,
     COLOR_COLUMN,
     N_COLUMNS
@@ -127,6 +129,7 @@ debug_logger_init(DebugLogger *self)
     gtk_widget_show_all(GTK_WIDGET(self->priv->window));
 
     g_object_unref(glade);
+
 #endif
 }
 
@@ -145,6 +148,12 @@ debug_logger_finalize(GObject *object)
 {
     DebugLogger *self = DEBUG_LOGGER(object);
     GObjectClass *parent_class;
+
+    while(self->priv->domains != NULL)
+        debug_logger_remove_domain(self,
+                ((DomainHandler *)(self->priv->domains->data))->name);
+
+    g_slist_free(self->priv->domains);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
@@ -172,6 +181,11 @@ debug_logger_save_clicked(GtkWidget *widget, DebugLogger *logger)
     gint current_page;
     GString *copy_data;
 
+    g_return_if_fail(IS_DEBUG_LOGGER(logger));
+    
+    if (gtk_notebook_get_n_pages(logger->priv->notebook) == 0)
+        return;
+    
     glade = glade_xml_new(GLADEDIR "/main.glade", "save_dialog", NULL);
     dialog = glade_xml_get_widget(glade, "save_dialog");
 
@@ -242,6 +256,11 @@ debug_logger_copy_clicked(GtkWidget *widget, DebugLogger *logger)
     gint current_page;
     GString *copy_data;
 
+    g_return_if_fail(IS_DEBUG_LOGGER(logger));
+    
+    if (gtk_notebook_get_n_pages(logger->priv->notebook) == 0)
+        return;
+    
     copy_data = g_string_new(NULL);
 
     current_page = gtk_notebook_get_current_page(logger->priv->notebook);
@@ -287,6 +306,11 @@ debug_logger_select_clicked(GtkWidget *widget, DebugLogger *logger)
     GtkTreeSelection *selection;
     gint current_page;
 
+    g_return_if_fail(IS_DEBUG_LOGGER(logger));
+
+    if (gtk_notebook_get_n_pages(logger->priv->notebook) == 0)
+        return;
+   
     current_page = gtk_notebook_get_current_page(logger->priv->notebook);
     
     view = 
@@ -310,10 +334,15 @@ debug_logger_log_func (const gchar *log_domain,
 #ifdef ENABLE_DEBUG_LOGGER
     GtkTreeIter iter;
     GtkListStore *store;
+    GString *color, *type;
+
     DomainHandler *handler =
         debug_logger_get_handler_by_name(logger, log_domain);
 
     g_return_if_fail(handler != NULL);
+
+    color = g_string_new(NULL);
+    type = g_string_new(NULL);
 
     store = GTK_LIST_STORE(gtk_tree_view_get_model(handler->view));
     gtk_list_store_append(store, &iter);
@@ -321,44 +350,54 @@ debug_logger_log_func (const gchar *log_domain,
     switch(log_level)
     {
         case G_LOG_LEVEL_CRITICAL:
-            gtk_list_store_set(store, &iter, 
-                    MSG_COLUMN, message,
-                    COLOR_COLUMN, "#FF0000",
-                    -1);
+            type = g_string_append(type, _("Critical"));
+            color = g_string_append(color, "#FF0000");
             break;
 
         case G_LOG_LEVEL_WARNING:
-            gtk_list_store_set(store, &iter,
-                    MSG_COLUMN, message,
-                    COLOR_COLUMN, "#FF9C00",
-                    -1);
+            type = g_string_append(type, _("Warning"));
+            color = g_string_append(color, "#FF9C00");
             break;
 
         case G_LOG_LEVEL_MESSAGE:
-            gtk_list_store_set(store, &iter,
-                    MSG_COLUMN, message,
-                    COLOR_COLUMN, "#000000",
-                    -1);
+            type = g_string_append(type, _("Message"));
+            color = g_string_append(color, "#000000");
             break;
 
         case G_LOG_LEVEL_INFO:
+            type = g_string_append(type, _("Info"));
+            color = g_string_append(color, "#1E8DFF");
+            break;
+
         case G_LOG_LEVEL_DEBUG:
-            gtk_list_store_set(store, &iter,
-                    MSG_COLUMN, message,
-                    COLOR_COLUMN, "#1E8DFF",
-                    -1);
+            type = g_string_append(type, _("Debug"));
+            color = g_string_append(color, "#444444");
+            break;
+
+        default:
+            type = g_string_append(type, _("Unknown"));
+            color = g_string_append(color, "#000000");
             break;
     }
+
+    gtk_list_store_set(store, &iter,
+            TYPE_COLUMN, type->str,
+            MSG_COLUMN, message,
+            COLOR_COLUMN, color->str,
+            -1);
+
+    g_string_free(type, TRUE);
+    g_string_free(color, TRUE);
 
 #else
     switch(log_level)
     {
         case G_LOG_LEVEL_CRITICAL:
-            g_printf("CRITICAL ERROR: %s\n", message);
+            g_printf(_("CRITICAL ERROR: %s\n"), message);
             break;
 
         case G_LOG_LEVEL_WARNING:
-            g_printf("Warning: %s\n", message);
+            g_printf(_("Warning: %s\n"), message);
             break;
         
         default:
@@ -401,8 +440,7 @@ debug_logger_add_domain(DebugLogger *logger,
                         const gchar *domain_name,
                         gboolean default_domain)
 {
-    GtkWidget *tab_label, *scrolled_window,
-              *treeview;
+    GtkWidget *tab_label, *scrolled_window, *treeview;
     GtkListStore *list_store;
     GtkTreeViewColumn *column;
     GtkCellRenderer *renderer;
@@ -410,6 +448,9 @@ debug_logger_add_domain(DebugLogger *logger,
     DomainHandler *new_handler;
 
     g_return_if_fail(IS_DEBUG_LOGGER(logger));
+
+    if(!domain_name)
+        return;
 
     new_handler = g_new0(DomainHandler, 1);
     new_handler->view = NULL;
@@ -423,7 +464,8 @@ debug_logger_add_domain(DebugLogger *logger,
                  "vscrollbar-policy", GTK_POLICY_AUTOMATIC,
                  NULL);
 
-    list_store = gtk_list_store_new(N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
+    list_store = gtk_list_store_new(N_COLUMNS,
+            G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
     treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(list_store));
     g_object_unref(list_store);
 
@@ -432,7 +474,14 @@ debug_logger_add_domain(DebugLogger *logger,
                  NULL);
 
     renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes ("Message",
+    column = gtk_tree_view_column_new_with_attributes (_("Type"),
+            renderer,
+            "text", TYPE_COLUMN,
+            NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), column);
+
+    renderer = gtk_cell_renderer_text_new();
+    column = gtk_tree_view_column_new_with_attributes (_("Message"),
             renderer,
             "text", MSG_COLUMN,
             "foreground", COLOR_COLUMN,
@@ -448,6 +497,11 @@ debug_logger_add_domain(DebugLogger *logger,
     gtk_widget_show_all(GTK_WIDGET(logger->priv->notebook));
 
     new_handler->view = GTK_TREE_VIEW(treeview);
+
+    gtk_widget_set_sensitive(logger->priv->toolbar_save, TRUE);
+    gtk_widget_set_sensitive(logger->priv->toolbar_copy, TRUE);
+    gtk_widget_set_sensitive(logger->priv->toolbar_select, TRUE);
+
 #endif
 
     new_handler->handler_id = 
@@ -469,11 +523,14 @@ debug_logger_remove_domain(DebugLogger *logger,
 
     g_return_if_fail(IS_DEBUG_LOGGER(logger));
 
+    if(!domain_name)
+        return;
+
     for(entry = logger->priv->domains; entry != NULL; entry = g_slist_next(entry))
     {
         DomainHandler *handler = entry->data;
 
-        if(strcmp( domain_name, handler->name) == 0)
+        if(strcmp( domain_name, handler->name ) == 0)
         {
             g_log_remove_handler(
                     (handler->default_domain) ? NULL : handler->name,
@@ -499,8 +556,18 @@ debug_logger_remove_domain(DebugLogger *logger,
             if(handler->name)
                 g_free(handler->name);
 
+            if(handler)
+                g_free(handler);
+
             logger->priv->domains = g_slist_remove(logger->priv->domains, handler);
         }
+    }
+
+    if(gtk_notebook_get_n_pages(logger->priv->notebook) == 0)
+    {
+        gtk_widget_set_sensitive(logger->priv->toolbar_save, FALSE);
+        gtk_widget_set_sensitive(logger->priv->toolbar_copy, FALSE);
+        gtk_widget_set_sensitive(logger->priv->toolbar_select, FALSE);
     }
 }
 
