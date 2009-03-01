@@ -52,6 +52,13 @@ struct _DebugLogger
     DebugLoggerPrivate *priv;
 
     /*< public >*/
+    gchar *critical_color;
+    gchar *warning_color;
+    gchar *message_color;
+    gchar *info_color;
+    gchar *debug_color;
+    gchar *unknown_color;
+    gboolean use_color;
 };
 
 /* Methods */

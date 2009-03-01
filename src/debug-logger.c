@@ -61,11 +61,31 @@ enum
     N_COLUMNS
 };
 
+enum
+{
+    PROP_DEBUG_LOGGER_0,
+    PROP_CRITICAL_COLOR,
+    PROP_WARNING_COLOR,
+    PROP_MESSAGE_COLOR,
+    PROP_INFO_COLOR,
+    PROP_DEBUG_COLOR,
+    PROP_UNKNOWN_COLOR,
+    PROP_USE_COLOR
+};
+
 G_DEFINE_TYPE(DebugLogger, debug_logger, G_TYPE_OBJECT);
 
 static void debug_logger_init(DebugLogger *self);
 static void debug_logger_class_init(DebugLoggerClass *klass);
 static void debug_logger_finalize(GObject *object);
+static void debug_logger_set_property(GObject *object,
+                                      guint prop_id,
+                                      const GValue *value,
+                                      GParamSpec *pspec);
+static void debug_logger_get_property(GObject *object,
+                                      guint prop_id,
+                                      GValue *value,
+                                      GParamSpec *pspec);
 
 static gboolean debug_logger_window_delete(GtkWidget *widget,
                                            GdkEvent *event,
@@ -94,6 +114,13 @@ debug_logger_init(DebugLogger *self)
 
     self->priv = DEBUG_LOGGER_GET_PRIVATE(self);
     self->priv->domains = NULL;
+
+    self->critical_color = NULL;
+    self->warning_color = NULL;
+    self->message_color = NULL;
+    self->info_color = NULL;
+    self->debug_color = NULL;
+    self->unknown_color = NULL;
 
 #ifdef ENABLE_DEBUG_LOGGER
     glade = glade_xml_new(GLADEDIR "/main.glade", "log_window", NULL);
@@ -136,11 +163,97 @@ debug_logger_init(DebugLogger *self)
 static void
 debug_logger_class_init(DebugLoggerClass *klass)
 {
+    GParamSpec *critical_color_param;
+    GParamSpec *warning_color_param;
+    GParamSpec *message_color_param;
+    GParamSpec *info_color_param;
+    GParamSpec *debug_color_param;
+    GParamSpec *unknown_color_param;
+    GParamSpec *use_color_param;
+
     GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
+    /* Create parameter specs */
+    critical_color_param = g_param_spec_string("critical-color",
+                                               "critical color",
+                                               "color of critical warning text",
+                                               "#FF0000",
+                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+    warning_color_param  = g_param_spec_string("warning-color",
+                                               "warning color",
+                                               "color of warning text",
+                                               "#FF9C00",
+                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+    message_color_param  = g_param_spec_string("message-color",
+                                               "message color",
+                                               "color of message text",
+                                               "#000000",
+                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+    info_color_param     = g_param_spec_string("info-color",
+                                               "info color",
+                                               "color of info text",
+                                               "#1E8DFF",
+                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+    debug_color_param    = g_param_spec_string("debug-color",
+                                               "debug color",
+                                               "color of debug text",
+                                               "#444444",
+                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+    unknown_color_param  = g_param_spec_string("unknown-color",
+                                               "unknown color",
+                                               "color of unknown type text",
+                                               "#000000",
+                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+    use_color_param      = g_param_spec_boolean("use-color",
+                                                "use color",
+                                                "color output based on type",
+                                                FALSE,
+                                                G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
+
+    /* Override base object finalize method */
     gobject_class->finalize = debug_logger_finalize;
 
+    /* Override base object property methods */
+    gobject_class->set_property = debug_logger_set_property;
+    gobject_class->get_property = debug_logger_get_property;
+
+    /* Add private data to class */
     g_type_class_add_private(klass, sizeof(DebugLoggerPrivate));
+
+    /* Install Properties */
+    g_object_class_install_property(gobject_class, 
+            PROP_CRITICAL_COLOR,
+            critical_color_param);
+
+    g_object_class_install_property(gobject_class, 
+            PROP_WARNING_COLOR,
+            warning_color_param);
+
+    g_object_class_install_property(gobject_class, 
+            PROP_MESSAGE_COLOR,
+            message_color_param);   
+
+    g_object_class_install_property(gobject_class, 
+            PROP_INFO_COLOR,
+            info_color_param);
+
+    g_object_class_install_property(gobject_class, 
+            PROP_DEBUG_COLOR,
+            debug_color_param);
+
+    g_object_class_install_property(gobject_class, 
+            PROP_UNKNOWN_COLOR,
+            unknown_color_param);
+
+    g_object_class_install_property(gobject_class,
+            PROP_USE_COLOR,
+            use_color_param);
 }
 
 static void
@@ -157,6 +270,170 @@ debug_logger_finalize(GObject *object)
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
+}
+
+static void 
+debug_logger_set_property(GObject *object,
+                          guint prop_id,
+                          const GValue *value,
+                          GParamSpec *pspec)
+{
+    DebugLogger *logger;
+    gchar *new_critical_color;
+    gchar *new_warning_color;
+    gchar *new_message_color;
+    gchar *new_info_color;
+    gchar *new_debug_color;
+    gchar *new_unknown_color;
+    gboolean new_use_color;
+
+    logger = DEBUG_LOGGER(object);
+
+    switch(prop_id)
+    {
+        case PROP_CRITICAL_COLOR:
+            new_critical_color = g_value_dup_string(value);
+
+            if(!logger->critical_color)
+                logger->critical_color = g_strdup(new_critical_color);
+            else if( strcmp(logger->critical_color, new_critical_color) != 0)
+            {
+                g_free(logger->critical_color);
+                logger->critical_color = g_strdup(new_critical_color);
+            }
+
+            g_free(new_critical_color);
+
+            break;
+
+        case PROP_WARNING_COLOR:
+            new_warning_color = g_value_dup_string(value);
+
+            if(!logger->warning_color)
+                logger->warning_color = g_strdup(new_warning_color);
+            else if( strcmp(logger->warning_color, new_warning_color) != 0)
+            {
+                g_free(logger->warning_color);
+                logger->warning_color = g_strdup(new_warning_color);
+            }
+
+            g_free(new_warning_color);
+
+            break;
+
+        case PROP_MESSAGE_COLOR:
+            new_message_color = g_value_dup_string(value);
+
+            if(!logger->message_color)
+                logger->message_color = g_strdup(new_message_color);
+            else if( strcmp(logger->message_color, new_message_color) != 0)
+            {
+                g_free(logger->message_color);
+                logger->message_color = g_strdup(new_message_color);
+            }
+
+            g_free(new_message_color);
+
+            break;
+
+        case PROP_INFO_COLOR:
+            new_info_color = g_value_dup_string(value);
+
+            if(!logger->info_color)
+                logger->info_color = g_strdup(new_info_color);
+            else if( strcmp(logger->info_color, new_info_color) != 0)
+            {
+                g_free(logger->info_color);
+                logger->info_color = g_strdup(new_info_color);
+            }
+
+            g_free(new_info_color);
+
+            break;
+
+        case PROP_DEBUG_COLOR:
+            new_debug_color = g_value_dup_string(value);
+
+            if(!logger->debug_color)
+                logger->debug_color = g_strdup(new_debug_color);
+            else if( strcmp(logger->debug_color, new_debug_color) != 0)
+            {
+                g_free(logger->debug_color);
+                logger->debug_color = g_strdup(new_debug_color);
+            }
+
+            g_free(new_debug_color);
+
+            break;
+
+        case PROP_UNKNOWN_COLOR:
+            new_unknown_color = g_value_dup_string(value);
+
+            if(!logger->unknown_color)
+                logger->unknown_color = g_strdup(new_unknown_color);
+            else if( strcmp(logger->unknown_color, new_unknown_color) != 0)
+            {
+                g_free(logger->unknown_color);
+                logger->unknown_color = g_strdup(new_unknown_color);
+            }
+
+            g_free(new_unknown_color);
+
+            break;
+
+        case PROP_USE_COLOR:
+            new_use_color = g_value_get_boolean(value);
+
+            if(logger->use_color != new_use_color)
+                logger->use_color = new_use_color;
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+static void
+debug_logger_get_property(GObject *object,
+                          guint prop_id,
+                          GValue *value,
+                          GParamSpec *pspec)
+{
+    DebugLogger *logger;
+
+    logger = DEBUG_LOGGER(object);
+
+    switch(prop_id)
+    {
+        case PROP_CRITICAL_COLOR:
+            g_value_set_string(value, logger->critical_color);
+            break;
+
+        case PROP_WARNING_COLOR:
+            g_value_set_string(value, logger->warning_color);
+            break;
+
+        case PROP_MESSAGE_COLOR:
+            g_value_set_string(value, logger->message_color);
+            break;
+
+        case PROP_INFO_COLOR:
+            g_value_set_string(value, logger->info_color);
+            break;
+
+        case PROP_DEBUG_COLOR:
+            g_value_set_string(value, logger->debug_color);
+            break;
+
+        case PROP_UNKNOWN_COLOR:
+            g_value_set_string(value, logger->unknown_color);
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
 }
 
 /* Signal Callbacks */
@@ -291,7 +568,9 @@ debug_logger_copy_clicked(GtkWidget *widget, DebugLogger *logger)
         g_free(message);
     }
 
-    gtk_clipboard_set_text(clipboard, copy_data->str, copy_data->len);
+    /* Don't clobber clipboard if we have nothing to add to it. */
+    if(copy_data->len != 0)
+        gtk_clipboard_set_text(clipboard, copy_data->str, copy_data->len);
 
     g_string_free(copy_data, TRUE);
 
@@ -351,40 +630,46 @@ debug_logger_log_func (const gchar *log_domain,
     {
         case G_LOG_LEVEL_CRITICAL:
             type = g_string_append(type, _("Critical"));
-            color = g_string_append(color, "#FF0000");
+            color = g_string_append(color, logger->critical_color);
             break;
 
         case G_LOG_LEVEL_WARNING:
             type = g_string_append(type, _("Warning"));
-            color = g_string_append(color, "#FF9C00");
+            color = g_string_append(color, logger->warning_color);
             break;
 
         case G_LOG_LEVEL_MESSAGE:
             type = g_string_append(type, _("Message"));
-            color = g_string_append(color, "#000000");
+            color = g_string_append(color, logger->message_color);
             break;
 
         case G_LOG_LEVEL_INFO:
             type = g_string_append(type, _("Info"));
-            color = g_string_append(color, "#1E8DFF");
+            color = g_string_append(color, logger->info_color);
             break;
 
         case G_LOG_LEVEL_DEBUG:
             type = g_string_append(type, _("Debug"));
-            color = g_string_append(color, "#444444");
+            color = g_string_append(color, logger->debug_color);
             break;
 
         default:
             type = g_string_append(type, _("Unknown"));
-            color = g_string_append(color, "#000000");
+            color = g_string_append(color, logger->unknown_color);
             break;
     }
 
-    gtk_list_store_set(store, &iter,
-            TYPE_COLUMN, type->str,
-            MSG_COLUMN, message,
-            COLOR_COLUMN, color->str,
-            -1);
+    if(logger->use_color)
+        gtk_list_store_set(store, &iter,
+                TYPE_COLUMN, type->str,
+                MSG_COLUMN, message,
+                COLOR_COLUMN, color->str,
+                -1);
+    else
+        gtk_list_store_set(store, &iter,
+                TYPE_COLUMN, type->str,
+                MSG_COLUMN, message,
+                -1);
 
     g_string_free(type, TRUE);
     g_string_free(color, TRUE);

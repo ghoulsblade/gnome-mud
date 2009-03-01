@@ -1,3 +1,12 @@
+2009-03-01  Les Harris  <lharris@gnome.org>
+
+	* src/debug-logger.[ch] (debug_logger_init),
+	(debug_logger_class_init), (debug_logger_set_property),
+	(debug_logger_get_property), (debug_logger_copy_clicked),
+	(debug_logger_log_func): Added parameters for color use and color
+	customization.
+	* src/gnome-mud.c (main): Enable colored output in logger.
+
 2009-02-28  Les Harris  <lharris@gnome.org>
 
 	* src/debug-logger.c (debug_logger_init), (debug_logger_finalize),

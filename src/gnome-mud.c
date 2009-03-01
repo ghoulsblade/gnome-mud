@@ -106,6 +106,9 @@ int main (gint argc, char *argv[])
     debug_logger_add_domain(logger, "Gnome-Mud", TRUE);
     debug_logger_add_domain(logger, "Telnet", FALSE);
 
+    /* Turn on colored output in logger */
+    g_object_set(logger, "use_color", TRUE, NULL);
+
     g_critical("Foobar");
     g_warning("Barfoo");
     g_message("spam spam spam");
