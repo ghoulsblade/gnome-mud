@@ -147,9 +147,10 @@ mud_profile_finalize (GObject *object)
 
     g_free(profile->priv->preferences.FontName);
     g_free(profile->priv->preferences.CommDev);
-   // g_free(profile->priv->preferences.TerminalType);
-    g_free(profile->priv->preferences.MudListFile);
     g_free(profile->priv->preferences.LastLogDir);
+    g_free(profile->priv->preferences.Encoding);
+    g_free(profile->priv->preferences.ProxyVersion);
+    g_free(profile->priv->preferences.ProxyHostname);
 
     g_object_unref(profile->priv->gconf_client);
 
@@ -174,7 +175,7 @@ mud_profile_new (const gchar *name)
     profile = get_profile(name);
     if (profile == NULL)
     {
-        profile = g_object_new(MUD_TYPE_PROFILE, NULL);
+        profile = g_object_new(TYPE_MUD_PROFILE, NULL);
         profile->name = g_strdup(name);
         profile->preferences = &profile->priv->preferences;
 
@@ -971,22 +972,6 @@ mud_profile_set_scrollback(MudProfile *profile, const gint value)
     RETURN_IF_NOTIFYING(profile);
 
     gconf_client_set_int(profile->priv->gconf_client, key, value, NULL);
-}
-
-static gboolean
-set_TerminalType(MudProfile *profile, const gchar *candidate)
-{
-    if (candidate && strcmp(profile->priv->preferences.TerminalType, candidate) == 0)
-        return FALSE;
-
-    if (candidate != NULL)
-    {
-        g_free(profile->priv->preferences.TerminalType);
-        profile->priv->preferences.TerminalType = g_strdup(candidate);
-        return TRUE;
-    }
-
-    return FALSE;
 }
 
 static gboolean

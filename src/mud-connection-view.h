@@ -7,11 +7,11 @@ G_BEGIN_DECLS
 #include <gnet.h>
 
 
-#define MUD_TYPE_CONNECTION_VIEW               (mud_connection_view_get_type ())
-#define MUD_CONNECTION_VIEW(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_CONNECTION_VIEW, MudConnectionView))
-#define MUD_CONNECTION_VIEW_TYPE_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_CONNECTION_VIEW, MudConnectionViewClass))
-#define MUD_IS_CONNECTION_VIEW(object)         (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_CONNECTION_VIEW))
-#define MUD_IS_CONNECTION_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_CONNECTION_VIEW))
+#define TYPE_MUD_CONNECTION_VIEW               (mud_connection_view_get_type ())
+#define MUD_CONNECTION_VIEW(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), TYPE_MUD_CONNECTION_VIEW, MudConnectionView))
+#define MUD_CONNECTION_VIEW_TYPE_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_MUD_CONNECTION_VIEW, MudConnectionViewClass))
+#define IS_MUD_CONNECTION_VIEW(object)         (G_TYPE_CHECK_INSTANCE_TYPE ((object), TYPE_MUD_CONNECTION_VIEW))
+#define IS_MUD_CONNECTION_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_MUD_CONNECTION_VIEW))
 #define MUD_CONNECTION_VIEW_GET_CLASS(obj)     (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_CONNECTION, MudConnectionViewClass))
 
 typedef struct _MudConnectionView           MudConnectionView;

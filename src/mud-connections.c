@@ -24,6 +24,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
 #include <glade/glade-xml.h>
 #include <string.h>
 
@@ -366,9 +367,9 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
     view = mud_connection_view_new("Default", host, port,
 				   conn->priv->winwidget,
 				   (GtkWidget *)conn->priv->tray, mud_name);
-    mud_window_add_connection_view(conn->priv->parent, view, mud_name);
+    mud_window_add_connection_view(conn->priv->parent, G_OBJECT(view), mud_name);
     mud_connection_view_set_profile(view, get_profile(profile));
-    mud_window_profile_menu_set_active(profile, conn->priv->parent);
+    mud_window_profile_menu_set_active(conn->priv->parent, profile);
 
     if(logon && strlen(logon) != 0)
 	mud_connection_view_set_connect_string(view, logon);
@@ -400,7 +401,7 @@ mud_connections_qconnect_cb(GtkWidget *widget, MudConnections *conn)
         view = mud_connection_view_new("Default", host, port,
                                        conn->priv->winwidget,
                                        (GtkWidget *)conn->priv->tray, (gchar *)host);
-        mud_window_add_connection_view(conn->priv->parent, view, (gchar *)host);
+        mud_window_add_connection_view(conn->priv->parent, G_OBJECT(view), (gchar *)host);
 
         gtk_widget_destroy(conn->priv->window);
     }

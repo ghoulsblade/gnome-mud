@@ -25,13 +25,13 @@
 
 G_BEGIN_DECLS
 
-#define DEBUG_LOGGER_TYPE              (debug_logger_get_type ())
-#define DEBUG_LOGGER(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), DEBUG_LOGGER_TYPE, DebugLogger))
-#define DEBUG_LOGGER_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), DEBUG_LOGGER_TYPE, DebugLoggerClass))
-#define IS_DEBUG_LOGGER(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), DEBUG_LOGGER_TYPE))
-#define IS_DEBUG_LOGGER_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), DEBUG_LOGGER_TYPE))
-#define DEBUG_LOGGER_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), DEBUG_LOGGER_TYPE, DebugLoggerClass))
-#define DEBUG_LOGGER_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), DEBUG_LOGGER_TYPE, DebugLoggerPrivate))
+#define TYPE_DEBUG_LOGGER              (debug_logger_get_type ())
+#define DEBUG_LOGGER(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), TYPE_DEBUG_LOGGER, DebugLogger))
+#define DEBUG_LOGGER_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_DEBUG_LOGGER, DebugLoggerClass))
+#define IS_DEBUG_LOGGER(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), TYPE_DEBUG_LOGGER))
+#define IS_DEBUG_LOGGER_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_DEBUG_LOGGER))
+#define DEBUG_LOGGER_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_DEBUG_LOGGER, DebugLoggerClass))
+#define DEBUG_LOGGER_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), TYPE_DEBUG_LOGGER, DebugLoggerPrivate))
 
 typedef struct _DebugLogger          DebugLogger;
 typedef struct _DebugLoggerClass     DebugLoggerClass;
@@ -42,6 +42,15 @@ struct _DebugLoggerClass
     GObjectClass parent_class;
 
     /* Class Members */
+
+    /* Signals */
+    void (*critical_received)(DebugLogger *logger, gchar *message);
+    void (*warning_received)(DebugLogger *logger, gchar *message);
+    void (*message_received)(DebugLogger *logger, gchar *message);
+    void (*info_received)(DebugLogger *logger, gchar *message);
+    void (*debug_received)(DebugLogger *logger, gchar *message);
+    void (*unknown_received)(DebugLogger *logger, gchar *message);
+
 };
 
 struct _DebugLogger

@@ -115,7 +115,6 @@ void gm_gconf_load_preferences(MudProfile *profile)
     GCONF_GET_BOOLEAN(echo,     		functionality,	EchoText);
     GCONF_GET_BOOLEAN(keeptext,			functionality,	KeepText);
     GCONF_GET_BOOLEAN(system_keys,		functionality,	DisableKeys);
-    GCONF_GET_STRING(mudlist_file,		functionality,	MudListFile);
     GCONF_GET_BOOLEAN(scroll_on_output,	functionality,	ScrollOnOutput);
     GCONF_GET_INT(flush_interval,		functionality,	FlushInterval);
     GCONF_GET_STRING(encoding,          functionality,  Encoding);

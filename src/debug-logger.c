@@ -55,6 +55,7 @@ typedef struct DomainHandler
     GtkWidget *child;
 } DomainHandler;
 
+/* Treeview Columns */
 enum
 {
     TYPE_COLUMN,
@@ -63,6 +64,7 @@ enum
     N_COLUMNS
 };
 
+/* Property Identifiers */
 enum
 {
     PROP_DEBUG_LOGGER_0,
@@ -75,8 +77,24 @@ enum
     PROP_USE_COLOR
 };
 
+/* Signal Indices */
+enum
+{
+    CRITICAL,
+    WARNING,
+    MESSAGE,
+    INFO,
+    DEBUG_MESSAGE,
+    UNKNOWN,
+    LAST_SIGNAL
+};
+
+/* Signal Identifier Map */
+static guint debug_logger_signal[LAST_SIGNAL] = { 0 };
+
 G_DEFINE_TYPE(DebugLogger, debug_logger, G_TYPE_OBJECT);
 
+/* Class Function Prototypes */
 static void debug_logger_init(DebugLogger *self);
 static void debug_logger_class_init(DebugLoggerClass *klass);
 static void debug_logger_finalize(GObject *object);
@@ -89,10 +107,8 @@ static void debug_logger_get_property(GObject *object,
                                       GValue *value,
                                       GParamSpec *pspec);
 
-static gboolean debug_logger_window_delete(GtkWidget *widget,
-                                           GdkEvent *event,
-                                           DebugLogger *self);
 
+/* Private Method Prototypes */
 static guint debug_logger_insert_handler(DebugLogger *logger,
                                          const gchar *domain);
 
@@ -104,12 +120,24 @@ static void debug_logger_log_func (const gchar *log_domain,
                                    const gchar *message,
                                    DebugLogger *logger);
 
+/* Callback Prototypes */
 static void debug_logger_save_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_copy_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_select_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_clear_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_switch_page(GtkNotebook *notebook, GtkNotebookPage *page,
                                      guint page_num, DebugLogger *logger);
+static gboolean debug_logger_window_delete(GtkWidget *widget,
+                                           GdkEvent *event,
+                                           DebugLogger *self);
+
+/* Signal Handler Prototypes */
+static void debug_logger_critical_received(DebugLogger *logger, gchar *message);
+static void debug_logger_warning_received(DebugLogger *logger, gchar *message);
+static void debug_logger_message_received(DebugLogger *logger, gchar *message);
+static void debug_logger_info_received(DebugLogger *logger, gchar *message);
+static void debug_logger_debug_received(DebugLogger *logger, gchar *message);
+static void debug_logger_unknown_received(DebugLogger *logger, gchar *message);
 
 /* Class Functions */
 static void
@@ -180,58 +208,7 @@ debug_logger_init(DebugLogger *self)
 static void
 debug_logger_class_init(DebugLoggerClass *klass)
 {
-    GParamSpec *critical_color_param;
-    GParamSpec *warning_color_param;
-    GParamSpec *message_color_param;
-    GParamSpec *info_color_param;
-    GParamSpec *debug_color_param;
-    GParamSpec *unknown_color_param;
-    GParamSpec *use_color_param;
-
     GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-
-    /* Create parameter specs */
-    critical_color_param = g_param_spec_string("critical-color",
-                                               "critical color",
-                                               "color of critical warning text",
-                                               "#FF0000",
-                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
-
-    warning_color_param  = g_param_spec_string("warning-color",
-                                               "warning color",
-                                               "color of warning text",
-                                               "#FF9C00",
-                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
-
-    message_color_param  = g_param_spec_string("message-color",
-                                               "message color",
-                                               "color of message text",
-                                               "#000000",
-                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
-
-    info_color_param     = g_param_spec_string("info-color",
-                                               "info color",
-                                               "color of info text",
-                                               "#1E8DFF",
-                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
-
-    debug_color_param    = g_param_spec_string("debug-color",
-                                               "debug color",
-                                               "color of debug text",
-                                               "#444444",
-                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
-
-    unknown_color_param  = g_param_spec_string("unknown-color",
-                                               "unknown color",
-                                               "color of unknown type text",
-                                               "#000000",
-                                               G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
-
-    use_color_param      = g_param_spec_boolean("use-color",
-                                                "use color",
-                                                "color output based on type",
-                                                FALSE,
-                                                G_PARAM_READWRITE | G_PARAM_CONSTRUCT);
 
     /* Override base object finalize method */
     gobject_class->finalize = debug_logger_finalize;
@@ -243,34 +220,131 @@ debug_logger_class_init(DebugLoggerClass *klass)
     /* Add private data to class */
     g_type_class_add_private(klass, sizeof(DebugLoggerPrivate));
 
-    /* Install Properties */
+    /* Create and Install Properties */
     g_object_class_install_property(gobject_class, 
             PROP_CRITICAL_COLOR,
-            critical_color_param);
+            g_param_spec_string("critical-color",
+                "critical color",
+                "color of critical warning text",
+                "#FF0000",
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
     g_object_class_install_property(gobject_class, 
             PROP_WARNING_COLOR,
-            warning_color_param);
+            g_param_spec_string("warning-color",
+                "warning color",
+                "color of warning text",
+                "#FF9C00",
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
     g_object_class_install_property(gobject_class, 
             PROP_MESSAGE_COLOR,
-            message_color_param);   
+            g_param_spec_string("message-color",
+                "message color",
+                "color of message text",
+                "#000000",
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
     g_object_class_install_property(gobject_class, 
             PROP_INFO_COLOR,
-            info_color_param);
+            g_param_spec_string("info-color",
+                "info color",
+                "color of info text",
+                "#1E8DFF",
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
     g_object_class_install_property(gobject_class, 
             PROP_DEBUG_COLOR,
-            debug_color_param);
+            g_param_spec_string("debug-color",
+                "debug color",
+                "color of debug text",
+                "#444444",
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
     g_object_class_install_property(gobject_class, 
             PROP_UNKNOWN_COLOR,
-            unknown_color_param);
+            g_param_spec_string("unknown-color",
+                "unknown color",
+                "color of unknown type text",
+                "#000000",
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
     g_object_class_install_property(gobject_class,
             PROP_USE_COLOR,
-            use_color_param);
+            g_param_spec_boolean("use-color",
+                "use color",
+                "color output based on type",
+                FALSE,
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+
+    /* Set signal handlers */
+    klass->critical_received = debug_logger_critical_received;
+    klass->warning_received = debug_logger_warning_received;
+    klass->message_received = debug_logger_message_received;
+    klass->info_received = debug_logger_info_received;
+    klass->debug_received = debug_logger_debug_received;
+    klass->unknown_received = debug_logger_unknown_received;
+
+    /* Install signals */
+    debug_logger_signal[CRITICAL] =
+        g_signal_new("critical-received",
+                      TYPE_DEBUG_LOGGER,
+                      G_SIGNAL_RUN_LAST|G_SIGNAL_NO_RECURSE|G_SIGNAL_NO_HOOKS,
+                      G_STRUCT_OFFSET(DebugLoggerClass, critical_received),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__STRING,
+                      G_TYPE_NONE, 1,
+                      G_TYPE_STRING);
+
+    debug_logger_signal[WARNING] =
+        g_signal_new("warning-received",
+                      TYPE_DEBUG_LOGGER,
+                      G_SIGNAL_RUN_LAST|G_SIGNAL_NO_RECURSE|G_SIGNAL_NO_HOOKS,
+                      G_STRUCT_OFFSET(DebugLoggerClass, warning_received),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__STRING,
+                      G_TYPE_NONE, 1,
+                      G_TYPE_STRING);
+
+    debug_logger_signal[MESSAGE] =
+        g_signal_new("message-received",
+                      TYPE_DEBUG_LOGGER,
+                      G_SIGNAL_RUN_LAST|G_SIGNAL_NO_RECURSE|G_SIGNAL_NO_HOOKS,
+                      G_STRUCT_OFFSET(DebugLoggerClass, message_received),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__STRING,
+                      G_TYPE_NONE, 1,
+                      G_TYPE_STRING);
+
+    debug_logger_signal[INFO] =
+        g_signal_new("info-received",
+                      TYPE_DEBUG_LOGGER,
+                      G_SIGNAL_RUN_LAST|G_SIGNAL_NO_RECURSE|G_SIGNAL_NO_HOOKS,
+                      G_STRUCT_OFFSET(DebugLoggerClass, info_received),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__STRING,
+                      G_TYPE_NONE, 1,
+                      G_TYPE_STRING);
+
+    debug_logger_signal[DEBUG_MESSAGE] =
+        g_signal_new("debug-received",
+                      TYPE_DEBUG_LOGGER,
+                      G_SIGNAL_RUN_LAST|G_SIGNAL_NO_RECURSE|G_SIGNAL_NO_HOOKS,
+                      G_STRUCT_OFFSET(DebugLoggerClass, debug_received),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__STRING,
+                      G_TYPE_NONE, 1,
+                      G_TYPE_STRING);
+
+    debug_logger_signal[UNKNOWN] =
+        g_signal_new("unknown-received",
+                      TYPE_DEBUG_LOGGER,
+                      G_SIGNAL_RUN_LAST|G_SIGNAL_NO_RECURSE|G_SIGNAL_NO_HOOKS,
+                      G_STRUCT_OFFSET(DebugLoggerClass, unknown_received),
+                      NULL, NULL,
+                      g_cclosure_marshal_VOID__STRING,
+                      G_TYPE_NONE, 1,
+                      G_TYPE_STRING);
 }
 
 static void
@@ -455,6 +529,43 @@ debug_logger_get_property(GObject *object,
             G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
             break;
     }
+}
+
+/* Default Signal Handlers */
+static void
+debug_logger_critical_received(DebugLogger *logger, gchar *message)
+{
+    return;
+}
+
+static void
+debug_logger_warning_received(DebugLogger *logger, gchar *message)
+{
+    return;
+}
+
+static void
+debug_logger_message_received(DebugLogger *logger, gchar *message)
+{
+    return;
+}
+
+static void
+debug_logger_info_received(DebugLogger *logger, gchar *message)
+{
+    return;
+}
+
+static void
+debug_logger_debug_received(DebugLogger *logger, gchar *message)
+{
+    return;
+}
+
+static void
+debug_logger_unknown_received(DebugLogger *logger, gchar *message)
+{
+    return;
 }
 
 /* Signal Callbacks */
@@ -694,31 +805,43 @@ debug_logger_log_func (const gchar *log_domain,
         case G_LOG_LEVEL_CRITICAL:
             type = g_string_append(type, _("Critical"));
             color = g_string_append(color, logger->critical_color);
+
+            g_signal_emit(logger, debug_logger_signal[CRITICAL], 0, message);
             break;
 
         case G_LOG_LEVEL_WARNING:
             type = g_string_append(type, _("Warning"));
             color = g_string_append(color, logger->warning_color);
+
+            g_signal_emit(logger, debug_logger_signal[WARNING], 0, message);
             break;
 
         case G_LOG_LEVEL_MESSAGE:
             type = g_string_append(type, _("Message"));
             color = g_string_append(color, logger->message_color);
+
+            g_signal_emit(logger, debug_logger_signal[MESSAGE], 0, message);
             break;
 
         case G_LOG_LEVEL_INFO:
             type = g_string_append(type, _("Info"));
             color = g_string_append(color, logger->info_color);
+
+            g_signal_emit(logger, debug_logger_signal[INFO], 0, message);
             break;
 
         case G_LOG_LEVEL_DEBUG:
             type = g_string_append(type, _("Debug"));
             color = g_string_append(color, logger->debug_color);
+
+            g_signal_emit(logger, debug_logger_signal[DEBUG_MESSAGE], 0, message);
             break;
 
         default:
             type = g_string_append(type, _("Unknown"));
             color = g_string_append(color, logger->unknown_color);
+
+            g_signal_emit(logger, debug_logger_signal[UNKNOWN], 0, message);
             break;
     }
 
@@ -774,14 +897,18 @@ debug_logger_log_func (const gchar *log_domain,
 static guint 
 debug_logger_insert_handler(DebugLogger *logger, const gchar *domain)
 {
-    return g_log_set_handler(domain, G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL |
-           G_LOG_FLAG_RECURSION, (GLogFunc)debug_logger_log_func, logger);
+    g_return_if_fail(IS_DEBUG_LOGGER(logger));
+
+    return g_log_set_handler(domain, G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL, 
+            (GLogFunc)debug_logger_log_func, logger);
 }
 
 static DomainHandler *
 debug_logger_get_handler_by_name(DebugLogger *logger, const gchar *name)
 {
     GSList *entry;
+
+    g_return_if_fail(IS_DEBUG_LOGGER(logger));
 
     for(entry = logger->priv->domains; entry != NULL; entry = g_slist_next(entry))
     {

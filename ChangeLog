@@ -1,3 +1,28 @@
+2009-03-04  Les Harris  <lharris@gnome.org>
+
+	* src/debug-logger.[ch]: Added some new signals to the logger obejct. 
+	* src/gnome-mud.c (main): Allocated the mud window without a
+	constructor.
+	* src/mud-connection-view.[ch]: (mud_connection_view_init),
+	(mud_connection_view_reread_profile),
+	(mud_connection_view_profile_changed_cb),
+	(mud_connection_view_new), (mud_connection_view_send_naws),
+	(mud_connection_view_resized_cb): Removed some useless variables,
+	changed MUD_TYPE_CONNECTION_VIEW to TYPE_MUD_CONNECTION_VIEW. Playing
+	with NAWS stuff, techically it's broken atm (but it will appear to
+	work fine, it'll just spam the server whenever the window is moved)
+	* src/mud-connections.c (mud_connections_connect_cb),
+	(mud_connections_qconnect_cb): Reverted function call to older
+	version.
+	* src/mud-parse-alias.c: Added needed include.
+	* src/mud-profile.[ch] (mud_profile_finalize), (mud_profile_new): Base
+	work done to refactor this into a nicer gobject. Closed some memory
+	leaks.
+	* src/mud-telnet.c (mud_telnet_init), (mud_telnet_new): Did some base
+	line work in order to later update the MudTelnet object.
+	* src/mud-window.[ch]: Modernized the gobject stuff quite a bit, made
+	code less of a mess.  First step on more refactoring.
+
 2009-03-01  Les Harris  <lharris@gnome.org>
 
 	* src/debug-logger.c (debug_logger_init),

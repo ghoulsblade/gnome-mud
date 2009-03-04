@@ -23,6 +23,7 @@
 #include <glib-object.h>
 #include <glib/gi18n.h>
 #include <string.h>
+#include <gconf/gconf-client.h>
 
 #include "mud-parse-base.h"
 #include "mud-parse-alias.h"

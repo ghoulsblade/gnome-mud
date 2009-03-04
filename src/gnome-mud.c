@@ -42,6 +42,7 @@
 
 int main (gint argc, char *argv[])
 {
+    MudWindow *window;
     GConfClient *client;
     DebugLogger *logger, *logger2;
     GError      *err = NULL;
@@ -101,7 +102,7 @@ int main (gint argc, char *argv[])
 
     gtk_window_set_default_icon_name(GMUD_STOCK_ICON);
 
-    logger = g_object_new(DEBUG_LOGGER_TYPE, NULL);
+    logger = g_object_new(TYPE_DEBUG_LOGGER, NULL);
 
     debug_logger_add_domain(logger, "Gnome-Mud", TRUE);
     debug_logger_add_domain(logger, "Telnet", FALSE);
@@ -112,7 +113,8 @@ int main (gint argc, char *argv[])
     /* Turn on colored output in logger */
     g_object_set(logger, "use-color", TRUE, NULL);
 
-    mud_window_new();
+    /* Let 'er rip */
+    window = g_object_new(TYPE_MUD_WINDOW, NULL);
 
     gtk_main();
 

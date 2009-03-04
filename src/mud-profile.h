@@ -3,14 +3,16 @@
 
 G_BEGIN_DECLS
 
+#include <gtk/gtk.h>
 #include <gdk/gdk.h>
 
-#define MUD_TYPE_PROFILE              (mud_profile_get_type ())
-#define MUD_PROFILE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_PROFILE, MudProfile))
-#define MUD_PROFILE_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_PROFILE, MudProfile))
-#define MUD_IS_PROFILE(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_PROFILE))
-#define MUD_IS_PROFILE_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_PROFILE))
-#define MUD_PROFILE_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_PROFILE, MudProfileClass))
+#define TYPE_MUD_PROFILE              (mud_profile_get_type ())
+#define MUD_PROFILE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), TYPE_MUD_PROFILE, MudProfile))
+#define MUD_PROFILE_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_MUD_PROFILE, MudProfile))
+#define IS_MUD_PROFILE(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), TYPE_MUD_PROFILE))
+#define IS_MUD_PROFILE_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_MUD_PROFILE))
+#define MUD_PROFILE_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_MUD_PROFILE, MudProfileClass))
+#define MUD_PROFILE_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), TYPE_MUD_PROFILE, MudProfilePrivate))
 
 #define C_MAX 16
 
@@ -28,10 +30,10 @@ struct _MudPrefs
     gboolean   ScrollOnOutput;
     gchar     *FontName;
     gchar     *CommDev;
-    gchar     *TerminalType;
-    gchar     *MudListFile;
     gchar     *LastLogDir;
-    gchar     *TabLocation;
+    gchar     *Encoding;
+    gchar     *ProxyVersion;
+    gchar     *ProxyHostname;
     gint       History;
     gint       Scrollback;
     gint       FlushInterval;
@@ -44,9 +46,7 @@ struct _MudPrefs
     gboolean UseRemoteEncoding;
     gboolean UseProxy;
     gboolean UseRemoteDownload;
-    gchar *Encoding;
-    gchar *ProxyVersion;
-    gchar *ProxyHostname;
+
     GdkColor   Colors[C_MAX];
 };
 
@@ -89,7 +89,7 @@ struct _MudProfileClass
     void (* changed) (MudProfile *profile, MudProfileMask *mask, gpointer data);
 };
 
-GType mud_profile_get_type (void) G_GNUC_CONST;
+GType mud_profile_get_type (void);
 
 MudProfile* mud_profile_new (const gchar *name);
 void mud_profile_delete(const gchar *name);
@@ -100,7 +100,6 @@ MudProfile* get_profile(const gchar *name);
 void mud_profile_copy_preferences (MudProfile *from, MudProfile *to);
 GList* mud_profile_process_commands (MudProfile *profile, const gchar *data);
 
-#include <gtk/gtk.h>
 void mud_profile_set_echotext (MudProfile *profile, gboolean value);
 void mud_profile_set_keeptext (MudProfile *profile, gboolean value);
 void mud_profile_set_disablekeys (MudProfile *profile, gboolean value);

@@ -112,11 +112,43 @@ mud_telnet_init (MudTelnet *telnet)
 {
     telnet->priv = g_new0(MudTelnetPrivate, 1);
 
+    telnet->tel_state = TEL_STATE_TEXT;
+    telnet->ttype_iteration = 0;
+
+    memset(telnet->telopt_states, 0, sizeof(telnet->telopt_states));
+    memset(telnet->handlers, 0, sizeof(telnet->handlers));
+
+    mud_telnet_register_handlers(telnet);
+
+    telnet->eor_enabled = FALSE;
+
+    telnet->buffer = NULL;
+    telnet->pos = 0;
+    telnet->subreq_pos = 0;
+
+    telnet->zmp_commands = NULL;
+
     telnet->processed = g_string_new(NULL);
 
 #ifdef ENABLE_GST
+    telnet->sound[0].files = NULL;
+    telnet->sound[0].current_command = NULL;
+    telnet->sound[0].playing = FALSE;
+    telnet->sound[0].files_len = 0;
+
+    telnet->sound[1].files = NULL;
+    telnet->sound[1].current_command = NULL;
+    telnet->sound[1].playing = FALSE;
+    telnet->sound[1].files_len = 0;
+
     telnet->prev_buffer = NULL;
     telnet->base_url = NULL;
+    telnet->msp_parser.enabled = FALSE;
+
+#endif
+
+#ifdef ENABLE_MCCP
+    telnet->mccp_new = TRUE;
 #endif
 }
 
@@ -184,43 +216,8 @@ mud_telnet_new(MudConnectionView *parent, GConn *connection, gchar *mud_name)
     telnet = g_object_new(MUD_TYPE_TELNET, NULL);
 
     telnet->parent = parent;
-    telnet->conn = connection;
-    telnet->tel_state = TEL_STATE_TEXT;
-    telnet->ttype_iteration = 0;
-
-    memset(telnet->telopt_states, 0, sizeof(telnet->telopt_states));
-    memset(telnet->handlers, 0, sizeof(telnet->handlers));
-
-    mud_telnet_register_handlers(telnet);
-
-    telnet->eor_enabled = FALSE;
-
     telnet->mud_name = g_strdup(mud_name);
-    telnet->buffer = NULL;
-    telnet->pos = 0;
-    telnet->subreq_pos = 0;
-
-    telnet->zmp_commands = NULL;
-
-#ifdef ENABLE_GST
-    telnet->sound[0].files = NULL;
-    telnet->sound[0].current_command = NULL;
-    telnet->sound[0].playing = FALSE;
-    telnet->sound[0].files_len = 0;
-
-    telnet->sound[1].files = NULL;
-    telnet->sound[1].current_command = NULL;
-    telnet->sound[1].playing = FALSE;
-    telnet->sound[1].files_len = 0;
-
-    telnet->base_url = NULL;
-    telnet->msp_parser.enabled = FALSE;
-
-#endif
-
-#ifdef ENABLE_MCCP
-    telnet->mccp_new = TRUE;
-#endif
+    telnet->conn = connection;
 
     return telnet;
 }

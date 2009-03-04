@@ -95,9 +95,6 @@ struct _MudConnectionViewPrivate
 #endif
 
     GString *processed;
-
-    guint width;
-    guint height;
 };
 
 static void mud_connection_view_init                     (MudConnectionView *connection_view);
@@ -107,12 +104,13 @@ static void mud_connection_view_set_terminal_colors      (MudConnectionView *vie
 static void mud_connection_view_set_terminal_scrollback  (MudConnectionView *view);
 static void mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view);
 static void mud_connection_view_set_terminal_font        (MudConnectionView *view);
-static void mud_connection_view_set_terminal_type        (MudConnectionView *view);
 static void mud_connection_view_profile_changed_cb       (MudProfile *profile, MudProfileMask *mask, MudConnectionView *view);
 static gboolean mud_connection_view_button_press_event   (GtkWidget *widget, GdkEventButton *event, MudConnectionView *view);
 static void mud_connection_view_popup                    (MudConnectionView *view, GdkEventButton *event);
 static void mud_connection_view_reread_profile           (MudConnectionView *view);
 static void mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer data);
+
+static void mud_connection_view_resized_cb(MudWindow *window, MudConnectionView *view);
 
 #ifdef ENABLE_GST
 static void mud_connection_view_http_cb(GConnHttp *conn, GConnHttpEvent *event, gpointer data);
@@ -408,9 +406,6 @@ mud_connection_view_init (MudConnectionView *connection_view)
     vte_terminal_set_encoding(VTE_TERMINAL(connection_view->priv->terminal), "ISO-8859-1");
     vte_terminal_set_emulation(VTE_TERMINAL(connection_view->priv->terminal), "xterm");
 
-    connection_view->priv->width = VTE_TERMINAL(connection_view->priv->terminal)->column_count;
-    connection_view->priv->height = VTE_TERMINAL(connection_view->priv->terminal)->row_count;
-        
     gtk_box_pack_start(GTK_BOX(term_box), connection_view->priv->terminal, TRUE, TRUE, 0);
     g_signal_connect(G_OBJECT(connection_view->priv->terminal),
                      "button_press_event",
@@ -454,7 +449,6 @@ mud_connection_view_reread_profile(MudConnectionView *view)
     mud_connection_view_set_terminal_scrollback(view);
     mud_connection_view_set_terminal_scrolloutput(view);
     mud_connection_view_set_terminal_font(view);
-    mud_connection_view_set_terminal_type(view);
 }
 
 static void
@@ -830,19 +824,10 @@ mud_connection_view_set_terminal_font(MudConnectionView *view)
 }
 
 static void
-mud_connection_view_set_terminal_type(MudConnectionView *view)
-{
-    vte_terminal_set_emulation(VTE_TERMINAL(view->priv->terminal),
-            view->priv->profile->preferences->TerminalType);
-}
-
-static void
 mud_connection_view_profile_changed_cb(MudProfile *profile, MudProfileMask *mask, MudConnectionView *view)
 {
     if (mask->ScrollOnOutput)
         mud_connection_view_set_terminal_scrolloutput(view);
-    if (mask->TerminalType)
-        mud_connection_view_set_terminal_type(view);
     if (mask->Scrollback)
         mud_connection_view_set_terminal_scrollback(view);
     if (mask->FontName)
@@ -993,7 +978,7 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname,
     g_assert(hostname != NULL);
     g_assert(port > 0);
 
-    view = g_object_new(MUD_TYPE_CONNECTION_VIEW, NULL);
+    view = g_object_new(TYPE_MUD_CONNECTION_VIEW, NULL);
 
     view->priv->hostname = g_strdup(hostname);
     view->priv->port = port;
@@ -1302,19 +1287,18 @@ mud_connection_view_set_naws(MudConnectionView *view, gint enabled)
 void
 mud_connection_view_send_naws(MudConnectionView *view)
 {
-    if(view && view->connection 
-            && gnet_conn_is_connected(view->connection) 
-            && view->naws_enabled)
-    {
-        guint curr_width = VTE_TERMINAL(view->priv->terminal)->column_count;
-        guint curr_height = VTE_TERMINAL(view->priv->terminal)->row_count;
+    guint curr_width = VTE_TERMINAL(view->priv->terminal)->column_count;
+    guint curr_height = VTE_TERMINAL(view->priv->terminal)->row_count;
 
-        if(curr_width != view->priv->width || curr_height != view->priv->height)
-            mud_telnet_send_naws(view->priv->telnet, curr_width, curr_height);
+    mud_telnet_send_naws(view->priv->telnet, curr_width, curr_height);
+}
 
-        view->priv->width = curr_width;
-        view->priv->height = curr_height;
-    }
+static void
+mud_connection_view_resized_cb(MudWindow *window, MudConnectionView *view)
+{
+    g_message("resized cb called");
+
+    g_printf("foo");
 }
 
 gboolean
