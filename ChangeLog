@@ -1,5 +1,46 @@
 2009-03-04  Les Harris  <lharris@gnome.org>
 
+	* configure.ac:
+	* src/gnome-mud.c:
+	* src/gnome-mud.h:
+	* src/mud-connections.c:
+	* src/mud-connections.h:
+	* src/mud-log.c:
+	* src/mud-log.h:
+	* src/mud-parse-alias.c:
+	* src/mud-parse-alias.h:
+	* src/mud-parse-base.c:
+	* src/mud-parse-base.h:
+	* src/mud-parse-trigger.c:
+	* src/mud-parse-trigger.h:
+	* src/mud-preferences-window.c:
+	* src/mud-preferences-window.h:
+	* src/mud-profile.c:
+	* src/mud-profile.h:
+	* src/mud-regex.c:
+	* src/mud-regex.h:
+	* src/mud-telnet-handlers.c:
+	* src/mud-telnet-handlers.h:
+	* src/mud-telnet-mccp.c:
+	* src/mud-telnet-mccp.h:
+	* src/mud-telnet-msp.c:
+	* src/mud-telnet-msp.h:
+	* src/mud-telnet-zmp.c:
+	* src/mud-telnet-zmp.h:
+	* src/mud-telnet.c:
+	* src/mud-telnet.h:
+	* src/mud-tray.c:
+	* src/mud-tray.h:
+	* src/mud-window-profile.c:
+	* src/mud-window-profile.h:
+	* src/mud-window.c:
+	* src/mud-window.h:
+	* src/utils.c:
+	* src/utils.h: Updated copyright information, added copyright and
+	license preamble where missing.
+
+2009-03-04  Les Harris  <lharris@gnome.org>
+
 	* src/debug-logger.[ch]: Added some new signals to the logger obejct. 
 	* src/gnome-mud.c (main): Allocated the mud window without a
 	constructor.

@@ -1,5 +1,7 @@
-/* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1998-2006 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud Client
+ * mud-tray.c
+ * Copyright (C) 1998-2005 Robin Ericsson <lobbin@localhost.nu>
+ * Copyright (C) 2005-2009 Les Harris <lharris@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *
- *
- * Heavily inspired on the gaim docklet plugin
  */
 
 #include <glib/gi18n.h>

@@ -1,6 +1,7 @@
 dnl Configuration for GNOME-Mud -- a MUD client for the GNOME Desktop
 dnl
-dnl Copyright (C) 1999,2000,2001,2002,2003,2004,2005,2006,2008,2009 Free Software Foundation, Inc.
+dnl Copyright (C) 1998-2005 Robin Ericsson <lobbin@localhost.nu>
+dnl Copyright (C) 2005-2009 Les Harris <lharris@gnome.org>
 dnl
 dnl GNOME-Mud is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by

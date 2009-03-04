@@ -1,5 +1,6 @@
-/* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 2006 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud Client
+ * mud-parse-trigger.c
+ * Copyright (C) 2005-2009 Les Harris <lharris@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

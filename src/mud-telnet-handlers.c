@@ -1,5 +1,6 @@
-/* GNOME-Mud - A simple Mud CLient
- * Copyright (C) 1998-2006 Robin Ericsson <lobbin@localhost.nu>
+/* GNOME-Mud - A simple Mud Client
+ * mud-telnet-handlers.c
+ * Copyright (C) 2005-2009 Les Harris <lharris@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
-
-/* Code originally from wxMUD. Converted to a GObject by Les Harris.
- * wxMUD - an open source cross-platform MUD client.
- * Copyright (C) 2003-2008 Mart Raudsepp and Gabriel Levin
  */
 
 #ifdef HAVE_CONFIG_H
