@@ -1,4 +1,4 @@
-SUBDIRS = data doc plugins po src ui
+SUBDIRS = data doc po src ui
 
 @INTLTOOL_SCHEMAS_RULE@
 @INTLTOOL_DESKTOP_RULE@
@@ -22,7 +22,6 @@ EXTRA_DIST = \
 	ChangeLog \
 	INSTALL \
 	NEWS \
-	PLUGIN.API \
 	README \
 	ROADMAP \
 	config.rpath \

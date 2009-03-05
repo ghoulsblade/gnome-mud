@@ -22,11 +22,6 @@ gnome_mud_SOURCES =				\
 	gnome-mud.c				\
 	gnome-mud.h				\
 	gnome-mud-icons.h \
-	modules_api.c				\
-	modules_api.h				\
-	modules.c				\
-	modules.h				\
-	modules-structures.h		\
 	mud-connection-view.c		\
 	mud-connections.c \
 	mud-connections.h \

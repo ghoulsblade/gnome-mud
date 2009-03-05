@@ -1,5 +1,22 @@
 2009-03-04  Les Harris  <lharris@gnome.org>
 
+	* Makefile.am: Removed plugins subdir.
+	* PLUGIN.API: Toasted
+	* configure.ac: Removed plugins makefile
+	* src/Makefile.am: Removed plugin files.
+	* src/gnome-mud.c (main):
+	* src/modules-structures.h:
+	* src/modules.c:
+	* src/modules.h:
+	* src/modules_api.c:
+	* src/modules_api.h: Removed plugins files.
+	* src/mud-connection-view.c (mud_connection_view_send),
+	(mud_connection_view_network_event_cb):
+	* src/mud-window.[ch] (mud_window_init): Removed plugin related code.
+	* ui/main.glade: Removed plugin ui.
+
+2009-03-04  Les Harris  <lharris@gnome.org>
+
 	* configure.ac:
 	* src/gnome-mud.c:
 	* src/gnome-mud.h:

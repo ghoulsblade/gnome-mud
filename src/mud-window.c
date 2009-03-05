@@ -38,7 +38,6 @@
 #include "mud-preferences-window.h"
 #include "mud-window.h"
 #include "mud-tray.h"
-#include "modules.h"
 #include "mud-profile.h"
 #include "mud-window-profile.h"
 #include "mud-parse-base.h"
@@ -179,9 +178,6 @@ mud_window_init (MudWindow *self)
     self->priv->image = glade_xml_get_widget(glade, "image");
     self->priv->tray = mud_tray_new(self, self->priv->window);
 
-    // FIXME: Get rid of this stupid global
-    pluginMenu = glade_xml_get_widget(glade, "plugin_menu_menu");
-
     /* connect quit buttons */
     g_signal_connect(self->priv->window,
                      "destroy",
@@ -263,11 +259,6 @@ mud_window_init (MudWindow *self)
                      "switch-page",
                      G_CALLBACK(mud_window_notebook_page_change),
                      self);
-
-    g_signal_connect(glade_xml_get_widget(glade, "plugin_list"),
-                     "activate",
-                     G_CALLBACK(do_plugin_information),
-                     NULL);
 
     g_signal_connect(self->priv->window,
                      "configure-event",
@@ -918,75 +909,6 @@ mud_window_populate_profiles_menu(MudWindow *self)
                      self);
 }
     
-void
-mud_window_handle_plugins(MudWindow *self, gint id, gchar *data, guint length, gint dir)
-{
-    GSList *entry, *viewlist;
-    MudViewEntry *mudview;
-    GList *plugin_list;
-    PLUGIN_DATA *pd;
-
-    g_return_if_fail(IS_MUD_WINDOW(self));
-
-    viewlist = self->priv->mud_views_list;
-
-    for(entry = viewlist; entry != NULL; entry = g_slist_next(entry))
-    {
-        mudview = (MudViewEntry *)entry->data;
-
-        if(mudview->id == id)
-        {
-            if(dir)
-            {
-                for(plugin_list = g_list_first(Plugin_data_list); plugin_list != NULL; plugin_list = plugin_list->next)
-                {
-                    if(plugin_list->data != NULL)
-                    {
-                        pd = (PLUGIN_DATA *)plugin_list->data;
-
-                        if(pd->plugin && pd->plugin->enabled && (pd->dir == PLUGIN_DATA_IN))
-                        {
-                            GString *buf = g_string_new(NULL);
-                            int i;
-
-                            for(i = 0; i < length; i++)
-                                g_string_append_c(buf, data[i]);
-
-                            (*pd->datafunc)(pd->plugin, buf->str, length, mudview->view);
-
-                            g_string_free(buf, FALSE);
-                        }
-                    }
-                }
-            }
-            else
-            {
-
-                for(plugin_list = g_list_first(Plugin_data_list); plugin_list != NULL; plugin_list = plugin_list->next)
-                {
-                    if(plugin_list->data != NULL)
-                    {
-                        pd = (PLUGIN_DATA *)plugin_list->data;
-
-                        if(pd->plugin && pd->plugin->enabled && (pd->dir == PLUGIN_DATA_OUT))
-                        {
-                            GString *buf = g_string_new(NULL);
-                            int i;
-
-                            for(i = 0; i < length; i++)
-                                g_string_append_c(buf, data[i]);
-
-                            (*pd->datafunc)(pd->plugin, buf->str, length, mudview->view);
-
-                            g_string_free(buf, FALSE);
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 GtkWidget*
 mud_window_get_window(MudWindow *self)
 {

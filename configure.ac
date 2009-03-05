@@ -146,7 +146,6 @@ AC_CONFIG_FILES([
   data/icons/Makefile
   doc/Makefile
   src/Makefile
-  plugins/Makefile
   po/Makefile.in
   ui/Makefile
 ])

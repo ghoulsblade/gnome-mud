@@ -193,42 +193,6 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkMenuItem" id="plugin_menu">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">_Plugins</property>
-                        <property name="use_underline">True</property>
-                        <child>
-                          <widget class="GtkMenu" id="plugin_menu_menu">
-                            <child>
-                              <widget class="GtkSeparatorMenuItem" id="separator9">
-                                <property name="visible">True</property>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkImageMenuItem" id="plugin_list">
-                                <property name="label" translatable="yes">Plugin _Information...</property>
-                                <property name="visible">True</property>
-                                <property name="use_underline">True</property>
-                                <property name="use_stock">False</property>
-                                <child internal-child="image">
-                                  <widget class="GtkImage" id="image8">
-                                    <property name="visible">True</property>
-                                    <property name="stock">gtk-dialog-info</property>
-                                    <property name="icon-size">1</property>
-                                  </widget>
-                                </child>
-                              </widget>
-                            </child>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkSeparatorMenuItem" id="separator8">
-                        <property name="visible">True</property>
-                      </widget>
-                    </child>
-                    <child>
                       <widget class="GtkImageMenuItem" id="menu_preferences">
                         <property name="label">gtk-preferences</property>
                         <property name="visible">True</property>

@@ -53,14 +53,11 @@ struct _MudWindow
 GType mud_window_get_type (void);
 
 void mud_window_add_connection_view(MudWindow *window, GObject *view, gchar *tabLbl);
-void mud_window_handle_plugins(MudWindow *window, gint id, gchar *data, guint length, gint dir);
 void mud_window_populate_profiles_menu(MudWindow *window);
 void mud_window_profile_menu_set_active(MudWindow *window, gchar *name);
 void mud_window_close_current_window(MudWindow *window);
 void mud_window_disconnected(MudWindow *window);
 GtkWidget* mud_window_get_window(MudWindow *window);
-
-extern GtkWidget *pluginMenu;
 
 G_END_DECLS
 

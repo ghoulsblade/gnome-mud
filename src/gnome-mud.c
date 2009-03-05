@@ -38,7 +38,6 @@
 #include "mud-connection-view.h"
 #include "mud-window.h"
 #include "mud-profile.h"
-#include "modules.h"
 #include "utils.h"
 #include "debug-logger.h"
 
@@ -83,10 +82,6 @@ int main (gint argc, char *argv[])
     if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
         mkdir(buf, 0777);
 
-    g_snprintf(buf, 2048, "%s/.gnome-mud/plugins/", g_get_home_dir());
-    if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
-        mkdir(buf, 0777 );
-
     g_snprintf(buf, 2048, "%s/.gnome-mud/logs/", g_get_home_dir());
     if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
         mkdir(buf, 0777 );
@@ -94,9 +89,6 @@ int main (gint argc, char *argv[])
     g_snprintf(buf, 2048, "%s/.gnome-mud/audio/", g_get_home_dir());
     if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
         mkdir(buf, 0777 );
-
-    init_modules(buf);
-    init_modules(PKGDATADIR);
 
     gtk_about_dialog_set_url_hook(utils_activate_url, NULL, NULL);
 

@@ -49,9 +49,6 @@
 #include "mud-telnet-msp.h"
 #endif
 
-/* Hack, will refactor with plugin rewrite -lh */
-extern gboolean PluginGag;
-
 struct _MudConnectionViewPrivate
 {
     gint id;
@@ -740,10 +737,6 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
                 error = NULL;
             }
 
-            // Give plugins first crack at it.
-            mud_window_handle_plugins(view->priv->window, view->priv->id,
-                    (gchar *)text, strlen(text), 0);
-
             if(conv_text == NULL)
                 gnet_conn_write(view->connection, text, strlen(text));
             else
@@ -1228,13 +1221,7 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
                             buf);
                     view->local_echo = temp;
 
-                    mud_window_handle_plugins(view->priv->window, view->priv->id,
-                            buf, length, 1);
-
-                    pluggag = PluginGag;
-                    PluginGag = FALSE;
-
-                    if(!gag && !pluggag)
+                    if(!gag)
                     {
                         vte_terminal_feed(VTE_TERMINAL(view->priv->terminal),
                                 buf, length);
