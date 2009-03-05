@@ -1,14 +1,7 @@
 2009-02-28  Les Harris  <lharris@gnome.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* POTFILES.in:
-
-2009-02-28  Les Harris  <lharris@gnome.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* POTFILES.in:
+	* POTFILES.in: Removed automapper from translations. Added
+	debug-logger.c.
 
 2009-02-27  Jordi Mallach  <jordi@sindominio.net>
 
