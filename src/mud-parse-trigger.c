@@ -134,7 +134,7 @@ mud_parse_trigger_do(gchar *data, MudConnectionView *view, MudRegex *regex, MudP
             g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/%s/regex", profile_name, (gchar *)entry->data);
             regexstr = gconf_client_get_string(client, keyname, &error);
 
-            stripped_data = strip_ansi((const gchar *) data);
+            stripped_data = utils_strip_ansi((const gchar *) data);
 
             if(mud_regex_check((const gchar *)stripped_data, strlen(stripped_data), (const gchar *)regexstr, ovector, regex))
             {

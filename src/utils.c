@@ -24,7 +24,7 @@
 #include <gtk/gtk.h>
 
 gchar *
-remove_whitespace(const gchar *string)
+utils_remove_whitespace(const gchar *string)
 {
     gint i;
     GString *s;
@@ -42,7 +42,7 @@ remove_whitespace(const gchar *string)
 }
 
 gchar *
-strip_ansi(const gchar *orig)
+utils_strip_ansi(const gchar *orig)
 {
     GString *buf = g_string_new(NULL);
     const gchar *c;

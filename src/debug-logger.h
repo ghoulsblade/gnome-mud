@@ -1,5 +1,5 @@
 /* Debug Logger - A UI for Log Messages
- * debug-log.h
+ * debug-logger.h
  * Copyright (C) 2009 Les Harris <lharris@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -44,12 +44,12 @@ struct _DebugLoggerClass
     /* Class Members */
 
     /* Signals */
-    void (*critical_received)(DebugLogger *logger, gchar *message);
-    void (*warning_received)(DebugLogger *logger, gchar *message);
-    void (*message_received)(DebugLogger *logger, gchar *message);
-    void (*info_received)(DebugLogger *logger, gchar *message);
-    void (*debug_received)(DebugLogger *logger, gchar *message);
-    void (*unknown_received)(DebugLogger *logger, gchar *message);
+    void (*critical_received) (DebugLogger *logger, gchar *message);
+    void (*warning_received)  (DebugLogger *logger, gchar *message);
+    void (*message_received)  (DebugLogger *logger, gchar *message);
+    void (*info_received)     (DebugLogger *logger, gchar *message);
+    void (*debug_received)    (DebugLogger *logger, gchar *message);
+    void (*unknown_received)  (DebugLogger *logger, gchar *message);
 
 };
 
@@ -68,14 +68,22 @@ struct _DebugLogger
     gchar *debug_color;
     gchar *unknown_color;
     gboolean use_color;
+    gboolean ui_enabled;
+    gboolean closeable;
 };
 
 /* Methods */
 GType debug_logger_get_type (void);
 
+void debug_logger_create_window(DebugLogger *logger);
+
+void debug_logger_destroy_window(DebugLogger *logger);
+
 void debug_logger_add_domain(DebugLogger *logger, 
                              const gchar *domain_name,
                              gboolean default_domain);
+
+void debug_logger_add_standard_domains(DebugLogger *logger);
 
 void debug_logger_remove_domain(DebugLogger *logger,
                                 const gchar *domain_name);

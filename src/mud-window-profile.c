@@ -192,7 +192,7 @@ mud_profile_window_add_cb(GtkWidget *widget, MudProfileWindow *profwin)
 	result = gtk_dialog_run(GTK_DIALOG(window));
 	if (result == GTK_RESPONSE_OK)
 	{
-		profile = remove_whitespace((gchar *)gtk_entry_get_text(GTK_ENTRY(entry_profile)));
+		profile = utils_remove_whitespace((gchar *)gtk_entry_get_text(GTK_ENTRY(entry_profile)));
 
 		def = get_profile("Default");
 		prof = mud_profile_new((const gchar *)profile);

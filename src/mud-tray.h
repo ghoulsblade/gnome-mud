@@ -23,7 +23,7 @@
 
 G_BEGIN_DECLS
 
-#include <gconf/gconf-client.h>
+#include <gtk/gtk.h>
 
 #define MUD_TYPE_TRAY              (mud_tray_get_type ())
 #define MUD_TRAY(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_TRAY, MudTray))
@@ -31,21 +31,26 @@ G_BEGIN_DECLS
 #define MUD_IS_TRAY(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_TRAY))
 #define MUD_IS_TRAY_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_TRAY))
 #define MUD_TRAY_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_TRAY, MudTrayClass))
+#define MUD_TRAY_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_TRAY, MudTrayPrivate))
 
 typedef struct _MudTray            MudTray;
 typedef struct _MudTrayClass       MudTrayClass;
 typedef struct _MudTrayPrivate     MudTrayPrivate;
 
+struct _MudTrayClass
+{
+    GObjectClass parent_class;
+};
+
 struct _MudTray
 {
     GObject parent_instance;
 
+    /*< private >*/
     MudTrayPrivate *priv;
-};
 
-struct _MudTrayClass
-{
-    GObjectClass parent_class;
+    /*< public >*/
+    GtkWidget *parent_window;
 };
 
 enum mud_tray_status
@@ -54,15 +59,13 @@ enum mud_tray_status
     offline_connecting,
     online,
     online_connecting
-        // could use a few more
 };
 
-GType mud_tray_get_type (void) G_GNUC_CONST;
-
-MudTray *mud_tray_new(MudWindow *mainWindow, GtkWidget *window);
+GType mud_tray_get_type (void);
 
 void mud_tray_update_icon(MudTray *tray, enum mud_tray_status icon);
 
 G_END_DECLS
 
 #endif // MUD_TRAY_H
+

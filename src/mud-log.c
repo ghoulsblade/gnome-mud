@@ -164,7 +164,7 @@ mud_log_write(MudLog *log, gchar *data, gsize size)
     if(log->priv->logfile == NULL || data == NULL)
         return;
 
-    stripData = strip_ansi((const gchar *)data);
+    stripData = utils_strip_ansi((const gchar *)data);
     stripSize = strlen(stripData);
 
     write_size = fwrite(stripData, 1, stripSize, log->priv->logfile);

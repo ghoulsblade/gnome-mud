@@ -22,35 +22,37 @@
 
 G_BEGIN_DECLS
 
+#include "mud-window.h"
+
 #define MUD_TYPE_CONNECTIONS              (mud_connections_get_type ())
 #define MUD_CONNECTIONS(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_CONNECTIONS, MudConnections))
 #define MUD_CONNECTIONS_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_CONNECTIONS, MudConnectionsClass))
 #define MUD_IS_CONNECTIONS(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_CONNECTIONS))
 #define MUD_IS_CONNECTIONS_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_CONNECTIONS))
 #define MUD_CONNECTIONS_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_CONNECTIONS, MudConnectionsClass))
+#define MUD_CONNECTIONS_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_CONNECTIONS, MudConnectionsPrivate))
 
 typedef struct _MudConnections            MudConnections;
 typedef struct _MudConnectionsClass       MudConnectionsClass;
 typedef struct _MudConnectionsPrivate     MudConnectionsPrivate;
 
-struct _MudConnections
-{
-	GObject parent_instance;
-
-	MudConnectionsPrivate *priv;
-};
-
 struct _MudConnectionsClass
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
 };
 
-GType mud_connections_get_type (void) G_GNUC_CONST;
+struct _MudConnections
+{
+    GObject parent_instance;
 
-#include "mud-window.h"
-#include "mud-connection-view.h"
-#include "mud-tray.h"
-MudConnections *mud_connections_new(MudWindow *window, GtkWidget *winwidget, MudTray *tray);
+    /*< private >*/
+    MudConnectionsPrivate *priv;
+
+    /*< public >*/
+    MudWindow *parent_window;
+};
+
+GType mud_connections_get_type (void);
 
 G_END_DECLS
 

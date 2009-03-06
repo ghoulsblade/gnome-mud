@@ -47,7 +47,6 @@ struct _MudWindowPrivate
 {
     GSList *mud_views_list;
 
-    GtkWidget *window;
     GtkWidget *notebook;
     GtkWidget *textview;
     GtkWidget *textviewscroll;
@@ -73,8 +72,6 @@ struct _MudWindowPrivate
 
     gint nr_of_tabs;
     gint textview_line_height;
-
-    MudTray *tray;
 };
 
 typedef struct MudViewEntry
@@ -83,14 +80,29 @@ typedef struct MudViewEntry
 	MudConnectionView *view;
 } MudViewEntry;
 
-GtkWidget *pluginMenu;
-
+/* Create the Type */
 G_DEFINE_TYPE(MudWindow, mud_window, G_TYPE_OBJECT);
+
+/* Property Identifiers */
+enum
+{
+    PROP_MUD_WINDOW_0,
+    PROP_WINDOW,
+    PROP_TRAY
+};
 
 /* Class Function Prototypes */
 static void mud_window_init       (MudWindow *self);
 static void mud_window_class_init (MudWindowClass *klass);
 static void mud_window_finalize   (GObject *object);
+static void mud_window_set_property(GObject *object,
+                                    guint prop_id,
+                                    const GValue *value,
+                                    GParamSpec *pspec);
+static void mud_window_get_property(GObject *object,
+                                    guint prop_id,
+                                    GValue *value,
+                                    GParamSpec *pspec);
 
 /* Callback Prototypes */
 static int mud_window_close(GtkWidget *widget, MudWindow *self);
@@ -139,9 +151,33 @@ mud_window_class_init (MudWindowClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
+    /* Override parent's finalize */
     object_class->finalize = mud_window_finalize;
 
+    /* Override base object property methods */
+    object_class->set_property = mud_window_set_property;
+    object_class->get_property = mud_window_get_property;
+
+    /* Add private data to class */
     g_type_class_add_private(klass, sizeof(MudWindowPrivate));
+
+    /* Create and Install Properties */
+    g_object_class_install_property(object_class,
+            PROP_WINDOW,
+            g_param_spec_object("window",
+                "gtk window",
+                "the gtk window of mud window",
+                GTK_TYPE_WINDOW,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
+            PROP_TRAY,
+            g_param_spec_object("tray",
+                "mud tray",
+                "mud status tray icon",
+                MUD_TYPE_TRAY,
+                G_PARAM_READABLE));
+
 }
 
 static void
@@ -157,12 +193,17 @@ mud_window_init (MudWindow *self)
     /* start glading */
     glade = glade_xml_new(GLADEDIR "/main.glade", "main_window", NULL);
 
+    /* set public properties */
+    self->window = GTK_WINDOW(glade_xml_get_widget(glade, "main_window"));
+    self->tray = g_object_new(MUD_TYPE_TRAY,
+                              "parent-window", self->window,
+                              NULL); 
+
     /* set priate members */
     self->priv->nr_of_tabs = 0;
     self->priv->current_view = NULL;
     self->priv->mud_views_list = NULL;
     self->priv->profile_menu_list = NULL;
-    self->priv->window = glade_xml_get_widget(glade, "main_window");
     self->priv->menu_disconnect = glade_xml_get_widget(glade, "menu_disconnect");
     self->priv->toolbar_disconnect = glade_xml_get_widget(glade, "toolbar_disconnect");
     self->priv->menu_reconnect = glade_xml_get_widget(glade, "menu_reconnect");
@@ -176,10 +217,9 @@ mud_window_init (MudWindow *self)
     self->priv->textviewscroll = glade_xml_get_widget(glade, "text_view_scroll");
     self->priv->textview = glade_xml_get_widget(glade, "text_view");
     self->priv->image = glade_xml_get_widget(glade, "image");
-    self->priv->tray = mud_tray_new(self, self->priv->window);
 
     /* connect quit buttons */
-    g_signal_connect(self->priv->window,
+    g_signal_connect(self->window,
                      "destroy",
                      G_CALLBACK(mud_window_close),
                      self);
@@ -260,7 +300,7 @@ mud_window_init (MudWindow *self)
                      G_CALLBACK(mud_window_notebook_page_change),
                      self);
 
-    g_signal_connect(self->priv->window,
+    g_signal_connect(self->window,
                      "configure-event",
                      G_CALLBACK(mud_window_configure_event),
                      self);
@@ -319,17 +359,71 @@ mud_window_finalize (GObject *object)
     while(entry != NULL)
     {
         g_object_unref( ( (MudViewEntry *)entry->data )->view );
-        entry = entry->next;
+        entry = g_slist_next(entry);
     }
 
     g_slist_free(self->priv->mud_views_list);
     
-    g_object_unref(self->priv->tray);
+    g_object_unref(self->tray);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
 
     gtk_main_quit();
+}
+
+static void
+mud_window_set_property(GObject *object,
+                        guint prop_id,
+                        const GValue *value,
+                        GParamSpec *pspec)
+{
+    MudWindow *self;
+
+    self = MUD_WINDOW(object);
+
+    switch(prop_id)
+    {
+        /* These properties aren't writeable. If we get here
+         * something is really screwy. */
+        case PROP_WINDOW:
+            g_return_if_reached();
+            break;
+
+        case PROP_TRAY:
+            g_return_if_reached();
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+static void
+mud_window_get_property(GObject *object,
+                        guint prop_id,
+                        GValue *value,
+                        GParamSpec *pspec)
+{
+    MudWindow *self;
+
+    self = MUD_WINDOW(object);
+
+    switch(prop_id)
+    {
+        case PROP_WINDOW:
+            g_value_take_object(value, self->window);
+            break;
+
+        case PROP_TRAY:
+            g_value_take_object(value, self->tray);
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
 }
 
 /* Callbacks */
@@ -567,7 +661,7 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *self)
     GdkPixbuf *logo = gtk_icon_theme_load_icon(gtk_icon_theme_get_default(), "gnome-mud",
             128, GTK_ICON_LOOKUP_FORCE_SVG, NULL);
 
-    gtk_show_about_dialog(GTK_WINDOW(self->priv->window),
+    gtk_show_about_dialog(GTK_WINDOW(self->window),
             "artists", artists,
             "authors", authors,
             "comments", _(comments),
@@ -587,7 +681,9 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *self)
 static void
 mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *self)
 {
-    mud_connections_new(self, self->priv->window, self->priv->tray);
+    MudConnections *connections = g_object_new(MUD_TYPE_CONNECTIONS,
+                                               "parent-window", self,
+                                               NULL);
 }
 
 static gboolean
@@ -773,7 +869,7 @@ mud_window_remove_connection_view(MudWindow *self, gint nr)
         GdkPixbuf *buf;
         GError *err = NULL;
 
-        gtk_window_get_size(GTK_WINDOW(self->priv->window), &w, &h);
+        gtk_window_get_size(GTK_WINDOW(self->window), &w, &h);
 
         if(self->priv->image)
             g_object_unref(self->priv->image);
@@ -842,7 +938,7 @@ mud_window_close_current_window(MudWindow *self)
         mud_window_remove_connection_view(self, nr);
 
         if(self->priv->nr_of_tabs == 0)
-            mud_tray_update_icon(self->priv->tray, offline_connecting);
+            mud_tray_update_icon(MUD_TRAY(self->tray), offline_connecting);
     }
 }
 
@@ -915,7 +1011,7 @@ mud_window_get_window(MudWindow *self)
     if(!IS_MUD_WINDOW(self))
         return NULL;
 
-    return self->priv->window;
+    return GTK_WIDGET(self->window);
 }
 
 void

@@ -40,7 +40,6 @@
 struct _MudConnectionsPrivate
 {
     // Main Window
-    MudWindow *parent;
     GtkWidget *winwidget;
     MudTray *tray;
 
@@ -92,11 +91,33 @@ typedef enum MudConnectionsModelColumns
     MODEL_COLUMN_N
 } MudConnectionsModelColumns;
 
-GType mud_connections_get_type (void);
+/* Property Identifiers */
+enum
+{
+    PROP_MUD_CONNECTIONS_0,
+    PROP_PARENT_WINDOW
+};
 
+/* Create the Type */
+G_DEFINE_TYPE(MudConnections, mud_connections, G_TYPE_OBJECT);
+
+/* Class Functions */
 static void mud_connections_init (MudConnections *conn);
 static void mud_connections_class_init (MudConnectionsClass *klass);
 static void mud_connections_finalize (GObject *object);
+static GObject *mud_connections_constructor (GType gtype,
+                                             guint n_properties,
+                                             GObjectConstructParam *properties);
+static void mud_connections_set_property(GObject *object,
+                                         guint prop_id,
+                                         const GValue *value,
+                                         GParamSpec *pspec);
+static void mud_connections_get_property(GObject *object,
+                                         guint prop_id,
+                                         GValue *value,
+                                         GParamSpec *pspec);
+
+/* Callbacks */
 static gint mud_connections_close_cb(GtkWidget *widget,
 				     MudConnections *conn);
 static void mud_connections_connect_cb(GtkWidget *widget,
@@ -107,9 +128,6 @@ static void mud_connections_delete_cb(GtkWidget *widget,
 				      MudConnections *conn);
 static void mud_connections_properties_cb(GtkWidget *widget,
 					  MudConnections *conn);
-static void mud_connections_populate_iconview(MudConnections *conn);
-static void mud_connections_show_properties(MudConnections *conn,
-					    gchar *mud);
 static void mud_connections_property_cancel_cb(GtkWidget *widget,
 					       MudConnections *conn);
 static void mud_connections_property_save_cb(GtkWidget *widget,
@@ -126,6 +144,11 @@ static void mud_connections_property_combo_changed_cb(GtkWidget *widget,
 static gboolean mud_connections_property_delete_cb(GtkWidget *widget,
 						   GdkEvent *event,
 						   MudConnections *conn);
+
+/* Private Methods */
+static void mud_connections_populate_iconview(MudConnections *conn);
+static void mud_connections_show_properties(MudConnections *conn,
+					    gchar *mud);
 static gboolean mud_connections_property_save(MudConnections *conn);
 static gint mud_connections_property_confirm(void);
 static void mud_connections_property_populate_profiles(
@@ -139,7 +162,11 @@ static gboolean mud_connections_button_press_cb(GtkWidget *widget,
 						MudConnections *conn);
 static void mud_connections_popup(MudConnections *conn,
 				  GdkEventButton *event);
+
+/* IconDialog Prototypes */
 static void mud_connections_show_icon_dialog(MudConnections *conn);
+
+/* IconDialog callbacks */
 static void mud_connections_icon_fileset_cb(GtkFileChooserButton *widget,
 					    MudConnections *conn);
 static void mud_connections_icon_select_cb(GtkIconView *view,
@@ -152,43 +179,70 @@ void mud_connections_gconf_notify_cb(GConfClient *client,
 				     gpointer *data);
 
 // MudConnections class functions
-GType
-mud_connections_get_type (void)
+static void
+mud_connections_class_init (MudConnectionsClass *klass)
 {
-    static GType object_type = 0;
+    GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-    g_type_init();
+    /* Overide base object's finalize */
+    object_class->finalize = mud_connections_finalize;
 
-    if (!object_type)
-    {
-        static const GTypeInfo object_info =
-        {
-            sizeof (MudConnectionsClass),
-            NULL,
-            NULL,
-            (GClassInitFunc) mud_connections_class_init,
-            NULL,
-            NULL,
-            sizeof (MudConnections),
-            0,
-            (GInstanceInitFunc) mud_connections_init,
-        };
+    /* Override base object constructor */
+    object_class->constructor = mud_connections_constructor;
 
-        object_type =
-            g_type_register_static(G_TYPE_OBJECT,
-                    "MudConnections", &object_info, 0);
-    }
+    /* Override base object property methods */
+    object_class->set_property = mud_connections_set_property;
+    object_class->get_property = mud_connections_get_property;
 
-    return object_type;
+    /* Add private data to class */
+    g_type_class_add_private(klass, sizeof(MudConnectionsPrivate));
+
+    /* Install Properties */
+    g_object_class_install_property(object_class,
+            PROP_PARENT_WINDOW,
+            g_param_spec_object("parent-window",
+                "parent mud window",
+                "the mud window the connections is attached to",
+                TYPE_MUD_WINDOW,
+                G_PARAM_READWRITE|G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
 mud_connections_init (MudConnections *conn)
 {
+    conn->priv = MUD_CONNECTIONS_GET_PRIVATE(conn);
+
+    conn->parent_window = NULL;
+}
+
+static GObject *
+mud_connections_constructor (GType gtype,
+                             guint n_properties,
+                             GObjectConstructParam *properties)
+{
+    MudConnections *conn;
+
     GladeXML *glade;
     GConfClient *client;
 
-    conn->priv = g_new0(MudConnectionsPrivate, 1);
+    GObject *obj;
+    MudConnectionsClass *klass;
+    GObjectClass *parent_class;
+
+    /* Chain up to parent constructor */
+    klass = MUD_CONNECTIONS_CLASS( g_type_class_peek(MUD_TYPE_CONNECTIONS) );
+    parent_class = G_OBJECT_CLASS( g_type_class_peek_parent(klass) );
+    obj = parent_class->constructor(gtype, n_properties, properties);
+
+    conn = MUD_CONNECTIONS(obj);
+
+    if(!conn->parent_window)
+        g_error("Tried to instantiate MudConnections without passing parent MudWindow\n");
+
+    g_object_get(conn->parent_window,
+                 "window", &conn->priv->winwidget,
+                 "tray",   &conn->priv->tray,
+                 NULL);
 
     glade = glade_xml_new(GLADEDIR "/muds.glade", "mudviewwindow", NULL);
 
@@ -212,6 +266,8 @@ mud_connections_init (MudConnections *conn)
 
     gtk_icon_view_set_model(GTK_ICON_VIEW(conn->priv->iconview),
             conn->priv->icon_model);
+    g_object_unref(conn->priv->icon_model);
+
     gtk_icon_view_set_text_column(GTK_ICON_VIEW(conn->priv->iconview),
             MODEL_COLUMN_STRING);
     gtk_icon_view_set_pixbuf_column(GTK_ICON_VIEW(conn->priv->iconview),
@@ -254,14 +310,8 @@ mud_connections_init (MudConnections *conn)
     gtk_widget_show_all(conn->priv->window);
     g_object_unref(glade);
     g_object_unref(client);
-}
 
-static void
-mud_connections_class_init (MudConnectionsClass *klass)
-{
-    GObjectClass *object_class = G_OBJECT_CLASS(klass);
-
-    object_class->finalize = mud_connections_finalize;
+    return obj;
 }
 
 static void
@@ -275,13 +325,54 @@ mud_connections_finalize (GObject *object)
 
     gconf_client_notify_remove(client, conn->priv->connection);
 	
-    g_object_unref(conn->priv->icon_model);
-    g_free(conn->priv);
-
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
 
     g_object_unref(client);
+}
+
+static void
+mud_connections_set_property(GObject *object,
+                             guint prop_id,
+                             const GValue *value,
+                             GParamSpec *pspec)
+{
+    MudConnections *self;
+
+    self = MUD_CONNECTIONS(object);
+
+    switch(prop_id)
+    {
+        case PROP_PARENT_WINDOW:
+            self->parent_window = MUD_WINDOW(g_value_get_object(value));
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+static void
+mud_connections_get_property(GObject *object,
+                             guint prop_id,
+                             GValue *value,
+                             GParamSpec *pspec)
+{
+    MudConnections *self;
+
+    self = MUD_CONNECTIONS(object);
+
+    switch(prop_id)
+    {
+        case PROP_PARENT_WINDOW:
+            g_value_take_object(value, self->parent_window);
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
 }
 
 // MudConnections Private Methods
@@ -328,7 +419,7 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
 	break;
 
     case 2:
-	char_name = remove_whitespace(mud_tuple[0]);
+	char_name = utils_remove_whitespace(mud_tuple[0]);
 	mud_name = g_strdup(mud_tuple[1]);
 	break;
 
@@ -340,7 +431,7 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
     g_strfreev(mud_tuple);
     g_free(buf);
 
-    strip_name = remove_whitespace(mud_name);
+    strip_name = utils_remove_whitespace(mud_name);
 
     key = g_strdup_printf("/apps/gnome-mud/muds/%s/host", strip_name);
     host = gconf_client_get_string(client, key, NULL);
@@ -368,9 +459,9 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
     view = mud_connection_view_new("Default", host, port,
 				   conn->priv->winwidget,
 				   (GtkWidget *)conn->priv->tray, mud_name);
-    mud_window_add_connection_view(conn->priv->parent, G_OBJECT(view), mud_name);
+    mud_window_add_connection_view(conn->parent_window, G_OBJECT(view), mud_name);
     mud_connection_view_set_profile(view, get_profile(profile));
-    mud_window_profile_menu_set_active(conn->priv->parent, profile);
+    mud_window_profile_menu_set_active(conn->parent_window, profile);
 
     if(logon && strlen(logon) != 0)
 	mud_connection_view_set_connect_string(view, logon);
@@ -402,7 +493,7 @@ mud_connections_qconnect_cb(GtkWidget *widget, MudConnections *conn)
         view = mud_connection_view_new("Default", host, port,
                                        conn->priv->winwidget,
                                        (GtkWidget *)conn->priv->tray, (gchar *)host);
-        mud_window_add_connection_view(conn->priv->parent, G_OBJECT(view), (gchar *)host);
+        mud_window_add_connection_view(conn->parent_window, G_OBJECT(view), (gchar *)host);
 
         gtk_widget_destroy(conn->priv->window);
     }
@@ -476,7 +567,7 @@ mud_connections_delete_cb(GtkWidget *widget, MudConnections *conn)
 
     if(len == 1)
     {
-        strip_name = remove_whitespace(mud_name);
+        strip_name = utils_remove_whitespace(mud_name);
         
         key = g_strdup_printf("/apps/gnome-mud/muds/%s", strip_name);
         gconf_client_recursive_unset(client, key, 0, NULL);
@@ -487,8 +578,8 @@ mud_connections_delete_cb(GtkWidget *widget, MudConnections *conn)
     }
     else if(len == 2)
     {
-        strip_name = remove_whitespace(mud_name);
-        strip_char_name = remove_whitespace(char_name);
+        strip_name = utils_remove_whitespace(mud_name);
+        strip_char_name = utils_remove_whitespace(char_name);
 
         key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters/%s",
                 strip_name, strip_char_name);
@@ -806,6 +897,8 @@ mud_connections_show_properties(MudConnections *conn, gchar *mud)
     gtk_combo_box_set_model(
 	GTK_COMBO_BOX(conn->priv->profile_combo),
 	conn->priv->profile_model);
+    g_object_unref(conn->priv->profile_model);
+
     conn->priv->profile_combo_renderer = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(conn->priv->profile_combo),
 			       conn->priv->profile_combo_renderer, TRUE);
@@ -886,7 +979,7 @@ mud_connections_show_properties(MudConnections *conn, gchar *mud)
     } else
 	return;
 
-    name_strip = remove_whitespace(conn->priv->original_name);
+    name_strip = utils_remove_whitespace(conn->priv->original_name);
 
     gtk_entry_set_text(
 	GTK_ENTRY(conn->priv->name_entry), conn->priv->original_name);
@@ -948,7 +1041,7 @@ mud_connections_show_properties(MudConnections *conn, gchar *mud)
 
     if(conn->priv->original_char_name != NULL)
     {
-	char_strip = remove_whitespace(conn->priv->original_char_name);
+	char_strip = utils_remove_whitespace(conn->priv->original_char_name);
 		
 	key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters/%s/logon",
 			      name_strip, char_strip);
@@ -1113,8 +1206,8 @@ mud_connections_property_save(MudConnections *conn)
     if(conn->priv->original_name &&
        strcmp(conn->priv->original_name, name) != 0)
     {
-	stripped_name = remove_whitespace(conn->priv->original_name);
-	strip_name_new = remove_whitespace(name);
+	stripped_name = utils_remove_whitespace(conn->priv->original_name);
+	strip_name_new = utils_remove_whitespace(name);
 
 	key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters",
 			      stripped_name);
@@ -1155,7 +1248,7 @@ mud_connections_property_save(MudConnections *conn)
 	g_free(strip_name_new);
     }
 
-    stripped_name = remove_whitespace(name);
+    stripped_name = utils_remove_whitespace(name);
     key = g_strdup_printf("/apps/gnome-mud/muds/%s/name", stripped_name);
     gconf_client_set_string(client, key, name, NULL);
     g_free(key);
@@ -1187,7 +1280,7 @@ mud_connections_property_save(MudConnections *conn)
     if(conn->priv->original_char_name && 
        strcmp(conn->priv->original_char_name, character_name) != 0)
     {
-	strip_name_new = remove_whitespace(conn->priv->original_char_name);
+	strip_name_new = utils_remove_whitespace(conn->priv->original_char_name);
 	key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters/%s",
 			      stripped_name, strip_name_new);
 	gconf_client_recursive_unset(client, key, 0, NULL);
@@ -1195,7 +1288,7 @@ mud_connections_property_save(MudConnections *conn)
 	g_free(strip_name_new);
     }
 
-    strip_name_new = remove_whitespace(character_name);
+    strip_name_new = utils_remove_whitespace(character_name);
 
     if(strlen(strip_name_new) > 0)
     {
@@ -1422,20 +1515,5 @@ mud_connections_icon_select_cb(GtkIconView *view, MudConnections *conn)
 
     g_list_foreach(selected, (GFunc)gtk_tree_path_free, NULL);
     g_list_free(selected);
-}
-
-// Instantiate MudConnections
-MudConnections*
-mud_connections_new(MudWindow *window, GtkWidget *winwidget, MudTray *tray)
-{
-    MudConnections *conn;
-
-    conn = g_object_new(MUD_TYPE_CONNECTIONS, NULL);
-
-    conn->priv->parent = window;
-    conn->priv->winwidget = winwidget;
-    conn->priv->tray = tray;
-
-    return conn;
 }
 

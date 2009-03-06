@@ -1,3 +1,14 @@
+2009-03-06  Les Harris  <lharris@gnome.org>
+
+	* src/debug-logger.[ch]: Removed ifdefs from inside class. Added api
+	for creation of ui.
+	* src/gnome-mud.c (main): Now calls debug_logger_add_standard_domain
+	* src/mud-connections.[ch]: 
+	* src/mud-tray.[ch]:
+	* src/mud-window.[ch]: Updated to be better gobjects.  Now use
+	parameters for some needed things. Modernized the gobject code.
+	* src/utils.[ch]: Renamed a couple of functions for consistency.
+
 2009-03-04  Les Harris  <lharris@gnome.org>
 
 	* Makefile.am: Removed plugins subdir.

@@ -1,5 +1,5 @@
 /* Debug Logger - A UI for Log Messages
- * debug-log.c
+ * debug-logger.c
  * Copyright (C) 2009 Les Harris <lharris@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -74,7 +74,9 @@ enum
     PROP_INFO_COLOR,
     PROP_DEBUG_COLOR,
     PROP_UNKNOWN_COLOR,
-    PROP_USE_COLOR
+    PROP_USE_COLOR,
+    PROP_UI_ENABLED,
+    PROP_CLOSEABLE
 };
 
 /* Signal Indices */
@@ -120,7 +122,13 @@ static void debug_logger_log_func (const gchar *log_domain,
                                    const gchar *message,
                                    DebugLogger *logger);
 
+
+static void debug_logger_create_domain_page(DebugLogger *logger,
+                                            DomainHandler *handler,
+                                            const gchar *domain_name);
+
 /* Callback Prototypes */
+static gint debug_logger_window_closed(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_save_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_copy_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_select_clicked(GtkWidget *widget, DebugLogger *logger);
@@ -143,8 +151,6 @@ static void debug_logger_unknown_received(DebugLogger *logger, gchar *message);
 static void
 debug_logger_init(DebugLogger *self)
 {
-    GladeXML *glade;
-
     self->priv = DEBUG_LOGGER_GET_PRIVATE(self);
     self->priv->domains = NULL;
 
@@ -154,55 +160,6 @@ debug_logger_init(DebugLogger *self)
     self->info_color = NULL;
     self->debug_color = NULL;
     self->unknown_color = NULL;
-
-#ifdef ENABLE_DEBUG_LOGGER
-    glade = glade_xml_new(GLADEDIR "/main.glade", "log_window", NULL);
-
-    self->priv->window = GTK_WINDOW(glade_xml_get_widget(glade, "log_window"));
-    self->priv->vbox = GTK_VBOX(glade_xml_get_widget(glade, "vbox"));
-
-    self->priv->toolbar_save = glade_xml_get_widget(glade, "toolbar_save");
-    self->priv->toolbar_copy = glade_xml_get_widget(glade, "toolbar_copy");
-    self->priv->toolbar_select = glade_xml_get_widget(glade, "toolbar_selectall");
-    self->priv->toolbar_clear = glade_xml_get_widget(glade, "toolbar_clear");
-
-    self->priv->notebook = GTK_NOTEBOOK(gtk_notebook_new());
-
-    g_object_set(self->priv->notebook, "homogeneous", TRUE, NULL);
-
-    gtk_box_pack_end(GTK_BOX(self->priv->vbox), 
-                     GTK_WIDGET(self->priv->notebook),
-                     TRUE, TRUE, 0);
-
-    g_signal_connect(self->priv->window, "delete-event",
-                     G_CALLBACK(debug_logger_window_delete),
-                     self);
-
-    g_signal_connect(self->priv->toolbar_save, "clicked",
-                     G_CALLBACK(debug_logger_save_clicked),
-                     self);
-
-    g_signal_connect(self->priv->toolbar_copy, "clicked",
-                     G_CALLBACK(debug_logger_copy_clicked),
-                     self);
-
-    g_signal_connect(self->priv->toolbar_select, "clicked",
-                     G_CALLBACK(debug_logger_select_clicked),
-                     self);
-
-    g_signal_connect(self->priv->toolbar_clear, "clicked",
-                     G_CALLBACK(debug_logger_clear_clicked),
-                     self);
-    
-    g_signal_connect(self->priv->notebook, "switch-page",
-                     G_CALLBACK(debug_logger_switch_page),
-                     self);
-
-    gtk_widget_show_all(GTK_WIDGET(self->priv->window));
-
-    g_object_unref(glade);
-
-#endif
 }
 
 static void
@@ -221,7 +178,7 @@ debug_logger_class_init(DebugLoggerClass *klass)
     g_type_class_add_private(klass, sizeof(DebugLoggerPrivate));
 
     /* Create and Install Properties */
-    g_object_class_install_property(gobject_class, 
+    g_object_class_install_property(gobject_class,
             PROP_CRITICAL_COLOR,
             g_param_spec_string("critical-color",
                 "critical color",
@@ -229,7 +186,7 @@ debug_logger_class_init(DebugLoggerClass *klass)
                 "#FF0000",
                 G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
-    g_object_class_install_property(gobject_class, 
+    g_object_class_install_property(gobject_class,
             PROP_WARNING_COLOR,
             g_param_spec_string("warning-color",
                 "warning color",
@@ -237,7 +194,7 @@ debug_logger_class_init(DebugLoggerClass *klass)
                 "#FF9C00",
                 G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
-    g_object_class_install_property(gobject_class, 
+    g_object_class_install_property(gobject_class,
             PROP_MESSAGE_COLOR,
             g_param_spec_string("message-color",
                 "message color",
@@ -245,7 +202,7 @@ debug_logger_class_init(DebugLoggerClass *klass)
                 "#000000",
                 G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
-    g_object_class_install_property(gobject_class, 
+    g_object_class_install_property(gobject_class,
             PROP_INFO_COLOR,
             g_param_spec_string("info-color",
                 "info color",
@@ -253,7 +210,7 @@ debug_logger_class_init(DebugLoggerClass *klass)
                 "#1E8DFF",
                 G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
-    g_object_class_install_property(gobject_class, 
+    g_object_class_install_property(gobject_class,
             PROP_DEBUG_COLOR,
             g_param_spec_string("debug-color",
                 "debug color",
@@ -261,7 +218,7 @@ debug_logger_class_init(DebugLoggerClass *klass)
                 "#444444",
                 G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
-    g_object_class_install_property(gobject_class, 
+    g_object_class_install_property(gobject_class,
             PROP_UNKNOWN_COLOR,
             g_param_spec_string("unknown-color",
                 "unknown color",
@@ -276,6 +233,22 @@ debug_logger_class_init(DebugLoggerClass *klass)
                 "color output based on type",
                 FALSE,
                 G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+
+    g_object_class_install_property(gobject_class,
+            PROP_UI_ENABLED,
+            g_param_spec_boolean("ui-enabled",
+                "ui enabled",
+                "true if the debug logger window is displayed",
+                FALSE,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(gobject_class,
+            PROP_CLOSEABLE,
+            g_param_spec_boolean("closeable",
+                "window closeable",
+                "window can be closed if true",
+                FALSE,
+                G_PARAM_READWRITE));
 
     /* Set signal handlers */
     klass->critical_received = debug_logger_critical_received;
@@ -363,7 +336,7 @@ debug_logger_finalize(GObject *object)
     parent_class->finalize(object);
 }
 
-static void 
+static void
 debug_logger_set_property(GObject *object,
                           guint prop_id,
                           const GValue *value,
@@ -377,6 +350,8 @@ debug_logger_set_property(GObject *object,
     gchar *new_debug_color;
     gchar *new_unknown_color;
     gboolean new_use_color;
+    gboolean new_ui_enabled;
+    gboolean new_closeable;
 
     logger = DEBUG_LOGGER(object);
 
@@ -479,6 +454,20 @@ debug_logger_set_property(GObject *object,
                 logger->use_color = new_use_color;
             break;
 
+        case PROP_UI_ENABLED:
+            new_ui_enabled = g_value_get_boolean(value);
+
+            if(logger->ui_enabled != new_ui_enabled)
+                logger->ui_enabled = new_ui_enabled;
+            break;
+
+        case PROP_CLOSEABLE:
+            new_closeable = g_value_get_boolean(value);
+
+            if(logger->closeable != new_closeable)
+                logger->closeable = new_closeable;
+            break;
+
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
             break;
@@ -525,6 +514,14 @@ debug_logger_get_property(GObject *object,
             g_value_set_boolean(value, logger->use_color);
             break;
 
+        case PROP_UI_ENABLED:
+            g_value_set_boolean(value, logger->ui_enabled);
+            break;
+
+        case PROP_CLOSEABLE:
+            g_value_set_boolean(value, logger->closeable);
+            break;
+
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
             break;
@@ -569,12 +566,34 @@ debug_logger_unknown_received(DebugLogger *logger, gchar *message)
 }
 
 /* Signal Callbacks */
+static gint
+debug_logger_window_closed(GtkWidget *widget, DebugLogger *logger)
+{
+    GSList *entry;
+
+    logger->ui_enabled = FALSE;
+
+    entry = logger->priv->domains;
+
+    while(entry != NULL)
+    {
+        DomainHandler *handler = (DomainHandler *)entry->data;
+
+        handler->view = NULL;
+        handler->child = NULL;
+
+        entry = g_slist_next(entry);
+    }
+
+    return TRUE;
+}
+
 static gboolean
 debug_logger_window_delete(GtkWidget *widget,
                            GdkEvent *event,
                            DebugLogger *self)
 {
-    return TRUE;
+    return !self->closeable;
 }
 
 static void
@@ -591,10 +610,10 @@ debug_logger_save_clicked(GtkWidget *widget, DebugLogger *logger)
     GString *copy_data;
 
     g_return_if_fail(IS_DEBUG_LOGGER(logger));
-    
+
     if (gtk_notebook_get_n_pages(logger->priv->notebook) == 0)
         return;
-    
+
     glade = glade_xml_new(GLADEDIR "/main.glade", "save_dialog", NULL);
     dialog = glade_xml_get_widget(glade, "save_dialog");
 
@@ -610,10 +629,10 @@ debug_logger_save_clicked(GtkWidget *widget, DebugLogger *logger)
         filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
         current_page = gtk_notebook_get_current_page(logger->priv->notebook);
 
-        view = 
+        view =
             GTK_TREE_VIEW(gtk_bin_get_child(
                         GTK_BIN(gtk_notebook_get_nth_page(
-                                GTK_NOTEBOOK(logger->priv->notebook), 
+                                GTK_NOTEBOOK(logger->priv->notebook),
                                 current_page))));
 
         model = gtk_tree_view_get_model(view);
@@ -666,18 +685,18 @@ debug_logger_copy_clicked(GtkWidget *widget, DebugLogger *logger)
     GString *copy_data;
 
     g_return_if_fail(IS_DEBUG_LOGGER(logger));
-    
+
     if (gtk_notebook_get_n_pages(logger->priv->notebook) == 0)
         return;
-    
+
     copy_data = g_string_new(NULL);
 
     current_page = gtk_notebook_get_current_page(logger->priv->notebook);
-    
-    view = 
+
+    view =
         GTK_TREE_VIEW(gtk_bin_get_child(
                 GTK_BIN(gtk_notebook_get_nth_page(
-                        GTK_NOTEBOOK(logger->priv->notebook), 
+                        GTK_NOTEBOOK(logger->priv->notebook),
                         current_page))));
 
     model = gtk_tree_view_get_model(view);
@@ -721,13 +740,13 @@ debug_logger_select_clicked(GtkWidget *widget, DebugLogger *logger)
 
     if (gtk_notebook_get_n_pages(logger->priv->notebook) == 0)
         return;
-   
+
     current_page = gtk_notebook_get_current_page(logger->priv->notebook);
-    
-    view = 
+
+    view =
         GTK_TREE_VIEW(gtk_bin_get_child(
                 GTK_BIN(gtk_notebook_get_nth_page(
-                        GTK_NOTEBOOK(logger->priv->notebook), 
+                        GTK_NOTEBOOK(logger->priv->notebook),
                         current_page))));
 
     selection = gtk_tree_view_get_selection(view);
@@ -777,129 +796,131 @@ debug_logger_switch_page(GtkNotebook *notebook, GtkNotebookPage *page,
 }
 
 /* Private Methods */
-static void 
+static void
 debug_logger_log_func (const gchar *log_domain,
                        GLogLevelFlags log_level,
                        const gchar *message,
                        DebugLogger *logger)
 {
-#ifdef ENABLE_DEBUG_LOGGER
-    GtkTreeIter iter;
-    GtkListStore *store;
-    GString *color, *type;
-    GtkTreePath *path;
-
-    DomainHandler *handler =
-        debug_logger_get_handler_by_name(logger, log_domain);
-
-    g_return_if_fail(handler != NULL);
-
-    color = g_string_new(NULL);
-    type = g_string_new(NULL);
-
-    store = GTK_LIST_STORE(gtk_tree_view_get_model(handler->view));
-    gtk_list_store_append(store, &iter);
-
-    switch(log_level)
+    if(logger->ui_enabled)
     {
-        case G_LOG_LEVEL_CRITICAL:
-            type = g_string_append(type, _("Critical"));
-            color = g_string_append(color, logger->critical_color);
+        GtkTreeIter iter;
+        GtkListStore *store;
+        GString *color, *type;
+        GtkTreePath *path;
 
-            g_signal_emit(logger, debug_logger_signal[CRITICAL], 0, message);
-            break;
+        DomainHandler *handler =
+            debug_logger_get_handler_by_name(logger, log_domain);
 
-        case G_LOG_LEVEL_WARNING:
-            type = g_string_append(type, _("Warning"));
-            color = g_string_append(color, logger->warning_color);
+        g_return_if_fail(handler != NULL);
 
-            g_signal_emit(logger, debug_logger_signal[WARNING], 0, message);
-            break;
+        color = g_string_new(NULL);
+        type = g_string_new(NULL);
 
-        case G_LOG_LEVEL_MESSAGE:
-            type = g_string_append(type, _("Message"));
-            color = g_string_append(color, logger->message_color);
+        store = GTK_LIST_STORE(gtk_tree_view_get_model(handler->view));
+        gtk_list_store_append(store, &iter);
 
-            g_signal_emit(logger, debug_logger_signal[MESSAGE], 0, message);
-            break;
+        switch(log_level)
+        {
+            case G_LOG_LEVEL_CRITICAL:
+                type = g_string_append(type, _("Critical"));
+                color = g_string_append(color, logger->critical_color);
 
-        case G_LOG_LEVEL_INFO:
-            type = g_string_append(type, _("Info"));
-            color = g_string_append(color, logger->info_color);
+                g_signal_emit(logger, debug_logger_signal[CRITICAL], 0, message);
+                break;
 
-            g_signal_emit(logger, debug_logger_signal[INFO], 0, message);
-            break;
+            case G_LOG_LEVEL_WARNING:
+                type = g_string_append(type, _("Warning"));
+                color = g_string_append(color, logger->warning_color);
 
-        case G_LOG_LEVEL_DEBUG:
-            type = g_string_append(type, _("Debug"));
-            color = g_string_append(color, logger->debug_color);
+                g_signal_emit(logger, debug_logger_signal[WARNING], 0, message);
+                break;
 
-            g_signal_emit(logger, debug_logger_signal[DEBUG_MESSAGE], 0, message);
-            break;
+            case G_LOG_LEVEL_MESSAGE:
+                type = g_string_append(type, _("Message"));
+                color = g_string_append(color, logger->message_color);
 
-        default:
-            type = g_string_append(type, _("Unknown"));
-            color = g_string_append(color, logger->unknown_color);
+                g_signal_emit(logger, debug_logger_signal[MESSAGE], 0, message);
+                break;
 
-            g_signal_emit(logger, debug_logger_signal[UNKNOWN], 0, message);
-            break;
+            case G_LOG_LEVEL_INFO:
+                type = g_string_append(type, _("Info"));
+                color = g_string_append(color, logger->info_color);
+
+                g_signal_emit(logger, debug_logger_signal[INFO], 0, message);
+                break;
+
+            case G_LOG_LEVEL_DEBUG:
+                type = g_string_append(type, _("Debug"));
+                color = g_string_append(color, logger->debug_color);
+
+                g_signal_emit(logger, debug_logger_signal[DEBUG_MESSAGE], 0, message);
+                break;
+
+            default:
+                type = g_string_append(type, _("Unknown"));
+                color = g_string_append(color, logger->unknown_color);
+
+                g_signal_emit(logger, debug_logger_signal[UNKNOWN], 0, message);
+                break;
+        }
+
+        if(logger->use_color)
+            gtk_list_store_set(store, &iter,
+                    TYPE_COLUMN, type->str,
+                    MSG_COLUMN, message,
+                    COLOR_COLUMN, color->str,
+                    -1);
+        else
+            gtk_list_store_set(store, &iter,
+                    TYPE_COLUMN, type->str,
+                    MSG_COLUMN, message,
+                    -1);
+
+        if(gtk_notebook_get_current_page(logger->priv->notebook) !=
+                gtk_notebook_page_num(logger->priv->notebook, handler->child))
+        {
+            GtkWidget *box = gtk_notebook_get_tab_label(logger->priv->notebook,
+                    handler->child);
+            GList *list = gtk_container_get_children(GTK_CONTAINER(box));
+            GtkImage *image = GTK_IMAGE(list->data);
+
+            g_list_free(list);
+
+            gtk_image_set_from_stock(image, GTK_STOCK_ADD, GTK_ICON_SIZE_MENU);
+        }
+
+        path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &iter);
+        gtk_tree_view_scroll_to_cell(handler->view, path, NULL, FALSE, 0, 0);
+        gtk_tree_path_free(path);
+
+        g_string_free(type, TRUE);
+        g_string_free(color, TRUE);
     }
-
-    if(logger->use_color)
-        gtk_list_store_set(store, &iter,
-                TYPE_COLUMN, type->str,
-                MSG_COLUMN, message,
-                COLOR_COLUMN, color->str,
-                -1);
     else
-        gtk_list_store_set(store, &iter,
-                TYPE_COLUMN, type->str,
-                MSG_COLUMN, message,
-                -1);
-
-    if(gtk_notebook_get_current_page(logger->priv->notebook) != 
-            gtk_notebook_page_num(logger->priv->notebook, handler->child))
     {
-        GtkWidget *box = gtk_notebook_get_tab_label(logger->priv->notebook,
-                handler->child);
-        GList *list = gtk_container_get_children(GTK_CONTAINER(box));
-        GtkImage *image = GTK_IMAGE(list->data);
+        switch(log_level)
+        {
+            case G_LOG_LEVEL_CRITICAL:
+                g_printf(_("CRITICAL ERROR: %s\n"), message);
+                break;
 
-        g_list_free(list);
+            case G_LOG_LEVEL_WARNING:
+                g_printf(_("Warning: %s\n"), message);
+                break;
 
-        gtk_image_set_from_stock(image, GTK_STOCK_ADD, GTK_ICON_SIZE_MENU);
+            default:
+                break;
+        }
     }
-
-    path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &iter);
-    gtk_tree_view_scroll_to_cell(handler->view, path, NULL, FALSE, 0, 0);
-    gtk_tree_path_free(path);
-
-    g_string_free(type, TRUE);
-    g_string_free(color, TRUE);
-
-#else
-    switch(log_level)
-    {
-        case G_LOG_LEVEL_CRITICAL:
-            g_printf(_("CRITICAL ERROR: %s\n"), message);
-            break;
-
-        case G_LOG_LEVEL_WARNING:
-            g_printf(_("Warning: %s\n"), message);
-            break;
-        
-        default:
-            break;
-    }    
-#endif
 }
 
-static guint 
+static guint
 debug_logger_insert_handler(DebugLogger *logger, const gchar *domain)
 {
     g_return_if_fail(IS_DEBUG_LOGGER(logger));
 
-    return g_log_set_handler(domain, G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL, 
+    return g_log_set_handler(domain, G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL,
             (GLogFunc)debug_logger_log_func, logger);
 }
 
@@ -926,11 +947,10 @@ debug_logger_get_handler_by_name(DebugLogger *logger, const gchar *name)
     return NULL;
 }
 
-/* Public Methods */
-void
-debug_logger_add_domain(DebugLogger *logger,
-                        const gchar *domain_name,
-                        gboolean default_domain)
+static void
+debug_logger_create_domain_page(DebugLogger *logger,
+                                DomainHandler *handler,
+                                const gchar *domain_name)
 {
     GtkWidget *tab_label, *scrolled_window, *treeview;
     GtkListStore *list_store;
@@ -939,25 +959,16 @@ debug_logger_add_domain(DebugLogger *logger,
     GtkTreeSelection *selection;
     GtkHBox *hbox;
     GtkImage *image;
-    DomainHandler *new_handler;
 
     g_return_if_fail(IS_DEBUG_LOGGER(logger));
 
-    if(!domain_name)
-        return;
-
-    new_handler = g_new0(DomainHandler, 1);
-    new_handler->view = NULL;
-    new_handler->child = NULL;
-
-#ifdef ENABLE_DEBUG_LOGGER
     tab_label = gtk_label_new(domain_name);
     scrolled_window = gtk_scrolled_window_new(NULL, NULL);
 
     g_object_set(G_OBJECT(scrolled_window),
-                 "hscrollbar-policy", GTK_POLICY_AUTOMATIC,
-                 "vscrollbar-policy", GTK_POLICY_AUTOMATIC,
-                 NULL);
+            "hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+            "vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+            NULL);
 
     list_store = gtk_list_store_new(N_COLUMNS,
             G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
@@ -965,8 +976,8 @@ debug_logger_add_domain(DebugLogger *logger,
     g_object_unref(list_store);
 
     g_object_set(G_OBJECT(treeview),
-                 "rubber-banding", TRUE,
-                 NULL);
+            "rubber-banding", TRUE,
+            NULL);
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes (_("Type"),
@@ -1002,17 +1013,174 @@ debug_logger_add_domain(DebugLogger *logger,
 
     gtk_widget_show_all(GTK_WIDGET(logger->priv->notebook));
 
-    new_handler->child = scrolled_window;
-    new_handler->view = GTK_TREE_VIEW(treeview);
+    handler->child = scrolled_window;
+    handler->view = GTK_TREE_VIEW(treeview);
 
     gtk_widget_set_sensitive(logger->priv->toolbar_save, TRUE);
     gtk_widget_set_sensitive(logger->priv->toolbar_copy, TRUE);
     gtk_widget_set_sensitive(logger->priv->toolbar_select, TRUE);
     gtk_widget_set_sensitive(logger->priv->toolbar_clear, TRUE);
+}
 
-#endif
+/* Public Methods */
+void
+debug_logger_create_window(DebugLogger *self)
+{
+    GladeXML *glade;
+    GSList *entry;
 
-    new_handler->handler_id = 
+    g_return_if_fail(IS_DEBUG_LOGGER(self));
+
+    if(self->ui_enabled)
+        return;
+
+    self->ui_enabled = TRUE;
+
+    glade = glade_xml_new(GLADEDIR "/main.glade", "log_window", NULL);
+
+    self->priv->window = GTK_WINDOW(glade_xml_get_widget(glade, "log_window"));
+    self->priv->vbox = GTK_VBOX(glade_xml_get_widget(glade, "vbox"));
+
+    self->priv->toolbar_save = glade_xml_get_widget(glade, "toolbar_save");
+    self->priv->toolbar_copy = glade_xml_get_widget(glade, "toolbar_copy");
+    self->priv->toolbar_select = glade_xml_get_widget(glade, "toolbar_selectall");
+    self->priv->toolbar_clear = glade_xml_get_widget(glade, "toolbar_clear");
+
+    self->priv->notebook = GTK_NOTEBOOK(gtk_notebook_new());
+
+    g_object_set(self->priv->notebook, "homogeneous", TRUE, NULL);
+
+    gtk_box_pack_end(GTK_BOX(self->priv->vbox),
+                     GTK_WIDGET(self->priv->notebook),
+                     TRUE, TRUE, 0);
+
+    g_signal_connect(self->priv->window, "destroy",
+                     G_CALLBACK(debug_logger_window_closed),
+                     self);
+
+    g_signal_connect(self->priv->window, "delete-event",
+                     G_CALLBACK(debug_logger_window_delete),
+                     self);
+
+    g_signal_connect(self->priv->toolbar_save, "clicked",
+                     G_CALLBACK(debug_logger_save_clicked),
+                     self);
+
+    g_signal_connect(self->priv->toolbar_copy, "clicked",
+                     G_CALLBACK(debug_logger_copy_clicked),
+                     self);
+
+    g_signal_connect(self->priv->toolbar_select, "clicked",
+                     G_CALLBACK(debug_logger_select_clicked),
+                     self);
+
+    g_signal_connect(self->priv->toolbar_clear, "clicked",
+                     G_CALLBACK(debug_logger_clear_clicked),
+                     self);
+
+    g_signal_connect(self->priv->notebook, "switch-page",
+                     G_CALLBACK(debug_logger_switch_page),
+                     self);
+
+    gtk_widget_show_all(GTK_WIDGET(self->priv->window));
+
+    g_object_unref(glade);
+
+    entry = self->priv->domains;
+
+    while(entry != NULL)
+    {
+        DomainHandler *handler = (DomainHandler *)entry->data;
+        debug_logger_create_domain_page(self, handler, handler->name);
+
+        entry = g_slist_next(entry);
+    }
+}
+
+void
+debug_logger_destroy_window(DebugLogger *self)
+{
+    GSList *entry;
+
+    g_return_if_fail(IS_DEBUG_LOGGER(self));
+
+    if(!self->ui_enabled)
+        return;
+
+    self->ui_enabled = FALSE;
+
+    gtk_widget_destroy(GTK_WIDGET(self->priv->window));
+
+    entry = self->priv->domains;
+
+    while(entry != NULL)
+    {
+        DomainHandler *handler = (DomainHandler *)entry->data;
+
+        handler->view = NULL;
+        handler->child = NULL;
+
+        entry = g_slist_next(entry);
+    }
+}
+
+void
+debug_logger_add_standard_domains(DebugLogger *logger)
+{
+    g_return_if_fail(IS_DEBUG_LOGGER(logger));
+
+    debug_logger_add_domain(logger, "Gtk", FALSE);
+    debug_logger_add_domain(logger, "GLib", FALSE);
+    debug_logger_add_domain(logger, "GLib-GObject", FALSE);
+}
+
+void
+debug_logger_add_domain(DebugLogger *logger,
+                        const gchar *domain_name,
+                        gboolean default_domain)
+{
+    DomainHandler *new_handler;
+    GSList *entry;
+
+    g_return_if_fail(IS_DEBUG_LOGGER(logger));
+
+    if(!domain_name)
+    {
+        g_critical("debug-logger-add-domain: domain_name must not be NULL.");
+        return;
+    }
+
+    entry = logger->priv->domains;
+
+    while(entry != NULL)
+    {
+        DomainHandler *handler = (DomainHandler *)entry->data;
+
+        if(handler->default_domain && default_domain)
+        {
+            g_critical("debug-logger-add-domain: The default domain can only be added once.");
+            return;
+        }
+
+        if( strcmp(handler->name, domain_name) == 0)
+        {
+            g_critical(
+                    "debug-logger-add-domain: Tried to add domain \"%s\" twice.",
+                    domain_name);
+            return;
+        }
+
+        entry = g_slist_next(entry);
+    }
+
+    new_handler = g_new0(DomainHandler, 1);
+    new_handler->view = NULL;
+    new_handler->child = NULL;
+
+    if(logger->ui_enabled)
+        debug_logger_create_domain_page(logger, new_handler, domain_name);
+
+    new_handler->handler_id =
         debug_logger_insert_handler(logger,
                 (default_domain) ? NULL : domain_name);
 
@@ -1044,26 +1212,27 @@ debug_logger_remove_domain(DebugLogger *logger,
                     (handler->default_domain) ? NULL : handler->name,
                     handler->handler_id);
 
-#ifdef ENABLE_DEBUG_LOGGER
-            num_pages = gtk_notebook_get_n_pages(logger->priv->notebook);
-            for(i = 0; i < num_pages; ++i)
+            if(logger->ui_enabled)
             {
-                GtkWidget *current_page =
-                    gtk_notebook_get_nth_page(logger->priv->notebook, i);
-                GtkWidget *box = gtk_notebook_get_tab_label(logger->priv->notebook,
-                        current_page);
-                GList *list = gtk_container_get_children(GTK_CONTAINER(box));
-                GtkLabel *label = GTK_LABEL(list->next->data);
-
-                g_list_free(list);
-
-                if( strcmp(domain_name, gtk_label_get_text(label)) == 0)
+                num_pages = gtk_notebook_get_n_pages(logger->priv->notebook);
+                for(i = 0; i < num_pages; ++i)
                 {
-                    gtk_notebook_remove_page(logger->priv->notebook, i);
-                    break;
+                    GtkWidget *current_page =
+                        gtk_notebook_get_nth_page(logger->priv->notebook, i);
+                    GtkWidget *box = gtk_notebook_get_tab_label(logger->priv->notebook,
+                            current_page);
+                    GList *list = gtk_container_get_children(GTK_CONTAINER(box));
+                    GtkLabel *label = GTK_LABEL(list->next->data);
+
+                    g_list_free(list);
+
+                    if( strcmp(domain_name, gtk_label_get_text(label)) == 0)
+                    {
+                        gtk_notebook_remove_page(logger->priv->notebook, i);
+                        break;
+                    }
                 }
             }
-#endif
 
             if(handler->name)
                 g_free(handler->name);
@@ -1075,12 +1244,15 @@ debug_logger_remove_domain(DebugLogger *logger,
         }
     }
 
-    if(gtk_notebook_get_n_pages(logger->priv->notebook) == 0)
+    if(logger->ui_enabled)
     {
-        gtk_widget_set_sensitive(logger->priv->toolbar_save, FALSE);
-        gtk_widget_set_sensitive(logger->priv->toolbar_copy, FALSE);
-        gtk_widget_set_sensitive(logger->priv->toolbar_select, FALSE);
-        gtk_widget_set_sensitive(logger->priv->toolbar_clear, FALSE);
+        if(gtk_notebook_get_n_pages(logger->priv->notebook) == 0)
+        {
+            gtk_widget_set_sensitive(logger->priv->toolbar_save, FALSE);
+            gtk_widget_set_sensitive(logger->priv->toolbar_copy, FALSE);
+            gtk_widget_set_sensitive(logger->priv->toolbar_select, FALSE);
+            gtk_widget_set_sensitive(logger->priv->toolbar_clear, FALSE);
+        }
     }
 }
 

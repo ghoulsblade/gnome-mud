@@ -24,6 +24,7 @@
 G_BEGIN_DECLS
 
 #include <gtk/gtk.h>
+#include "mud-tray.h"
 
 #define TYPE_MUD_WINDOW             (mud_window_get_type ())
 #define MUD_WINDOW(object)          (G_TYPE_CHECK_INSTANCE_CAST ((object), TYPE_MUD_WINDOW, MudWindow))
@@ -48,6 +49,10 @@ struct _MudWindow
 
     /*< private >*/
     MudWindowPrivate *priv;
+
+    /*< public >*/
+    GtkWindow *window;
+    MudTray *tray;
 };
 
 GType mud_window_get_type (void);

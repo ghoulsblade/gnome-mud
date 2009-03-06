@@ -1257,7 +1257,7 @@ mud_preferences_window_trigger_ok_cb(GtkWidget *widget, MudPreferencesWindow *wi
     if(!strlen(text))
         return;
 
-    name = remove_whitespace(text);
+    name = utils_remove_whitespace(text);
 
     profile_name = mud_profile_get_name(MUD_PROFILE(window->priv->profile));
 
@@ -1334,7 +1334,7 @@ mud_preferences_window_alias_ok_cb(GtkWidget *widget, MudPreferencesWindow *wind
     if(!strlen(text))
         return;
 
-    name = remove_whitespace(text);
+    name = utils_remove_whitespace(text);
 
     profile_name = mud_profile_get_name(MUD_PROFILE(window->priv->profile));
 

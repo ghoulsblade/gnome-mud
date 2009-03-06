@@ -28,212 +28,294 @@
 
 struct _MudTrayPrivate
 {
-	MudWindow *mainWindow;
-
-	GtkWidget *window;
-	GtkStatusIcon *icon;
-	gboolean window_invisible;
+    GtkStatusIcon *icon;
+    gboolean window_invisible;
 };
 
-GType mud_tray_get_type (void);
+/* Property Identifiers */
+enum
+{
+    PROP_MUD_TRAY_0,
+    PROP_MUD_TRAY_PARENT
+};
+
+/* Create the Type */
+G_DEFINE_TYPE(MudTray, mud_tray, G_TYPE_OBJECT);
+
+/* Class Functions */
 static void mud_tray_init (MudTray *tray);
 static void mud_tray_class_init (MudTrayClass *klass);
 static void mud_tray_finalize (GObject *object);
+static GObject *mud_tray_constructor (GType gtype,
+                                      guint n_properties,
+                                      GObjectConstructParam *properties);
+static void mud_tray_set_property(GObject *object,
+                                  guint prop_id,
+                                  const GValue *value,
+                                  GParamSpec *pspec);
+static void mud_tray_get_property(GObject *object,
+                                  guint prop_id,
+                                  GValue *value,
+                                  GParamSpec *pspec);
 
-void mud_tray_window_toggle(GtkWidget *widget, MudTray *tray);
-void mud_tray_window_exit(GtkWidget *widget, MudTray *tray);
-gboolean mud_tray_create_cb(gpointer data);
+/* Callback Functions */
+static void mud_tray_window_toggle(GtkWidget *widget, MudTray *tray);
+static void mud_tray_window_exit(GtkWidget *widget, MudTray *tray);
+static gboolean mud_tray_create_cb(gpointer data);
+static void mud_tray_activate_cb(GtkStatusIcon *icon, MudTray *tray);
+static void mud_tray_popup_menu_cb(GtkStatusIcon *icon,
+                                   guint button,
+                                   guint activate_time,
+                                   MudTray *tray);
 
-void mud_tray_create(MudTray *tray);
-void mud_tray_destroy(MudTray *tray);
 
+/* Private Methods */
+static void mud_tray_create(MudTray *tray);
+static void mud_tray_destroy(MudTray *tray);
 
-// MudTray class functions
-GType
-mud_tray_get_type (void)
+/* MudTray class functions */
+static void
+mud_tray_class_init (MudTrayClass *klass)
 {
-	static GType object_type = 0;
+    GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-	g_type_init();
+    /* Override base object constructor */
+    object_class->constructor = mud_tray_constructor;
 
-	if (!object_type)
-	{
-		static const GTypeInfo object_info =
-		{
-			sizeof (MudTrayClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) mud_tray_class_init,
-			NULL,
-			NULL,
-			sizeof (MudTray),
-			0,
-			(GInstanceInitFunc) mud_tray_init,
-		};
+    /* Override base object's finalize */
+    object_class->finalize = mud_tray_finalize;
 
-		object_type = g_type_register_static(G_TYPE_OBJECT, "MudTray", &object_info, 0);
-	}
+    /* Override base object property methods */
+    object_class->set_property = mud_tray_set_property;
+    object_class->get_property = mud_tray_get_property;
 
-	return object_type;
+    /* Add private data to class */
+    g_type_class_add_private(klass, sizeof(MudTrayPrivate));
+
+    /* Install Properties */
+    g_object_class_install_property(object_class,
+            PROP_MUD_TRAY_PARENT,
+            g_param_spec_object("parent-window",
+                "parent gtk window",
+                "the gtk window the tray is attached to",
+                GTK_TYPE_WIDGET,
+                G_PARAM_READWRITE|G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
 mud_tray_init (MudTray *tray)
 {
-	tray->priv = g_new0(MudTrayPrivate, 1);
+    /* Get our private data */
+    tray->priv = MUD_TRAY_GET_PRIVATE(tray);
 
-	tray->priv->window = NULL;
-	tray->priv->icon = NULL;
-	tray->priv->window_invisible = FALSE;
+    /* set public members to defaults */
+    tray->parent_window = NULL;
 
-        mud_tray_create(tray);
+    /* set private members to defaults */
+    tray->priv->icon = NULL;
+    tray->priv->window_invisible = FALSE;
 }
 
-static void
-mud_tray_class_init (MudTrayClass *klass)
+static GObject *
+mud_tray_constructor (GType gtype,
+                      guint n_properties,
+                      GObjectConstructParam *properties)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS(klass);
+    guint i;
+    MudTray *self;
+    GObject *obj;
+    MudTrayClass *klass;
+    GObjectClass *parent_class;
 
-	object_class->finalize = mud_tray_finalize;
+    /* Chain up to parent constructor */
+    klass = MUD_TRAY_CLASS( g_type_class_peek(MUD_TYPE_TRAY) );
+    parent_class = G_OBJECT_CLASS( g_type_class_peek_parent(klass) );
+    obj = parent_class->constructor(gtype, n_properties, properties);
+
+    self = MUD_TRAY(obj);
+
+    if(!self->parent_window)
+        g_error("Tried to instantiate MudTray without passing parent GtkWindow\n");
+
+    mud_tray_create(self);
+
+    return obj;
 }
 
 static void
 mud_tray_finalize (GObject *object)
 {
-	MudTray *tray;
-	GObjectClass *parent_class;
+    MudTray *tray;
+    GObjectClass *parent_class;
 
-	tray = MUD_TRAY(object);
+    tray = MUD_TRAY(object);
 
-	mud_tray_destroy(tray);
-	g_free(tray->priv);
+    mud_tray_destroy(tray);
 
-	parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
-	parent_class->finalize(object);
+    parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
+    parent_class->finalize(object);
 }
 
-// MudTray Callbacks
-void mud_tray_window_toggle(GtkWidget *widget, MudTray *tray)
+static void
+mud_tray_set_property(GObject *object,
+                      guint prop_id,
+                      const GValue *value,
+                      GParamSpec *pspec)
 {
-        if (tray->priv->window_invisible == FALSE)
-                gtk_widget_hide(tray->priv->window);
-        else
-                gtk_widget_show(tray->priv->window);
-        tray->priv->window_invisible = !tray->priv->window_invisible;
+    MudTray *self;
+
+    self = MUD_TRAY(object);
+
+    switch(prop_id)
+    {
+        /* Parent is Construct Only */
+        case PROP_MUD_TRAY_PARENT:
+            self->parent_window = GTK_WIDGET(g_value_get_object(value));
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
 }
 
-void mud_tray_window_exit(GtkWidget *widget, MudTray *tray)
+static void
+mud_tray_get_property(GObject *object,
+                      guint prop_id,
+                      GValue *value,
+                      GParamSpec *pspec)
 {
-        mud_tray_destroy(tray);
+    MudTray *self;
+
+    self = MUD_TRAY(object);
+
+    switch(prop_id)
+    {
+        case PROP_MUD_TRAY_PARENT:
+            g_value_take_object(value, self->parent_window);
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
 }
 
-gboolean mud_tray_create_cb(gpointer data)
-{
-	MudTray *tray = MUD_TRAY(data);
-
-        mud_tray_create(tray);
-
-        return FALSE; /* for when we're called by the glib idle handler */
-}
-
-void mud_tray_activate_cb(GtkStatusIcon *icon, MudTray *tray)
-{
-	mud_tray_window_toggle(NULL, tray);
-}
-
-
-void mud_tray_popup_menu_cb(GtkStatusIcon *icon, guint button,
-                            guint activate_time, MudTray *tray)
-{
-        static GtkWidget *menu = NULL;
-        GtkWidget *entry;
-
-        if (menu) {
-                gtk_widget_destroy(menu);
-        }
-
-        menu = gtk_menu_new();
-
-        if (tray->priv->window_invisible == FALSE)
-                entry = gtk_menu_item_new_with_mnemonic(_("_Hide window"));
-        else
-                entry = gtk_menu_item_new_with_mnemonic(_("_Show window"));
-        g_signal_connect(G_OBJECT(entry), "activate", G_CALLBACK(mud_tray_window_toggle), tray);
-
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
-	entry = gtk_separator_menu_item_new ();
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
-        entry = gtk_menu_item_new_with_mnemonic(_("_Quit"));
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
-        g_signal_connect(G_OBJECT(entry), "activate", G_CALLBACK(mud_tray_window_exit), tray);
-
-        gtk_widget_show_all(menu);
-        gtk_menu_popup(GTK_MENU(menu),
-                       NULL, NULL,
-                       gtk_status_icon_position_menu, icon,
-                       button, activate_time);
-}
-
-void mud_tray_update_icon(MudTray *tray, enum mud_tray_status icon)
-{
-        const gchar *icon_name = NULL;
-
-        switch (icon) {
-                case offline:
-                        //icon_name = GMPIXMAPSDIR "/connection-offline.png";
-			icon_name = "gnome-mud";
-                        break;
-                case offline_connecting:
-                case online_connecting:
-                        icon_name = "gnome-mud";
-                        break;
-                case online:
-                        //icon_name = GMPIXMAPSDIR "/connection-online.png";
-			icon_name = "gnome-mud";
-                        break;
-        }
-
-        gtk_status_icon_set_from_icon_name(tray->priv->icon, icon_name);
-}
-
-void
+/* Private Methods */
+static void
 mud_tray_create(MudTray *tray)
 {
-        if (tray->priv->icon) {
-                /* if this is being called when a tray icon exists, it's because
-                   something messed up. try destroying it before we proceed */
-                g_message("Trying to create icon but it already exists?\n");
-                mud_tray_destroy(tray);
-        }
+    if (tray->priv->icon) {
+        /* if this is being called when a tray icon exists, it's because
+           something messed up. try destroying it before we proceed */
+        g_message("Trying to create icon but it already exists?\n");
+        mud_tray_destroy(tray);
+    }
 
-        tray->priv->icon = gtk_status_icon_new(); /*(_("GNOME Mud"));*/
-        g_signal_connect(tray->priv->icon, "activate",
-                         G_CALLBACK (mud_tray_activate_cb), tray);
-        g_signal_connect(tray->priv->icon, "popup_menu",
-                         G_CALLBACK (mud_tray_popup_menu_cb), tray);
+    tray->priv->icon = gtk_status_icon_new(); /*(_("GNOME Mud"));*/
+    g_signal_connect(tray->priv->icon, "activate",
+            G_CALLBACK (mud_tray_activate_cb), tray);
+    g_signal_connect(tray->priv->icon, "popup_menu",
+            G_CALLBACK (mud_tray_popup_menu_cb), tray);
 
-        mud_tray_update_icon(tray, offline_connecting);
+    mud_tray_update_icon(tray, offline_connecting);
 }
 
-void
+static void
 mud_tray_destroy(MudTray *tray)
 {
-        g_object_unref(G_OBJECT(tray->priv->icon));
-        tray->priv->icon = NULL;
-
-        g_object_unref(tray->priv->mainWindow);
+    g_object_unref(G_OBJECT(tray->priv->icon));
+    tray->priv->icon = NULL;
 }
 
-// Instantiate MudTray
-MudTray*
-mud_tray_new(MudWindow *mainWindow, GtkWidget *window)
+/* MudTray Callbacks */
+static void
+mud_tray_window_toggle(GtkWidget *widget, MudTray *tray)
 {
-	MudTray *tray;
-
-	tray = g_object_new(MUD_TYPE_TRAY, NULL);
-
-	tray->priv->window = window;
-	tray->priv->mainWindow = mainWindow;
-
-	return tray;
+    if (tray->priv->window_invisible == FALSE)
+        gtk_widget_hide(tray->parent_window);
+    else
+        gtk_widget_show(tray->parent_window);
+    tray->priv->window_invisible = !tray->priv->window_invisible;
 }
+
+static void
+mud_tray_window_exit(GtkWidget *widget, MudTray *tray)
+{
+    mud_tray_destroy(tray);
+}
+
+static gboolean
+mud_tray_create_cb(gpointer data)
+{
+    MudTray *tray = MUD_TRAY(data);
+
+    mud_tray_create(tray);
+
+    return FALSE; /* for when we're called by the glib idle handler */
+}
+
+static void
+mud_tray_activate_cb(GtkStatusIcon *icon, MudTray *tray)
+{
+    mud_tray_window_toggle(NULL, tray);
+}
+
+
+static void
+mud_tray_popup_menu_cb(GtkStatusIcon *icon, guint button,
+                            guint activate_time, MudTray *tray)
+{
+    static GtkWidget *menu = NULL;
+    GtkWidget *entry;
+
+    if (menu) {
+        gtk_widget_destroy(menu);
+    }
+
+    menu = gtk_menu_new();
+
+    if (tray->priv->window_invisible == FALSE)
+        entry = gtk_menu_item_new_with_mnemonic(_("_Hide window"));
+    else
+        entry = gtk_menu_item_new_with_mnemonic(_("_Show window"));
+    g_signal_connect(G_OBJECT(entry), "activate", G_CALLBACK(mud_tray_window_toggle), tray);
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
+    entry = gtk_separator_menu_item_new ();
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
+    entry = gtk_menu_item_new_with_mnemonic(_("_Quit"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), entry);
+    g_signal_connect(G_OBJECT(entry), "activate", G_CALLBACK(mud_tray_window_exit), tray);
+
+    gtk_widget_show_all(menu);
+    gtk_menu_popup(GTK_MENU(menu),
+            NULL, NULL,
+            gtk_status_icon_position_menu, icon,
+            button, activate_time);
+}
+
+/* Public Methods */
+void
+mud_tray_update_icon(MudTray *tray, enum mud_tray_status icon)
+{
+    const gchar *icon_name = NULL;
+
+    switch (icon) {
+        case offline:
+            //icon_name = GMPIXMAPSDIR "/connection-offline.png";
+            icon_name = "gnome-mud";
+            break;
+        case offline_connecting:
+        case online_connecting:
+            icon_name = "gnome-mud";
+            break;
+        case online:
+            //icon_name = GMPIXMAPSDIR "/connection-online.png";
+            icon_name = "gnome-mud";
+            break;
+    }
+
+    gtk_status_icon_set_from_icon_name(tray->priv->icon, icon_name);
+}
+

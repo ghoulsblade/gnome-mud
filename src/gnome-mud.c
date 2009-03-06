@@ -45,7 +45,7 @@ int main (gint argc, char *argv[])
 {
     MudWindow *window;
     GConfClient *client;
-    DebugLogger *logger, *logger2;
+    DebugLogger *logger;
     GError      *err = NULL;
     gchar       buf[2048];
 
@@ -64,6 +64,8 @@ int main (gint argc, char *argv[])
         return 1;
     }
 
+    gtk_init(&argc, &argv);
+
     /* Initialize the Gnet library */
     gnet_init();
 
@@ -71,8 +73,6 @@ int main (gint argc, char *argv[])
     /* Initialize GStreamer */
     gst_init(&argc, &argv);
 #endif
-
-    gtk_init(&argc, &argv);
 
     client = gconf_client_get_default();
     gconf_client_add_dir(client, "/apps/gnome-mud",
@@ -96,16 +96,19 @@ int main (gint argc, char *argv[])
 
     gtk_window_set_default_icon_name(GMUD_STOCK_ICON);
 
-    logger = g_object_new(TYPE_DEBUG_LOGGER, NULL);
+    /* Setup debug logging */
+    logger = g_object_new(TYPE_DEBUG_LOGGER, 
+                          "use-color", TRUE,
+                          "closeable", FALSE,
+                          NULL);
 
     debug_logger_add_domain(logger, "Gnome-Mud", TRUE);
     debug_logger_add_domain(logger, "Telnet", FALSE);
-    debug_logger_add_domain(logger, "Gtk", FALSE);
-    debug_logger_add_domain(logger, "GLib", FALSE);
-    debug_logger_add_domain(logger, "GLib-GObject", FALSE);
+    debug_logger_add_standard_domains(logger);
 
-    /* Turn on colored output in logger */
-    g_object_set(logger, "use-color", TRUE, NULL);
+#ifdef ENABLE_DEBUG_LOGGER
+    debug_logger_create_window(logger);
+#endif
 
     /* Let 'er rip */
     window = g_object_new(TYPE_MUD_WINDOW, NULL);
