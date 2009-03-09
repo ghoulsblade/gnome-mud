@@ -560,7 +560,10 @@ mud_connections_delete_cb(GtkWidget *widget, MudConnections *conn)
         g_strfreev(mud_tuple);
         g_object_unref(client);
 
-	return;
+        g_list_foreach(selected, (GFunc)gtk_tree_path_free, NULL);
+        g_list_free(selected);
+
+        return;
     }
 
     g_strfreev(mud_tuple);

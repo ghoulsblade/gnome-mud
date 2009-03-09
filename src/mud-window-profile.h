@@ -23,6 +23,7 @@
 G_BEGIN_DECLS
 
 #include <gconf/gconf-client.h>
+#include "mud-window.h"
 
 #define MUD_TYPE_PROFILE_WINDOW              (mud_profile_window_get_type ())
 #define MUD_PROFILE_WINDOW(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_PROFILE_WINDOW, MudProfileWindow))
@@ -30,24 +31,29 @@ G_BEGIN_DECLS
 #define MUD_IS_PROFILE_WINDOW(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_PROFILE_WINDOW))
 #define MUD_IS_PROFILE_WINDOW_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_PROFILE_WINDOW))
 #define MUD_PROFILE_WINDOW_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_PROFILE_WINDOW, MudProfileWindowClass))
+#define MUD_PROFILE_WINDOW_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_PROFILE_WINDOW, MudProfileWindowPrivate))
 
 typedef struct _MudProfileWindow            MudProfileWindow;
 typedef struct _MudProfileWindowClass       MudProfileWindowClass;
 typedef struct _MudProfileWindowPrivate     MudProfileWindowPrivate;
-
-struct _MudProfileWindow
-{
-	GObject parent_instance;
-
-	MudProfileWindowPrivate *priv;
-};
 
 struct _MudProfileWindowClass
 {
 	GObjectClass parent_class;
 };
 
-GType mud_profile_window_get_type (void) G_GNUC_CONST;
+struct _MudProfileWindow
+{
+	GObject parent_instance;
+
+        /*< Private >*/
+	MudProfileWindowPrivate *priv;
+
+        /*< Public >*/
+        MudWindow *parent_window;
+};
+
+GType mud_profile_window_get_type (void);
 
 MudProfileWindow *mud_window_profile_new(MudWindow *window);
 

@@ -37,67 +37,110 @@ struct _MudLogPrivate
 {
     gboolean active;
 
-    gchar *name;
     gchar *filename;
     gchar *dir;
 
     FILE *logfile;
 };
 
-GType mud_log_get_type (void);
+/* Property Identifiers */
+enum
+{
+    PROP_MUD_LOG_0,
+    PROP_MUD_NAME
+};
 
+/* Define the Type */
+G_DEFINE_TYPE(MudLog, mud_log, G_TYPE_OBJECT);
+
+/* Class Functions */
 static void mud_log_init (MudLog *log);
 static void mud_log_class_init (MudLogClass *klass);
 static void mud_log_finalize (GObject *object);
+static GObject *mud_log_constructor (GType gtype,
+                                     guint n_properties,
+                                     GObjectConstructParam *properties);
+static void mud_log_set_property(GObject *object,
+                                 guint prop_id,
+                                 const GValue *value,
+                                 GParamSpec *pspec);
+static void mud_log_get_property(GObject *object,
+                                 guint prop_id,
+                                 GValue *value,
+                                 GParamSpec *pspec);
 
-void mud_log_write(MudLog *log, gchar *data, gsize size);
-void mud_log_remove(MudLog *log);
+/* Private Methods */
+static void mud_log_write(MudLog *log, gchar *data, gsize size);
+static void mud_log_remove(MudLog *log);
 
 // MudLog class functions
-GType
-mud_log_get_type (void)
-{
-    static GType object_type = 0;
-
-    g_type_init();
-
-    if (!object_type)
-    {
-        static const GTypeInfo object_info =
-        {
-            sizeof (MudLogClass),
-            NULL,
-            NULL,
-            (GClassInitFunc) mud_log_class_init,
-            NULL,
-            NULL,
-            sizeof (MudLog),
-            0,
-            (GInstanceInitFunc) mud_log_init,
-        };
-
-        object_type = g_type_register_static(G_TYPE_OBJECT, "MudLog", &object_info, 0);
-    }
-
-    return object_type;
-}
-
-static void
-mud_log_init (MudLog *log)
-{
-    log->priv = g_new0(MudLogPrivate, 1);
-
-    log->priv->active = FALSE;
-    log->priv->logfile = NULL;
-    log->priv->name = NULL;
-}
-
 static void
 mud_log_class_init (MudLogClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
+    /* Override base object constructor */
+    object_class->constructor = mud_log_constructor;
+
+    /* Override base object's finalize */
     object_class->finalize = mud_log_finalize;
+
+    /* Override base object property methods */
+    object_class->set_property = mud_log_set_property;
+    object_class->get_property = mud_log_get_property;
+
+    /* Add private data to class */
+    g_type_class_add_private(klass, sizeof(MudLogPrivate));
+
+    /* Install Properties */
+    g_object_class_install_property(object_class,
+            PROP_MUD_NAME,
+            g_param_spec_string("mud-name",
+                "mud name",
+                "name of mud we are logging",
+                "Unnamed",
+                G_PARAM_READWRITE|G_PARAM_CONSTRUCT_ONLY));
+}
+
+static void
+mud_log_init (MudLog *log)
+{
+    log->priv = MUD_LOG_GET_PRIVATE(log);
+
+    /* Set defaults for Public Members */
+    log->mud_name = NULL;
+
+    /* Set defaults for Private Members */
+    log->priv->active = FALSE;
+    log->priv->logfile = NULL;
+}
+
+static GObject *
+mud_log_constructor (GType gtype,
+                     guint n_properties,
+                     GObjectConstructParam *properties)
+{
+    guint i;
+    MudLog *self;
+    GObject *obj;
+
+    MudLogClass *klass;
+    GObjectClass *parent_class;
+
+    /* Chain up to parent constructor */
+    klass = MUD_LOG_CLASS( g_type_class_peek(MUD_TYPE_LOG) );
+    parent_class = G_OBJECT_CLASS( g_type_class_peek_parent(klass) );
+    obj = parent_class->constructor(gtype, n_properties, properties);
+
+    self = MUD_LOG(obj);
+
+    if(!self->mud_name)
+    {
+        g_printf("ERROR: Tried to instantiate MudLog without passing mud name.\n");
+        g_error("Tried to instantiate MudLog without passing mud name.\n");
+    }
+
+    return obj;
 }
 
 static void
@@ -111,17 +154,72 @@ mud_log_finalize (GObject *object)
     if(MLog->priv->active)
         mud_log_close(MLog);
 
-    if(MLog->priv->name)
-        g_free(MLog->priv->name);
-
-    g_free(MLog->priv);
+    if(MLog->mud_name)
+        g_free(MLog->mud_name);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
 }
 
-// MudLog Methods
+static void
+mud_log_set_property(GObject *object,
+                     guint prop_id,
+                     const GValue *value,
+                     GParamSpec *pspec)
+{
+    MudLog *self;
+    
+    gchar *new_mud_name;
 
+    self = MUD_LOG(object);
+
+    switch(prop_id)
+    {
+        /* Parent is Construct Only */
+        case PROP_MUD_NAME:
+            new_mud_name = g_value_dup_string(value);
+
+            if(!self->mud_name)
+                self->mud_name = g_strdup(new_mud_name);
+            else if( strcmp(self->mud_name, new_mud_name) != 0)
+            {
+                g_free(self->mud_name);
+                self->mud_name = g_strdup(new_mud_name);
+            }
+
+            g_free(new_mud_name);
+
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+static void
+mud_log_get_property(GObject *object,
+                     guint prop_id,
+                     GValue *value,
+                     GParamSpec *pspec)
+{
+    MudLog *self;
+
+    self = MUD_LOG(object);
+
+    switch(prop_id)
+    {
+        case PROP_MUD_NAME:
+            g_value_set_string(value, self->mud_name);
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+/* Public Methods */
 void
 mud_log_open(MudLog *log)
 {
@@ -129,7 +227,9 @@ mud_log_open(MudLog *log)
     gchar nameBuf[1024];
     time_t t;
 
-    g_snprintf(buf, 1024, "%s/.gnome-mud/logs/%s", g_get_home_dir(), log->priv->name);
+    g_return_if_fail(MUD_IS_LOG(log));
+
+    g_snprintf(buf, 1024, "%s/.gnome-mud/logs/%s", g_get_home_dir(), log->mud_name);
 
     log->priv->dir = g_strdup(buf);
 
@@ -137,7 +237,7 @@ mud_log_open(MudLog *log)
         if(mkdir(buf, 0777 ) == -1)
             return;
 
-    g_snprintf(nameBuf, 1024, "%s.log", log->priv->name);
+    g_snprintf(nameBuf, 1024, "%s.log", log->mud_name);
 
     log->priv->filename = g_build_path( G_DIR_SEPARATOR_S, log->priv->dir, nameBuf, NULL);
     log->priv->logfile = fopen(log->priv->filename, "a");
@@ -155,34 +255,13 @@ mud_log_open(MudLog *log)
 }
 
 void
-mud_log_write(MudLog *log, gchar *data, gsize size)
-{
-    gchar *stripData;
-    gint stripSize = 0;
-    gsize write_size;
-
-    if(log->priv->logfile == NULL || data == NULL)
-        return;
-
-    stripData = utils_strip_ansi((const gchar *)data);
-    stripSize = strlen(stripData);
-
-    write_size = fwrite(stripData, 1, stripSize, log->priv->logfile);
-
-    if(write_size != stripSize)
-        g_critical(_("Could not write data to log file!"));
-
-    g_free(stripData);
-}
-
-void
 mud_log_close(MudLog *log)
 {
     gchar buf[255];
     time_t t;
 
-    if(log->priv->logfile == NULL)
-        return;
+    g_return_if_fail(MUD_IS_LOG(log));
+    g_return_if_fail(log->priv->logfile != NULL);
 
     time(&t);
     strftime(buf, 255,
@@ -195,42 +274,55 @@ mud_log_close(MudLog *log)
     log->priv->active = FALSE;
 }
 
+gboolean
+mud_log_islogging(MudLog *log)
+{
+    if(!log)
+        return FALSE;
+
+    return log->priv->active;
+}
+
 void
+mud_log_write_hook(MudLog *log, gchar *data, gint length)
+{
+    g_return_if_fail(MUD_IS_LOG(log));
+
+    if(log->priv->active)
+        mud_log_write(log, data, length);
+}
+
+/* Private Methods */
+static void
 mud_log_remove(MudLog *log)
 {
+    g_return_if_fail(MUD_IS_LOG(log));
+
     if(log->priv->active)
         mud_log_close(log);
 
     unlink(log->priv->filename);
 }
 
-gboolean
-mud_log_islogging(MudLog *log)
+static void
+mud_log_write(MudLog *log, gchar *data, gsize size)
 {
-    return log->priv->active;
+    gchar *stripData;
+    gint stripSize = 0;
+    gsize write_size;
+
+    g_return_if_fail(MUD_IS_LOG(log));
+    g_return_if_fail(log->priv->logfile != NULL);
+    g_return_if_fail(data != NULL);
+
+    stripData = utils_strip_ansi((const gchar *)data);
+    stripSize = strlen(stripData);
+
+    write_size = fwrite(stripData, 1, stripSize, log->priv->logfile);
+
+    if(write_size != stripSize)
+        g_critical(_("Could not write data to log file!"));
+
+    g_free(stripData);
 }
 
-// MudLog Utility Functions
-
-void
-mud_log_write_hook(MudLog *log, gchar *data, gint length)
-{
-    if(log->priv->active)
-        mud_log_write(log, data, length);
-}
-
-// Instantiate MudLog
-MudLog*
-mud_log_new(gchar *mudName)
-{
-    MudLog *MLog;
-
-    if( mudName == NULL)
-        return NULL;
-
-    MLog = g_object_new(MUD_TYPE_LOG, NULL);
-
-    MLog->priv->name = g_strdup(mudName);
-
-    return MLog;
-}

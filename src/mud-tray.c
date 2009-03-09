@@ -135,7 +135,10 @@ mud_tray_constructor (GType gtype,
     self = MUD_TRAY(obj);
 
     if(!self->parent_window)
+    {
+        g_printf("ERROR: Tried to instantiate MudTray without passing parent GtkWindow\n");
         g_error("Tried to instantiate MudTray without passing parent GtkWindow\n");
+    }
 
     mud_tray_create(self);
 

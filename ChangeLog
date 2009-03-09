@@ -1,3 +1,23 @@
+2009-03-09  Les Harris  <lharris@gnome.org>
+
+	* src/debug-logger.c (debug_logger_log_func): Handle
+	G_LOG_LEVEL_ERROR.
+	* src/mud-connection-view.c (mud_connection_view_new): Changed log
+	instantiation.
+	* src/mud-connections.c (mud_connections_delete_cb): Free the
+	selection properly before returning.
+	* src/mud-log.[ch]: Made into a better GObject. Uses properties,
+	removed explicit construction function.
+	* src/mud-telnet.c (mud_telnet_process),
+	(mud_telnet_get_telopt_string): Formatting cleanups.
+	* src/mud-tray.c (mud_tray_constructor): Print g_error to console.
+	* src/mud-window-profile.[ch]: Made into a better GObject. Uses
+	properties, removed explicit construction function.
+	* src/mud-window.[ch] (mud_window_profiles_cb),
+	(mud_window_buffer_cb): Use our utility error dialog for error,
+	changed profile window instatiation. Removed mud_window_get_window,
+	users of that function now get the window from the property.
+
 2009-03-06  Les Harris  <lharris@gnome.org>
 
 	* src/debug-logger.[ch]: Removed ifdefs from inside class. Added api

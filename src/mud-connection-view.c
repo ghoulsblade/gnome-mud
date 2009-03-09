@@ -38,12 +38,6 @@
 #include "mud-log.h"
 #include "mud-parse-base.h"
 #include "mud-telnet.h"
-#include "mud-telnet-zmp.h"
-#include "mud-telnet-msp.h"
-
-#ifdef ENABLE_MCCP
-#include "mud-telnet-mccp.h"
-#endif
 
 #ifdef ENABLE_GST
 #include "mud-telnet-msp.h"
@@ -1012,7 +1006,9 @@ mud_connection_view_new (const gchar *profile, const gchar *hostname,
 
     view->priv->tray = MUD_TRAY(tray);
 
-    view->priv->log = mud_log_new(name);
+    view->priv->log = g_object_new(MUD_TYPE_LOG,
+                                   "mud-name", name,
+                                   NULL);
 
     buf = g_strdup_printf(_("*** Making connection to %s, port %d.\n"),
             view->priv->hostname, view->priv->port);

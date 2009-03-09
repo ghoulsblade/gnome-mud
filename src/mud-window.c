@@ -626,7 +626,10 @@ mud_window_preferences_cb(GtkWidget *widget, MudWindow *self)
 static void
 mud_window_profiles_cb(GtkWidget *widget, MudWindow *self)
 {
-    mud_window_profile_new(self);
+    MudProfileWindow *profile_window =
+        g_object_new(MUD_TYPE_PROFILE_WINDOW,
+                     "parent-window", self,
+                     NULL);
 }
 
 static void
@@ -752,14 +755,8 @@ mud_window_buffer_cb(GtkWidget *widget, MudWindow *self)
         file = fopen(filename, "w");
 
         if(!file)
-        {
-            GtkWidget *errDialog;
-
-            errDialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("Could not save the file in specified location!"));
-
-            gtk_dialog_run(GTK_DIALOG(errDialog));
-            gtk_widget_destroy(errDialog);
-        }
+            utils_error_message(self->window, _("Error Saving Buffer"),
+                    "%s", _("Could not save the file in specified location!"));
         else
         {
             gchar *bufferText;
@@ -1005,15 +1002,6 @@ mud_window_populate_profiles_menu(MudWindow *self)
                      self);
 }
     
-GtkWidget*
-mud_window_get_window(MudWindow *self)
-{
-    if(!IS_MUD_WINDOW(self))
-        return NULL;
-
-    return GTK_WIDGET(self->window);
-}
-
 void
 mud_window_add_connection_view(MudWindow *self, GObject *cview, gchar *tabLbl)
 {

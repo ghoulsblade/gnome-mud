@@ -822,6 +822,13 @@ debug_logger_log_func (const gchar *log_domain,
 
         switch(log_level)
         {
+            case G_LOG_LEVEL_ERROR:
+                type = g_string_append(type, _("Error"));
+                color = g_string_append(color, logger->critical_color);
+
+                g_printf(_("ERROR: %s\n"), message);
+                break;
+
             case G_LOG_LEVEL_CRITICAL:
                 type = g_string_append(type, _("Critical"));
                 color = g_string_append(color, logger->critical_color);
@@ -901,6 +908,10 @@ debug_logger_log_func (const gchar *log_domain,
     {
         switch(log_level)
         {
+            case G_LOG_LEVEL_ERROR:
+                g_printf(_("ERROR: %s\n"), message);
+                break;
+
             case G_LOG_LEVEL_CRITICAL:
                 g_printf(_("CRITICAL ERROR: %s\n"), message);
                 break;

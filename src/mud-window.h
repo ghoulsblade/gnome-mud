@@ -62,7 +62,6 @@ void mud_window_populate_profiles_menu(MudWindow *window);
 void mud_window_profile_menu_set_active(MudWindow *window, gchar *name);
 void mud_window_close_current_window(MudWindow *window);
 void mud_window_disconnected(MudWindow *window);
-GtkWidget* mud_window_get_window(MudWindow *window);
 
 G_END_DECLS
 

@@ -30,29 +30,32 @@ G_BEGIN_DECLS
 #define MUD_IS_LOG(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_LOG))
 #define MUD_IS_LOG_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_LOG))
 #define MUD_LOG_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_LOG, MudLogClass))
+#define MUD_LOG_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_LOG, MudLogPrivate))
 
 typedef struct _MudLog            MudLog;
 typedef struct _MudLogClass       MudLogClass;
 typedef struct _MudLogPrivate     MudLogPrivate;
 
-struct _MudLog
-{
-	GObject parent_instance;
-
-	MudLogPrivate *priv;
-};
-
 struct _MudLogClass
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
 };
 
-GType mud_log_get_type (void) G_GNUC_CONST;
+struct _MudLog
+{
+    GObject parent_instance;
 
-MudLog *mud_log_new(gchar *mudName);
+    /*< Private >*/
+    MudLogPrivate *priv;
 
+    /*< Public >*/
+    gchar *mud_name;
+};
+
+GType mud_log_get_type (void);
+
+/*< Public Methods >*/
 void mud_log_write_hook(MudLog *log, gchar *data, gint length);
-
 void mud_log_open(MudLog *log);
 void mud_log_close(MudLog *log);
 gboolean mud_log_islogging(MudLog *log);

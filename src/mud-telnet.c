@@ -581,6 +581,7 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
                 opt = mud_telnet_get_telopt_string((guchar)telnet->buffer->str[i]);
                 g_log("Telnet", G_LOG_LEVEL_MESSAGE, "Recieved: WONT %s", opt);
                 g_free(opt);
+
                 mud_telnet_handle_negative_nego(
                         telnet,
                         (guchar)telnet->buffer->str[i],
@@ -677,24 +678,24 @@ mud_telnet_get_telnet_string(guchar ch)
 
     switch (ch)
     {
-    case TEL_WILL:
-	string = g_string_append(string, "WILL");
-	break;
-    case TEL_WONT:
-	string = g_string_append(string, "WONT");
-	break;
-    case TEL_DO:
-	string = g_string_append(string, "DO");
-	break;
-    case TEL_DONT:
-	string = g_string_append(string, "DONT");
-	break;
-    case TEL_IAC:
-	string = g_string_append(string, "IAC");
-	break;
-    default:
-	string = g_string_append_c(string,ch);
-	break;
+        case TEL_WILL:
+            string = g_string_append(string, "WILL");
+            break;
+        case TEL_WONT:
+            string = g_string_append(string, "WONT");
+            break;
+        case TEL_DO:
+            string = g_string_append(string, "DO");
+            break;
+        case TEL_DONT:
+            string = g_string_append(string, "DONT");
+            break;
+        case TEL_IAC:
+            string = g_string_append(string, "IAC");
+            break;
+        default:
+            string = g_string_append_c(string,ch);
+            break;
     }
 
     ret = g_strdup(string->str);
@@ -710,56 +711,57 @@ mud_telnet_get_telopt_string(guchar ch)
 
     switch (ch)
     {
-    case TELOPT_ECHO:
-	string = g_string_append(string, "ECHO");
-	break;
+        case TELOPT_ECHO:
+            string = g_string_append(string, "ECHO");
+            break;
 
-    case TELOPT_TTYPE:
-	string = g_string_append(string, "TTYPE");
-	break;
+        case TELOPT_TTYPE:
+            string = g_string_append(string, "TTYPE");
+            break;
 
-    case TELOPT_EOR:
-	string = g_string_append(string, "END-OF-RECORD");
-	break;
+        case TELOPT_EOR:
+            string = g_string_append(string, "END-OF-RECORD");
+            break;
 
-    case TELOPT_NAWS:
-	string = g_string_append(string, "NAWS");
-	break;
+        case TELOPT_NAWS:
+            string = g_string_append(string, "NAWS");
+            break;
 
-    case TELOPT_CHARSET:
-	string = g_string_append(string, "CHARSET");
-	break;
+        case TELOPT_CHARSET:
+            string = g_string_append(string, "CHARSET");
+            break;
 
-    case TELOPT_MCCP:
-	string = g_string_append(string, "COMPRESS");
-	break;
+        case TELOPT_MCCP:
+            string = g_string_append(string, "COMPRESS");
+            break;
 
-    case TELOPT_MCCP2:
-	string = g_string_append(string, "COMPRESS2");
-	break;
+        case TELOPT_MCCP2:
+            string = g_string_append(string, "COMPRESS2");
+            break;
 
-    case TELOPT_CLIENT:
-	string = g_string_append(string, "CLIENT");
-	break;
+        case TELOPT_CLIENT:
+            string = g_string_append(string, "CLIENT");
+            break;
 
-    case TELOPT_CLIENTVER:
-	string = g_string_append(string, "CLIENTVER");
-	break;
+        case TELOPT_CLIENTVER:
+            string = g_string_append(string, "CLIENTVER");
+            break;
 
-    case TELOPT_MSP:
-	string = g_string_append(string, "MSP");
-	break;
+        case TELOPT_MSP:
+            string = g_string_append(string, "MSP");
+            break;
 
-    case TELOPT_MXP:
-	string = g_string_append(string, "MXP");
-	break;
+        case TELOPT_MXP:
+            string = g_string_append(string, "MXP");
+            break;
 
-    case TELOPT_ZMP:
-	string = g_string_append(string, "ZMP");
-	break;
+        case TELOPT_ZMP:
+            string = g_string_append(string, "ZMP");
+            break;
 
-    default:
-        g_string_printf(string, "Dec: %d Hex: %x Ascii: %c", ch, ch, ch);
+        default:
+            g_string_printf(string, "Dec: %d Hex: %x Ascii: %c", ch, ch, ch);
+            break;
     }
 
     return g_string_free(string, FALSE);
@@ -1114,3 +1116,4 @@ mud_telnet_get_index_by_option(MudTelnet *telnet, guchar option_number)
 
     return -1;
 }
+
