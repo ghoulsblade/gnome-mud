@@ -1,5 +1,10 @@
 2009-03-13  Les Harris  <lharris@gnome.org>
 
+	* src/mud-telnet.c: Poll for mccp-new in main processing loop. This
+	prevents MCCP corruption when it is disabled and then reenabled.
+
+2009-03-13  Les Harris  <lharris@gnome.org>
+
 	* AUTHORS: Added self.
 	* configure.ac: Removed some stale checks.
 	* src/Makefile.am: Removed mud-telnet-handlers.[ch]. Added new files.

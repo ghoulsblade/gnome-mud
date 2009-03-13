@@ -404,7 +404,6 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
                 "mccp-new",    &mccp_new,
                 NULL);
 
-
     if(mccp_active)
     {
         GString *ret = NULL;
@@ -431,7 +430,10 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
     for (i = 0; i < count; ++i)
     {
         if(mccp_handler)
-            g_object_get(mccp_handler, "mccp-active", &mccp_active, NULL);
+            g_object_get(mccp_handler,
+                         "mccp-active", &mccp_active,
+                         "mccp-new", &mccp_new,
+                         NULL);
 
         switch (telnet->priv->tel_state)
         {
