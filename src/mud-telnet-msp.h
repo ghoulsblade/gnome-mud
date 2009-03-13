@@ -22,8 +22,37 @@
 
 #ifdef ENABLE_GST
 
+G_BEGIN_DECLS
+
 #include <glib.h>
+#include <gst/gst.h>
+
 #include "mud-telnet.h"
+
+#define MUD_TYPE_TELNET_MSP              (mud_telnet_msp_get_type ())
+#define MUD_TELNET_MSP(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_TELNET_MSP, MudTelnetMsp))
+#define MUD_TELNET_MSP_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_TELNET_MSP, MudTelnetMspClass))
+#define MUD_IS_TELNET_MSP(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_TELNET_MSP))
+#define MUD_IS_TELNET_MSP_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_TELNET_MSP))
+#define MUD_TELNET_MSP_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_TELNET_MSP, MudTelnetMspClass))
+#define MUD_TELNET_MSP_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_TELNET_MSP, MudTelnetMspPrivate))
+
+typedef struct _MudTelnetMsp            MudTelnetMsp;
+typedef struct _MudTelnetMspClass       MudTelnetMspClass;
+typedef struct _MudTelnetMspPrivate     MudTelnetMspPrivate;
+
+struct _MudTelnetMspClass
+{
+    GObjectClass parent_class;
+};
+
+struct _MudTelnetMsp
+{
+    GObject parent_instance;
+
+    /*< private >*/
+    MudTelnetMspPrivate *priv;
+};
 
 typedef enum
 {
@@ -39,6 +68,17 @@ typedef enum
     MSP_STATE_GET_ARGS,
     MSP_STATE_PARSE_ARGS
 } MudMSPStates;
+
+typedef enum
+{
+    ARG_STATE_FILE,
+    ARG_STATE_V,
+    ARG_STATE_L,
+    ARG_STATE_C,
+    ARG_STATE_T,
+    ARG_STATE_U,
+    ARG_STATE_P
+} MudMSPArgStates;
 
 typedef struct MudMSPParser
 {
@@ -84,7 +124,6 @@ typedef struct MudMSPDownloadItem
     gchar *file;
 } MudMSPDownloadItem;
 
-#include <gst/gst.h>
 typedef struct MudMSPSound
 {
     gboolean playing;
@@ -97,12 +136,16 @@ typedef struct MudMSPSound
     MudMSPCommand *current_command;
 } MudMSPSound;
 
-void mud_telnet_msp_init(MudTelnet *telnet);
-void mud_telnet_msp_parser_clear(MudTelnet *telnet);
-void mud_telnet_msp_download_item_free(MudMSPDownloadItem *item);
-GString *mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len);
-void mud_telnet_msp_stop_playing(MudTelnet *telnet, MudMSPTypes type);
+GType mud_telnet_msp_get_type (void);
 
-#endif
+void mud_telnet_msp_download_item_free(MudMSPDownloadItem *item);
+GString *mud_telnet_msp_parse(MudTelnetMsp *self, GString *buf, gint *len);
+void mud_telnet_msp_stop_playing(MudTelnetMsp *self, MudMSPTypes type);
+void mud_telnet_msp_parser_clear(MudTelnetMsp *self);
+
+G_END_DECLS
+
+#endif // ENABLE_MSP
 
 #endif // MUD_TELNET_MSP_H
+

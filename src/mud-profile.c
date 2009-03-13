@@ -177,7 +177,7 @@ mud_profile_new (const gchar *name)
     profile = get_profile(name);
     if (profile == NULL)
     {
-        profile = g_object_new(TYPE_MUD_PROFILE, NULL);
+        profile = g_object_new(MUD_TYPE_PROFILE, NULL);
         profile->name = g_strdup(name);
         profile->preferences = &profile->priv->preferences;
 

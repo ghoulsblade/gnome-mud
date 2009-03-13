@@ -28,32 +28,40 @@ G_BEGIN_DECLS
 #define MUD_IS_PARSE_BASE(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_PARSE_BASE))
 #define MUD_IS_PARSE_BASE_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_PARSE_BASE))
 #define MUD_PARSE_BASE_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_PARSE_BASE, MudParseBaseClass))
+#define MUD_PARSE_BASE_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_PARSE_BASE, MudParseBasePrivate))
 
 typedef struct _MudParseBase            MudParseBase;
 typedef struct _MudParseBaseClass       MudParseBaseClass;
 typedef struct _MudParseBasePrivate     MudParseBasePrivate;
 
-struct _MudParseBase
-{
-	GObject parent_instance;
-
-	MudParseBasePrivate *priv;
-};
+#include "mud-connection-view.h"
+#include "mud-regex.h"
 
 struct _MudParseBaseClass
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
 };
 
-GType mud_parse_base_get_type (void) G_GNUC_CONST;
+struct _MudParseBase
+{
+    GObject parent_instance;
 
-#include "mud-connection-view.h"
-#include "mud-regex.h"
-MudParseBase *mud_parse_base_new(MudConnectionView *parentview);
+    /*< Private >*/
+    MudParseBasePrivate *priv;
 
-gboolean mud_parse_base_do_triggers(MudParseBase *base, gchar *data);
-gboolean mud_parse_base_do_aliases(MudParseBase *base, gchar *data);
-void mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020], MudConnectionView *view, MudRegex *regex);
+    /*< Public >*/
+    MudConnectionView *parent_view;
+    MudRegex *regex;
+};
+
+GType mud_parse_base_get_type (void);
+
+gboolean mud_parse_base_do_triggers(MudParseBase *self, gchar *data);
+gboolean mud_parse_base_do_aliases(MudParseBase *self, gchar *data);
+void mud_parse_base_parse(MudParseBase *self,
+                          const gchar *data,
+                          gchar *stripped_data,
+                          gint ovector[1020]);
 
 G_END_DECLS
 

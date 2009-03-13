@@ -41,70 +41,128 @@
 #define PARSE_STATE_REGISTER 	2
 #define PARSE_STATE_INREGISTER  3
 
-typedef struct ParseObject {
-	gchar *data;
-	gint type;
+typedef struct ParseObject
+{
+    gchar *data;
+    gint type;
 } ParseObject;
 
 struct _MudParseBasePrivate
 {
-	MudRegex *regex;
 	MudParseAlias *alias;
 	MudParseTrigger *trigger;
-
-	MudConnectionView *parentview;
 };
 
-GType mud_parse_base_get_type (void);
+/* Property Identifiers */
+enum
+{
+    PROP_MUD_PARSE_BASE_0,
+    PROP_PARENT_VIEW,
+    PROP_REGEX
+};
+
+/* Create the Type */
+G_DEFINE_TYPE(MudParseBase, mud_parse_base, G_TYPE_OBJECT);
+
+/* Class Functions */
 static void mud_parse_base_init (MudParseBase *parse_base);
 static void mud_parse_base_class_init (MudParseBaseClass *klass);
 static void mud_parse_base_finalize (GObject *object);
+static GObject *mud_parse_base_constructor (GType gtype,
+                                            guint n_properties,
+                                            GObjectConstructParam *properties);
+static void mud_parse_base_set_property(GObject *object,
+                                        guint prop_id,
+                                        const GValue *value,
+                                        GParamSpec *pspec);
+static void mud_parse_base_get_property(GObject *object,
+                                        guint prop_id,
+                                        GValue *value,
+                                        GParamSpec *pspec);
 
 // MudParseBase class functions
-GType
-mud_parse_base_get_type (void)
-{
-    static GType object_type = 0;
-
-    g_type_init();
-
-    if (!object_type)
-    {
-        static const GTypeInfo object_info =
-        {
-            sizeof (MudParseBaseClass),
-            NULL,
-            NULL,
-            (GClassInitFunc) mud_parse_base_class_init,
-            NULL,
-            NULL,
-            sizeof (MudParseBase),
-            0,
-            (GInstanceInitFunc) mud_parse_base_init,
-        };
-
-        object_type = g_type_register_static(G_TYPE_OBJECT, "MudParseBase", &object_info, 0);
-    }
-
-    return object_type;
-}
-
-static void
-mud_parse_base_init (MudParseBase *pb)
-{
-    pb->priv = g_new0(MudParseBasePrivate, 1);
-
-    pb->priv->regex = mud_regex_new();
-    pb->priv->alias = mud_parse_alias_new();
-    pb->priv->trigger = mud_parse_trigger_new();
-}
 
 static void
 mud_parse_base_class_init (MudParseBaseClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
+    /* Override base object constructor */
+    object_class->constructor = mud_parse_base_constructor;
+
+    /* Override base object's finalize */
     object_class->finalize = mud_parse_base_finalize;
+
+    /* Override base object property methods */
+    object_class->set_property = mud_parse_base_set_property;
+    object_class->get_property = mud_parse_base_get_property;
+
+    /* Add private data to class */
+    g_type_class_add_private(klass, sizeof(MudParseBasePrivate));
+
+    /* Install Properties */
+    g_object_class_install_property(object_class,
+            PROP_PARENT_VIEW,
+            g_param_spec_object("parent-view",
+                "parent view",
+                "parent mud connection view",
+                MUD_TYPE_CONNECTION_VIEW,
+                G_PARAM_READWRITE|G_PARAM_CONSTRUCT_ONLY));
+
+    g_object_class_install_property(object_class,
+            PROP_REGEX,
+            g_param_spec_object("regex",
+                "regex",
+                "mud regex object",
+                MUD_TYPE_REGEX,
+                G_PARAM_READABLE));
+}
+
+static void
+mud_parse_base_init (MudParseBase *self)
+{
+    /* Get our private data */
+    self->priv = MUD_PARSE_BASE_GET_PRIVATE(self);
+
+    /* set public members to defaults */
+    self->parent_view = NULL;
+    self->regex = NULL;
+}
+
+static GObject *
+mud_parse_base_constructor (GType gtype,
+                            guint n_properties,
+                            GObjectConstructParam *properties)
+{
+    MudParseBase *self;
+    GObject *obj;
+    MudParseBaseClass *klass;
+    GObjectClass *parent_class;
+
+    /* Chain up to parent constructor */
+    klass = MUD_PARSE_BASE_CLASS( g_type_class_peek(MUD_TYPE_PARSE_BASE) );
+    parent_class = G_OBJECT_CLASS( g_type_class_peek_parent(klass) );
+    obj = parent_class->constructor(gtype, n_properties, properties);
+
+    self = MUD_PARSE_BASE(obj);
+
+    if(!self->parent_view)
+    {
+        g_printf("ERROR: Tried to instantiate MudParseBase without passing parent mudconnectionview\n");
+        g_error("Tried to instantiate MudParseBase without passing parent mudconnectionview");
+    }
+
+    self->regex = g_object_new(MUD_TYPE_REGEX, NULL);
+
+    self->priv->alias = g_object_new(MUD_TYPE_PARSE_ALIAS,
+                                     "parent-base", self,
+                                     NULL);
+
+    self->priv->trigger = g_object_new(MUD_TYPE_PARSE_TRIGGER,
+                                       "parent-base", self,
+                                       NULL);
+
+    return obj;
 }
 
 static void
@@ -115,31 +173,83 @@ mud_parse_base_finalize (GObject *object)
 
     parse_base = MUD_PARSE_BASE(object);
 
-    g_object_unref(parse_base->priv->regex);
+    g_object_unref(parse_base->regex);
     g_object_unref(parse_base->priv->alias);
     g_object_unref(parse_base->priv->trigger);
-
-    g_free(parse_base->priv);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
 }
 
+static void
+mud_parse_base_set_property(GObject *object,
+                            guint prop_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
+{
+    MudParseBase *self;
+
+    self = MUD_PARSE_BASE(object);
+
+    switch(prop_id)
+    {
+        case PROP_PARENT_VIEW:
+            self->parent_view = MUD_CONNECTION_VIEW(g_value_get_object(value));
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+static void
+mud_parse_base_get_property(GObject *object,
+                            guint prop_id,
+                            GValue *value,
+                            GParamSpec *pspec)
+{
+    MudParseBase *self;
+
+    self = MUD_PARSE_BASE(object);
+
+    switch(prop_id)
+    {
+        case PROP_PARENT_VIEW:
+            g_value_take_object(value, self->parent_view);
+            break;
+
+        case PROP_REGEX:
+            g_value_take_object(value, self->regex);
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
 // MudParseBase Methods
 gboolean
-mud_parse_base_do_triggers(MudParseBase *base, gchar *data)
+mud_parse_base_do_triggers(MudParseBase *self, gchar *data)
 {
-    return mud_parse_trigger_do(data, base->priv->parentview, base->priv->regex, base->priv->trigger);
+    if(!MUD_IS_PARSE_BASE(self))
+        return FALSE;
+
+    return mud_parse_trigger_do(self->priv->trigger, data);
 }
 
 gboolean
-mud_parse_base_do_aliases(MudParseBase *base, gchar *data)
+mud_parse_base_do_aliases(MudParseBase *self, gchar *data)
 {
-    return mud_parse_alias_do(data, base->priv->parentview, base->priv->regex, base->priv->alias);
+    if(!MUD_IS_PARSE_BASE(self))
+        return FALSE;
+
+    return mud_parse_alias_do(self->priv->alias, data);
 }
 
 void
-mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020], MudConnectionView *view, MudRegex *regex)
+mud_parse_base_parse(MudParseBase *self, const gchar *data, gchar *stripped_data, gint ovector[1020])
 {
     gint i, state, len, reg_num, reg_len, startword, endword, replace_len, curr_char;
     gchar *replace_text;
@@ -148,6 +258,8 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
     gchar *send_line = NULL;
     ParseObject *po = NULL;
     GSList *parse_list, *entry;
+
+    g_return_if_fail(MUD_IS_PARSE_BASE(self));
 
     parse_list = NULL;
     len = strlen(data);
@@ -299,19 +411,7 @@ mud_parse_base_parse(const gchar *data, gchar *stripped_data, gint ovector[1020]
     g_slist_free(parse_list);
 
     // We're done, send our parsed trigger actions!
-    mud_connection_view_send(view, (const gchar *)send_line);
+    mud_connection_view_send(self->parent_view, (const gchar *)send_line);
     g_free(send_line);
 }
 
-// Instantiate MudParseBase
-MudParseBase*
-mud_parse_base_new(MudConnectionView *parentview)
-{
-    MudParseBase *pb;
-
-    pb = g_object_new(MUD_TYPE_PARSE_BASE, NULL);
-
-    pb->priv->parentview = parentview;
-
-    return pb;
-}

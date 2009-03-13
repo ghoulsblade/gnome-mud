@@ -1,3 +1,54 @@
+2009-03-13  Les Harris  <lharris@gnome.org>
+
+	* AUTHORS: Added self.
+	* configure.ac: Removed some stale checks.
+	* src/Makefile.am: Removed mud-telnet-handlers.[ch]. Added new files.
+	* src/mud-telnet-handlers.[ch]: Deleted files.
+	* src/gnome-mud.c (main): Use g_get_user_data_dir and G_DIR_SEPARATOR
+	to locate the config directory.
+	* src/mud-connection-view.[ch]: Updated GObject Code. Added numerous
+	parameters and removed accessor functions when they were made
+	redundant.
+	* src/mud-connections.[ch]: Updated calls to instantiate
+	MudConnectionView. Fixed input history bug, should now behave
+	properly.
+	* src/mud-parse-alias.[ch]:
+	* src/mud-parse-base.[ch]:
+	* src/mud-regex.[ch]:
+	* src/mud-parse-trigger.[ch]: Updated GObject Code.  Simplified API
+	for eventual MudRegex removal.
+	* src/mud-profile.[ch] (mud_profile_new): Changed type to
+	MUD_TYPE_PROFILE.
+	* src/mud-telnet.[ch]: Updated GObject code.  Rearchitected telnet
+	handler code.  Now all handlers implement the MudTelnetHandler
+	interface. All handlers are now stored in a hashtable keyed off their
+	option number.  The main win is that now TelnetHandlers can store
+	their own state without cluttering up MudTelnet.
+	* src/mud-telnet-handler-interface.[ch]: New interface base class for
+	telnet handlers.
+	* src/mud-telnet-charset.[ch]:
+	* src/mud-telnet-echo.[ch]:
+	* src/mud-telnet-eor.[ch]:
+	* src/mud-telnet-mccp.[ch]:
+	* src/mud-telnet-msp.[ch]:
+	* src/mud-telnet-naws.[ch]:
+	* src/mud-telnet-ttype.[ch]:
+	* src/mud-telnet-zmp.[ch]: New and updated files.  These implement the
+	various telnet option handlers.  All of these implement
+	MudTelnetHandlerInterface and can be treated generically as a
+	MudTelnetHandler.
+	* src/mud-tray.c (mud_tray_constructor): Removed unused variable.
+	* src/mud-window-profile.c (mud_profile_window_class_init): Updated
+	MudWindow type.
+	* src/mud-window.[ch]: Updated to use MudConnectionView properties
+	rather than accessor functions. Removed use of useless MudViewEntry
+	type.
+	* src/utils.[ch] (utils_remove_whitespace), (utils_str_replace),
+	(utils_strip_ansi):  Fixed a possible crash in remove_whitespace by
+	deffering the strlen() til after checking for NULL.  Moved str_replace
+	to here, better place for it. Need to rewrite it.  Closed possible
+	memory leak in strip_ansi.
+
 2009-03-09  Les Harris  <lharris@gnome.org>
 
 	* src/debug-logger.c (debug_logger_log_func): Handle

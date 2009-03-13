@@ -62,7 +62,7 @@ struct _MudWindowPrivate
     GtkWidget *toolbar_reconnect;
 
     GtkWidget *blank_label;
-    GtkWidget *current_view;
+    MudConnectionView *current_view;
 
     GtkWidget *mi_profiles;
 
@@ -73,12 +73,6 @@ struct _MudWindowPrivate
     gint nr_of_tabs;
     gint textview_line_height;
 };
-
-typedef struct MudViewEntry
-{
-	gint id;
-	MudConnectionView *view;
-} MudViewEntry;
 
 /* Create the Type */
 G_DEFINE_TYPE(MudWindow, mud_window, G_TYPE_OBJECT);
@@ -129,10 +123,6 @@ static void mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *self);
 static gboolean mud_window_configure_event(GtkWidget *widget,
                                            GdkEventConfigure *event,
                                            gpointer user_data);
-static gboolean save_dialog_vte_cb (VteTerminal *terminal, 
-                                    glong column,
-                                    glong row,
-                                    gpointer data);
 static void mud_window_buffer_cb(GtkWidget *widget, MudWindow *self);
 static void mud_window_select_profile(GtkWidget *widget, MudWindow *self);
 static void mud_window_profile_menu_set_cb(GtkWidget *widget, gpointer data);
@@ -358,7 +348,7 @@ mud_window_finalize (GObject *object)
 
     while(entry != NULL)
     {
-        g_object_unref( ( (MudViewEntry *)entry->data )->view );
+        g_object_unref(entry->data);
         entry = g_slist_next(entry);
     }
 
@@ -454,7 +444,7 @@ mud_window_disconnect_cb(GtkWidget *widget, MudWindow *self)
         gtk_widget_set_sensitive(self->priv->startlog, FALSE);
         gtk_widget_set_sensitive(self->priv->menu_disconnect, FALSE);
         gtk_widget_set_sensitive(self->priv->toolbar_disconnect, FALSE);
-        mud_connection_view_disconnect(MUD_CONNECTION_VIEW(self->priv->current_view));
+        mud_connection_view_disconnect(self->priv->current_view);
     }
 }
 
@@ -466,7 +456,7 @@ mud_window_reconnect_cb(GtkWidget *widget, MudWindow *self)
         gtk_widget_set_sensitive(self->priv->startlog, TRUE);
         gtk_widget_set_sensitive(self->priv->menu_disconnect, TRUE);
         gtk_widget_set_sensitive(self->priv->toolbar_disconnect, TRUE);
-        mud_connection_view_reconnect(MUD_CONNECTION_VIEW(self->priv->current_view));
+        mud_connection_view_reconnect(self->priv->current_view);
     }
 }
 
@@ -486,6 +476,7 @@ static gboolean
 mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *self)
 {
     gchar *text;
+    const gchar *history;
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(self->priv->textview));
     GtkTextIter start, end;
     MudParseBase *base;
@@ -503,10 +494,12 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *s
             if (g_str_equal(text, ""))
                 text = g_strdup(" ");
 
-            base = mud_connection_view_get_parsebase(MUD_CONNECTION_VIEW(self->priv->current_view));
+            g_object_get(self->priv->current_view,
+                        "parse-base", &base,
+                        NULL);
 
             if(mud_parse_base_do_aliases(base, text))
-                mud_connection_view_send(MUD_CONNECTION_VIEW(self->priv->current_view), text);
+                mud_connection_view_send(self->priv->current_view, text);
 
             g_free(text);
         }
@@ -528,12 +521,13 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *s
     {
         if(event->keyval == GDK_Up)
         {
-            text = mud_connection_view_get_history_item(
-                    MUD_CONNECTION_VIEW(self->priv->current_view), HISTORY_UP);
+            history = 
+                mud_connection_view_get_history_item(self->priv->current_view, 
+                                                     HISTORY_UP);
 
-            if(text)
+            if(history)
             {
-                gtk_text_buffer_set_text(buffer, text, strlen(text));
+                gtk_text_buffer_set_text(buffer, history, strlen(history));
                 gtk_text_buffer_get_bounds(buffer, &start, &end);
                 gtk_text_buffer_select_range(buffer, &start, &end);
             }
@@ -543,12 +537,13 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *s
 
         if(event->keyval == GDK_Down)
         {
-            text = mud_connection_view_get_history_item(
-                    MUD_CONNECTION_VIEW(self->priv->current_view), HISTORY_DOWN);
+            history =
+                mud_connection_view_get_history_item(self->priv->current_view,
+                                                     HISTORY_DOWN);
 
-            if(text)
+            if(history)
             {
-                gtk_text_buffer_set_text(buffer, text, strlen(text));
+                gtk_text_buffer_set_text(buffer, history, strlen(history));
                 gtk_text_buffer_get_bounds(buffer, &start, &end);
                 gtk_text_buffer_select_range(buffer, &start, &end);
             }
@@ -565,6 +560,7 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 {
     gchar *name;
     gboolean connected;
+    gboolean logging;
 
     self->priv->current_view =
         g_object_get_data(
@@ -573,16 +569,20 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 
     if (self->priv->nr_of_tabs != 0)
     {
-        name = mud_profile_get_name(
-                mud_connection_view_get_current_profile(
-                    MUD_CONNECTION_VIEW(self->priv->current_view)));
+        g_object_get(self->priv->current_view,
+                     "profile-name", &name,
+                     NULL);
 
         mud_window_profile_menu_set_active(self, name);
 
-        connected = mud_connection_view_is_connected(
-                MUD_CONNECTION_VIEW(self->priv->current_view));
+        g_free(name);
 
-        if(mud_connection_view_islogging(MUD_CONNECTION_VIEW(self->priv->current_view)))
+        g_object_get(self->priv->current_view,
+                     "connected", &connected,
+                     "logging", &logging,
+                     NULL);
+        
+        if(logging)
         {
             gtk_widget_set_sensitive(self->priv->startlog, FALSE);
             gtk_widget_set_sensitive(self->priv->stoplog, TRUE);
@@ -711,6 +711,7 @@ mud_window_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer
 
     for(i = 0; i < self->priv->nr_of_tabs; ++i)
     {
+        gboolean connected;
         MudConnectionView *iter =
             g_object_get_data(
                     G_OBJECT(
@@ -718,20 +719,18 @@ mud_window_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer
                             GTK_NOTEBOOK(self->priv->notebook),
                             i)),
                     "connection-view");
+        
+        g_object_get(iter,
+                     "connected", &connected,
+                     NULL);
 
-        if(mud_connection_view_is_connected(iter))
+        if(connected)
             mud_connection_view_send_naws(iter);
     }
 
     gtk_widget_grab_focus(self->priv->textview);
 
     return FALSE;
-}
-
-static gboolean
-save_dialog_vte_cb (VteTerminal *terminal,glong column,glong row,gpointer data)
-{
-    return TRUE;
 }
 
 static void
@@ -760,14 +759,16 @@ mud_window_buffer_cb(GtkWidget *widget, MudWindow *self)
         else
         {
             gchar *bufferText;
-            GtkWidget *term;
+            VteTerminal *term;
 
-            term = mud_connection_view_get_terminal(MUD_CONNECTION_VIEW(self->priv->current_view));
+            g_object_get(self->priv->current_view,
+                         "terminal", &term,
+                         NULL);
 
-            bufferText = vte_terminal_get_text_range(VTE_TERMINAL(term),0,0,
-                    vte_terminal_get_row_count(VTE_TERMINAL(term)),
-                    vte_terminal_get_column_count(VTE_TERMINAL(term)),
-                    save_dialog_vte_cb,
+            bufferText = vte_terminal_get_text_range(term,0,0,
+                    vte_terminal_get_row_count(term),
+                    vte_terminal_get_column_count(term),
+                    NULL,
                     NULL,
                     NULL);
 
@@ -837,23 +838,14 @@ mud_window_stoplog_cb(GtkWidget *widget, MudWindow *self)
 static void
 mud_window_remove_connection_view(MudWindow *self, gint nr)
 {
-    GSList *entry, *rementry;
+    GSList *entry;
 
-    rementry = NULL;
-    rementry = g_slist_append(rementry, NULL);
-
-    g_object_unref(self->priv->current_view);
     gtk_notebook_remove_page(GTK_NOTEBOOK(self->priv->notebook), nr);
 
-    for(entry = self->priv->mud_views_list; entry != NULL; entry = g_slist_next(entry))
-        if(((MudViewEntry *)entry->data)->id == nr)
-        {
-            rementry->data = entry->data;
-            break;
-        }
-
     self->priv->mud_views_list =
-        g_slist_remove(self->priv->mud_views_list, rementry->data);
+        g_slist_remove(self->priv->mud_views_list, self->priv->current_view);
+
+    g_object_unref(self->priv->current_view);
 
     if (--self->priv->nr_of_tabs < 2)
     {
@@ -1006,14 +998,12 @@ void
 mud_window_add_connection_view(MudWindow *self, GObject *cview, gchar *tabLbl)
 {
     gint nr;
-    MudViewEntry *entry;
-    GtkWidget *terminal;
+    VteTerminal *terminal;
+    GtkVBox *viewport;
     MudConnectionView *view = MUD_CONNECTION_VIEW(cview);
 
     g_return_if_fail(IS_MUD_WINDOW(self));
     g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
-
-    entry = g_new(MudViewEntry, 1);
 
     if (self->priv->nr_of_tabs++ == 0)
     {
@@ -1021,7 +1011,15 @@ mud_window_add_connection_view(MudWindow *self, GObject *cview, gchar *tabLbl)
         self->priv->image = NULL;
     }
 
-    nr = gtk_notebook_append_page(GTK_NOTEBOOK(self->priv->notebook), mud_connection_view_get_viewport(view), gtk_label_new(tabLbl));
+    g_object_get(view,
+                 "ui-vbox", &viewport,
+                 "terminal", &terminal,
+                 NULL);
+
+    nr = gtk_notebook_append_page(GTK_NOTEBOOK(self->priv->notebook),
+                                  GTK_WIDGET(viewport),
+                                  gtk_label_new(tabLbl));
+
     gtk_notebook_set_current_page(GTK_NOTEBOOK(self->priv->notebook), nr);
 
     gtk_widget_set_sensitive(self->priv->startlog, TRUE);
@@ -1032,19 +1030,12 @@ mud_window_add_connection_view(MudWindow *self, GObject *cview, gchar *tabLbl)
     gtk_widget_set_sensitive(self->priv->toolbar_disconnect, TRUE);
     gtk_widget_set_sensitive(self->priv->toolbar_reconnect, TRUE);
 
-    mud_connection_view_set_id(view, nr);
-    mud_connection_view_set_parent(view, self);
-
-    terminal = mud_connection_view_get_terminal(view);
     g_signal_connect(terminal,
                      "focus-in-event",
                      G_CALLBACK(mud_window_grab_entry_focus_cb),
                      self);
 
-    entry->id = nr;
-    entry->view = view;
-
-    self->priv->mud_views_list = g_slist_append(self->priv->mud_views_list, entry);
+    self->priv->mud_views_list = g_slist_append(self->priv->mud_views_list, view);
 
     if (self->priv->nr_of_tabs > 1)
     {

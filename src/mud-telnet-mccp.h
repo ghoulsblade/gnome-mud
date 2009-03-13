@@ -20,10 +20,47 @@
 #ifndef MUD_TELNET_MCCP_H
 #define MUD_TELNET_MCCP_H
 
-#include <glib.h>
-#include "mud-telnet.h"
+#ifdef ENABLE_MCCP
 
-GString *mud_mccp_decompress(MudTelnet *telnet, guchar *buffer, guint32 length);
+G_BEGIN_DECLS
+
+#include <glib.h>
+#include <zlib.h>
+
+#define MUD_TYPE_TELNET_MCCP              (mud_telnet_mccp_get_type ())
+#define MUD_TELNET_MCCP(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_TELNET_MCCP, MudTelnetMccp))
+#define MUD_TELNET_MCCP_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_TELNET_MCCP, MudTelnetMccpClass))
+#define MUD_IS_TELNET_MCCP(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_TELNET_MCCP))
+#define MUD_IS_TELNET_MCCP_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_TELNET_MCCP))
+#define MUD_TELNET_MCCP_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_TELNET_MCCP, MudTelnetMccpClass))
+#define MUD_TELNET_MCCP_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_TELNET_MCCP, MudTelnetMccpPrivate))
+
+typedef struct _MudTelnetMccp            MudTelnetMccp;
+typedef struct _MudTelnetMccpClass       MudTelnetMccpClass;
+typedef struct _MudTelnetMccpPrivate     MudTelnetMccpPrivate;
+
+typedef struct z_stream_s z_stream;
+
+struct _MudTelnetMccpClass
+{
+    GObjectClass parent_class;
+};
+
+struct _MudTelnetMccp
+{
+    GObject parent_instance;
+
+    /*< private >*/
+    MudTelnetMccpPrivate *priv;
+};
+
+GType mud_telnet_mccp_get_type (void);
+
+GString *mud_mccp_decompress(MudTelnetMccp *self, guchar *buffer, guint32 length);
+
+G_END_DECLS
+
+#endif // ENABLE_MCCP
 
 #endif // MUD_TELNET_MCCP_H
 

@@ -26,13 +26,13 @@ G_BEGIN_DECLS
 #include <gtk/gtk.h>
 #include "mud-tray.h"
 
-#define TYPE_MUD_WINDOW             (mud_window_get_type ())
-#define MUD_WINDOW(object)          (G_TYPE_CHECK_INSTANCE_CAST ((object), TYPE_MUD_WINDOW, MudWindow))
-#define MUD_WINDOW_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_MUD_WINDOW, MudWindowClass))
-#define IS_MUD_WINDOW(object)       (G_TYPE_CHECK_INSTANCE_TYPE ((object), TYPE_MUD_WINDOW))
-#define IS_MUD_WINDOW_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_MUD_WINDOW))
-#define MUD_WINDOW_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_MUD_WINDOW, MudWindowClass))
-#define MUD_WINDOW_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), TYPE_MUD_WINDOW, MudWindowPrivate))
+#define MUD_TYPE_WINDOW             (mud_window_get_type ())
+#define MUD_WINDOW(object)          (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_WINDOW, MudWindow))
+#define MUD_WINDOW_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_WINDOW, MudWindowClass))
+#define IS_MUD_WINDOW(object)       (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_WINDOW))
+#define IS_MUD_WINDOW_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_WINDOW))
+#define MUD_WINDOW_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_WINDOW, MudWindowClass))
+#define MUD_WINDOW_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_WINDOW, MudWindowPrivate))
 
 typedef struct _MudWindow           MudWindow;
 typedef struct _MudWindowClass      MudWindowClass;

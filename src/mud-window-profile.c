@@ -118,7 +118,7 @@ mud_profile_window_class_init (MudProfileWindowClass *klass)
             g_param_spec_object("parent-window",
                 "parent gtk window",
                 "the gtk window parent of this window",
-                TYPE_MUD_WINDOW,
+                MUD_TYPE_WINDOW,
                 G_PARAM_READWRITE|G_PARAM_CONSTRUCT_ONLY));
 }
 

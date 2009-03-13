@@ -203,7 +203,7 @@ mud_connections_class_init (MudConnectionsClass *klass)
             g_param_spec_object("parent-window",
                 "parent mud window",
                 "the mud window the connections is attached to",
-                TYPE_MUD_WINDOW,
+                MUD_TYPE_WINDOW,
                 G_PARAM_READWRITE|G_PARAM_CONSTRUCT_ONLY));
 }
 
@@ -456,15 +456,18 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
 
     mud_tray_update_icon(conn->priv->tray, offline);
 
-    view = mud_connection_view_new("Default", host, port,
-				   conn->priv->winwidget,
-				   (GtkWidget *)conn->priv->tray, mud_name);
+    view = g_object_new(MUD_TYPE_CONNECTION_VIEW,
+                        "hostname", host,
+                        "port", port,
+                        "profile-name", profile,
+                        "mud-name", mud_name,
+                        "connect-string", (logon && strlen(logon) != 0) ? logon : NULL,
+                        "window", conn->parent_window,
+                        NULL);
+
     mud_window_add_connection_view(conn->parent_window, G_OBJECT(view), mud_name);
     mud_connection_view_set_profile(view, get_profile(profile));
     mud_window_profile_menu_set_active(conn->parent_window, profile);
-
-    if(logon && strlen(logon) != 0)
-	mud_connection_view_set_connect_string(view, logon);
 
     g_free(mud_name);
     g_free(strip_name);
@@ -489,10 +492,16 @@ mud_connections_qconnect_cb(GtkWidget *widget, MudConnections *conn)
 
     if(strlen(host) != 0)
     {
+
         mud_tray_update_icon(conn->priv->tray, offline);
-        view = mud_connection_view_new("Default", host, port,
-                                       conn->priv->winwidget,
-                                       (GtkWidget *)conn->priv->tray, (gchar *)host);
+        view = g_object_new(MUD_TYPE_CONNECTION_VIEW,
+                "hostname", host,
+                "port", port,
+                "profile-name", "Default",
+                "mud-name", (gchar *)host, 
+                "connect-string", NULL,
+                "window", conn->parent_window,
+                NULL);
         mud_window_add_connection_view(conn->parent_window, G_OBJECT(view), (gchar *)host);
 
         gtk_widget_destroy(conn->priv->window);

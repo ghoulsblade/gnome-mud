@@ -26,13 +26,13 @@ G_BEGIN_DECLS
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 
-#define TYPE_MUD_PROFILE              (mud_profile_get_type ())
-#define MUD_PROFILE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), TYPE_MUD_PROFILE, MudProfile))
-#define MUD_PROFILE_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_MUD_PROFILE, MudProfile))
-#define IS_MUD_PROFILE(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), TYPE_MUD_PROFILE))
-#define IS_MUD_PROFILE_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_MUD_PROFILE))
-#define MUD_PROFILE_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_MUD_PROFILE, MudProfileClass))
-#define MUD_PROFILE_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), TYPE_MUD_PROFILE, MudProfilePrivate))
+#define MUD_TYPE_PROFILE              (mud_profile_get_type ())
+#define MUD_PROFILE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_PROFILE, MudProfile))
+#define MUD_PROFILE_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_PROFILE, MudProfile))
+#define IS_MUD_PROFILE(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_PROFILE))
+#define IS_MUD_PROFILE_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_PROFILE))
+#define MUD_PROFILE_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_PROFILE, MudProfileClass))
+#define MUD_PROFILE_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_PROFILE, MudProfilePrivate))
 
 #define C_MAX 16
 

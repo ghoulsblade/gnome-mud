@@ -3,48 +3,81 @@
 
 G_BEGIN_DECLS
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <gtk/gtk.h>
 #include <gnet.h>
+#include <vte/vte.h>
 
-
-#define TYPE_MUD_CONNECTION_VIEW               (mud_connection_view_get_type ())
-#define MUD_CONNECTION_VIEW(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), TYPE_MUD_CONNECTION_VIEW, MudConnectionView))
-#define MUD_CONNECTION_VIEW_TYPE_CLASS(klass)  (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_MUD_CONNECTION_VIEW, MudConnectionViewClass))
-#define IS_MUD_CONNECTION_VIEW(object)         (G_TYPE_CHECK_INSTANCE_TYPE ((object), TYPE_MUD_CONNECTION_VIEW))
-#define IS_MUD_CONNECTION_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_MUD_CONNECTION_VIEW))
+#define MUD_TYPE_CONNECTION_VIEW               (mud_connection_view_get_type ())
+#define MUD_CONNECTION_VIEW(object)            (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_CONNECTION_VIEW, MudConnectionView))
+#define MUD_CONNECTION_VIEW_CLASS(klass)       (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_CONNECTION_VIEW, MudConnectionViewClass))
+#define IS_MUD_CONNECTION_VIEW(object)         (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_CONNECTION_VIEW))
+#define IS_MUD_CONNECTION_VIEW_CLASS(klass)    (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_CONNECTION_VIEW))
 #define MUD_CONNECTION_VIEW_GET_CLASS(obj)     (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_CONNECTION, MudConnectionViewClass))
+#define MUD_CONNECTION_VIEW_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_CONNECTION_VIEW, MudConnectionViewPrivate))
 
 typedef struct _MudConnectionView           MudConnectionView;
 typedef struct _MudConnectionViewClass      MudConnectionViewClass;
 typedef struct _MudConnectionViewPrivate    MudConnectionViewPrivate;
 
-struct _MudConnectionView
-{
-	GObject parent_instance;
-
-	MudConnectionViewPrivate *priv;
-
-	GConn *connection;
-
-	gint naws_enabled;
-
-	gint local_echo;
-
-	gint remote_encode;
-	gchar *remote_encoding;
-};
+#include "mud-telnet.h"
+#include "mud-parse-base.h"
+#include "mud-profile.h"
+#include "mud-window.h"
+#include "mud-log.h"
+#include "mud-tray.h"
 
 struct _MudConnectionViewClass
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
+};
+
+struct _MudConnectionView
+{
+    GObject parent_instance;
+
+    /*< Private >*/
+    MudConnectionViewPrivate *priv;
+
+    /*< Public >*/
+    GConn *connection;
+
+    // Flags
+    gboolean naws_enabled;
+    gboolean local_echo;
+    gboolean remote_encode;   
+    gboolean connect_hook;
+    gboolean connected;
+    gboolean logging;
+
+    gchar *connect_string;
+    gchar *remote_encoding;
+    gchar *profile_name;
+
+    gint port;
+    gchar *mud_name;
+    gchar *hostname;
+
+    MudLog *log;
+    MudTray *tray;
+    MudTelnet *telnet;
+    MudWindow *window;
+    MudProfile *profile;
+    MudParseBase *parse;
+
+    VteTerminal *terminal;
+    GtkVBox *ui_vbox;
 };
 
 enum MudConnectionColorType
 {
-	Error,
-	Normal,
-	Sent,
-	System
+    Error,
+    Normal,
+    Sent,
+    System
 };
 
 enum MudConnectionHistoryDirection
@@ -55,40 +88,27 @@ enum MudConnectionHistoryDirection
 
 GType mud_connection_view_get_type (void) G_GNUC_CONST;
 
-MudConnectionView* mud_connection_view_new (const gchar *profile, const gchar *hostname, const gint port, GtkWidget *window, GtkWidget *tray, gchar *name);
-GtkWidget* mud_connection_view_get_viewport (MudConnectionView *view);
-GtkWidget* mud_connection_view_get_terminal(MudConnectionView *view);
-void mud_connection_view_disconnect (MudConnectionView *view);
-void mud_connection_view_reconnect (MudConnectionView *view);
 void mud_connection_view_send (MudConnectionView *view, const gchar *data);
-void mud_connection_view_set_connect_string(MudConnectionView *view, gchar *connect_string);
-void mud_connection_view_set_id(MudConnectionView *view, gint id);
 void mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type);
-gchar *mud_connection_view_get_history_item(MudConnectionView *view, enum
-MudConnectionHistoryDirection direction);
+
+void mud_connection_view_reconnect (MudConnectionView *view);
+void mud_connection_view_disconnect (MudConnectionView *view);
+
+const gchar *mud_connection_view_get_history_item(MudConnectionView *view, enum
+                                   MudConnectionHistoryDirection direction);
 void mud_connection_view_get_term_size(MudConnectionView *view, gint *w, gint *h);
-void mud_connection_view_set_naws(MudConnectionView *view, gint enabled);
 void mud_connection_view_send_naws(MudConnectionView *view);
 
 #ifdef ENABLE_GST
 void mud_connection_view_queue_download(MudConnectionView *view, gchar *url, gchar *file);
 #endif
 
-#include "mud-profile.h"
 void mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profile);
-MudProfile *mud_connection_view_get_current_profile(MudConnectionView *view);
-
-#include "mud-window.h"
-void mud_connection_view_set_parent(MudConnectionView *view, MudWindow *window);
 
 void mud_connection_view_start_logging(MudConnectionView *view);
 void mud_connection_view_stop_logging(MudConnectionView *view);
-gboolean mud_connection_view_islogging(MudConnectionView *view);
-gboolean mud_connection_view_is_connected(MudConnectionView *view);
-
-#include "mud-parse-base.h"
-MudParseBase *mud_connection_view_get_parsebase(MudConnectionView *view);
 
 G_END_DECLS
 
 #endif /* MUD_CONNECTION_VIEW_H */
+

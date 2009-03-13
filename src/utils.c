@@ -26,29 +26,59 @@
 gchar *
 utils_remove_whitespace(const gchar *string)
 {
-    gint i;
+    guint i, len;
     GString *s;
 
     if(string == NULL)
         return NULL;
 
     s = g_string_new(NULL);
+    len = strlen(string);
 
-    for(i = 0; i < strlen(string); i++)
+    for(i = 0; i < len; i++)
         if(!g_ascii_isspace(string[i]))
             s = g_string_append_c(s, string[i]);
 
     return g_string_free(s, FALSE);
 }
 
+// FIXME: This is terrible. We should replace this with something
+// that can handle any sized string.
+void
+utils_str_replace (gchar *buf, const gchar *s, const gchar *repl)
+{
+    gchar out_buf[4608];
+    gchar *pc, *out;
+    gint  len = strlen (s);
+    gboolean found = FALSE;
+
+    for ( pc = buf, out = out_buf; *pc && (out-out_buf) < (4608-len-4);)
+        if ( !strncasecmp(pc, s, len))
+        {
+            out += sprintf (out, "%s", repl);
+            pc += len;
+            found = TRUE;
+        }
+        else
+            *out++ = *pc++;
+
+    if ( found)
+    {
+        *out = '\0';
+        strcpy (buf, out_buf);
+    }
+}
+
 gchar *
 utils_strip_ansi(const gchar *orig)
 {
-    GString *buf = g_string_new(NULL);
+    GString *buf;
     const gchar *c;
 
     if (!orig)
         return NULL;
+
+    buf = g_string_new(NULL);
 
     for (c = orig; *c;)
     {

@@ -45,96 +45,1192 @@
 
 struct _MudConnectionViewPrivate
 {
-    gint id;
-
-    MudWindow *window;
-    MudTray *tray;
-
-    GtkWidget *terminal;
     GtkWidget *scrollbar;
-    GtkWidget *box;
     GtkWidget *popup_menu;
     GtkWidget *progressbar;
     GtkWidget *dl_label;
     GtkWidget *dl_button;
 
-    MudProfile *profile;
-    MudLog *log;
-
+    GString *processed;
+    
     gulong signal;
     gulong signal_profile_changed;
 
-    gboolean connect_hook;
-    gboolean connected;
-    gchar *connect_string;
-
-    MudParseBase *parse;
-
     GQueue *history;
-    guint current_history_index;
-
-    MudTelnet *telnet;
-    gchar *hostname;
-    guint port;
-
-    gchar *mud_name;
+    gint current_history_index;
 
 #ifdef ENABLE_GST
     GQueue *download_queue;
     GConnHttp *dl_conn;
     gboolean downloading;
 #endif
-
-    GString *processed;
 };
 
-static void mud_connection_view_init                     (MudConnectionView *connection_view);
-static void mud_connection_view_class_init               (MudConnectionViewClass *klass);
-static void mud_connection_view_finalize                 (GObject *object);
-static void mud_connection_view_set_terminal_colors      (MudConnectionView *view);
-static void mud_connection_view_set_terminal_scrollback  (MudConnectionView *view);
-static void mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view);
-static void mud_connection_view_set_terminal_font        (MudConnectionView *view);
-static void mud_connection_view_profile_changed_cb       (MudProfile *profile, MudProfileMask *mask, MudConnectionView *view);
-static gboolean mud_connection_view_button_press_event   (GtkWidget *widget, GdkEventButton *event, MudConnectionView *view);
-static void mud_connection_view_popup                    (MudConnectionView *view, GdkEventButton *event);
-static void mud_connection_view_reread_profile           (MudConnectionView *view);
-static void mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer data);
+/* Property Identifiers */
+enum
+{
+    PROP_MUD_CONNECTION_VIEW_0,
+    PROP_CONNECTION,
+    PROP_NAWS_ENABLED,
+    PROP_LOCAL_ECHO,
+    PROP_REMOTE_ENCODE,
+    PROP_CONNECT_HOOK,
+    PROP_CONNECTED,
+    PROP_CONNECT_STRING,
+    PROP_REMOTE_ENCODING,
+    PROP_PORT,
+    PROP_MUD_NAME,
+    PROP_HOSTNAME,
+    PROP_LOG,
+    PROP_TRAY,
+    PROP_PROFILE,
+    PROP_PARSE_BASE,
+    PROP_TELNET,
+    PROP_WINDOW,
+    PROP_PROFILE_NAME,
+    PROP_LOGGING,
+    PROP_TERMINAL,
+    PROP_VBOX
+};
 
-static void mud_connection_view_resized_cb(MudWindow *window, MudConnectionView *view);
+/* Create the Type */
+G_DEFINE_TYPE(MudConnectionView, mud_connection_view, G_TYPE_OBJECT);
+
+/* Class Functions */
+static void mud_connection_view_init (MudConnectionView *connection_view);
+static void mud_connection_view_class_init (MudConnectionViewClass *klass);
+static void mud_connection_view_finalize (GObject *object);
+
+static GObject *mud_connection_view_constructor(GType gtype,
+                                                guint n_properties,
+                                                GObjectConstructParam *props);
+
+static void mud_connection_view_set_property(GObject *object,
+                                             guint prop_id,
+                                             const GValue *value,
+                                             GParamSpec *pspec);
+
+static void mud_connection_view_get_property(GObject *object,
+                                             guint prop_id,
+                                             GValue *value,
+                                             GParamSpec *pspec);
+
+/* Callbacks */
+static void mud_connection_view_profile_changed_cb (MudProfile *profile, 
+                                                    MudProfileMask *mask,
+                                                    MudConnectionView *view);
+static gboolean mud_connection_view_button_press_event(GtkWidget *widget, 
+                                                       GdkEventButton *event,
+                                                       MudConnectionView *view);
+static void mud_connection_view_popup(MudConnectionView *view, 
+                                      GdkEventButton *event);
+
+static void popup_menu_detach(GtkWidget *widget, GtkMenu *menu);
+static void mud_connection_view_network_event_cb(GConn *conn, 
+                                                 GConnEvent *event,
+                                                 gpointer data);
+static void mud_connection_view_close_current_cb(GtkWidget *menu_item,
+                                                 MudConnectionView *view);
+static void mud_connection_view_profile_changed_cb(MudProfile *profile,
+                                                   MudProfileMask *mask,
+                                                   MudConnectionView *view);
+
+/* Private Methods */
+static void mud_connection_view_set_terminal_colors(MudConnectionView *view);
+static void mud_connection_view_set_terminal_scrollback(MudConnectionView *view);
+static void mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view);
+static void mud_connection_view_set_terminal_font(MudConnectionView *view);
+static GtkWidget* append_stock_menuitem(GtkWidget *menu, 
+                                        const gchar *text,
+                                        GCallback callback,
+                                        gpointer data);
+static GtkWidget* append_menuitem(GtkWidget *menu,
+                                  const gchar *text,
+                                  GCallback callback,
+                                  gpointer data);
+static void choose_profile_callback(GtkWidget *menu_item,
+                                    MudConnectionView *view);
+static void mud_connection_view_reread_profile(MudConnectionView *view);
+static void mud_connection_view_feed_text(MudConnectionView *view,
+                                          gchar *message);
 
 #ifdef ENABLE_GST
-static void mud_connection_view_http_cb(GConnHttp *conn, GConnHttpEvent *event, gpointer data);
-static void mud_connection_view_cancel_dl_cb(GtkWidget *widget, MudConnectionView *view);
+static void mud_connection_view_http_cb(GConnHttp *conn,
+                                        GConnHttpEvent *event,
+                                        gpointer data);
+static void mud_connection_view_cancel_dl_cb(GtkWidget *widget,
+                                             MudConnectionView *view);
 #endif
 
-GType
-mud_connection_view_get_type (void)
+/* Class Functions */
+static void
+mud_connection_view_class_init (MudConnectionViewClass *klass)
 {
-    static GType object_type = 0;
+    GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-    g_type_init();
+    /* Override base object constructor */
+    object_class->constructor = mud_connection_view_constructor;
 
-    if (!object_type)
+    /* Override base object's finalize */
+    object_class->finalize = mud_connection_view_finalize;
+
+    /* Override base object property methods */
+    object_class->set_property = mud_connection_view_set_property;
+    object_class->get_property = mud_connection_view_get_property;
+
+    /* Add private data to class */
+    g_type_class_add_private(klass, sizeof(MudConnectionViewPrivate));
+
+    /* Create and install properties */
+    
+    // Required construction properties
+    g_object_class_install_property(object_class,
+            PROP_CONNECT_STRING,
+            g_param_spec_string("connect-string",
+                "connect string",
+                "string to send to the mud on connect",
+                NULL,
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+    g_object_class_install_property(object_class,
+            PROP_PORT,
+            g_param_spec_int("port",
+                "port",
+                "the port of the mud",
+                1, 200000,
+                23,
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+    g_object_class_install_property(object_class,
+            PROP_MUD_NAME,
+            g_param_spec_string("mud-name",
+                "mud name",
+                "the name of the mud",
+                NULL,
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+    g_object_class_install_property(object_class,
+            PROP_HOSTNAME,
+            g_param_spec_string("hostname",
+                "hostname",
+                "the host of the mud",
+                NULL,
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+    g_object_class_install_property(object_class,
+            PROP_WINDOW,
+            g_param_spec_object("window",
+                "window",
+                "the parent mud window object",
+                MUD_TYPE_WINDOW,
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+    g_object_class_install_property(object_class,
+            PROP_PROFILE_NAME,
+            g_param_spec_string("profile-name",
+                "profile name",
+                "the name of the current profile",
+                NULL,
+                G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+    // Setable properties
+    g_object_class_install_property(object_class,
+            PROP_REMOTE_ENCODE,
+            g_param_spec_boolean("remote-encode",
+                "remote encode",
+                "do we accept encoding negotiation",
+                FALSE,
+                G_PARAM_READWRITE));
+
+    g_object_class_install_property(object_class,
+            PROP_REMOTE_ENCODING,
+            g_param_spec_string("remote-encoding",
+                "remote encoding",
+                "the negotiated encoding of the terminal",
+                NULL,
+                G_PARAM_READWRITE));
+
+    g_object_class_install_property(object_class,
+            PROP_NAWS_ENABLED,
+            g_param_spec_boolean("naws-enabled",
+                "naws enabled",
+                "negoatiate about window size enabled",
+                FALSE,
+                G_PARAM_READWRITE));
+
+    g_object_class_install_property(object_class,
+            PROP_LOCAL_ECHO,
+            g_param_spec_boolean("local-echo",
+                "local echo",
+                "do we display the text sent to the mud",
+                TRUE,
+                G_PARAM_READWRITE));
+
+    // Readable Properties
+    g_object_class_install_property(object_class,
+            PROP_TRAY,
+            g_param_spec_object("tray",
+                "mud tray",
+                "mud status tray icon",
+                MUD_TYPE_TRAY,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
+            PROP_CONNECTION,
+            g_param_spec_pointer("connection",
+                "connection",
+                "the connection to the mud",
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
+            PROP_LOGGING,
+            g_param_spec_boolean("logging",
+                "logging",
+                "are we currently logging",
+                FALSE,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
+            PROP_CONNECT_HOOK,
+            g_param_spec_boolean("connect-hook",
+                "connect hook",
+                "do we need to send the connection string",
+                FALSE,
+                G_PARAM_READABLE));
+    
+    g_object_class_install_property(object_class,
+            PROP_CONNECTED,
+            g_param_spec_boolean("connected",
+                "connected",
+                "are we connected to the mud",
+                FALSE,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
+            PROP_LOG,
+            g_param_spec_object("log",
+                "log",
+                "the mud log object",
+                MUD_TYPE_LOG,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
+            PROP_PROFILE,
+            g_param_spec_object("profile",
+                "profile",
+                "the mud profile object",
+                MUD_TYPE_PROFILE,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
+            PROP_TELNET,
+            g_param_spec_object("telnet",
+                "telnet",
+                "the mud telnet object",
+                MUD_TYPE_TELNET,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
+            PROP_PARSE_BASE,
+            g_param_spec_object("parse-base",
+                "parse base",
+                "the parse base object",
+                MUD_TYPE_PARSE_BASE,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
+            PROP_TERMINAL,
+            g_param_spec_object("terminal",
+                "terminal",
+                "the terminal widget",
+                VTE_TYPE_TERMINAL,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
+            PROP_VBOX,
+            g_param_spec_object("ui-vbox",
+                "ui vbox",
+                "main ui vbox",
+                GTK_TYPE_VBOX,
+                G_PARAM_READABLE));
+}
+
+static void
+mud_connection_view_init (MudConnectionView *self)
+{
+    /* Get our private data */
+    self->priv = MUD_CONNECTION_VIEW_GET_PRIVATE(self);
+
+    /* Set some defaults */
+    self->priv->history = g_queue_new();
+    self->priv->current_history_index = 0;
+
+    self->priv->processed = NULL;
+
+    self->connection = NULL;
+
+    self->naws_enabled = FALSE;
+    self->local_echo = TRUE;
+    self->remote_encode = FALSE;   
+    self->connect_hook = FALSE;
+    self->connected = FALSE;;
+
+    self->connect_string = NULL;
+    self->remote_encoding = NULL;
+
+    self->port = 23;
+    self->mud_name = NULL;
+    self->hostname = NULL;
+
+    self->log = NULL;
+    self->tray = NULL;
+    self->profile = NULL;
+    self->parse = NULL;
+    self->window = NULL;
+    self->telnet = NULL;
+
+    self->terminal = NULL;
+    self->ui_vbox = NULL;
+}
+
+static GObject *
+mud_connection_view_constructor (GType gtype,
+                                 guint n_properties,
+                                 GObjectConstructParam *properties)
+{
+    GtkWidget *box;
+    GtkWidget *dl_vbox;
+    GtkWidget *dl_hbox;
+    GtkWidget *term_box;
+    GtkWidget *main_window;
+    MudTray *tray;
+    GConfClient *client;
+
+    gchar key[2048];
+    gchar extra_path[512] = "";
+    gchar *buf;
+    gchar *proxy_host;
+    gchar *version;
+    gint xpad, ypad;
+    gint char_width, char_height;
+    gboolean use_proxy;
+    GdkGeometry hints;
+    
+    MudConnectionView *self;
+    GObject *obj;
+
+    MudConnectionViewClass *klass;
+    GObjectClass *parent_class;
+
+    /* Chain up to parent constructor */
+    klass = MUD_CONNECTION_VIEW_CLASS( g_type_class_peek(MUD_TYPE_CONNECTION_VIEW) );
+    parent_class = G_OBJECT_CLASS( g_type_class_peek_parent(klass) );
+    obj = parent_class->constructor(gtype, n_properties, properties);
+
+    /* Construct the View */
+    self = MUD_CONNECTION_VIEW(obj);
+
+    /* Check for construction properties */
+    if(!self->mud_name)
     {
-        static const GTypeInfo object_info =
-            {
-                sizeof (MudConnectionViewClass),
-                NULL,
-                NULL,
-                (GClassInitFunc) mud_connection_view_class_init,
-                NULL,
-                NULL,
-                sizeof (MudConnectionView),
-                0,
-                (GInstanceInitFunc) mud_connection_view_init,
-            };
-
-        object_type = g_type_register_static(G_TYPE_OBJECT, "MudConnectionView", &object_info, 0);
+        g_printf("ERROR: Tried to instantiate MudConnectionView without passing mud-name.\n");
+        g_error("Tried to instantiate MudConnectionView without passing mud-name.");
+    }
+    
+    if(!self->hostname)
+    {
+        g_printf("ERROR: Tried to instantiate MudConnectionView without passing hostname.\n");
+        g_error("Tried to instantiate MudConnectionView without passing hostname.");
     }
 
-    return object_type;
+    if(!self->window)
+    {
+        g_printf("ERROR: Tried to instantiate MudConnectionView without passing parent MudWindow.\n");
+        g_error("Tried to instantiate MudConnectionView without passing parent MudWindow.");
+    }
+
+    /* Create main VBox, VTE, and scrollbar */
+    box = gtk_vbox_new(FALSE, 0);
+    self->ui_vbox = GTK_VBOX(box);
+    self->terminal = VTE_TERMINAL(vte_terminal_new());
+    self->priv->scrollbar = gtk_vscrollbar_new(NULL);
+
+#ifdef ENABLE_GST
+    /* Setup Download UI */
+    dl_vbox = gtk_vbox_new(FALSE, 0);
+    dl_hbox = gtk_hbox_new(FALSE, 0);
+    term_box = gtk_hbox_new(FALSE, 0);
+
+    self->priv->dl_label = gtk_label_new("Downloading...");
+    self->priv->progressbar = gtk_progress_bar_new();
+    gtk_progress_bar_set_pulse_step (GTK_PROGRESS_BAR(self->priv->progressbar), 0.1);
+    self->priv->dl_button = gtk_button_new_from_stock("gtk-cancel");
+
+    /* Pack the Download UI */
+    gtk_box_pack_start(GTK_BOX(dl_vbox), self->priv->dl_label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(dl_hbox), self->priv->progressbar, TRUE, TRUE, 0);
+    gtk_box_pack_end(GTK_BOX(dl_hbox), self->priv->dl_button, FALSE, FALSE, 0);
+    gtk_box_pack_end(GTK_BOX(dl_vbox), dl_hbox, TRUE, TRUE, 0);
+
+    /* Pack into Main UI */
+    gtk_box_pack_start(GTK_BOX(box), dl_vbox, FALSE, FALSE, 0);
+
+    /* Set defaults and create download queue */
+    self->priv->downloading = FALSE;
+    self->priv->download_queue = g_queue_new();
+    self->priv->dl_conn = NULL;
+
+    /* Connect Download Cancel Signal */
+    g_signal_connect(self->priv->dl_button,
+                     "clicked",
+                     G_CALLBACK(mud_connection_view_cancel_dl_cb),
+                     self);
+#endif
+
+    /* Pack the Terminal UI */
+    gtk_box_pack_start(GTK_BOX(term_box),
+                       GTK_WIDGET(self->terminal),
+                       TRUE,
+                       TRUE,
+                       0);
+
+    gtk_box_pack_end(GTK_BOX(term_box),
+                     self->priv->scrollbar, 
+                     FALSE,
+                     FALSE,
+                     0);
+
+    /* Pack into Main UI */
+    gtk_box_pack_end(GTK_BOX(box), term_box, TRUE, TRUE, 0);
+
+    /* Connect signals and set data */
+    g_signal_connect(G_OBJECT(self->terminal),
+                     "button_press_event",
+                     G_CALLBACK(mud_connection_view_button_press_event),
+                     self);
+
+    g_object_set_data(G_OBJECT(self->terminal),
+                      "connection-view",
+                      self);
+    g_object_set_data(G_OBJECT(box),
+                      "connection-view",
+                      self);
+
+    /* Setup scrollbar */
+    gtk_range_set_adjustment(
+            GTK_RANGE(self->priv->scrollbar),
+            self->terminal->adjustment);
+
+    /* Setup VTE */
+    vte_terminal_set_encoding(self->terminal, "ISO-8859-1");
+    vte_terminal_set_emulation(self->terminal, "xterm");
+    vte_terminal_get_padding(self->terminal, &xpad, &ypad);
+
+    char_width = self->terminal->char_width;
+    char_height = self->terminal->char_height;
+
+    hints.base_width = xpad;
+    hints.base_height = ypad;
+    hints.width_inc = char_width;
+    hints.height_inc = char_height;
+
+    hints.min_width =  hints.base_width + hints.width_inc * 4;
+    hints.min_height = hints.base_height+ hints.height_inc * 2;
+
+    g_object_get(self->window,
+                 "window", &main_window,
+                 "tray", &tray,
+                 NULL);
+
+    gtk_window_set_geometry_hints(GTK_WINDOW(main_window),
+            GTK_WIDGET(self->terminal),
+            &hints,
+            GDK_HINT_RESIZE_INC |
+            GDK_HINT_MIN_SIZE |
+            GDK_HINT_BASE_SIZE);
+
+    self->connection = gnet_conn_new(self->hostname, self->port,
+            mud_connection_view_network_event_cb, self);
+    gnet_conn_ref(self->connection);
+    gnet_conn_set_watch_error(self->connection, TRUE);
+
+    self->telnet = g_object_new(MUD_TYPE_TELNET,
+                                "parent-view", self,
+                                NULL);
+
+    mud_connection_view_set_profile(self, mud_profile_new(self->profile_name));
+
+    self->tray = tray;
+
+    self->parse = g_object_new(MUD_TYPE_PARSE_BASE,
+                               "parent-view", self,
+                               NULL);
+
+    self->log = g_object_new(MUD_TYPE_LOG,
+                             "mud-name", self->mud_name,
+                              NULL);
+
+    buf = g_strdup_printf(_("*** Making connection to %s, port %d.\n"),
+            self->hostname, self->port);
+    mud_connection_view_add_text(self, buf, System);
+    g_free(buf);
+    buf = NULL;
+
+    if (strcmp(self->profile_name, "Default") != 0)
+    {
+        g_snprintf(extra_path, 512, "profiles/%s/", self->profile_name);
+    }
+
+    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/use_proxy");
+    client = gconf_client_get_default();
+    use_proxy = gconf_client_get_bool(client, key, NULL);
+
+    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/proxy_hostname");
+    proxy_host = gconf_client_get_string(client, key, NULL);
+
+    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/proxy_version");
+    version = gconf_client_get_string(client, key, NULL);
+
+    if(use_proxy)
+    {
+        if(proxy_host && version)
+        {
+            gnet_socks_set_enabled(TRUE);
+            gnet_socks_set_server(gnet_inetaddr_new(proxy_host,GNET_SOCKS_PORT));
+            gnet_socks_set_version((strcmp(version, "4") == 0) ? 4 : 5);
+        }
+    }
+    else
+        gnet_socks_set_enabled(FALSE);
+
+    if(proxy_host)
+        g_free(proxy_host);
+
+    if(version)
+        g_free(version);
+
+    g_object_unref(client);
+
+    /* Show everything */
+    gtk_widget_show_all(box);
+
+#ifdef ENABLE_GST
+    /* Hide UI until download starts */
+    gtk_widget_hide(self->priv->progressbar);
+    gtk_widget_hide(self->priv->dl_label);
+    gtk_widget_hide(self->priv->dl_button);
+#endif
+
+    gnet_conn_connect(self->connection);
+
+    return obj;
 }
+
+static void
+mud_connection_view_finalize (GObject *object)
+{
+    MudConnectionView *connection_view;
+    GObjectClass *parent_class;
+    gchar *history_item;
+
+#ifdef ENABLE_GST                               
+    MudMSPDownloadItem *item;
+#endif
+
+    connection_view = MUD_CONNECTION_VIEW(object);
+
+    if(connection_view->priv->history && !g_queue_is_empty(connection_view->priv->history))
+        while((history_item = (gchar *)g_queue_pop_head(connection_view->priv->history)) != NULL)
+            g_free(history_item);
+
+    if(connection_view->priv->history)
+        g_queue_free(connection_view->priv->history);
+
+#ifdef ENABLE_GST                               
+    if(connection_view->priv->download_queue
+            && !g_queue_is_empty(connection_view->priv->download_queue))
+        while((item = (MudMSPDownloadItem *)
+                    g_queue_pop_head(connection_view->priv->download_queue)) != NULL)
+            mud_telnet_msp_download_item_free(item);
+
+    if(connection_view->priv->download_queue)
+        g_queue_free(connection_view->priv->download_queue);
+#endif
+
+    if(connection_view->connection && 
+            gnet_conn_is_connected(connection_view->connection))
+        gnet_conn_disconnect(connection_view->connection);
+
+    if(connection_view->connection)
+        gnet_conn_unref(connection_view->connection);
+
+    if(connection_view->hostname)
+        g_free(connection_view->hostname);
+
+    if(connection_view->connect_string)
+        g_free(connection_view->connect_string);
+    
+    if(connection_view->mud_name)
+        g_free(connection_view->mud_name);
+    
+    if(connection_view->priv->processed)
+        g_string_free(connection_view->priv->processed, TRUE);
+    
+    if(connection_view->telnet)
+        g_object_unref(connection_view->telnet);
+   
+    g_object_unref(connection_view->log);
+    g_object_unref(connection_view->parse);
+    g_object_unref(connection_view->profile);
+
+    parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
+    parent_class->finalize(object);
+}
+
+
+static void
+mud_connection_view_set_property(GObject *object,
+                                 guint prop_id,
+                                 const GValue *value,
+                                 GParamSpec *pspec)
+{
+    MudConnectionView *self;
+    gboolean new_boolean;
+    gint new_int;
+    gchar *new_string;
+
+    self = MUD_CONNECTION_VIEW(object);
+
+    switch(prop_id)
+    {
+        case PROP_REMOTE_ENCODE:
+            new_boolean = g_value_get_boolean(value);
+
+            if(new_boolean != self->remote_encode)
+                self->remote_encode = new_boolean;
+            break;
+
+        case PROP_CONNECT_STRING:
+            new_string = g_value_dup_string(value);
+
+            if(!self->connect_string)
+                self->connect_string = 
+                    (new_string) ? g_strdup(new_string) : NULL;
+            else if( strcmp(self->connect_string, new_string) != 0)
+            {
+                if(self->connect_string)
+                    g_free(self->connect_string);
+                self->connect_string = 
+                    (new_string) ? g_strdup(new_string) : NULL;
+            }
+
+            if(self->connect_string)
+                self->connect_hook = TRUE;
+
+            g_free(new_string);
+            break;
+
+        case PROP_REMOTE_ENCODING:
+            new_string = g_value_dup_string(value);
+
+            if(!self->remote_encoding)
+                self->remote_encoding = 
+                    (new_string) ? g_strdup(new_string) : NULL;
+            else if( strcmp(self->remote_encoding, new_string) != 0)
+            {
+                if(self->remote_encoding)
+                    g_free(self->remote_encoding);
+                self->remote_encoding = 
+                    (new_string) ? g_strdup(new_string) : NULL;
+            }
+
+            g_free(new_string);
+            break;
+
+        case PROP_PORT:
+            new_int = g_value_get_int(value);
+
+            if(new_int != self->port)
+                self->port = new_int;
+            break;
+
+        case PROP_NAWS_ENABLED:
+            new_boolean = g_value_get_boolean(value);
+
+            if(new_boolean != self->naws_enabled)
+                self->naws_enabled = new_boolean;
+            break;
+
+        case PROP_LOCAL_ECHO:
+            new_boolean = g_value_get_boolean(value);
+
+            if(new_boolean != self->local_echo)
+                self->local_echo = new_boolean;
+            break;
+
+        case PROP_MUD_NAME:
+            new_string = g_value_dup_string(value);
+
+            if(!self->mud_name)
+                self->mud_name = 
+                    (new_string) ? g_strdup(new_string) : NULL;
+            else if( strcmp(self->mud_name, new_string) != 0)
+            {
+                if(self->mud_name)
+                    g_free(self->mud_name);
+                self->mud_name = 
+                    (new_string) ? g_strdup(new_string) : NULL;
+            }
+
+            g_free(new_string);
+            break;
+
+        case PROP_HOSTNAME:
+            new_string = g_value_dup_string(value);
+
+            if(!self->hostname)
+                self->hostname = 
+                    (new_string) ? g_strdup(new_string) : NULL;
+            else if( strcmp(self->hostname, new_string) != 0)
+            {
+                if(self->hostname)
+                    g_free(self->hostname);
+                self->hostname = 
+                    (new_string) ? g_strdup(new_string) : NULL;
+            }
+
+            g_free(new_string);
+            break;
+
+        case PROP_WINDOW:
+            self->window = MUD_WINDOW(g_value_get_object(value));
+            break;
+
+        case PROP_TRAY:
+            self->tray = MUD_TRAY(g_value_get_object(value));
+            break;
+
+        case PROP_PROFILE_NAME:
+            new_string = g_value_dup_string(value);
+
+            if(!self->profile_name)
+                self->profile_name = 
+                    (new_string) ? g_strdup(new_string) : NULL;
+            else if( strcmp(self->profile_name, new_string) != 0)
+            {
+                if(self->profile_name)
+                    g_free(self->profile_name);
+                self->profile_name = 
+                    (new_string) ? g_strdup(new_string) : NULL;
+            }
+
+            g_free(new_string);
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+static void
+mud_connection_view_get_property(GObject *object,
+                                 guint prop_id,
+                                 GValue *value,
+                                 GParamSpec *pspec)
+{
+    MudConnectionView *self;
+
+    self = MUD_CONNECTION_VIEW(object);
+
+    switch(prop_id)
+    {
+        case PROP_CONNECTION:
+            g_value_set_pointer(value, self->connection);
+            break;
+
+        case PROP_NAWS_ENABLED:
+            g_value_set_boolean(value, self->naws_enabled);
+            break;
+
+        case PROP_LOCAL_ECHO:
+            g_value_set_boolean(value, self->local_echo);
+            break;
+
+        case PROP_REMOTE_ENCODE:
+            g_value_set_boolean(value, self->remote_encode);
+            break;
+
+        case PROP_CONNECT_HOOK:
+            g_value_set_boolean(value, self->connect_hook);
+            break;
+
+        case PROP_CONNECTED:
+            g_value_set_boolean(value, self->connected);
+            break;
+
+        case PROP_CONNECT_STRING:
+            g_value_set_string(value, self->connect_string);
+            break;
+
+        case PROP_REMOTE_ENCODING:
+            g_value_set_string(value, self->remote_encoding);
+            break;
+
+        case PROP_PORT:
+            g_value_set_int(value, self->port);
+            break;
+
+        case PROP_MUD_NAME:
+            g_value_set_string(value, self->mud_name);
+            break;
+
+        case PROP_HOSTNAME:
+            g_value_set_string(value, self->hostname);
+            break;
+
+        case PROP_LOG:
+            g_value_take_object(value, self->log);
+            break;
+
+        case PROP_TRAY:
+            g_value_take_object(value, self->tray);
+            break;
+
+        case PROP_PROFILE:
+            g_value_take_object(value, self->profile);
+            break;
+
+        case PROP_PARSE_BASE:
+            g_value_take_object(value, self->parse);
+            break;
+
+        case PROP_WINDOW:
+            g_value_take_object(value, self->window);
+            break;
+
+        case PROP_TELNET:
+            g_value_take_object(value, self->telnet);
+            break;
+
+        case PROP_LOGGING:
+            g_value_set_boolean(value, self->logging);
+            break;
+
+        case PROP_PROFILE_NAME:
+            g_value_set_string(value, self->profile_name);
+            break;
+
+        case PROP_TERMINAL:
+            g_value_take_object(value, self->terminal);
+            break;
+
+        case PROP_VBOX:
+            g_value_take_object(value, self->ui_vbox);
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+/* Callbacks */
+static void
+choose_profile_callback(GtkWidget *menu_item, MudConnectionView *view)
+{
+    MudProfile *profile;
+
+    if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item)))
+        return;
+
+    profile = g_object_get_data(G_OBJECT(menu_item), "profile");
+
+    g_assert(profile);
+
+    mud_connection_view_set_profile(view, profile);
+    mud_connection_view_reread_profile(view);
+}
+
+static void
+mud_connection_view_close_current_cb(GtkWidget *menu_item, MudConnectionView *view)
+{
+    mud_window_close_current_window(view->window);
+}
+
+static void
+mud_connection_view_profile_changed_cb(MudProfile *profile, MudProfileMask *mask, MudConnectionView *view)
+{
+    if (mask->ScrollOnOutput)
+        mud_connection_view_set_terminal_scrolloutput(view);
+    if (mask->Scrollback)
+        mud_connection_view_set_terminal_scrollback(view);
+    if (mask->FontName)
+        mud_connection_view_set_terminal_font(view);
+    if (mask->Foreground || mask->Background || mask->Colors)
+        mud_connection_view_set_terminal_colors(view);
+}
+
+static gboolean
+mud_connection_view_button_press_event(GtkWidget *widget, GdkEventButton *event, MudConnectionView *view)
+{
+    if ((event->button == 3) &&
+            !(event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)))
+    {
+        mud_connection_view_popup(view, event);
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+static void
+mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
+{
+    GtkWidget *im_menu;
+    GtkWidget *menu_item;
+    GtkWidget *profile_menu;
+    const GList *profiles;
+    const GList *profile;
+    GSList *group;
+
+    if (view->priv->popup_menu)
+        gtk_widget_destroy(view->priv->popup_menu);
+
+    g_assert(view->priv->popup_menu == NULL);
+
+    view->priv->popup_menu = gtk_menu_new();
+    gtk_menu_attach_to_widget(GTK_MENU(view->priv->popup_menu),
+            GTK_WIDGET(view->terminal),
+            popup_menu_detach);
+
+    append_menuitem(view->priv->popup_menu,
+            _("Close"),
+            G_CALLBACK(mud_connection_view_close_current_cb),
+            view);
+
+    menu_item = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
+
+    append_stock_menuitem(view->priv->popup_menu,
+            GTK_STOCK_COPY,
+            NULL,
+            view);
+    append_stock_menuitem(view->priv->popup_menu,
+            GTK_STOCK_PASTE,
+            NULL,
+            view);
+
+    menu_item = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
+
+    profile_menu = gtk_menu_new();
+    menu_item = gtk_menu_item_new_with_mnemonic(_("Change P_rofile"));
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), profile_menu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
+
+    group = NULL;
+    profiles = mud_profile_get_profiles();
+    profile = profiles;
+    while (profile != NULL)
+    {
+        MudProfile *prof;
+
+        prof = profile->data;
+
+        /* Profiles can go away while the menu is up. */
+        g_object_ref(G_OBJECT(prof));
+
+        menu_item = gtk_radio_menu_item_new_with_label(group,
+                prof->name);
+        group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(menu_item));
+        gtk_menu_shell_append(GTK_MENU_SHELL(profile_menu), menu_item);
+
+        if (prof == view->profile)
+            gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), TRUE);
+
+        g_signal_connect(G_OBJECT(menu_item),
+                "toggled",
+                G_CALLBACK(choose_profile_callback),
+                view);
+        g_object_set_data_full(G_OBJECT(menu_item),
+                "profile",
+                prof,
+                (GDestroyNotify) g_object_unref);
+        profile = profile->next;
+    }
+
+    menu_item = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
+
+    im_menu = gtk_menu_new();
+    menu_item = gtk_menu_item_new_with_mnemonic(_("_Input Methods"));
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), im_menu);
+    vte_terminal_im_append_menuitems(view->terminal,
+            GTK_MENU_SHELL(im_menu));
+    gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
+
+    gtk_widget_show_all(view->priv->popup_menu);
+    gtk_menu_popup(GTK_MENU(view->priv->popup_menu),
+            NULL, NULL,
+            NULL, NULL,
+            event ? event->button : 0,
+            event ? event->time : gtk_get_current_event_time());
+}
+
+static void
+mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pview)
+{
+    gint gag;
+    gint pluggag;
+    gchar *buf;
+    gboolean temp;
+    MudConnectionView *view = MUD_CONNECTION_VIEW(pview);
+    gint length;
+
+#ifdef ENABLE_GST
+    MudMSPDownloadItem *item;
+    MudTelnetMsp *msp_handler;
+    gboolean msp_parser_enabled;
+#endif
+
+    g_assert(view != NULL);
+
+    switch(event->type)
+    {
+        case GNET_CONN_ERROR:
+            mud_connection_view_add_text(view, _("*** Could not connect.\n"), Error);
+            mud_window_disconnected(view->window);
+            break;
+
+        case GNET_CONN_CONNECT:
+            mud_connection_view_add_text(view, _("*** Connected.\n"), System);
+            gnet_conn_read(view->connection);
+            break;
+
+        case GNET_CONN_CLOSE:
+#ifdef ENABLE_GST
+            if(view->priv->download_queue)
+                while((item = (MudMSPDownloadItem *)g_queue_pop_head(view->priv->download_queue)) != NULL)
+                    mud_telnet_msp_download_item_free(item);
+
+            if(view->priv->download_queue)
+                g_queue_free(view->priv->download_queue);
+
+            view->priv->download_queue = NULL;
+#endif
+
+            view->priv->processed = NULL;
+
+            gnet_conn_disconnect(view->connection);
+            gnet_conn_unref(view->connection);
+            view->connection = NULL;
+
+            if(view->telnet)
+            {
+                g_object_unref(view->telnet);
+                view->telnet = NULL;
+            }
+
+            mud_connection_view_add_text(view, _("*** Connection closed.\n"), Error);
+
+            mud_window_disconnected(view->window);
+            break;
+
+        case GNET_CONN_TIMEOUT:
+            break;
+
+        case GNET_CONN_READ:
+            if(!view->connected)
+            {
+                view->connected = TRUE;
+                mud_tray_update_icon(view->tray, online);
+            }
+
+            view->priv->processed =
+                mud_telnet_process(view->telnet, (guchar *)event->buffer,
+                        event->length, &length);
+
+            if(view->priv->processed != NULL)
+            {
+#ifdef ENABLE_GST
+                msp_handler =
+                    MUD_TELNET_MSP(mud_telnet_get_handler(view->telnet,
+                                                          TELOPT_MSP));
+
+                g_object_get(msp_handler,
+                             "enabled", &msp_parser_enabled,
+                             NULL);
+
+                if(msp_parser_enabled)
+                {
+                    view->priv->processed =
+                        mud_telnet_msp_parse(msp_handler,
+                                             view->priv->processed,
+                                             &length);
+                }
+#endif
+                if(view->priv->processed != NULL)
+                {
+#ifdef ENABLE_GST
+                    if(msp_parser_enabled)
+                        mud_telnet_msp_parser_clear(msp_handler);
+#endif 
+                    buf = view->priv->processed->str;
+
+                    temp = view->local_echo;
+                    view->local_echo = FALSE;
+                    gag = mud_parse_base_do_triggers(view->parse,
+                            buf);
+                    view->local_echo = temp;
+
+                    if(!gag)
+                    {
+                        vte_terminal_feed(view->terminal,
+                                buf, length);
+                        mud_log_write_hook(view->log, buf, length);
+                    }
+
+                    if (view->connect_hook) {
+                        mud_connection_view_send (view, view->connect_string);
+                        view->connect_hook = FALSE;
+                    }
+
+                    if(view->priv->processed != NULL)
+                    {
+                        g_string_free(view->priv->processed, TRUE);
+                        view->priv->processed = NULL;
+                    }
+
+                    buf = NULL;
+                }
+            }
+
+            gnet_conn_read(view->connection);
+            break;
+
+        case GNET_CONN_WRITE:
+            break;
+
+        case GNET_CONN_READABLE:
+            break;
+
+        case GNET_CONN_WRITABLE:
+            break;
+    }
+}
+
+
+static void
+popup_menu_detach(GtkWidget *widget, GtkMenu *menu)
+{
+    MudConnectionView *view;
+
+    view = g_object_get_data(G_OBJECT(widget), "connection-view");
+    view->priv->popup_menu = NULL;
+}
+
+/* Private Methods */
 
 static GtkWidget*
 append_stock_menuitem(GtkWidget *menu, const gchar *text, GCallback callback, gpointer data)
@@ -194,62 +1290,6 @@ append_menuitem(GtkWidget *menu, const gchar *text, GCallback callback, gpointer
     return menu_item;
 }
 
-static void
-popup_menu_detach(GtkWidget *widget, GtkMenu *menu)
-{
-    MudConnectionView *view;
-
-    view = g_object_get_data(G_OBJECT(widget), "connection-view");
-    view->priv->popup_menu = NULL;
-}
-
-static void
-choose_profile_callback(GtkWidget *menu_item, MudConnectionView *view)
-{
-    MudProfile *profile;
-
-    if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item)))
-        return;
-
-    profile = g_object_get_data(G_OBJECT(menu_item), "profile");
-
-    g_assert(profile);
-
-    mud_connection_view_set_profile(view, profile);
-    mud_connection_view_reread_profile(view);
-}
-
-static void
-mud_connection_view_close_current_cb(GtkWidget *menu_item, MudConnectionView *view)
-{
-    mud_window_close_current_window(view->priv->window);
-}
-
-
-static void
-mud_connection_view_str_replace (gchar *buf, const gchar *s, const gchar *repl)
-{
-    gchar out_buf[4608];
-    gchar *pc, *out;
-    gint  len = strlen (s);
-    gboolean found = FALSE;
-
-    for ( pc = buf, out = out_buf; *pc && (out-out_buf) < (4608-len-4);)
-        if ( !strncasecmp(pc, s, len))
-        {
-            out += sprintf (out, "%s", repl);
-            pc += len;
-            found = TRUE;
-        }
-        else
-            *out++ = *pc++;
-
-    if ( found)
-    {
-        *out = '\0';
-        strcpy (buf, out_buf);
-    }
-}
 
 static void
 mud_connection_view_feed_text(MudConnectionView *view, gchar *message)
@@ -257,13 +1297,76 @@ mud_connection_view_feed_text(MudConnectionView *view, gchar *message)
     gint rlen = strlen(message);
     gchar buf[rlen*2];
 
-    g_stpcpy(buf, message);
-    mud_connection_view_str_replace(buf, "\r", "");
-    mud_connection_view_str_replace(buf, "\n", "\n\r");
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
-    vte_terminal_feed(VTE_TERMINAL(view->priv->terminal), buf, strlen(buf));
+    g_stpcpy(buf, message);
+    utils_str_replace(buf, "\r", "");
+    utils_str_replace(buf, "\n", "\n\r");
+
+    vte_terminal_feed(view->terminal, buf, strlen(buf));
 }
 
+static void
+mud_connection_view_reread_profile(MudConnectionView *view)
+{
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    mud_connection_view_set_terminal_colors(view);
+    mud_connection_view_set_terminal_scrollback(view);
+    mud_connection_view_set_terminal_scrolloutput(view);
+    mud_connection_view_set_terminal_font(view);
+}
+
+static void
+mud_connection_view_set_terminal_colors(MudConnectionView *view)
+{
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    vte_terminal_set_colors(view->terminal,
+            &view->profile->preferences->Foreground,
+            &view->profile->preferences->Background,
+            view->profile->preferences->Colors, C_MAX);
+}
+
+static void
+mud_connection_view_set_terminal_scrollback(MudConnectionView *view)
+{
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    vte_terminal_set_scrollback_lines(view->terminal,
+            view->profile->preferences->Scrollback);
+}
+
+static void
+mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view)
+{
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    if(view->terminal)
+        vte_terminal_set_scroll_on_output(view->terminal,
+                view->profile->preferences->ScrollOnOutput);
+}
+
+static void
+mud_connection_view_set_terminal_font(MudConnectionView *view)
+{
+    PangoFontDescription *desc = NULL;
+    char *name;
+
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    name = view->profile->preferences->FontName;
+
+    if(name)
+        desc = pango_font_description_from_string(name);
+
+    if(!desc)
+        desc = pango_font_description_from_string("Monospace 10");
+
+    vte_terminal_set_font(view->terminal, desc);
+}
+
+/* Public Methods */
 void
 mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type)
 {
@@ -278,6 +1381,8 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
     gchar key[2048];
     gchar extra_path[512] = "";
 
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
     client = gconf_client_get_default();
 
     text = g_strdup(message);
@@ -289,7 +1394,7 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
         encoding = view->remote_encoding;
     else
     {
-        profile_name = mud_profile_get_name(view->priv->profile);
+        profile_name = mud_profile_get_name(view->profile);
 
         if (strcmp(profile_name, "Default"))
         {
@@ -312,7 +1417,7 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
         text = NULL;
     }
 
-    vte_terminal_set_encoding(VTE_TERMINAL(view->priv->terminal), encoding);
+    vte_terminal_set_encoding(view->terminal, encoding);
 
     g_free(encoding);
 
@@ -346,181 +1451,6 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
     g_object_unref(client);
 }
 
-
-static void
-mud_connection_view_init (MudConnectionView *connection_view)
-{
-    GtkWidget *box;
-    GtkWidget *dl_vbox;
-    GtkWidget *dl_hbox;
-    GtkWidget *term_box;
-
-    connection_view->priv = g_new0(MudConnectionViewPrivate, 1);
-
-    connection_view->priv->history = g_queue_new();
-    connection_view->priv->current_history_index = 0;
-
-#ifdef ENABLE_GST
-    connection_view->priv->download_queue = g_queue_new();
-    connection_view->priv->dl_conn = NULL;
-#endif
-
-    connection_view->priv->processed = NULL;
-
-    connection_view->priv->parse = mud_parse_base_new(connection_view);
-
-    connection_view->priv->connect_hook = FALSE;
-
-    box = gtk_vbox_new(FALSE, 0);
-    dl_vbox = gtk_vbox_new(FALSE, 0);
-    dl_hbox = gtk_hbox_new(FALSE, 0);
-    term_box = gtk_hbox_new(FALSE, 0);
-
-    connection_view->priv->dl_label = gtk_label_new("Downloading...");
-    connection_view->priv->progressbar = gtk_progress_bar_new();
-    gtk_progress_bar_set_pulse_step (GTK_PROGRESS_BAR(connection_view->priv->progressbar), 0.1);
-    connection_view->priv->dl_button = gtk_button_new_from_stock("gtk-cancel");
-
-#ifdef ENABLE_GST
-    connection_view->priv->downloading = FALSE;
-#endif
-
-    gtk_box_pack_start(GTK_BOX(dl_vbox), connection_view->priv->dl_label, FALSE, FALSE, 0);
-
-    gtk_box_pack_start(GTK_BOX(dl_hbox), connection_view->priv->progressbar, TRUE, TRUE, 0);
-
-    gtk_box_pack_end(GTK_BOX(dl_hbox), connection_view->priv->dl_button, FALSE, FALSE, 0);
-
-    gtk_box_pack_end(GTK_BOX(dl_vbox), dl_hbox, TRUE, TRUE, 0);
-
-    connection_view->priv->terminal = vte_terminal_new();
-    vte_terminal_set_encoding(VTE_TERMINAL(connection_view->priv->terminal), "ISO-8859-1");
-    vte_terminal_set_emulation(VTE_TERMINAL(connection_view->priv->terminal), "xterm");
-
-    gtk_box_pack_start(GTK_BOX(term_box), connection_view->priv->terminal, TRUE, TRUE, 0);
-    g_signal_connect(G_OBJECT(connection_view->priv->terminal),
-                     "button_press_event",
-                     G_CALLBACK(mud_connection_view_button_press_event),
-                     connection_view);
-    g_object_set_data(G_OBJECT(connection_view->priv->terminal),
-                      "connection-view", connection_view);
-
-#ifdef ENABLE_GST                                                       
-    g_signal_connect(connection_view->priv->dl_button, "clicked",
-    G_CALLBACK(mud_connection_view_cancel_dl_cb), connection_view);
-#endif
-
-    connection_view->priv->scrollbar = gtk_vscrollbar_new(NULL);
-    gtk_range_set_adjustment(
-            GTK_RANGE(connection_view->priv->scrollbar),
-            VTE_TERMINAL(connection_view->priv->terminal)->adjustment);
-    gtk_box_pack_end(GTK_BOX(term_box), connection_view->priv->scrollbar, 
-            FALSE, FALSE, 0);
-
-    gtk_box_pack_start(GTK_BOX(box), dl_vbox, FALSE, FALSE, 0);
-    gtk_box_pack_end(GTK_BOX(box), term_box, TRUE, TRUE, 0);
-
-    gtk_widget_show_all(box);
-
-    gtk_widget_hide(connection_view->priv->progressbar);
-    gtk_widget_hide(connection_view->priv->dl_label);
-    gtk_widget_hide(connection_view->priv->dl_button);
-
-    g_object_set_data(G_OBJECT(box), "connection-view", connection_view);
-
-    connection_view->priv->box = box;
-    connection_view->priv->connected = FALSE;
-
-}
-
-static void
-mud_connection_view_reread_profile(MudConnectionView *view)
-{
-    mud_connection_view_set_terminal_colors(view);
-    mud_connection_view_set_terminal_scrollback(view);
-    mud_connection_view_set_terminal_scrolloutput(view);
-    mud_connection_view_set_terminal_font(view);
-}
-
-static void
-mud_connection_view_class_init (MudConnectionViewClass *klass)
-{
-    GObjectClass *object_class = G_OBJECT_CLASS(klass);
-
-    object_class->finalize = mud_connection_view_finalize;
-}
-
-static void
-mud_connection_view_finalize (GObject *object)
-{
-    MudConnectionView *connection_view;
-    GObjectClass *parent_class;
-    gchar *history_item;
-
-#ifdef ENABLE_GST                               
-    MudMSPDownloadItem *item;
-#endif
-
-    connection_view = MUD_CONNECTION_VIEW(object);
-
-    if(connection_view->priv->history && !g_queue_is_empty(connection_view->priv->history))
-        while((history_item = (gchar *)g_queue_pop_head(connection_view->priv->history)) != NULL)
-            g_free(history_item);
-
-    if(connection_view->priv->history)
-        g_queue_free(connection_view->priv->history);
-
-#ifdef ENABLE_GST                               
-    if(connection_view->priv->download_queue
-            && !g_queue_is_empty(connection_view->priv->download_queue))
-        while((item = (MudMSPDownloadItem *)
-                    g_queue_pop_head(connection_view->priv->download_queue)) != NULL)
-            mud_telnet_msp_download_item_free(item);
-
-    if(connection_view->priv->download_queue)
-        g_queue_free(connection_view->priv->download_queue);
-#endif
-
-    if(connection_view->connection && 
-            gnet_conn_is_connected(connection_view->connection))
-        gnet_conn_disconnect(connection_view->connection);
-
-    if(connection_view->connection)
-        gnet_conn_unref(connection_view->connection);
-
-    if(connection_view->priv->hostname)
-        g_free(connection_view->priv->hostname);
-
-    if(connection_view->priv->connect_string)
-        g_free(connection_view->priv->connect_string);
-    
-    if(connection_view->priv->mud_name)
-        g_free(connection_view->priv->mud_name);
-    
-    if(connection_view->priv->processed)
-        g_string_free(connection_view->priv->processed, TRUE);
-    
-    if(connection_view->priv->telnet)
-        g_object_unref(connection_view->priv->telnet);
-   
-    g_object_unref(connection_view->priv->log);
-    g_object_unref(connection_view->priv->parse);
-    g_object_unref(connection_view->priv->profile);
-
-    g_free(connection_view->priv);
-
-    parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
-    parent_class->finalize(object);
-}
-
-void
-mud_connection_view_set_connect_string(MudConnectionView *view, gchar *connect_string)
-{
-    g_assert(view != NULL);
-    view->priv->connect_hook = TRUE;
-    view->priv->connect_string = g_strdup(connect_string);
-}
-
 void
 mud_connection_view_disconnect(MudConnectionView *view)
 {
@@ -528,7 +1458,7 @@ mud_connection_view_disconnect(MudConnectionView *view)
     MudMSPDownloadItem *item;
 #endif
 
-    g_assert(view != NULL);
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
     if(view->connection && gnet_conn_is_connected(view->connection))
     {
@@ -549,10 +1479,10 @@ mud_connection_view_disconnect(MudConnectionView *view)
         gnet_conn_unref(view->connection);
         view->connection = NULL;
 
-        if(view->priv->telnet)
+        if(view->telnet)
         {
-            g_object_unref(view->priv->telnet);
-            view->priv->telnet = NULL;
+            g_object_unref(view->telnet);
+            view->telnet = NULL;
         }
 
         mud_connection_view_add_text(view, _("\n*** Connection closed.\n"), System);
@@ -571,8 +1501,7 @@ mud_connection_view_reconnect(MudConnectionView *view)
 #ifdef ENABLE_GST
     MudMSPDownloadItem *item;
 #endif
-
-    g_assert(view != NULL);
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
     if(view->connection && gnet_conn_is_connected(view->connection))
     {
@@ -594,19 +1523,19 @@ mud_connection_view_reconnect(MudConnectionView *view)
         gnet_conn_unref(view->connection);
         view->connection = NULL;
 
-        g_object_unref(view->priv->telnet);
-        view->priv->telnet = NULL;
+        g_object_unref(view->telnet);
+        view->telnet = NULL;
 
         mud_connection_view_add_text(view,
                 _("\n*** Connection closed.\n"), System);
     }
 
-    view->connection = gnet_conn_new(view->priv->hostname, view->priv->port,
+    view->connection = gnet_conn_new(view->hostname, view->port,
             mud_connection_view_network_event_cb, view);
     gnet_conn_ref(view->connection);
     gnet_conn_set_watch_error(view->connection, TRUE);
 
-    profile_name = mud_profile_get_name(view->priv->profile);
+    profile_name = mud_profile_get_name(view->profile);
 
     if (strcmp(profile_name, "Default") != 0)
     {
@@ -648,11 +1577,12 @@ mud_connection_view_reconnect(MudConnectionView *view)
     view->naws_enabled = FALSE;
     view->local_echo = TRUE;
 
-    view->priv->telnet = mud_telnet_new(view,
-            view->connection, view->priv->mud_name);
+    view->telnet = g_object_new(MUD_TYPE_TELNET,
+                                "parent-view", view,
+                                NULL);
 
     buf = g_strdup_printf(_("*** Making connection to %s, port %d.\n"),
-            view->priv->hostname, view->priv->port);
+            view->hostname, view->port);
     mud_connection_view_add_text(view, buf, System);
     g_free(buf);
 
@@ -676,6 +1606,8 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
     gchar key[2048];
     gchar extra_path[512] = "";
 
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
     if(view->connection && gnet_conn_is_connected(view->connection))
     {
         if(view->local_echo) // Prevent password from being cached.
@@ -691,6 +1623,8 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             g_queue_push_head(view->priv->history,
                     (gpointer)g_strdup(_("<password removed>")));
 
+        view->priv->current_history_index = -1;
+
         client = gconf_client_get_default();
 
         g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/remote_encoding");
@@ -700,7 +1634,7 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             encoding = view->remote_encoding;
         else
         {
-            profile_name = mud_profile_get_name(view->priv->profile);
+            profile_name = mud_profile_get_name(view->profile);
 
             if (strcmp(profile_name, "Default"))
             {
@@ -713,8 +1647,7 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
 
         g_get_charset(&local_codeset);
 
-        view->priv->current_history_index = 0;
-        commands = mud_profile_process_commands(view->priv->profile, data);
+        commands = mud_profile_process_commands(view->profile, data);
 
         for (command = g_list_first(commands); command != NULL; command = command->next)
         {
@@ -736,7 +1669,7 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             else
                 gnet_conn_write(view->connection, conv_text, strlen(conv_text));
 
-            if (view->priv->profile->preferences->EchoText && view->local_echo)
+            if (view->profile->preferences->EchoText && view->local_echo)
                 mud_connection_view_add_text(view, text, Sent);
 
             if(conv_text != NULL)
@@ -749,552 +1682,98 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
     }
 }
 
-static void
-mud_connection_view_set_terminal_colors(MudConnectionView *view)
-{
-    vte_terminal_set_colors(VTE_TERMINAL(view->priv->terminal),
-            &view->priv->profile->preferences->Foreground,
-            &view->priv->profile->preferences->Background,
-            view->priv->profile->preferences->Colors, C_MAX);
-}
-
 void
 mud_connection_view_start_logging(MudConnectionView *view)
 {
-    mud_log_open(view->priv->log);
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    view->logging = TRUE;
+    mud_log_open(view->log);
 }
 
 void
 mud_connection_view_stop_logging(MudConnectionView *view)
 {
-    mud_log_close(view->priv->log);
-}
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
-gboolean
-mud_connection_view_islogging(MudConnectionView *view)
-{
-    return (view && view->connection && 
-            gnet_conn_is_connected(view->connection) &&
-                mud_log_islogging(view->priv->log));
-}
-
-static void
-mud_connection_view_set_terminal_scrollback(MudConnectionView *view)
-{
-    vte_terminal_set_scrollback_lines(VTE_TERMINAL(view->priv->terminal),
-            view->priv->profile->preferences->Scrollback);
-}
-
-static void
-mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view)
-{
-    if(view->priv->terminal)
-        vte_terminal_set_scroll_on_output(VTE_TERMINAL(view->priv->terminal),
-                view->priv->profile->preferences->ScrollOnOutput);
-}
-
-static void
-mud_connection_view_set_terminal_font(MudConnectionView *view)
-{
-    PangoFontDescription *desc = NULL;
-    char *name;
-
-    name = view->priv->profile->preferences->FontName;
-
-    if(name)
-        desc = pango_font_description_from_string(name);
-
-    if(!desc)
-        desc = pango_font_description_from_string("Monospace 10");
-
-    vte_terminal_set_font(VTE_TERMINAL(view->priv->terminal), desc);
-}
-
-static void
-mud_connection_view_profile_changed_cb(MudProfile *profile, MudProfileMask *mask, MudConnectionView *view)
-{
-    if (mask->ScrollOnOutput)
-        mud_connection_view_set_terminal_scrolloutput(view);
-    if (mask->Scrollback)
-        mud_connection_view_set_terminal_scrollback(view);
-    if (mask->FontName)
-        mud_connection_view_set_terminal_font(view);
-    if (mask->Foreground || mask->Background || mask->Colors)
-        mud_connection_view_set_terminal_colors(view);
-}
-
-static gboolean
-mud_connection_view_button_press_event(GtkWidget *widget, GdkEventButton *event, MudConnectionView *view)
-{
-    if ((event->button == 3) &&
-            !(event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)))
-    {
-        mud_connection_view_popup(view, event);
-        return TRUE;
-    }
-
-    return FALSE;
-}
-
-static void
-mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
-{
-    GtkWidget *im_menu;
-    GtkWidget *menu_item;
-    GtkWidget *profile_menu;
-    const GList *profiles;
-    const GList *profile;
-    GSList *group;
-
-    if (view->priv->popup_menu)
-        gtk_widget_destroy(view->priv->popup_menu);
-
-    g_assert(view->priv->popup_menu == NULL);
-
-    view->priv->popup_menu = gtk_menu_new();
-    gtk_menu_attach_to_widget(GTK_MENU(view->priv->popup_menu),
-            view->priv->terminal,
-            popup_menu_detach);
-
-    append_menuitem(view->priv->popup_menu,
-            _("Close"),
-            G_CALLBACK(mud_connection_view_close_current_cb),
-            view);
-
-    menu_item = gtk_separator_menu_item_new();
-    gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
-
-    append_stock_menuitem(view->priv->popup_menu,
-            GTK_STOCK_COPY,
-            NULL,
-            view);
-    append_stock_menuitem(view->priv->popup_menu,
-            GTK_STOCK_PASTE,
-            NULL,
-            view);
-
-    menu_item = gtk_separator_menu_item_new();
-    gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
-
-    profile_menu = gtk_menu_new();
-    menu_item = gtk_menu_item_new_with_mnemonic(_("Change P_rofile"));
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), profile_menu);
-    gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
-
-    group = NULL;
-    profiles = mud_profile_get_profiles();
-    profile = profiles;
-    while (profile != NULL)
-    {
-        MudProfile *prof;
-
-        prof = profile->data;
-
-        /* Profiles can go away while the menu is up. */
-        g_object_ref(G_OBJECT(prof));
-
-        menu_item = gtk_radio_menu_item_new_with_label(group,
-                prof->name);
-        group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(menu_item));
-        gtk_menu_shell_append(GTK_MENU_SHELL(profile_menu), menu_item);
-
-        if (prof == view->priv->profile)
-            gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), TRUE);
-
-        g_signal_connect(G_OBJECT(menu_item),
-                "toggled",
-                G_CALLBACK(choose_profile_callback),
-                view);
-        g_object_set_data_full(G_OBJECT(menu_item),
-                "profile",
-                prof,
-                (GDestroyNotify) g_object_unref);
-        profile = profile->next;
-    }
-
-    menu_item = gtk_separator_menu_item_new();
-    gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
-
-    im_menu = gtk_menu_new();
-    menu_item = gtk_menu_item_new_with_mnemonic(_("_Input Methods"));
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), im_menu);
-    vte_terminal_im_append_menuitems(VTE_TERMINAL(view->priv->terminal),
-            GTK_MENU_SHELL(im_menu));
-    gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
-
-    gtk_widget_show_all(view->priv->popup_menu);
-    gtk_menu_popup(GTK_MENU(view->priv->popup_menu),
-            NULL, NULL,
-            NULL, NULL,
-            event ? event->button : 0,
-            event ? event->time : gtk_get_current_event_time());
-}
-
-void
-mud_connection_view_set_id(MudConnectionView *view, gint id)
-{
-    view->priv->id = id;
-}
-
-void
-mud_connection_view_set_parent(MudConnectionView *view, MudWindow *window)
-{
-    view->priv->window = window;
-}
-
-
-MudConnectionView*
-mud_connection_view_new (const gchar *profile, const gchar *hostname,
-        const gint port, GtkWidget *window, GtkWidget *tray, gchar *name)
-{
-    gchar *profile_name;
-    GConfClient *client;
-
-    gchar key[2048];
-    gchar extra_path[512] = "";
-    gboolean use_proxy;
-    gchar *proxy_host;
-    gchar *version;
-
-    MudConnectionView *view;
-    GdkGeometry hints;
-    gint xpad, ypad;
-    gint char_width, char_height;
-    gchar *buf;
-
-    g_assert(hostname != NULL);
-    g_assert(port > 0);
-
-    view = g_object_new(TYPE_MUD_CONNECTION_VIEW, NULL);
-
-    view->priv->hostname = g_strdup(hostname);
-    view->priv->port = port;
-    view->priv->mud_name = g_strdup(name);
-
-    view->connection = gnet_conn_new(hostname, port,
-            mud_connection_view_network_event_cb, view);
-    gnet_conn_ref(view->connection);
-    gnet_conn_set_watch_error(view->connection, TRUE);
-
-    view->naws_enabled = FALSE;
-
-    view->priv->telnet = mud_telnet_new(view, view->connection, name);
-
-    view->local_echo = TRUE;
-
-    mud_connection_view_set_profile(view, mud_profile_new(profile));
-
-    /* Let us resize the gnome-mud window */
-    vte_terminal_get_padding(VTE_TERMINAL(view->priv->terminal), &xpad, &ypad);
-    char_width = VTE_TERMINAL(view->priv->terminal)->char_width;
-    char_height = VTE_TERMINAL(view->priv->terminal)->char_height;
-
-    hints.base_width = xpad;
-    hints.base_height = ypad;
-    hints.width_inc = char_width;
-    hints.height_inc = char_height;
-
-    hints.min_width =  hints.base_width + hints.width_inc * 4;
-    hints.min_height = hints.base_height+ hints.height_inc * 2;
-
-    gtk_window_set_geometry_hints(GTK_WINDOW(window),
-            GTK_WIDGET(view->priv->terminal),
-            &hints,
-            GDK_HINT_RESIZE_INC |
-            GDK_HINT_MIN_SIZE |
-            GDK_HINT_BASE_SIZE);
-
-    view->priv->tray = MUD_TRAY(tray);
-
-    view->priv->log = g_object_new(MUD_TYPE_LOG,
-                                   "mud-name", name,
-                                   NULL);
-
-    buf = g_strdup_printf(_("*** Making connection to %s, port %d.\n"),
-            view->priv->hostname, view->priv->port);
-    mud_connection_view_add_text(view, buf, System);
-    g_free(buf);
-    buf = NULL;
-
-    profile_name = mud_profile_get_name(view->priv->profile);
-
-    if (strcmp(profile_name, "Default") != 0)
-    {
-        g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
-    }
-
-    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/use_proxy");
-    client = gconf_client_get_default();
-    use_proxy = gconf_client_get_bool(client, key, NULL);
-
-    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/proxy_hostname");
-    proxy_host = gconf_client_get_string(client, key, NULL);
-
-    g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/proxy_version");
-    version = gconf_client_get_string(client, key, NULL);
-
-    if(use_proxy)
-    {
-        if(proxy_host && version)
-        {
-            gnet_socks_set_enabled(TRUE);
-            gnet_socks_set_server(gnet_inetaddr_new(proxy_host,GNET_SOCKS_PORT));
-            gnet_socks_set_version((strcmp(version, "4") == 0) ? 4 : 5);
-        }
-    }
-    else
-        gnet_socks_set_enabled(FALSE);
-
-    if(proxy_host)
-        g_free(proxy_host);
-
-    if(version)
-        g_free(version);
-
-    g_object_unref(client);
-
-    gnet_conn_connect(view->connection);
-
-    return view;
+    view->logging = FALSE;
+    mud_log_close(view->log);
 }
 
 void
 mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profile)
 {
-    if (profile == view->priv->profile)
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    if(profile == view->profile)
         return;
 
-    if (view->priv->profile)
+    if (view->profile)
     {
-        g_signal_handler_disconnect(view->priv->profile, view->priv->signal_profile_changed);
-        g_object_unref(G_OBJECT(view->priv->profile));
+        g_signal_handler_disconnect(view->profile, view->priv->signal_profile_changed);
+        g_object_unref(G_OBJECT(view->profile));
     }
 
-    view->priv->profile = profile;
+    view->profile = profile;
     g_object_ref(G_OBJECT(profile));
     view->priv->signal_profile_changed =
-        g_signal_connect(G_OBJECT(view->priv->profile), "changed",
+        g_signal_connect(G_OBJECT(view->profile), "changed",
                          G_CALLBACK(mud_connection_view_profile_changed_cb),
                          view);
     mud_connection_view_reread_profile(view);
 }
 
-MudProfile *
-mud_connection_view_get_current_profile(MudConnectionView *view)
-{
-    return view->priv->profile;
-}
-
-GtkWidget *
-mud_connection_view_get_viewport (MudConnectionView *view)
-{
-    return view->priv->box;
-}
-
-GtkWidget *
-mud_connection_view_get_terminal(MudConnectionView *view)
-{
-    return view->priv->terminal;
-}
-
-MudParseBase *
-mud_connection_view_get_parsebase(MudConnectionView *view)
-{
-    return view->priv->parse;
-}
-
-gchar *
+const gchar *
 mud_connection_view_get_history_item(MudConnectionView *view, enum
                                      MudConnectionHistoryDirection direction)
 {
     gchar *history_item;
 
     if(direction == HISTORY_DOWN)
-        if(view->priv->current_history_index != 0)
+        if( !(view->priv->current_history_index <= 0) )
             view->priv->current_history_index--;
+
+    if(direction == HISTORY_UP)
+        if(view->priv->current_history_index < 
+                (gint)g_queue_get_length(view->priv->history) - 1)
+            view->priv->current_history_index++;
 
     history_item = (gchar *)g_queue_peek_nth(view->priv->history,
             view->priv->current_history_index);
 
-    if(direction == HISTORY_UP)
-        if(view->priv->current_history_index <
-                g_queue_get_length(view->priv->history) - 1)
-            view->priv->current_history_index++;
-
     return history_item;
-}
-
-static void
-mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pview)
-{
-    gint gag;
-    gint pluggag;
-    gchar *buf;
-    gboolean temp;
-    MudConnectionView *view = MUD_CONNECTION_VIEW(pview);
-    gint length;
-
-#ifdef ENABLE_GST
-    MudMSPDownloadItem *item;
-#endif
-
-    g_assert(view != NULL);
-
-    switch(event->type)
-    {
-        case GNET_CONN_ERROR:
-            mud_connection_view_add_text(view, _("*** Could not connect.\n"), Error);
-            mud_window_disconnected(view->priv->window);
-            break;
-
-        case GNET_CONN_CONNECT:
-            mud_connection_view_add_text(view, _("*** Connected.\n"), System);
-            gnet_conn_read(view->connection);
-            break;
-
-        case GNET_CONN_CLOSE:
-#ifdef ENABLE_GST
-            if(view->priv->download_queue)
-                while((item = (MudMSPDownloadItem *)g_queue_pop_head(view->priv->download_queue)) != NULL)
-                    mud_telnet_msp_download_item_free(item);
-
-            if(view->priv->download_queue)
-                g_queue_free(view->priv->download_queue);
-
-            view->priv->download_queue = NULL;
-#endif
-
-            view->priv->processed = NULL;
-
-            gnet_conn_disconnect(view->connection);
-            gnet_conn_unref(view->connection);
-            view->connection = NULL;
-
-            if(view->priv->telnet)
-            {
-                g_object_unref(view->priv->telnet);
-                view->priv->telnet = NULL;
-            }
-
-            mud_connection_view_add_text(view, _("*** Connection closed.\n"), Error);
-
-            mud_window_disconnected(view->priv->window);
-            break;
-
-        case GNET_CONN_TIMEOUT:
-            break;
-
-        case GNET_CONN_READ:
-            if(!view->priv->connected)
-            {
-                view->priv->connected = TRUE;
-                mud_tray_update_icon(view->priv->tray, online);
-            }
-
-            view->priv->processed =
-                mud_telnet_process(view->priv->telnet, (guchar *)event->buffer,
-                        event->length, &length);
-
-            if(view->priv->processed != NULL)
-            {
-#ifdef ENABLE_GST
-                if(view->priv->telnet->msp_parser.enabled)
-                {
-                    view->priv->processed = mud_telnet_msp_parse(
-                            view->priv->telnet, view->priv->processed, &length);
-                }
-#endif
-                if(view->priv->processed != NULL)
-                {
-#ifdef ENABLE_GST
-                    mud_telnet_msp_parser_clear(view->priv->telnet);
-#endif 
-                    buf = view->priv->processed->str;
-
-                    temp = view->local_echo;
-                    view->local_echo = FALSE;
-                    gag = mud_parse_base_do_triggers(view->priv->parse,
-                            buf);
-                    view->local_echo = temp;
-
-                    if(!gag)
-                    {
-                        vte_terminal_feed(VTE_TERMINAL(view->priv->terminal),
-                                buf, length);
-                        mud_log_write_hook(view->priv->log, buf, length);
-                    }
-
-                    if (view->priv->connect_hook) {
-                        mud_connection_view_send (view, view->priv->connect_string);
-                        view->priv->connect_hook = FALSE;
-                    }
-
-                    if(view->priv->processed != NULL)
-                    {
-                        g_string_free(view->priv->processed, TRUE);
-                        view->priv->processed = NULL;
-                    }
-
-                    buf = NULL;
-                }
-            }
-
-            gnet_conn_read(view->connection);
-            break;
-
-        case GNET_CONN_WRITE:
-            break;
-
-        case GNET_CONN_READABLE:
-            break;
-
-        case GNET_CONN_WRITABLE:
-            break;
-    }
 }
 
 void
 mud_connection_view_get_term_size(MudConnectionView *view, gint *w, gint *h)
 {
-    VteTerminal *term = VTE_TERMINAL(view->priv->terminal);
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    VteTerminal *term = view->terminal;
     *w = term->column_count;
     *h = term->row_count;
 }
 
 void
-mud_connection_view_set_naws(MudConnectionView *view, gint enabled)
-{
-    view->naws_enabled = enabled;
-}
-
-void
 mud_connection_view_send_naws(MudConnectionView *view)
 {
-    guint curr_width = VTE_TERMINAL(view->priv->terminal)->column_count;
-    guint curr_height = VTE_TERMINAL(view->priv->terminal)->row_count;
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
-    mud_telnet_send_naws(view->priv->telnet, curr_width, curr_height);
+    guint curr_width = view->terminal->column_count;
+    guint curr_height = view->terminal->row_count;
+
+    if(view->naws_enabled)
+        mud_telnet_send_naws(view->telnet, curr_width, curr_height);
 }
 
-static void
-mud_connection_view_resized_cb(MudWindow *window, MudConnectionView *view)
-{
-    g_message("resized cb called");
-
-    g_printf("foo");
-}
-
-gboolean
-mud_connection_view_is_connected(MudConnectionView *view)
-{
-    return (view && view->connection && gnet_conn_is_connected(view->connection));
-}
-
+/* MSP Download Code */
 #ifdef ENABLE_GST
 static void
 mud_connection_view_start_download(MudConnectionView *view)
 {
     MudMSPDownloadItem *item;
+
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(view->priv->progressbar), 0.0);
     gtk_label_set_text(GTK_LABEL(view->priv->dl_label), _("Connecting..."));
@@ -1328,6 +1807,8 @@ mud_connection_view_queue_download(MudConnectionView *view, gchar *url, gchar *f
 
     gchar key[2048];
     gchar extra_path[512] = "";
+
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
     client = gconf_client_get_default();
 

@@ -41,13 +41,14 @@
 #include "utils.h"
 #include "debug-logger.h"
 
-int main (gint argc, char *argv[])
+gint
+main (gint argc, char *argv[])
 {
     MudWindow *window;
     GConfClient *client;
     DebugLogger *logger;
     GError      *err = NULL;
-    gchar       buf[2048];
+    GString *dir;
 
 #ifdef ENABLE_NLS
     /* Initialize internationalization */
@@ -78,17 +79,23 @@ int main (gint argc, char *argv[])
     gconf_client_add_dir(client, "/apps/gnome-mud",
             GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 
-    g_snprintf(buf, 2048, "%s/.gnome-mud/", g_get_home_dir());
-    if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
-        mkdir(buf, 0777);
+    dir = g_string_new(NULL);
+    g_string_printf(dir,
+                    "%s%cgnome-mud%clogs",
+                    g_get_user_data_dir(),
+                    G_DIR_SEPARATOR,
+                    G_DIR_SEPARATOR);
+    g_mkdir_with_parents(dir->str, 0755);      
+    g_string_free(dir, TRUE);
 
-    g_snprintf(buf, 2048, "%s/.gnome-mud/logs/", g_get_home_dir());
-    if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
-        mkdir(buf, 0777 );
-
-    g_snprintf(buf, 2048, "%s/.gnome-mud/audio/", g_get_home_dir());
-    if(!g_file_test(buf, G_FILE_TEST_IS_DIR))
-        mkdir(buf, 0777 );
+    dir = g_string_new(NULL);
+    g_string_printf(dir,
+                    "%s%cgnome-mud%caudio",
+                    g_get_user_data_dir(),
+                    G_DIR_SEPARATOR,
+                    G_DIR_SEPARATOR);
+    g_mkdir_with_parents(dir->str, 0755); 
+    g_string_free(dir, TRUE);
 
     gtk_about_dialog_set_url_hook(utils_activate_url, NULL, NULL);
 
@@ -111,7 +118,7 @@ int main (gint argc, char *argv[])
 #endif
 
     /* Let 'er rip */
-    window = g_object_new(TYPE_MUD_WINDOW, NULL);
+    window = g_object_new(MUD_TYPE_WINDOW, NULL);
 
     gtk_main();
 
@@ -122,3 +129,4 @@ int main (gint argc, char *argv[])
 
     return 0;
 }
+

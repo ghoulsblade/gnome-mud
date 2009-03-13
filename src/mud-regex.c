@@ -36,57 +36,33 @@ struct _MudRegexPrivate
     gint substring_count;
 };
 
-GType mud_regex_get_type (void);
+/* Create the Type */
+G_DEFINE_TYPE(MudRegex, mud_regex, G_TYPE_OBJECT);
+
 static void mud_regex_init (MudRegex *regex);
 static void mud_regex_class_init (MudRegexClass *klass);
 static void mud_regex_finalize (GObject *object);
 
-// MudRegex class functions
-GType
-mud_regex_get_type (void)
-{
-    static GType object_type = 0;
-
-    g_type_init();
-
-    if (!object_type)
-    {
-	static const GTypeInfo object_info =
-	    {
-		sizeof (MudRegexClass),
-		NULL,
-		NULL,
-		(GClassInitFunc) mud_regex_class_init,
-		NULL,
-		NULL,
-		sizeof (MudRegex),
-		0,
-		(GInstanceInitFunc) mud_regex_init,
-	    };
-
-	object_type =
-	    g_type_register_static(
-		G_TYPE_OBJECT, "MudRegex", &object_info, 0);
-    }
-
-    return object_type;
-}
-
-static void
-mud_regex_init (MudRegex *regex)
-{
-    regex->priv = g_new0(MudRegexPrivate, 1);
-
-    regex->priv->substring_list = NULL;
-    regex->priv->substring_count = 0;
-}
-
+/* Class Functions */
 static void
 mud_regex_class_init (MudRegexClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
+    /* Override base object's finalize */
     object_class->finalize = mud_regex_finalize;
+
+    /* Add our private data */
+    g_type_class_add_private(klass, sizeof(MudRegexPrivate));
+}
+
+static void
+mud_regex_init (MudRegex *regex)
+{
+    regex->priv = MUD_REGEX_GET_PRIVATE(regex);
+
+    regex->priv->substring_list = NULL;
+    regex->priv->substring_count = 0;
 }
 
 static void
@@ -100,26 +76,25 @@ mud_regex_finalize (GObject *object)
     if(regex->priv->substring_list)
          pcre_free_substring_list(regex->priv->substring_list);
 
-    g_free(regex->priv);
-
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
 }
 
-// MudRegex Methods
-
+/* Public Methods */
 gboolean
-mud_regex_check(const gchar *data,
+mud_regex_check(MudRegex *regex,
+                const gchar *data,
 		guint length,
 		const gchar *rx,
-		gint ovector[1020],
-		MudRegex *regex)
+		gint ovector[1020])
 {
     pcre *re = NULL;
     const gchar *error = NULL;
     gint errorcode;
     gint erroroffset;
     gint rc;
+
+    g_return_if_fail(MUD_IS_REGEX(regex));
 
     re = pcre_compile2(rx, 0, &errorcode, &error, &erroroffset, NULL);
 
@@ -195,20 +170,11 @@ mud_regex_substring_clear(const gchar **substring_list)
 }
 
 const gchar **
-mud_regex_get_substring_list(gint *count, MudRegex *regex)
+mud_regex_get_substring_list(MudRegex *regex, gint *count)
 {
+    g_return_if_fail(MUD_IS_REGEX(regex));
+
     *count = regex->priv->substring_count;
     return regex->priv->substring_list;
 }
 
-
-// Instantiate MudRegex
-MudRegex*
-mud_regex_new(void)
-{
-    MudRegex *regex;
-
-    regex = g_object_new(MUD_TYPE_REGEX, NULL);
-
-    return regex;
-}

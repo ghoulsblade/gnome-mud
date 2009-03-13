@@ -53,6 +53,18 @@ if test x"$GCONFTOOL" = xno; then
 	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
 fi
 
+dnl Checks for programs.
+AC_PROG_CC
+AM_PROG_CC_STDC
+AC_ISC_POSIX
+AC_PROG_LN_S
+AC_PROG_INSTALL
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_HEADER_TIME
+AC_CHECK_HEADERS(strings.h)
+
 dnl pkg-config dep checks
 GMODULE_REQUIRED=2.0.0
 GTK_REQUIRED=2.10.0
@@ -66,16 +78,6 @@ GSTREAMER_REQUIRED=0.10
 PKG_CHECK_MODULES(GMUD, gtk+-2.0 >= $GTK_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED libpcre >= $PCRE_REQUIRED gmodule-2.0 >= $GMODULE_REQUIRED gnet-2.0 >= $LIBGNET_REQUIRED gconf-2.0 >= $GCONF_REQUIRED)
 AC_SUBST(GMUD_CFLAGS)
 AC_SUBST(GMUD_LIBS)
-
-dnl Checks for programs.
-AC_PROG_CC
-AC_ISC_POSIX
-
-dnl Checks for header files.
-AC_HEADER_STDC
-AC_HEADER_TIME
-AC_HEADER_DIRENT
-AC_CHECK_HEADERS(strings.h)
 
 AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])
 
@@ -128,16 +130,6 @@ if test "x$enable_debug_logger" != "xno"; then
     enable_debug_logger=yes
 fi
 AM_CONDITIONAL(USE_DEBUG_LOGGER, test "x$enable_debug_logger" = xyes)
-
-dnl Checks for programs.
-AC_ISC_POSIX
-AM_PROG_CC_STDC
-AC_PROG_LN_S
-AC_PROG_INSTALL
-
-dnl Checks for typedefs, structures, and compiler characteristics.
-AC_C_CONST
-AC_C_INLINE
 
 AC_CONFIG_FILES([
   Makefile

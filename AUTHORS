@@ -1,8 +1,9 @@
 AUTHOR
 ---------------
 Robin Ericsson <lobbin@localhost.nu>
+Les Harris <lharris@gnome.org>
 
-Recieved Patches and Improvements
+Pre 0.11.0 Patches and Improvements
 ---------------------------------
 David Zanetti <dave@lynx.co.nz>          - fixed bug in load_wizard()
 Ben Gertzfield <che@debian.org>          - creation of ~/.amcl

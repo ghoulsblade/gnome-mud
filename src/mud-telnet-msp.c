@@ -31,186 +31,480 @@
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"
+#include "mud-telnet-handler-interface.h"
 #include "mud-telnet-msp.h"
 
-static void mud_telnet_msp_parser_reset(MudTelnet *telnet);
-static void mud_telnet_msp_parser_args(MudTelnet *telnet);
+struct _MudTelnetMspPrivate
+{
+    /* Interface Properties */
+    MudTelnet *telnet;
+    gboolean enabled;
+    gint option;
+
+    /* Private Instance Members */
+    MudMSPParser msp_parser;
+    MudMSPTypes msp_type;
+    MudMSPSound sound[2];
+    gchar *base_url;
+    GString *prev_buffer;
+};
+
+/* Property Identifiers */
+enum
+{
+    PROP_MUD_TELNET_MSP_0,
+    PROP_ENABLED,
+    PROP_HANDLES_OPTION,
+    PROP_TELNET
+};
+
+/* Class Functions */
+static void mud_telnet_msp_init (MudTelnetMsp *self);
+static void mud_telnet_msp_class_init (MudTelnetMspClass *klass);
+static void mud_telnet_msp_interface_init(MudTelnetHandlerInterface *iface);
+static void mud_telnet_msp_finalize (GObject *object);
+static GObject *mud_telnet_msp_constructor (GType gtype,
+                                             guint n_properties,
+                                             GObjectConstructParam *properties);
+static void mud_telnet_msp_set_property(GObject *object,
+                                         guint prop_id,
+                                         const GValue *value,
+                                         GParamSpec *pspec);
+static void mud_telnet_msp_get_property(GObject *object,
+                                         guint prop_id,
+                                         GValue *value,
+                                         GParamSpec *pspec);
+
+/*Interface Implementation */
+void mud_telnet_msp_enable(MudTelnetHandler *self);
+void mud_telnet_msp_disable(MudTelnetHandler *self);
+void mud_telnet_msp_handle_sub_neg(MudTelnetHandler *self,
+                                    guchar *buf,
+                                    guint len);
+
+
+/* Create the Type. We implement MudTelnetHandlerInterface */
+G_DEFINE_TYPE_WITH_CODE(MudTelnetMsp, mud_telnet_msp, G_TYPE_OBJECT,
+                        G_IMPLEMENT_INTERFACE (MUD_TELNET_HANDLER_TYPE,
+                                               mud_telnet_msp_interface_init));
+
+/* Private Methods */
+static void mud_telnet_msp_parser_reset(MudTelnetMsp *self);
+static void mud_telnet_msp_parser_args(MudTelnetMsp *self);
 static void mud_telnet_msp_command_free(MudMSPCommand *command);
 static gboolean mud_telnet_msp_parser_is_param_char(gchar c);
 static gboolean mud_telnet_msp_parser_switch_on_param_char(gint *state,
         gchar *buf,
         gint index,
         gint len);
-static void mud_telnet_msp_process_command(MudTelnet *telnet,
-        MudMSPCommand *command);
-static void mud_telnet_msp_start_playing(MudTelnet *telnet, MudMSPTypes type);
-static gboolean mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type);
+static void mud_telnet_msp_process_command(MudTelnetMsp *self,
+                                           MudMSPCommand *command);
+static void mud_telnet_msp_start_playing(MudTelnetMsp *self, MudMSPTypes type);
+static gboolean mud_telnet_msp_get_files(MudTelnetMsp *self, MudMSPTypes type);
 static gboolean mud_telnet_msp_sound_bus_call (GstBus *bus,
-        GstMessage *msg, gpointer data);
+                                               GstMessage *msg,
+                                               gpointer data);
 static gboolean mud_telnet_msp_music_bus_call (GstBus *bus,
-        GstMessage *msg, gpointer data);
+                                               GstMessage *msg,
+                                               gpointer data);
+
+/* MudTelnetMsp class functions */
+static void
+mud_telnet_msp_class_init (MudTelnetMspClass *klass)
+{
+    GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+    /* Override base object constructor */
+    object_class->constructor = mud_telnet_msp_constructor;
+
+    /* Override base object's finalize */
+    object_class->finalize = mud_telnet_msp_finalize;
+
+    /* Override base object property methods */
+    object_class->set_property = mud_telnet_msp_set_property;
+    object_class->get_property = mud_telnet_msp_get_property;
+
+    /* Add private data to class */
+    g_type_class_add_private(klass, sizeof(MudTelnetMspPrivate));
+
+    /* Override Implementation Properties */
+    g_object_class_override_property(object_class,
+                                     PROP_ENABLED,
+                                     "enabled");
+
+    g_object_class_override_property(object_class,
+                                     PROP_HANDLES_OPTION,
+                                     "handles-option");
+
+    g_object_class_override_property(object_class,
+                                     PROP_TELNET,
+                                     "telnet");
+}
+
+static void
+mud_telnet_msp_interface_init(MudTelnetHandlerInterface *iface)
+{
+    iface->Enable = mud_telnet_msp_enable;
+    iface->Disable = mud_telnet_msp_disable;
+    iface->HandleSubNeg = mud_telnet_msp_handle_sub_neg;
+}
+
+static void
+mud_telnet_msp_init (MudTelnetMsp *self)
+{
+    /* Get our private data */
+    self->priv = MUD_TELNET_MSP_GET_PRIVATE(self);
+
+    /* Set the defaults */
+    self->priv->telnet = NULL;
+    self->priv->option = TELOPT_MSP;
+    self->priv->enabled = FALSE;
+
+    self->priv->sound[0].files = NULL;
+    self->priv->sound[0].current_command = NULL;
+    self->priv->sound[0].playing = FALSE;
+    self->priv->sound[0].files_len = 0;
+
+    self->priv->sound[1].files = NULL;
+    self->priv->sound[1].current_command = NULL;
+    self->priv->sound[1].playing = FALSE;
+    self->priv->sound[1].files_len = 0;
+
+    self->priv->prev_buffer = NULL;
+    self->priv->base_url = NULL;
+}
+
+static GObject *
+mud_telnet_msp_constructor (GType gtype,
+                              guint n_properties,
+                              GObjectConstructParam *properties)
+{
+    MudTelnetMsp *self;
+    GObject *obj;
+    MudTelnetMspClass *klass;
+    GObjectClass *parent_class;
+
+    /* Chain up to parent constructor */
+    klass = MUD_TELNET_MSP_CLASS( g_type_class_peek(MUD_TYPE_TELNET_MSP) );
+    parent_class = G_OBJECT_CLASS( g_type_class_peek_parent(klass) );
+    obj = parent_class->constructor(gtype, n_properties, properties);
+
+    self = MUD_TELNET_MSP(obj);
+
+    if(!self->priv->telnet)
+    {
+        g_printf("ERROR: Tried to instantiate MudTelnetMsp without passing parent MudTelnet\n");
+        g_error("Tried to instantiate MudTelnetMsp without passing parent MudTelnet");
+    }
+
+    self->priv->msp_parser.enabled = FALSE;
+    self->priv->msp_parser.state = MSP_STATE_TEXT;
+    self->priv->msp_parser.lex_pos_start = 0;
+    self->priv->msp_parser.lex_pos_end = 0;
+    self->priv->msp_parser.output = NULL;
+    self->priv->msp_parser.arg_buffer = NULL;
+
+    return obj;
+}
+
+static void
+mud_telnet_msp_finalize (GObject *object)
+{
+    MudTelnetMsp *self;
+    GObjectClass *parent_class;
+
+    self = MUD_TELNET_MSP(object);
+
+    mud_telnet_msp_stop_playing(self, MSP_TYPE_SOUND);
+    mud_telnet_msp_stop_playing(self, MSP_TYPE_MUSIC);
+    
+    if(self->priv->prev_buffer)
+        g_string_free(self->priv->prev_buffer, TRUE);
+    if(self->priv->base_url)
+        g_free(self->priv->base_url);
+
+    parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
+    parent_class->finalize(object);
+}
+
+static void
+mud_telnet_msp_set_property(GObject *object,
+                              guint prop_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+    MudTelnetMsp *self;
+
+    self = MUD_TELNET_MSP(object);
+
+    switch(prop_id)
+    {
+        case PROP_TELNET:
+            self->priv->telnet = MUD_TELNET(g_value_get_object(value));
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+static void
+mud_telnet_msp_get_property(GObject *object,
+                              guint prop_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+    MudTelnetMsp *self;
+
+    self = MUD_TELNET_MSP(object);
+
+    switch(prop_id)
+    {
+        case PROP_ENABLED:
+            g_value_set_boolean(value, self->priv->enabled);
+            break;
+
+        case PROP_HANDLES_OPTION:
+            g_value_set_int(value, self->priv->option);
+            break;
+
+        case PROP_TELNET:
+            g_value_take_object(value, self->priv->telnet);
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+/* Interface Implementation */
+void 
+mud_telnet_msp_enable(MudTelnetHandler *handler)
+{
+    MudTelnetMsp *self;
+
+    self = MUD_TELNET_MSP(handler);
+
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+
+    self->priv->enabled = TRUE;
+
+    if(self->priv->msp_parser.output)
+        g_string_free(self->priv->msp_parser.output, TRUE);
+
+    if(self->priv->msp_parser.arg_buffer)
+        g_string_free(self->priv->msp_parser.arg_buffer, TRUE);
+
+    self->priv->msp_parser.enabled = TRUE;
+    self->priv->msp_parser.state = MSP_STATE_TEXT;
+    self->priv->msp_parser.lex_pos_start = 0;
+    self->priv->msp_parser.lex_pos_end = 0;
+    self->priv->msp_parser.output = g_string_new(NULL);
+    self->priv->msp_parser.arg_buffer = NULL;
+
+    g_log("Telnet", G_LOG_LEVEL_INFO, "%s", "MSP Enabled");
+}
+
+void
+mud_telnet_msp_disable(MudTelnetHandler *handler)
+{
+    MudTelnetMsp *self;
+
+    self = MUD_TELNET_MSP(handler);
+
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+
+    self->priv->enabled = FALSE;
+
+    mud_telnet_msp_stop_playing(self, MSP_TYPE_SOUND);
+    mud_telnet_msp_stop_playing(self, MSP_TYPE_MUSIC);
+    
+    if(self->priv->prev_buffer)
+        g_string_free(self->priv->prev_buffer, TRUE);
+    if(self->priv->base_url)
+        g_free(self->priv->base_url);
+    if(self->priv->msp_parser.output)
+        g_string_free(self->priv->msp_parser.output, TRUE);
+    if(self->priv->msp_parser.arg_buffer)
+        g_string_free(self->priv->msp_parser.arg_buffer, TRUE);
+
+    self->priv->msp_parser.enabled = FALSE;
+
+    g_log("Telnet", G_LOG_LEVEL_INFO, "%s", "MSP Disabled");
+}
+
+void
+mud_telnet_msp_handle_sub_neg(MudTelnetHandler *handler,
+                              guchar *buf,
+                              guint len)
+{
+    MudTelnetMsp *self;
+
+    self = MUD_TELNET_MSP(handler);
+
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+
+    /* There is no MSP subreq.*/
+    return;
+}
+
+/* Public Methods */
+void
+mud_telnet_msp_parser_clear(MudTelnetMsp *self)
+{
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+
+    if(self->priv->msp_parser.output)
+	g_string_free(self->priv->msp_parser.output, TRUE);
+
+    self->priv->msp_parser.lex_pos_start = 0;
+    self->priv->msp_parser.lex_pos_end = 0;
+    self->priv->msp_parser.output = g_string_new(NULL);
+}
 
 GString *
-mud_telnet_msp_parse(MudTelnet *telnet, GString *buf, gint *len)
+mud_telnet_msp_parse(MudTelnetMsp *self, GString *buf, gint *len)
 {
     gint count;
     GString *ret = NULL;
     gchar *temp;
 
-    mud_telnet_msp_parser_reset(telnet);
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
 
-    if(telnet->prev_buffer)
+    mud_telnet_msp_parser_reset(self);
+
+    if(self->priv->prev_buffer)
     {
-        buf = g_string_prepend(buf, telnet->prev_buffer->str);
-        g_string_free(telnet->prev_buffer, TRUE);
-        telnet->prev_buffer = NULL;
+        buf = g_string_prepend(buf, self->priv->prev_buffer->str);
+        g_string_free(self->priv->prev_buffer, TRUE);
+        self->priv->prev_buffer = NULL;
     }
 
-    while(telnet->msp_parser.lex_pos_start < *len)
+    while(self->priv->msp_parser.lex_pos_start < *len)
     {
-        switch(telnet->msp_parser.state)
+        switch(self->priv->msp_parser.state)
         {
             case MSP_STATE_TEXT:
-                if(buf->str[telnet->msp_parser.lex_pos_start] == '!')
-                    telnet->msp_parser.state = MSP_STATE_POSSIBLE_COMMAND;
+                if(buf->str[self->priv->msp_parser.lex_pos_start] == '!')
+                    self->priv->msp_parser.state = MSP_STATE_POSSIBLE_COMMAND;
                 else
                 {
-                    telnet->msp_parser.output = 
-                        g_string_append_c(telnet->msp_parser.output,
-                                buf->str[telnet->msp_parser.lex_pos_start++]);
+                    self->priv->msp_parser.output = 
+                        g_string_append_c(self->priv->msp_parser.output,
+                                buf->str[self->priv->msp_parser.lex_pos_start++]);
                 }
                 break;
 
             case MSP_STATE_POSSIBLE_COMMAND:
-                if(telnet->msp_parser.lex_pos_start + 1 == *len)
+                if(self->priv->msp_parser.lex_pos_start + 1 == *len)
                     continue;
-                else if(buf->str[telnet->msp_parser.lex_pos_start + 1] != '!')
+                else if(buf->str[self->priv->msp_parser.lex_pos_start + 1] != '!')
                 {
-                    telnet->msp_parser.output = 
-                        g_string_append_c(telnet->msp_parser.output,
-                                buf->str[telnet->msp_parser.lex_pos_start++]);
-                    telnet->msp_parser.state = MSP_STATE_TEXT;
+                    self->priv->msp_parser.output = 
+                        g_string_append_c(self->priv->msp_parser.output,
+                                buf->str[self->priv->msp_parser.lex_pos_start++]);
+                    self->priv->msp_parser.state = MSP_STATE_TEXT;
                     continue;
                 }
 
-                telnet->msp_parser.state = MSP_STATE_COMMAND;
+                self->priv->msp_parser.state = MSP_STATE_COMMAND;
                 break;
 
             case MSP_STATE_COMMAND:
-                if(telnet->msp_parser.lex_pos_start + 8 >= *len)
+                if(self->priv->msp_parser.lex_pos_start + 8 >= *len)
                 {
-                    telnet->prev_buffer = g_string_new(NULL);
+                    self->priv->prev_buffer = g_string_new(NULL);
 
-                    count = telnet->msp_parser.lex_pos_start;
+                    count = self->priv->msp_parser.lex_pos_start;
 
                     while(count != buf->len)
-                        telnet->prev_buffer = 
-                            g_string_append_c(telnet->prev_buffer, buf->str[count++]);
+                        self->priv->prev_buffer = 
+                            g_string_append_c(self->priv->prev_buffer, buf->str[count++]);
 
-                    telnet->msp_parser.lex_pos_start += count;
+                    self->priv->msp_parser.lex_pos_start += count;
                     continue;
                 }
 
-                if(buf->str[telnet->msp_parser.lex_pos_start + 2] == 'S' &&
-                        buf->str[telnet->msp_parser.lex_pos_start + 3] == 'O' &&
-                        buf->str[telnet->msp_parser.lex_pos_start + 4] == 'U' &&
-                        buf->str[telnet->msp_parser.lex_pos_start + 5] == 'N' &&
-                        buf->str[telnet->msp_parser.lex_pos_start + 6] == 'D')
-                    telnet->msp_type = MSP_TYPE_SOUND;
-                else if(buf->str[telnet->msp_parser.lex_pos_start + 2] == 'M' &&
-                        buf->str[telnet->msp_parser.lex_pos_start + 3] == 'U' &&
-                        buf->str[telnet->msp_parser.lex_pos_start + 4] == 'S' &&
-                        buf->str[telnet->msp_parser.lex_pos_start + 5] == 'I' &&
-                        buf->str[telnet->msp_parser.lex_pos_start + 6] == 'C')
-                    telnet->msp_type = MSP_TYPE_MUSIC;
+                if(buf->str[self->priv->msp_parser.lex_pos_start + 2] == 'S' &&
+                        buf->str[self->priv->msp_parser.lex_pos_start + 3] == 'O' &&
+                        buf->str[self->priv->msp_parser.lex_pos_start + 4] == 'U' &&
+                        buf->str[self->priv->msp_parser.lex_pos_start + 5] == 'N' &&
+                        buf->str[self->priv->msp_parser.lex_pos_start + 6] == 'D')
+                    self->priv->msp_type = MSP_TYPE_SOUND;
+                else if(buf->str[self->priv->msp_parser.lex_pos_start + 2] == 'M' &&
+                        buf->str[self->priv->msp_parser.lex_pos_start + 3] == 'U' &&
+                        buf->str[self->priv->msp_parser.lex_pos_start + 4] == 'S' &&
+                        buf->str[self->priv->msp_parser.lex_pos_start + 5] == 'I' &&
+                        buf->str[self->priv->msp_parser.lex_pos_start + 6] == 'C')
+                    self->priv->msp_type = MSP_TYPE_MUSIC;
                 else
                 {
                     /* Not an msp command, bail out. */
-                    telnet->msp_parser.output = 
-                        g_string_append_c(telnet->msp_parser.output,
-                                buf->str[telnet->msp_parser.lex_pos_start++]);
-                    telnet->msp_parser.output = 
-                        g_string_append_c(telnet->msp_parser.output,
-                                buf->str[telnet->msp_parser.lex_pos_start++]);
+                    self->priv->msp_parser.output = 
+                        g_string_append_c(self->priv->msp_parser.output,
+                                buf->str[self->priv->msp_parser.lex_pos_start++]);
+                    self->priv->msp_parser.output = 
+                        g_string_append_c(self->priv->msp_parser.output,
+                                buf->str[self->priv->msp_parser.lex_pos_start++]);
 
-                    telnet->msp_parser.state = MSP_STATE_TEXT;
+                    self->priv->msp_parser.state = MSP_STATE_TEXT;
                     continue;
                 }
 
                 // Skip leading (
-                telnet->msp_parser.lex_pos_start += 8;
-                telnet->msp_parser.state = MSP_STATE_GET_ARGS;
+                self->priv->msp_parser.lex_pos_start += 8;
+                self->priv->msp_parser.state = MSP_STATE_GET_ARGS;
                 continue;
                 break;
 
             case MSP_STATE_GET_ARGS:
-                telnet->msp_parser.lex_pos_end = telnet->msp_parser.lex_pos_start;
+                self->priv->msp_parser.lex_pos_end = self->priv->msp_parser.lex_pos_start;
 
-                if(telnet->msp_parser.arg_buffer == NULL)
-                    telnet->msp_parser.arg_buffer = g_string_new(NULL);
+                if(self->priv->msp_parser.arg_buffer == NULL)
+                    self->priv->msp_parser.arg_buffer = g_string_new(NULL);
 
-                while(telnet->msp_parser.lex_pos_end < *len &&
-                        buf->str[telnet->msp_parser.lex_pos_end] != ')')
-                    telnet->msp_parser.arg_buffer = 
-                        g_string_append_c(telnet->msp_parser.arg_buffer,
-                                buf->str[telnet->msp_parser.lex_pos_end++]);
+                while(self->priv->msp_parser.lex_pos_end < *len &&
+                        buf->str[self->priv->msp_parser.lex_pos_end] != ')')
+                    self->priv->msp_parser.arg_buffer = 
+                        g_string_append_c(self->priv->msp_parser.arg_buffer,
+                                buf->str[self->priv->msp_parser.lex_pos_end++]);
 
-                if(telnet->msp_parser.lex_pos_end >= *len &&
-                        buf->str[telnet->msp_parser.lex_pos_end - 1] != ')')
+                if(self->priv->msp_parser.lex_pos_end >= *len &&
+                        buf->str[self->priv->msp_parser.lex_pos_end - 1] != ')')
                 {
-                    telnet->msp_parser.lex_pos_start =
-                        telnet->msp_parser.lex_pos_end;
+                    self->priv->msp_parser.lex_pos_start =
+                        self->priv->msp_parser.lex_pos_end;
                     continue;
                 }
 
-                telnet->msp_parser.state = MSP_STATE_PARSE_ARGS;
+                self->priv->msp_parser.state = MSP_STATE_PARSE_ARGS;
 
                 break;
 
             case MSP_STATE_PARSE_ARGS:
-                mud_telnet_msp_parser_args(telnet);
+                mud_telnet_msp_parser_args(self);
 
-                g_string_free(telnet->msp_parser.arg_buffer, TRUE);
-                telnet->msp_parser.arg_buffer = NULL;
-                telnet->msp_parser.lex_pos_start =
-                    telnet->msp_parser.lex_pos_end + 1;
-                telnet->msp_parser.state = MSP_STATE_TEXT;
+                g_string_free(self->priv->msp_parser.arg_buffer, TRUE);
+                self->priv->msp_parser.arg_buffer = NULL;
+                self->priv->msp_parser.lex_pos_start =
+                    self->priv->msp_parser.lex_pos_end + 1;
+                self->priv->msp_parser.state = MSP_STATE_TEXT;
                 break;
         }
     }
 
-    if(telnet->msp_parser.state == MSP_STATE_TEXT)
+    if(self->priv->msp_parser.state == MSP_STATE_TEXT)
     {
-        ret = g_string_new(g_strdup(telnet->msp_parser.output->str));
-        *len = telnet->msp_parser.output->len;
+        ret = g_string_new(g_strdup(self->priv->msp_parser.output->str));
+        *len = self->priv->msp_parser.output->len;
     }
 
     g_string_free(buf, TRUE);
     *(&buf) = NULL;
 
     return ret;
-}
-
-void
-mud_telnet_msp_init(MudTelnet *telnet)
-{
-    telnet->msp_parser.enabled = TRUE;
-    telnet->msp_parser.state = MSP_STATE_TEXT;
-    telnet->msp_parser.lex_pos_start = 0;
-    telnet->msp_parser.lex_pos_end = 0;
-    telnet->msp_parser.output = g_string_new(NULL);
-    telnet->msp_parser.arg_buffer = NULL;
-}
-
-void
-mud_telnet_msp_parser_clear(MudTelnet *telnet)
-{
-    if(telnet->msp_parser.output)
-	g_string_free(telnet->msp_parser.output, TRUE);
-
-    telnet->msp_parser.lex_pos_start = 0;
-    telnet->msp_parser.lex_pos_end = 0;
-    telnet->msp_parser.output = g_string_new(NULL);
 }
 
 void
@@ -228,32 +522,63 @@ mud_telnet_msp_download_item_free(MudMSPDownloadItem *item)
     g_free(item);
 }
 
-static void
-mud_telnet_msp_parser_reset(MudTelnet *telnet)
+void
+mud_telnet_msp_stop_playing(MudTelnetMsp *self, MudMSPTypes type)
 {
-    telnet->msp_parser.lex_pos_start = 0;
-    telnet->msp_parser.lex_pos_end = 0;
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+
+    self->priv->sound[type].playing = FALSE;
+
+    if(GST_IS_ELEMENT(self->priv->sound[type].play))
+    {
+        gst_element_set_state (self->priv->sound[type].play, GST_STATE_NULL);
+        gst_object_unref (GST_OBJECT (self->priv->sound[type].play));
+    }
+
+    if(self->priv->sound[type].files)
+    {
+        g_strfreev(self->priv->sound[type].files);
+        self->priv->sound[type].files = NULL;
+    }
+
+    self->priv->sound[type].files_len = 0;
+
+    mud_telnet_msp_command_free(self->priv->sound[type].current_command);
+    self->priv->sound[type].current_command = NULL;
 }
 
-#define ARG_STATE_FILE 0
-#define ARG_STATE_V 1
-#define ARG_STATE_L 2
-#define ARG_STATE_C 3
-#define ARG_STATE_T 4
-#define ARG_STATE_U 5
-#define ARG_STATE_P 6
+/* Private Methods */
+static void
+mud_telnet_msp_parser_reset(MudTelnetMsp *self)
+{
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+
+    self->priv->msp_parser.lex_pos_start = 0;
+    self->priv->msp_parser.lex_pos_end = 0;
+}
 
 static void
-mud_telnet_msp_parser_args(MudTelnet *telnet)
+mud_telnet_msp_parser_args(MudTelnetMsp *self)
 {
     gint state = ARG_STATE_FILE;
     gint i;
-    GString *buffer = g_string_new(NULL);
-    gchar *args = g_strdup(telnet->msp_parser.arg_buffer->str);
-    gint len = strlen(args);
-    MudMSPCommand *command = g_new0(MudMSPCommand, 1);
+    GString *buffer;
+    gchar *args;
+    gint len;
+    MudMSPCommand *command;
+    MudConnectionView *view;
 
-    command->type = telnet->msp_type;
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+
+    buffer = g_string_new(NULL);
+    args =  g_strdup(self->priv->msp_parser.arg_buffer->str);
+    len = strlen(args);;
+
+    command = g_new0(MudMSPCommand, 1);
+
+    g_object_get(self->priv->telnet, "parent-view", &view, NULL);
+
+    command->type = self->priv->msp_type;
     command->fName = NULL;
     command->V = NULL;
     command->L = NULL;
@@ -262,7 +587,7 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
     command->U = NULL;
     command->P = NULL;
 
-    command->mud_name = g_strdup(telnet->mud_name);
+    g_object_get(view, "mud-name", &command->mud_name, NULL);
     command->sfx_type = NULL;
 
     /* Load defaults */
@@ -271,7 +596,7 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
     command->initial_repeat_count = 1;
     command->current_repeat_count = 1;
     command->loop = FALSE;
-    command->cont = (telnet->msp_type == MSP_TYPE_MUSIC);
+    command->cont = (self->priv->msp_type == MSP_TYPE_MUSIC);
 
     for(i = 0; i < len; ++i)
     {
@@ -428,7 +753,7 @@ mud_telnet_msp_parser_args(MudTelnet *telnet)
             command->loop = TRUE;
     }
 
-    mud_telnet_msp_process_command(telnet, command);
+    mud_telnet_msp_process_command(self, command);
 
     g_free(args);
     g_string_free(buffer, TRUE);
@@ -525,8 +850,10 @@ mud_telnet_msp_command_free(MudMSPCommand *command)
 }
 
 static void
-mud_telnet_msp_process_command(MudTelnet *telnet, MudMSPCommand *command)
+mud_telnet_msp_process_command(MudTelnetMsp *self, MudMSPCommand *command)
 {
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+
     g_log("Telnet", G_LOG_LEVEL_INFO, "MSP Command Parse Results");
     g_log("Telnet", G_LOG_LEVEL_INFO, 
             "Type: %s", (command->type == MSP_TYPE_SOUND) ? "Sound" :
@@ -557,111 +884,90 @@ mud_telnet_msp_process_command(MudTelnet *telnet, MudMSPCommand *command)
     {
         if(command->U)
         {
-            if(telnet->base_url)
-                g_free(telnet->base_url);
+            if(self->priv->base_url)
+                g_free(self->priv->base_url);
 
-            telnet->base_url = g_strdup(command->U);
+            self->priv->base_url = g_strdup(command->U);
         }
         else
-            mud_telnet_msp_stop_playing(telnet, command->type);
+            mud_telnet_msp_stop_playing(self, command->type);
 
         mud_telnet_msp_command_free(command);
 
         return;
     }
 
-    if(telnet->sound[command->type].current_command)
+    if(self->priv->sound[command->type].current_command)
     {
-        if(telnet->sound[command->type].playing)
+        if(self->priv->sound[command->type].playing)
         {
             if(command->priority >
-                    telnet->sound[command->type].current_command->priority)
+                   self->priv->sound[command->type].current_command->priority)
             {
-                mud_telnet_msp_stop_playing(telnet, command->type);
-                telnet->sound[command->type].current_command = command;
-                mud_telnet_msp_start_playing(telnet, command->type);
+                mud_telnet_msp_stop_playing(self, command->type);
+                self->priv->sound[command->type].current_command = command;
+                mud_telnet_msp_start_playing(self, command->type);
             }
             else
                 mud_telnet_msp_command_free(command);
         }
         else
         {
-            mud_telnet_msp_stop_playing(telnet, command->type);
-            telnet->sound[command->type].current_command = command;
-            mud_telnet_msp_start_playing(telnet, command->type);
+            mud_telnet_msp_stop_playing(self, command->type);
+            self->priv->sound[command->type].current_command = command;
+            mud_telnet_msp_start_playing(self, command->type);
         }
     }
     else
     {
-        telnet->sound[command->type].current_command = command;
-        mud_telnet_msp_start_playing(telnet, command->type);
+        self->priv->sound[command->type].current_command = command;
+        mud_telnet_msp_start_playing(self, command->type);
     }
-}
-
-void
-mud_telnet_msp_stop_playing(MudTelnet *telnet, MudMSPTypes type)
-{
-    telnet->sound[type].playing = FALSE;
-
-    if(GST_IS_ELEMENT(telnet->sound[type].play))
-    {
-        gst_element_set_state (telnet->sound[type].play, GST_STATE_NULL);
-        gst_object_unref (GST_OBJECT (telnet->sound[type].play));
-    }
-
-    if(telnet->sound[type].files)
-    {
-        g_strfreev(telnet->sound[type].files);
-        telnet->sound[type].files = NULL;
-    }
-
-    telnet->sound[type].files_len = 0;
-
-    mud_telnet_msp_command_free(telnet->sound[type].current_command);
-    telnet->sound[type].current_command = NULL;
 }
 
 static void
-mud_telnet_msp_start_playing(MudTelnet *telnet, MudMSPTypes type)
+mud_telnet_msp_start_playing(MudTelnetMsp *self, MudMSPTypes type)
 {
-    if(!telnet->sound[type].current_command)
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+
+    if(!self->priv->sound[type].current_command)
         return;
 
-    if(mud_telnet_msp_get_files(telnet, type))
+    if(mud_telnet_msp_get_files(self, type))
     {
         gint num = 0;
 
-        telnet->sound[type].playing = TRUE;
+        self->priv->sound[type].playing = TRUE;
 
-        if(telnet->sound[type].files_len != 0)
-            num = rand() % telnet->sound[type].files_len;
+        if(self->priv->sound[type].files_len != 0)
+            num = rand() % self->priv->sound[type].files_len;
 
-        telnet->sound[type].play = gst_element_factory_make ("playbin", "play");
-        g_object_set (G_OBJECT(telnet->sound[type].play),
-                "uri", telnet->sound[type].files[num], NULL);
-        g_object_set(G_OBJECT(telnet->sound[type].play),
+        self->priv->sound[type].play = gst_element_factory_make ("playbin", "play");
+        g_object_set (G_OBJECT(self->priv->sound[type].play),
+                "uri", self->priv->sound[type].files[num], NULL);
+        g_object_set(G_OBJECT(self->priv->sound[type].play),
                 "volume",
-                (double)telnet->sound[type].current_command->volume/100,
+                (double)self->priv->sound[type].current_command->volume/100,
                 NULL);
 
-        telnet->sound[type].bus =
-            gst_pipeline_get_bus (GST_PIPELINE (telnet->sound[type].play));
+        self->priv->sound[type].bus =
+            gst_pipeline_get_bus (GST_PIPELINE (self->priv->sound[type].play));
 
         if(type == MSP_TYPE_SOUND)
-            gst_bus_add_watch (telnet->sound[type].bus,
-                    mud_telnet_msp_sound_bus_call, telnet);
+            gst_bus_add_watch (self->priv->sound[type].bus,
+                    mud_telnet_msp_sound_bus_call, self);
         else
-            gst_bus_add_watch (telnet->sound[type].bus,
-                    mud_telnet_msp_music_bus_call, telnet);
+            gst_bus_add_watch (self->priv->sound[type].bus,
+                    mud_telnet_msp_music_bus_call, self);
 
-        gst_object_unref (telnet->sound[type].bus);
+        gst_object_unref (self->priv->sound[type].bus);
 
-        gst_element_set_state (telnet->sound[type].play, GST_STATE_PLAYING);
+        gst_element_set_state (self->priv->sound[type].play, GST_STATE_PLAYING);
     }
 }
 
 static gboolean
-mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
+mud_telnet_msp_get_files(MudTelnetMsp *self, MudMSPTypes type)
 {
     gchar sound_dir[2048];
     const gchar *file;
@@ -672,19 +978,28 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
     GString *file_name;
     GString *subdir;
     GString *full_dir;
+    gchar *mud_name;
     GDir *dir;
     gint i, depth;
     GPatternSpec *regex;
+    MudConnectionView *view;
 
-    if(!telnet->sound[type].current_command)
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+
+    g_object_get(self->priv->telnet, "parent-view", &view, NULL);
+    g_object_get(view, "mud-name", &mud_name, NULL);
+
+    if(!self->priv->sound[type].current_command)
         return FALSE;
 
     g_snprintf(sound_dir, 2048, "%s/.gnome-mud/audio/%s/",
-            g_get_home_dir(), telnet->mud_name);
+            g_get_home_dir(), mud_name);
     if(!g_file_test(sound_dir, G_FILE_TEST_IS_DIR))
         mkdir(sound_dir, 0777 );
 
-    structure = g_strsplit(telnet->sound[type].current_command->fName, "/", 0);
+    g_free(mud_name);
+
+    structure = g_strsplit(self->priv->sound[type].current_command->fName, "/", 0);
     depth = g_strv_length(structure);
 
     subdir = g_string_new(NULL);
@@ -702,8 +1017,8 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
     full_dir = g_string_new(sound_dir);
     full_dir = g_string_append(full_dir, subdir->str);
 
-    if(telnet->sound[type].current_command->T)
-        full_dir = g_string_append(full_dir, telnet->sound[type].current_command->T);
+    if(self->priv->sound[type].current_command->T)
+        full_dir = g_string_append(full_dir, self->priv->sound[type].current_command->T);
 
     if(!g_file_test(full_dir->str, G_FILE_TEST_IS_DIR))
         g_mkdir_with_parents(full_dir->str, 0777);
@@ -732,7 +1047,7 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
     // some servers ignore the standard concering the
     // T parameter and don't put the sound in a T-named
     // subdir.
-    if(file_output->len == 0 && telnet->sound[type].current_command->T)
+    if(file_output->len == 0 && self->priv->sound[type].current_command->T)
     {
         g_string_free(full_dir, TRUE);
         full_dir = g_string_new(sound_dir);
@@ -761,32 +1076,32 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
     {
         url_output = g_string_new(NULL);
 
-        if(telnet->base_url || telnet->sound[type].current_command->U)
+        if(self->priv->base_url || self->priv->sound[type].current_command->U)
         {
-            if(telnet->base_url)
-                url_output = g_string_append(url_output, telnet->base_url);
+            if(self->priv->base_url)
+                url_output = g_string_append(url_output, self->priv->base_url);
             else
-                url_output = g_string_append(url_output, telnet->sound[type].current_command->U);
+                url_output = g_string_append(url_output, self->priv->sound[type].current_command->U);
 
             if(subdir->len != 0)
                 url_output = g_string_append(url_output, subdir->str);
 
-            /*	    if(telnet->sound[type].current_command->T)
+            /*	    if(self->priv->sound[type].current_command->T)
                     {
-                    url_output = g_string_append(url_output, telnet->sound[type].current_command->T);
+                    url_output = g_string_append(url_output, self->priv->sound[type].current_command->T);
                     url_output = g_string_append_c(url_output, '/');
                     }
                     */
             url_output = g_string_append(url_output, file_name->str);
 
             file_output = g_string_append(file_output, full_dir->str);
-            if(telnet->sound[type].current_command->T)
+            if(self->priv->sound[type].current_command->T)
                 file_output = g_string_append_c(file_output, '/');
             file_output = g_string_append(file_output, file_name->str);
 
-            telnet->sound[type].current_command->priority = 0;
+            self->priv->sound[type].current_command->priority = 0;
 
-            mud_connection_view_queue_download(telnet->parent, url_output->str, file_output->str);
+            mud_connection_view_queue_download(view, url_output->str, file_output->str);
         }
 
         g_string_free(url_output, TRUE);
@@ -800,11 +1115,11 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
 
     files = g_strsplit(file_output->str, "\n", 0);
 
-    if(telnet->sound[type].files)
-        g_strfreev(telnet->sound[type].files);
+    if(self->priv->sound[type].files)
+        g_strfreev(self->priv->sound[type].files);
 
-    telnet->sound[type].files = files;
-    telnet->sound[type].files_len = g_strv_length(files) - 1;
+    self->priv->sound[type].files = files;
+    self->priv->sound[type].files_len = g_strv_length(files) - 1;
 
     g_string_free(file_output, TRUE);
     g_string_free(full_dir, TRUE);
@@ -817,34 +1132,34 @@ mud_telnet_msp_get_files(MudTelnet *telnet, MudMSPTypes type)
 static gboolean
 mud_telnet_msp_sound_bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 {
-    MudTelnet *telnet = (MudTelnet *)data;
+    MudTelnetMsp *self = MUD_TELNET_MSP(data);
 
     switch (GST_MESSAGE_TYPE (msg))
     {
         case GST_MESSAGE_EOS:
-            telnet->sound[MSP_TYPE_SOUND].playing = FALSE;
+            self->priv->sound[MSP_TYPE_SOUND].playing = FALSE;
 
-            telnet->sound[MSP_TYPE_SOUND].current_command->current_repeat_count--;
+            self->priv->sound[MSP_TYPE_SOUND].current_command->current_repeat_count--;
 
-            gst_element_set_state (telnet->sound[MSP_TYPE_SOUND].play, GST_STATE_NULL);
+            gst_element_set_state (self->priv->sound[MSP_TYPE_SOUND].play, GST_STATE_NULL);
 
-            if(telnet->sound[MSP_TYPE_SOUND].current_command->loop ||
-                    telnet->sound[MSP_TYPE_SOUND].current_command->current_repeat_count != 0)
+            if(self->priv->sound[MSP_TYPE_SOUND].current_command->loop ||
+                    self->priv->sound[MSP_TYPE_SOUND].current_command->current_repeat_count != 0)
             {
                 gint num = 0;
 
-                if(telnet->sound[MSP_TYPE_SOUND].files_len != 0)
-                    num = rand() % telnet->sound[MSP_TYPE_SOUND].files_len;
+                if(self->priv->sound[MSP_TYPE_SOUND].files_len != 0)
+                    num = rand() % self->priv->sound[MSP_TYPE_SOUND].files_len;
 
-                g_object_set (G_OBJECT(telnet->sound[MSP_TYPE_SOUND].play),
-                        "uri", telnet->sound[MSP_TYPE_SOUND].files[num], NULL);
-                g_object_set(G_OBJECT(telnet->sound[MSP_TYPE_SOUND].play),
-                        "volume", (double)telnet->sound[MSP_TYPE_SOUND].current_command->volume/100.0, NULL);
+                g_object_set (G_OBJECT(self->priv->sound[MSP_TYPE_SOUND].play),
+                        "uri", self->priv->sound[MSP_TYPE_SOUND].files[num], NULL);
+                g_object_set(G_OBJECT(self->priv->sound[MSP_TYPE_SOUND].play),
+                        "volume", (double)self->priv->sound[MSP_TYPE_SOUND].current_command->volume/100.0, NULL);
 
-                gst_element_set_state (telnet->sound[MSP_TYPE_SOUND].play, GST_STATE_PLAYING);
+                gst_element_set_state (self->priv->sound[MSP_TYPE_SOUND].play, GST_STATE_PLAYING);
             }
             else
-                mud_telnet_msp_stop_playing(telnet, MSP_TYPE_SOUND);
+                mud_telnet_msp_stop_playing(self, MSP_TYPE_SOUND);
             break;
 
         case GST_MESSAGE_ERROR:
@@ -871,34 +1186,34 @@ mud_telnet_msp_sound_bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 static gboolean
 mud_telnet_msp_music_bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 {
-    MudTelnet *telnet = (MudTelnet *)data;
+    MudTelnetMsp *self = MUD_TELNET_MSP(data);
 
     switch (GST_MESSAGE_TYPE (msg))
     {
         case GST_MESSAGE_EOS:
-            telnet->sound[MSP_TYPE_MUSIC].playing = FALSE;
+            self->priv->sound[MSP_TYPE_MUSIC].playing = FALSE;
 
-            telnet->sound[MSP_TYPE_MUSIC].current_command->current_repeat_count--;
+            self->priv->sound[MSP_TYPE_MUSIC].current_command->current_repeat_count--;
 
-            gst_element_set_state (telnet->sound[MSP_TYPE_MUSIC].play, GST_STATE_NULL);
+            gst_element_set_state (self->priv->sound[MSP_TYPE_MUSIC].play, GST_STATE_NULL);
 
-            if(telnet->sound[MSP_TYPE_MUSIC].current_command->loop ||
-                    telnet->sound[MSP_TYPE_MUSIC].current_command->current_repeat_count != 0)
+            if(self->priv->sound[MSP_TYPE_MUSIC].current_command->loop ||
+                    self->priv->sound[MSP_TYPE_MUSIC].current_command->current_repeat_count != 0)
             {
                 gint num = 0;
 
-                if(telnet->sound[MSP_TYPE_MUSIC].files_len != 0)
-                    num = rand() % telnet->sound[MSP_TYPE_MUSIC].files_len;
+                if(self->priv->sound[MSP_TYPE_MUSIC].files_len != 0)
+                    num = rand() % self->priv->sound[MSP_TYPE_MUSIC].files_len;
 
-                g_object_set (G_OBJECT(telnet->sound[MSP_TYPE_MUSIC].play),
-                        "uri", telnet->sound[MSP_TYPE_MUSIC].files[num], NULL);
-                g_object_set(G_OBJECT(telnet->sound[MSP_TYPE_MUSIC].play),
-                        "volume", (double)telnet->sound[MSP_TYPE_MUSIC].current_command->volume/100.0, NULL);
+                g_object_set (G_OBJECT(self->priv->sound[MSP_TYPE_MUSIC].play),
+                        "uri", self->priv->sound[MSP_TYPE_MUSIC].files[num], NULL);
+                g_object_set(G_OBJECT(self->priv->sound[MSP_TYPE_MUSIC].play),
+                        "volume", (double)self->priv->sound[MSP_TYPE_MUSIC].current_command->volume/100.0, NULL);
 
-                gst_element_set_state (telnet->sound[MSP_TYPE_MUSIC].play, GST_STATE_PLAYING);
+                gst_element_set_state (self->priv->sound[MSP_TYPE_MUSIC].play, GST_STATE_PLAYING);
             }
             else
-                mud_telnet_msp_stop_playing(telnet, MSP_TYPE_MUSIC);
+                mud_telnet_msp_stop_playing(self, MSP_TYPE_MUSIC);
 
             break;
 
@@ -922,4 +1237,6 @@ mud_telnet_msp_music_bus_call (GstBus *bus, GstMessage *msg, gpointer data)
 
     return TRUE;
 }
+
 #endif
+

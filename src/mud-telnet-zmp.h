@@ -1,6 +1,6 @@
 /* GNOME-Mud - A simple Mud Client
  * mud-telnet-zmp.h
- * Copyright (C) 2008-2009 Les Harris <lharris@gnome.org>
+ * Copyright (C) 2005-2009 Les Harris <lharris@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +20,36 @@
 #ifndef MUD_TELNET_ZMP_H
 #define MUD_TELNET_ZMP_H
 
-#include <glib.h>
-#include "mud-telnet.h"
+G_BEGIN_DECLS
 
-typedef void(*MudZMPFunction)(MudTelnet *telnet, gint argc, gchar **argv);
+#include <glib.h>
+
+#define MUD_TYPE_TELNET_ZMP              (mud_telnet_zmp_get_type ())
+#define MUD_TELNET_ZMP(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_TELNET_ZMP, MudTelnetZmp))
+#define MUD_TELNET_ZMP_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_TELNET_ZMP, MudTelnetZmpClass))
+#define MUD_IS_TELNET_ZMP(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_TELNET_ZMP))
+#define MUD_IS_TELNET_ZMP_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_TELNET_ZMP))
+#define MUD_TELNET_ZMP_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_TELNET_ZMP, MudTelnetZmpClass))
+#define MUD_TELNET_ZMP_GET_PRIVATE(obj)  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), MUD_TYPE_TELNET_ZMP, MudTelnetZmpPrivate))
+
+typedef struct _MudTelnetZmp            MudTelnetZmp;
+typedef struct _MudTelnetZmpClass       MudTelnetZmpClass;
+typedef struct _MudTelnetZmpPrivate     MudTelnetZmpPrivate;
+
+struct _MudTelnetZmpClass
+{
+    GObjectClass parent_class;
+};
+
+struct _MudTelnetZmp
+{
+    GObject parent_instance;
+
+    /*< private >*/
+    MudTelnetZmpPrivate *priv;
+};
+
+typedef void(*MudZMPFunction)(MudTelnetZmp *self, gint argc, gchar **argv);
 
 typedef struct MudZMPCommand
 {
@@ -32,10 +58,13 @@ typedef struct MudZMPCommand
     MudZMPFunction execute;
 } MudZMPCommand;
 
-void mud_zmp_init(MudTelnet *telnet);
-void mud_zmp_finalize(MudTelnet *telnet);
-void mud_zmp_register(MudTelnet *telnet, MudZMPCommand *command);
-gboolean mud_zmp_has_command(MudTelnet *telnet, gchar *name);
-MudZMPFunction mud_zmp_get_function(MudTelnet *telnet, gchar *name);
+GType mud_telnet_zmp_get_type (void);
+
+MudZMPCommand* mud_zmp_new_command(const gchar *package,
+                                   const gchar *name,
+                                   MudZMPFunction execute);
+
+void mud_zmp_register(MudTelnetZmp *self, MudZMPCommand *command);
 
 #endif // MUD_TELNET_ZMP_H
+

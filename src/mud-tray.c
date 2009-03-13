@@ -121,7 +121,6 @@ mud_tray_constructor (GType gtype,
                       guint n_properties,
                       GObjectConstructParam *properties)
 {
-    guint i;
     MudTray *self;
     GObject *obj;
     MudTrayClass *klass;

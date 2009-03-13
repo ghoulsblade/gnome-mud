@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud Client
- * mud-telnet-zmp.c
+ * mud-self-zmp.c
  * Copyright (C) 2008-2009 Les Harris <lharris@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -30,94 +30,316 @@
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"
+#include "mud-telnet-handler-interface.h"
 #include "mud-telnet-zmp.h"
 
-static void mud_zmp_register_core_functions(MudTelnet *telnet);
-static void mud_zmp_send_command(MudTelnet *telnet, guint32 count, ...);
+struct _MudTelnetZmpPrivate
+{
+    /* Interface Properties */
+    MudTelnet *telnet;
+    gboolean enabled;
+    gint option;
+
+    /* Private Instance Members */
+    GHashTable *commands;
+};
+
+/* Property Identifiers */
+enum
+{
+    PROP_MUD_TELNET_ZMP_0,
+    PROP_ENABLED,
+    PROP_HANDLES_OPTION,
+    PROP_TELNET
+};
+
+/* Class Functions */
+static void mud_telnet_zmp_init (MudTelnetZmp *self);
+static void mud_telnet_zmp_class_init (MudTelnetZmpClass *klass);
+static void mud_telnet_zmp_interface_init(MudTelnetHandlerInterface *iface);
+static void mud_telnet_zmp_finalize (GObject *object);
+static GObject *mud_telnet_zmp_constructor (GType gtype,
+                                             guint n_properties,
+                                             GObjectConstructParam *properties);
+static void mud_telnet_zmp_set_property(GObject *object,
+                                         guint prop_id,
+                                         const GValue *value,
+                                         GParamSpec *pspec);
+static void mud_telnet_zmp_get_property(GObject *object,
+                                         guint prop_id,
+                                         GValue *value,
+                                         GParamSpec *pspec);
+
+/*Interface Implementation */
+void mud_telnet_zmp_enable(MudTelnetHandler *self);
+void mud_telnet_zmp_disable(MudTelnetHandler *self);
+void mud_telnet_zmp_handle_sub_neg(MudTelnetHandler *self,
+                                    guchar *buf,
+                                    guint len);
+
+/* Create the Type. We implement MudTelnetHandlerInterface */
+G_DEFINE_TYPE_WITH_CODE(MudTelnetZmp, mud_telnet_zmp, G_TYPE_OBJECT,
+                        G_IMPLEMENT_INTERFACE (MUD_TELNET_HANDLER_TYPE,
+                                               mud_telnet_zmp_interface_init));
+
+/* Private Methods */
+static void mud_zmp_register_core_functions(MudTelnetZmp *self);
+static void mud_zmp_send_command(MudTelnetZmp *self, guint32 count, ...);
 static void mud_zmp_destroy_key(gpointer k);
 static void mud_zmp_destroy_command(gpointer c);
+static gboolean mud_zmp_has_command(MudTelnetZmp *self, gchar *name);
+static gboolean mud_zmp_has_package(MudTelnetZmp *self, gchar *package);
+static MudZMPFunction mud_zmp_get_function(MudTelnetZmp *self, gchar *name);
 
 /* Core ZMP Functions */
-static void ZMP_ident(MudTelnet *telnet, gint argc, gchar **argv);
-static void ZMP_ping_and_time(MudTelnet *telnet, gint argc, gchar **argv);
-static void ZMP_check(MudTelnet *telnet, gint argc, gchar **argv);
+static void ZMP_ident(MudTelnetZmp *self, gint argc, gchar **argv);
+static void ZMP_ping_and_time(MudTelnetZmp *self, gint argc, gchar **argv);
+static void ZMP_check(MudTelnetZmp *self, gint argc, gchar **argv);
 
-/* Public Interface */
-void
-mud_zmp_init(MudTelnet *telnet)
+/* MudTelnetZmp class functions */
+static void
+mud_telnet_zmp_class_init (MudTelnetZmpClass *klass)
 {
-    telnet->zmp_commands = g_hash_table_new_full(g_str_hash, g_str_equal,
-            mud_zmp_destroy_key, mud_zmp_destroy_command);
+    GObjectClass *object_class = G_OBJECT_CLASS(klass);
 
-    mud_zmp_register_core_functions(telnet);
+    /* Override base object constructor */
+    object_class->constructor = mud_telnet_zmp_constructor;
+
+    /* Override base object's finalize */
+    object_class->finalize = mud_telnet_zmp_finalize;
+
+    /* Override base object property methods */
+    object_class->set_property = mud_telnet_zmp_set_property;
+    object_class->get_property = mud_telnet_zmp_get_property;
+
+    /* Add private data to class */
+    g_type_class_add_private(klass, sizeof(MudTelnetZmpPrivate));
+
+    /* Override Implementation Properties */
+    g_object_class_override_property(object_class,
+                                     PROP_ENABLED,
+                                     "enabled");
+
+    g_object_class_override_property(object_class,
+                                     PROP_HANDLES_OPTION,
+                                     "handles-option");
+
+    g_object_class_override_property(object_class,
+                                     PROP_TELNET,
+                                     "telnet");
 }
 
-void
-mud_zmp_finalize(MudTelnet *telnet)
+static void
+mud_telnet_zmp_interface_init(MudTelnetHandlerInterface *iface)
 {
-    if(telnet->zmp_commands)
-        g_hash_table_destroy(telnet->zmp_commands);
+    iface->Enable = mud_telnet_zmp_enable;
+    iface->Disable = mud_telnet_zmp_disable;
+    iface->HandleSubNeg = mud_telnet_zmp_handle_sub_neg;
 }
 
-void
-mud_zmp_register(MudTelnet *telnet, MudZMPCommand *command)
+static void
+mud_telnet_zmp_init (MudTelnetZmp *self)
 {
-    if(command && mud_zmp_has_command(telnet, command->name))
-        return; // Function already registered.
+    /* Get our private data */
+    self->priv = MUD_TELNET_ZMP_GET_PRIVATE(self);
 
-    g_hash_table_insert(telnet->zmp_commands, g_strdup(command->name), command);
+    /* Set the defaults */
+    self->priv->telnet = NULL;
+    self->priv->option = TELOPT_ZMP;
+    self->priv->enabled = FALSE;
 }
 
-gboolean
-mud_zmp_has_command(MudTelnet *telnet, gchar *name)
+static GObject *
+mud_telnet_zmp_constructor (GType gtype,
+                              guint n_properties,
+                              GObjectConstructParam *properties)
 {
-    return !(g_hash_table_lookup(telnet->zmp_commands, name) == NULL);
-}
+    MudTelnetZmp *self;
+    GObject *obj;
+    MudTelnetZmpClass *klass;
+    GObjectClass *parent_class;
 
-gboolean
-mud_zmp_has_package(MudTelnet *telnet, gchar *package)
-{
-    GList *keys = g_hash_table_get_keys(telnet->zmp_commands);
-    GList *iter;
+    /* Chain up to parent constructor */
+    klass = MUD_TELNET_ZMP_CLASS( g_type_class_peek(MUD_TYPE_TELNET_ZMP) );
+    parent_class = G_OBJECT_CLASS( g_type_class_peek_parent(klass) );
+    obj = parent_class->constructor(gtype, n_properties, properties);
 
-    for(iter = g_list_first(keys); iter != NULL; iter = g_list_next(iter))
+    self = MUD_TELNET_ZMP(obj);
+
+    if(!self->priv->telnet)
     {
-        MudZMPCommand *command =
-            (MudZMPCommand *)g_hash_table_lookup(telnet->zmp_commands,
-                    (gchar *)iter->data);
-
-        if(strcmp(command->package, package) == 0)
-        {
-            g_list_free(keys);
-            return TRUE;
-        }
+        g_printf("ERROR: Tried to instantiate MudTelnetZmp without passing parent MudTelnet\n");
+        g_error("Tried to instantiate MudTelnetZmp without passing parent MudTelnet");
     }
 
-    g_list_free(keys);
+    self->priv->commands = g_hash_table_new_full(g_str_hash,
+                                                 g_str_equal,
+                                                 mud_zmp_destroy_key,
+                                                 mud_zmp_destroy_command);
 
-    return FALSE;
+    mud_zmp_register_core_functions(self);
+
+    return obj;
 }
 
-MudZMPFunction
-mud_zmp_get_function(MudTelnet *telnet, gchar *name)
+static void
+mud_telnet_zmp_finalize (GObject *object)
 {
-    MudZMPFunction ret = NULL;
-    MudZMPCommand *val;
+    MudTelnetZmp *self;
+    GObjectClass *parent_class;
 
-    if(!mud_zmp_has_command(telnet, name))
-        return NULL;
+    self = MUD_TELNET_ZMP(object);
 
-    val = (MudZMPCommand *)g_hash_table_lookup(telnet->zmp_commands, name);
+    if(self->priv->commands)
+        g_hash_table_destroy(self->priv->commands);
 
-    if(val)
-        ret = (MudZMPFunction)val->execute;
+    parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
+    parent_class->finalize(object);
+}
 
-    return ret;
+static void
+mud_telnet_zmp_set_property(GObject *object,
+                              guint prop_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+    MudTelnetZmp *self;
+
+    self = MUD_TELNET_ZMP(object);
+
+    switch(prop_id)
+    {
+        case PROP_TELNET:
+            self->priv->telnet = MUD_TELNET(g_value_get_object(value));
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+static void
+mud_telnet_zmp_get_property(GObject *object,
+                              guint prop_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+    MudTelnetZmp *self;
+
+    self = MUD_TELNET_ZMP(object);
+
+    switch(prop_id)
+    {
+        case PROP_ENABLED:
+            g_value_set_boolean(value, self->priv->enabled);
+            break;
+
+        case PROP_HANDLES_OPTION:
+            g_value_set_int(value, self->priv->option);
+            break;
+
+        case PROP_TELNET:
+            g_value_take_object(value, self->priv->telnet);
+            break;
+
+        default:
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
+            break;
+    }
+}
+
+/* Interface Implementation */
+void 
+mud_telnet_zmp_enable(MudTelnetHandler *handler)
+{
+    MudTelnetZmp *self;
+
+    self = MUD_TELNET_ZMP(handler);
+
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    self->priv->enabled = TRUE;
+
+    g_log("Telnet", G_LOG_LEVEL_INFO, "%s", "ZMP Enabled");
+}
+
+void
+mud_telnet_zmp_disable(MudTelnetHandler *handler)
+{
+    MudTelnetZmp *self;
+
+    self = MUD_TELNET_ZMP(handler);
+
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    /* Cannot disable ZMP once enabled per specification */
+    return;
+
+}
+
+void
+mud_telnet_zmp_handle_sub_neg(MudTelnetHandler *handler,
+                              guchar *buf,
+                              guint len)
+{
+    gchar command_buf[1024];
+    gint count = 0;
+    gint index = 0;
+    GString *args = g_string_new(NULL);
+    gchar **argv;
+    gint argc;
+    MudZMPFunction zmp_handler = NULL;
+    MudTelnetZmp *self;
+
+    self = MUD_TELNET_ZMP(handler);
+
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    while(buf[count] != '\0' && count < len)
+        command_buf[index++] = buf[count++];
+    command_buf[index] = '\0';
+
+    /* FIXME: This is a silly way to do this */
+    while(count < len - 1)
+    {
+        if(buf[count] == '\0')
+        {
+            args = g_string_append(args,"|gmud_sep|");
+            count++;
+            continue;
+        }
+
+        args = g_string_append_c(args, buf[count++]);
+    }
+
+    args = g_string_prepend(args, command_buf);
+
+    argv = g_strsplit(args->str, "|gmud_sep|", -1);
+    argc = g_strv_length(argv);
+
+    g_log("Telnet", G_LOG_LEVEL_MESSAGE, "Received: ZMP Command: %s", command_buf);
+    for(count = 0; count < argc - 1; ++count)
+        g_log("Telnet", G_LOG_LEVEL_MESSAGE, "\t%s", argv[count]);
+
+    if(mud_zmp_has_command(self, command_buf))
+    {
+        zmp_handler = mud_zmp_get_function(self, command_buf);
+
+        if(zmp_handler)
+            zmp_handler(self, argc, argv);
+        else
+            g_warning("NULL ZMP functioned returned.");
+    }
+
+    g_strfreev(argv);
+    g_string_free(args, TRUE);
+
 }
 
 /* Private Methods */
 static void
-mud_zmp_send_command(MudTelnet *telnet, guint32 count, ...)
+mud_zmp_send_command(MudTelnetZmp *self, guint32 count, ...)
 {
     guchar byte;
     guint32 i;
@@ -125,16 +347,22 @@ mud_zmp_send_command(MudTelnet *telnet, guint32 count, ...)
     guchar null = '\0';
     byte = (guchar)TEL_IAC;
     va_list va;
-    va_start(va, count);
     gchar *arg;
+    GConn *conn;
+
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    g_object_get(self->priv->telnet, "connection", &conn, NULL);
+
+    va_start(va, count);
 
     g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sending ZMP Command:");
 
-    gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+    gnet_conn_write(conn, (gchar *)&byte, 1);
     byte = (guchar)TEL_SB;
-    gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+    gnet_conn_write(conn, (gchar *)&byte, 1);
     byte = (guchar)TELOPT_ZMP;
-    gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+    gnet_conn_write(conn, (gchar *)&byte, 1);
 
     for (i = 0; i < count; ++i)
     {
@@ -146,47 +374,40 @@ mud_zmp_send_command(MudTelnet *telnet, guint32 count, ...)
         {
             byte = (guchar)arg[j];
 
-            gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+            gnet_conn_write(conn, (gchar *)&byte, 1);
 
             if (byte == (guchar)TEL_IAC)
-                gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+                gnet_conn_write(conn, (gchar *)&byte, 1);
         }
 
-        gnet_conn_write(telnet->conn, (gchar *)&null, 1);
+        gnet_conn_write(conn, (gchar *)&null, 1);
     }
 
     va_end(va);
 
     byte = (guchar)TEL_IAC;
-    gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+    gnet_conn_write(conn, (gchar *)&byte, 1);
     byte = (guchar)TEL_SE;
-    gnet_conn_write(telnet->conn, (gchar *)&byte, 1);
+    gnet_conn_write(conn, (gchar *)&byte, 1);
 }
 
 static void
-mud_zmp_register_core_functions(MudTelnet *telnet)
+mud_zmp_register_core_functions(MudTelnetZmp *self)
 {
-    gint count = 4;
-    gint i;
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
 
-    telnet->commands[0].name = g_strdup("zmp.ident");
-    telnet->commands[0].package = g_strdup("zmp.");
-    telnet->commands[0].execute = ZMP_ident;
-
-    telnet->commands[1].name = g_strdup("zmp.ping");
-    telnet->commands[1].package = g_strdup("zmp.");
-    telnet->commands[1].execute = ZMP_ping_and_time;
-
-    telnet->commands[2].name = g_strdup("zmp.time");
-    telnet->commands[2].package = g_strdup("zmp.");
-    telnet->commands[2].execute = ZMP_ping_and_time;
-
-    telnet->commands[3].name = g_strdup("zmp.check");
-    telnet->commands[3].package = g_strdup("zmp.");
-    telnet->commands[3].execute = ZMP_check;
-
-    for(i = 0; i < count; ++i)
-        mud_zmp_register(telnet, &telnet->commands[i]);
+    mud_zmp_register(self, mud_zmp_new_command("zmp.",
+                                               "zmp.ident",
+                                               ZMP_ident));
+    mud_zmp_register(self, mud_zmp_new_command("zmp.",
+                                               "zmp.ping",
+                                               ZMP_ping_and_time));
+    mud_zmp_register(self, mud_zmp_new_command("zmp.",
+                                               "zmp.time",
+                                               ZMP_ping_and_time));
+    mud_zmp_register(self, mud_zmp_new_command("zmp.",
+                                               "zmp.check",
+                                               ZMP_check));
 }
 
 static void
@@ -210,48 +431,151 @@ mud_zmp_destroy_command(gpointer c)
 
         if(command->package)
             g_free(command->package);
+
+        g_free(command);
     }
 }
 
+static gboolean
+mud_zmp_has_command(MudTelnetZmp *self, gchar *name)
+{
+    if(!MUD_IS_TELNET_ZMP(self))
+        return FALSE;
+
+    return !(g_hash_table_lookup(self->priv->commands, name) == NULL);
+}
+
+static gboolean
+mud_zmp_has_package(MudTelnetZmp *self, gchar *package)
+{
+    GList *keys;
+    GList *iter;
+
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    keys = g_hash_table_get_keys(self->priv->commands);
+
+    for(iter = g_list_first(keys); iter != NULL; iter = g_list_next(iter))
+    {
+        MudZMPCommand *command =
+            (MudZMPCommand *)g_hash_table_lookup(self->priv->commands,
+                    (gchar *)iter->data);
+
+        if(g_str_equal(command->package, package))
+        {
+            g_list_free(keys);
+            return TRUE;
+        }
+    }
+
+    g_list_free(keys);
+
+    return FALSE;
+}
+
+static MudZMPFunction
+mud_zmp_get_function(MudTelnetZmp *self, gchar *name)
+{
+    MudZMPFunction ret = NULL;
+    MudZMPCommand *val;
+
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    if(!mud_zmp_has_command(self, name))
+        return NULL;
+
+    val = (MudZMPCommand *)g_hash_table_lookup(self->priv->commands, name);
+
+    if(val)
+        ret = (MudZMPFunction)val->execute;
+
+    return ret;
+}
+
+
 /* Core ZMP Functions */
 static void
-ZMP_ident(MudTelnet *telnet, gint argc, gchar **argv)
+ZMP_ident(MudTelnetZmp *self, gint argc, gchar **argv)
 {
-    mud_zmp_send_command(telnet, 4,
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    mud_zmp_send_command(self, 4,
             "zmp.ident", "gnome-mud", VERSION,
             "A mud client written for the GNOME environment.");
 }
 
 static void
-ZMP_ping_and_time(MudTelnet *telnet, gint argc, gchar **argv)
+ZMP_ping_and_time(MudTelnetZmp *self, gint argc, gchar **argv)
 {
     time_t t;
-    time(&t);
     gchar time_buffer[128];
+
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    time(&t);
 
     strftime(time_buffer, sizeof(time_buffer),
             "%Y-%m-%d %H:%M:%S", gmtime(&t));
 
-    mud_zmp_send_command(telnet, 2, "zmp.time", time_buffer);
+    mud_zmp_send_command(self, 2, "zmp.time", time_buffer);
 }
 
 static void
-ZMP_check(MudTelnet *telnet, gint argc, gchar **argv)
+ZMP_check(MudTelnetZmp *self, gint argc, gchar **argv)
 {
-    gchar *item = argv[1];
+    gchar *item;
+
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    item = argv[1];
 
     if(item[strlen(item) - 1] == '.') // Check for package.
     {
-        if(mud_zmp_has_package(telnet, item))
-            mud_zmp_send_command(telnet, 2, "zmp.support", item);
+        if(mud_zmp_has_package(self, item))
+            mud_zmp_send_command(self, 2, "zmp.support", item);
         else
-            mud_zmp_send_command(telnet, 2, "zmp.no-support", item);
+            mud_zmp_send_command(self, 2, "zmp.no-support", item);
     }
     else // otherwise command
     {
-        if(mud_zmp_has_command(telnet, item))
-            mud_zmp_send_command(telnet, 2, "zmp.support", item);
+        if(mud_zmp_has_command(self, item))
+            mud_zmp_send_command(self, 2, "zmp.support", item);
         else
-            mud_zmp_send_command(telnet, 2, "zmp.no-support", item);
+            mud_zmp_send_command(self, 2, "zmp.no-support", item);
     }
 }
+
+/* Public Methods */
+void
+mud_zmp_register(MudTelnetZmp *self, MudZMPCommand *command)
+{
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    if(!command)
+        return;
+
+    if(mud_zmp_has_command(self, command->name))
+        return; // Function already registered.
+
+    g_hash_table_replace(self->priv->commands,
+                         g_strdup(command->name),
+                         command);
+}
+
+MudZMPCommand *
+mud_zmp_new_command(const gchar *package,
+                    const gchar *name,
+                    MudZMPFunction execute)
+{
+    MudZMPCommand *new_command = g_new0(MudZMPCommand, 1);
+
+    if(!new_command)
+        return NULL;
+
+    new_command->name = g_strdup(name);
+    new_command->package = g_strdup(package);
+    new_command->execute = execute;
+
+    return new_command;
+}
+
