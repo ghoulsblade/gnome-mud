@@ -326,16 +326,31 @@ mud_telnet_mssp_handle_sub_neg(MudTelnetHandler *handler,
                 break;
 
             case PARSE_STATE_VAL_STRING:
-                if( buf[i] != TEL_MSSP_VAR )
+                if( buf[i] != TEL_MSSP_VAR && buf[i] != TEL_MSSP_VAL )
                     value = g_string_append_c(value, buf[i]);
                 else
                 {
-                    g_hash_table_replace(self->priv->mssp_data,
-                                         g_string_free(key, FALSE),
-                                         g_string_free(value, FALSE));
+                    switch( buf[i] )
+                    {
+                        /* VAR's can have multiple VALs assigned to them. */
+                        case TEL_MSSP_VAL:
+                            g_hash_table_replace(self->priv->mssp_data,
+                                    g_strdup(key->str),
+                                    g_string_free(value, FALSE));
 
-                    state = PARSE_STATE_VAR;
-                    i--;
+                            state = PARSE_STATE_VAL;
+                            i--;
+                            break;
+
+                        case TEL_MSSP_VAR:
+                            g_hash_table_replace(self->priv->mssp_data,
+                                    g_string_free(key, FALSE),
+                                    g_string_free(value, FALSE));
+
+                            state = PARSE_STATE_VAR;
+                            i--;
+                            break;
+                    }
                 }
 
                 if( i + 1 == len) // Last value in subnegotiation.
@@ -345,6 +360,32 @@ mud_telnet_mssp_handle_sub_neg(MudTelnetHandler *handler,
 
                 break;
         }
+    }
+
+    /* Log the results */
+    {
+        GList *key_list, *entry;
+
+        g_log("Telnet", G_LOG_LEVEL_MESSAGE, "%s", "MSSP Data:");
+
+        key_list = g_hash_table_get_keys(self->priv->mssp_data);
+
+        entry = key_list;
+
+        while(entry)
+        {
+            const gchar *keyv = entry->data;
+            const gchar *valv = g_hash_table_lookup(self->priv->mssp_data, keyv);
+
+            g_log("Telnet",
+                  G_LOG_LEVEL_MESSAGE,
+                  "\t%s = %s",
+                  keyv, (valv) ? valv : "<null>");
+
+            entry = g_list_next(entry);
+        }
+
+        g_list_free(key_list);
     }
 }
 

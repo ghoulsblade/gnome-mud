@@ -1,5 +1,10 @@
 2009-03-14  Les Harris  <lharris@gnome.org>
 
+	* src/mud-telnet-mssp.c: I was looking at a stale spec when first
+	coding. Updated mssp parsing to handle multiple val's per var. 
+
+2009-03-14  Les Harris  <lharris@gnome.org>
+
 	* src/Makefile.am: Added src/mud-telnet-mssp.[ch]
 	* src/mud-telnet-mssp.[ch]: New files which implement the Mud Server
 	Status Protocol (MSSP) We don't really do anything with this
