@@ -1,5 +1,5 @@
 /* GNOME-Mud - A simple Mud Client
- * mud-self-zmp.c
+ * mud-telnet-zmp.c
  * Copyright (C) 2008-2009 Les Harris <lharris@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -151,8 +151,8 @@ mud_telnet_zmp_init (MudTelnetZmp *self)
 
 static GObject *
 mud_telnet_zmp_constructor (GType gtype,
-                              guint n_properties,
-                              GObjectConstructParam *properties)
+                            guint n_properties,
+                            GObjectConstructParam *properties)
 {
     MudTelnetZmp *self;
     GObject *obj;
@@ -283,58 +283,58 @@ mud_telnet_zmp_handle_sub_neg(MudTelnetHandler *handler,
                               guchar *buf,
                               guint len)
 {
-    gchar command_buf[1024];
-    gint count = 0;
-    gint index = 0;
-    GString *args = g_string_new(NULL);
-    gchar **argv;
+    guint i;
     gint argc;
+    gchar **argv;
+    GString *args;
     MudZMPFunction zmp_handler = NULL;
-    MudTelnetZmp *self;
-
-    self = MUD_TELNET_ZMP(handler);
+    MudTelnetZmp *self = MUD_TELNET_ZMP(handler);
 
     g_return_if_fail(MUD_IS_TELNET_ZMP(self));
 
-    while(buf[count] != '\0' && count < len)
-        command_buf[index++] = buf[count++];
-    command_buf[index] = '\0';
+    /* Count Strings */
+    for(i = 0; i < len; ++i)
+        if(buf[i] == '\0')
+            ++argc;
 
-    /* FIXME: This is a silly way to do this */
-    while(count < len - 1)
+    argv = g_new0(gchar *, argc);
+    argc = 0;
+    args = g_string_new(NULL);
+
+    for(i = 0; i < len; ++i)
     {
-        if(buf[count] == '\0')
+        if(buf[i] == '\0')
         {
-            args = g_string_append(args,"|gmud_sep|");
-            count++;
+            argv[argc++] = g_string_free(args, FALSE);
+            args = g_string_new(NULL);
             continue;
         }
 
-        args = g_string_append_c(args, buf[count++]);
+        args = g_string_append_c(args, buf[i]);
     }
 
-    args = g_string_prepend(args, command_buf);
+    g_string_free(args, TRUE);
 
-    argv = g_strsplit(args->str, "|gmud_sep|", -1);
-    argc = g_strv_length(argv);
+    g_log("Telnet", G_LOG_LEVEL_MESSAGE, "Received: ZMP Command: %s", argv[0]);
+    for(i = 1; i < argc; ++i)
+        g_log("Telnet", G_LOG_LEVEL_MESSAGE, "\t%s", argv[i]);
 
-    g_log("Telnet", G_LOG_LEVEL_MESSAGE, "Received: ZMP Command: %s", command_buf);
-    for(count = 0; count < argc - 1; ++count)
-        g_log("Telnet", G_LOG_LEVEL_MESSAGE, "\t%s", argv[count]);
-
-    if(mud_zmp_has_command(self, command_buf))
+    if(mud_zmp_has_command(self, argv[0]))
     {
-        zmp_handler = mud_zmp_get_function(self, command_buf);
+        zmp_handler = mud_zmp_get_function(self, argv[0]);
 
         if(zmp_handler)
             zmp_handler(self, argc, argv);
         else
             g_warning("NULL ZMP functioned returned.");
     }
+    else
+        g_warning("Server sent unsupported ZMP command. Bad server, bad.");
 
-    g_strfreev(argv);
-    g_string_free(args, TRUE);
+    for(i = 0; i < argc; ++i)
+        g_free(argv[i]);
 
+    g_free(argv);
 }
 
 /* Private Methods */
@@ -345,7 +345,6 @@ mud_zmp_send_command(MudTelnetZmp *self, guint32 count, ...)
     guint32 i;
     guint32 j;
     guchar null = '\0';
-    byte = (guchar)TEL_IAC;
     va_list va;
     gchar *arg;
     GConn *conn;
@@ -358,6 +357,7 @@ mud_zmp_send_command(MudTelnetZmp *self, guint32 count, ...)
 
     g_log("Telnet", G_LOG_LEVEL_DEBUG, "Sending ZMP Command:");
 
+    byte = (guchar)TEL_IAC;
     gnet_conn_write(conn, (gchar *)&byte, 1);
     byte = (guchar)TEL_SB;
     gnet_conn_write(conn, (gchar *)&byte, 1);
@@ -526,6 +526,9 @@ ZMP_check(MudTelnetZmp *self, gint argc, gchar **argv)
     gchar *item;
 
     g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    if(argc < 2)
+        return; // Malformed ZMP_Check
 
     item = argv[1];
 

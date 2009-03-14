@@ -1,3 +1,12 @@
+2009-03-14  Les Harris  <lharris@gnome.org>
+
+	* src/mud-telnet-zmp.c (mud_telnet_zmp_handle_sub_neg),
+	(ZMP_check): Improved creation of argv for ZMP commands. Added check
+	for malformed ZMP_check command to prevent crash.
+	* src/mud-telnet.c (mud_telnet_process): Moved MCCP related code into
+	an ENABlE_MCCP block
+	* src/mud-telnet.h: Increased subneg buffer size to 16k
+
 2009-03-13  Les Harris  <lharris@gnome.org>
 
 	* src/mud-telnet.c: Poll for mccp-new in main processing loop. This

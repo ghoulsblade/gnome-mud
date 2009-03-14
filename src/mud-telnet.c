@@ -429,12 +429,6 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
 
     for (i = 0; i < count; ++i)
     {
-        if(mccp_handler)
-            g_object_get(mccp_handler,
-                         "mccp-active", &mccp_active,
-                         "mccp-new", &mccp_new,
-                         NULL);
-
         switch (telnet->priv->tel_state)
         {
             case TEL_STATE_TEXT:
@@ -443,11 +437,16 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
                    enabled in order to decompress any part of the buffer
                    that remains after the subnegotation takes place */
 
+                if(mccp_handler)
+                    g_object_get(mccp_handler,
+                            "mccp-active", &mccp_active,
+                            "mccp-new", &mccp_new,
+                            NULL);
+
                 if(mccp_active && mccp_new)
                 {
                     GString *ret = NULL;
                     g_object_set(mccp_handler, "mccp-new", FALSE, NULL);
-
 
                     // decompress the rest of the buffer.
                     ret = mud_mccp_decompress(mccp_handler, &buf[i], count - i);
