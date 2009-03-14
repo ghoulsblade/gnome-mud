@@ -1,5 +1,15 @@
 2009-03-14  Les Harris  <lharris@gnome.org>
 
+	* src/Makefile.am: Added src/mud-telnet-mssp.[ch]
+	* src/mud-telnet-mssp.[ch]: New files which implement the Mud Server
+	Status Protocol (MSSP) We don't really do anything with this
+	information at the moment except expose it as a hashtable. Plugins
+	might find it useful.
+	* src/mud-telnet.c: Now creates a MSSP handler.
+	* src/mud-telnet.h: Added MSSP option defines.
+
+2009-03-14  Les Harris  <lharris@gnome.org>
+
 	* src/mud-telnet-zmp.c (mud_telnet_zmp_handle_sub_neg),
 	(ZMP_check): Improved creation of argv for ZMP commands. Added check
 	for malformed ZMP_check command to prevent crash.

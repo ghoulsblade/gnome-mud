@@ -58,6 +58,8 @@ gnome_mud_SOURCES =				\
 	mud-telnet-mccp.h			\
 	mud-telnet-msp.c			\
 	mud-telnet-msp.h			\
+	mud-telnet-mssp.c			\
+	mud-telnet-mssp.h			\
 	mud-telnet-zmp.c			\
 	mud-telnet-zmp.h			\
 	mud-tray.c				\

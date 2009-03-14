@@ -83,6 +83,11 @@ G_BEGIN_DECLS
 /* Zenith Mud Protocol - http://www.awemud.net/zmp/draft.php */
 #define TELOPT_ZMP                      93
 
+/* Mud Server Status Protocol - http://mudbytes.net/index.php?a=topic&t=1336&min=0&num=15*/
+#define TELOPT_MSSP                     70
+#define TEL_MSSP_VAR                    1
+#define TEL_MSSP_VAL                    2
+
 // FIXME: What size should we use?
 #define TEL_SUBREQ_BUFFER_SIZE 16318 
 #define TELOPT_STATE_QUEUE_EMPTY	FALSE

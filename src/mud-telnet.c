@@ -40,6 +40,7 @@
 #include "mud-telnet-eor.h"
 #include "mud-telnet-charset.h"
 #include "mud-telnet-zmp.h"
+#include "mud-telnet-mssp.h"
 
 #ifdef ENABLE_GST
 #include "mud-telnet-msp.h"
@@ -793,6 +794,12 @@ mud_telnet_register_handlers(MudTelnet *telnet)
     g_hash_table_replace(telnet->priv->handlers,
                          GINT_TO_POINTER(TELOPT_ZMP),
                          g_object_new(MUD_TYPE_TELNET_ZMP,
+                                      "telnet", telnet,
+                                      NULL));
+    /* MSSP */
+    g_hash_table_replace(telnet->priv->handlers,
+                         GINT_TO_POINTER(TELOPT_MSSP),
+                         g_object_new(MUD_TYPE_TELNET_MSSP,
                                       "telnet", telnet,
                                       NULL));
 #ifdef ENABLE_GST
