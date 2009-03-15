@@ -1,5 +1,11 @@
 2009-03-14  Les Harris  <lharris@gnome.org>
 
+	* src/mud-window.c (mud_window_remove_connection_view): Unref the
+	current view before removing the page so the page changed signal
+	updates the current view properly. Fixes crash on tab close.
+
+2009-03-14  Les Harris  <lharris@gnome.org>
+
 	* src/Makefile.am: Added mud-telnet-new-environ.[ch]
 	* src/mud-telnet-new-environ.[ch]: New files which implement the
 	NEW-ENVIRON telnet option.

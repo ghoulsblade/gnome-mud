@@ -840,23 +840,22 @@ mud_window_remove_connection_view(MudWindow *self, gint nr)
 {
     GSList *entry;
 
-    gtk_notebook_remove_page(GTK_NOTEBOOK(self->priv->notebook), nr);
-
     self->priv->mud_views_list =
         g_slist_remove(self->priv->mud_views_list, self->priv->current_view);
 
     g_object_unref(self->priv->current_view);
+    gtk_notebook_remove_page(GTK_NOTEBOOK(self->priv->notebook), nr);
 
     if (--self->priv->nr_of_tabs < 2)
-    {
         gtk_notebook_set_show_tabs(GTK_NOTEBOOK(self->priv->notebook), FALSE);
-    }
 
     if (self->priv->nr_of_tabs == 0)
     {
         gint w, h;
         GdkPixbuf *buf;
         GError *err = NULL;
+
+        g_printf("# of tabs 0\n");
 
         gtk_window_get_size(GTK_WINDOW(self->window), &w, &h);
 
