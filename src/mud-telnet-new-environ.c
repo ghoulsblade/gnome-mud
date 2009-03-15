@@ -315,7 +315,7 @@ mud_telnet_newenviron_handle_sub_neg(MudTelnetHandler *handler,
     /* The first byte will be either IS or INFO. Since INFO
      * simply updates variables we do not need to make a
      * distinction between the two in our case.*/
-    for(i = 1; i < len; ++i)
+    for(i = 1; i < len - 1; ++i)
     {
         switch(state)
         {
@@ -334,6 +334,7 @@ mud_telnet_newenviron_handle_sub_neg(MudTelnetHandler *handler,
                     {
                         if( buf[ i + 1] != TEL_NEWENVIRON_VALUE )
                         {
+                            g_printf("VALUE undefined.\n");
                             /* No VALUE follows USERVAR/VAR. So it
                              * is undefined. */
                             g_string_free(key, TRUE);
@@ -378,7 +379,7 @@ mud_telnet_newenviron_handle_sub_neg(MudTelnetHandler *handler,
                     }
                 }
 
-                if( i + 1 == len) // Last value in subnegotiation.
+                if( i + 1 == len - 1) // Last value in subnegotiation.
                     g_hash_table_replace(self->priv->new_environ_data,
                                          g_string_free(key, FALSE),
                                          g_string_free(value, FALSE));

@@ -299,7 +299,7 @@ mud_telnet_mssp_handle_sub_neg(MudTelnetHandler *handler,
 
     state = PARSE_STATE_VAR;
 
-    for(i = 0; i < len; ++i)
+    for(i = 0; i < len - 1; ++i)
     {
         switch(state)
         {
@@ -353,7 +353,7 @@ mud_telnet_mssp_handle_sub_neg(MudTelnetHandler *handler,
                     }
                 }
 
-                if( i + 1 == len) // Last value in subnegotiation.
+                if( i + 1 == len - 1) // Last value in subnegotiation.
                     g_hash_table_replace(self->priv->mssp_data,
                                          g_string_free(key, FALSE),
                                          g_string_free(value, FALSE));

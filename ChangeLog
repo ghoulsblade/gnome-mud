@@ -1,5 +1,11 @@
 2009-03-14  Les Harris  <lharris@gnome.org>
 
+	* src/mud-telnet-mssp.c:
+	* src/mud-telnet-new-environ.c: Don't include TEL_SE in parsing
+	key/value pairs.
+
+2009-03-14  Les Harris  <lharris@gnome.org>
+
 	* src/mud-window.c (mud_window_remove_connection_view): Unref the
 	current view before removing the page so the page changed signal
 	updates the current view properly. Fixes crash on tab close.
