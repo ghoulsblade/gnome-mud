@@ -88,7 +88,16 @@ G_BEGIN_DECLS
 #define TEL_MSSP_VAR                    1
 #define TEL_MSSP_VAL                    2
 
-// FIXME: What size should we use?
+/* RFC 1572 - New Environ */
+#define TELOPT_NEWENVIRON               39
+#define     TEL_NEWENVIRON_IS           0
+#define     TEL_NEWENVIRON_SEND         1
+#define     TEL_NEWENVIRON_INFO         2
+#define     TEL_NEWENVIRON_VAR          0
+#define     TEL_NEWENVIRON_VALUE        1
+#define     TEL_NEWENVIRON_ESC          2
+#define     TEL_NEWENVIRON_USERVAR      3
+
 #define TEL_SUBREQ_BUFFER_SIZE 16318 
 #define TELOPT_STATE_QUEUE_EMPTY	FALSE
 #define TELOPT_STATE_QUEUE_OPPOSITE	TRUE

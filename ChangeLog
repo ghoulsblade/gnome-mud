@@ -1,5 +1,14 @@
 2009-03-14  Les Harris  <lharris@gnome.org>
 
+	* src/Makefile.am: Added mud-telnet-new-environ.[ch]
+	* src/mud-telnet-new-environ.[ch]: New files which implement the
+	NEW-ENVIRON telnet option.
+	* src/mud-telnet.c (mud_telnet_register_handlers): Register the
+	NEW-ENVIRON handler.
+	* src/mud-telnet.h: Added NEW-ENVIRON option defines.
+
+2009-03-14  Les Harris  <lharris@gnome.org>
+
 	* src/mud-telnet-mssp.c: I was looking at a stale spec when first
 	coding. Updated mssp parsing to handle multiple val's per var. 
 
