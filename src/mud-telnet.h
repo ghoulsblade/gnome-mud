@@ -108,7 +108,7 @@ typedef struct _MudTelnetPrivate     MudTelnetPrivate;
 
 #include <gnet.h>
 #include "mud-connection-view.h"
-#include "mud-telnet-handler-interface.h"
+#include "handlers/mud-telnet-handlers.h"
 
 enum TelnetState
 {

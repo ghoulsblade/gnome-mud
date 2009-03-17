@@ -176,8 +176,8 @@ mud_telnet_msp_init (MudTelnetMsp *self)
 
 static GObject *
 mud_telnet_msp_constructor (GType gtype,
-                              guint n_properties,
-                              GObjectConstructParam *properties)
+                            guint n_properties,
+                            GObjectConstructParam *properties)
 {
     MudTelnetMsp *self;
     GObject *obj;
@@ -229,9 +229,9 @@ mud_telnet_msp_finalize (GObject *object)
 
 static void
 mud_telnet_msp_set_property(GObject *object,
-                              guint prop_id,
-                              const GValue *value,
-                              GParamSpec *pspec)
+                            guint prop_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
     MudTelnetMsp *self;
 
@@ -251,9 +251,9 @@ mud_telnet_msp_set_property(GObject *object,
 
 static void
 mud_telnet_msp_get_property(GObject *object,
-                              guint prop_id,
-                              GValue *value,
-                              GParamSpec *pspec)
+                            guint prop_id,
+                            GValue *value,
+                            GParamSpec *pspec)
 {
     MudTelnetMsp *self;
 

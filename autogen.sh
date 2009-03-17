@@ -4,18 +4,13 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-PKG_NAME="gnome-mud"
-REQUIRED_AUTOMAKE_VERSION=1.7
+REQUIRED_AUTOMAKE_VERSION=1.9
 
-(test -f $srcdir/configure.ac) || {
-    echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
-    echo " top-level $PKG_NAME directory"
-    exit 1
-}
+PKG_NAME="gnome-mud"
 
 which gnome-autogen.sh || {
-	echo "You need to install gnome-common from the GNOME CVS"
+	echo "You need to install gnome-common from the GNOME SVN"
 	exit 1
 }
 
-USE_GNOME2_MACROS=1 . gnome-autogen.sh
+. gnome-autogen.sh

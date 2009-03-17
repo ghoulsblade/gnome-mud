@@ -55,6 +55,7 @@ fi
 
 dnl Checks for programs.
 AC_PROG_CC
+AC_PROG_LIBTOOL
 AM_PROG_CC_STDC
 AC_ISC_POSIX
 AC_PROG_LN_S
@@ -141,6 +142,8 @@ AC_CONFIG_FILES([
   data/icons/Makefile
   doc/Makefile
   src/Makefile
+  src/handlers/Makefile
+  src/zmp/Makefile
   po/Makefile.in
   ui/Makefile
 ])

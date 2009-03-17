@@ -33,23 +33,7 @@
 #include "mud-telnet.h"
 
 /* Handlers */
-#include "mud-telnet-handler-interface.h"
-#include "mud-telnet-ttype.h"
-#include "mud-telnet-naws.h"
-#include "mud-telnet-echo.h"
-#include "mud-telnet-eor.h"
-#include "mud-telnet-charset.h"
-#include "mud-telnet-zmp.h"
-#include "mud-telnet-mssp.h"
-#include "mud-telnet-new-environ.h"
-
-#ifdef ENABLE_GST
-#include "mud-telnet-msp.h"
-#endif
-
-#ifdef ENABLE_MCCP
-#include "mud-telnet-mccp.h"
-#endif
+#include "handlers/mud-telnet-handlers.h"
 
 struct _MudTelnetPrivate
 {

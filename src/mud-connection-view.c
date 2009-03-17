@@ -39,9 +39,7 @@
 #include "mud-parse-base.h"
 #include "mud-telnet.h"
 
-#ifdef ENABLE_GST
-#include "mud-telnet-msp.h"
-#endif
+#include "handlers/mud-telnet-handlers.h"
 
 struct _MudConnectionViewPrivate
 {

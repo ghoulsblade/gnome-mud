@@ -1,3 +1,41 @@
+2009-03-17  Les Harris  <lharris@gnome.org>
+
+	* autogen.sh: Updated to newest.
+	* configure.ac: Added AC_PROG_LIBTOOL. Added entries for
+	handlers/Makefile and zmp/Makefile
+	* src/Makefile.am: Telnet Handlers and ZMP packages (that are
+	implemented in C as part of gnome-mud) are now compiled as static
+	libraries and linked in. Cleans up the src dir quite a bit.
+	* src/handlers/mud-telnet-handlers.h: New file which includes the
+	headers for all the telnet handlers.
+	* src/handlers/Makefile.am:
+	* src/zmp/Makefile.am: New files with the autofoo for the static
+	libraries.
+	* src/mud-connection-view.c:
+	* src/mud-telnet.[ch]: Updated to include mud-telnet-handlers.h
+	* src/mud-telnet-charset.c:
+	* src/mud-telnet-charset.h:
+	* src/mud-telnet-echo.c:
+	* src/mud-telnet-echo.h:
+	* src/mud-telnet-eor.c:
+	* src/mud-telnet-eor.h:
+	* src/mud-telnet-handler-interface.c:
+	* src/mud-telnet-handler-interface.h:
+	* src/mud-telnet-mccp.c:
+	* src/mud-telnet-mccp.h:
+	* src/mud-telnet-msp.c:
+	* src/mud-telnet-msp.h:
+	* src/mud-telnet-mssp.c:
+	* src/mud-telnet-mssp.h:
+	* src/mud-telnet-naws.c:
+	* src/mud-telnet-naws.h:
+	* src/mud-telnet-new-environ.c:
+	* src/mud-telnet-new-environ.h:
+	* src/mud-telnet-ttype.c:
+	* src/mud-telnet-ttype.h:
+	* src/mud-telnet-zmp.c:
+	* src/mud-telnet-zmp.h: Moved files to src/handlers.
+
 2009-03-16  Les Harris  <lharris@gnome.org>
 
 	* configure.ac: Added check for glib-genmarshal

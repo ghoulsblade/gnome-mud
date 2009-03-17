@@ -1,5 +1,10 @@
+SUBDIRS = handlers zmp
+
+bin_PROGRAMS = gnome-mud
+
 localedir = $(datadir)/locale
-INCLUDES =								\
+
+gnome_mud_CPPFLAGS =							\
 	-DLOCALEDIR=\"$(localedir)\"					\
 	-DPIXMAPSDIR=\""$(datadir)/pixmaps"\"				\
 	-DGMPIXMAPSDIR=\""$(datadir)/icons/hicolor/scalable/apps"\"	\
@@ -8,11 +13,18 @@ INCLUDES =								\
 	-DDATADIR=\""$(datadir)"\"					\
 	-DLIBDIR=\""$(libdir)"\"					\
 	-DGLADEDIR=\""$(pkgdatadir)"\"					\
-	$(GMUD_CFLAGS) $(MSP_CFLAGS)
-LDADD   = $(GMUD_LIBS) $(Z_LIBS) $(MSP_LIBS)
-AM_CPPFLAGS = -DPKGDATADIR=\"$(pkgdatadir)\"
+	-DPKGDATADIR=\""$(pkgdatadir)"\"
 
-bin_PROGRAMS = gnome-mud
+gnome_mud_CFLAGS = \
+	$(GMUD_CFLAGS) \
+	$(MSP_CFLAGS)
+
+gnome_mud_LDADD = \
+	handlers/libtelnethandlers.la \
+	zmp/libzmpcommands.la \
+	$(GMUD_LIBS)	\
+	$(Z_LIBS)	\
+	$(MSP_LIBS)
 
 gnome_mud_SOURCES =				\
 	gconf-helper.c				\
@@ -46,28 +58,6 @@ gnome_mud_SOURCES =				\
 	mud-regex.h				\
 	mud-telnet.c				\
 	mud-telnet.h				\
-	mud-telnet-handler-interface.c		\
-	mud-telnet-handler-interface.h		\
-	mud-telnet-ttype.c			\
-	mud-telnet-ttype.h			\
-	mud-telnet-naws.c			\
-	mud-telnet-naws.h			\
-	mud-telnet-echo.c			\
-	mud-telnet-echo.h			\
-	mud-telnet-eor.c			\
-	mud-telnet-eor.h			\
-	mud-telnet-charset.c			\
-	mud-telnet-charset.h			\
-	mud-telnet-mccp.c			\
-	mud-telnet-mccp.h			\
-	mud-telnet-msp.c			\
-	mud-telnet-msp.h			\
-	mud-telnet-mssp.c			\
-	mud-telnet-mssp.h			\
-	mud-telnet-new-environ.c		\
-	mud-telnet-new-environ.h		\
-	mud-telnet-zmp.c			\
-	mud-telnet-zmp.h			\
 	mud-tray.c				\
 	mud-tray.h				\
 	mud-window.c				\
@@ -88,10 +78,14 @@ CLEANFILES = \
 	$(BUILT_SOURCES)
 
 gnome-mud-marshallers.h: gnome-mud-marshallers.list
-	$(GLIB_GENMARSHAL) --prefix gnome_mud_cclosure --header \
-	    gnome-mud-marshallers.list > gnome-mud-marshallers.h
+	( $(GLIB_GENMARSHAL) --prefix gnome_mud_cclosure --header \
+	    gnome-mud-marshallers.list > gnome-mud-marshallers.h.tmp \
+	    && mv gnome-mud-marshallers.h.tmp gnome-mud-marshallers.h ) \
+	    || ( rm -f gnome-mud-marshallers.h.tmp && exit 1 )
 
 gnome-mud-marshallers.c: gnome-mud-marshallers.list
-	$(GLIB_GENMARSHAL) --prefix gnome_mud_cclosure --body \
-	    gnome-mud-marshallers.list > gnome-mud-marshallers.c
+	( $(GLIB_GENMARSHAL) --prefix gnome_mud_cclosure --body \
+	    gnome-mud-marshallers.list > gnome-mud-marshallers.c.tmp \
+	    && mv gnome-mud-marshallers.c.tmp gnome-mud-marshallers.c ) \
+	    || ( rm -f gnome-mud-marshallers.c.tmp && exit 1 )
 
