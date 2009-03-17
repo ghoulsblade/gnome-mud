@@ -71,7 +71,6 @@ enum
 {
     PROP_MUD_CONNECTION_VIEW_0,
     PROP_CONNECTION,
-    PROP_NAWS_ENABLED,
     PROP_LOCAL_ECHO,
     PROP_REMOTE_ENCODE,
     PROP_CONNECT_HOOK,
@@ -134,6 +133,7 @@ static void mud_connection_view_close_current_cb(GtkWidget *menu_item,
 static void mud_connection_view_profile_changed_cb(MudProfile *profile,
                                                    MudProfileMask *mask,
                                                    MudConnectionView *view);
+
 
 /* Private Methods */
 static void mud_connection_view_set_terminal_colors(MudConnectionView *view);
@@ -251,14 +251,6 @@ mud_connection_view_class_init (MudConnectionViewClass *klass)
                 G_PARAM_READWRITE));
 
     g_object_class_install_property(object_class,
-            PROP_NAWS_ENABLED,
-            g_param_spec_boolean("naws-enabled",
-                "naws enabled",
-                "negoatiate about window size enabled",
-                FALSE,
-                G_PARAM_READWRITE));
-
-    g_object_class_install_property(object_class,
             PROP_LOCAL_ECHO,
             g_param_spec_boolean("local-echo",
                 "local echo",
@@ -369,7 +361,6 @@ mud_connection_view_init (MudConnectionView *self)
 
     self->connection = NULL;
 
-    self->naws_enabled = FALSE;
     self->local_echo = TRUE;
     self->remote_encode = FALSE;   
     self->connect_hook = FALSE;
@@ -754,13 +745,6 @@ mud_connection_view_set_property(GObject *object,
                 self->port = new_int;
             break;
 
-        case PROP_NAWS_ENABLED:
-            new_boolean = g_value_get_boolean(value);
-
-            if(new_boolean != self->naws_enabled)
-                self->naws_enabled = new_boolean;
-            break;
-
         case PROP_LOCAL_ECHO:
             new_boolean = g_value_get_boolean(value);
 
@@ -847,10 +831,6 @@ mud_connection_view_get_property(GObject *object,
     {
         case PROP_CONNECTION:
             g_value_set_pointer(value, self->connection);
-            break;
-
-        case PROP_NAWS_ENABLED:
-            g_value_set_boolean(value, self->naws_enabled);
             break;
 
         case PROP_LOCAL_ECHO:
@@ -1574,7 +1554,6 @@ mud_connection_view_reconnect(MudConnectionView *view)
     view->priv->download_queue = g_queue_new();
 #endif
 
-    view->naws_enabled = FALSE;
     view->local_echo = TRUE;
 
     view->telnet = g_object_new(MUD_TYPE_TELNET,
@@ -1742,28 +1721,6 @@ mud_connection_view_get_history_item(MudConnectionView *view, enum
             view->priv->current_history_index);
 
     return history_item;
-}
-
-void
-mud_connection_view_get_term_size(MudConnectionView *view, gint *w, gint *h)
-{
-    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
-
-    VteTerminal *term = view->terminal;
-    *w = term->column_count;
-    *h = term->row_count;
-}
-
-void
-mud_connection_view_send_naws(MudConnectionView *view)
-{
-    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
-
-    guint curr_width = view->terminal->column_count;
-    guint curr_height = view->terminal->row_count;
-
-    if(view->naws_enabled)
-        mud_telnet_send_naws(view->telnet, curr_width, curr_height);
 }
 
 /* MSP Download Code */

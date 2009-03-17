@@ -42,6 +42,7 @@
 #include "mud-window-profile.h"
 #include "mud-parse-base.h"
 #include "mud-connections.h"
+#include "gnome-mud-marshallers.h"
 
 struct _MudWindowPrivate
 {
@@ -72,6 +73,9 @@ struct _MudWindowPrivate
 
     gint nr_of_tabs;
     gint textview_line_height;
+
+    gint width;
+    gint height;
 };
 
 /* Create the Type */
@@ -84,6 +88,16 @@ enum
     PROP_WINDOW,
     PROP_TRAY
 };
+
+/* Signal Indices */
+enum
+{
+    RESIZED,
+    LAST_SIGNAL
+};
+
+/* Signal Identifier Map */
+static guint mud_window_signal[LAST_SIGNAL] = { 0 };
 
 /* Class Function Prototypes */
 static void mud_window_init       (MudWindow *self);
@@ -167,6 +181,20 @@ mud_window_class_init (MudWindowClass *klass)
                 "mud status tray icon",
                 MUD_TYPE_TRAY,
                 G_PARAM_READABLE));
+    
+    /* Register Signals */
+    mud_window_signal[RESIZED] =
+        g_signal_new("resized",
+                     G_TYPE_FROM_CLASS(object_class),
+                     G_SIGNAL_RUN_LAST | G_SIGNAL_NO_HOOKS,
+                     0,
+                     NULL,
+                     NULL,
+                     gnome_mud_cclosure_VOID__INT_INT,
+                     G_TYPE_NONE,
+                     2,
+                     G_TYPE_INT,
+                     G_TYPE_INT);
 
 }
 
@@ -330,6 +358,10 @@ mud_window_init (MudWindow *self)
         gtk_widget_queue_resize(self->priv->textviewscroll);
 
     mud_window_populate_profiles_menu(self);
+
+    gtk_window_get_size(GTK_WINDOW(self->window),
+                        &self->priv->width,
+                        &self->priv->height);
 
     g_object_unref(glade);
 }
@@ -709,23 +741,17 @@ mud_window_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer
         g_object_unref(buf);
     }
 
-    for(i = 0; i < self->priv->nr_of_tabs; ++i)
+    if(event->width != self->priv->width ||
+       event->height != self->priv->height)
     {
-        gboolean connected;
-        MudConnectionView *iter =
-            g_object_get_data(
-                    G_OBJECT(
-                        gtk_notebook_get_nth_page(
-                            GTK_NOTEBOOK(self->priv->notebook),
-                            i)),
-                    "connection-view");
-        
-        g_object_get(iter,
-                     "connected", &connected,
-                     NULL);
+        self->priv->width = event->width;
+        self->priv->height = event->height;
 
-        if(connected)
-            mud_connection_view_send_naws(iter);
+        g_signal_emit(self,
+                      mud_window_signal[RESIZED],
+                      0,
+                      self->priv->width,
+                      self->priv->height);
     }
 
     gtk_widget_grab_focus(self->priv->textview);
@@ -854,8 +880,6 @@ mud_window_remove_connection_view(MudWindow *self, gint nr)
         gint w, h;
         GdkPixbuf *buf;
         GError *err = NULL;
-
-        g_printf("# of tabs 0\n");
 
         gtk_window_get_size(GTK_WINDOW(self->window), &w, &h);
 

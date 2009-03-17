@@ -154,8 +154,6 @@ GType mud_telnet_get_type (void);
 GString *mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 count, gint *length);
 void mud_telnet_send_sub_req(MudTelnet *telnet, guint32 count, ...);
 void mud_telnet_send_raw(MudTelnet *telnet, guint32 count, ...);
-void mud_telnet_send_naws(MudTelnet *telnet, gint w, gint h);
-void mud_telnet_get_parent_size(MudTelnet *telnet, gint *w, gint *h);
 MudTelnetHandler *mud_telnet_get_handler(MudTelnet *telnet, gint opt_no);
 
 G_END_DECLS

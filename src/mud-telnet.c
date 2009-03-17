@@ -335,30 +335,6 @@ mud_telnet_get_property(GObject *object,
 }
 
 /*** Public Methods ***/
-void
-mud_telnet_get_parent_size(MudTelnet *telnet, gint *w, gint *h)
-{
-    g_return_if_fail(MUD_IS_TELNET(telnet));
-
-    mud_connection_view_get_term_size(telnet->parent_view, w, h);
-}
-
-void
-mud_telnet_send_naws(MudTelnet *telnet, gint width, gint height)
-{
-    MudTelnetHandler *handler;
-    
-    g_return_if_fail(MUD_IS_TELNET(telnet));
-
-    handler = MUD_TELNET_HANDLER(
-                g_hash_table_lookup(telnet->priv->handlers,
-                                    GINT_TO_POINTER(TELOPT_NAWS)));
-    if(!handler)
-        return;
-
-    mud_telnet_naws_send(MUD_TELNET_NAWS(handler), width, height);
-}
-
 MudTelnetHandler *
 mud_telnet_get_handler(MudTelnet *telnet, gint opt_no)
 {
@@ -542,6 +518,8 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
                         break;
 
                     case (guchar)TEL_GA:
+                        telnet->ga_received = TRUE;
+                        g_log("Telnet", G_LOG_LEVEL_INFO, "%s", "GA Received.");
                         // TODO: Hook up to triggers.
                         telnet->priv->tel_state = TEL_STATE_TEXT;
                         break;

@@ -1,3 +1,24 @@
+2009-03-16  Les Harris  <lharris@gnome.org>
+
+	* configure.ac: Added check for glib-genmarshal
+	* src/Makefile.am: Added autofoo to generate gnome-mud-marshaller.[ch]
+	from gnome-mud-marshallers.list
+	* src/gnome-mud-marshallers.list: New file which gets fed to
+	glib-genmarshal to produce our custom marshallers.
+	* src/mud-connection-view.[ch] (mud_connection_view_class_init),
+	(mud_connection_view_init), (mud_connection_view_set_property),
+	(mud_connection_view_get_property),
+	(mud_connection_view_reconnect): Removed NAWS related code.
+	* src/mud-line-buffer.[ch]: New files which implement a line buffer.
+	* src/mud-telnet-charset.c (mud_telnet_charset_handle_sub_neg): Moved
+	sending to prevent possible crash on NULL.
+	* src/mud-telnet-naws.[ch]: Consolidated all NAWS code into this file.
+	Public interface no longer necessary.
+	* src/mud-telnet-new-environ.c
+	(mud_telnet_newenviron_handle_sub_neg): Removed logging.
+	* src/mud-telnet.[ch]: Removed NAWS related code.
+	* src/mud-window.c: Added resized signal which emits on window resize.
+
 2009-03-14  Les Harris  <lharris@gnome.org>
 
 	* src/mud-telnet-mssp.c:

@@ -334,7 +334,6 @@ mud_telnet_newenviron_handle_sub_neg(MudTelnetHandler *handler,
                     {
                         if( buf[ i + 1] != TEL_NEWENVIRON_VALUE )
                         {
-                            g_printf("VALUE undefined.\n");
                             /* No VALUE follows USERVAR/VAR. So it
                              * is undefined. */
                             g_string_free(key, TRUE);

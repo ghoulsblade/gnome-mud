@@ -24,6 +24,8 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <glib/gi18n.h>
+#include <vte/vte.h>
+#include <gnet.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"
@@ -38,6 +40,7 @@ struct _MudTelnetNawsPrivate
     gint option;
 
     /* Private Instance Members */
+    gulong resized_signal;
 };
 
 /* Property Identifiers */
@@ -72,6 +75,15 @@ void mud_telnet_naws_disable(MudTelnetHandler *self);
 void mud_telnet_naws_handle_sub_neg(MudTelnetHandler *self,
                                     guchar *buf,
                                     guint len);
+
+/* Callbacks */
+static void mud_telnet_naws_resized_cb(MudWindow *window,
+                                       gint width,
+                                       gint height,
+                                       MudTelnetNaws *self);
+
+/* Private Methods */
+static void mud_telnet_naws_send(MudTelnetNaws *self, gint width, gint height);
 
 /* Create the Type. We implement MudTelnetHandlerInterface */
 G_DEFINE_TYPE_WITH_CODE(MudTelnetNaws, mud_telnet_naws, G_TYPE_OBJECT,
@@ -128,6 +140,8 @@ mud_telnet_naws_init (MudTelnetNaws *self)
     self->priv->telnet = NULL;
     self->priv->option = TELOPT_NAWS;
     self->priv->enabled = FALSE;
+
+    self->priv->resized_signal = 0;
 }
 
 static GObject *
@@ -160,9 +174,17 @@ static void
 mud_telnet_naws_finalize (GObject *object)
 {
     MudTelnetNaws *self;
+    MudConnectionView *view;
+    MudWindow *window;
     GObjectClass *parent_class;
 
     self = MUD_TELNET_NAWS(object);
+
+    g_object_get(self->priv->telnet, "parent-view", &view, NULL);
+    g_object_get(view, "window", &window, NULL);
+
+    if(self->priv->resized_signal != 0)
+        g_signal_handler_disconnect(window, self->priv->resized_signal);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
@@ -225,8 +247,9 @@ void
 mud_telnet_naws_enable(MudTelnetHandler *handler)
 {
     MudTelnetNaws *self;
+    MudWindow *window;
     MudConnectionView *view;
-    gint w, h;
+    VteTerminal *terminal;
 
     self = MUD_TELNET_NAWS(handler);
 
@@ -234,14 +257,22 @@ mud_telnet_naws_enable(MudTelnetHandler *handler)
 
     self->priv->enabled = TRUE;
 
-    mud_telnet_get_parent_size(self->priv->telnet, &w, &h);
-
     g_object_get(self->priv->telnet, "parent-view", &view, NULL);
-    g_object_set(view,
-                 "naws-enabled", TRUE,
+
+    g_object_get(view,
+                 "terminal", &terminal, 
+                 "window", &window,
                  NULL);
 
-    mud_telnet_send_naws(self->priv->telnet, w, h);
+    self->priv->resized_signal = 
+        g_signal_connect(window,
+                         "resized",
+                         G_CALLBACK(mud_telnet_naws_resized_cb),
+                         self);
+    
+    mud_telnet_naws_send(self,
+                         terminal->column_count,
+                         terminal->row_count);
 
     g_log("Telnet", G_LOG_LEVEL_INFO, "%s", "NAWS Enabled");
 }
@@ -250,6 +281,7 @@ void
 mud_telnet_naws_disable(MudTelnetHandler *handler)
 {
     MudTelnetNaws *self;
+    MudWindow *window;
     MudConnectionView *view;
 
     self = MUD_TELNET_NAWS(handler);
@@ -259,9 +291,11 @@ mud_telnet_naws_disable(MudTelnetHandler *handler)
     self->priv->enabled = FALSE;
 
     g_object_get(self->priv->telnet, "parent-view", &view, NULL);
-    g_object_set(view,
-                 "naws-enabled", FALSE,
+    g_object_get(view,
+                 "window", &window,
                  NULL);
+
+    g_signal_handler_disconnect(window, self->priv->resized_signal);
 
     g_log("Telnet", G_LOG_LEVEL_INFO, "%s", "NAWS Disabled");
 }
@@ -281,8 +315,29 @@ mud_telnet_naws_handle_sub_neg(MudTelnetHandler *handler,
     return;
 }
 
-/* Public Methods */
-void
+/* Callbacks */
+static void
+mud_telnet_naws_resized_cb(MudWindow *window,
+                           gint width,
+                           gint height,
+                           MudTelnetNaws *self)
+{
+    MudConnectionView *view;
+
+    g_object_get(self->priv->telnet,
+                 "parent-view", &view,
+                 NULL);
+
+    if(view->connection &&
+       gnet_conn_is_connected(view->connection) &&
+       self->priv->enabled)
+        mud_telnet_naws_send(self,
+                             view->terminal->column_count,
+                             view->terminal->row_count);
+}
+
+/* Private Methods */
+static void
 mud_telnet_naws_send(MudTelnetNaws *self, gint width, gint height)
 {
     guchar w1, h1, w0, h0;

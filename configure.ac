@@ -79,6 +79,9 @@ PKG_CHECK_MODULES(GMUD, gtk+-2.0 >= $GTK_REQUIRED vte >= $VTE_REQUIRED libglade-
 AC_SUBST(GMUD_CFLAGS)
 AC_SUBST(GMUD_LIBS)
 
+GLIB_GENMARSHAL="$($PKG_CONFIG --variable=glib_genmarshal glib-2.0)"
+AC_SUBST([GLIB_GENMARSHAL])
+
 AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])
 
 dnl Check whether to include MCCP code or not

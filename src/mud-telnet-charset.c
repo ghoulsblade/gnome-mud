@@ -321,9 +321,10 @@ mud_telnet_charset_handle_sub_neg(MudTelnetHandler *handler,
                         "remote-encode", TRUE,
                         "remote-encoding", encodings[0],
                         NULL);
-            }
 
-            mud_telnet_charset_send(self, encodings[0]);
+
+                mud_telnet_charset_send(self, encodings[0]);
+            }
 
             g_string_free(encoding, TRUE);
             g_strfreev(encodings);

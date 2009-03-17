@@ -46,7 +46,6 @@ struct _MudConnectionView
     GConn *connection;
 
     // Flags
-    gboolean naws_enabled;
     gboolean local_echo;
     gboolean remote_encode;   
     gboolean connect_hook;
@@ -96,8 +95,6 @@ void mud_connection_view_disconnect (MudConnectionView *view);
 
 const gchar *mud_connection_view_get_history_item(MudConnectionView *view, enum
                                    MudConnectionHistoryDirection direction);
-void mud_connection_view_get_term_size(MudConnectionView *view, gint *w, gint *h);
-void mud_connection_view_send_naws(MudConnectionView *view);
 
 #ifdef ENABLE_GST
 void mud_connection_view_queue_download(MudConnectionView *view, gchar *url, gchar *file);

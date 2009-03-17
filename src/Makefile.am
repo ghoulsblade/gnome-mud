@@ -21,11 +21,15 @@ gnome_mud_SOURCES =				\
 	debug-logger.h				\
 	gnome-mud.c				\
 	gnome-mud.h				\
+	gnome-mud-marshallers.c			\
+	gnome-mud-marshallers.h			\
 	gnome-mud-icons.h			\
 	mud-connection-view.c			\
 	mud-connections.c			\
 	mud-connections.h			\
 	mud-connection-view.h			\
+	mud-line-buffer.c			\
+	mud-line-buffer.h			\
 	mud-log.c				\
 	mud-log.h				\
 	mud-parse-alias.c			\
@@ -72,4 +76,22 @@ gnome_mud_SOURCES =				\
 	mud-window-profile.h			\
 	utils.c					\
 	utils.h
+
+BUILT_SOURCES = \
+	gnome-mud-marshallers.c \
+	gnome-mud-marshallers.h
+
+EXTRA_DIST = \
+	gnome-mud-marshallers.list
+
+CLEANFILES = \
+	$(BUILT_SOURCES)
+
+gnome-mud-marshallers.h: gnome-mud-marshallers.list
+	$(GLIB_GENMARSHAL) --prefix gnome_mud_cclosure --header \
+	    gnome-mud-marshallers.list > gnome-mud-marshallers.h
+
+gnome-mud-marshallers.c: gnome-mud-marshallers.list
+	$(GLIB_GENMARSHAL) --prefix gnome_mud_cclosure --body \
+	    gnome-mud-marshallers.list > gnome-mud-marshallers.c
 
