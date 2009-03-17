@@ -3,6 +3,12 @@ NULL =
 noinst_LTLIBRARIES = libzmpcommands.la
 
 libzmpcommands_la_SOURCES = \
+	zmp-package-interface.c \
+	zmp-package-interface.h \
+	zmp-core.c \
+	zmp-core.h \
+	zmp-main.c \
+	zmp-main.h \
 	zmp-subwindow.c \
 	zmp-subwindow.h \
 	$(NULL)

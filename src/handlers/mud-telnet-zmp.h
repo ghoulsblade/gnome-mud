@@ -66,5 +66,9 @@ MudZMPCommand* mud_zmp_new_command(const gchar *package,
 
 void mud_zmp_register(MudTelnetZmp *self, MudZMPCommand *command);
 
+gboolean mud_zmp_has_command(MudTelnetZmp *self, gchar *name);
+gboolean mud_zmp_has_package(MudTelnetZmp *self, gchar *package);
+void mud_zmp_send_command(MudTelnetZmp *self, guint32 count, ...);
+
 #endif // MUD_TELNET_ZMP_H
 

@@ -1,5 +1,21 @@
 2009-03-17  Les Harris  <lharris@gnome.org>
 
+	* src/handlers/mud-telnet-zmp.c: Now uses ZmpMain to query for zmp
+	packages.
+	* src/handlers/mud-telnet-zmp.h: Made some methods public for
+	ZmpPackages to use.
+	* src/zmp/Makefile.am: Added zmp-core.[ch], zmp-main.[ch],
+	zmp-package-interface.[ch], zmp-subwindow.[ch]
+	* src/zmp/zmp-core.[ch]:
+	* src/zmp/zmp-main.[ch]: Manager class that manages ZmpPackages.
+	* src/zmp/zmp-package-interface.[ch]: New files which implement
+	ZmpPackageInterface which is used by all ZmpPackages.
+	* src/zmp/zmp-package-interface.h:
+	* src/zmp/zmp-subwindow.[ch]: Skeleton for zmp subwindow package
+	support.
+
+2009-03-17  Les Harris  <lharris@gnome.org>
+
 	* autogen.sh: Updated to newest.
 	* configure.ac: Added AC_PROG_LIBTOOL. Added entries for
 	handlers/Makefile and zmp/Makefile
