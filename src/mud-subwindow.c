@@ -45,6 +45,7 @@ struct _MudSubwindowPrivate
     guint old_height;
 
     gboolean visible;
+    gboolean view_hidden;
     gboolean input_enabled;
 
     GQueue *history;
@@ -80,6 +81,7 @@ enum
     PROP_WIDTH,
     PROP_HEIGHT,
     PROP_VISIBLE,
+    PROP_VIEW_HIDDEN,
     PROP_INPUT,
     PROP_OLD_WIDTH,
     PROP_OLD_HEIGHT
@@ -241,6 +243,15 @@ mud_subwindow_class_init (MudSubwindowClass *klass)
                 TRUE,
                 G_PARAM_READWRITE));
 
+
+    g_object_class_install_property(object_class,
+            PROP_VIEW_HIDDEN,
+            g_param_spec_boolean("view-hidden",
+                "View Hidden",
+                "True if subwindow is hidden by the view.",
+                FALSE,
+                G_PARAM_READWRITE));
+
     g_object_class_install_property(object_class,
             PROP_INPUT,
             g_param_spec_boolean("input-enabled",
@@ -288,6 +299,7 @@ mud_subwindow_init (MudSubwindow *self)
     self->priv->title = NULL;
     self->priv->identifier = NULL;
     self->priv->visible = TRUE;
+    self->priv->view_hidden = FALSE;
     self->priv->input_enabled = FALSE;
     self->priv->history = g_queue_new();
     self->priv->current_history_index = 0;
@@ -386,6 +398,13 @@ mud_subwindow_constructor (GType gtype,
     vte_terminal_set_emulation(VTE_TERMINAL(self->priv->terminal),
                                "xterm");
 
+    vte_terminal_set_cursor_shape(VTE_TERMINAL(self->priv->terminal),
+                                  VTE_CURSOR_SHAPE_UNDERLINE);
+
+    vte_terminal_set_cursor_blink_mode(VTE_TERMINAL(self->priv->terminal),
+                                       VTE_CURSOR_BLINK_OFF);
+
+
     gtk_box_pack_start(GTK_BOX(term_box),
                        self->priv->terminal,
                        TRUE,
@@ -457,6 +476,16 @@ mud_subwindow_constructor (GType gtype,
                         &self->priv->pixel_width,
                         &self->priv->pixel_height);
 
+    vte_terminal_set_size(VTE_TERMINAL(self->priv->terminal),
+                          self->priv->width,
+                          self->priv->height);
+
+    mud_subwindow_set_size_force_grid(self,
+                                      VTE_TERMINAL(self->priv->terminal),
+                                      TRUE,
+                                      -1,
+                                      -1);
+
     return obj;
 }
 
@@ -502,12 +531,6 @@ mud_subwindow_set_property(GObject *object,
 
             if(new_boolean != self->priv->input_enabled)
                 self->priv->input_enabled = new_boolean;
-
-            if(self->priv->entry)
-                if(self->priv->input_enabled)
-                    gtk_widget_show(self->priv->entry);
-                else
-                    gtk_widget_hide(self->priv->entry);
             break;
 
         case PROP_VISIBLE:
@@ -515,6 +538,13 @@ mud_subwindow_set_property(GObject *object,
 
             if(new_boolean != self->priv->visible)
                 self->priv->visible = new_boolean;
+            break;
+
+        case PROP_VIEW_HIDDEN:
+            new_boolean = g_value_get_boolean(value);
+
+            if(new_boolean != self->priv->view_hidden)
+                self->priv->view_hidden = new_boolean;
             break;
 
         case PROP_HEIGHT:
@@ -625,6 +655,10 @@ mud_subwindow_get_property(GObject *object,
             g_value_set_boolean(value, self->priv->visible);
             break;
 
+        case PROP_VIEW_HIDDEN:
+            g_value_set_boolean(value, self->priv->view_hidden);
+            break;
+
         case PROP_INPUT:
             g_value_set_boolean(value, self->priv->input_enabled);
             break;
@@ -670,6 +704,9 @@ mud_subwindow_set_terminal_colors(MudSubwindow *self)
             &self->priv->parent_view->profile->preferences->Foreground,
             &self->priv->parent_view->profile->preferences->Background,
             self->priv->parent_view->profile->preferences->Colors, C_MAX);
+
+    vte_terminal_set_color_cursor(VTE_TERMINAL(self->priv->terminal),
+            &self->priv->parent_view->profile->preferences->Background);
 }
 
 static void
@@ -815,8 +852,18 @@ mud_subwindow_delete_event_cb(GtkWidget *widget,
 			      GdkEvent *event,
 			      MudSubwindow *self)
 {
+    GdkWindow *wm_window;
+    GdkRectangle rect;
+
+    wm_window = gtk_widget_get_window(self->priv->window);
+    gdk_window_get_frame_extents(wm_window, &rect);
+
+    self->priv->x = rect.x;
+    self->priv->y = rect.y;
+
     gtk_widget_hide(self->priv->window);
     self->priv->visible = FALSE;
+    self->priv->view_hidden = FALSE;
 
     return TRUE;
 }
@@ -827,13 +874,6 @@ mud_subwindow_configure_event_cb(GtkWidget *widget,
                                  gpointer user_data)
 {
     MudSubwindow *self = MUD_SUBWINDOW(user_data);
-
-    if(event->x != self->priv->x ||
-       event->y != self->priv->y)
-    {
-        self->priv->x = event->x;
-        self->priv->y = event->y;
-    }
 
     gtk_widget_grab_focus(self->priv->entry);
 
@@ -961,11 +1001,38 @@ mud_subwindow_show(MudSubwindow *self)
 {
     g_return_if_fail(MUD_IS_SUBWINDOW(self));
 
-    gtk_widget_show(self->priv->window);
-    gtk_window_move(GTK_WINDOW(self->priv->window),
-                    self->priv->x,
-                    self->priv->y);
-    self->priv->visible = TRUE;
+    if(!self->priv->view_hidden)
+    {
+        gtk_widget_show(self->priv->window);
+        gtk_window_move(GTK_WINDOW(self->priv->window),
+                self->priv->x,
+                self->priv->y);
+        self->priv->visible = TRUE;
+    }
+    else
+        self->priv->view_hidden = TRUE;
+}
+
+
+void
+mud_subwindow_hide(MudSubwindow *self)
+{
+    GdkWindow *wm_window;
+    GdkRectangle rect;
+
+    g_return_if_fail(MUD_IS_SUBWINDOW(self));
+
+    if(self->priv->visible)
+    {
+        wm_window = gtk_widget_get_window(self->priv->window);
+        gdk_window_get_frame_extents(wm_window, &rect);
+
+        self->priv->x = rect.x;
+        self->priv->y = rect.y;
+
+        self->priv->visible = FALSE;
+        gtk_widget_hide(self->priv->window);
+    }
 }
 
 void

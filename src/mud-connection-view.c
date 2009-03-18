@@ -1647,6 +1647,58 @@ mud_connection_view_remove_subwindow(MudConnectionView *view,
 }
 
 void
+mud_connection_view_hide_subwindows(MudConnectionView *view)
+{
+    GList *entry;
+    gboolean visible;
+
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    entry = g_list_first(view->priv->subwindows);
+
+    while(entry)
+    {
+        MudSubwindow *sub = MUD_SUBWINDOW(entry->data);
+
+        g_object_get(sub, "visible", &visible, NULL);
+
+        if(visible)
+        {
+            g_object_set(sub, "view-hidden", TRUE, NULL);
+            mud_subwindow_hide(sub);
+        }
+
+        entry = g_list_next(entry);
+    }
+}
+
+void
+mud_connection_view_show_subwindows(MudConnectionView *view)
+{
+    GList *entry;
+    gboolean view_hidden;
+
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    entry = g_list_first(view->priv->subwindows);
+
+    while(entry)
+    {
+        MudSubwindow *sub = MUD_SUBWINDOW(entry->data);
+
+        g_object_get(sub, "view-hidden", &view_hidden, NULL);
+
+        if(view_hidden)
+        {
+            g_object_set(sub, "view-hidden", FALSE, NULL);
+            mud_subwindow_show(sub);
+        }
+
+        entry = g_list_next(entry);
+    }
+}
+
+void
 mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type)
 {
     gchar *encoding, *text;

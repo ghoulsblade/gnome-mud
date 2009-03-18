@@ -602,10 +602,16 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
     gboolean connected;
     gboolean logging;
 
+    if(IS_MUD_CONNECTION_VIEW(self->priv->current_view))
+        mud_connection_view_hide_subwindows(self->priv->current_view);
+
     self->priv->current_view =
         g_object_get_data(
                 G_OBJECT(gtk_notebook_get_nth_page(notebook, arg)),
                 "connection-view");
+
+    if(IS_MUD_CONNECTION_VIEW(self->priv->current_view))
+        mud_connection_view_show_subwindows(self->priv->current_view);
 
     if (self->priv->nr_of_tabs != 0)
     {

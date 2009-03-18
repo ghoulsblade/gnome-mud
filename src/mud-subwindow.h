@@ -51,6 +51,8 @@ struct _MudSubwindow
 
 GType mud_subwindow_get_type (void);
 
+void mud_subwindow_show(MudSubwindow *self);
+void mud_subwindow_hide(MudSubwindow *self);
 void mud_subwindow_enable_input(MudSubwindow *self, gboolean enable);
 void mud_subwindow_set_title(MudSubwindow *self, const gchar *title);
 void mud_subwindow_set_size(MudSubwindow *self, guint width, guint height);

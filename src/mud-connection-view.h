@@ -131,6 +131,9 @@ void mud_connection_view_remove_subwindow(MudConnectionView *view,
 MudSubwindow *mud_connection_view_get_subwindow(MudConnectionView *view,
                                                 const gchar *identifier);
 
+void mud_connection_view_hide_subwindows(MudConnectionView *view);
+void mud_connection_view_show_subwindows(MudConnectionView *view);
+
 G_END_DECLS
 
 #endif /* MUD_CONNECTION_VIEW_H */

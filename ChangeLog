@@ -1,5 +1,19 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.[ch]: Added api for hiding and showing all
+	subwindows attached to the view.
+	* src/mud-subwindow.c: Now uses gdk_window_get_frame_extents to store
+	coordinates on hiding. This ensures it shows in the correct place. Hid
+	cursor display in the subwindow. Added view-hidden property so a view
+	can notify the subwindow that it's been hidden automatically and not
+	by a user.
+	* src/mud-subwindow.h: Made mud_subwindow_show and mud_subwindow_hide
+	public.
+	* src/mud-window.c (mud_window_notebook_page_change): Now closes all
+	the old view's subwindows on page change and shows the new view's.
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.[ch]: 
 	* src/mud-subwindow.[ch]: Added api for setting input capabilities on
 	a subwindow.
