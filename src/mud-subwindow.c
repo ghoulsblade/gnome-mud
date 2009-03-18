@@ -496,11 +496,6 @@ mud_subwindow_set_property(GObject *object,
                 self->priv->title = g_strdup(new_string);
             }
 
-            if(GTK_IS_WINDOW(self->priv->window))
-            {
-                g_printf("window\n");
-            }
-
             g_free(new_string);
 
             break;
@@ -630,6 +625,12 @@ mud_subwindow_set_terminal_font(MudSubwindow *self)
         desc = pango_font_description_from_string("Monospace 10");
 
     vte_terminal_set_font(VTE_TERMINAL(self->priv->terminal), desc);
+
+    mud_subwindow_set_size_force_grid(self,
+                                      VTE_TERMINAL(self->priv->terminal),
+                                      TRUE,
+                                      -1,
+                                      -1);
 }
 
 static void

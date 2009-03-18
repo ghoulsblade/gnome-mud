@@ -277,13 +277,14 @@ zmp_subwindow_open(MudTelnetZmp *self,
     {
         sub = mud_connection_view_get_subwindow(view, argv[1]);
 
+        mud_connection_view_show_subwindow(view, argv[1]);
+        
         g_object_set(sub, "title", argv[2], NULL);
         mud_subwindow_set_title(sub, argv[2]);
+        
         mud_subwindow_set_size(sub,
                                (guint)atol(argv[3]),
                                (guint)atol(argv[4]));
-
-        mud_connection_view_show_subwindow(view, argv[1]);
     }
     else
     {

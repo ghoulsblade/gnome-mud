@@ -1,3 +1,12 @@
+2009-03-18  Les Harris  <lharris@gnome.org>
+
+	* src/mud-subwindow.c (mud_subwindow_set_property),
+	(mud_subwindow_set_terminal_font): Removed debug logging. Now updates
+	VTE grid when font is changed.
+	* src/zmp/zmp-subwindow.c (zmp_subwindow_open): Now displays the
+	window before attempting to resize.  This allows the vte terminal to
+	resize properly.
+
 2009-03-17  Les Harris  <lharris@gnome.org>
 
 	* src/Makefile.am: Added mud-subwindow.[ch]
