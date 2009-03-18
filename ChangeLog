@@ -1,5 +1,16 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
+	* src/mud-subwindow.c: Connected to size-allocate to send the resized
+	signal. This ensures the terminal is properly sized. Added old-width
+	and old-height properties.
+	* src/mud-window.c: Changed to size-allocate for the resized signal as
+	in mud-subwindow.c. This fixes gnome-mud sending stale naws values.
+	* src/zmp/zmp-subwindow.c: Now checks against MudSubwindows old-width
+	and old-height values to ensure subwindow.size is only sent once at
+	the proper times.
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
 	* src/mud-subwindow.c (mud_subwindow_constructor): Sets the window
 	width and height again after the profile read as it might have
 	changed.

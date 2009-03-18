@@ -40,6 +40,8 @@ struct _MudSubwindowPrivate
 
     guint width;
     guint height;
+    guint old_width;
+    guint old_height;
 
     gboolean visible;
     gboolean input_enabled;
@@ -55,6 +57,8 @@ struct _MudSubwindowPrivate
     GtkWidget *terminal;
     GtkWidget *scroll;
     GtkWidget *vbox;
+
+    gint x, y;
 
     MudConnectionView *parent_view;
 };
@@ -75,7 +79,9 @@ enum
     PROP_WIDTH,
     PROP_HEIGHT,
     PROP_VISIBLE,
-    PROP_INPUT
+    PROP_INPUT,
+    PROP_OLD_WIDTH,
+    PROP_OLD_HEIGHT
 };
 
 /* Signal Indices */
@@ -120,6 +126,11 @@ static gboolean mud_subwindow_entry_keypress_cb(GtkWidget *widget,
 static gboolean mud_subwindow_configure_event_cb(GtkWidget *widget,
                                                  GdkEventConfigure *event,
                                                  gpointer user_data);
+
+static void mud_subwindow_size_allocate_cb(GtkWidget *widget,
+                                           GtkAllocation *allocation,
+                                           MudSubwindow *self);
+                                           
 
 /* Private Methods */
 static void mud_subwindow_set_size_force_grid (MudSubwindow *window,
@@ -202,6 +213,26 @@ mud_subwindow_class_init (MudSubwindowClass *klass)
                 G_PARAM_READWRITE|G_PARAM_CONSTRUCT_ONLY));
 
     g_object_class_install_property(object_class,
+            PROP_OLD_HEIGHT,
+            g_param_spec_uint("old-height",
+                "Old Height",
+                "The old height of the terminal in rows.",
+                0,
+                1024,
+                0,
+                G_PARAM_READWRITE));
+
+    g_object_class_install_property(object_class,
+            PROP_OLD_WIDTH,
+            g_param_spec_uint("old-width",
+                "Old Width",
+                "The old width of the terminal in rows.",
+                0,
+                1024,
+                0,
+                G_PARAM_READWRITE));
+
+    g_object_class_install_property(object_class,
             PROP_VISIBLE,
             g_param_spec_boolean("visible",
                 "Visible",
@@ -261,6 +292,10 @@ mud_subwindow_init (MudSubwindow *self)
     self->priv->current_history_index = 0;
     self->priv->width = 0;
     self->priv->height = 0;
+    self->priv->old_width = 0;
+    self->priv->old_height = 0;
+    self->priv->x = 0;
+    self->priv->y = 0;
 
     self->priv->window = NULL;
     self->priv->entry = NULL;
@@ -313,6 +348,9 @@ mud_subwindow_constructor (GType gtype,
         g_printf("ERROR: Tried to instantiate MudSubwindow without passing valid width/height\n");
         g_error("Tried to instantiate MudSubwindow without passing valid width/height.");
     }
+
+    self->priv->old_width = self->priv->width;
+    self->priv->old_height = self->priv->height;
 
     /* start glading */
     glade = glade_xml_new(GLADEDIR "/main.glade", "subwindow", NULL);
@@ -387,6 +425,11 @@ mud_subwindow_constructor (GType gtype,
     g_signal_connect(self->priv->window,
                      "configure-event",
                      G_CALLBACK(mud_subwindow_configure_event_cb),
+                     self);
+
+    g_signal_connect(self->priv->window,
+                     "size-allocate",
+                     G_CALLBACK(mud_subwindow_size_allocate_cb),
                      self);
 
     g_signal_connect(self->priv->entry,
@@ -474,6 +517,20 @@ mud_subwindow_set_property(GObject *object,
                 self->priv->width = new_uint;
             break;
 
+        case PROP_OLD_HEIGHT:
+            new_uint = g_value_get_uint(value);
+
+            if(new_uint != self->priv->old_height)
+                self->priv->old_height = new_uint;
+            break;
+
+        case PROP_OLD_WIDTH:
+            new_uint = g_value_get_uint(value);
+
+            if(new_uint != self->priv->old_width)
+                self->priv->old_width = new_uint;
+            break;
+
         case PROP_IDENT:
             new_string = g_value_dup_string(value);
 
@@ -540,6 +597,14 @@ mud_subwindow_get_property(GObject *object,
 
         case PROP_HEIGHT:
             g_value_set_uint(value, self->priv->height);
+            break;
+
+        case PROP_OLD_HEIGHT:
+            g_value_set_uint(value, self->priv->old_height);
+            break;
+
+        case PROP_OLD_WIDTH:
+            g_value_set_uint(value, self->priv->old_width);
             break;
 
         case PROP_VISIBLE:
@@ -749,25 +814,35 @@ mud_subwindow_configure_event_cb(GtkWidget *widget,
 {
     MudSubwindow *self = MUD_SUBWINDOW(user_data);
 
-    if(event->width  != self->priv->pixel_width ||
-       event->height != self->priv->pixel_height)
+    if(event->x != self->priv->x ||
+       event->y != self->priv->y)
     {
-        self->priv->pixel_width = event->width;
-        self->priv->pixel_height = event->height;
-
-        self->priv->width = VTE_TERMINAL(self->priv->terminal)->column_count;
-        self->priv->height = VTE_TERMINAL(self->priv->terminal)->row_count;
-
-        g_signal_emit(self,
-                      mud_subwindow_signal[RESIZED],
-                      0,
-                      self->priv->width,
-                      self->priv->height);
+        self->priv->x = event->x;
+        self->priv->y = event->y;
     }
 
     gtk_widget_grab_focus(self->priv->entry);
 
     return FALSE;
+}
+
+static void
+mud_subwindow_size_allocate_cb(GtkWidget *widget,
+                               GtkAllocation *allocation,
+                               MudSubwindow *self)
+{
+    if(self->priv->width != allocation->width ||
+            self->priv->height != allocation->height)
+    {
+        self->priv->width = VTE_TERMINAL(self->priv->terminal)->column_count;
+        self->priv->height = VTE_TERMINAL(self->priv->terminal)->row_count;
+
+        g_signal_emit(self,
+                mud_subwindow_signal[RESIZED],
+                0,
+                self->priv->width,
+                self->priv->height);
+    }
 }
 
 static gboolean
@@ -870,6 +945,9 @@ mud_subwindow_show(MudSubwindow *self)
     g_return_if_fail(MUD_IS_SUBWINDOW(self));
 
     gtk_widget_show(self->priv->window);
+    gtk_window_move(GTK_WINDOW(self->priv->window),
+                    self->priv->x,
+                    self->priv->y);
     self->priv->visible = TRUE;
 }
 

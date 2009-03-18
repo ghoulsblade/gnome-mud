@@ -305,6 +305,11 @@ zmp_subwindow_open(MudTelnetZmp *self,
                          pkg);
     }
 
+    g_object_set(sub,
+                 "old-width", (guint)atol(argv[3]),
+                 "old-height", (guint)atol(argv[4]),
+                 NULL);
+
     mud_zmp_send_command(self, 4,
                          "subwindow.size",
                          argv[1],
@@ -380,19 +385,34 @@ zmp_subwindow_size(MudSubwindow *sub,
 {
     gchar *identifier;
     gchar *w, *h;
+    guint old_w, old_h;
 
-    g_object_get(sub, "identifier", &identifier, NULL);
-    w = g_strdup_printf("%d", width);
-    h = g_strdup_printf("%d", height);
+    g_object_get(sub,
+                 "old-width", &old_w,
+                 "old-height", &old_h,
+                 NULL);
 
-    mud_zmp_send_command(self->priv->parent, 4,
-                         "subwindow.size",
-                         identifier,
-                         w,
-                         h);
+    if(width  != old_w ||
+       height != old_h)
+    {
+        g_object_get(sub, "identifier", &identifier, NULL);
+        g_object_set(sub,
+                     "old-width", width,
+                     "old-height", height,
+                     NULL);
 
-    g_free(w);
-    g_free(h);
-    g_free(identifier);
+        w = g_strdup_printf("%d", width);
+        h = g_strdup_printf("%d", height);
+
+        mud_zmp_send_command(self->priv->parent, 4,
+                "subwindow.size",
+                identifier,
+                w,
+                h);
+
+        g_free(w);
+        g_free(h);
+        g_free(identifier);
+    }
 }
 

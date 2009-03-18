@@ -142,6 +142,9 @@ static void mud_window_select_profile(GtkWidget *widget, MudWindow *self);
 static void mud_window_profile_menu_set_cb(GtkWidget *widget, gpointer data);
 static void mud_window_startlog_cb(GtkWidget *widget, MudWindow *self);
 static void mud_window_stoplog_cb(GtkWidget *widget, MudWindow *self);
+static void mud_window_size_allocate_cb(GtkWidget *widget,
+                                        GtkAllocation *allocation,
+                                        MudWindow *self);
 
 /* Private Method Prototypes */
 static void mud_window_remove_connection_view(MudWindow *self, gint nr);
@@ -321,6 +324,11 @@ mud_window_init (MudWindow *self)
     g_signal_connect(self->window,
                      "configure-event",
                      G_CALLBACK(mud_window_configure_event),
+                     self);
+
+    g_signal_connect(self->window,
+                     "size-allocate",
+                     G_CALLBACK(mud_window_size_allocate_cb),
                      self);
 
     g_signal_connect(self->priv->textview,
@@ -741,11 +749,21 @@ mud_window_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer
         g_object_unref(buf);
     }
 
-    if(event->width != self->priv->width ||
-       event->height != self->priv->height)
+    gtk_widget_grab_focus(self->priv->textview);
+
+    return FALSE;
+}
+
+static void
+mud_window_size_allocate_cb(GtkWidget *widget,
+                            GtkAllocation *allocation,
+                            MudWindow *self)
+{
+    if(self->priv->width != allocation->width ||
+       self->priv->height != allocation->height)
     {
-        self->priv->width = event->width;
-        self->priv->height = event->height;
+        self->priv->width = allocation->width;
+        self->priv->height = allocation->height;
 
         g_signal_emit(self,
                       mud_window_signal[RESIZED],
@@ -753,10 +771,6 @@ mud_window_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer
                       self->priv->width,
                       self->priv->height);
     }
-
-    gtk_widget_grab_focus(self->priv->textview);
-
-    return FALSE;
 }
 
 static void
