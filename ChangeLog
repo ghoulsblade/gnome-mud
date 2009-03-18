@@ -1,5 +1,10 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
+	* src/mud-subwindow.c (mud_subwindow_size_allocate_cb): Wrapped in a
+	GTK_WIDGET_MAPPED block so we don't send irrelevant values.
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
 	* src/mud-subwindow.c: Connected to size-allocate to send the resized
 	signal. This ensures the terminal is properly sized. Added old-width
 	and old-height properties.

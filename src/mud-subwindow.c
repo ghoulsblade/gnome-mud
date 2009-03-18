@@ -831,17 +831,20 @@ mud_subwindow_size_allocate_cb(GtkWidget *widget,
                                GtkAllocation *allocation,
                                MudSubwindow *self)
 {
-    if(self->priv->width != allocation->width ||
-            self->priv->height != allocation->height)
+    if(GTK_WIDGET_MAPPED(self->priv->window))
     {
-        self->priv->width = VTE_TERMINAL(self->priv->terminal)->column_count;
-        self->priv->height = VTE_TERMINAL(self->priv->terminal)->row_count;
+        if(self->priv->width != allocation->width ||
+                self->priv->height != allocation->height)
+        {
+            self->priv->width = VTE_TERMINAL(self->priv->terminal)->column_count;
+            self->priv->height = VTE_TERMINAL(self->priv->terminal)->row_count;
 
-        g_signal_emit(self,
-                mud_subwindow_signal[RESIZED],
-                0,
-                self->priv->width,
-                self->priv->height);
+            g_signal_emit(self,
+                    mud_subwindow_signal[RESIZED],
+                    0,
+                    self->priv->width,
+                    self->priv->height);
+        }
     }
 }
 
