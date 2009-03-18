@@ -1,5 +1,20 @@
 2009-03-17  Les Harris  <lharris@gnome.org>
 
+	* src/Makefile.am: Added mud-subwindow.[ch]
+	* src/mud-subwindow.[ch]: New files which implement a sub-output
+	window.
+	* src/gnome-mud-marshallers.list: Added VOID:UINT,UINT
+	* src/handlers/mud-telnet-zmp.c: Added property for ZmpMain.
+	* src/mud-connection-view.[ch]: Added api which creates and manages
+	subwindows.
+	* src/zmp/zmp-core.c: Added property to parent MudTelnetZMP
+	* src/zmp/zmp-main.[ch]: Added zmp_main_get_package_by_name
+	* src/zmp/zmp-package-interface.c: Added parent MudTelnetZMP property.
+	* src/zmp/zmp-subwindow.[ch]: Implements the zmp subwindow package.
+	* ui/main.glade: Added ui for MudSubwindow.
+
+2009-03-17  Les Harris  <lharris@gnome.org>
+
 	* src/handlers/mud-telnet-zmp.c: Now uses ZmpMain to query for zmp
 	packages.
 	* src/handlers/mud-telnet-zmp.h: Made some methods public for

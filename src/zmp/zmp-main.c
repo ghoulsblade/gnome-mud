@@ -131,11 +131,15 @@ zmp_main_constructor (GType gtype,
 
     /* zmp.core */
     self->priv->packages = g_list_append(self->priv->packages,
-                                         g_object_new(ZMP_TYPE_CORE, NULL));
+                                         g_object_new(ZMP_TYPE_CORE,
+                                                      "parent", self->priv->parent,
+                                                      NULL));
 
     /* subwindow */
     self->priv->packages = g_list_append(self->priv->packages,
-                                         g_object_new(ZMP_TYPE_SUBWINDOW, NULL));
+                                         g_object_new(ZMP_TYPE_SUBWINDOW,
+                                                      "parent", self->priv->parent,
+                                                      NULL));
 
     return obj;
 }
@@ -229,5 +233,36 @@ zmp_main_register_commands(ZmpMain *self)
 
         entry = g_list_next(entry);
     }
+}
+
+ZmpPackage *
+zmp_main_get_package_by_name(ZmpMain *self, const gchar *package_query)
+{
+    GList *entry;
+
+    if(!ZMP_IS_MAIN(self))
+        return NULL;
+
+    entry = g_list_first(self->priv->packages);
+
+    while(entry)
+    {
+        gchar *name;
+        ZmpPackage *package = ZMP_PACKAGE(entry->data);
+
+        g_object_get(package, "package", &name, NULL);
+
+        if(g_str_equal(package_query, name))
+        {
+            g_free(name);
+            return package;
+        }
+
+        g_free(name);
+
+        entry = g_list_next(entry);
+    }
+
+    return NULL;
 }
 

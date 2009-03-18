@@ -36,6 +36,7 @@ struct _ZmpCorePrivate
 {
     /* Interface Properties */
     gchar *package;
+    MudTelnetZmp *parent;
 
     /* Private Instance Members */
 };
@@ -45,6 +46,7 @@ enum
 {
     PROP_ZMP_CORE_0,
     PROP_PACKAGE,
+    PROP_PARENT
 };
 
 /* Class Functions */
@@ -99,6 +101,10 @@ zmp_core_class_init (ZmpCoreClass *klass)
     g_object_class_override_property(object_class,
                                      PROP_PACKAGE,
                                      "package");
+
+    g_object_class_override_property(object_class,
+                                     PROP_PARENT,
+                                     "parent");
 }
 
 static void
@@ -115,6 +121,7 @@ zmp_core_init (ZmpCore *self)
 
     /* Set the defaults */
     self->priv->package = NULL;
+    self->priv->parent = NULL;
 }
 
 static GObject *
@@ -134,7 +141,13 @@ zmp_core_constructor (GType gtype,
 
     self = ZMP_CORE(obj);
 
-    self->priv->package = g_strdup("zmp.");
+    if(!self->priv->parent)
+    {
+        g_printf("ERROR: Tried to instantiate ZmpSubwindow without passing parent MudTelnetZMP\n");
+        g_error("ERROR: Tried to instantiate ZmpSubwindow without passing parent MudTelnetZMP");
+    }
+
+    self->priv->package = g_strdup("zmp");
 
     return obj;
 }
@@ -165,6 +178,10 @@ zmp_core_set_property(GObject *object,
 
     switch(prop_id)
     {
+        case PROP_PARENT:
+            self->priv->parent = MUD_TELNET_ZMP(g_value_get_object(value));
+            break;
+
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
             break;
@@ -183,6 +200,10 @@ zmp_core_get_property(GObject *object,
 
     switch(prop_id)
     {
+        case PROP_PARENT:
+            g_value_take_object(value, self->priv->parent);
+            break;
+
         case PROP_PACKAGE:
             g_value_set_string(value, self->priv->package);
             break;

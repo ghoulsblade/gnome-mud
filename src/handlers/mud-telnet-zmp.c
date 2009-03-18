@@ -53,7 +53,8 @@ enum
     PROP_MUD_TELNET_ZMP_0,
     PROP_ENABLED,
     PROP_HANDLES_OPTION,
-    PROP_TELNET
+    PROP_TELNET,
+    PROP_ZMPMAIN
 };
 
 /* Class Functions */
@@ -122,6 +123,14 @@ mud_telnet_zmp_class_init (MudTelnetZmpClass *klass)
     g_object_class_override_property(object_class,
                                      PROP_TELNET,
                                      "telnet");
+
+    g_object_class_install_property(object_class,
+            PROP_ZMPMAIN,
+            g_param_spec_object("zmp-main",
+                                "ZMP Main",
+                                "The ZMP Dispatcher",
+                                ZMP_TYPE_MAIN,
+                                G_PARAM_READABLE));
 }
 
 static void
@@ -242,6 +251,10 @@ mud_telnet_zmp_get_property(GObject *object,
 
         case PROP_TELNET:
             g_value_take_object(value, self->priv->telnet);
+            break;
+
+        case PROP_ZMPMAIN:
+            g_value_take_object(value, self->priv->main_zmp);
             break;
 
         default:

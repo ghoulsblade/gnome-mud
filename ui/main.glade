@@ -517,4 +517,10 @@
       </widget>
     </child>
   </widget>
+  <widget class="GtkWindow" id="subwindow">
+    <property name="destroy_with_parent">True</property>
+    <child>
+      <placeholder/>
+    </child>
+  </widget>
 </glade-interface>

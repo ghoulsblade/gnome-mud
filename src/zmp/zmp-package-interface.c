@@ -72,6 +72,14 @@ zmp_package_base_init(gpointer klass)
                                                 NULL,
                                                 G_PARAM_READABLE));
 
+        g_object_interface_install_property(klass,
+                                            g_param_spec_object(
+                                                "parent",
+                                                "Parent",
+                                                "The parent MudTelnetZMP",
+                                                MUD_TYPE_TELNET_ZMP,
+                                                G_PARAM_READWRITE|G_PARAM_CONSTRUCT_ONLY));
+
         initialized = TRUE;
     }
 }

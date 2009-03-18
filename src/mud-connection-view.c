@@ -38,6 +38,7 @@
 #include "mud-log.h"
 #include "mud-parse-base.h"
 #include "mud-telnet.h"
+#include "mud-subwindow.h"
 
 #include "handlers/mud-telnet-handlers.h"
 
@@ -56,6 +57,9 @@ struct _MudConnectionViewPrivate
 
     GQueue *history;
     gint current_history_index;
+
+    gchar *current_output;
+    GList *subwindows;
 
 #ifdef ENABLE_GST
     GQueue *download_queue;
@@ -151,6 +155,13 @@ static void choose_profile_callback(GtkWidget *menu_item,
 static void mud_connection_view_reread_profile(MudConnectionView *view);
 static void mud_connection_view_feed_text(MudConnectionView *view,
                                           gchar *message);
+static void mud_connection_view_set_size_force_grid (MudConnectionView *window,
+                                                     VteTerminal *screen,
+                                                     gboolean        even_if_mapped,
+                                                     int             force_grid_width,
+                                                     int             force_grid_height);
+
+static void mud_connection_view_update_geometry (MudConnectionView *window);
 
 #ifdef ENABLE_GST
 static void mud_connection_view_http_cb(GConnHttp *conn,
@@ -380,6 +391,9 @@ mud_connection_view_init (MudConnectionView *self)
 
     self->terminal = NULL;
     self->ui_vbox = NULL;
+
+    self->priv->subwindows = NULL;
+    self->priv->current_output = g_strdup("main");
 }
 
 static GObject *
@@ -400,10 +414,7 @@ mud_connection_view_constructor (GType gtype,
     gchar *buf;
     gchar *proxy_host;
     gchar *version;
-    gint xpad, ypad;
-    gint char_width, char_height;
     gboolean use_proxy;
-    GdkGeometry hints;
     
     MudConnectionView *self;
     GObject *obj;
@@ -443,12 +454,12 @@ mud_connection_view_constructor (GType gtype,
     self->ui_vbox = GTK_VBOX(box);
     self->terminal = VTE_TERMINAL(vte_terminal_new());
     self->priv->scrollbar = gtk_vscrollbar_new(NULL);
+    term_box = gtk_hbox_new(FALSE, 0);
 
 #ifdef ENABLE_GST
     /* Setup Download UI */
     dl_vbox = gtk_vbox_new(FALSE, 0);
     dl_hbox = gtk_hbox_new(FALSE, 0);
-    term_box = gtk_hbox_new(FALSE, 0);
 
     self->priv->dl_label = gtk_label_new("Downloading...");
     self->priv->progressbar = gtk_progress_bar_new();
@@ -513,30 +524,11 @@ mud_connection_view_constructor (GType gtype,
     /* Setup VTE */
     vte_terminal_set_encoding(self->terminal, "ISO-8859-1");
     vte_terminal_set_emulation(self->terminal, "xterm");
-    vte_terminal_get_padding(self->terminal, &xpad, &ypad);
-
-    char_width = self->terminal->char_width;
-    char_height = self->terminal->char_height;
-
-    hints.base_width = xpad;
-    hints.base_height = ypad;
-    hints.width_inc = char_width;
-    hints.height_inc = char_height;
-
-    hints.min_width =  hints.base_width + hints.width_inc * 4;
-    hints.min_height = hints.base_height+ hints.height_inc * 2;
 
     g_object_get(self->window,
                  "window", &main_window,
                  "tray", &tray,
                  NULL);
-
-    gtk_window_set_geometry_hints(GTK_WINDOW(main_window),
-            GTK_WIDGET(self->terminal),
-            &hints,
-            GDK_HINT_RESIZE_INC |
-            GDK_HINT_MIN_SIZE |
-            GDK_HINT_BASE_SIZE);
 
     self->connection = gnet_conn_new(self->hostname, self->port,
             mud_connection_view_network_event_cb, self);
@@ -603,6 +595,8 @@ mud_connection_view_constructor (GType gtype,
     /* Show everything */
     gtk_widget_show_all(box);
 
+    mud_connection_view_update_geometry (self);
+
 #ifdef ENABLE_GST
     /* Hide UI until download starts */
     gtk_widget_hide(self->priv->progressbar);
@@ -621,6 +615,7 @@ mud_connection_view_finalize (GObject *object)
     MudConnectionView *connection_view;
     GObjectClass *parent_class;
     gchar *history_item;
+    GList *entry;
 
 #ifdef ENABLE_GST                               
     MudMSPDownloadItem *item;
@@ -671,6 +666,19 @@ mud_connection_view_finalize (GObject *object)
     g_object_unref(connection_view->log);
     g_object_unref(connection_view->parse);
     g_object_unref(connection_view->profile);
+
+    entry = g_list_first(connection_view->priv->subwindows);
+
+    while(entry)
+    {
+        MudSubwindow *sub = MUD_SUBWINDOW(entry->data);
+
+        g_object_unref(sub);
+
+        entry = g_list_next(entry);
+    }
+
+    g_list_free(connection_view->priv->subwindows);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
@@ -939,6 +947,8 @@ mud_connection_view_close_current_cb(GtkWidget *menu_item, MudConnectionView *vi
 static void
 mud_connection_view_profile_changed_cb(MudProfile *profile, MudProfileMask *mask, MudConnectionView *view)
 {
+    GList *entry;
+
     if (mask->ScrollOnOutput)
         mud_connection_view_set_terminal_scrolloutput(view);
     if (mask->Scrollback)
@@ -947,6 +957,17 @@ mud_connection_view_profile_changed_cb(MudProfile *profile, MudProfileMask *mask
         mud_connection_view_set_terminal_font(view);
     if (mask->Foreground || mask->Background || mask->Colors)
         mud_connection_view_set_terminal_colors(view);
+
+    entry = g_list_first(view->priv->subwindows);
+
+    while(entry)
+    {
+        MudSubwindow *sub = MUD_SUBWINDOW(entry->data);
+
+        mud_subwindow_reread_profile(sub);
+
+        entry = g_list_next(entry);
+    }
 }
 
 static gboolean
@@ -1164,8 +1185,24 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
 
                     if(!gag)
                     {
-                        vte_terminal_feed(view->terminal,
-                                buf, length);
+                        if(g_str_equal(view->priv->current_output, "main"))
+                            vte_terminal_feed(view->terminal,
+                                              buf,
+                                              length);
+                        else
+                        {
+                            MudSubwindow *sub =
+                                mud_connection_view_get_subwindow(view,
+                                        view->priv->current_output);
+
+                            if(!sub)
+                                vte_terminal_feed(view->terminal,
+                                        buf,
+                                        length);
+                            else
+                                mud_subwindow_feed(sub, buf, length);
+                        }
+
                         mud_log_write_hook(view->log, buf, length);
                     }
 
@@ -1209,6 +1246,101 @@ popup_menu_detach(GtkWidget *widget, GtkMenu *menu)
 }
 
 /* Private Methods */
+static void
+mud_connection_view_set_size_force_grid (MudConnectionView *window,
+                                         VteTerminal *screen,
+                                         gboolean        even_if_mapped,
+                                         int             force_grid_width,
+                                         int             force_grid_height)
+{
+    /* Owen's hack from gnome-terminal */
+    GtkWidget *widget;
+    GtkWidget *app;
+    GtkWidget *mainwindow;
+    GtkRequisition toplevel_request;
+    GtkRequisition widget_request;
+    int w, h;
+    int char_width;
+    int char_height;
+    int grid_width;
+    int grid_height;
+    int xpad;
+    int ypad;
+
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(window));
+
+    /* be sure our geometry is up-to-date */
+    mud_connection_view_update_geometry (window);
+    widget = GTK_WIDGET (screen);
+
+    g_object_get(window->window, "window", &app, NULL);
+
+    gtk_widget_size_request (app, &toplevel_request);
+    gtk_widget_size_request (widget, &widget_request);
+
+    w = toplevel_request.width - widget_request.width;
+    h = toplevel_request.height - widget_request.height;
+
+    char_width = VTE_TERMINAL(screen)->char_width;
+    char_height = VTE_TERMINAL(screen)->char_height;
+
+    grid_width = VTE_TERMINAL(screen)->column_count;
+    grid_height = VTE_TERMINAL(screen)->row_count;
+
+    if (force_grid_width >= 0)
+        grid_width = force_grid_width;
+    if (force_grid_height >= 0)
+        grid_height = force_grid_height;
+
+    vte_terminal_get_padding (VTE_TERMINAL (screen), &xpad, &ypad);
+
+    w += xpad * 2 + char_width * grid_width;
+    h += ypad * 2 + char_height * grid_height;
+
+    if (even_if_mapped && GTK_WIDGET_MAPPED (app)) {
+        gtk_window_resize (GTK_WINDOW (app), w, h);
+    }
+    else {
+        gtk_window_set_default_size (GTK_WINDOW (app), w, h);
+    }
+}
+
+static void
+mud_connection_view_update_geometry (MudConnectionView *window)
+{
+    GtkWidget *widget = GTK_WIDGET(window->terminal);
+    GtkWidget *mainwindow;
+    GdkGeometry hints;
+    gint char_width;
+    gint char_height;
+    gint xpad, ypad;
+
+    char_width = VTE_TERMINAL(widget)->char_width;
+    char_height = VTE_TERMINAL(widget)->char_height;
+
+    vte_terminal_get_padding (VTE_TERMINAL (window->terminal), &xpad, &ypad);
+
+    hints.base_width = xpad;
+    hints.base_height = ypad;
+
+#define MIN_WIDTH_CHARS 4
+#define MIN_HEIGHT_CHARS 2
+
+    hints.width_inc = char_width;
+    hints.height_inc = char_height;
+
+    /* min size is min size of just the geometry widget, remember. */
+    hints.min_width = hints.base_width + hints.width_inc * MIN_WIDTH_CHARS;
+    hints.min_height = hints.base_height + hints.height_inc * MIN_HEIGHT_CHARS;
+
+    g_object_get(window->window, "window", &mainwindow, NULL);
+    gtk_window_set_geometry_hints (GTK_WINDOW (mainwindow),
+            widget,
+            &hints,
+            GDK_HINT_RESIZE_INC |
+            GDK_HINT_MIN_SIZE |
+            GDK_HINT_BASE_SIZE);
+}
 
 static GtkWidget*
 append_stock_menuitem(GtkWidget *menu, const gchar *text, GCallback callback, gpointer data)
@@ -1345,6 +1477,159 @@ mud_connection_view_set_terminal_font(MudConnectionView *view)
 }
 
 /* Public Methods */
+MudSubwindow *
+mud_connection_view_create_subwindow(MudConnectionView *view,
+                                     const gchar *title,
+                                     const gchar *identifier,
+                                     guint width,
+                                     guint height)
+{
+    MudSubwindow *sub;
+
+    if(!IS_MUD_CONNECTION_VIEW(view))
+        return NULL;
+
+    if(mud_connection_view_has_subwindow(view, identifier))
+        return mud_connection_view_get_subwindow(view, identifier);
+
+    sub = g_object_new(MUD_TYPE_SUBWINDOW,
+                       "title", title,
+                       "identifier", identifier,
+                       "width", width,
+                       "height", height,
+                       "parent-view", view,
+                       NULL);
+
+
+    view->priv->subwindows = g_list_append(view->priv->subwindows, sub);
+
+    return sub;
+}
+
+gboolean
+mud_connection_view_has_subwindow(MudConnectionView *view,
+                                  const gchar *identifier)
+{
+    GList *entry;
+    gchar *ident;
+
+    if(!IS_MUD_CONNECTION_VIEW(view))
+        return FALSE;
+
+    entry = g_list_first(view->priv->subwindows);
+
+    while(entry)
+    {
+        MudSubwindow *sub = MUD_SUBWINDOW(entry->data);
+
+        g_object_get(sub, "identifier", &ident, NULL);
+
+        if(g_str_equal(identifier, ident))
+        {
+            g_free(ident);
+
+            return TRUE;
+        }
+
+        g_free(ident);
+
+        entry = g_list_next(entry);
+    }
+
+    return FALSE;
+}
+
+void
+mud_connection_view_set_output(MudConnectionView *view,
+                               const gchar *identifier)
+{
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    if(mud_connection_view_has_subwindow(view, identifier) ||
+       g_str_equal(identifier, "main"))
+    {
+        g_free(view->priv->current_output);
+        view->priv->current_output = g_strdup(identifier);
+    }
+}
+
+
+void
+mud_connection_view_show_subwindow(MudConnectionView *view,
+                                   const gchar *identifier)
+{
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    if(mud_connection_view_has_subwindow(view, identifier))
+    {
+        MudSubwindow *sub =
+            mud_connection_view_get_subwindow(view, identifier);
+
+        mud_subwindow_show(sub);
+    }
+}
+
+MudSubwindow *
+mud_connection_view_get_subwindow(MudConnectionView *view,
+                                  const gchar *identifier)
+{
+    GList *entry;
+    gchar *ident;
+
+    if(!IS_MUD_CONNECTION_VIEW(view))
+        return NULL;
+
+    if(!mud_connection_view_has_subwindow(view, identifier))
+        return NULL;
+
+    entry = view->priv->subwindows;
+
+    while(entry)
+    {
+        MudSubwindow *sub = MUD_SUBWINDOW(entry->data);
+
+        g_object_get(sub, "identifier", &ident, NULL);
+
+        if(g_str_equal(ident, identifier))
+        {
+            g_free(ident);
+
+            return sub;
+        }
+
+        g_free(ident);
+
+        entry = g_list_next(entry);
+    }
+
+    return NULL;
+}
+
+void
+mud_connection_view_remove_subwindow(MudConnectionView *view,
+                                     const gchar *identifier)
+{
+    MudSubwindow *sub;
+
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    if(!mud_connection_view_has_subwindow(view, identifier))
+        return;
+
+    sub = mud_connection_view_get_subwindow(view, identifier);
+
+    if(g_str_equal(view->priv->current_output, identifier))
+    {
+        g_free(view->priv->current_output);
+        view->priv->current_output = g_strdup("main");
+    }
+
+    view->priv->subwindows = g_list_remove(view->priv->subwindows, sub);
+
+    g_object_unref(sub);
+
+}
+
 void
 mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudConnectionColorType type)
 {

@@ -29,6 +29,7 @@ typedef struct _MudConnectionViewPrivate    MudConnectionViewPrivate;
 #include "mud-window.h"
 #include "mud-log.h"
 #include "mud-tray.h"
+#include "mud-subwindow.h"
 
 struct _MudConnectionViewClass
 {
@@ -104,6 +105,27 @@ void mud_connection_view_set_profile(MudConnectionView *view, MudProfile *profil
 
 void mud_connection_view_start_logging(MudConnectionView *view);
 void mud_connection_view_stop_logging(MudConnectionView *view);
+
+MudSubwindow *mud_connection_view_create_subwindow(MudConnectionView *view,
+                                                   const gchar *title,
+                                                   const gchar *identifier,
+                                                   guint width,
+                                                   guint height);
+
+gboolean mud_connection_view_has_subwindow(MudConnectionView *view,
+                                           const gchar *identifier);
+
+void mud_connection_view_set_output(MudConnectionView *view,
+                                    const gchar *identifier);
+
+void mud_connection_view_show_subwindow(MudConnectionView *view,
+                                        const gchar *identifier);
+
+void mud_connection_view_remove_subwindow(MudConnectionView *view,
+                                          const gchar *identifier);
+
+MudSubwindow *mud_connection_view_get_subwindow(MudConnectionView *view,
+                                                const gchar *identifier);
 
 G_END_DECLS
 

@@ -36,6 +36,8 @@ typedef struct _ZmpSubwindow            ZmpSubwindow;
 typedef struct _ZmpSubwindowClass       ZmpSubwindowClass;
 typedef struct _ZmpSubwindowPrivate     ZmpSubwindowPrivate;
 
+#include "handlers/mud-telnet-handlers.h"
+
 struct _ZmpSubwindowClass
 {
     GObjectClass parent_class;

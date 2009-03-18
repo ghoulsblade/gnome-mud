@@ -25,10 +25,13 @@
 #include <glib-object.h>
 #include <glib/gi18n.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"
+#include "mud-connection-view.h"
 #include "handlers/mud-telnet-handlers.h"
+#include "zmp-main.h"
 #include "zmp-package-interface.h"
 #include "zmp-subwindow.h"
 
@@ -36,6 +39,7 @@ struct _ZmpSubwindowPrivate
 {
     /* Interface Properties */
     gchar *package;
+    MudTelnetZmp *parent;
 
     /* Private Instance Members */
 };
@@ -45,6 +49,7 @@ enum
 {
     PROP_ZMP_SUBWINDOW_0,
     PROP_PACKAGE,
+    PROP_PARENT
 };
 
 /* Class Functions */
@@ -70,9 +75,14 @@ static void zmp_subwindow_register_commands(MudTelnetZmp *zmp);
 /* Subwindow Commands */
 static void zmp_subwindow_open(MudTelnetZmp *self, gint argc, gchar **argv);
 static void zmp_subwindow_close(MudTelnetZmp *self, gint argc, gchar **argv);
-static void zmp_subwindow_size(MudTelnetZmp *self, gint argc, gchar **argv);
-static void zmp_subwindow_set_input(MudTelnetZmp *self, gint argc, gchar **argv);
 static void zmp_subwindow_select(MudTelnetZmp *self, gint argc, gchar **argv);
+static void zmp_subwindow_do_input(MudSubwindow *sub,
+                                   const gchar *input,
+                                   ZmpSubwindow *self);
+static void zmp_subwindow_size(MudSubwindow *sub,
+                               guint width,
+                               guint height,
+                               ZmpSubwindow *self);
 
 /* Create the Type. We implement ZmpPackageInterface */
 G_DEFINE_TYPE_WITH_CODE(ZmpSubwindow, zmp_subwindow, G_TYPE_OBJECT,
@@ -101,6 +111,10 @@ zmp_subwindow_class_init (ZmpSubwindowClass *klass)
     g_object_class_override_property(object_class,
                                      PROP_PACKAGE,
                                      "package");
+
+    g_object_class_override_property(object_class,
+                                     PROP_PARENT,
+                                     "parent");
 }
 
 static void
@@ -117,6 +131,7 @@ zmp_subwindow_init (ZmpSubwindow *self)
 
     /* Set the defaults */
     self->priv->package = NULL;
+    self->priv->parent = NULL;
 }
 
 static GObject *
@@ -136,7 +151,13 @@ zmp_subwindow_constructor (GType gtype,
 
     self = ZMP_SUBWINDOW(obj);
 
-    self->priv->package = g_strdup("zmp.");
+    if(!self->priv->parent)
+    {
+        g_printf("ERROR: Tried to instantiate ZmpSubwindow without passing parent MudTelnetZMP\n");
+        g_error("ERROR: Tried to instantiate ZmpSubwindow without passing parent MudTelnetZMP");
+    }
+
+    self->priv->package = g_strdup("subwindow");
 
     return obj;
 }
@@ -167,6 +188,10 @@ zmp_subwindow_set_property(GObject *object,
 
     switch(prop_id)
     {
+        case PROP_PARENT:
+            self->priv->parent = MUD_TELNET_ZMP(g_value_get_object(value));
+            break;
+
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
             break;
@@ -185,6 +210,10 @@ zmp_subwindow_get_property(GObject *object,
 
     switch(prop_id)
     {
+        case PROP_PARENT:
+            g_value_take_object(value, self->priv->parent);
+            break;
+
         case PROP_PACKAGE:
             g_value_set_string(value, self->priv->package);
             break;
@@ -208,39 +237,155 @@ zmp_subwindow_register_commands(MudTelnetZmp *zmp)
                                               "subwindow.close",
                                               zmp_subwindow_close));
     mud_zmp_register(zmp, mud_zmp_new_command("subwindow.",
-                                              "subwindow.size",
-                                              zmp_subwindow_size));
-    mud_zmp_register(zmp, mud_zmp_new_command("subwindow.",
-                                              "subwindow.set-input",
-                                              zmp_subwindow_set_input));
-    mud_zmp_register(zmp, mud_zmp_new_command("subwindow.",
                                               "subwindow.select",
                                               zmp_subwindow_select));
+
+    /* If the server sends us these, its a broken server.
+     * We send these commands to the server. */
+    mud_zmp_register(zmp, mud_zmp_new_command("subwindow.",
+                                              "subwindow.size",
+                                              NULL));
+    mud_zmp_register(zmp, mud_zmp_new_command("subwindow.",
+                                              "subwindow.set-input",
+                                              NULL));
 }
 
 /* ZmpSubwindow Commands */
 static void
-zmp_subwindow_open(MudTelnetZmp *self, gint argc, gchar **argv)
+zmp_subwindow_open(MudTelnetZmp *self,
+                   gint argc,
+                   gchar **argv)
 {
+    MudConnectionView *view;
+    MudTelnet *telnet;
+    MudSubwindow *sub;
+    ZmpSubwindow *pkg;
+    ZmpMain *zmp_main;
+
+    if(argc != 5)
+        return;
+
+    g_object_get(self,
+                 "telnet", &telnet,
+                 "zmp-main", &zmp_main,
+                 NULL);
+    g_object_get(telnet, "parent-view", &view, NULL);
+    
+    pkg = zmp_main_get_package_by_name(zmp_main, "subwindow");
+
+    if(mud_connection_view_has_subwindow(view, argv[1]))
+    {
+        sub = mud_connection_view_get_subwindow(view, argv[1]);
+
+        g_object_set(sub, "title", argv[2], NULL);
+        mud_subwindow_set_title(sub, argv[2]);
+        mud_subwindow_set_size(sub,
+                               (guint)atol(argv[3]),
+                               (guint)atol(argv[4]));
+
+        mud_connection_view_show_subwindow(view, argv[1]);
+    }
+    else
+    {
+        sub = mud_connection_view_create_subwindow(view,
+                                                   argv[2],
+                                                   argv[1],
+                                                   (guint)atol(argv[3]),
+                                                   (guint)atol(argv[4]));
+
+        g_signal_connect(sub,
+                         "resized",
+                         G_CALLBACK(zmp_subwindow_size),
+                         pkg);
+
+        g_signal_connect(sub,
+                         "input-received",
+                         G_CALLBACK(zmp_subwindow_do_input),
+                         pkg);
+    }
 }
 
 static void
-zmp_subwindow_close(MudTelnetZmp *self, gint argc, gchar **argv)
+zmp_subwindow_close(MudTelnetZmp *self,
+                    gint argc,
+                    gchar **argv)
 {
+    MudConnectionView *view;
+    MudTelnet *telnet;
+
+    if(argc != 2)
+        return;
+
+    g_object_get(self, "telnet", &telnet, NULL);
+    g_object_get(telnet, "parent-view", &view, NULL);
+
+    mud_connection_view_remove_subwindow(view, argv[1]);
 }
 
 static void
-zmp_subwindow_size(MudTelnetZmp *self, gint argc, gchar **argv)
+zmp_subwindow_select(MudTelnetZmp *self,
+                     gint argc,
+                     gchar **argv)
 {
+    MudConnectionView *view;
+    MudTelnet *telnet;
+
+    if(argc != 2)
+        return;
+
+    g_object_get(self, "telnet", &telnet, NULL);
+    g_object_get(telnet, "parent-view", &view, NULL);
+
+    mud_connection_view_set_output(view, argv[1]);
 }
 
 static void
-zmp_subwindow_set_input(MudTelnetZmp *self, gint argc, gchar **argv)
+zmp_subwindow_do_input(MudSubwindow *sub,
+                       const gchar *input,
+                       ZmpSubwindow *self)
 {
+    MudConnectionView *view;
+    gchar *identifier;
+
+    g_object_get(sub,
+                 "identifier", &identifier,
+                 "parent-view", &view,
+                 NULL);
+
+    mud_zmp_send_command(self->priv->parent, 2,
+                         "subwindow.set-input",
+                         identifier);
+
+    mud_connection_view_send(view, input);
+
+    mud_zmp_send_command(self->priv->parent, 2,
+                         "subwindow.set-input",
+                         "main");
+
+    g_free(identifier);
 }
 
 static void
-zmp_subwindow_select(MudTelnetZmp *self, gint argc, gchar **argv)
+zmp_subwindow_size(MudSubwindow *sub,
+                   guint width,
+                   guint height,
+                   ZmpSubwindow *self)
 {
+    gchar *identifier;
+    gchar *w, *h;
+
+    g_object_get(sub, "identifier", &identifier, NULL);
+    w = g_strdup_printf("%d", width);
+    h = g_strdup_printf("%d", height);
+
+    mud_zmp_send_command(self->priv->parent, 4,
+                         "subwindow.size",
+                         identifier,
+                         w,
+                         h);
+
+    g_free(w);
+    g_free(h);
+    g_free(identifier);
 }
 

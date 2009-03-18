@@ -56,6 +56,8 @@ gnome_mud_SOURCES =				\
 	mud-profile.h				\
 	mud-regex.c				\
 	mud-regex.h				\
+	mud-subwindow.c				\
+	mud-subwindow.h				\
 	mud-telnet.c				\
 	mud-telnet.h				\
 	mud-tray.c				\

@@ -36,6 +36,9 @@ typedef struct _ZmpMain            ZmpMain;
 typedef struct _ZmpMainClass       ZmpMainClass;
 typedef struct _ZmpMainPrivate     ZmpMainPrivate;
 
+#include <glib.h>
+#include "zmp-package-interface.h"
+
 struct _ZmpMainClass
 {
     GObjectClass parent_class;
@@ -52,6 +55,7 @@ struct _ZmpMain
 GType zmp_main_get_type (void);
 
 void zmp_main_register_commands(ZmpMain *self);
+ZmpPackage *zmp_main_get_package_by_name(ZmpMain *self, const gchar *package);
 
 G_END_DECLS
 
