@@ -1,5 +1,22 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
+	* src/mud-subwindow.c (mud_subwindow_constructor),
+	(mud_subwindow_set_terminal_font),
+	(mud_subwindow_set_size_force_grid),
+	(mud_subwindow_update_geometry), (mud_subwindow_mapped_cb),
+	(mud_subwindow_entry_keypress_cb), (mud_subwindow_set_size): Will no
+	longer send blank input if enter is pressed and the input area is
+	hidden.  Only updates window geometry if the window is mapped.  Added
+	callback to map to force grid on VTE when the window is mapped. This
+	hopefully fixes a strange bug where VTE would keep trying to resize to
+	80x25.
+	* src/zmp/zmp-subwindow.c (zmp_subwindow_register_commands),
+	(zmp_subwindow_open), (zmp_subwindow_do_input): Added subwindow.input
+	support. do_input now uses subwindow.input to pass input to the
+	server.
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.[ch]: Added api for hiding and showing all
 	subwindows attached to the view.
 	* src/mud-subwindow.c: Now uses gdk_window_get_frame_extents to store

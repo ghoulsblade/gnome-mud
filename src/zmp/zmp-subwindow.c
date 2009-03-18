@@ -244,10 +244,14 @@ zmp_subwindow_register_commands(MudTelnetZmp *zmp)
                                               "subwindow.set-input",
                                               zmp_subwindow_set_input));
 
+
     /* If the server sends us these, its a broken server.
      * We send these commands to the server. */
     mud_zmp_register(zmp, mud_zmp_new_command("subwindow.",
                                               "subwindow.size",
+                                              NULL));
+    mud_zmp_register(zmp, mud_zmp_new_command("subwindow.",
+                                              "subwindow.input",
                                               NULL));
 
 }
@@ -314,6 +318,7 @@ zmp_subwindow_open(MudTelnetZmp *self,
                          "input-received",
                          G_CALLBACK(zmp_subwindow_do_input),
                          pkg);
+
     }
 
     g_object_set(sub,
@@ -391,13 +396,9 @@ zmp_subwindow_do_input(MudSubwindow *sub,
                        const gchar *input,
                        ZmpSubwindow *self)
 {
-    MudConnectionView *view;
-
-    g_object_get(sub,
-                 "parent-view", &view,
-                 NULL);
-
-    mud_connection_view_send(view, input);
+    mud_zmp_send_command(self->priv->parent, 2,
+            "subwindow.input",
+            input);
 }
 
 static void

@@ -1500,7 +1500,6 @@ mud_connection_view_create_subwindow(MudConnectionView *view,
                        "parent-view", view,
                        NULL);
 
-
     view->priv->subwindows = g_list_append(view->priv->subwindows, sub);
 
     return sub;

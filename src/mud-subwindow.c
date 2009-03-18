@@ -133,6 +133,8 @@ static gboolean mud_subwindow_configure_event_cb(GtkWidget *widget,
 static void mud_subwindow_size_allocate_cb(GtkWidget *widget,
                                            GtkAllocation *allocation,
                                            MudSubwindow *self);
+
+static void mud_subwindow_mapped_cb(GtkWidget *widget, MudSubwindow *self);
                                            
 
 /* Private Methods */
@@ -325,6 +327,7 @@ mud_subwindow_constructor (GType gtype,
     GtkWidget *term_box;
     MudWindow *app;
     GtkWidget *main_window;
+    guint cache_width, cache_height;
 
     MudSubwindow *self;
     GObject *obj;
@@ -366,6 +369,8 @@ mud_subwindow_constructor (GType gtype,
 
     self->priv->old_width = self->priv->width;
     self->priv->old_height = self->priv->height;
+    cache_width = self->priv->width;
+    cache_height = self->priv->height;
 
     /* start glading */
     glade = glade_xml_new(GLADEDIR "/main.glade", "subwindow", NULL);
@@ -425,30 +430,12 @@ mud_subwindow_constructor (GType gtype,
             GTK_RANGE(self->priv->scroll),
             VTE_TERMINAL(self->priv->terminal)->adjustment);
 
-    gtk_widget_show_all(self->priv->window);
-
-    mud_subwindow_update_geometry (self);
-
-    vte_terminal_set_size(VTE_TERMINAL(self->priv->terminal),
-                          self->priv->width,
-                          self->priv->height);
-
-    mud_subwindow_set_size_force_grid(self,
-                                      VTE_TERMINAL(self->priv->terminal),
-                                      TRUE,
-                                      -1,
-                                      -1);
-
-    if(self->priv->input_enabled)
-        gtk_widget_show(self->priv->entry);
-    else
-        gtk_widget_hide(self->priv->entry);
-
     gtk_window_set_title(GTK_WINDOW(self->priv->window), self->priv->title);
 
-    gtk_window_get_size(GTK_WINDOW(self->priv->window),
-                        &self->priv->pixel_width,
-                        &self->priv->pixel_height);
+    g_signal_connect(self->priv->window,
+                     "map",
+                     G_CALLBACK(mud_subwindow_mapped_cb),
+                     self);
 
     g_signal_connect(self->priv->window,
                      "delete-event",
@@ -470,6 +457,14 @@ mud_subwindow_constructor (GType gtype,
                      G_CALLBACK(mud_subwindow_entry_keypress_cb),
                      self);
 
+    gtk_widget_show_all(self->priv->window);
+
+    if(self->priv->input_enabled)
+        gtk_widget_show(self->priv->entry);
+    else
+        gtk_widget_hide(self->priv->entry);
+
+    mud_subwindow_update_geometry(self);
     mud_subwindow_reread_profile(self);
 
     gtk_window_get_size(GTK_WINDOW(self->priv->window),
@@ -477,14 +472,14 @@ mud_subwindow_constructor (GType gtype,
                         &self->priv->pixel_height);
 
     vte_terminal_set_size(VTE_TERMINAL(self->priv->terminal),
-                          self->priv->width,
-                          self->priv->height);
+                          cache_width,
+                          cache_height);
 
     mud_subwindow_set_size_force_grid(self,
                                       VTE_TERMINAL(self->priv->terminal),
                                       TRUE,
-                                      -1,
-                                      -1);
+                                      cache_width,
+                                      cache_height);
 
     return obj;
 }
@@ -749,8 +744,8 @@ mud_subwindow_set_terminal_font(MudSubwindow *self)
     mud_subwindow_set_size_force_grid(self,
                                       VTE_TERMINAL(self->priv->terminal),
                                       TRUE,
-                                      -1,
-                                      -1);
+                                      self->priv->width,
+                                      self->priv->height);
 }
 
 static void
@@ -806,9 +801,6 @@ mud_subwindow_set_size_force_grid (MudSubwindow *window,
     if (even_if_mapped && GTK_WIDGET_MAPPED (app)) {
         gtk_window_resize (GTK_WINDOW (app), w, h);
     }
-    else {
-        gtk_window_set_default_size (GTK_WINDOW (app), w, h);
-    }
 }
 
 static void
@@ -820,30 +812,33 @@ mud_subwindow_update_geometry (MudSubwindow *window)
     gint char_height;
     gint xpad, ypad;
 
-    char_width = VTE_TERMINAL(widget)->char_width;
-    char_height = VTE_TERMINAL(widget)->char_height;
+    if(GTK_WIDGET_MAPPED(window->priv->window))
+    {
+        char_width = VTE_TERMINAL(widget)->char_width;
+        char_height = VTE_TERMINAL(widget)->char_height;
 
-    vte_terminal_get_padding (VTE_TERMINAL (window->priv->terminal), &xpad, &ypad);
+        vte_terminal_get_padding (VTE_TERMINAL (window->priv->terminal), &xpad, &ypad);
 
-    hints.base_width = xpad;
-    hints.base_height = ypad;
+        hints.base_width = xpad;
+        hints.base_height = ypad;
 
 #define MIN_WIDTH_CHARS 4
 #define MIN_HEIGHT_CHARS 2
 
-    hints.width_inc = char_width;
-    hints.height_inc = char_height;
+        hints.width_inc = char_width;
+        hints.height_inc = char_height;
 
-    /* min size is min size of just the geometry widget, remember. */
-    hints.min_width = hints.base_width + hints.width_inc * MIN_WIDTH_CHARS;
-    hints.min_height = hints.base_height + hints.height_inc * MIN_HEIGHT_CHARS;
+        /* min size is min size of just the geometry widget, remember. */
+        hints.min_width = hints.base_width + hints.width_inc * MIN_WIDTH_CHARS;
+        hints.min_height = hints.base_height + hints.height_inc * MIN_HEIGHT_CHARS;
 
-    gtk_window_set_geometry_hints (GTK_WINDOW (window->priv->window),
-            widget,
-            &hints,
-            GDK_HINT_RESIZE_INC |
-            GDK_HINT_MIN_SIZE |
-            GDK_HINT_BASE_SIZE);
+        gtk_window_set_geometry_hints (GTK_WINDOW (window->priv->window),
+                widget,
+                &hints,
+                GDK_HINT_RESIZE_INC |
+                GDK_HINT_MIN_SIZE |
+                GDK_HINT_BASE_SIZE);
+    }
 }
 
 /* MudSubwindow Callbacks */
@@ -866,6 +861,20 @@ mud_subwindow_delete_event_cb(GtkWidget *widget,
     self->priv->view_hidden = FALSE;
 
     return TRUE;
+}
+
+static void
+mud_subwindow_mapped_cb(GtkWidget *widget, MudSubwindow *self)
+{
+    vte_terminal_set_size(VTE_TERMINAL(self->priv->terminal),
+                          self->priv->width,
+                          self->priv->height);
+
+    mud_subwindow_set_size_force_grid(self,
+                                      VTE_TERMINAL(self->priv->terminal),
+                                      TRUE,
+                                      self->priv->width,
+                                      self->priv->height);
 }
 
 static gboolean
@@ -911,7 +920,8 @@ mud_subwindow_entry_keypress_cb(GtkWidget *widget,
     GConfClient *client = gconf_client_get_default();
 
     if ((event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) &&
-            (event->state & gtk_accelerator_get_default_mod_mask()) == 0)
+        (event->state & gtk_accelerator_get_default_mod_mask()) == 0   &&
+         GTK_WIDGET_MAPPED(self->priv->entry) )
     {
         gchar *head = g_queue_peek_head(self->priv->history);
         const gchar *text = gtk_entry_get_text(GTK_ENTRY(self->priv->entry));
@@ -992,8 +1002,8 @@ mud_subwindow_set_size(MudSubwindow *self,
     mud_subwindow_set_size_force_grid(self,
                                       VTE_TERMINAL(self->priv->terminal),
                                       TRUE,
-                                      -1,
-                                      -1);
+                                      self->priv->width,
+                                      self->priv->height);
 }
 
 void
