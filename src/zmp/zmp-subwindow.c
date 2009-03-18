@@ -261,6 +261,7 @@ zmp_subwindow_open(MudTelnetZmp *self,
     MudSubwindow *sub;
     ZmpSubwindow *pkg;
     ZmpMain *zmp_main;
+    gboolean visible;
 
     if(argc != 5)
         return;
@@ -277,10 +278,18 @@ zmp_subwindow_open(MudTelnetZmp *self,
     {
         sub = mud_connection_view_get_subwindow(view, argv[1]);
 
-        mud_connection_view_show_subwindow(view, argv[1]);
+        g_object_get(sub, "visible", &visible, NULL);
+
+        if(!visible)
+            mud_connection_view_show_subwindow(view, argv[1]);
         
         g_object_set(sub, "title", argv[2], NULL);
         mud_subwindow_set_title(sub, argv[2]);
+
+        g_object_set(sub,
+                     "old-width", (guint)atol(argv[3]),
+                     "old-height", (guint)atol(argv[4]),
+                     NULL);
         
         mud_subwindow_set_size(sub,
                                (guint)atol(argv[3]),

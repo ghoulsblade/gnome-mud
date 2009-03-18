@@ -1,5 +1,12 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
+	* src/zmp/zmp-subwindow.c (zmp_subwindow_open): Checks for subwindow
+	visiblity before attempting to show it, updates old-width/old-height
+	before resizing. This prevents spurious subwindow.size's being sent to
+	the server as the terminal gets it's act together.
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
 	* src/mud-subwindow.c (mud_subwindow_constructor): MudSubwindows no
 	longer appear in the taskbar or pager. Additionally, they are set
 	transient for the main window so when it is minimized they dissapear
