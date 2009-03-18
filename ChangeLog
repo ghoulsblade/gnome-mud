@@ -1,5 +1,13 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
+	* src/mud-subwindow.c (mud_subwindow_constructor): Sets the window
+	width and height again after the profile read as it might have
+	changed.
+	* src/zmp/zmp-subwindow.c (zmp_subwindow_open): Now explicity sends
+	the window size rather than relying on the callback on window open.
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
 	* src/mud-subwindow.c (mud_subwindow_set_property),
 	(mud_subwindow_set_terminal_font): Removed debug logging. Now updates
 	VTE grid when font is changed.

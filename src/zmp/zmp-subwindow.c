@@ -271,7 +271,7 @@ zmp_subwindow_open(MudTelnetZmp *self,
                  NULL);
     g_object_get(telnet, "parent-view", &view, NULL);
     
-    pkg = zmp_main_get_package_by_name(zmp_main, "subwindow");
+    pkg = ZMP_SUBWINDOW(zmp_main_get_package_by_name(zmp_main, "subwindow"));
 
     if(mud_connection_view_has_subwindow(view, argv[1]))
     {
@@ -304,6 +304,12 @@ zmp_subwindow_open(MudTelnetZmp *self,
                          G_CALLBACK(zmp_subwindow_do_input),
                          pkg);
     }
+
+    mud_zmp_send_command(self, 4,
+                         "subwindow.size",
+                         argv[1],
+                         argv[3],
+                         argv[4]);
 }
 
 static void

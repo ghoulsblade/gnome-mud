@@ -396,6 +396,10 @@ mud_subwindow_constructor (GType gtype,
 
     mud_subwindow_reread_profile(self);
 
+    gtk_window_get_size(GTK_WINDOW(self->priv->window),
+                        &self->priv->pixel_width,
+                        &self->priv->pixel_height);
+
     return obj;
 }
 
@@ -745,7 +749,7 @@ mud_subwindow_configure_event_cb(GtkWidget *widget,
 {
     MudSubwindow *self = MUD_SUBWINDOW(user_data);
 
-    if(event->width != self->priv->pixel_width ||
+    if(event->width  != self->priv->pixel_width ||
        event->height != self->priv->pixel_height)
     {
         self->priv->pixel_width = event->width;
