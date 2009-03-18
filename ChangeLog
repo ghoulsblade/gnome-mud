@@ -1,5 +1,12 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
+	* src/mud-subwindow.c (mud_subwindow_constructor): MudSubwindows no
+	longer appear in the taskbar or pager. Additionally, they are set
+	transient for the main window so when it is minimized they dissapear
+	too.
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
 	* src/mud-subwindow.c (mud_subwindow_size_allocate_cb): Wrapped in a
 	GTK_WIDGET_MAPPED block so we don't send irrelevant values.
 

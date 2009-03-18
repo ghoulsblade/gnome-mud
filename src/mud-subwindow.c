@@ -31,6 +31,7 @@
 #include "gnome-mud.h"
 #include "gnome-mud-marshallers.h"
 #include "mud-connection-view.h"
+#include "mud-window.h"
 #include "mud-subwindow.h"
 
 struct _MudSubwindowPrivate
@@ -310,6 +311,8 @@ mud_subwindow_constructor (GType gtype,
                            GObjectConstructParam *properties)
 {
     GtkWidget *term_box;
+    MudWindow *app;
+    GtkWidget *main_window;
 
     MudSubwindow *self;
     GObject *obj;
@@ -358,6 +361,17 @@ mud_subwindow_constructor (GType gtype,
     self->priv->window = glade_xml_get_widget(glade, "subwindow");
 
     g_object_unref(glade);
+
+    gtk_window_set_type_hint(GTK_WINDOW(self->priv->window),
+                             GDK_WINDOW_TYPE_HINT_UTILITY);
+    gtk_window_set_skip_taskbar_hint(GTK_WINDOW(self->priv->window), TRUE);
+    gtk_window_set_skip_pager_hint(GTK_WINDOW(self->priv->window), TRUE);
+
+    g_object_get(self->priv->parent_view, "window", &app, NULL);
+    g_object_get(app, "window", &main_window, NULL);
+
+    gtk_window_set_transient_for(GTK_WINDOW(self->priv->window),
+                                 GTK_WINDOW(main_window));
 
     self->priv->vbox = gtk_vbox_new(FALSE, 0);
     self->priv->entry = gtk_entry_new();
@@ -985,3 +999,4 @@ mud_subwindow_set_title(MudSubwindow *self,
 
     gtk_window_set_title(GTK_WINDOW(self->priv->window), title);
 }
+
