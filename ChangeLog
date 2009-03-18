@@ -1,5 +1,14 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.[ch]: 
+	* src/mud-subwindow.[ch]: Added api for setting input capabilities on
+	a subwindow.
+	* src/zmp/zmp-subwindow.c (zmp_subwindow_register_commands),
+	(zmp_subwindow_set_input), (zmp_subwindow_do_input): Now properly
+	supports subwindow.set-input.  
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
 	* src/zmp/zmp-subwindow.c (zmp_subwindow_open): Checks for subwindow
 	visiblity before attempting to show it, updates old-width/old-height
 	before resizing. This prevents spurious subwindow.size's being sent to

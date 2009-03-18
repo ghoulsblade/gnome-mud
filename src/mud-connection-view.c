@@ -1553,6 +1553,22 @@ mud_connection_view_set_output(MudConnectionView *view,
     }
 }
 
+void
+mud_connection_view_enable_subwindow_input(MudConnectionView *view,
+                                           const gchar *identifier,
+                                           gboolean enable)
+{
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    if(mud_connection_view_has_subwindow(view, identifier))
+    {
+        MudSubwindow *sub =
+            mud_connection_view_get_subwindow(view, identifier);
+
+        mud_subwindow_enable_input(sub, enable);
+    }
+}
+
 
 void
 mud_connection_view_show_subwindow(MudConnectionView *view,

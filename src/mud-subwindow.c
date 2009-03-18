@@ -246,7 +246,7 @@ mud_subwindow_class_init (MudSubwindowClass *klass)
             g_param_spec_boolean("input-enabled",
                 "Input Enabled",
                 "True if subwindow accepts input.",
-                TRUE,
+                FALSE,
                 G_PARAM_READWRITE));
 
     /* Register Signals */
@@ -288,7 +288,7 @@ mud_subwindow_init (MudSubwindow *self)
     self->priv->title = NULL;
     self->priv->identifier = NULL;
     self->priv->visible = TRUE;
-    self->priv->input_enabled = TRUE;
+    self->priv->input_enabled = FALSE;
     self->priv->history = g_queue_new();
     self->priv->current_history_index = 0;
     self->priv->width = 0;
@@ -998,5 +998,21 @@ mud_subwindow_set_title(MudSubwindow *self,
     g_return_if_fail(MUD_IS_SUBWINDOW(self));
 
     gtk_window_set_title(GTK_WINDOW(self->priv->window), title);
+}
+
+void
+mud_subwindow_enable_input(MudSubwindow *self,
+                           gboolean enable)
+{
+    g_return_if_fail(MUD_IS_SUBWINDOW(self));
+
+    self->priv->input_enabled = enable;
+
+    if(enable)
+        gtk_widget_show(self->priv->entry);
+    else
+        gtk_widget_hide(self->priv->entry);
+
+    mud_subwindow_set_size(self, self->priv->width, self->priv->height);
 }
 

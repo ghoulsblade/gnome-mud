@@ -118,6 +118,10 @@ gboolean mud_connection_view_has_subwindow(MudConnectionView *view,
 void mud_connection_view_set_output(MudConnectionView *view,
                                     const gchar *identifier);
 
+void mud_connection_view_enable_subwindow_input(MudConnectionView *view,
+                                                const gchar *identifier,
+                                                gboolean enable);
+
 void mud_connection_view_show_subwindow(MudConnectionView *view,
                                         const gchar *identifier);
 
