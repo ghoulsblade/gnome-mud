@@ -137,8 +137,9 @@ static void mud_subwindow_size_allocate_cb(GtkWidget *widget,
                                            GtkAllocation *allocation,
                                            MudSubwindow *self);
 
-static void mud_subwindow_mapped_cb(GtkWidget *widget, MudSubwindow *self);
-                                           
+static gboolean mud_subwindow_focus_in_cb(GtkWidget *widget,
+                                          GdkEventFocus *event,
+                                          gpointer user_data);
 
 /* Private Methods */
 static void mud_subwindow_set_size_force_grid (MudSubwindow *window,
@@ -249,7 +250,6 @@ mud_subwindow_class_init (MudSubwindowClass *klass)
                 "True if subwindow is visible.",
                 TRUE,
                 G_PARAM_READWRITE));
-
 
     g_object_class_install_property(object_class,
             PROP_VIEW_HIDDEN,
@@ -474,11 +474,6 @@ mud_subwindow_constructed(GObject *object)
                                       self->priv->initial_height);
 
     g_signal_connect(self->priv->window,
-                     "map",
-                     G_CALLBACK(mud_subwindow_mapped_cb),
-                     self);
-
-    g_signal_connect(self->priv->window,
                      "delete-event",
                      G_CALLBACK(mud_subwindow_delete_event_cb),
                      self);
@@ -496,6 +491,11 @@ mud_subwindow_constructed(GObject *object)
     g_signal_connect(self->priv->entry,
                      "key_press_event",
                      G_CALLBACK(mud_subwindow_entry_keypress_cb),
+                     self);
+
+    g_signal_connect(self->priv->terminal,
+                     "focus-in-event",
+                     G_CALLBACK(mud_subwindow_focus_in_cb),
                      self);
 }
 
@@ -878,11 +878,6 @@ mud_subwindow_delete_event_cb(GtkWidget *widget,
     return TRUE;
 }
 
-static void
-mud_subwindow_mapped_cb(GtkWidget *widget, MudSubwindow *self)
-{
-}
-
 static gboolean
 mud_subwindow_configure_event_cb(GtkWidget *widget,
                                  GdkEventConfigure *event,
@@ -890,7 +885,8 @@ mud_subwindow_configure_event_cb(GtkWidget *widget,
 {
     MudSubwindow *self = MUD_SUBWINDOW(user_data);
 
-    gtk_widget_grab_focus(self->priv->entry);
+    if(GTK_WIDGET_MAPPED(self->priv->entry))
+        gtk_widget_grab_focus(self->priv->entry);
 
     return FALSE;
 }
@@ -915,6 +911,19 @@ mud_subwindow_size_allocate_cb(GtkWidget *widget,
                     self->priv->height);
         }
     }
+}
+
+static gboolean
+mud_subwindow_focus_in_cb(GtkWidget *widget,
+                          GdkEventFocus *event,
+                          gpointer user_data)
+{
+    MudSubwindow *self = MUD_SUBWINDOW(user_data);
+
+    if(GTK_WIDGET_MAPPED(self->priv->entry))
+        gtk_widget_grab_focus(self->priv->entry);
+
+    return TRUE;
 }
 
 static gboolean
