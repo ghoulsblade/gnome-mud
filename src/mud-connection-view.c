@@ -662,7 +662,7 @@ mud_connection_view_finalize (GObject *object)
     
     if(connection_view->telnet)
         g_object_unref(connection_view->telnet);
-   
+  
     g_object_unref(connection_view->log);
     g_object_unref(connection_view->parse);
     g_object_unref(connection_view->profile);

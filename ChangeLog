@@ -1,3 +1,11 @@
+2009-03-19  Les Harris  <lharris@gnome.org>
+
+	* src/handlers/mud-telnet-naws.c: Added new callback to delete-event.
+	Disconnects resized signal if the main window is closing. Prevents
+	hanging freeze when trying to close the window when a connection has
+	been closed.
+	* src/mud-window.c: Only send resized signal if the window is mapped.
+
 2009-03-18  Les Harris  <lharris@gnome.org>
 
 	* src/mud-subwindow.c (mud_subwindow_constructor): Show the scrollbar.

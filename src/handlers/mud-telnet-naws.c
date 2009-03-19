@@ -41,6 +41,9 @@ struct _MudTelnetNawsPrivate
 
     /* Private Instance Members */
     gulong resized_signal;
+    gulong delete_signal;
+    MudWindow *window;
+    GtkWidget *main_window;
 };
 
 /* Property Identifiers */
@@ -81,6 +84,10 @@ static void mud_telnet_naws_resized_cb(MudWindow *window,
                                        gint width,
                                        gint height,
                                        MudTelnetNaws *self);
+
+static gboolean mud_telnet_naws_delete_event_cb(GtkWidget *widget,
+	                             		GdkEvent *event,
+			                        MudTelnetNaws *self);
 
 /* Private Methods */
 static void mud_telnet_naws_send(MudTelnetNaws *self, gint width, gint height);
@@ -142,6 +149,7 @@ mud_telnet_naws_init (MudTelnetNaws *self)
     self->priv->enabled = FALSE;
 
     self->priv->resized_signal = 0;
+    self->priv->delete_signal = 0;
 }
 
 static GObject *
@@ -174,17 +182,16 @@ static void
 mud_telnet_naws_finalize (GObject *object)
 {
     MudTelnetNaws *self;
-    MudConnectionView *view;
-    MudWindow *window;
+    GtkWidget *main_window;
     GObjectClass *parent_class;
 
     self = MUD_TELNET_NAWS(object);
 
-    g_object_get(self->priv->telnet, "parent-view", &view, NULL);
-    g_object_get(view, "window", &window, NULL);
-
     if(self->priv->resized_signal != 0)
-        g_signal_handler_disconnect(window, self->priv->resized_signal);
+        g_signal_handler_disconnect(self->priv->window, self->priv->resized_signal);
+
+    if(self->priv->delete_signal != 0)
+        g_signal_handler_disconnect(self->priv->main_window, self->priv->delete_signal);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
@@ -247,7 +254,6 @@ void
 mud_telnet_naws_enable(MudTelnetHandler *handler)
 {
     MudTelnetNaws *self;
-    MudWindow *window;
     MudConnectionView *view;
     VteTerminal *terminal;
 
@@ -261,13 +267,21 @@ mud_telnet_naws_enable(MudTelnetHandler *handler)
 
     g_object_get(view,
                  "terminal", &terminal, 
-                 "window", &window,
+                 "window", &self->priv->window,
                  NULL);
 
+    g_object_get(self->priv->window, "window", &self->priv->main_window, NULL);
+
     self->priv->resized_signal = 
-        g_signal_connect(window,
+        g_signal_connect(self->priv->window,
                          "resized",
                          G_CALLBACK(mud_telnet_naws_resized_cb),
+                         self);
+
+    self->priv->delete_signal =
+        g_signal_connect(self->priv->main_window,
+                         "delete-event",
+                         G_CALLBACK(mud_telnet_naws_delete_event_cb),
                          self);
     
     mud_telnet_naws_send(self,
@@ -281,8 +295,7 @@ void
 mud_telnet_naws_disable(MudTelnetHandler *handler)
 {
     MudTelnetNaws *self;
-    MudWindow *window;
-    MudConnectionView *view;
+    GtkWidget *main_window;
 
     self = MUD_TELNET_NAWS(handler);
 
@@ -290,12 +303,17 @@ mud_telnet_naws_disable(MudTelnetHandler *handler)
 
     self->priv->enabled = FALSE;
 
-    g_object_get(self->priv->telnet, "parent-view", &view, NULL);
-    g_object_get(view,
-                 "window", &window,
-                 NULL);
+    if(self->priv->resized_signal != 0)
+    {
+        g_signal_handler_disconnect(self->priv->window, self->priv->resized_signal);
+        self->priv->resized_signal = 0;
+    }
 
-    g_signal_handler_disconnect(window, self->priv->resized_signal);
+    if(self->priv->delete_signal != 0)
+    {
+        g_signal_handler_disconnect(self->priv->main_window, self->priv->delete_signal);
+        self->priv->delete_signal = 0;
+    }
 
     g_log("Telnet", G_LOG_LEVEL_INFO, "%s", "NAWS Disabled");
 }
@@ -328,6 +346,9 @@ mud_telnet_naws_resized_cb(MudWindow *window,
                  "parent-view", &view,
                  NULL);
 
+    if(!IS_MUD_CONNECTION_VIEW(view))
+        return;
+
     if(view->connection &&
        gnet_conn_is_connected(view->connection) &&
        self->priv->enabled)
@@ -353,5 +374,19 @@ mud_telnet_naws_send(MudTelnetNaws *self, gint width, gint height)
     mud_telnet_send_sub_req(self->priv->telnet, 5,
                             (guchar)self->priv->option,
                             w1, w0, h1, h0);
+}
+
+static gboolean
+mud_telnet_naws_delete_event_cb(GtkWidget *widget,
+	            		GdkEvent *event,
+			        MudTelnetNaws *self)
+{
+    if(self->priv->resized_signal != 0)
+    {
+        g_signal_handler_disconnect(self->priv->window, self->priv->resized_signal);
+        self->priv->resized_signal = 0;
+    }
+
+    return FALSE;
 }
 

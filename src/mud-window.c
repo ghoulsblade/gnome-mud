@@ -389,6 +389,7 @@ mud_window_finalize (GObject *object)
     while(entry != NULL)
     {
         g_object_unref(entry->data);
+
         entry = g_slist_next(entry);
     }
 
@@ -765,17 +766,20 @@ mud_window_size_allocate_cb(GtkWidget *widget,
                             GtkAllocation *allocation,
                             MudWindow *self)
 {
-    if(self->priv->width != allocation->width ||
-       self->priv->height != allocation->height)
+    if(GTK_WIDGET_MAPPED(self->window))
     {
-        self->priv->width = allocation->width;
-        self->priv->height = allocation->height;
+        if(self->priv->width != allocation->width ||
+                self->priv->height != allocation->height)
+        {
+            self->priv->width = allocation->width;
+            self->priv->height = allocation->height;
 
-        g_signal_emit(self,
-                      mud_window_signal[RESIZED],
-                      0,
-                      self->priv->width,
-                      self->priv->height);
+            g_signal_emit(self,
+                    mud_window_signal[RESIZED],
+                    0,
+                    self->priv->width,
+                    self->priv->height);
+        }
     }
 }
 
