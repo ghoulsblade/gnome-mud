@@ -445,6 +445,7 @@ mud_subwindow_constructor (GType gtype,
 
     gtk_widget_show(term_box);
     gtk_widget_show(self->priv->vbox);
+    gtk_widget_show(self->priv->scroll);
     gtk_widget_show(self->priv->terminal);
     gtk_widget_show(self->priv->window);
 

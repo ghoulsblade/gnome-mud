@@ -1,5 +1,9 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
+	* src/mud-subwindow.c (mud_subwindow_constructor): Show the scrollbar.
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
 	* src/mud-subwindow.c (mud_subwindow_class_init),
 	(mud_subwindow_constructed), (mud_subwindow_configure_event_cb),
 	(mud_subwindow_focus_in_cb): Removed map signal and code. Added
