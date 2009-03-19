@@ -396,9 +396,16 @@ zmp_subwindow_do_input(MudSubwindow *sub,
                        const gchar *input,
                        ZmpSubwindow *self)
 {
-    mud_zmp_send_command(self->priv->parent, 2,
+    gchar *identifier;
+
+    g_object_get(sub, "identifier", &identifier, NULL);
+
+    mud_zmp_send_command(self->priv->parent, 3,
             "subwindow.input",
+            identifier,
             input);
+
+    g_free(identifier);
 }
 
 static void

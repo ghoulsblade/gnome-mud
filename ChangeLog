@@ -1,5 +1,10 @@
 2009-03-19  Les Harris  <lharris@gnome.org>
 
+	* src/zmp/zmp-subwindow.c (zmp_subwindow_do_input): Pass subwindow
+	identifier as argument 1 of subwindow.input as per spec.
+
+2009-03-19  Les Harris  <lharris@gnome.org>
+
 	* src/handlers/mud-telnet-naws.c: Added new callback to delete-event.
 	Disconnects resized signal if the main window is closing. Prevents
 	hanging freeze when trying to close the window when a connection has
