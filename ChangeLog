@@ -1,16 +1,12 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* src/mud-subwindow.c (mud_subwindow_class_init),
-	(mud_subwindow_constructor), (mud_subwindow_size_allocate_cb):
+	* configure.ac: Bumped required GTK+ version to 2.14
 
 2009-03-18  Les Harris  <lharris@gnome.org>
 
-	reviewed by: <delete if not using a buddy>
-
 	* src/mud-subwindow.c (mud_subwindow_class_init),
-	(mud_subwindow_constructor):
+	(mud_subwindow_constructor), (mud_subwindow_size_allocate_cb):
+	Subwindow size fixes.
 
 2009-03-18  Les Harris  <lharris@gnome.org>
 
