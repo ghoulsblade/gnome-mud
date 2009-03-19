@@ -43,6 +43,8 @@ struct _MudSubwindowPrivate
     guint height;
     guint old_width;
     guint old_height;
+    guint initial_width;
+    guint initial_height;
 
     gboolean visible;
     gboolean view_hidden;
@@ -105,6 +107,7 @@ G_DEFINE_TYPE(MudSubwindow, mud_subwindow, G_TYPE_OBJECT);
 static void mud_subwindow_init (MudSubwindow *self);
 static void mud_subwindow_class_init (MudSubwindowClass *klass);
 static void mud_subwindow_finalize (GObject *object);
+static void mud_subwindow_constructed(GObject *object);
 static GObject *mud_subwindow_constructor (GType gtype,
                                            guint n_properties,
                                            GObjectConstructParam *properties);
@@ -162,6 +165,8 @@ mud_subwindow_class_init (MudSubwindowClass *klass)
     /* Override base object constructor */
     object_class->constructor = mud_subwindow_constructor;
 
+    object_class->constructed = mud_subwindow_constructed;
+
     /* Override base object's finalize */
     object_class->finalize = mud_subwindow_finalize;
 
@@ -187,7 +192,7 @@ mud_subwindow_class_init (MudSubwindowClass *klass)
                 "Title",
                 "The visible Title of the subwindow.",
                 NULL,
-                G_PARAM_READWRITE|G_PARAM_CONSTRUCT_ONLY));
+                G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
 
     g_object_class_install_property(object_class,
             PROP_IDENT,
@@ -309,6 +314,8 @@ mud_subwindow_init (MudSubwindow *self)
     self->priv->height = 0;
     self->priv->old_width = 0;
     self->priv->old_height = 0;
+    self->priv->initial_width = 0;
+    self->priv->initial_height = 0;
     self->priv->x = 0;
     self->priv->y = 0;
 
@@ -327,7 +334,6 @@ mud_subwindow_constructor (GType gtype,
     GtkWidget *term_box;
     MudWindow *app;
     GtkWidget *main_window;
-    guint cache_width, cache_height;
 
     MudSubwindow *self;
     GObject *obj;
@@ -369,8 +375,8 @@ mud_subwindow_constructor (GType gtype,
 
     self->priv->old_width = self->priv->width;
     self->priv->old_height = self->priv->height;
-    cache_width = self->priv->width;
-    cache_height = self->priv->height;
+    self->priv->initial_width = self->priv->width;
+    self->priv->initial_height = self->priv->height;
 
     /* start glading */
     glade = glade_xml_new(GLADEDIR "/main.glade", "subwindow", NULL);
@@ -393,6 +399,8 @@ mud_subwindow_constructor (GType gtype,
     self->priv->vbox = gtk_vbox_new(FALSE, 0);
     self->priv->entry = gtk_entry_new();
 
+    gtk_widget_hide(self->priv->entry);
+
     self->priv->terminal = vte_terminal_new();
     self->priv->scroll = gtk_vscrollbar_new(NULL);
     term_box = gtk_hbox_new(FALSE, 0);
@@ -409,6 +417,9 @@ mud_subwindow_constructor (GType gtype,
     vte_terminal_set_cursor_blink_mode(VTE_TERMINAL(self->priv->terminal),
                                        VTE_CURSOR_BLINK_OFF);
 
+    vte_terminal_set_size(VTE_TERMINAL(self->priv->terminal),
+                                       self->priv->initial_width,
+                                       self->priv->initial_height);
 
     gtk_box_pack_start(GTK_BOX(term_box),
                        self->priv->terminal,
@@ -431,6 +442,36 @@ mud_subwindow_constructor (GType gtype,
             VTE_TERMINAL(self->priv->terminal)->adjustment);
 
     gtk_window_set_title(GTK_WINDOW(self->priv->window), self->priv->title);
+
+    gtk_widget_show(term_box);
+    gtk_widget_show(self->priv->vbox);
+    gtk_widget_show(self->priv->terminal);
+    gtk_widget_show(self->priv->window);
+
+    gtk_window_get_size(GTK_WINDOW(self->priv->window),
+                        &self->priv->pixel_width,
+                        &self->priv->pixel_height);
+
+
+    return obj;
+}
+
+static void
+mud_subwindow_constructed(GObject *object)
+{
+    MudSubwindow *self = MUD_SUBWINDOW(object);
+
+    mud_subwindow_reread_profile(self);
+
+    vte_terminal_set_size(VTE_TERMINAL(self->priv->terminal),
+                          self->priv->initial_width,
+                          self->priv->initial_height);
+
+    mud_subwindow_set_size_force_grid(self,
+                                      VTE_TERMINAL(self->priv->terminal),
+                                      TRUE,
+                                      self->priv->initial_width,
+                                      self->priv->initial_height);
 
     g_signal_connect(self->priv->window,
                      "map",
@@ -456,32 +497,6 @@ mud_subwindow_constructor (GType gtype,
                      "key_press_event",
                      G_CALLBACK(mud_subwindow_entry_keypress_cb),
                      self);
-
-    gtk_widget_show_all(self->priv->window);
-
-    if(self->priv->input_enabled)
-        gtk_widget_show(self->priv->entry);
-    else
-        gtk_widget_hide(self->priv->entry);
-
-    mud_subwindow_update_geometry(self);
-    mud_subwindow_reread_profile(self);
-
-    gtk_window_get_size(GTK_WINDOW(self->priv->window),
-                        &self->priv->pixel_width,
-                        &self->priv->pixel_height);
-
-    vte_terminal_set_size(VTE_TERMINAL(self->priv->terminal),
-                          cache_width,
-                          cache_height);
-
-    mud_subwindow_set_size_force_grid(self,
-                                      VTE_TERMINAL(self->priv->terminal),
-                                      TRUE,
-                                      cache_width,
-                                      cache_height);
-
-    return obj;
 }
 
 static void
@@ -742,10 +757,10 @@ mud_subwindow_set_terminal_font(MudSubwindow *self)
     vte_terminal_set_font(VTE_TERMINAL(self->priv->terminal), desc);
 
     mud_subwindow_set_size_force_grid(self,
-                                      VTE_TERMINAL(self->priv->terminal),
-                                      TRUE,
-                                      self->priv->width,
-                                      self->priv->height);
+            VTE_TERMINAL(self->priv->terminal),
+            TRUE,
+            self->priv->width,
+            self->priv->height);
 }
 
 static void
@@ -866,15 +881,6 @@ mud_subwindow_delete_event_cb(GtkWidget *widget,
 static void
 mud_subwindow_mapped_cb(GtkWidget *widget, MudSubwindow *self)
 {
-    vte_terminal_set_size(VTE_TERMINAL(self->priv->terminal),
-                          self->priv->width,
-                          self->priv->height);
-
-    mud_subwindow_set_size_force_grid(self,
-                                      VTE_TERMINAL(self->priv->terminal),
-                                      TRUE,
-                                      self->priv->width,
-                                      self->priv->height);
 }
 
 static gboolean

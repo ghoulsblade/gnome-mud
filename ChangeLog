@@ -1,5 +1,19 @@
 2009-03-18  Les Harris  <lharris@gnome.org>
 
+	reviewed by: <delete if not using a buddy>
+
+	* src/mud-subwindow.c (mud_subwindow_class_init),
+	(mud_subwindow_constructor), (mud_subwindow_size_allocate_cb):
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* src/mud-subwindow.c (mud_subwindow_class_init),
+	(mud_subwindow_constructor):
+
+2009-03-18  Les Harris  <lharris@gnome.org>
+
 	* src/mud-subwindow.c (mud_subwindow_constructor),
 	(mud_subwindow_set_terminal_font),
 	(mud_subwindow_set_size_force_grid),
