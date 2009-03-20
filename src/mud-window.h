@@ -24,7 +24,6 @@
 G_BEGIN_DECLS
 
 #include <gtk/gtk.h>
-#include "mud-tray.h"
 
 #define MUD_TYPE_WINDOW             (mud_window_get_type ())
 #define MUD_WINDOW(object)          (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_WINDOW, MudWindow))
@@ -37,6 +36,9 @@ G_BEGIN_DECLS
 typedef struct _MudWindow           MudWindow;
 typedef struct _MudWindowClass      MudWindowClass;
 typedef struct _MudWindowPrivate    MudWindowPrivate;
+
+#include "mud-connection-view.h"
+#include "mud-tray.h"
 
 struct _MudWindowClass
 {
@@ -62,6 +64,7 @@ void mud_window_populate_profiles_menu(MudWindow *window);
 void mud_window_profile_menu_set_active(MudWindow *window, gchar *name);
 void mud_window_close_current_window(MudWindow *window);
 void mud_window_disconnected(MudWindow *window);
+void mud_window_toggle_input_mode(MudWindow *window, MudConnectionView *view);
 
 G_END_DECLS
 

@@ -1,5 +1,17 @@
 2009-03-20  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_set_property): Calls
+	mud_window_toggle_input_mode() when local-echo is set.
+	* src/mud-window.[ch] (mud_window_init),
+	(mud_window_grab_entry_focus_cb), (mud_window_entry_keypress),
+	(mud_window_notebook_page_change), (mud_window_configure_event),
+	(mud_window_toggle_input_mode): Added a password entry that is hidden
+	when local echo is enabled.  When the server asks for echo it hides
+	the textview and displays the entry for more secure password input.
+	* ui/main.glade: Added password entry ui.
+
+2009-03-20  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_send): Input history
 	fixes, no longer adds blank lines to the history queue. Now only sends
 	properly terminated lines (\r\n).  If ZMP is enabled, now uses

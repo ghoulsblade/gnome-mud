@@ -755,7 +755,10 @@ mud_connection_view_set_property(GObject *object,
             new_boolean = g_value_get_boolean(value);
 
             if(new_boolean != self->local_echo)
+            {
                 self->local_echo = new_boolean;
+                mud_window_toggle_input_mode(self->window, self);
+            }
             break;
 
         case PROP_MUD_NAME:
