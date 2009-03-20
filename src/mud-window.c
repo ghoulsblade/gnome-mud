@@ -641,6 +641,10 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
     gchar *name;
     gboolean connected;
     gboolean logging;
+    GtkWidget *box;
+    GtkWidget *viewport;
+    GList *list = NULL;
+    GtkImage *image;
 
     if(IS_MUD_CONNECTION_VIEW(self->priv->current_view))
         mud_connection_view_hide_subwindows(self->priv->current_view);
@@ -687,6 +691,27 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 
         gtk_widget_set_sensitive(self->priv->menu_disconnect, connected);
         gtk_widget_set_sensitive(self->priv->toolbar_disconnect, connected);
+
+        mud_window_toggle_input_mode(self, self->priv->current_view);
+
+        if(GTK_WIDGET_VISIBLE(self->priv->textview))
+            gtk_widget_grab_focus(self->priv->textview);
+        else
+            gtk_widget_grab_focus(self->priv->password_entry);
+
+
+        g_object_get(self->priv->current_view,
+                "ui-vbox", &viewport,
+                NULL);
+
+        box = gtk_notebook_get_tab_label(GTK_NOTEBOOK(self->priv->notebook),
+                viewport);
+        list = gtk_container_get_children(GTK_CONTAINER(box));
+        image = GTK_IMAGE(list->data);
+
+        g_list_free(list);
+
+        gtk_image_set_from_icon_name(image, GMUD_STOCK_NEGATIVE, GTK_ICON_SIZE_MENU);
     }
     else
     {
@@ -699,13 +724,6 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
         gtk_widget_set_sensitive(self->priv->toolbar_disconnect, FALSE);
         gtk_widget_set_sensitive(self->priv->toolbar_reconnect, FALSE);
     }
-
-    mud_window_toggle_input_mode(self, self->priv->current_view);
-
-    if(GTK_WIDGET_VISIBLE(self->priv->textview))
-        gtk_widget_grab_focus(self->priv->textview);
-    else
-        gtk_widget_grab_focus(self->priv->password_entry);
 }
 
 static void
@@ -1047,6 +1065,37 @@ mud_window_toggle_input_mode(MudWindow *self,
 }
 
 void
+mud_window_toggle_tab_icon(MudWindow *self,
+                           MudConnectionView *view)
+{
+    g_return_if_fail(IS_MUD_WINDOW(self));
+
+    if(!IS_MUD_CONNECTION_VIEW(view))
+        return;
+
+    if(!g_direct_equal(self->priv->current_view, view))
+    {
+        GtkWidget *box;
+        GtkWidget *viewport;
+        GList *list = NULL;
+        GtkImage *image;
+
+        g_object_get(view,
+                     "ui-vbox", &viewport,
+                     NULL);
+
+        box = gtk_notebook_get_tab_label(GTK_NOTEBOOK(self->priv->notebook),
+                                         viewport);
+        list = gtk_container_get_children(GTK_CONTAINER(box));
+        image = GTK_IMAGE(list->data);
+
+        g_list_free(list);
+
+        gtk_image_set_from_icon_name(image, GMUD_STOCK_POSITIVE, GTK_ICON_SIZE_MENU);
+    }
+}
+
+void
 mud_window_close_current_window(MudWindow *self)
 {
     g_return_if_fail(IS_MUD_WINDOW(self));
@@ -1131,6 +1180,9 @@ mud_window_add_connection_view(MudWindow *self, GObject *cview, gchar *tabLbl)
     gint nr;
     VteTerminal *terminal;
     GtkVBox *viewport;
+    GtkHBox *hbox;
+    GtkWidget *tab_label;
+    GtkImage *image;
     MudConnectionView *view = MUD_CONNECTION_VIEW(cview);
 
     g_return_if_fail(IS_MUD_WINDOW(self));
@@ -1147,9 +1199,25 @@ mud_window_add_connection_view(MudWindow *self, GObject *cview, gchar *tabLbl)
                  "terminal", &terminal,
                  NULL);
 
+    tab_label = gtk_label_new(tabLbl);
+    hbox = GTK_HBOX(gtk_hbox_new(FALSE, 0));
+    image = GTK_IMAGE(gtk_image_new_from_icon_name(GMUD_STOCK_NEGATIVE,
+                                                   GTK_ICON_SIZE_MENU));
+
+    gtk_box_pack_start(GTK_BOX(hbox), GTK_WIDGET(image), FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), tab_label, TRUE, TRUE, 0);
+
+    gtk_widget_show_all(GTK_WIDGET(hbox));
+
     nr = gtk_notebook_append_page(GTK_NOTEBOOK(self->priv->notebook),
                                   GTK_WIDGET(viewport),
-                                  gtk_label_new(tabLbl));
+                                  GTK_WIDGET(hbox));
+
+    gtk_notebook_set_tab_label_packing(GTK_NOTEBOOK(self->priv->notebook),
+                                       GTK_WIDGET(viewport),
+                                       TRUE,
+                                       TRUE,
+                                       GTK_PACK_START);
 
     gtk_notebook_set_current_page(GTK_NOTEBOOK(self->priv->notebook), nr);
 
@@ -1182,5 +1250,15 @@ mud_window_disconnected(MudWindow *self)
     gtk_widget_set_sensitive(self->priv->startlog, FALSE);
     gtk_widget_set_sensitive(self->priv->menu_disconnect, FALSE);
     gtk_widget_set_sensitive(self->priv->toolbar_disconnect, FALSE);
+
+    if(GTK_WIDGET_VISIBLE(self->priv->password_entry))
+    {
+        gtk_widget_hide(self->priv->password_entry);
+
+        gtk_widget_show(self->priv->textviewscroll);
+        gtk_widget_show(self->priv->textview);
+
+        gtk_widget_grab_focus(self->priv->textview);
+    }
 }
 

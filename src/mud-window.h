@@ -65,6 +65,7 @@ void mud_window_profile_menu_set_active(MudWindow *window, gchar *name);
 void mud_window_close_current_window(MudWindow *window);
 void mud_window_disconnected(MudWindow *window);
 void mud_window_toggle_input_mode(MudWindow *window, MudConnectionView *view);
+void mud_window_toggle_tab_icon(MudWindow *window, MudConnectionView *view);
 
 G_END_DECLS
 

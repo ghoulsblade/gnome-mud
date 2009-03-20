@@ -1189,21 +1189,30 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
                     if(!gag)
                     {
                         if(g_str_equal(view->priv->current_output, "main"))
+                        {
                             vte_terminal_feed(view->terminal,
                                               buf,
                                               length);
+
+                            mud_window_toggle_tab_icon(view->window, view);
+                        }
                         else
                         {
                             MudSubwindow *sub =
                                 mud_connection_view_get_subwindow(view,
                                         view->priv->current_output);
 
-                            if(!sub)
+                            if(sub)
+                                mud_subwindow_feed(sub, buf, length);
+                            else
+                            {
                                 vte_terminal_feed(view->terminal,
                                         buf,
                                         length);
-                            else
-                                mud_subwindow_feed(sub, buf, length);
+
+                                mud_window_toggle_tab_icon(view->window, view);
+                            }
+
                         }
 
                         mud_log_write_hook(view->log, buf, length);

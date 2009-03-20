@@ -10,6 +10,8 @@ public_icons = \
 	hicolor_apps_24x24_gnome-mud.png \
 	hicolor_apps_32x32_gnome-mud.png \
 	hicolor_apps_scalable_gnome-mud.svg \
+	hicolor_apps_16x16_gnome-mud-negative.png \
+	hicolor_apps_16x16_gnome-mud-positive.png \
 	$(NULL)
 
 noinst_Data = \

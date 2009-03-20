@@ -22,7 +22,10 @@
 G_BEGIN_DECLS
 
 #define GMUD_STOCK_ICON "gnome-mud"
+#define GMUD_STOCK_POSITIVE "gnome-mud-positive"
+#define GMUD_STOCK_NEGATIVE "gnome-mud-negative"
 
 G_END_DECLS
 
 #endif // GNOME_MUD_ICONS_H
+

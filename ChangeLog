@@ -1,5 +1,20 @@
 2009-03-20  Les Harris  <lharris@gnome.org>
 
+	* data/icons/Makefile.am:
+	* data/icons/hicolor_apps_16x16_gnome-mud-positive.png:
+	* data/icons/hicolor_apps_16x16_gnome-mud-negative.png:
+	* src/gnome-mud-icons.h: Added two new gnomemud stock icons.
+	* src/mud-connection-view.c (mud_connection_view_network_event_cb):
+	Added calls to mud_window_toggle_icon() when data is fed to VTE.
+	* src/mud-window.[ch] (mud_window_notebook_page_change),
+	(mud_window_toggle_tab_icon), (mud_window_add_connection_view),
+	(mud_window_disconnected): Added new function: mud_window_toggle_icon
+	which will change a tab's icon to positive if it receives data while
+	not the current tab.  Updated MudWindow to utilize this to notify the
+	user of activity on muds they aren't looking at.
+
+2009-03-20  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_set_property): Calls
 	mud_window_toggle_input_mode() when local-echo is set.
 	* src/mud-window.[ch] (mud_window_init),
