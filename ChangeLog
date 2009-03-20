@@ -1,5 +1,11 @@
 2009-03-20  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_send): Setting the
+	command division character to nothing now disables command division
+	rather than crashing gnome-mud horribly.
+
+2009-03-20  Les Harris  <lharris@gnome.org>
+
 	* data/icons/Makefile.am:
 	* data/icons/hicolor_apps_16x16_gnome-mud-positive.png:
 	* data/icons/hicolor_apps_16x16_gnome-mud-negative.png:

@@ -1996,7 +1996,10 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
 
         g_get_charset(&local_codeset);
 
-        commands = mud_profile_process_commands(view->profile, data);
+        if(strlen(view->profile->preferences->CommDev) == 0)
+            commands = g_list_append(commands, g_strdup(data));
+        else
+            commands = mud_profile_process_commands(view->profile, data);
 
         for (command = g_list_first(commands); command != NULL; command = command->next)
         {
