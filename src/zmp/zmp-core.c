@@ -232,6 +232,11 @@ zmp_core_register_commands(MudTelnetZmp *zmp)
     mud_zmp_register(zmp, mud_zmp_new_command("zmp.",
                                               "zmp.check",
                                               zmp_core_check));
+
+    /* Client to Server Commands */
+    mud_zmp_register(zmp, mud_zmp_new_command("zmp.",
+                                              "zmp.input",
+                                              NULL));
 }
 
 /* zmp.core Commands */

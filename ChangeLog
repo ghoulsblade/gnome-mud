@@ -1,3 +1,14 @@
+2009-03-20  Les Harris  <lharris@gnome.org>
+
+	* src/mud-connection-view.c (mud_connection_view_send): Input history
+	fixes, no longer adds blank lines to the history queue. Now only sends
+	properly terminated lines (\r\n).  If ZMP is enabled, now uses
+	zmp.input to send input to the server.
+	* src/mud-subwindow.c (mud_subwindow_entry_keypress_cb): Updated
+	history code to include fixes from MudConnectionView.
+	* src/zmp/zmp-core.c (zmp_core_register_commands): Now advertise
+	support for zmp.input.
+
 2009-03-19  Les Harris  <lharris@gnome.org>
 
 	* src/zmp/zmp-subwindow.c (zmp_subwindow_do_input): Pass subwindow

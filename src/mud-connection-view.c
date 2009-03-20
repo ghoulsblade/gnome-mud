@@ -1923,18 +1923,19 @@ mud_connection_view_reconnect(MudConnectionView *view)
 void
 mud_connection_view_send(MudConnectionView *view, const gchar *data)
 {
-    GList *commands, *command;
-    gchar *text, *encoding, *conv_text;
-    const gchar *local_codeset;
-    gchar *profile_name;
     GConfClient *client;
-    gboolean remote;
+    MudTelnetZmp *zmp_handler;
+    GList *commands, *command;
+    const gchar *local_codeset;
+    gboolean remote, zmp_enabled;
     gsize bytes_read, bytes_written;
-    GError *error = NULL;
+    gchar *text, *encoding, *conv_text, *profile_name;
 
     gchar key[2048];
     gchar extra_path[512] = "";
 
+    GError *error = NULL;
+    
     g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
     if(view->connection && gnet_conn_is_connected(view->connection))
@@ -1943,10 +1944,19 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
         {
             gchar *head = g_queue_peek_head(view->priv->history);
 
-            if( (head && strcmp(head, data) != 0 && head[0] != '\n') 
-                    || g_queue_is_empty(view->priv->history))
-                g_queue_push_head(view->priv->history,
-                        (gpointer)g_strdup(data));
+            if( (head && !g_str_equal(head, data)) ||
+                 g_queue_is_empty(view->priv->history))
+            {
+                gchar *history_item = g_strdup(data);
+                g_strstrip(history_item);
+
+                /* Don't queue empty lines */
+                if(strlen(history_item) != 0) 
+                    g_queue_push_head(view->priv->history,
+                                      history_item);
+                else
+                    g_free(history_item);
+            }
         }
         else
             g_queue_push_head(view->priv->history,
@@ -1965,10 +1975,8 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
         {
             profile_name = mud_profile_get_name(view->profile);
 
-            if (strcmp(profile_name, "Default"))
-            {
+            if (!g_str_equal(profile_name, "Default"))
                 g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
-            }
 
             g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/encoding");
             encoding = gconf_client_get_string(client, key, NULL);
@@ -1980,7 +1988,8 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
 
         for (command = g_list_first(commands); command != NULL; command = command->next)
         {
-            text = g_strdup_printf("%s\r\n", (gchar *) command->data);
+            gchar *text = (gchar *)command->data;
+            g_strstrip(text);
 
             conv_text = g_convert(text, -1,
                 encoding,
@@ -1993,13 +2002,34 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
                 error = NULL;
             }
 
-            if(conv_text == NULL)
-                gnet_conn_write(view->connection, text, strlen(text));
+            zmp_handler = MUD_TELNET_ZMP(mud_telnet_get_handler(view->telnet,
+                                                                TELOPT_ZMP));
+            if(!zmp_handler)
+                zmp_enabled = FALSE;
             else
-                gnet_conn_write(view->connection, conv_text, strlen(conv_text));
+                g_object_get(zmp_handler, "enabled", &zmp_enabled, NULL);
+
+            if(!zmp_enabled)
+            {
+                gchar *line = (conv_text == NULL) ? text : conv_text;
+
+                gnet_conn_write(view->connection, line, strlen(line));
+                gnet_conn_write(view->connection, "\r\n", 2);
+            }
+            else // ZMP is enabled, use zmp.input.
+            {
+                gchar *line = (conv_text == NULL) ? text : conv_text;
+
+                mud_zmp_send_command(zmp_handler, 2,
+                                     "zmp.input",
+                                     line);
+            }
 
             if (view->profile->preferences->EchoText && view->local_echo)
+            {
                 mud_connection_view_add_text(view, text, Sent);
+                mud_connection_view_add_text(view, "\r\n", Sent);
+            }
 
             if(conv_text != NULL)
                 g_free(conv_text);

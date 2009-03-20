@@ -942,10 +942,19 @@ mud_subwindow_entry_keypress_cb(GtkWidget *widget,
         gchar *head = g_queue_peek_head(self->priv->history);
         const gchar *text = gtk_entry_get_text(GTK_ENTRY(self->priv->entry));
 
-        if( (head && !g_str_equal(head, text) && head[0] != '\n') 
-                || g_queue_is_empty(self->priv->history))
-            g_queue_push_head(self->priv->history,
-                    (gpointer)g_strdup(text));
+        if( (head && !g_str_equal(head, text)) ||
+             g_queue_is_empty(self->priv->history))
+        {
+            gchar *history_item = g_strdup(text);
+            g_strstrip(history_item);
+
+            /* Don't queue empty lines */
+            if(strlen(history_item) != 0) 
+                g_queue_push_head(self->priv->history,
+                                  history_item);
+            else
+                g_free(history_item);
+        }
 
         self->priv->current_history_index = -1;
 
