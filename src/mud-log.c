@@ -635,6 +635,7 @@ mud_log_open(MudLog *self)
                     _("\n*** Log starts *** %d/%m/%Y %H:%M:%S\n"),
                     localtime(&t));
             fprintf(self->priv->logfile, "%s", buf);
+            fsync(fileno(self->priv->logfile));
 
             if(self->priv->buffer)
             {
@@ -654,6 +655,7 @@ mud_log_open(MudLog *self)
                 if(term_text)
                 {
                     fprintf(self->priv->logfile, "%s", term_text);
+                    fsync(fileno(self->priv->logfile));
                     g_free(term_text);
                 }
             }
@@ -686,6 +688,7 @@ mud_log_open(MudLog *self)
                     buf_text = mud_line_buffer_get_lines(buffer);
 
                     fprintf(self->priv->logfile, "%s", buf_text);
+                    fsync(fileno(self->priv->logfile));
 
                     g_free(buf_text);
                 }
@@ -737,6 +740,7 @@ mud_log_close(MudLog *log)
             localtime(&t));
 
     fprintf(log->priv->logfile, "%s", buf);
+    fsync(fileno(log->priv->logfile));
     fclose(log->priv->logfile);
 
     if(log->priv->filename)
@@ -811,6 +815,7 @@ mud_log_write(MudLog *log, const gchar *data, gsize size)
         stripSize = strlen(stripData);
 
         write_size = fwrite(stripData, 1, stripSize, log->priv->logfile);
+        fsync(fileno(log->priv->logfile));
 
         if(write_size != stripSize)
             g_critical(_("Could not write data to log file!"));
@@ -820,6 +825,7 @@ mud_log_write(MudLog *log, const gchar *data, gsize size)
     else
     {
         write_size = fwrite(data, 1, size, log->priv->logfile);
+        fsync(fileno(log->priv->logfile));
 
         if(write_size != size)
             g_critical(_("Could not write data to log file!"));

@@ -1,5 +1,10 @@
 2009-03-21  Les Harris  <lharris@gnome.org>
 
+	* src/mud-log.c (mud_log_open), (mud_log_close), (mud_log_write):  Now
+	fsyncs after writes and before closing.
+
+2009-03-21  Les Harris  <lharris@gnome.org>
+
 	* src/mud-log.c (mud_log_next_toggled_cb),
 	(mud_log_prev_toggled_cb): Grab spinbutton focus when toggled on.
 	* ui/main.glade: Made minimum value of log spinbuttons 1.
