@@ -34,6 +34,7 @@
 #include "mud-telnet-zmp.h"
 
 #include "zmp/zmp-main.h"
+#include "zmp/zmp-core.h"
 
 struct _MudTelnetZmpPrivate
 {
@@ -275,6 +276,8 @@ mud_telnet_zmp_enable(MudTelnetHandler *handler)
 
     self->priv->enabled = TRUE;
 
+    zmp_core_send_ident(self);
+
     g_log("Telnet", G_LOG_LEVEL_INFO, "%s", "ZMP Enabled");
 }
 
@@ -340,7 +343,7 @@ mud_telnet_zmp_handle_sub_neg(MudTelnetHandler *handler,
         if(zmp_handler)
             zmp_handler(self, argc, argv);
         else
-            g_warning("NULL ZMP functioned returned.");
+            g_warning("NULL ZMP Command returned.");
     }
     else
         g_warning("Server sent unsupported ZMP command. Bad server, bad.");

@@ -1,5 +1,13 @@
 2009-03-20  Les Harris  <lharris@gnome.org>
 
+	* src/handlers/mud-telnet-zmp.c: Explicitly send zmp.indent when zmp
+	is activated.
+	* src/zmp/zmp-core.[ch]: No longer responds to zmp.ident to comply
+	with the ZMP spec.  Now exposes a hashtable populated with the data
+	received from the server's zmp.ident.
+
+2009-03-20  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_send): Setting the
 	command division character to nothing now disables command division
 	rather than crashing gnome-mud horribly.

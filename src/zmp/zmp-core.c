@@ -31,6 +31,7 @@
 #include "handlers/mud-telnet-handlers.h"
 #include "zmp-package-interface.h"
 #include "zmp-core.h"
+#include "zmp-main.h"
 
 struct _ZmpCorePrivate
 {
@@ -39,6 +40,7 @@ struct _ZmpCorePrivate
     MudTelnetZmp *parent;
 
     /* Private Instance Members */
+    GHashTable *ident_data;
 };
 
 /* Property Identifiers */
@@ -46,7 +48,8 @@ enum
 {
     PROP_ZMP_CORE_0,
     PROP_PACKAGE,
-    PROP_PARENT
+    PROP_PARENT,
+    PROP_IDENT
 };
 
 /* Class Functions */
@@ -70,9 +73,13 @@ static void zmp_core_get_property(GObject *object,
 static void zmp_core_register_commands(MudTelnetZmp *zmp);
 
 /* ZmpCore zmp_core Commands */
-static void zmp_core_ident(MudTelnetZmp *self, gint argc, gchar **argv);
 static void zmp_core_ping_and_time(MudTelnetZmp *self, gint argc, gchar **argv);
 static void zmp_core_check(MudTelnetZmp *self, gint argc, gchar **argv);
+static void zmp_core_receive_ident(MudTelnetZmp *self, gint argc, gchar **argv);
+
+/* Private Methods */
+static void zmp_core_destroy_key(gpointer k);
+static void zmp_core_destroy_value(gpointer c);
 
 /* Create the Type. We implement ZmpPackageInterface */
 G_DEFINE_TYPE_WITH_CODE(ZmpCore, zmp_core, G_TYPE_OBJECT,
@@ -105,6 +112,13 @@ zmp_core_class_init (ZmpCoreClass *klass)
     g_object_class_override_property(object_class,
                                      PROP_PARENT,
                                      "parent");
+    /* Custom Class Properties */
+    g_object_class_install_property(object_class,
+                PROP_IDENT,
+                g_param_spec_pointer("ident-data",
+                                     "Ident Data",
+                                     "The zmp ident data provided by the mud.",
+                                      G_PARAM_READABLE));
 }
 
 static void
@@ -122,6 +136,7 @@ zmp_core_init (ZmpCore *self)
     /* Set the defaults */
     self->priv->package = NULL;
     self->priv->parent = NULL;
+    self->priv->ident_data = NULL;
 }
 
 static GObject *
@@ -149,6 +164,10 @@ zmp_core_constructor (GType gtype,
 
     self->priv->package = g_strdup("zmp");
 
+    self->priv->ident_data = g_hash_table_new_full(g_str_hash,
+                                                   g_str_equal,
+                                                   zmp_core_destroy_key,
+                                                   zmp_core_destroy_value);
     return obj;
 }
 
@@ -161,6 +180,7 @@ zmp_core_finalize (GObject *object)
     self = ZMP_CORE(object);
 
     g_free(self->priv->package);
+    g_hash_table_destroy(self->priv->ident_data);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
@@ -208,6 +228,10 @@ zmp_core_get_property(GObject *object,
             g_value_set_string(value, self->priv->package);
             break;
 
+        case PROP_IDENT:
+            g_value_set_pointer(value, self->priv->ident_data);
+            break;
+
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
             break;
@@ -221,9 +245,6 @@ zmp_core_register_commands(MudTelnetZmp *zmp)
     g_return_if_fail(MUD_IS_TELNET_ZMP(zmp));
 
     mud_zmp_register(zmp, mud_zmp_new_command("zmp.",
-                                              "zmp.ident",
-                                              zmp_core_ident));
-    mud_zmp_register(zmp, mud_zmp_new_command("zmp.",
                                               "zmp.ping",
                                               zmp_core_ping_and_time));
     mud_zmp_register(zmp, mud_zmp_new_command("zmp.",
@@ -232,6 +253,9 @@ zmp_core_register_commands(MudTelnetZmp *zmp)
     mud_zmp_register(zmp, mud_zmp_new_command("zmp.",
                                               "zmp.check",
                                               zmp_core_check));
+    mud_zmp_register(zmp, mud_zmp_new_command("zmp.",
+                                              "zmp.ident",
+                                              zmp_core_receive_ident));
 
     /* Client to Server Commands */
     mud_zmp_register(zmp, mud_zmp_new_command("zmp.",
@@ -240,14 +264,44 @@ zmp_core_register_commands(MudTelnetZmp *zmp)
 }
 
 /* zmp.core Commands */
-static void
-zmp_core_ident(MudTelnetZmp *self, gint argc, gchar **argv)
+void
+zmp_core_send_ident(MudTelnetZmp *self)
 {
     g_return_if_fail(MUD_IS_TELNET_ZMP(self));
 
     mud_zmp_send_command(self, 4,
             "zmp.ident", "gnome-mud", VERSION,
             "A mud client written for the GNOME environment.");
+}
+
+static void
+zmp_core_receive_ident(MudTelnetZmp *self, gint argc, gchar **argv)
+{
+    ZmpCore *core;
+    ZmpMain *zmp_main;
+
+    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+
+    if(argc != 4)
+        return;
+
+    g_object_get(self,
+                 "zmp-main", &zmp_main,
+                 NULL);
+    
+    core = ZMP_CORE(zmp_main_get_package_by_name(zmp_main, "zmp"));
+
+    g_hash_table_replace(core->priv->ident_data,
+                         g_strdup("name"),
+                         g_strdup(argv[1]));
+
+    g_hash_table_replace(core->priv->ident_data,
+                         g_strdup("version"),
+                         g_strdup(argv[2]));
+
+    g_hash_table_replace(core->priv->ident_data,
+                         g_strdup("description"),
+                         g_strdup(argv[3]));
 }
 
 static void
@@ -292,5 +346,24 @@ zmp_core_check(MudTelnetZmp *self, gint argc, gchar **argv)
         else
             mud_zmp_send_command(self, 2, "zmp.no-support", item);
     }
+}
+
+/* Private Methods */
+static void
+zmp_core_destroy_key(gpointer k)
+{
+    gchar *key = (gchar *)k;
+
+    if(key)
+        g_free(key);
+}
+
+static void
+zmp_core_destroy_value(gpointer v)
+{
+    gchar *value = (gchar *)v;
+
+    if(value)
+        g_free(value);
 }
 

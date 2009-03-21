@@ -36,6 +36,8 @@ typedef struct _ZmpCore            ZmpCore;
 typedef struct _ZmpCoreClass       ZmpCoreClass;
 typedef struct _ZmpCorePrivate     ZmpCorePrivate;
 
+#include "handlers/mud-telnet-handlers.h"
+
 struct _ZmpCoreClass
 {
     GObjectClass parent_class;
@@ -50,6 +52,8 @@ struct _ZmpCore
 };
 
 GType zmp_core_get_type (void);
+
+void zmp_core_send_ident(MudTelnetZmp *self);
 
 G_END_DECLS
 
