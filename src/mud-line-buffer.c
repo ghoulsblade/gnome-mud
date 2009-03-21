@@ -297,8 +297,8 @@ mud_line_buffer_add_data(MudLineBuffer *self,
 
                 self->priv->line_buffer = g_list_remove(self->priv->line_buffer,
                                                         kill_line);
-
-                g_free(kill_line);
+                if(kill_line)
+                    g_free(kill_line);
 
                 --self->priv->length;
 

@@ -1,3 +1,19 @@
+2009-03-21  Les Harris  <lharris@gnome.org>
+
+	* src/mud-connection-view.c: Made 'logging' property writable.
+	* src/mud-line-buffer.c (mud_line_buffer_add_data):
+	* src/mud-log.c: Vastly improved our logging facilities. Can choose to
+	include the entire existing buffer before starting, or just a few
+	lines.  Can choose only to log for the next N lines.  Can choose to
+	append or overwrite the mud file.  Can choose to not strip the ECMA-48
+	color information (We should be parsing this into html or something
+	useful).
+	* src/mud-window.[ch]: Save Buffer now properly saves the entire
+	buffer.  Added update_logging_ui function to update logging related ui
+	from the logger.  Checks if the log is actually logging before
+	updating ui. 
+	* ui/main.glade: Added ui for new log features.
+
 2009-03-20  Les Harris  <lharris@gnome.org>
 
 	* doc/gnome-mud-plugin-api/C/Makefile.am:

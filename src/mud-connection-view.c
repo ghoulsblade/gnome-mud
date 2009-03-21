@@ -289,7 +289,7 @@ mud_connection_view_class_init (MudConnectionViewClass *klass)
                 "logging",
                 "are we currently logging",
                 FALSE,
-                G_PARAM_READABLE));
+                G_PARAM_READWRITE));
 
     g_object_class_install_property(object_class,
             PROP_CONNECT_HOOK,
@@ -549,6 +549,8 @@ mud_connection_view_constructor (GType gtype,
 
     self->log = g_object_new(MUD_TYPE_LOG,
                              "mud-name", self->mud_name,
+                             "window", self->window,
+                             "parent", self,
                               NULL);
 
     buf = g_strdup_printf(_("*** Making connection to %s, port %d.\n"),
@@ -818,6 +820,13 @@ mud_connection_view_set_property(GObject *object,
             }
 
             g_free(new_string);
+            break;
+
+        case PROP_LOGGING:
+            new_boolean = g_value_get_boolean(value);
+
+            if(new_boolean != self->logging)
+                self->logging = new_boolean;
             break;
 
         default:
@@ -1215,7 +1224,8 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
 
                         }
 
-                        mud_log_write_hook(view->log, buf, length);
+                        if(view->logging)
+                            mud_log_write_hook(view->log, buf, length);
                     }
 
                     if (view->connect_hook) {
@@ -2061,8 +2071,10 @@ mud_connection_view_start_logging(MudConnectionView *view)
 {
     g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
-    view->logging = TRUE;
     mud_log_open(view->log);
+
+    if(mud_log_islogging(view->log))
+        view->logging = TRUE;
 }
 
 void

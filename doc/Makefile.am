@@ -1,4 +1,4 @@
-SUBDIRS = 
+SUBDIRS =
 
 man_MANS = gnome-mud.6
 

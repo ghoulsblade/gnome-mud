@@ -224,7 +224,7 @@ mud_window_init (MudWindow *self)
                               "parent-window", self->window,
                               NULL); 
 
-    /* set priate members */
+    /* set private members */
     self->priv->nr_of_tabs = 0;
     self->priv->current_view = NULL;
     self->priv->mud_views_list = NULL;
@@ -699,7 +699,6 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
         else
             gtk_widget_grab_focus(self->priv->password_entry);
 
-
         g_object_get(self->priv->current_view,
                 "ui-vbox", &viewport,
                 NULL);
@@ -801,9 +800,7 @@ mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *self)
 static gboolean
 mud_window_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer user_data)
 {
-    gint i;
-    GSList *view;
-    MudWindow *self = (MudWindow *)user_data;
+    MudWindow *self = MUD_WINDOW(user_data);
 
     if (self->priv->nr_of_tabs == 0)
     {
@@ -811,7 +808,10 @@ mud_window_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer
         GdkPixbuf *buf;
 
         buf = gtk_icon_theme_load_icon(gtk_icon_theme_get_default(),
-                "gnome-mud", event->width >> 1, GTK_ICON_LOOKUP_FORCE_SVG, &err);
+                                       GMUD_STOCK_ICON,
+                                       event->width >> 1,
+                                       GTK_ICON_LOOKUP_FORCE_SVG,
+                                       &err);
 
         gtk_image_set_from_pixbuf(GTK_IMAGE(self->priv->image), buf);
 
@@ -834,16 +834,16 @@ mud_window_size_allocate_cb(GtkWidget *widget,
     if(GTK_WIDGET_MAPPED(self->window))
     {
         if(self->priv->width != allocation->width ||
-                self->priv->height != allocation->height)
+           self->priv->height != allocation->height)
         {
             self->priv->width = allocation->width;
             self->priv->height = allocation->height;
 
             g_signal_emit(self,
-                    mud_window_signal[RESIZED],
-                    0,
-                    self->priv->width,
-                    self->priv->height);
+                          mud_window_signal[RESIZED],
+                          0,
+                          self->priv->width,
+                          self->priv->height);
         }
     }
 }
@@ -859,40 +859,40 @@ mud_window_buffer_cb(GtkWidget *widget, MudWindow *self)
     dialog = glade_xml_get_widget(glade, "save_dialog");
 
     gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), "buffer.txt");
+
     result = gtk_dialog_run(GTK_DIALOG(dialog));
+
     if(result == GTK_RESPONSE_OK)
     {
         gchar *filename;
-        FILE *file;
+        gchar *buffer_text;
+        VteTerminal *term;
+        GtkClipboard *clipboard;
+        GError *err = NULL;
 
         filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-        file = fopen(filename, "w");
 
-        if(!file)
-            utils_error_message(self->window, _("Error Saving Buffer"),
-                    "%s", _("Could not save the file in specified location!"));
-        else
-        {
-            gchar *bufferText;
-            VteTerminal *term;
+        g_object_get(self->priv->current_view,
+                "terminal", &term,
+                NULL);
 
-            g_object_get(self->priv->current_view,
-                         "terminal", &term,
-                         NULL);
+        /* This is really hackish but the only alternative,
+         * vte_terminal_get_text_range, is just broken. */
 
-            bufferText = vte_terminal_get_text_range(term,0,0,
-                    vte_terminal_get_row_count(term),
-                    vte_terminal_get_column_count(term),
-                    NULL,
-                    NULL,
-                    NULL);
+        clipboard = gtk_clipboard_get(GDK_SELECTION_PRIMARY);
+        vte_terminal_select_all(term);
+        vte_terminal_copy_primary(term);
+        vte_terminal_select_none(term);
+        buffer_text = gtk_clipboard_wait_for_text(clipboard);
 
-            if(!fwrite(bufferText, 1, strlen(bufferText), file))
-                g_critical(_("Could not write buffer to disk!"));
-
-            fclose(file);
-        }
-
+        if(buffer_text)
+            if(!g_file_set_contents(filename, buffer_text, -1, &err))
+                utils_error_message(self->window,
+                                    _("Error Saving Buffer"),
+                                    "%s",
+                                    err->message);
+        if(buffer_text)
+            g_free(buffer_text);
         g_free(filename);
     }
 
@@ -935,10 +935,16 @@ mud_window_profile_menu_set_cb(GtkWidget *widget, gpointer data)
 static void
 mud_window_startlog_cb(GtkWidget *widget, MudWindow *self)
 {
+    MudLog *log;
     mud_connection_view_start_logging(MUD_CONNECTION_VIEW(self->priv->current_view));
-    gtk_widget_set_sensitive(self->priv->startlog, FALSE);
-    gtk_widget_set_sensitive(self->priv->stoplog, TRUE);
 
+    g_object_get(self->priv->current_view, "log", &log, NULL);
+
+    if(mud_log_islogging(log))
+    {
+        gtk_widget_set_sensitive(self->priv->startlog, FALSE);
+        gtk_widget_set_sensitive(self->priv->stoplog, TRUE);
+    }
 }
 
 static void
@@ -1259,6 +1265,29 @@ mud_window_disconnected(MudWindow *self)
         gtk_widget_show(self->priv->textview);
 
         gtk_widget_grab_focus(self->priv->textview);
+    }
+}
+
+void
+mud_window_update_logging_ui(MudWindow *window,
+                             MudConnectionView *view,
+                             gboolean enabled)
+{
+    g_return_if_fail(IS_MUD_WINDOW(window));
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    if(g_direct_equal(window->priv->current_view, view))
+    {
+        if(enabled)
+        {
+            gtk_widget_set_sensitive(window->priv->startlog, FALSE);
+            gtk_widget_set_sensitive(window->priv->stoplog, TRUE);
+        }
+        else
+        {
+            gtk_widget_set_sensitive(window->priv->startlog, TRUE);
+            gtk_widget_set_sensitive(window->priv->stoplog, FALSE);
+        }
     }
 }
 
