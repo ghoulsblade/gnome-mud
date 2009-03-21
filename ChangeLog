@@ -1,5 +1,14 @@
 2009-03-20  Les Harris  <lharris@gnome.org>
 
+	* doc/gnome-mud-plugin-api/C/Makefile.am:
+	* doc/gnome-mud-plugin-api/C/gnome-mud-plugin-api-C.omf:
+	* doc/gnome-mud-plugin-api/C/gnome-mud-plugin-api.xml:
+	* doc/gnome-mud-plugin-api/C/monitor.py:
+	* doc/gnome-mud-plugin-api/Makefile.am: Removed old plugin docs.
+	* doc/gnome-mud.6: Updated man page documentation.
+
+2009-03-20  Les Harris  <lharris@gnome.org>
+
 	* src/handlers/mud-telnet-zmp.c: Explicitly send zmp.indent when zmp
 	is activated.
 	* src/zmp/zmp-core.[ch]: No longer responds to zmp.ident to comply

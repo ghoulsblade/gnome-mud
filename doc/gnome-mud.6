@@ -1,11 +1,12 @@
 .\" Hey, EMACS: -*- nroff -*-
 .\" gnome-mud.6 is copyright 2000-2002 by
 .\" Jordi Mallach <jordi@sindominio.net>
+.\" Updated by Les Harris <lharris@gnome.org>
 .\"
 .\" This is free documentation, see the latest version of the GNU General
 .\" Public License for copying conditions. There is NO warranty.
 .\"
-.TH GNOME-MUD 6 "January 5, 2002"
+.TH GNOME-MUD 6 "March 20, 2009"
 .SH NAME
 gnome-mud \- a mud client for the GNOME Desktop Environment.
 .SH SYNOPSIS
@@ -16,11 +17,10 @@ This manual page documents briefly the
 .B gnome-mud
 command.
 .PP
-\fBGnome-mud\fP is a MUD client written in Gtk+ and GNOME-libs. At the
-moment, it supports multiple connections, aliases, variables, triggers,
-ANSI colors, custom keybindings, MCCP and other features. Gnome-mud also has
-a plugin system similar to zMUD's, so adding new functionality should be
-easy at user level.
+\fBGnome-mud\fP is a MUD client written in GObject/C using Gtk+ and a few
+GNOME-libs. At the moment, it supports multiple connections, aliases, triggers,
+ 256 xterm and ECMA-48 colors, Mud Sound Protocol, MCCP, and many telnet options
+including ZMP, CHARSET, NAWS, and others.
 .SH OPTIONS
 Generic GNOME and GTK options can be accessed using the --help flag.
 .TP
@@ -38,5 +38,7 @@ Specify an X display where gnome-mud should connect to
 .SH AUTHOR
 This manual page was written by Jordi Mallach <jordi@debian.org>,
 for the Debian GNU/Linux system (but may be used by others).
-Robin Ericson <lobbin@localhost.nu> is the main author. You can find more
-information in the AUTHORS file in /usr/share/doc/gnome-mud.
+Robin Ericson <lobbin@localhost.nu> is the original author.
+Les Harris <lharris@gnome.org> is the current main author.
+You can find more information in the AUTHORS file in
+/usr/share/doc/gnome-mud.
