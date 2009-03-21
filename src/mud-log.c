@@ -404,6 +404,7 @@ mud_log_next_toggled_cb(GtkToggleButton *button,
                 GTK_SPIN_BUTTON(self->priv->spin_log_next));
 
         gtk_widget_set_sensitive(self->priv->spin_log_next, TRUE);
+        gtk_widget_grab_focus(self->priv->spin_log_next);
     }
     else
     {
@@ -431,6 +432,7 @@ mud_log_prev_toggled_cb(GtkToggleButton *button,
                 GTK_SPIN_BUTTON(self->priv->spin_log_prev));
 
         gtk_widget_set_sensitive(self->priv->spin_log_prev, TRUE);
+        gtk_widget_grab_focus(self->priv->spin_log_prev);
     }
     else
     {

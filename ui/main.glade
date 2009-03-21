@@ -701,6 +701,7 @@
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
                     <property name="adjustment">100 1 100000 1 10 10</property>
+                    <property name="numeric">True</property>
                   </widget>
                   <packing>
                     <property name="position">3</property>

@@ -1,5 +1,11 @@
 2009-03-21  Les Harris  <lharris@gnome.org>
 
+	* src/mud-log.c (mud_log_next_toggled_cb),
+	(mud_log_prev_toggled_cb): Grab spinbutton focus when toggled on.
+	* ui/main.glade: Made minimum value of log spinbuttons 1.
+
+2009-03-21  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c: Made 'logging' property writable.
 	* src/mud-line-buffer.c (mud_line_buffer_add_data):
 	* src/mud-log.c: Vastly improved our logging facilities. Can choose to
