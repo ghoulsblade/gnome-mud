@@ -1,5 +1,11 @@
 2009-03-21  Les Harris  <lharris@gnome.org>
 
+	* src/ecma48.h: Added xterm color sequences.
+	* src/mud-log.c: Now supports logging xterm-256 color codes in
+	addition to the ECMA-48 codes.
+
+2009-03-21  Les Harris  <lharris@gnome.org>
+
 	* src/ecma48.h: New file with some ECMA-48 definitions.
 	* src/mud-log.c: When color is to be logged, it now parses the ecma-48
 	codes and emits an html file rather than the raw color information.

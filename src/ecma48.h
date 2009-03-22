@@ -51,6 +51,9 @@ G_BEGIN_DECLS
 #define ECMA_BACKCOLOR_CYAN      46
 #define ECMA_BACKCOLOR_WHITE     47
 
+#define XTERM_FORECOLOR          38
+#define XTERM_BACKCOLOR          48
+
 G_END_DECLS
 
 #endif // ECMA_48_H
