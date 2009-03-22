@@ -1423,245 +1423,41 @@ mud_log_write_html_xterm_span(MudLog *self,
 static void
 mud_log_create_xterm_colors(MudLog *self)
 {
-    gdk_color_parse("#000000", &self->priv->xterm_colors[16]);
-    gdk_color_parse("#00005f", &self->priv->xterm_colors[17]);
-    gdk_color_parse("#000087", &self->priv->xterm_colors[18]);
-    gdk_color_parse("#0000af", &self->priv->xterm_colors[19]);
-    gdk_color_parse("#0000d7", &self->priv->xterm_colors[20]);
-    gdk_color_parse("#0000ff", &self->priv->xterm_colors[21]);
-    gdk_color_parse("#005f00", &self->priv->xterm_colors[22]);
-    gdk_color_parse("#005f5f", &self->priv->xterm_colors[23]);
-    gdk_color_parse("#005f87", &self->priv->xterm_colors[24]);
-    gdk_color_parse("#005faf", &self->priv->xterm_colors[25]);
-    gdk_color_parse("#005fd7", &self->priv->xterm_colors[26]);
-    gdk_color_parse("#005fff", &self->priv->xterm_colors[27]);
-    gdk_color_parse("#008700", &self->priv->xterm_colors[28]);
-    gdk_color_parse("#00875f", &self->priv->xterm_colors[29]);
-    gdk_color_parse("#008787", &self->priv->xterm_colors[30]);
-    gdk_color_parse("#0087af", &self->priv->xterm_colors[31]);
-    gdk_color_parse("#0087d7", &self->priv->xterm_colors[32]);
-    gdk_color_parse("#0087ff", &self->priv->xterm_colors[33]);
-    gdk_color_parse("#00af00", &self->priv->xterm_colors[34]);
-    gdk_color_parse("#00af5f", &self->priv->xterm_colors[35]);
-    gdk_color_parse("#00af87", &self->priv->xterm_colors[36]);
-    gdk_color_parse("#00afaf", &self->priv->xterm_colors[37]);
-    gdk_color_parse("#00afd7", &self->priv->xterm_colors[38]);
-    gdk_color_parse("#00afff", &self->priv->xterm_colors[39]);
-    gdk_color_parse("#00d700", &self->priv->xterm_colors[40]);
-    gdk_color_parse("#00d75f", &self->priv->xterm_colors[41]);
-    gdk_color_parse("#00d787", &self->priv->xterm_colors[42]);
-    gdk_color_parse("#00d7af", &self->priv->xterm_colors[43]);
-    gdk_color_parse("#00d7d7", &self->priv->xterm_colors[44]);
-    gdk_color_parse("#00d7ff", &self->priv->xterm_colors[45]);
-    gdk_color_parse("#00ff00", &self->priv->xterm_colors[46]);
-    gdk_color_parse("#00ff5f", &self->priv->xterm_colors[47]);
-    gdk_color_parse("#00ff87", &self->priv->xterm_colors[48]);
-    gdk_color_parse("#00ffaf", &self->priv->xterm_colors[49]);
-    gdk_color_parse("#00ffd7", &self->priv->xterm_colors[50]);
-    gdk_color_parse("#00ffff", &self->priv->xterm_colors[51]);
-    gdk_color_parse("#5f0000", &self->priv->xterm_colors[52]);
-    gdk_color_parse("#5f005f", &self->priv->xterm_colors[53]);
-    gdk_color_parse("#5f0087", &self->priv->xterm_colors[54]);
-    gdk_color_parse("#5f00af", &self->priv->xterm_colors[55]);
-    gdk_color_parse("#5f00d7", &self->priv->xterm_colors[56]);
-    gdk_color_parse("#5f00ff", &self->priv->xterm_colors[57]);
-    gdk_color_parse("#5f5f00", &self->priv->xterm_colors[58]);
-    gdk_color_parse("#5f5f5f", &self->priv->xterm_colors[59]);
-    gdk_color_parse("#5f5f87", &self->priv->xterm_colors[60]);
-    gdk_color_parse("#5f5faf", &self->priv->xterm_colors[61]);
-    gdk_color_parse("#5f5fd7", &self->priv->xterm_colors[62]);
-    gdk_color_parse("#5f5fff", &self->priv->xterm_colors[63]);
-    gdk_color_parse("#5f8700", &self->priv->xterm_colors[64]);
-    gdk_color_parse("#5f875f", &self->priv->xterm_colors[65]);
-    gdk_color_parse("#5f8787", &self->priv->xterm_colors[66]);
-    gdk_color_parse("#5f87af", &self->priv->xterm_colors[67]);
-    gdk_color_parse("#5f87d7", &self->priv->xterm_colors[68]);
-    gdk_color_parse("#5f87ff", &self->priv->xterm_colors[69]);
-    gdk_color_parse("#5faf00", &self->priv->xterm_colors[70]);
-    gdk_color_parse("#5faf5f", &self->priv->xterm_colors[71]);
-    gdk_color_parse("#5faf87", &self->priv->xterm_colors[72]);
-    gdk_color_parse("#5fafaf", &self->priv->xterm_colors[73]);
-    gdk_color_parse("#5fafd7", &self->priv->xterm_colors[74]);
-    gdk_color_parse("#5fafff", &self->priv->xterm_colors[75]);
-    gdk_color_parse("#5fd700", &self->priv->xterm_colors[76]);
-    gdk_color_parse("#5fd75f", &self->priv->xterm_colors[77]);
-    gdk_color_parse("#5fd787", &self->priv->xterm_colors[78]);
-    gdk_color_parse("#5fd7af", &self->priv->xterm_colors[79]);
-    gdk_color_parse("#5fd7d7", &self->priv->xterm_colors[80]);
-    gdk_color_parse("#5fd7ff", &self->priv->xterm_colors[81]);
-    gdk_color_parse("#5fff00", &self->priv->xterm_colors[82]);
-    gdk_color_parse("#5fff5f", &self->priv->xterm_colors[83]);
-    gdk_color_parse("#5fff87", &self->priv->xterm_colors[84]);
-    gdk_color_parse("#5fffaf", &self->priv->xterm_colors[85]);
-    gdk_color_parse("#5fffd7", &self->priv->xterm_colors[86]);
-    gdk_color_parse("#5fffff", &self->priv->xterm_colors[87]);
-    gdk_color_parse("#870000", &self->priv->xterm_colors[88]);
-    gdk_color_parse("#87005f", &self->priv->xterm_colors[89]);
-    gdk_color_parse("#870087", &self->priv->xterm_colors[90]);
-    gdk_color_parse("#8700af", &self->priv->xterm_colors[91]);
-    gdk_color_parse("#8700d7", &self->priv->xterm_colors[92]);
-    gdk_color_parse("#8700ff", &self->priv->xterm_colors[93]);
-    gdk_color_parse("#875f00", &self->priv->xterm_colors[94]);
-    gdk_color_parse("#875f5f", &self->priv->xterm_colors[95]);
-    gdk_color_parse("#875f87", &self->priv->xterm_colors[96]);
-    gdk_color_parse("#875faf", &self->priv->xterm_colors[97]);
-    gdk_color_parse("#875fd7", &self->priv->xterm_colors[98]);
-    gdk_color_parse("#875fff", &self->priv->xterm_colors[99]);
-    gdk_color_parse("#878700", &self->priv->xterm_colors[100]);
-    gdk_color_parse("#87875f", &self->priv->xterm_colors[101]);
-    gdk_color_parse("#878787", &self->priv->xterm_colors[102]);
-    gdk_color_parse("#8787af", &self->priv->xterm_colors[103]);
-    gdk_color_parse("#8787d7", &self->priv->xterm_colors[104]);
-    gdk_color_parse("#8787ff", &self->priv->xterm_colors[105]);
-    gdk_color_parse("#87af00", &self->priv->xterm_colors[106]);
-    gdk_color_parse("#87af5f", &self->priv->xterm_colors[107]);
-    gdk_color_parse("#87af87", &self->priv->xterm_colors[108]);
-    gdk_color_parse("#87afaf", &self->priv->xterm_colors[109]);
-    gdk_color_parse("#87afd7", &self->priv->xterm_colors[110]);
-    gdk_color_parse("#87afff", &self->priv->xterm_colors[111]);
-    gdk_color_parse("#87d700", &self->priv->xterm_colors[112]);
-    gdk_color_parse("#87d75f", &self->priv->xterm_colors[113]);
-    gdk_color_parse("#87d787", &self->priv->xterm_colors[114]);
-    gdk_color_parse("#87d7af", &self->priv->xterm_colors[115]);
-    gdk_color_parse("#87d7d7", &self->priv->xterm_colors[116]);
-    gdk_color_parse("#87d7ff", &self->priv->xterm_colors[117]);
-    gdk_color_parse("#87ff00", &self->priv->xterm_colors[118]);
-    gdk_color_parse("#87ff5f", &self->priv->xterm_colors[119]);
-    gdk_color_parse("#87ff87", &self->priv->xterm_colors[120]);
-    gdk_color_parse("#87ffaf", &self->priv->xterm_colors[121]);
-    gdk_color_parse("#87ffd7", &self->priv->xterm_colors[122]);
-    gdk_color_parse("#87ffff", &self->priv->xterm_colors[123]);
-    gdk_color_parse("#af0000", &self->priv->xterm_colors[124]);
-    gdk_color_parse("#af005f", &self->priv->xterm_colors[125]);
-    gdk_color_parse("#af0087", &self->priv->xterm_colors[126]);
-    gdk_color_parse("#af00af", &self->priv->xterm_colors[127]);
-    gdk_color_parse("#af00d7", &self->priv->xterm_colors[128]);
-    gdk_color_parse("#af00ff", &self->priv->xterm_colors[129]);
-    gdk_color_parse("#af5f00", &self->priv->xterm_colors[130]);
-    gdk_color_parse("#af5f5f", &self->priv->xterm_colors[131]);
-    gdk_color_parse("#af5f87", &self->priv->xterm_colors[132]);
-    gdk_color_parse("#af5faf", &self->priv->xterm_colors[133]);
-    gdk_color_parse("#af5fd7", &self->priv->xterm_colors[134]);
-    gdk_color_parse("#af5fff", &self->priv->xterm_colors[135]);
-    gdk_color_parse("#af8700", &self->priv->xterm_colors[136]);
-    gdk_color_parse("#af875f", &self->priv->xterm_colors[137]);
-    gdk_color_parse("#af8787", &self->priv->xterm_colors[138]);
-    gdk_color_parse("#af87af", &self->priv->xterm_colors[139]);
-    gdk_color_parse("#af87d7", &self->priv->xterm_colors[140]);
-    gdk_color_parse("#af87ff", &self->priv->xterm_colors[141]);
-    gdk_color_parse("#afaf00", &self->priv->xterm_colors[142]);
-    gdk_color_parse("#afaf5f", &self->priv->xterm_colors[143]);
-    gdk_color_parse("#afaf87", &self->priv->xterm_colors[144]);
-    gdk_color_parse("#afafaf", &self->priv->xterm_colors[145]);
-    gdk_color_parse("#afafd7", &self->priv->xterm_colors[146]);
-    gdk_color_parse("#afafff", &self->priv->xterm_colors[147]);
-    gdk_color_parse("#afd700", &self->priv->xterm_colors[148]);
-    gdk_color_parse("#afd75f", &self->priv->xterm_colors[149]);
-    gdk_color_parse("#afd787", &self->priv->xterm_colors[150]);
-    gdk_color_parse("#afd7af", &self->priv->xterm_colors[151]);
-    gdk_color_parse("#afd7d7", &self->priv->xterm_colors[152]);
-    gdk_color_parse("#afd7ff", &self->priv->xterm_colors[153]);
-    gdk_color_parse("#afff00", &self->priv->xterm_colors[154]);
-    gdk_color_parse("#afff5f", &self->priv->xterm_colors[155]);
-    gdk_color_parse("#afff87", &self->priv->xterm_colors[156]);
-    gdk_color_parse("#afffaf", &self->priv->xterm_colors[157]);
-    gdk_color_parse("#afffd7", &self->priv->xterm_colors[158]);
-    gdk_color_parse("#afffff", &self->priv->xterm_colors[159]);
-    gdk_color_parse("#d70000", &self->priv->xterm_colors[160]);
-    gdk_color_parse("#d7005f", &self->priv->xterm_colors[161]);
-    gdk_color_parse("#d70087", &self->priv->xterm_colors[162]);
-    gdk_color_parse("#d700af", &self->priv->xterm_colors[163]);
-    gdk_color_parse("#d700d7", &self->priv->xterm_colors[164]);
-    gdk_color_parse("#d700ff", &self->priv->xterm_colors[165]);
-    gdk_color_parse("#d75f00", &self->priv->xterm_colors[166]);
-    gdk_color_parse("#d75f5f", &self->priv->xterm_colors[167]);
-    gdk_color_parse("#d75f87", &self->priv->xterm_colors[168]);
-    gdk_color_parse("#d75faf", &self->priv->xterm_colors[169]);
-    gdk_color_parse("#d75fd7", &self->priv->xterm_colors[170]);
-    gdk_color_parse("#d75fff", &self->priv->xterm_colors[171]);
-    gdk_color_parse("#d78700", &self->priv->xterm_colors[172]);
-    gdk_color_parse("#d7875f", &self->priv->xterm_colors[173]);
-    gdk_color_parse("#d78787", &self->priv->xterm_colors[174]);
-    gdk_color_parse("#d787af", &self->priv->xterm_colors[175]);
-    gdk_color_parse("#d787d7", &self->priv->xterm_colors[176]);
-    gdk_color_parse("#d787ff", &self->priv->xterm_colors[177]);
-    gdk_color_parse("#d7af00", &self->priv->xterm_colors[178]);
-    gdk_color_parse("#d7af5f", &self->priv->xterm_colors[179]);
-    gdk_color_parse("#d7af87", &self->priv->xterm_colors[180]);
-    gdk_color_parse("#d7afaf", &self->priv->xterm_colors[181]);
-    gdk_color_parse("#d7afd7", &self->priv->xterm_colors[182]);
-    gdk_color_parse("#d7afff", &self->priv->xterm_colors[183]);
-    gdk_color_parse("#d7d700", &self->priv->xterm_colors[184]);
-    gdk_color_parse("#d7d75f", &self->priv->xterm_colors[185]);
-    gdk_color_parse("#d7d787", &self->priv->xterm_colors[186]);
-    gdk_color_parse("#d7d7af", &self->priv->xterm_colors[187]);
-    gdk_color_parse("#d7d7d7", &self->priv->xterm_colors[188]);
-    gdk_color_parse("#d7d7ff", &self->priv->xterm_colors[189]);
-    gdk_color_parse("#d7ff00", &self->priv->xterm_colors[190]);
-    gdk_color_parse("#d7ff5f", &self->priv->xterm_colors[191]);
-    gdk_color_parse("#d7ff87", &self->priv->xterm_colors[192]);
-    gdk_color_parse("#d7ffaf", &self->priv->xterm_colors[193]);
-    gdk_color_parse("#d7ffd7", &self->priv->xterm_colors[194]);
-    gdk_color_parse("#d7ffff", &self->priv->xterm_colors[195]);
-    gdk_color_parse("#ff0000", &self->priv->xterm_colors[196]);
-    gdk_color_parse("#ff005f", &self->priv->xterm_colors[197]);
-    gdk_color_parse("#ff0087", &self->priv->xterm_colors[198]);
-    gdk_color_parse("#ff00af", &self->priv->xterm_colors[199]);
-    gdk_color_parse("#ff00d7", &self->priv->xterm_colors[200]);
-    gdk_color_parse("#ff00ff", &self->priv->xterm_colors[201]);
-    gdk_color_parse("#ff5f00", &self->priv->xterm_colors[202]);
-    gdk_color_parse("#ff5f5f", &self->priv->xterm_colors[203]);
-    gdk_color_parse("#ff5f87", &self->priv->xterm_colors[204]);
-    gdk_color_parse("#ff5faf", &self->priv->xterm_colors[205]);
-    gdk_color_parse("#ff5fd7", &self->priv->xterm_colors[206]);
-    gdk_color_parse("#ff5fff", &self->priv->xterm_colors[207]);
-    gdk_color_parse("#ff8700", &self->priv->xterm_colors[208]);
-    gdk_color_parse("#ff875f", &self->priv->xterm_colors[209]);
-    gdk_color_parse("#ff8787", &self->priv->xterm_colors[210]);
-    gdk_color_parse("#ff87af", &self->priv->xterm_colors[211]);
-    gdk_color_parse("#ff87d7", &self->priv->xterm_colors[212]);
-    gdk_color_parse("#ff87ff", &self->priv->xterm_colors[213]);
-    gdk_color_parse("#ffaf00", &self->priv->xterm_colors[214]);
-    gdk_color_parse("#ffaf5f", &self->priv->xterm_colors[215]);
-    gdk_color_parse("#ffaf87", &self->priv->xterm_colors[216]);
-    gdk_color_parse("#ffafaf", &self->priv->xterm_colors[217]);
-    gdk_color_parse("#ffafd7", &self->priv->xterm_colors[218]);
-    gdk_color_parse("#ffafff", &self->priv->xterm_colors[219]);
-    gdk_color_parse("#ffd700", &self->priv->xterm_colors[220]);
-    gdk_color_parse("#ffd75f", &self->priv->xterm_colors[221]);
-    gdk_color_parse("#ffd787", &self->priv->xterm_colors[222]);
-    gdk_color_parse("#ffd7af", &self->priv->xterm_colors[223]);
-    gdk_color_parse("#ffd7d7", &self->priv->xterm_colors[224]);
-    gdk_color_parse("#ffd7ff", &self->priv->xterm_colors[225]);
-    gdk_color_parse("#ffff00", &self->priv->xterm_colors[226]);
-    gdk_color_parse("#ffff5f", &self->priv->xterm_colors[227]);
-    gdk_color_parse("#ffff87", &self->priv->xterm_colors[228]);
-    gdk_color_parse("#ffffaf", &self->priv->xterm_colors[229]);
-    gdk_color_parse("#ffffd7", &self->priv->xterm_colors[230]);
-    gdk_color_parse("#ffffff", &self->priv->xterm_colors[231]);
-    gdk_color_parse("#080808", &self->priv->xterm_colors[232]);
-    gdk_color_parse("#121212", &self->priv->xterm_colors[233]);
-    gdk_color_parse("#1c1c1c", &self->priv->xterm_colors[234]);
-    gdk_color_parse("#262626", &self->priv->xterm_colors[235]);
-    gdk_color_parse("#303030", &self->priv->xterm_colors[236]);
-    gdk_color_parse("#3a3a3a", &self->priv->xterm_colors[237]);
-    gdk_color_parse("#444444", &self->priv->xterm_colors[238]);
-    gdk_color_parse("#4e4e4e", &self->priv->xterm_colors[239]);
-    gdk_color_parse("#585858", &self->priv->xterm_colors[240]);
-    gdk_color_parse("#626262", &self->priv->xterm_colors[241]);
-    gdk_color_parse("#6c6c6c", &self->priv->xterm_colors[242]);
-    gdk_color_parse("#767676", &self->priv->xterm_colors[243]);
-    gdk_color_parse("#808080", &self->priv->xterm_colors[244]);
-    gdk_color_parse("#8a8a8a", &self->priv->xterm_colors[245]);
-    gdk_color_parse("#949494", &self->priv->xterm_colors[246]);
-    gdk_color_parse("#9e9e9e", &self->priv->xterm_colors[247]);
-    gdk_color_parse("#a8a8a8", &self->priv->xterm_colors[248]);
-    gdk_color_parse("#b2b2b2", &self->priv->xterm_colors[249]);
-    gdk_color_parse("#bcbcbc", &self->priv->xterm_colors[250]);
-    gdk_color_parse("#c6c6c6", &self->priv->xterm_colors[251]);
-    gdk_color_parse("#d0d0d0", &self->priv->xterm_colors[252]);
-    gdk_color_parse("#dadada", &self->priv->xterm_colors[253]);
-    gdk_color_parse("#e4e4e4", &self->priv->xterm_colors[254]);
-    gdk_color_parse("#eeeeee", &self->priv->xterm_colors[255]);
+    gint red, blue, green, i;
+    GString *color_string;
+
+    /* Generate Color Cube */
+    for(red = 0, i = 16; red < 6; red++)
+        for(green = 0; green < 6; green++)
+            for(blue = 0; blue < 6; blue++, i++)
+            {
+                color_string = g_string_new(NULL);
+                g_string_printf(color_string,
+                                "#%2.2x%2.2x%2.2x",
+                                (red != 0) ? red * 40 + 55 : 0,
+                                (green != 0) ? green * 40 + 55 : 0,
+                                (blue != 0) ? blue * 40 + 55 : 0);
+
+                gdk_color_parse(color_string->str,
+                                &self->priv->xterm_colors[i]);
+
+                g_string_free(color_string, TRUE);
+
+            }
+
+    /* Generate Grays */
+    for(i = 0; i < 24; i++)
+    {
+        gint gray = i * 10 + 8;
+        color_string = g_string_new(NULL);
+        g_string_printf(color_string,
+                        "#%2.2x%2.2x%2.2x",
+                        gray, gray, gray);
+
+        gdk_color_parse(color_string->str,
+                        &self->priv->xterm_colors[232 + i]);
+
+        g_string_free(color_string, TRUE);
+    }
 }
 

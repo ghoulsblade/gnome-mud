@@ -1,5 +1,10 @@
 2009-03-21  Les Harris  <lharris@gnome.org>
 
+	* src/mud-log.c: Generates the xterm-256 colors rather than manually
+	creating them.
+
+2009-03-21  Les Harris  <lharris@gnome.org>
+
 	* src/ecma48.h: Added xterm color sequences.
 	* src/mud-log.c: Now supports logging xterm-256 color codes in
 	addition to the ECMA-48 codes.
