@@ -1,5 +1,13 @@
 2009-03-21  Les Harris  <lharris@gnome.org>
 
+	* src/mud-log.c (mud_log_parse_ecma_color),
+	(mud_log_write_html_background_span),
+	(mud_log_write_html_xterm_span): Parser now handles
+	\x1b[38|48];5;[0-15]m correctly by dropping down to the standard ecma
+	colors.
+
+2009-03-21  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_disconnect),
 	(mud_connection_view_reconnect), (mud_connection_view_send): Now stops
 	logging on disconnect and reconnect. Added log write hook in send.
