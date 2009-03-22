@@ -1,5 +1,11 @@
 2009-03-21  Les Harris  <lharris@gnome.org>
 
+	* src/ecma48.h: New file with some ECMA-48 definitions.
+	* src/mud-log.c: When color is to be logged, it now parses the ecma-48
+	codes and emits an html file rather than the raw color information.
+
+2009-03-21  Les Harris  <lharris@gnome.org>
+
 	* src/mud-log.c (mud_log_open), (mud_log_close), (mud_log_write):  Now
 	fsyncs after writes and before closing.
 

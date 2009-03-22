@@ -36,6 +36,7 @@
 #include "mud-connection-view.h"
 #include "mud-line-buffer.h"
 #include "utils.h"
+#include "ecma48.h"
 
 struct _MudLogPrivate
 {
@@ -59,6 +60,8 @@ struct _MudLogPrivate
 
     gboolean done;
     gboolean finalizing;
+    gboolean bold;
+    gboolean first;
 
     gint next_count;
     gint prev_count;
@@ -69,6 +72,8 @@ struct _MudLogPrivate
     gchar *filename;
 
     FILE *logfile;
+
+    GQueue *span_queue;
 
     MudLineBuffer *line_buffer;
 
@@ -121,6 +126,20 @@ static void mud_log_line_added_cb(MudLineBuffer *buffer, MudLog *self);
 /* Private Methods */
 static void mud_log_write(MudLog *log, const gchar *data, gsize size);
 static void mud_log_remove(MudLog *log);
+static gchar *mud_log_parse_ansi(MudLog *self, const gchar *data, gsize size);
+static void mud_log_parse_ecma_color(MudLog *self,
+                                     const gchar *data,
+                                     gsize size,
+                                     GString *output);
+static void mud_log_write_html_header(MudLog *self);
+static void mud_log_write_html_footer(MudLog *self);
+static void mud_log_write_html_foreground_span(MudLog *self,
+                                               GString *output,
+                                               gboolean bold,
+                                               gint ecma_code);
+static void mud_log_write_html_background_span(MudLog *self,
+                                               GString *output,
+                                               gint ecma_code);
 
 // MudLog class functions
 static void
@@ -232,6 +251,8 @@ mud_log_constructor (GType gtype,
         g_error("Tried to instantiate MudLog without passing MudConnectionView.");    
     }
 
+    self->priv->span_queue = g_queue_new();
+
     return obj;
 }
 
@@ -247,6 +268,8 @@ mud_log_finalize (GObject *object)
 
     if(MLog->priv->active)
         mud_log_close(MLog);
+
+    g_queue_free(MLog->priv->span_queue);
 
     if(MLog->mud_name)
         g_free(MLog->mud_name);
@@ -626,10 +649,22 @@ mud_log_open(MudLog *self)
     
     if(result == GTK_RESPONSE_OK)
     {
+        if(self->priv->color)
+        {
+            gchar *temp = self->priv->filename;
+
+            self->priv->filename = g_strdup_printf("%s.html", self->priv->filename);
+
+            g_free(temp);
+
+        }
         self->priv->logfile = fopen(self->priv->filename,
                                     (self->priv->append) ? "a" : "w");
         if (self->priv->logfile)
         {
+            if(self->priv->color)
+                mud_log_write_html_header(self);
+
             time(&t);
             strftime(buf, 1024,
                     _("\n*** Log starts *** %d/%m/%Y %H:%M:%S\n"),
@@ -740,6 +775,10 @@ mud_log_close(MudLog *log)
             localtime(&t));
 
     fprintf(log->priv->logfile, "%s", buf);
+
+    if(log->priv->color)
+        mud_log_write_html_footer(log);
+
     fsync(fileno(log->priv->logfile));
     fclose(log->priv->logfile);
 
@@ -824,12 +863,378 @@ mud_log_write(MudLog *log, const gchar *data, gsize size)
     }
     else
     {
-        write_size = fwrite(data, 1, size, log->priv->logfile);
-        fsync(fileno(log->priv->logfile));
+        gchar *output;
 
-        if(write_size != size)
-            g_critical(_("Could not write data to log file!"));
+        output = mud_log_parse_ansi(log, data, size);
 
+        if(output)
+        {
+            write_size = fwrite(output, 1, strlen(output), log->priv->logfile);
+            fsync(fileno(log->priv->logfile));
+
+            g_free(output);
+        }
     }
+}
+
+static gchar * 
+mud_log_parse_ansi(MudLog *self,
+                   const gchar *data,
+                   gsize size)
+{
+    gsize i;
+    GString *ecma_color;
+    GString *output;
+
+    output = g_string_new(NULL);
+
+    for(i = 0; i < size; ++i)
+    {
+        if(data[i] == ECMA_ESCAPE_BYTE_C)
+        {
+            ecma_color = g_string_new(NULL);
+            ++i;
+
+            while(data[++i] != 'm' && i < size)
+                ecma_color = g_string_append_c(ecma_color, data[i]);
+
+            mud_log_parse_ecma_color(self,
+                                     ecma_color->str,
+                                     ecma_color->len,
+                                     output);
+
+            g_string_free(ecma_color, TRUE);
+
+            continue;
+        }
+
+        if(data[i] != '\r') // Just log newlines
+        {
+            if(data[i] == '<')
+                output = g_string_append(output, "&lt;");
+            else if(data[i] == '>')
+                output = g_string_append(output, "&gt;");
+            else
+                output = g_string_append_c(output, data[i]);
+        }
+    }
+
+    return g_string_free(output, (output->len == 0) );
+}
+
+#define STATE_ATTRIBUTE 0
+#define STATE_FORECOLOR 1
+#define STATE_BACKCOLOR 2
+
+static void
+mud_log_parse_ecma_color(MudLog *self,
+                         const gchar *data,
+                         gsize size,
+                         GString *output)
+{
+    gint i, argc, byte, color_index;
+    gchar **argv;
+
+    argv = g_strsplit(data, ";", -1);
+    argc = g_strv_length(argv);
+
+    if(argc < 1 || argc > 3)
+    {
+        g_strfreev(argv);
+
+        return;
+    }
+
+    self->priv->bold = FALSE;
+
+    for(i = 0; i < argc; ++i)
+    {
+        switch(i)
+        {
+            case STATE_ATTRIBUTE:
+                byte = (gint)atol(argv[0]);
+
+                switch(byte)
+                {
+                    case ECMA_ATTRIBUTE_NORMAL:
+                        while(!g_queue_is_empty(self->priv->span_queue))
+                        {
+                            output = g_string_append(output, "</span>");
+                            g_queue_pop_head(self->priv->span_queue);
+                        }
+
+                        self->priv->bold = FALSE;
+                        break;
+
+                    case ECMA_ATTRIBUTE_BOLD:
+                        output = g_string_append(output, "<span style=\"font-weight: bold;\">");
+                        g_queue_push_head(self->priv->span_queue, GINT_TO_POINTER(ECMA_ATTRIBUTE_BOLD));
+                        self->priv->bold = TRUE;
+                        break;
+
+                    case ECMA_ATTRIBUTE_ITALIC:
+                        output = g_string_append(output, "<span style=\"font-style: italic;\">");
+                        g_queue_push_head(self->priv->span_queue, GINT_TO_POINTER(ECMA_ATTRIBUTE_ITALIC));
+                        break;
+
+                    case ECMA_ATTRIBUTE_UNDERLINE:
+                        output = g_string_append(output, "<span style=\"text-decoration: underline;\">");
+                        g_queue_push_head(self->priv->span_queue, GINT_TO_POINTER(ECMA_ATTRIBUTE_UNDERLINE));
+                        break;
+
+                    case ECMA_ATTRIBUTE_BLINK:
+                        output = g_string_append(output, "<span style=\"text-decoration: blink;\">");
+                        g_queue_push_head(self->priv->span_queue, GINT_TO_POINTER(ECMA_ATTRIBUTE_BLINK));
+                        break;
+
+                    /* FIXME: Figure out what to do to make text reversed in the browser */
+                    case ECMA_ATTRIBUTE_REVERSE:
+                        output = g_string_append(output, "<span>");
+                        g_queue_push_head(self->priv->span_queue, GINT_TO_POINTER(ECMA_ATTRIBUTE_REVERSE));
+                        break;
+
+                    case ECMA_ATTRIBUTE_NODISPLAY:
+                        // Dont' display it.
+                        break;
+                }
+                break;
+
+            case STATE_FORECOLOR:
+                byte = (gint)atol(argv[1]);
+
+                switch(byte)
+                {
+                    case ECMA_FORECOLOR_BLACK:
+                        mud_log_write_html_foreground_span(self,
+                                                           output,
+                                                           self->priv->bold,
+                                                           ECMA_FORECOLOR_BLACK);
+                        break;
+
+                    case ECMA_FORECOLOR_RED:
+                        mud_log_write_html_foreground_span(self,
+                                                           output,
+                                                           self->priv->bold,
+                                                           ECMA_FORECOLOR_RED);
+                        break;
+
+                    case ECMA_FORECOLOR_GREEN:
+                        mud_log_write_html_foreground_span(self,
+                                                           output,
+                                                           self->priv->bold,
+                                                           ECMA_FORECOLOR_GREEN);
+                        break;
+
+                    case ECMA_FORECOLOR_YELLOW:
+                        mud_log_write_html_foreground_span(self,
+                                                           output,
+                                                           self->priv->bold,
+                                                           ECMA_FORECOLOR_YELLOW);
+                        break;
+
+                    case ECMA_FORECOLOR_BLUE:
+                        mud_log_write_html_foreground_span(self,
+                                                           output,
+                                                           self->priv->bold,
+                                                           ECMA_FORECOLOR_BLUE);
+                        break;
+
+                    case ECMA_FORECOLOR_MAGENTA:
+                        mud_log_write_html_foreground_span(self,
+                                                           output,
+                                                           self->priv->bold,
+                                                           ECMA_FORECOLOR_MAGENTA);
+                        break;
+
+                    case ECMA_FORECOLOR_CYAN:
+                        mud_log_write_html_foreground_span(self,
+                                                           output,
+                                                           self->priv->bold,
+                                                           ECMA_FORECOLOR_CYAN);
+                        break;
+
+                    case ECMA_FORECOLOR_WHITE:
+                        mud_log_write_html_foreground_span(self,
+                                                           output,
+                                                           self->priv->bold,
+                                                           ECMA_FORECOLOR_WHITE);
+                }
+                break;
+
+            case STATE_BACKCOLOR:
+                byte = (gint)atol(argv[2]);
+
+                switch(byte)
+                {
+                     case ECMA_BACKCOLOR_BLACK:
+                        mud_log_write_html_background_span(self,
+                                                           output,
+                                                           ECMA_BACKCOLOR_BLACK);
+                        break;
+
+                    case ECMA_BACKCOLOR_RED:
+                        mud_log_write_html_background_span(self,
+                                                           output,
+                                                           ECMA_BACKCOLOR_RED);
+                        break;
+
+                    case ECMA_BACKCOLOR_GREEN:
+                        mud_log_write_html_background_span(self,
+                                                           output,
+                                                           ECMA_BACKCOLOR_GREEN);
+                        break;
+
+                    case ECMA_BACKCOLOR_YELLOW:
+                        mud_log_write_html_background_span(self,
+                                                           output,
+                                                           ECMA_BACKCOLOR_YELLOW);
+                        break;
+
+                    case ECMA_BACKCOLOR_BLUE:
+                        mud_log_write_html_background_span(self,
+                                                           output,
+                                                           ECMA_BACKCOLOR_BLUE);
+                        break;
+
+                    case ECMA_BACKCOLOR_MAGENTA:
+                        mud_log_write_html_background_span(self,
+                                                           output,
+                                                           ECMA_BACKCOLOR_MAGENTA);
+                        break;
+
+                    case ECMA_BACKCOLOR_CYAN:
+                        mud_log_write_html_background_span(self,
+                                                           output,
+                                                           ECMA_BACKCOLOR_CYAN);
+                        break;
+
+                    case ECMA_BACKCOLOR_WHITE:
+                        mud_log_write_html_background_span(self,
+                                                           output,
+                                                           ECMA_BACKCOLOR_WHITE);
+                        break;     
+                }
+                break;
+        }
+    }
+
+    g_strfreev(argv);
+}
+
+static void
+mud_log_write_html_header(MudLog *self)
+{
+    gchar *title = g_path_get_basename(self->priv->filename);
+
+    fprintf(self->priv->logfile, "%s", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(self->priv->logfile, "%s", "\t<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n ");
+    fprintf(self->priv->logfile, "%s", "\t\t\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n\n");
+
+    fprintf(self->priv->logfile, "%s", "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n");
+
+    fprintf(self->priv->logfile, "\t<head>\n\t\t<title>%s</title>\n\n\t\t",
+            title);
+
+    g_free(title);
+
+    fprintf(self->priv->logfile, "%s", "<style type=\"text/css\">\n\t\t\t");
+
+    fprintf(self->priv->logfile, "body {\n\t\t\t\tbackground-color: rgb(%d, %d, %d);\n",
+                                 self->priv->parent->profile->preferences->Background.red / 256,
+                                 self->priv->parent->profile->preferences->Background.green / 256,
+                                 self->priv->parent->profile->preferences->Background.blue / 256);
+
+    fprintf(self->priv->logfile, "\t\t\t\tcolor: rgb(%d, %d, %d);\n",
+                                 self->priv->parent->profile->preferences->Foreground.red / 256,
+                                 self->priv->parent->profile->preferences->Foreground.green / 256,
+                                 self->priv->parent->profile->preferences->Foreground.blue / 256);
+
+    fprintf(self->priv->logfile, "%s", "\t\t\t\tfont-family: monospace;\n");
+
+    fprintf(self->priv->logfile, "\t\t\t}\n");
+
+    fprintf(self->priv->logfile, "%s", "\t\t</style>\n\n\t</head>\n\n\t<body>\n\t\t<pre>\n");
+
+    fsync(fileno(self->priv->logfile));
+}
+
+static void
+mud_log_write_html_footer(MudLog *self)
+{
+    fprintf(self->priv->logfile, "%s", "\t\t</pre>\n\t</body>\n</html>\n");
+    fprintf(self->priv->logfile, "<!-- Generated by Gnome-Mud %s http://live.gnome.org/GnomeMud -->\n", VERSION);
+
+    fsync(fileno(self->priv->logfile));
+}
+
+static void
+mud_log_write_html_foreground_span(MudLog *self,
+                                   GString *output,
+                                   gboolean bold,
+                                   gint ecma_code)
+{
+    gint color_index = ecma_code - 30;
+
+    /* Work around some gnome-mud palette weirdness */
+    switch(ecma_code)
+    {
+        case ECMA_FORECOLOR_GREEN:
+            color_index = 4;
+            break;
+
+        case ECMA_FORECOLOR_YELLOW:
+            color_index = 5;
+            break;
+
+        case ECMA_FORECOLOR_BLUE:
+            color_index = 2; 
+            break;
+
+        case ECMA_FORECOLOR_MAGENTA:
+            color_index = 3;
+            break;
+    }
+
+    color_index += (bold) ? 8 : 0;
+
+    g_string_append_printf(output, "<span style=\"color: rgb(%d, %d, %d);\">",
+            self->priv->parent->profile->preferences->Colors[color_index].red / 256,
+            self->priv->parent->profile->preferences->Colors[color_index].blue / 256,
+            self->priv->parent->profile->preferences->Colors[color_index].green / 256);
+    g_queue_push_head(self->priv->span_queue, GINT_TO_POINTER(ecma_code));
+}
+
+static void
+mud_log_write_html_background_span(MudLog *self,
+                                   GString *output,
+                                   gint ecma_code)
+{
+    gint color_index = ecma_code - 40;
+
+    /* Work around some gnome-mud palette weirdness */
+    switch(ecma_code)
+    {
+        case ECMA_BACKCOLOR_GREEN:
+            color_index = 4;
+            break;
+
+        case ECMA_BACKCOLOR_YELLOW:
+            color_index = 5;
+            break;
+
+        case ECMA_BACKCOLOR_BLUE:
+            color_index = 2; 
+            break;
+
+        case ECMA_BACKCOLOR_MAGENTA:
+            color_index = 3;
+            break;
+    }
+
+    g_string_append_printf(output, "<span style=\"background-color: rgb(%d, %d, %d);\">",
+            self->priv->parent->profile->preferences->Colors[color_index].red / 256,
+            self->priv->parent->profile->preferences->Colors[color_index].blue / 256,
+            self->priv->parent->profile->preferences->Colors[color_index].green / 256);
+    g_queue_push_head(self->priv->span_queue, GINT_TO_POINTER(ecma_code));
 }
 
