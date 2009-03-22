@@ -558,6 +558,7 @@
                 <property name="label" translatable="yes">&lt;b&gt;_Log to File:&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
                 <property name="use_underline">True</property>
+                <property name="mnemonic_widget">file_entry</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -840,6 +841,41 @@
               </packing>
             </child>
             <child>
+              <widget class="GtkHBox" id="hbox8">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkLabel" id="label14">
+                    <property name="visible">True</property>
+                    <property name="width_chars">5</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkCheckButton" id="input_check_btn">
+                    <property name="label" translatable="yes">Log Inp_ut</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                  <packing>
+                    <property name="padding">5</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="padding">2</property>
+                <property name="position">8</property>
+              </packing>
+            </child>
+            <child>
               <widget class="GtkHBox" id="hbox5">
                 <property name="visible">True</property>
                 <child>
@@ -869,8 +905,8 @@
               </widget>
               <packing>
                 <property name="expand">False</property>
-                <property name="padding">5</property>
-                <property name="position">8</property>
+                <property name="padding">2</property>
+                <property name="position">9</property>
               </packing>
             </child>
             <child>
@@ -903,7 +939,7 @@
               </widget>
               <packing>
                 <property name="expand">False</property>
-                <property name="position">9</property>
+                <property name="position">10</property>
               </packing>
             </child>
             <child>
@@ -913,7 +949,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="padding">5</property>
-                <property name="position">10</property>
+                <property name="position">11</property>
               </packing>
             </child>
           </widget>

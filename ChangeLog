@@ -1,5 +1,17 @@
 2009-03-21  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_disconnect),
+	(mud_connection_view_reconnect), (mud_connection_view_send): Now stops
+	logging on disconnect and reconnect. Added log write hook in send.
+	* src/mud-log.c (mud_log_class_init), (mud_log_init),
+	(mud_log_get_property), (mud_log_append_toggled_cb),
+	(mud_log_input_toggled_cb), (mud_log_color_toggled_cb),
+	(mud_log_open): Can no longer append and include color. A new file
+	must be written.  Now logs input as a default.
+	* ui/main.glade: Added Log Input checkbox in log window.
+
+2009-03-21  Les Harris  <lharris@gnome.org>
+
 	* src/mud-log.c: Generates the xterm-256 colors rather than manually
 	creating them.
 

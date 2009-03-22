@@ -1825,6 +1825,8 @@ mud_connection_view_disconnect(MudConnectionView *view)
         view->priv->download_queue = NULL;
 #endif
 
+        mud_connection_view_stop_logging(view);
+
         view->priv->processed = NULL;
 
         gnet_conn_disconnect(view->connection);
@@ -1868,6 +1870,8 @@ mud_connection_view_reconnect(MudConnectionView *view)
 
         view->priv->download_queue = NULL;
 #endif
+
+        mud_connection_view_stop_logging(view);
 
         view->priv->processed = NULL;
 
@@ -2054,6 +2058,22 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             {
                 mud_connection_view_add_text(view, text, Sent);
                 mud_connection_view_add_text(view, "\r\n", Sent);
+            }
+
+            if(view->local_echo)
+            {
+                gboolean log_input;
+
+                if(mud_log_islogging(view->log))
+                {
+                    g_object_get(view->log, "log-input", &log_input, NULL);
+
+                    if(log_input)
+                    {
+                        mud_log_write_hook(view->log, text, strlen(text));
+                        mud_log_write_hook(view->log, "\r\n", 2);
+                    }
+                }
             }
 
             if(conv_text != NULL)

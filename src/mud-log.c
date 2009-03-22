@@ -47,6 +47,7 @@ struct _MudLogPrivate
     GtkWidget *check_log_prev;
     GtkWidget *check_append;
     GtkWidget *check_buffer;
+    GtkWidget *check_input;
     GtkWidget *check_color;
     GtkWidget *entry_file;
     GtkWidget *btn_select;
@@ -57,6 +58,7 @@ struct _MudLogPrivate
     gboolean buffer;
     gboolean include_next;
     gboolean include_prev;
+    gboolean input;
 
     gboolean done;
     gboolean finalizing;
@@ -89,7 +91,8 @@ enum
     PROP_MUD_LOG_0,
     PROP_MUD_NAME,
     PROP_PARENT,
-    PROP_WINDOW
+    PROP_WINDOW,
+    PROP_INPUT
 };
 
 /* Define the Type */
@@ -116,6 +119,7 @@ static void mud_log_next_toggled_cb(GtkToggleButton *button, MudLog *self);
 static void mud_log_prev_toggled_cb(GtkToggleButton *button, MudLog *self);
 static void mud_log_append_toggled_cb(GtkToggleButton *button, MudLog *self);
 static void mud_log_buffer_toggled_cb(GtkToggleButton *button, MudLog *self);
+static void mud_log_input_toggled_cb(GtkToggleButton *button, MudLog *self);
 static void mud_log_color_toggled_cb(GtkToggleButton *button, MudLog *self);
 static void mud_log_select_clicked_cb(GtkWidget *widget, MudLog *self);
 static void mud_log_next_spin_changed_cb(GtkSpinButton *button, MudLog *self);
@@ -191,6 +195,14 @@ mud_log_class_init (MudLogClass *klass)
                 "Parent MudConnectionView",
                 MUD_TYPE_CONNECTION_VIEW,
                 G_PARAM_READWRITE|G_PARAM_CONSTRUCT_ONLY));
+
+    g_object_class_install_property(object_class,
+            PROP_INPUT,
+            g_param_spec_boolean("log-input",
+                "Log Input",
+                "The log should log the input as well.",
+                TRUE,
+                G_PARAM_READABLE));
 }
 
 static void
@@ -207,6 +219,7 @@ mud_log_init (MudLog *log)
     log->priv->parent_window = NULL;
     log->priv->parent = NULL;
     log->priv->filename = NULL;
+    log->priv->input = TRUE;
 
     log->priv->append = TRUE;
     log->priv->buffer = FALSE;
@@ -354,6 +367,10 @@ mud_log_get_property(GObject *object,
             g_value_take_object(value, self->priv->parent);
             break;
 
+        case PROP_INPUT:
+            g_value_set_boolean(value, self->priv->input);
+            break;
+
         default:
             G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
             break;
@@ -483,6 +500,21 @@ mud_log_append_toggled_cb(GtkToggleButton *button,
     g_object_get(button, "active", &active, NULL);
 
     self->priv->append = active;
+
+    if(self->priv->append)
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->priv->check_color),
+                                     FALSE);
+}
+
+static void
+mud_log_input_toggled_cb(GtkToggleButton *button,
+                         MudLog *self)
+{
+    gboolean active;
+
+    g_object_get(button, "active", &active, NULL);
+
+    self->priv->input = active;
 }
 
 static void
@@ -509,6 +541,10 @@ mud_log_color_toggled_cb(GtkToggleButton *button,
     g_object_get(button, "active", &active, NULL);
 
     self->priv->color = active;
+
+    if(self->priv->color)
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->priv->check_append),
+                                     FALSE);
 }
 
 static gboolean
@@ -582,7 +618,6 @@ mud_log_open(MudLog *self)
     GladeXML *glade;
     GtkWidget *main_window;
     gchar buf[1024];
-    gchar nameBuf[1024];
     time_t t;
     gint result;
 
@@ -597,6 +632,7 @@ mud_log_open(MudLog *self)
     self->priv->check_log_prev = glade_xml_get_widget(glade, "inc_prev_check_btn");
     self->priv->spin_log_prev = glade_xml_get_widget(glade, "prev_spin_btn");
     self->priv->check_append = glade_xml_get_widget(glade, "append_check_btn");
+    self->priv->check_input = glade_xml_get_widget(glade, "input_check_btn");
     self->priv->check_buffer = glade_xml_get_widget(glade, "buffer_check_btn");
     self->priv->check_color = glade_xml_get_widget(glade, "color_check_btn");
     self->priv->btn_select = glade_xml_get_widget(glade, "select_btn");
@@ -642,6 +678,11 @@ mud_log_open(MudLog *self)
                      G_CALLBACK(mud_log_append_toggled_cb),
                      self);
 
+    g_signal_connect(self->priv->check_input,
+                     "toggled",
+                     G_CALLBACK(mud_log_input_toggled_cb),
+                     self);
+
     g_signal_connect(self->priv->check_buffer,
                      "toggled",
                      G_CALLBACK(mud_log_buffer_toggled_cb),
@@ -653,6 +694,17 @@ mud_log_open(MudLog *self)
                      self);
 
     g_object_unref(glade);
+
+    if(self->priv->filename)
+        g_free(self->priv->filename);
+
+    self->priv->filename = g_strdup_printf("%s%c%s.log",
+                                          g_get_home_dir(),
+                                          G_DIR_SEPARATOR,
+                                          self->mud_name);
+
+    gtk_entry_set_text(GTK_ENTRY(self->priv->entry_file),
+                       self->priv->filename);
 
     result = gtk_dialog_run(GTK_DIALOG(self->priv->window));
     
