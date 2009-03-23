@@ -1331,28 +1331,22 @@ mud_connections_property_save(MudConnections *conn)
 static void
 mud_connections_property_populate_profiles(MudConnections *conn)
 {
-    GSList *profiles, *entry;
-    GConfClient *client = gconf_client_get_default();
-    GError *error = NULL;
-    gchar *keyname = g_strdup("/apps/gnome-mud/profiles/list");
+    const GSList *profiles, *entry;
     GtkTreeIter iter;
 
-    profiles = gconf_client_get_list(client, keyname,
-				     GCONF_VALUE_STRING, &error);
+    profiles = mud_profile_manager_get_profiles(conn->parent_window->profile_manager);
 
     conn->priv->profile_model =
 	GTK_TREE_MODEL(gtk_list_store_new(1, G_TYPE_STRING));
 
     for(entry = profiles; entry != NULL; entry = g_slist_next(entry))
     {
+        MudProfile *profile = MUD_PROFILE(entry->data);
 	gtk_list_store_append(
 	    GTK_LIST_STORE(conn->priv->profile_model), &iter);
 	gtk_list_store_set(GTK_LIST_STORE(conn->priv->profile_model), &iter,
-			   0, (gchar *)entry->data, -1);
+			   0, profile->name, -1);
     }
-
-    g_free(keyname);
-    g_object_unref(client);
 }
 
 static void

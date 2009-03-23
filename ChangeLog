@@ -1,5 +1,11 @@
 2009-03-23  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connections.c
+	(mud_connections_property_populate_profiles): Now uses
+	MudProfileManager to properly get the profiles.
+
+2009-03-23  Les Harris  <lharris@gnome.org>
+
 	* src/Makefile.am: Added mud-profile-manager.[ch], removed
 	gconf-helper.[ch]
 	* src/gconf-helper.[ch]: Removed files.
