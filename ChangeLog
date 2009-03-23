@@ -1,5 +1,10 @@
 2009-03-23  Les Harris  <lharris@gnome.org>
 
+	* ui/main.glade: Two strings marked untranslatable. Modified logging
+	window labels for easier translation.
+
+2009-03-23  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connections.c
 	(mud_connections_property_populate_profiles): Now uses
 	MudProfileManager to properly get the profiles.
