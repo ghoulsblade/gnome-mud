@@ -1,3 +1,20 @@
+2009-03-23  Les Harris  <lharris@gnome.org>
+
+	* src/Makefile.am: Added mud-profile-manager.[ch], removed
+	gconf-helper.[ch]
+	* src/gconf-helper.[ch]: Removed files.
+	* src/gnome-mud.c (main): Removed call to mud_profile_load_profiles().
+	* src/mud-profile-manager.[ch]: New class which keeps track of the
+	profiles.  This moves this functionality from the profile class
+	itself, kills some globals, and generally makes profiles much nicer to
+	work with.
+	* src/mud-connection-view.c:
+	* src/mud-preferences-window.c:
+	* src/mud-profile.[ch]:
+	* src/mud-window-profile.c:
+	* src/mud-window.[ch]: Updated files to work with MudProfileManager
+	instead of directly on profiles.
+
 2009-03-21  Les Harris  <lharris@gnome.org>
 
 	* src/mud-log.c (mud_log_parse_ecma_color),

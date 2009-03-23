@@ -104,6 +104,9 @@ static guint mud_window_signal[LAST_SIGNAL] = { 0 };
 static void mud_window_init       (MudWindow *self);
 static void mud_window_class_init (MudWindowClass *klass);
 static void mud_window_finalize   (GObject *object);
+static GObject *mud_window_constructor (GType gtype,
+                                        guint n_properties,
+                                        GObjectConstructParam *properties);
 static void mud_window_set_property(GObject *object,
                                     guint prop_id,
                                     const GValue *value,
@@ -161,6 +164,9 @@ static void
 mud_window_class_init (MudWindowClass *klass)
 {
     GObjectClass *object_class = G_OBJECT_CLASS(klass);
+
+    /* Override base object constructor */
+    object_class->constructor = mud_window_constructor;
 
     /* Override parent's finalize */
     object_class->finalize = mud_window_finalize;
@@ -375,13 +381,38 @@ mud_window_init (MudWindow *self)
     if (GTK_WIDGET_VISIBLE(self->priv->textviewscroll))
         gtk_widget_queue_resize(self->priv->textviewscroll);
 
-    mud_window_populate_profiles_menu(self);
-
     gtk_window_get_size(GTK_WINDOW(self->window),
                         &self->priv->width,
                         &self->priv->height);
 
+
+
     g_object_unref(glade);
+}
+
+static GObject *
+mud_window_constructor (GType gtype,
+                        guint n_properties,
+                        GObjectConstructParam *properties)
+{
+    MudWindow *self;
+    GObject *obj;
+    MudWindowClass *klass;
+    GObjectClass *parent_class;
+
+    /* Chain up to parent constructor */
+    klass = MUD_WINDOW_CLASS( g_type_class_peek(MUD_TYPE_WINDOW) );
+    parent_class = G_OBJECT_CLASS( g_type_class_peek_parent(klass) );
+    obj = parent_class->constructor(gtype, n_properties, properties);
+
+    self = MUD_WINDOW(obj);
+
+    self->profile_manager = g_object_new(MUD_TYPE_PROFILE_MANAGER,
+                                         "parent-window", self,
+                                        NULL);
+    mud_window_populate_profiles_menu(self);
+
+    return obj;
 }
 
 static void
@@ -402,6 +433,8 @@ mud_window_finalize (GObject *object)
 
         entry = g_slist_next(entry);
     }
+
+    g_object_unref(self->profile_manager);
 
     g_slist_free(self->priv->mud_views_list);
     
@@ -728,7 +761,7 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 static void
 mud_window_preferences_cb(GtkWidget *widget, MudWindow *self)
 {
-    mud_preferences_window_new("Default");
+    mud_preferences_window_new("Default", self);
 }
 
 static void
@@ -910,7 +943,8 @@ mud_window_select_profile(GtkWidget *widget, MudWindow *self)
 
     if (self->priv->current_view)
     {
-        profile = get_profile(gtk_label_get_text(GTK_LABEL(profileLabel)));
+        profile = mud_profile_manager_get_profile_by_name
+            (self->profile_manager, gtk_label_get_text(GTK_LABEL(profileLabel)));
 
         if (profile)
             mud_connection_view_set_profile(MUD_CONNECTION_VIEW(self->priv->current_view), profile);
@@ -1033,6 +1067,12 @@ mud_window_clear_profiles_menu(GtkWidget *widget, gpointer data)
 }
 
 /* Public Methods */
+const GSList *
+mud_window_get_views(MudWindow *window)
+{
+    return window->priv->mud_views_list;
+}
+
 void
 mud_window_toggle_input_mode(MudWindow *self,
                              MudConnectionView *view)
@@ -1128,26 +1168,31 @@ mud_window_profile_menu_set_active(MudWindow *self, gchar *name)
 void
 mud_window_populate_profiles_menu(MudWindow *self)
 {
-    const GList *profiles;
-    GList *entry;
+    const GSList *profiles, *entry;
     GtkWidget *profile;
     GtkWidget *sep;
     GtkWidget *manage;
     GtkWidget *icon;
+    MudProfile *prof;
 
     g_return_if_fail(IS_MUD_WINDOW(self));
 
-    profiles = mud_profile_get_profiles();
+    self->priv->profile_menu_list = NULL;
+
+    profiles = mud_profile_manager_get_profiles(self->profile_manager);
 
     gtk_container_foreach(GTK_CONTAINER(self->priv->mi_profiles),
                           mud_window_clear_profiles_menu,
                           NULL);
 
-    for (entry = (GList *)profiles; entry != NULL; entry = g_list_next(entry))
+    entry = profiles;
+    while(entry)
     {
+        prof = MUD_PROFILE(entry->data);
+
         profile = gtk_radio_menu_item_new_with_label(
                 self->priv->profile_menu_list,
-                (gchar *)MUD_PROFILE(entry->data)->name);
+                g_strdup(prof->name));
 
         gtk_widget_show(profile);
         
@@ -1160,6 +1205,8 @@ mud_window_populate_profiles_menu(MudWindow *self)
                          "activate",
                          G_CALLBACK(mud_window_select_profile),
                         self);
+
+        entry = g_slist_next(entry);
     }
 
     sep = gtk_separator_menu_item_new();
@@ -1178,6 +1225,9 @@ mud_window_populate_profiles_menu(MudWindow *self)
                      "activate",
                      G_CALLBACK(mud_window_profiles_cb),
                      self);
+
+    if(self->priv->current_view)
+        mud_window_profile_menu_set_active(self, self->priv->current_view->profile->name);
 }
     
 void

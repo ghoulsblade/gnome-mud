@@ -419,7 +419,7 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
 	break;
 
     case 2:
-	char_name = utils_remove_whitespace(mud_tuple[0]);
+	char_name = gconf_escape_key(mud_tuple[0], -1);
 	mud_name = g_strdup(mud_tuple[1]);
 	break;
 
@@ -431,7 +431,7 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
     g_strfreev(mud_tuple);
     g_free(buf);
 
-    strip_name = utils_remove_whitespace(mud_name);
+    strip_name = gconf_escape_key(mud_name, -1);
 
     key = g_strdup_printf("/apps/gnome-mud/muds/%s/host", strip_name);
     host = gconf_client_get_string(client, key, NULL);
@@ -466,7 +466,9 @@ mud_connections_connect_cb(GtkWidget *widget, MudConnections *conn)
                         NULL);
 
     mud_window_add_connection_view(conn->parent_window, G_OBJECT(view), mud_name);
-    mud_connection_view_set_profile(view, get_profile(profile));
+    mud_connection_view_set_profile(view,
+                                    mud_profile_manager_get_profile_by_name(conn->parent_window->profile_manager,
+                                                                            profile));
     mud_window_profile_menu_set_active(conn->parent_window, profile);
 
     g_free(mud_name);
@@ -579,7 +581,7 @@ mud_connections_delete_cb(GtkWidget *widget, MudConnections *conn)
 
     if(len == 1)
     {
-        strip_name = utils_remove_whitespace(mud_name);
+        strip_name = gconf_escape_key(mud_name, -1);
         
         key = g_strdup_printf("/apps/gnome-mud/muds/%s", strip_name);
         gconf_client_recursive_unset(client, key, 0, NULL);
@@ -590,8 +592,8 @@ mud_connections_delete_cb(GtkWidget *widget, MudConnections *conn)
     }
     else if(len == 2)
     {
-        strip_name = utils_remove_whitespace(mud_name);
-        strip_char_name = utils_remove_whitespace(char_name);
+        strip_name = gconf_escape_key(mud_name, -1);
+        strip_char_name = gconf_escape_key(char_name, -1);
 
         key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters/%s",
                 strip_name, strip_char_name);
@@ -991,7 +993,7 @@ mud_connections_show_properties(MudConnections *conn, gchar *mud)
     } else
 	return;
 
-    name_strip = utils_remove_whitespace(conn->priv->original_name);
+    name_strip = gconf_escape_key(conn->priv->original_name, -1);
 
     gtk_entry_set_text(
 	GTK_ENTRY(conn->priv->name_entry), conn->priv->original_name);
@@ -1053,7 +1055,7 @@ mud_connections_show_properties(MudConnections *conn, gchar *mud)
 
     if(conn->priv->original_char_name != NULL)
     {
-	char_strip = utils_remove_whitespace(conn->priv->original_char_name);
+	char_strip = gconf_escape_key(conn->priv->original_char_name, -1);
 		
 	key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters/%s/logon",
 			      name_strip, char_strip);
@@ -1218,8 +1220,8 @@ mud_connections_property_save(MudConnections *conn)
     if(conn->priv->original_name &&
        strcmp(conn->priv->original_name, name) != 0)
     {
-	stripped_name = utils_remove_whitespace(conn->priv->original_name);
-	strip_name_new = utils_remove_whitespace(name);
+	stripped_name = gconf_escape_key(conn->priv->original_name, -1);
+	strip_name_new = gconf_escape_key(name, -1);
 
 	key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters",
 			      stripped_name);
@@ -1260,7 +1262,7 @@ mud_connections_property_save(MudConnections *conn)
 	g_free(strip_name_new);
     }
 
-    stripped_name = utils_remove_whitespace(name);
+    stripped_name = gconf_escape_key(name, -1);
     key = g_strdup_printf("/apps/gnome-mud/muds/%s/name", stripped_name);
     gconf_client_set_string(client, key, name, NULL);
     g_free(key);
@@ -1292,7 +1294,7 @@ mud_connections_property_save(MudConnections *conn)
     if(conn->priv->original_char_name && 
        strcmp(conn->priv->original_char_name, character_name) != 0)
     {
-	strip_name_new = utils_remove_whitespace(conn->priv->original_char_name);
+	strip_name_new = gconf_escape_key(conn->priv->original_char_name, -1);
 	key = g_strdup_printf("/apps/gnome-mud/muds/%s/characters/%s",
 			      stripped_name, strip_name_new);
 	gconf_client_recursive_unset(client, key, 0, NULL);
@@ -1300,7 +1302,7 @@ mud_connections_property_save(MudConnections *conn)
 	g_free(strip_name_new);
     }
 
-    strip_name_new = utils_remove_whitespace(character_name);
+    strip_name_new = gconf_escape_key(character_name, -1);
 
     if(strlen(strip_name_new) > 0)
     {

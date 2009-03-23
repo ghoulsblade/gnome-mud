@@ -33,6 +33,7 @@
 #include "mud-preferences-window.h"
 #include "mud-profile.h"
 #include "mud-regex.h"
+#include "mud-window.h"
 #include "utils.h"
 
 typedef struct TTreeViewRowInfo {
@@ -126,6 +127,8 @@ struct _MudPreferencesWindowPrivate
     gint notification_count;
 
     gchar *current_encoding;
+
+    MudWindow *parent;
 };
 
 enum
@@ -494,8 +497,8 @@ mud_preferences_window_finalize (GObject *object)
 void
 mud_preferences_window_fill_profiles (MudPreferencesWindow *window)
 {
-    const GList *list;
-    GList *entry;
+    const GSList *list;
+    GSList *entry;
     GtkTreeStore *store;
     GtkTreeIter iter;
     GtkCellRenderer *renderer;
@@ -533,8 +536,8 @@ mud_preferences_window_fill_profiles (MudPreferencesWindow *window)
             TYPE_COLUMN, GINT_TO_POINTER(COLUMN_TRIGGERS),
             -1);
 
-    list = mud_profile_get_profiles();
-    for (entry = (GList *) list; entry != NULL; entry = g_list_next(entry))
+    list = mud_profile_manager_get_profiles(window->priv->parent->profile_manager);
+    for (entry = (GSList *) list; entry != NULL; entry = g_slist_next(entry))
     {
         GtkTreeIter iter_child;
         MudProfile *profile = (MudProfile *) entry->data;
@@ -598,7 +601,8 @@ mud_preferences_window_trigger_select_cb(GtkTreeSelection *selection,
     GtkTextBuffer *action_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(prefs->priv->trigger_action_textview));
 
     client = gconf_client_get_default();
-    profile_name = mud_profile_get_name(prefs->priv->profile);
+
+    g_object_get(prefs->priv->profile, "name", &profile_name, NULL);
 
     if (gtk_tree_model_get_iter(model, &iter, path))
     {
@@ -635,6 +639,8 @@ mud_preferences_window_trigger_select_cb(GtkTreeSelection *selection,
         gtk_widget_set_sensitive(prefs->priv->trigger_del, TRUE);
     }
 
+    g_free(profile_name);
+
     g_object_unref(client);
 
     return TRUE;
@@ -659,7 +665,8 @@ mud_preferences_window_alias_select_cb(GtkTreeSelection *selection,
     GtkTextBuffer *regex_buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(prefs->priv->alias_regex_textview));
 
     client = gconf_client_get_default();
-    profile_name = mud_profile_get_name(prefs->priv->profile);
+
+    g_object_get(prefs->priv->profile, "name", &profile_name, NULL);
 
     if (gtk_tree_model_get_iter(model, &iter, path))
     {
@@ -693,6 +700,7 @@ mud_preferences_window_alias_select_cb(GtkTreeSelection *selection,
         gtk_widget_set_sensitive(prefs->priv->alias_del, TRUE);
     }
 
+    g_free(profile_name);
     g_object_unref(client);
 
     return TRUE;
@@ -714,7 +722,9 @@ void mud_preferences_window_trigger_enabled_toggle_cb(GtkCellRendererToggle *cel
     GError *error = NULL;
 
     client = gconf_client_get_default();
-    profile_name = mud_profile_get_name(prefs->priv->profile);
+
+    g_object_get(prefs->priv->profile, "name", &profile_name, NULL);
+
     intval = gconf_value_new(GCONF_VALUE_INT);
 
     gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(model), &iter, path);
@@ -727,6 +737,7 @@ void mud_preferences_window_trigger_enabled_toggle_cb(GtkCellRendererToggle *cel
 
     gtk_tree_store_set(model, &iter, TRIGGER_ENABLED_COLUMN, !active, -1);
 
+    g_free(profile_name);
     g_free(name);
     gconf_value_free(intval);
     g_object_unref(client);
@@ -748,7 +759,9 @@ void mud_preferences_window_trigger_gag_toggle_cb(GtkCellRendererToggle *cell_re
     GError *error = NULL;
 
     client = gconf_client_get_default();
-    profile_name = mud_profile_get_name(prefs->priv->profile);
+
+    g_object_get(prefs->priv->profile, "name", &profile_name, NULL);
+
     intval = gconf_value_new(GCONF_VALUE_INT);
 
     gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(model), &iter, path);
@@ -761,6 +774,7 @@ void mud_preferences_window_trigger_gag_toggle_cb(GtkCellRendererToggle *cell_re
 
     gtk_tree_store_set(model, &iter, TRIGGER_GAG_COLUMN, !active, -1);
 
+    g_free(profile_name);
     g_free(name);
     gconf_value_free(intval);
     g_object_unref(client);
@@ -782,7 +796,9 @@ void mud_preferences_window_alias_enabled_toggle_cb(GtkCellRendererToggle *cell_
     GError *error = NULL;
 
     client = gconf_client_get_default();
-    profile_name = mud_profile_get_name(prefs->priv->profile);
+
+    g_object_get(prefs->priv->profile, "name", &profile_name, NULL);
+
     intval = gconf_value_new(GCONF_VALUE_INT);
 
     gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(model), &iter, path);
@@ -796,6 +812,7 @@ void mud_preferences_window_alias_enabled_toggle_cb(GtkCellRendererToggle *cell_
     gtk_tree_store_set(model, &iter, ALIAS_ENABLED_COLUMN, !active, -1);
 
     gconf_value_free(intval);
+    g_free(profile_name);
     g_free(name);
     g_object_unref(client);
 }
@@ -878,7 +895,7 @@ mud_preferences_window_change_profile_from_name(MudPreferencesWindow *window, co
 {
     MudProfile *profile;
 
-    profile = mud_profile_new(name);
+    profile = mud_profile_manager_get_profile_by_name(window->priv->parent->profile_manager, name);
     mud_preferences_window_change_profile(window, profile);
 }
 
@@ -1168,7 +1185,7 @@ mud_preferences_window_trigger_del_cb(GtkWidget *widget, MudPreferencesWindow *w
     rementry = NULL;
     rementry = g_slist_append(rementry, NULL);
 
-    profile_name = mud_profile_get_name(window->priv->profile);
+    g_object_get(window->priv->profile, "name", &profile_name, NULL);
 
     client = gconf_client_get_default();
 
@@ -1183,13 +1200,13 @@ mud_preferences_window_trigger_del_cb(GtkWidget *widget, MudPreferencesWindow *w
         }
     }
 
-
     triggers = g_slist_remove(triggers, rementry->data);
 
     gconf_client_set_list(client, keyname, GCONF_VALUE_STRING, triggers, &error);
 
     mud_preferences_window_populate_trigger_treeview(window);
 
+    g_free(profile_name);
     g_object_unref(client);
 }
 
@@ -1205,7 +1222,7 @@ mud_preferences_window_alias_del_cb(GtkWidget *widget, MudPreferencesWindow *win
     rementry = NULL;
     rementry = g_slist_append(rementry, NULL);
 
-    profile_name = mud_profile_get_name(window->priv->profile);
+    g_object_get(window->priv->profile, "name", &profile_name, NULL);
 
     client = gconf_client_get_default();
 
@@ -1227,6 +1244,7 @@ mud_preferences_window_alias_del_cb(GtkWidget *widget, MudPreferencesWindow *win
 
     mud_preferences_window_populate_alias_treeview(window);
 
+    g_free(profile_name);
     g_free(aliases);
     g_object_unref(client);
 }
@@ -1259,7 +1277,7 @@ mud_preferences_window_trigger_ok_cb(GtkWidget *widget, MudPreferencesWindow *wi
 
     name = utils_remove_whitespace(text);
 
-    profile_name = mud_profile_get_name(MUD_PROFILE(window->priv->profile));
+    g_object_get(window->priv->profile, "name", &profile_name, NULL);
 
     g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/triggers/list",profile_name);
     triggers = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, NULL);
@@ -1305,6 +1323,8 @@ mud_preferences_window_trigger_ok_cb(GtkWidget *widget, MudPreferencesWindow *wi
 
     mud_preferences_window_populate_trigger_treeview(window);
 
+    g_free(profile_name);
+
     g_object_unref(client);
 }
 
@@ -1336,7 +1356,7 @@ mud_preferences_window_alias_ok_cb(GtkWidget *widget, MudPreferencesWindow *wind
 
     name = utils_remove_whitespace(text);
 
-    profile_name = mud_profile_get_name(MUD_PROFILE(window->priv->profile));
+    g_object_get(window->priv->profile, "name", &profile_name, NULL);
 
     g_snprintf(keyname, 2048, "/apps/gnome-mud/profiles/%s/aliases/list",profile_name);
     aliases = gconf_client_get_list(client, keyname, GCONF_VALUE_STRING, NULL);
@@ -1378,6 +1398,7 @@ mud_preferences_window_alias_ok_cb(GtkWidget *widget, MudPreferencesWindow *wind
 
     mud_preferences_window_populate_alias_treeview(window);
 
+    g_free(profile_name);
     g_object_unref(client);
 }
 
@@ -1397,7 +1418,7 @@ mud_preferences_window_populate_trigger_treeview(MudPreferencesWindow *window)
     GtkTextBuffer *buffer_action = gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->trigger_action_textview));
 
     client = gconf_client_get_default();
-    profile_name = mud_profile_get_name(window->priv->profile);
+    g_object_get(window->priv->profile, "name", &profile_name, NULL);
 
     gtk_entry_set_text(GTK_ENTRY(window->priv->trigger_match_entry), "");
     gtk_entry_set_text(GTK_ENTRY(window->priv->trigger_name_entry), "");
@@ -1437,6 +1458,7 @@ mud_preferences_window_populate_trigger_treeview(MudPreferencesWindow *window)
                 -1);
     }
 
+    g_free(profile_name);
     g_object_unref(client);
 }
 
@@ -1455,7 +1477,8 @@ mud_preferences_window_populate_alias_treeview(MudPreferencesWindow *window)
     GtkTextBuffer *buffer_regex = gtk_text_view_get_buffer(GTK_TEXT_VIEW(window->priv->alias_regex_textview));
 
     client = gconf_client_get_default();
-    profile_name = mud_profile_get_name(window->priv->profile);
+
+    g_object_get(window->priv->profile, "name", &profile_name, NULL);
 
     gtk_entry_set_text(GTK_ENTRY(window->priv->alias_entry), "");
     gtk_entry_set_text(GTK_ENTRY(window->priv->alias_match_entry), "");
@@ -1491,6 +1514,7 @@ mud_preferences_window_populate_alias_treeview(MudPreferencesWindow *window)
                 -1);
     }
 
+    g_free(profile_name);
     g_object_unref(client);
 }
 
@@ -1576,12 +1600,11 @@ mud_preferences_window_update_proxy_combo(MudPreferencesWindow *window, MudPrefs
     gint active;
     gint current;
 
-    profile_name = mud_profile_get_name(window->priv->profile);
+    g_object_get(window->priv->profile, "name", &profile_name, NULL);
 
-    if (strcmp(profile_name, "Default"))
-    {
+    if (!g_str_equal(profile_name, "Default"))
         g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
-    }
+    g_free(profile_name);
 
     g_snprintf(buf, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/proxy_version");
     client = gconf_client_get_default();
@@ -1930,14 +1953,16 @@ alias_match_cb(GtkWidget *widget, MudPreferencesWindow *prefs)
 }
 
 MudPreferencesWindow*
-mud_preferences_window_new (const gchar *profile)
+mud_preferences_window_new (const gchar *profile, MudWindow *window)
 {
     MudPreferencesWindow *prefs;
 
     prefs = g_object_new(MUD_TYPE_PREFERENCES_WINDOW, NULL);
 
+    prefs->priv->parent = window;
     mud_preferences_window_change_profile_from_name(prefs, profile);
     mud_preferences_window_fill_profiles(prefs);
 
     return prefs;
 }
+

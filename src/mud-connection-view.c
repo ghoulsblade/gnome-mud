@@ -117,9 +117,6 @@ static void mud_connection_view_get_property(GObject *object,
                                              GParamSpec *pspec);
 
 /* Callbacks */
-static void mud_connection_view_profile_changed_cb (MudProfile *profile, 
-                                                    MudProfileMask *mask,
-                                                    MudConnectionView *view);
 static gboolean mud_connection_view_button_press_event(GtkWidget *widget, 
                                                        GdkEventButton *event,
                                                        MudConnectionView *view);
@@ -415,6 +412,7 @@ mud_connection_view_constructor (GType gtype,
     gchar *proxy_host;
     gchar *version;
     gboolean use_proxy;
+    MudProfile *profile;
     
     MudConnectionView *self;
     GObject *obj;
@@ -539,7 +537,10 @@ mud_connection_view_constructor (GType gtype,
                                 "parent-view", self,
                                 NULL);
 
-    mud_connection_view_set_profile(self, mud_profile_new(self->profile_name));
+    profile =
+        mud_profile_manager_get_profile_by_name(self->window->profile_manager,
+                                                self->profile_name);
+    mud_connection_view_set_profile(self, profile);
 
     self->tray = tray;
 
@@ -1001,8 +1002,8 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
     GtkWidget *im_menu;
     GtkWidget *menu_item;
     GtkWidget *profile_menu;
-    const GList *profiles;
-    const GList *profile;
+    const GSList *profiles;
+    const GSList *profile;
     GSList *group;
 
     if (view->priv->popup_menu)
@@ -1041,7 +1042,7 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
     gtk_menu_shell_append(GTK_MENU_SHELL(view->priv->popup_menu), menu_item);
 
     group = NULL;
-    profiles = mud_profile_get_profiles();
+    profiles = mud_profile_manager_get_profiles(view->window->profile_manager);
     profile = profiles;
     while (profile != NULL)
     {
@@ -1068,7 +1069,7 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
                 "profile",
                 prof,
                 (GDestroyNotify) g_object_unref);
-        profile = profile->next;
+        profile = g_slist_next(profile);
     }
 
     menu_item = gtk_separator_menu_item_new();
@@ -1746,15 +1747,16 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
         encoding = view->remote_encoding;
     else
     {
-        profile_name = mud_profile_get_name(view->profile);
+        g_object_get(view->profile,
+                     "name", &profile_name, NULL);
 
-        if (strcmp(profile_name, "Default"))
-        {
+        if (!g_str_equal(profile_name, "Default"))
             g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
-        }
 
         g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/encoding");
         encoding = gconf_client_get_string(client, key, NULL);
+
+        g_free(profile_name);
     }
 
     g_get_charset(&local_codeset);
@@ -1891,12 +1893,12 @@ mud_connection_view_reconnect(MudConnectionView *view)
     gnet_conn_ref(view->connection);
     gnet_conn_set_watch_error(view->connection, TRUE);
 
-    profile_name = mud_profile_get_name(view->profile);
+    g_object_get(view->profile, "name", &profile_name, NULL);
 
-    if (strcmp(profile_name, "Default") != 0)
-    {
+    if (!g_str_equal(profile_name, "Default"))
         g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
-    }
+    
+    g_free(profile_name);
 
     g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/use_proxy");
     client = gconf_client_get_default();
@@ -1999,21 +2001,37 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             encoding = view->remote_encoding;
         else
         {
-            profile_name = mud_profile_get_name(view->profile);
+            g_object_get(view->profile, "name", &profile_name, NULL);
 
             if (!g_str_equal(profile_name, "Default"))
                 g_snprintf(extra_path, 512, "profiles/%s/", profile_name);
 
             g_snprintf(key, 2048, "/apps/gnome-mud/%s%s", extra_path, "functionality/encoding");
             encoding = gconf_client_get_string(client, key, NULL);
+
+            g_free(profile_name);
         }
 
         g_get_charset(&local_codeset);
 
+        commands = NULL;
+
         if(strlen(view->profile->preferences->CommDev) == 0)
             commands = g_list_append(commands, g_strdup(data));
         else
-            commands = mud_profile_process_commands(view->profile, data);
+        {
+            gint i;
+            gint command_array_length;
+            gchar **command_array =
+                g_strsplit(data, view->profile->preferences->CommDev, -1);
+
+            command_array_length = g_strv_length(command_array);
+
+            for(i = 0; i < command_array_length; ++i)
+                commands = g_list_append(commands, g_strdup(command_array[i]));
+
+            g_strfreev(command_array);
+        }
 
         for (command = g_list_first(commands); command != NULL; command = command->next)
         {

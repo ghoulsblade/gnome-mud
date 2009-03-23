@@ -27,8 +27,6 @@ gnome_mud_LDADD = \
 	$(MSP_LIBS)
 
 gnome_mud_SOURCES =				\
-	gconf-helper.c				\
-	gconf-helper.h				\
 	debug-logger.c				\
 	debug-logger.h				\
 	gnome-mud.c				\
@@ -54,6 +52,8 @@ gnome_mud_SOURCES =				\
 	mud-preferences-window.h		\
 	mud-profile.c				\
 	mud-profile.h				\
+	mud-profile-manager.c			\
+	mud-profile-manager.h			\
 	mud-regex.c				\
 	mud-regex.h				\
 	mud-subwindow.c				\

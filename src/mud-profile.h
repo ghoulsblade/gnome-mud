@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 #define MUD_TYPE_PROFILE              (mud_profile_get_type ())
 #define MUD_PROFILE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MUD_TYPE_PROFILE, MudProfile))
-#define MUD_PROFILE_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_PROFILE, MudProfile))
+#define MUD_PROFILE_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), MUD_TYPE_PROFILE, MudProfileClass))
 #define IS_MUD_PROFILE(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MUD_TYPE_PROFILE))
 #define IS_MUD_PROFILE_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), MUD_TYPE_PROFILE))
 #define MUD_PROFILE_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), MUD_TYPE_PROFILE, MudProfileClass))
@@ -48,15 +48,18 @@ struct _MudPrefs
     gboolean   AutoSave;
     gboolean   DisableKeys;
     gboolean   ScrollOnOutput;
+
     gchar     *FontName;
     gchar     *CommDev;
     gchar     *LastLogDir;
     gchar     *Encoding;
     gchar     *ProxyVersion;
     gchar     *ProxyHostname;
+
     gint       History;
     gint       Scrollback;
     gint       FlushInterval;
+
     GdkColor   Foreground;
     GdkColor   Background;
 
@@ -111,14 +114,7 @@ struct _MudProfileClass
 
 GType mud_profile_get_type (void);
 
-MudProfile* mud_profile_new (const gchar *name);
-void mud_profile_delete(const gchar *name);
-void mud_profile_load_profiles ();
-const GList* mud_profile_get_profiles ();
-MudProfile* get_profile(const gchar *name);
-
 void mud_profile_copy_preferences (MudProfile *from, MudProfile *to);
-GList* mud_profile_process_commands (MudProfile *profile, const gchar *data);
 
 void mud_profile_set_echotext (MudProfile *profile, gboolean value);
 void mud_profile_set_keeptext (MudProfile *profile, gboolean value);
@@ -139,10 +135,7 @@ void mud_profile_set_proxy_combo(MudProfile *profile, GtkComboBox *combo);
 void mud_profile_set_proxy_entry (MudProfile *profile, const gchar *value);
 void mud_profile_set_msp_check (MudProfile *profile, const gint value);
 
-gchar *mud_profile_from_number(gint num);
-gint mud_profile_num_from_name(gchar *name);
-gchar *mud_profile_get_name(MudProfile *profile);
-
 G_END_DECLS
 
 #endif // MUD_PROFILE_H
+

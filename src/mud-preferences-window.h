@@ -23,6 +23,7 @@
 
 G_BEGIN_DECLS
 
+#include <glib.h>
 #include <gconf/gconf-client.h>
 
 #define MUD_TYPE_PREFERENCES_WINDOW              (mud_preferences_window_get_type ())
@@ -35,6 +36,8 @@ G_BEGIN_DECLS
 typedef struct _MudPreferencesWindow            MudPreferencesWindow;
 typedef struct _MudPreferencesWindowClass       MudPreferencesWindowClass;
 typedef struct _MudPreferencesWindowPrivate     MudPreferencesWindowPrivate;
+
+#include "mud-window.h"
 
 struct _MudPreferencesWindow
 {
@@ -50,7 +53,7 @@ struct _MudPreferencesWindowClass
 
 GType mud_preferences_window_get_type (void) G_GNUC_CONST;
 
-MudPreferencesWindow* mud_preferences_window_new ();
+MudPreferencesWindow* mud_preferences_window_new (const gchar *profile, MudWindow *window);
 
 G_END_DECLS
 

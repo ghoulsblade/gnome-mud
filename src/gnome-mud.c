@@ -37,7 +37,6 @@
 #include "gnome-mud-icons.h"
 #include "mud-connection-view.h"
 #include "mud-window.h"
-#include "mud-profile.h"
 #include "utils.h"
 #include "debug-logger.h"
 
@@ -99,8 +98,6 @@ main (gint argc, char *argv[])
 
     gtk_about_dialog_set_url_hook(utils_activate_url, NULL, NULL);
 
-    mud_profile_load_profiles();
-
     gtk_window_set_default_icon_name(GMUD_STOCK_ICON);
 
     /* Setup debug logging */
@@ -116,6 +113,8 @@ main (gint argc, char *argv[])
 #ifdef ENABLE_DEBUG_LOGGER
     debug_logger_create_window(logger);
 #endif
+
+    g_log_set_always_fatal(G_LOG_LEVEL_CRITICAL|G_LOG_LEVEL_WARNING);
 
     /* Let 'er rip */
     window = g_object_new(MUD_TYPE_WINDOW, NULL);

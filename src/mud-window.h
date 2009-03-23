@@ -39,6 +39,7 @@ typedef struct _MudWindowPrivate    MudWindowPrivate;
 
 #include "mud-connection-view.h"
 #include "mud-tray.h"
+#include "mud-profile-manager.h"
 
 struct _MudWindowClass
 {
@@ -55,6 +56,7 @@ struct _MudWindow
     /*< public >*/
     GtkWindow *window;
     MudTray *tray;
+    MudProfileManager *profile_manager;
 };
 
 GType mud_window_get_type (void);
@@ -67,7 +69,9 @@ void mud_window_disconnected(MudWindow *window);
 void mud_window_toggle_input_mode(MudWindow *window, MudConnectionView *view);
 void mud_window_toggle_tab_icon(MudWindow *window, MudConnectionView *view);
 void mud_window_update_logging_ui(MudWindow *window, MudConnectionView *view, gboolean enabled);
+const GSList *mud_window_get_views(MudWindow *window);
 
 G_END_DECLS
 
 #endif /* MUD_WINDOW_H */
+

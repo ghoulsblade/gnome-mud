@@ -804,6 +804,9 @@ mud_log_open(MudLog *self)
                              "line-added",
                              G_CALLBACK(mud_log_line_added_cb),
                              self);
+
+
+            self->priv->active = TRUE;
         }
         else
         {
@@ -816,8 +819,6 @@ mud_log_open(MudLog *self)
                                 _("Could not open \"%s\" for writing."),
                                 self->priv->filename);
         }
-
-        self->priv->active = TRUE;
     }
 
     gtk_widget_destroy(self->priv->window);
@@ -1061,8 +1062,8 @@ mud_log_parse_ecma_color(MudLog *self,
                         // Dont' display it.
                         break;
 
-                    /* Skip forecolor state for xterm colors,
-                     * always 5. */
+                        /* Skip forecolor state for xterm colors,
+                         * always 5. */
                     case XTERM_FORECOLOR:
                         i = 1;
                         xterm_forecolor = TRUE;
@@ -1075,126 +1076,117 @@ mud_log_parse_ecma_color(MudLog *self,
                         xterm_color = TRUE;
                         break;
 
-                    /* Some MUDs dont' send the attribute with the
-                     * ECMA color.  This picks those up here */
-                    default:
-                        byte = (gint)atol(argv[0]);
-
-                        switch(byte)
-                        {
-                            case ECMA_FORECOLOR_BLACK:
-                                mud_log_write_html_foreground_span(self,
-                                        output,
-                                        self->priv->bold,
-                                        ECMA_FORECOLOR_BLACK);
-                                break;
-
-                            case ECMA_FORECOLOR_RED:
-                                mud_log_write_html_foreground_span(self,
-                                        output,
-                                        self->priv->bold,
-                                        ECMA_FORECOLOR_RED);
-                                break;
-
-                            case ECMA_FORECOLOR_GREEN:
-                                mud_log_write_html_foreground_span(self,
-                                        output,
-                                        self->priv->bold,
-                                        ECMA_FORECOLOR_GREEN);
-                                break;
-
-                            case ECMA_FORECOLOR_YELLOW:
-                                mud_log_write_html_foreground_span(self,
-                                        output,
-                                        self->priv->bold,
-                                        ECMA_FORECOLOR_YELLOW);
-                                break;
-
-                            case ECMA_FORECOLOR_BLUE:
-                                mud_log_write_html_foreground_span(self,
-                                        output,
-                                        self->priv->bold,
-                                        ECMA_FORECOLOR_BLUE);
-                                break;
-
-                            case ECMA_FORECOLOR_MAGENTA:
-                                mud_log_write_html_foreground_span(self,
-                                        output,
-                                        self->priv->bold,
-                                        ECMA_FORECOLOR_MAGENTA);
-                                break;
-
-                            case ECMA_FORECOLOR_CYAN:
-                                mud_log_write_html_foreground_span(self,
-                                        output,
-                                        self->priv->bold,
-                                        ECMA_FORECOLOR_CYAN);
-                                break;
-
-                            case ECMA_FORECOLOR_WHITE:
-                                mud_log_write_html_foreground_span(self,
-                                        output,
-                                        self->priv->bold,
-                                        ECMA_FORECOLOR_WHITE);
-
-                            case ECMA_BACKCOLOR_BLACK:
-                                mud_log_write_html_background_span(self,
-                                        output,
-                                        FALSE,
-                                        ECMA_BACKCOLOR_BLACK);
-                                break;
-
-                            case ECMA_BACKCOLOR_RED:
-                                mud_log_write_html_background_span(self,
-                                        output,
-                                        FALSE,
-                                        ECMA_BACKCOLOR_RED);
-                                break;
-
-                            case ECMA_BACKCOLOR_GREEN:
-                                mud_log_write_html_background_span(self,
-                                        output,
-                                        FALSE,
-                                        ECMA_BACKCOLOR_GREEN);
-                                break;
-
-                            case ECMA_BACKCOLOR_YELLOW:
-                                mud_log_write_html_background_span(self,
-                                        output,
-                                        FALSE,
-                                        ECMA_BACKCOLOR_YELLOW);
-                                break;
-
-                            case ECMA_BACKCOLOR_BLUE:
-                                mud_log_write_html_background_span(self,
-                                        output,
-                                        FALSE,
-                                        ECMA_BACKCOLOR_BLUE);
-                                break;
-
-                            case ECMA_BACKCOLOR_MAGENTA:
-                                mud_log_write_html_background_span(self,
-                                        output,
-                                        FALSE,
-                                        ECMA_BACKCOLOR_MAGENTA);
-                                break;
-
-                            case ECMA_BACKCOLOR_CYAN:
-                                mud_log_write_html_background_span(self,
-                                        output,
-                                        FALSE,
-                                        ECMA_BACKCOLOR_CYAN);
-                                break;
-
-                            case ECMA_BACKCOLOR_WHITE:
-                                mud_log_write_html_background_span(self,
-                                        output,
-                                        FALSE,
-                                        ECMA_BACKCOLOR_WHITE);
-                                break;
-
-                        }
+                    case ECMA_FORECOLOR_BLACK:
+                        mud_log_write_html_foreground_span(self,
+                                output,
+                                self->priv->bold,
+                                ECMA_FORECOLOR_BLACK);
                         break;
+
+                    case ECMA_FORECOLOR_RED:
+                        mud_log_write_html_foreground_span(self,
+                                output,
+                                self->priv->bold,
+                                ECMA_FORECOLOR_RED);
+                        break;
+
+                    case ECMA_FORECOLOR_GREEN:
+                        mud_log_write_html_foreground_span(self,
+                                output,
+                                self->priv->bold,
+                                ECMA_FORECOLOR_GREEN);
+                        break;
+
+                    case ECMA_FORECOLOR_YELLOW:
+                        mud_log_write_html_foreground_span(self,
+                                output,
+                                self->priv->bold,
+                                ECMA_FORECOLOR_YELLOW);
+                        break;
+
+                    case ECMA_FORECOLOR_BLUE:
+                        mud_log_write_html_foreground_span(self,
+                                output,
+                                self->priv->bold,
+                                ECMA_FORECOLOR_BLUE);
+                        break;
+
+                    case ECMA_FORECOLOR_MAGENTA:
+                        mud_log_write_html_foreground_span(self,
+                                output,
+                                self->priv->bold,
+                                ECMA_FORECOLOR_MAGENTA);
+                        break;
+
+                    case ECMA_FORECOLOR_CYAN:
+                        mud_log_write_html_foreground_span(self,
+                                output,
+                                self->priv->bold,
+                                ECMA_FORECOLOR_CYAN);
+                        break;
+
+                    case ECMA_FORECOLOR_WHITE:
+                        mud_log_write_html_foreground_span(self,
+                                output,
+                                self->priv->bold,
+                                ECMA_FORECOLOR_WHITE);
+
+                    case ECMA_BACKCOLOR_BLACK:
+                        mud_log_write_html_background_span(self,
+                                output,
+                                FALSE,
+                                ECMA_BACKCOLOR_BLACK);
+                        break;
+
+                    case ECMA_BACKCOLOR_RED:
+                        mud_log_write_html_background_span(self,
+                                output,
+                                FALSE,
+                                ECMA_BACKCOLOR_RED);
+                        break;
+
+                    case ECMA_BACKCOLOR_GREEN:
+                        mud_log_write_html_background_span(self,
+                                output,
+                                FALSE,
+                                ECMA_BACKCOLOR_GREEN);
+                        break;
+
+                    case ECMA_BACKCOLOR_YELLOW:
+                        mud_log_write_html_background_span(self,
+                                output,
+                                FALSE,
+                                ECMA_BACKCOLOR_YELLOW);
+                        break;
+
+                    case ECMA_BACKCOLOR_BLUE:
+                        mud_log_write_html_background_span(self,
+                                output,
+                                FALSE,
+                                ECMA_BACKCOLOR_BLUE);
+                        break;
+
+                    case ECMA_BACKCOLOR_MAGENTA:
+                        mud_log_write_html_background_span(self,
+                                output,
+                                FALSE,
+                                ECMA_BACKCOLOR_MAGENTA);
+                        break;
+
+                    case ECMA_BACKCOLOR_CYAN:
+                        mud_log_write_html_background_span(self,
+                                output,
+                                FALSE,
+                                ECMA_BACKCOLOR_CYAN);
+                        break;
+
+                    case ECMA_BACKCOLOR_WHITE:
+                        mud_log_write_html_background_span(self,
+                                output,
+                                FALSE,
+                                ECMA_BACKCOLOR_WHITE);
+                        break;
+
                 }
                 break;
 
