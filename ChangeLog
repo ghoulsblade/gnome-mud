@@ -1,5 +1,14 @@
 2009-03-25  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_constructor): Wrapped
+	dl_[hv]box in ENABLE_GST so they are not defined when gstreamer
+	support is not compiled in.
+	* src/mud-log.c (mud_log_create_xterm_colors): Now using VTE's own
+	color cube generation to match the palettes correctly. Now includes
+	stdlib.h.
+
+2009-03-25  Les Harris  <lharris@gnome.org>
+
 	* src/mud-window-prefs.[ch]: New files which implement the new
 	preference dialog.
 

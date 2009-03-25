@@ -30,6 +30,7 @@
 #include <string.h>
 #include <glade/glade-xml.h>
 #include <glib/gprintf.h>
+#include <stdlib.h>
 
 #include "gnome-mud.h"
 #include "mud-log.h"
@@ -1489,27 +1490,21 @@ mud_log_write_html_xterm_span(MudLog *self,
 static void
 mud_log_create_xterm_colors(MudLog *self)
 {
-    gint red, blue, green, i;
+    gint i;
     GString *color_string;
 
-    /* Generate Color Cube */
-    for(red = 0, i = 16; red < 6; red++)
-        for(blue = 0; blue < 6; blue++)
-            for(green = 0; green < 6; green++, i++)
-            {
-                color_string = g_string_new(NULL);
-                g_string_printf(color_string,
-                                "#%2.2x%2.2x%2.2x",
-                                (red != 0) ? red * 40 + 55 : 0,
-                                (green != 0) ? green * 40 + 55 : 0,
-                                (blue != 0) ? blue * 40 + 55 : 0);
-
-                gdk_color_parse(color_string->str,
-                                &self->priv->xterm_colors[i]);
-
-                g_string_free(color_string, TRUE);
-
-            }
+    /* Pulled from libvte */
+    for(i = 16; i < 232; ++i)
+    {
+        gint j = i - 16;
+        gint r = j / 36, g = (j / 6) % 6, b = j % 6;
+        gint red =   (r == 0) ? 0 : r * 40 + 55;
+        gint green = (g == 0) ? 0 : g * 40 + 55;
+        gint blue =  (b == 0) ? 0 : b * 40 + 55;
+        self->priv->xterm_colors[i].red   = red | red << 8  ;
+        self->priv->xterm_colors[i].green = green | green << 8;
+        self->priv->xterm_colors[i].blue  = blue | blue << 8;
+    }
 
     /* Generate Grays */
     for(i = 0; i < 24; i++)

@@ -396,8 +396,10 @@ mud_connection_view_constructor (GType gtype,
                                  GObjectConstructParam *properties)
 {
     GtkWidget *box;
+#ifdef ENABLE_GST
     GtkWidget *dl_vbox;
     GtkWidget *dl_hbox;
+#endif
     GtkWidget *term_box;
     GtkWidget *main_window;
     MudTray *tray;
