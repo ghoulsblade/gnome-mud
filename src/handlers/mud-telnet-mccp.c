@@ -28,6 +28,7 @@
 #include <zlib.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"
@@ -357,10 +358,10 @@ mud_mccp_decompress(MudTelnetMccp *self, guchar *buffer, guint32 length)
 {
     GString *ret = NULL;
     gint zstatus;
-    gint i;
     MudConnectionView *view;
 
-    g_return_if_fail(MUD_IS_TELNET_MCCP(self));
+    if(!MUD_IS_TELNET_MCCP(self))
+        return NULL;
 
     if(!self->priv->compress_out)
         return NULL;
@@ -386,7 +387,7 @@ mud_mccp_decompress(MudTelnetMccp *self, guchar *buffer, guint32 length)
         if(zstatus == Z_OK)
         {
             ret = g_string_append_len(ret, 
-                    self->priv->compress_out_buf, 
+                    (gchar *)self->priv->compress_out_buf, 
                     (4096 - self->priv->compress_out->avail_out));
 
             continue;
@@ -395,12 +396,12 @@ mud_mccp_decompress(MudTelnetMccp *self, guchar *buffer, guint32 length)
         if(zstatus == Z_STREAM_END)
         {
             ret = g_string_append_len(ret, 
-                    self->priv->compress_out_buf, 
+                    (gchar *)self->priv->compress_out_buf, 
                     (4096 - self->priv->compress_out->avail_out));
 
             if(self->priv->compress_out->avail_in > 0)
                 ret = g_string_append_len(ret, 
-                        self->priv->compress_out->next_in, 
+                        (gchar *)self->priv->compress_out->next_in, 
                         self->priv->compress_out->avail_in);
 
             inflateEnd(self->priv->compress_out);

@@ -1,3 +1,70 @@
+2009-03-25  Les Harris  <lharris@gnome.org>
+
+	* configure.ac: Patch from Sean Middleditch. Added AM_PROG_CC_C_0
+	* src/Makefile.am: Patch from Sean Middleditch. Added ecma48.h.
+	Also removed mud-preferences-window.[ch] and added mud-trigger.[ch]
+	Added -g -Wall -O0 for debugging.
+	* src/mud-trigger.[ch]: New files which will implement the new
+	triggers.
+	* src/handlers/Makefile.am: Added -g -Wall -O0 for debugging.
+	* src/zmp/Makefile.am: Added -g -Wall -O0 for debugging.
+	* src/mud-preferences-window.[ch]: Toasted.
+	* src/debug-logger.c (debug_logger_insert_handler),
+	(debug_logger_get_handler_by_name):
+	* src/gnome-mud.c (main):
+	* src/handlers/mud-telnet-charset.c:
+	* src/handlers/mud-telnet-echo.c:
+	* src/handlers/mud-telnet-eor.c:
+	* src/handlers/mud-telnet-mccp.c (mud_mccp_decompress):
+	* src/handlers/mud-telnet-msp.c (mud_telnet_msp_parse),
+	(mud_telnet_msp_get_files):
+	* src/handlers/mud-telnet-mssp.c (mud_telnet_mssp_handle_sub_neg):
+	* src/handlers/mud-telnet-naws.c (mud_telnet_naws_finalize),
+	(mud_telnet_naws_disable):
+	* src/handlers/mud-telnet-new-environ.c
+	(mud_telnet_newenviron_handle_sub_neg):
+	* src/handlers/mud-telnet-ttype.c:
+	* src/handlers/mud-telnet-zmp.c (mud_telnet_zmp_handle_sub_neg),
+	(mud_zmp_get_function), (mud_zmp_has_package):
+	* src/mud-connection-view.c (choose_profile_callback),
+	(mud_connection_view_network_event_cb), (mud_connection_view_send):
+	* src/mud-connections.c (mud_connections_constructor),
+	(mud_connections_compare_func), (mud_connections_delete_cb):
+	* src/mud-log.c (mud_log_constructor), (mud_log_select_clicked_cb),
+	(mud_log_open), (mud_log_close), (mud_log_write),
+	(mud_log_parse_ecma_color):
+	* src/mud-parse-alias.c (mud_parse_alias_do):
+	* src/mud-parse-base.c:
+	* src/mud-parse-trigger.c (mud_parse_trigger_do):
+	* src/mud-profile-manager.c (mud_profile_manager_delete_profile),
+	(mud_profile_manager_get_profile_by_name):
+	* src/mud-profile.c (mud_profile_constructor),
+	(mud_profile_load_preferences):
+	* src/mud-regex.c (mud_regex_check),
+	(mud_regex_get_substring_list):
+	* src/mud-subwindow.c:
+	* src/mud-telnet.c:
+	* src/mud-tray.c:
+	* src/mud-window-profile.c (mud_profile_window_constructor),
+	(mud_profile_window_add_cb), (mud_profile_window_del_cb),
+	(mud_profile_window_edit_cb), (mud_profile_window_tree_select_cb),
+	(mud_profile_window_populate_treeview):
+	* src/mud-window.c (mud_window_notebook_page_change),
+	(mud_window_preferences_cb), (mud_window_profiles_cb),
+	(mud_window_mconnect_dialog), (mud_window_buffer_cb),
+	(mud_window_remove_connection_view),
+	(mud_window_profile_menu_set_active),
+	(mud_window_populate_profiles_menu):
+	* src/zmp/zmp-core.c:
+	* src/zmp/zmp-main.c:
+	* src/zmp/zmp-subwindow.c (zmp_subwindow_set_input): Numerous small
+	fixes, mostly removing variables, fixing incorrect use of
+	g_return_if_fail, and initializing potentially uninitialized
+	variables. Now compiles cleanly with -Wall
+	* ui/main.glade: Changed 'Preferences' menu item into Profile
+	Preferences.
+	* ui/prefs.glade: New preference ui.
+
 2009-03-23  Les Harris  <lharris@gnome.org>
 
 	* ui/main.glade: Two strings marked untranslatable. Modified logging

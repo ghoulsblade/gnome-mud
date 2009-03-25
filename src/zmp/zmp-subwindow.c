@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 #include <string.h>
 #include <stdlib.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"
@@ -374,7 +375,6 @@ zmp_subwindow_set_input(MudTelnetZmp *self,
 {
     MudConnectionView *view;
     MudTelnet *telnet;
-    ZmpMain *zmp_main;
     guint enable;
 
     if(argc != 3)

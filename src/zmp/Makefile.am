@@ -19,7 +19,8 @@ libzmpcommands_la_CPPFLAGS = \
 
 libzmpcommands_la_CFLAGS = \
 	$(GMUD_CFLAGS) \
-	$(MSP_CFLAGS)
+	$(MSP_CFLAGS) \
+	-g -Wall -O0
 
 libzmpcommands_la_LDFLAGS =
 

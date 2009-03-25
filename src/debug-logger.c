@@ -28,6 +28,7 @@
 #include <glade/glade-xml.h>
 #include <string.h>
 #include <stdio.h>
+#include <glib/gprintf.h>
 
 #include "debug-logger.h"
 
@@ -929,8 +930,6 @@ debug_logger_log_func (const gchar *log_domain,
 static guint
 debug_logger_insert_handler(DebugLogger *logger, const gchar *domain)
 {
-    g_return_if_fail(IS_DEBUG_LOGGER(logger));
-
     return g_log_set_handler(domain, G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL,
             (GLogFunc)debug_logger_log_func, logger);
 }
@@ -939,8 +938,6 @@ static DomainHandler *
 debug_logger_get_handler_by_name(DebugLogger *logger, const gchar *name)
 {
     GSList *entry;
-
-    g_return_if_fail(IS_DEBUG_LOGGER(logger));
 
     for(entry = logger->priv->domains; entry != NULL; entry = g_slist_next(entry))
     {

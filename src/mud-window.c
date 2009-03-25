@@ -31,11 +31,12 @@
 #include <glib.h>
 #include <string.h>
 #include <stdlib.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "gnome-mud-icons.h"
 #include "mud-connection-view.h"
-#include "mud-preferences-window.h"
+#include "mud-window-prefs.h"
 #include "mud-window.h"
 #include "mud-tray.h"
 #include "mud-profile.h"
@@ -43,6 +44,7 @@
 #include "mud-parse-base.h"
 #include "mud-connections.h"
 #include "gnome-mud-marshallers.h"
+#include "utils.h"
 
 struct _MudWindowPrivate
 {
@@ -671,7 +673,6 @@ mud_window_entry_keypress(GtkWidget *widget,
 static void
 mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gint arg, MudWindow *self)
 {
-    gchar *name;
     gboolean connected;
     gboolean logging;
     GtkWidget *box;
@@ -692,13 +693,8 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 
     if (self->priv->nr_of_tabs != 0)
     {
-        g_object_get(self->priv->current_view,
-                     "profile-name", &name,
-                     NULL);
-
-        mud_window_profile_menu_set_active(self, name);
-
-        g_free(name);
+        mud_window_profile_menu_set_active(self,
+                                           self->priv->current_view->profile->name);
 
         g_object_get(self->priv->current_view,
                      "connected", &connected,
@@ -761,16 +757,29 @@ mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gi
 static void
 mud_window_preferences_cb(GtkWidget *widget, MudWindow *self)
 {
-    mud_preferences_window_new("Default", self);
+    MudWindowPrefs *prefs;
+    gchar *profile;
+
+    if(self->priv->current_view)
+        profile = g_strdup(self->priv->current_view->profile->name);
+    else
+        profile = g_strdup("Default");
+
+
+    prefs = g_object_new(MUD_TYPE_WINDOW_PREFS,
+                         "parent-window", self,
+                         "name", profile,
+                         NULL);
+
+    g_free(profile);
 }
 
 static void
 mud_window_profiles_cb(GtkWidget *widget, MudWindow *self)
 {
-    MudProfileWindow *profile_window =
-        g_object_new(MUD_TYPE_PROFILE_WINDOW,
-                     "parent-window", self,
-                     NULL);
+    g_object_new(MUD_TYPE_PROFILE_WINDOW,
+            "parent-window", self,
+            NULL);
 }
 
 static void
@@ -825,9 +834,9 @@ mud_window_about_cb(GtkWidget *widget, MudWindow *self)
 static void
 mud_window_mconnect_dialog(GtkWidget *widget, MudWindow *self)
 {
-    MudConnections *connections = g_object_new(MUD_TYPE_CONNECTIONS,
-                                               "parent-window", self,
-                                               NULL);
+    g_object_new(MUD_TYPE_CONNECTIONS,
+            "parent-window", self,
+            NULL);
 }
 
 static gboolean
@@ -920,7 +929,7 @@ mud_window_buffer_cb(GtkWidget *widget, MudWindow *self)
 
         if(buffer_text)
             if(!g_file_set_contents(filename, buffer_text, -1, &err))
-                utils_error_message(self->window,
+                utils_error_message(GTK_WIDGET(self->window),
                                     _("Error Saving Buffer"),
                                     "%s",
                                     err->message);
@@ -993,8 +1002,6 @@ mud_window_stoplog_cb(GtkWidget *widget, MudWindow *self)
 static void
 mud_window_remove_connection_view(MudWindow *self, gint nr)
 {
-    GSList *entry;
-
     self->priv->mud_views_list =
         g_slist_remove(self->priv->mud_views_list, self->priv->current_view);
 
@@ -1160,9 +1167,17 @@ mud_window_close_current_window(MudWindow *self)
 void
 mud_window_profile_menu_set_active(MudWindow *self, gchar *name)
 {
+    gchar *unescaped_name;
+
     g_return_if_fail(IS_MUD_WINDOW(self));
 
-    gtk_container_foreach(GTK_CONTAINER(self->priv->mi_profiles),mud_window_profile_menu_set_cb,(gpointer)name);
+    unescaped_name = gconf_unescape_key(name, -1);
+
+    gtk_container_foreach(GTK_CONTAINER(self->priv->mi_profiles),
+                          mud_window_profile_menu_set_cb,
+                          unescaped_name);
+
+    g_free(unescaped_name);
 }
 
 void
@@ -1188,11 +1203,17 @@ mud_window_populate_profiles_menu(MudWindow *self)
     entry = profiles;
     while(entry)
     {
+        gchar *escaped_name;
+        
         prof = MUD_PROFILE(entry->data);
 
+        escaped_name = gconf_unescape_key(prof->name, -1);
+        
         profile = gtk_radio_menu_item_new_with_label(
                 self->priv->profile_menu_list,
-                g_strdup(prof->name));
+                escaped_name);
+
+        g_free(escaped_name);
 
         gtk_widget_show(profile);
         

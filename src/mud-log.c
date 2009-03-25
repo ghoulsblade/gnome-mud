@@ -29,6 +29,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <glade/glade-xml.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-log.h"
@@ -63,8 +64,6 @@ struct _MudLogPrivate
     gboolean done;
     gboolean finalizing;
     gboolean bold;
-    gboolean first;
-    gboolean noblink;
 
     gint next_count;
     gint prev_count;
@@ -131,7 +130,6 @@ static void mud_log_line_added_cb(MudLineBuffer *buffer, MudLog *self);
 
 /* Private Methods */
 static void mud_log_write(MudLog *log, const gchar *data, gsize size);
-static void mud_log_remove(MudLog *log);
 static gchar *mud_log_parse_ansi(MudLog *self, const gchar *data, gsize size);
 static void mud_log_parse_ecma_color(MudLog *self,
                                      const gchar *data,
@@ -241,7 +239,6 @@ mud_log_constructor (GType gtype,
                      guint n_properties,
                      GObjectConstructParam *properties)
 {
-    guint i;
     MudLog *self;
     GObject *obj;
 
@@ -383,7 +380,6 @@ static void
 mud_log_select_clicked_cb(GtkWidget *widget,
                           MudLog *self)
 {
-    gchar *filename;
     GladeXML *glade;
     GtkWidget *dialog;
     gint result;
@@ -732,13 +728,12 @@ mud_log_open(MudLog *self)
                     _("\n*** Log starts *** %d/%m/%Y %H:%M:%S\n"),
                     localtime(&t));
             fprintf(self->priv->logfile, "%s", buf);
-            fsync(fileno(self->priv->logfile));
+            fdatasync(fileno(self->priv->logfile));
 
             if(self->priv->buffer)
             {
                 VteTerminal *term;
                 GtkClipboard *clipboard;
-                GError *err = NULL;
                 gchar *term_text;
 
                 g_object_get(self->priv->parent, "terminal", &term, NULL);
@@ -752,7 +747,7 @@ mud_log_open(MudLog *self)
                 if(term_text)
                 {
                     fprintf(self->priv->logfile, "%s", term_text);
-                    fsync(fileno(self->priv->logfile));
+                    fdatasync(fileno(self->priv->logfile));
                     g_free(term_text);
                 }
             }
@@ -761,7 +756,6 @@ mud_log_open(MudLog *self)
             {
                 VteTerminal *term;
                 GtkClipboard *clipboard;
-                GError *err = NULL;
                 gchar *term_text;
                 gchar *buf_text;
 
@@ -785,7 +779,7 @@ mud_log_open(MudLog *self)
                     buf_text = mud_line_buffer_get_lines(buffer);
 
                     fprintf(self->priv->logfile, "%s", buf_text);
-                    fsync(fileno(self->priv->logfile));
+                    fdatasync(fileno(self->priv->logfile));
 
                     g_free(buf_text);
                 }
@@ -842,7 +836,7 @@ mud_log_close(MudLog *log)
     if(log->priv->color)
         mud_log_write_html_footer(log);
 
-    fsync(fileno(log->priv->logfile));
+    fdatasync(fileno(log->priv->logfile));
     fclose(log->priv->logfile);
 
     if(log->priv->filename)
@@ -890,17 +884,6 @@ mud_log_write_hook(MudLog *log, gchar *data, gint length)
 
 /* Private Methods */
 static void
-mud_log_remove(MudLog *log)
-{
-    g_return_if_fail(MUD_IS_LOG(log));
-
-    if(log->priv->active)
-        mud_log_close(log);
-
-    unlink(log->priv->filename);
-}
-
-static void
 mud_log_write(MudLog *log, const gchar *data, gsize size)
 {
     gchar *stripData;
@@ -917,7 +900,6 @@ mud_log_write(MudLog *log, const gchar *data, gsize size)
         stripSize = strlen(stripData);
 
         write_size = fwrite(stripData, 1, stripSize, log->priv->logfile);
-        fsync(fileno(log->priv->logfile));
 
         if(write_size != stripSize)
             g_critical(_("Could not write data to log file!"));
@@ -933,7 +915,6 @@ mud_log_write(MudLog *log, const gchar *data, gsize size)
         if(output)
         {
             write_size = fwrite(output, 1, strlen(output), log->priv->logfile);
-            fsync(fileno(log->priv->logfile));
 
             g_free(output);
         }
@@ -995,7 +976,7 @@ mud_log_parse_ecma_color(MudLog *self,
                          gsize size,
                          GString *output)
 {
-    gint i, argc, byte, color_index;
+    gint i, argc, byte;
     gchar **argv;
     gboolean xterm_forecolor, xterm_color;
 

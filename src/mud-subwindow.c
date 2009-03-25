@@ -27,6 +27,7 @@
 #include <glade/glade-xml.h>
 #include <gconf/gconf-client.h>
 #include <gdk/gdkkeysyms.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "gnome-mud-marshallers.h"
@@ -291,7 +292,7 @@ mud_subwindow_class_init (MudSubwindowClass *klass)
                      g_cclosure_marshal_VOID__STRING,
                      G_TYPE_NONE,
                      1,
-                     G_TYPE_STRING); 
+                     G_TYPE_STRING);
 
 }
 
@@ -428,7 +429,7 @@ mud_subwindow_constructor (GType gtype,
                        0);
 
     gtk_box_pack_end(GTK_BOX(term_box),
-                     self->priv->scroll, 
+                     self->priv->scroll,
                      FALSE,
                      FALSE,
                      0);
@@ -696,7 +697,7 @@ mud_subwindow_get_history_item(MudSubwindow *self,
             self->priv->current_history_index--;
 
     if(direction == SUBWINDOW_HISTORY_UP)
-        if(self->priv->current_history_index < 
+        if(self->priv->current_history_index <
                 (gint)g_queue_get_length(self->priv->history) - 1)
             self->priv->current_history_index++;
 
@@ -949,7 +950,7 @@ mud_subwindow_entry_keypress_cb(GtkWidget *widget,
             g_strstrip(history_item);
 
             /* Don't queue empty lines */
-            if(strlen(history_item) != 0) 
+            if(strlen(history_item) != 0)
                 g_queue_push_head(self->priv->history,
                                   history_item);
             else
@@ -978,8 +979,8 @@ mud_subwindow_entry_keypress_cb(GtkWidget *widget,
 
     if(event->keyval == GDK_Up)
     {
-        history = 
-            mud_subwindow_get_history_item(self, 
+        history =
+            mud_subwindow_get_history_item(self,
                                            SUBWINDOW_HISTORY_UP);
 
         if(history)
@@ -993,8 +994,8 @@ mud_subwindow_entry_keypress_cb(GtkWidget *widget,
 
     if(event->keyval == GDK_Down)
     {
-        history = 
-            mud_subwindow_get_history_item(self, 
+        history =
+            mud_subwindow_get_history_item(self,
                                            SUBWINDOW_HISTORY_DOWN);
 
         if(history)

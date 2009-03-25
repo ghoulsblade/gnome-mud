@@ -100,8 +100,8 @@ main (gint argc, char *argv[])
 
     gtk_window_set_default_icon_name(GMUD_STOCK_ICON);
 
-    /* Setup debug logging */
-    logger = g_object_new(TYPE_DEBUG_LOGGER, 
+     /*Setup debug logging */
+     logger = g_object_new(TYPE_DEBUG_LOGGER, 
                           "use-color", TRUE,
                           "closeable", FALSE,
                           NULL);
@@ -114,7 +114,7 @@ main (gint argc, char *argv[])
     debug_logger_create_window(logger);
 #endif
 
-    g_log_set_always_fatal(G_LOG_LEVEL_CRITICAL|G_LOG_LEVEL_WARNING);
+    //g_log_set_always_fatal(G_LOG_LEVEL_CRITICAL|G_LOG_LEVEL_WARNING);
 
     /* Let 'er rip */
     window = g_object_new(MUD_TYPE_WINDOW, NULL);

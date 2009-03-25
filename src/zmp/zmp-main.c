@@ -19,6 +19,7 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"

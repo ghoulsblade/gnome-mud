@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 #include <vte/vte.h>
 #include <gnet.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"
@@ -182,7 +183,6 @@ static void
 mud_telnet_naws_finalize (GObject *object)
 {
     MudTelnetNaws *self;
-    GtkWidget *main_window;
     GObjectClass *parent_class;
 
     self = MUD_TELNET_NAWS(object);
@@ -295,7 +295,6 @@ void
 mud_telnet_naws_disable(MudTelnetHandler *handler)
 {
     MudTelnetNaws *self;
-    GtkWidget *main_window;
 
     self = MUD_TELNET_NAWS(handler);
 

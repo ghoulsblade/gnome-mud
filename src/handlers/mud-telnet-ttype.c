@@ -24,6 +24,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <glib/gi18n.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"

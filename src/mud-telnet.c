@@ -28,6 +28,7 @@
 #include <gnet.h>
 #include <stdarg.h>
 #include <string.h> // memset
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"

@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 #include <string.h>
 #include <gconf/gconf-client.h>
+#include <glib/gprintf.h>
 
 #include "mud-parse-base.h"
 #include "mud-parse-alias.h"
@@ -201,7 +202,8 @@ mud_parse_alias_do(MudParseAlias *self, gchar *data)
     MudRegex *regex;
     MudConnectionView *view;
 
-    g_return_if_fail(MUD_IS_PARSE_ALIAS(self));
+    if(!MUD_IS_PARSE_ALIAS(self))
+        return FALSE;
 
     client = gconf_client_get_default();
 

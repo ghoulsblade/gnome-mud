@@ -34,7 +34,8 @@ libtelnethandlers_la_CPPFLAGS = \
 
 libtelnethandlers_la_CFLAGS = \
 	$(GMUD_CFLAGS) \
-	$(MSP_CFLAGS)
+	$(MSP_CFLAGS) \
+	-g -Wall -O0
 
 libtelnethandlers_la_LDFLAGS =
 

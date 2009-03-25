@@ -24,6 +24,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <glib/gi18n.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"
@@ -292,6 +293,8 @@ mud_telnet_mssp_handle_sub_neg(MudTelnetHandler *handler,
     MudTelnetMssp *self;
     guint i, state;
     GString *key, *value;
+
+    key = value = NULL;
 
     self = MUD_TELNET_MSSP(handler);
 

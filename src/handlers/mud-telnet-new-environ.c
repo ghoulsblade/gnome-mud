@@ -24,6 +24,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <glib/gi18n.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"
@@ -300,6 +301,8 @@ mud_telnet_newenviron_handle_sub_neg(MudTelnetHandler *handler,
     guint i, state;
     GString *key, *value;
 
+    key = value = NULL;
+
     self = MUD_TELNET_NEWENVIRON(handler);
 
     g_return_if_fail(MUD_IS_TELNET_NEWENVIRON(self));
@@ -338,7 +341,7 @@ mud_telnet_newenviron_handle_sub_neg(MudTelnetHandler *handler,
                              * is undefined. */
                             g_string_free(key, TRUE);
 
-                            state == PARSE_STATE_VAR;
+                            state = PARSE_STATE_VAR;
                         }
                         else
                         {

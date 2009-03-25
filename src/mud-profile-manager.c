@@ -23,6 +23,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-window.h"
@@ -294,9 +295,7 @@ mud_profile_manager_delete_profile(MudProfileManager *self,
                                    const gchar *name)
 {
     MudProfile *profile, *default_profile;
-    GError *error = NULL;
     gchar *key, *pname;
-    const GSList *views, *view_entry;
     GSList *connections, *entry;
     GConfClient *client;
 
@@ -369,7 +368,8 @@ mud_profile_manager_get_profile_by_name(MudProfileManager *self,
     GSList *entry = NULL;
     MudProfile *profile;
 
-    g_return_if_fail(MUD_IS_PROFILE_MANAGER(self));
+    if(!MUD_IS_PROFILE_MANAGER(self))
+        return NULL;
 
     entry = self->priv->profiles;
 

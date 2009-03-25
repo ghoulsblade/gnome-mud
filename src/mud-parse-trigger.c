@@ -25,6 +25,7 @@
 #include <glib-object.h>
 #include <glib/gi18n.h>
 #include <string.h>
+#include <glib/gprintf.h>
 
 #include "mud-window.h"
 #include "mud-connection-view.h"
@@ -205,7 +206,8 @@ mud_parse_trigger_do(MudParseTrigger *self, gchar *data)
     MudRegex *regex;
     MudConnectionView *view;
 
-    g_return_if_fail(MUD_IS_PARSE_TRIGGER(self));
+    if(!MUD_IS_PARSE_TRIGGER(self))
+        return FALSE;
 
     client = gconf_client_get_default();
 

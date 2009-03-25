@@ -94,7 +94,8 @@ mud_regex_check(MudRegex *regex,
     gint erroroffset;
     gint rc;
 
-    g_return_if_fail(MUD_IS_REGEX(regex));
+    if(!MUD_IS_REGEX(regex))
+        return FALSE;
 
     re = pcre_compile2(rx, 0, &errorcode, &error, &erroroffset, NULL);
 
@@ -172,7 +173,8 @@ mud_regex_substring_clear(const gchar **substring_list)
 const gchar **
 mud_regex_get_substring_list(MudRegex *regex, gint *count)
 {
-    g_return_if_fail(MUD_IS_REGEX(regex));
+    if(!MUD_IS_REGEX(regex))
+        return FALSE;
 
     *count = regex->priv->substring_count;
     return regex->priv->substring_list;

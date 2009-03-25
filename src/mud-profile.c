@@ -32,6 +32,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>
+#include <glib/gprintf.h>
 
 #include "mud-profile-manager.h"
 #include "mud-profile.h"
@@ -93,12 +94,10 @@ static void mud_profile_gconf_changed (GConfClient *client, guint cnxn_id, GConf
 /* Profile Set Functions */
 static gboolean set_FontName(MudProfile *profile, const gchar *candidate);
 static gboolean set_CommDev(MudProfile *profile, const gchar *candidate);
-static gboolean set_History(MudProfile *profile, const gint candidate);
 static gboolean set_Scrollback(MudProfile *profile, const gint candidate);
 static gboolean set_ProxyVersion(MudProfile *profile, const gchar *candidate);
 static gboolean set_ProxyHostname(MudProfile *profile, const gchar *candidate);
 static gboolean set_Encoding(MudProfile *profile, const gchar *candidate);
-static gboolean set_TerminalType(MudProfile *profile, const gchar *candidate);
 static gboolean set_Foreground(MudProfile *profile, const gchar *candidate);
 static gboolean set_Background(MudProfile *profile, const gchar *candidate);
 static gboolean set_Colors(MudProfile *profile, const gchar *candidate);
@@ -180,10 +179,6 @@ mud_profile_constructor (GType gtype,
     GObject *obj;
     MudProfileClass *klass;
     GObjectClass *parent_class;
-
-    GSList *profiles, *entry;
-    GError *error = NULL;
-    gint newflag;
 
     /* Chain up to parent constructor */
     klass = MUD_PROFILE_CLASS( g_type_class_peek(MUD_TYPE_PROFILE) );
@@ -372,8 +367,6 @@ mud_profile_load_preferences(MudProfile *profile)
     GdkColor  color;
     GdkColor *colors;
     gint      n_colors;
-    struct    stat file_stat;
-    gchar     dirname[256], buf[256];
     gchar     extra_path[512] = "", keyname[2048];
     gchar *p;
     MudProfile *default_profile;
@@ -388,9 +381,23 @@ mud_profile_load_preferences(MudProfile *profile)
 
     if(!g_str_equal(profile->name, "Default"))
     {
-        default_profile = mud_profile_manager_get_profile_by_name(profile->priv->parent,
-                                                                  "Default");
-        mud_profile_copy_preferences(default_profile, profile);
+        gchar *key;
+        gchar *test_string;
+
+        key = g_strdup_printf("/apps/gnome-mud/profiles/%s/functionality/encoding",
+                               profile->name);
+
+        test_string = gconf_client_get_string(gconf_client, key, NULL);
+
+        if(!test_string)
+        {
+            default_profile = mud_profile_manager_get_profile_by_name(profile->priv->parent,
+                    "Default");
+            mud_profile_copy_preferences(default_profile, profile);
+
+        }
+        else
+            g_free(test_string);
     }
 
 #define	GCONF_GET_STRING(entry, subdir, variable)                                          \
@@ -737,20 +744,6 @@ set_CommDev(MudProfile *profile, const gchar *candidate)
     }
 
     return FALSE;
-}
-
-static gboolean
-set_History(MudProfile *profile, const gint candidate)
-{
-    if (candidate >= 1 && candidate != profile->priv->preferences.History)
-    {
-        profile->priv->preferences.History = candidate;
-        return TRUE;
-    }
-    else
-    {
-        return FALSE;
-    }
 }
 
 static gboolean

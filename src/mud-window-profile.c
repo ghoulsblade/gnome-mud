@@ -25,6 +25,7 @@
 #include <glade/glade-xml.h>
 #include <glib/gi18n.h>
 #include <string.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"
@@ -32,6 +33,7 @@
 #include "mud-window-profile.h"
 #include "utils.h"
 #include "mud-profile-manager.h"
+#include "mud-window-prefs.h"
 
 struct _MudProfileWindowPrivate
 {
@@ -40,6 +42,7 @@ struct _MudProfileWindowPrivate
 
     GtkWidget *btnAdd;
     GtkWidget *btnDelete;
+    GtkWidget *btnEdit;
 
     gint CurrSelRow;
     gchar *CurrSelRowText;
@@ -86,6 +89,7 @@ static void mud_profile_window_get_property(GObject *object,
 static gint mud_profile_window_close_cb(GtkWidget *widget, MudProfileWindow *profwin);
 static void mud_profile_window_add_cb(GtkWidget *widget, MudProfileWindow *profwin);
 static void mud_profile_window_del_cb(GtkWidget *widget, MudProfileWindow *profwin);
+static void mud_profile_window_edit_cb(GtkWidget *widget, MudProfileWindow *profwin);
 static gboolean mud_profile_window_tree_select_cb(GtkTreeSelection *selection,
                      			   GtkTreeModel     *model,
                      			   GtkTreePath      *path,
@@ -138,7 +142,6 @@ mud_profile_window_constructor (GType gtype,
                                 guint n_properties,
                                 GObjectConstructParam *properties)
 {
-    guint i;
     MudProfileWindow *profwin;
     GObject *obj;
 
@@ -167,6 +170,7 @@ mud_profile_window_constructor (GType gtype,
 
     profwin->priv->btnAdd = glade_xml_get_widget(glade, "btnAdd");
     profwin->priv->btnDelete = glade_xml_get_widget(glade, "btnDelete");
+    profwin->priv->btnEdit = glade_xml_get_widget(glade, "btnEdit");
 
     profwin->priv->treeview = glade_xml_get_widget(glade, "profilesView");
     profwin->priv->treestore = gtk_tree_store_new(N_COLUMNS, G_TYPE_STRING);
@@ -208,6 +212,9 @@ mud_profile_window_constructor (GType gtype,
             profwin);
     g_signal_connect(profwin->priv->btnDelete, "clicked",
             G_CALLBACK(mud_profile_window_del_cb),
+            profwin);
+    g_signal_connect(profwin->priv->btnEdit, "clicked",
+            G_CALLBACK(mud_profile_window_edit_cb),
             profwin);
 
     g_object_get(profwin->parent_window, "window", &main_window, NULL);
@@ -306,17 +313,22 @@ mud_profile_window_add_cb(GtkWidget *widget, MudProfileWindow *profwin)
     result = gtk_dialog_run(GTK_DIALOG(window));
     if (result == GTK_RESPONSE_OK)
     {
-        profile = gconf_escape_key(gtk_entry_get_text(GTK_ENTRY(entry_profile)),
-                                   -1);
+        gchar *escaped_name;
+        profile = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry_profile)));
 
         mud_profile_manager_add_profile(profwin->parent_window->profile_manager,
                                         profile);
 
+        escaped_name = gconf_escape_key(profile, -1);
+
         prof = mud_profile_manager_get_profile_by_name(profwin->parent_window->profile_manager,
-                                                       profile);
+                                                       escaped_name);
 
         mud_profile_copy_preferences(def, prof);
         mud_profile_window_populate_treeview(profwin);
+
+        g_free(profile);
+        g_free(escaped_name);
     }
 
     gtk_widget_destroy(window);
@@ -326,14 +338,30 @@ mud_profile_window_add_cb(GtkWidget *widget, MudProfileWindow *profwin)
 static void
 mud_profile_window_del_cb(GtkWidget *widget, MudProfileWindow *profwin)
 {
-
-    if(strcmp("Default", profwin->priv->CurrSelRowText) != 0)
+    if(!g_str_equal("Default", profwin->priv->CurrSelRowText))
     {
+        gchar *escaped_name = gconf_escape_key(profwin->priv->CurrSelRowText, -1);
+
         mud_profile_manager_delete_profile(profwin->parent_window->profile_manager,
-                                           profwin->priv->CurrSelRowText);
+                                           escaped_name);
+
+        g_free(escaped_name);
 
         mud_profile_window_populate_treeview(profwin);
     }
+}
+
+static void
+mud_profile_window_edit_cb(GtkWidget *widget, MudProfileWindow *profwin)
+{
+    gchar *escaped_name = gconf_escape_key(profwin->priv->CurrSelRowText, -1);
+
+    g_object_new(MUD_TYPE_WINDOW_PREFS,
+                 "parent-window", profwin->parent_window,
+                 "name", escaped_name,
+                 NULL);
+
+    g_free(escaped_name);
 }
 
 static gint
@@ -360,6 +388,8 @@ mud_profile_window_tree_select_cb(GtkTreeSelection *selection,
 
         profwin->priv->CurrSelRow = (gtk_tree_path_get_indices(path))[0];
 
+        gtk_widget_set_sensitive(profwin->priv->btnEdit, TRUE);
+
         if(g_str_equal(profwin->priv->CurrSelRowText, "Default"))
             gtk_widget_set_sensitive(profwin->priv->btnDelete, FALSE);
         else
@@ -384,6 +414,7 @@ mud_profile_window_populate_treeview(MudProfileWindow *profwin)
     gtk_tree_store_clear(store);
 
     gtk_widget_set_sensitive(profwin->priv->btnDelete, FALSE);
+    gtk_widget_set_sensitive(profwin->priv->btnEdit, FALSE);
 
     profiles = mud_profile_manager_get_profiles(profwin->parent_window->profile_manager);
 
@@ -391,11 +422,16 @@ mud_profile_window_populate_treeview(MudProfileWindow *profwin)
     while(entry)
     {
         MudProfile *profile = MUD_PROFILE(entry->data);
+        gchar *escaped_name;
+
+        escaped_name = gconf_unescape_key(profile->name, -1);
 
         gtk_tree_store_append(store, &iter, NULL);
         gtk_tree_store_set(store, &iter,
-                           NAME_COLUMN, profile->name,
+                           NAME_COLUMN, escaped_name,
                            -1);
+
+        g_free(escaped_name);
 
         entry = g_slist_next(entry);
     }

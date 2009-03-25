@@ -29,6 +29,7 @@
 #define GNET_EXPERIMENTAL
 #include <gnet.h>
 #include <string.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"
@@ -39,6 +40,7 @@
 #include "mud-parse-base.h"
 #include "mud-telnet.h"
 #include "mud-subwindow.h"
+#include "utils.h"
 
 #include "handlers/mud-telnet-handlers.h"
 
@@ -152,11 +154,6 @@ static void choose_profile_callback(GtkWidget *menu_item,
 static void mud_connection_view_reread_profile(MudConnectionView *view);
 static void mud_connection_view_feed_text(MudConnectionView *view,
                                           gchar *message);
-static void mud_connection_view_set_size_force_grid (MudConnectionView *window,
-                                                     VteTerminal *screen,
-                                                     gboolean        even_if_mapped,
-                                                     int             force_grid_width,
-                                                     int             force_grid_height);
 
 static void mud_connection_view_update_geometry (MudConnectionView *window);
 
@@ -949,6 +946,7 @@ choose_profile_callback(GtkWidget *menu_item, MudConnectionView *view)
 
     mud_connection_view_set_profile(view, profile);
     mud_connection_view_reread_profile(view);
+    mud_window_populate_profiles_menu(view->window);
 }
 
 static void
@@ -1094,7 +1092,6 @@ static void
 mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pview)
 {
     gint gag;
-    gint pluggag;
     gchar *buf;
     gboolean temp;
     MudConnectionView *view = MUD_CONNECTION_VIEW(pview);
@@ -1269,65 +1266,6 @@ popup_menu_detach(GtkWidget *widget, GtkMenu *menu)
 }
 
 /* Private Methods */
-static void
-mud_connection_view_set_size_force_grid (MudConnectionView *window,
-                                         VteTerminal *screen,
-                                         gboolean        even_if_mapped,
-                                         int             force_grid_width,
-                                         int             force_grid_height)
-{
-    /* Owen's hack from gnome-terminal */
-    GtkWidget *widget;
-    GtkWidget *app;
-    GtkWidget *mainwindow;
-    GtkRequisition toplevel_request;
-    GtkRequisition widget_request;
-    int w, h;
-    int char_width;
-    int char_height;
-    int grid_width;
-    int grid_height;
-    int xpad;
-    int ypad;
-
-    g_return_if_fail(IS_MUD_CONNECTION_VIEW(window));
-
-    /* be sure our geometry is up-to-date */
-    mud_connection_view_update_geometry (window);
-    widget = GTK_WIDGET (screen);
-
-    g_object_get(window->window, "window", &app, NULL);
-
-    gtk_widget_size_request (app, &toplevel_request);
-    gtk_widget_size_request (widget, &widget_request);
-
-    w = toplevel_request.width - widget_request.width;
-    h = toplevel_request.height - widget_request.height;
-
-    char_width = VTE_TERMINAL(screen)->char_width;
-    char_height = VTE_TERMINAL(screen)->char_height;
-
-    grid_width = VTE_TERMINAL(screen)->column_count;
-    grid_height = VTE_TERMINAL(screen)->row_count;
-
-    if (force_grid_width >= 0)
-        grid_width = force_grid_width;
-    if (force_grid_height >= 0)
-        grid_height = force_grid_height;
-
-    vte_terminal_get_padding (VTE_TERMINAL (screen), &xpad, &ypad);
-
-    w += xpad * 2 + char_width * grid_width;
-    h += ypad * 2 + char_height * grid_height;
-
-    if (even_if_mapped && GTK_WIDGET_MAPPED (app)) {
-        gtk_window_resize (GTK_WINDOW (app), w, h);
-    }
-    else {
-        gtk_window_set_default_size (GTK_WINDOW (app), w, h);
-    }
-}
-
 static void
 mud_connection_view_update_geometry (MudConnectionView *window)
 {
@@ -1957,7 +1895,7 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
     const gchar *local_codeset;
     gboolean remote, zmp_enabled;
     gsize bytes_read, bytes_written;
-    gchar *text, *encoding, *conv_text, *profile_name;
+    gchar *encoding, *conv_text, *profile_name;
 
     gchar key[2048];
     gchar extra_path[512] = "";

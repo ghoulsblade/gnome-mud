@@ -144,6 +144,10 @@ static void mud_connections_property_combo_changed_cb(GtkWidget *widget,
 static gboolean mud_connections_property_delete_cb(GtkWidget *widget,
 						   GdkEvent *event,
 						   MudConnections *conn);
+static gint mud_connections_compare_func(GtkTreeModel *model,
+                                         GtkTreeIter *a,
+                                         GtkTreeIter *b,
+                                         gpointer user_data);
 
 /* Private Methods */
 static void mud_connections_populate_iconview(MudConnections *conn);
@@ -261,6 +265,16 @@ mud_connections_constructor (GType gtype,
                     G_TYPE_STRING,
                     GDK_TYPE_PIXBUF));
 
+    gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(conn->priv->icon_model),
+                                         MODEL_COLUMN_STRING,
+                                         GTK_SORT_ASCENDING);
+
+    gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(conn->priv->icon_model),
+                                    MODEL_COLUMN_STRING,
+                                    mud_connections_compare_func,
+                                    NULL,
+                                    NULL);
+
     conn->priv->original_name = NULL;
     conn->priv->original_char_name = NULL;
 
@@ -376,6 +390,54 @@ mud_connections_get_property(GObject *object,
 }
 
 // MudConnections Private Methods
+static gint
+mud_connections_compare_func(GtkTreeModel *model,
+                             GtkTreeIter *a,
+                             GtkTreeIter *b,
+                             gpointer user_data)
+{
+    gchar *item_one, *item_two;
+    gboolean item_one_haschar, item_two_haschar;
+    gint ret = 0;
+
+    gtk_tree_model_get(model,
+                       a,
+                       MODEL_COLUMN_STRING, &item_one,
+                       -1);
+
+    gtk_tree_model_get(model,
+                       b,
+                       MODEL_COLUMN_STRING, &item_two,
+                       -1);
+
+    item_one_haschar = (g_strrstr(item_one, "\n") != NULL);
+    item_two_haschar = (g_strrstr(item_two, "\n") != NULL);
+
+    if(item_one_haschar && item_two_haschar)
+    {
+        gchar **item_onev, **item_twov;
+
+        item_onev = g_strsplit(item_one, "\n", -1);
+        item_twov = g_strsplit(item_two, "\n", -1);
+
+        ret = strcmp(item_onev[1], item_twov[1]);
+
+        g_strfreev(item_onev);
+        g_strfreev(item_twov);
+    } 
+    else if(item_one_haschar && !item_two_haschar)
+        ret = -1;
+    else if(!item_one_haschar && item_two_haschar)
+        ret = 1;
+    else
+        ret = strcmp(item_one, item_two);
+
+    g_free(item_one);
+    g_free(item_two);
+
+    return ret;
+}
+
 static gint
 mud_connections_close_cb(GtkWidget *widget, MudConnections *conn)
 {
@@ -532,7 +594,7 @@ mud_connections_delete_cb(GtkWidget *widget, MudConnections *conn)
     if(g_list_length(selected) == 0)
 	return;
 
-    char_name = NULL;
+    char_name = strip_name = NULL;
 
     gtk_tree_model_get_iter(conn->priv->icon_model, &iter,
 			    (GtkTreePath *)selected->data);

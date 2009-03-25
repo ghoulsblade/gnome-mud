@@ -27,6 +27,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <time.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"
@@ -301,7 +302,7 @@ mud_telnet_zmp_handle_sub_neg(MudTelnetHandler *handler,
                               guint len)
 {
     guint i;
-    gint argc;
+    gint argc = 0;
     gchar **argv;
     GString *args;
     MudZMPFunction zmp_handler = NULL;
@@ -340,7 +341,7 @@ mud_telnet_zmp_handle_sub_neg(MudTelnetHandler *handler,
     {
         zmp_handler = mud_zmp_get_function(self, argv[0]);
 
-        if(zmp_handler)
+        if(zmp_handler != NULL)
             zmp_handler(self, argc, argv);
         else
             g_warning("NULL ZMP Command returned.");
@@ -387,7 +388,8 @@ mud_zmp_get_function(MudTelnetZmp *self, gchar *name)
     MudZMPFunction ret = NULL;
     MudZMPCommand *val;
 
-    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+    if(!MUD_IS_TELNET_ZMP(self))
+        return NULL;
 
     if(!mud_zmp_has_command(self, name))
         return NULL;
@@ -469,7 +471,8 @@ mud_zmp_has_package(MudTelnetZmp *self, gchar *package)
     GList *keys;
     GList *iter;
 
-    g_return_if_fail(MUD_IS_TELNET_ZMP(self));
+    if(!MUD_IS_TELNET_ZMP(self))
+        return FALSE;
 
     keys = g_hash_table_get_keys(self->priv->commands);
 

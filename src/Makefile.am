@@ -17,7 +17,8 @@ gnome_mud_CPPFLAGS =							\
 
 gnome_mud_CFLAGS = \
 	$(GMUD_CFLAGS) \
-	$(MSP_CFLAGS)
+	$(MSP_CFLAGS) \
+	-g -Wall -O0
 
 gnome_mud_LDADD = \
 	handlers/libtelnethandlers.la \
@@ -29,6 +30,7 @@ gnome_mud_LDADD = \
 gnome_mud_SOURCES =				\
 	debug-logger.c				\
 	debug-logger.h				\
+	ecma48.h				\
 	gnome-mud.c				\
 	gnome-mud.h				\
 	gnome-mud-marshallers.c			\
@@ -48,8 +50,6 @@ gnome_mud_SOURCES =				\
 	mud-parse-base.h			\
 	mud-parse-trigger.c			\
 	mud-parse-trigger.h			\
-	mud-preferences-window.c		\
-	mud-preferences-window.h		\
 	mud-profile.c				\
 	mud-profile.h				\
 	mud-profile-manager.c			\
@@ -60,10 +60,14 @@ gnome_mud_SOURCES =				\
 	mud-subwindow.h				\
 	mud-telnet.c				\
 	mud-telnet.h				\
+	mud-trigger.c				\
+	mud-trigger.h				\
 	mud-tray.c				\
 	mud-tray.h				\
 	mud-window.c				\
 	mud-window.h				\
+	mud-window-prefs.c			\
+	mud-window-prefs.h			\
 	mud-window-profile.c			\
 	mud-window-profile.h			\
 	utils.c					\

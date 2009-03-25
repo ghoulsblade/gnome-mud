@@ -28,6 +28,7 @@
 #include <string.h>
 #include <gst/gst.h>
 #include <ctype.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-telnet.h"
@@ -369,9 +370,9 @@ mud_telnet_msp_parse(MudTelnetMsp *self, GString *buf, gint *len)
 {
     gint count;
     GString *ret = NULL;
-    gchar *temp;
 
-    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+    if(!MUD_IS_TELNET_MSP(self))
+        return NULL;
 
     mud_telnet_msp_parser_reset(self);
 
@@ -984,7 +985,8 @@ mud_telnet_msp_get_files(MudTelnetMsp *self, MudMSPTypes type)
     GPatternSpec *regex;
     MudConnectionView *view;
 
-    g_return_if_fail(MUD_IS_TELNET_MSP(self));
+    if(!MUD_IS_TELNET_MSP(self))
+        return FALSE;
 
     g_object_get(self->priv->telnet, "parent-view", &view, NULL);
     g_object_get(view, "mud-name", &mud_name, NULL);

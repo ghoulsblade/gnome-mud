@@ -20,6 +20,7 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <glib/gprintf.h>
 
 #include "gnome-mud.h"
 #include "mud-connection-view.h"
@@ -61,7 +62,6 @@ static void mud_tray_get_property(GObject *object,
 /* Callback Functions */
 static void mud_tray_window_toggle(GtkWidget *widget, MudTray *tray);
 static void mud_tray_window_exit(GtkWidget *widget, MudTray *tray);
-static gboolean mud_tray_create_cb(gpointer data);
 static void mud_tray_activate_cb(GtkStatusIcon *icon, MudTray *tray);
 static void mud_tray_popup_menu_cb(GtkStatusIcon *icon,
                                    guint button,
@@ -245,16 +245,6 @@ static void
 mud_tray_window_exit(GtkWidget *widget, MudTray *tray)
 {
     mud_tray_destroy(tray);
-}
-
-static gboolean
-mud_tray_create_cb(gpointer data)
-{
-    MudTray *tray = MUD_TRAY(data);
-
-    mud_tray_create(tray);
-
-    return FALSE; /* for when we're called by the glib idle handler */
 }
 
 static void
