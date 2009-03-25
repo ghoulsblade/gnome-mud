@@ -1,5 +1,10 @@
 2009-03-25  Les Harris  <lharris@gnome.org>
 
+	* src/mud-window-prefs.[ch]: New files which implement the new
+	preference dialog.
+
+2009-03-25  Les Harris  <lharris@gnome.org>
+
 	* configure.ac: Patch from Sean Middleditch. Added AM_PROG_CC_C_0
 	* src/Makefile.am: Patch from Sean Middleditch. Added ecma48.h.
 	Also removed mud-preferences-window.[ch] and added mud-trigger.[ch]

@@ -1494,8 +1494,8 @@ mud_log_create_xterm_colors(MudLog *self)
 
     /* Generate Color Cube */
     for(red = 0, i = 16; red < 6; red++)
-        for(green = 0; green < 6; green++)
-            for(blue = 0; blue < 6; blue++, i++)
+        for(blue = 0; blue < 6; blue++)
+            for(green = 0; green < 6; green++, i++)
             {
                 color_string = g_string_new(NULL);
                 g_string_printf(color_string,
