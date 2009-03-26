@@ -3,14 +3,17 @@
 # Please keep this file sorted alphabetically.
 gnome-mud.desktop.in
 gnome-mud.schemas.in
+
 src/gnome-mud.c
+src/mud-connections.c
 src/mud-connection-view.c
 src/mud-log.c
-src/mud-telnet-mccp.c
 src/mud-tray.c
 src/mud-window-prefs.c
 src/mud-window.c
 src/debug-logger.c
+src/handlers/mud-telnet-mccp.c
+
 ui/main.glade
 ui/muds.glade
 ui/prefs.glade

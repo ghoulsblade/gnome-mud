@@ -1,11 +1,15 @@
+2009-03-26  Jordi Mallach  <jordi@sindominio.net>
+
+	* POTFILES.in: Updated for new additions and deletions.
+	* ca.po: Updated Catalan translation.
+
 2009-03-24  Daniel Nylander  <po@danielnylander.se>
 
         * sv.po: Updated Swedish translation.
 	
 2009-02-28  Les Harris  <lharris@gnome.org>
 
-	* POTFILES.in: Removed automapper from translations. Added
-	debug-logger.c.
+	* POTFILES.in: Updated for new additions and deletions.
 
 2009-02-27  Jordi Mallach  <jordi@sindominio.net>
 
