@@ -34,12 +34,22 @@ struct _MudTriggerPrivate
     gulong lines;
 
     gboolean enabled;
-    gboolean gag_output;
-    gboolean multiline;
-    gboolean set;
 
+    gboolean gag_output;
+    
+    gboolean multiline;
+    gboolean filter;
+
+    /* Glob Triggers */
+    GPatternSpec *glob;
+    gchar *glob_string;
+
+    /* Regex Triggers */
     GRegex *regex;
     gchar *regex_string;
+
+    /* Condition Triggers */
+    GList *condition_items;
 };
 
 /* Property Identifiers */

@@ -430,11 +430,11 @@ mud_window_prefs_construct_window(MudWindowPrefs *self)
     self->priv->font_button    = glade_xml_get_widget(glade, "fp_font");
     self->priv->fore_button    = glade_xml_get_widget(glade, "cb_foreground");
     self->priv->back_button    = glade_xml_get_widget(glade, "cb_background");
-    self->priv->proxy_check   = glade_xml_get_widget(glade, "proxy_check");
-    self->priv->proxy_entry   = glade_xml_get_widget(glade, "proxy_entry");
-    self->priv->proxy_combo   = glade_xml_get_widget(glade, "proxy_combo");
-    self->priv->msp_check     = glade_xml_get_widget(glade, "msp_check");
-    self->priv->charset_check = glade_xml_get_widget(glade, "charset_check");
+    self->priv->proxy_check    = glade_xml_get_widget(glade, "proxy_check");
+    self->priv->proxy_entry    = glade_xml_get_widget(glade, "proxy_entry");
+    self->priv->proxy_combo    = glade_xml_get_widget(glade, "proxy_combo");
+    self->priv->msp_check      = glade_xml_get_widget(glade, "msp_check");
+    self->priv->charset_check  = glade_xml_get_widget(glade, "charset_check");
 
     for(i = 0; i < C_MAX; ++i)
     {

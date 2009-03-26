@@ -53,7 +53,8 @@ typedef enum
 {
     MUD_TRIGGER_TYPE_SINGLE,
     MUD_TRIGGER_TYPE_MULTI,
-    MUD_TRIGGER_TYPE_SET
+    MUD_TRIGGER_TYPE_FILTER,
+    MUD_TRIGGER_TYPE_CONDITION
 } MudTriggerType;
 
 GType         mud_trigger_get_type (void);

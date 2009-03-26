@@ -228,6 +228,7 @@ mud_connections_constructor (GType gtype,
 
     GladeXML *glade;
     GConfClient *client;
+    GtkWidget *main_window;
 
     GObject *obj;
     MudConnectionsClass *klass;
@@ -320,6 +321,12 @@ mud_connections_constructor (GType gtype,
             G_CALLBACK(mud_connections_qconnect_cb), conn);
 
     mud_connections_populate_iconview(conn);
+
+    g_object_get(conn->parent_window, "window", &main_window, NULL);
+
+    g_object_set(conn->priv->window,
+                 "transient-for", GTK_WINDOW(main_window),
+                 NULL);
 
     gtk_widget_show_all(conn->priv->window);
     g_object_unref(glade);

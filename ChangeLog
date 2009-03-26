@@ -1,3 +1,8 @@
+2009-03-26  Les Harris  <lharris@gnome.org>
+
+	* ui/prefs.glade: Marked the encoding list and proxy versions as not
+	translatable.
+
 2009-03-25  Les Harris  <lharris@gnome.org>
 
 	* src/mud-connection-view.c (mud_connection_view_constructor): Wrapped

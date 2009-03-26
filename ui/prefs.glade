@@ -495,7 +495,7 @@
                             <child>
                               <widget class="GtkComboBox" id="encoding_combo">
                                 <property name="visible">True</property>
-                                <property name="items" translatable="yes">ISO-8859-1
+                                <property name="items">ISO-8859-1
 ISO-8859-2
 ISO-8859-3
 ISO-8859-4
@@ -1191,7 +1191,7 @@ WINDOWS-1258</property>
                               <widget class="GtkComboBox" id="proxy_combo">
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
-                                <property name="items" translatable="yes">4
+                                <property name="items">4
 5</property>
                               </widget>
                               <packing>
