@@ -642,6 +642,7 @@ mud_connection_view_constructor (GType gtype,
 
     /* Show everything */
     gtk_widget_show_all(box);
+    gtk_widget_hide(self->priv->terminal2);
 
     mud_connection_view_update_geometry (self);
 

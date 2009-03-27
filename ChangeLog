@@ -1,5 +1,10 @@
 2009-03-27  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_constructor):
+	Initially hide the scrollback terminal.
+
+2009-03-27  Les Harris  <lharris@gnome.org>
+
 	* configure.ac: Added check for glib-mkenums.
 	* gnome-mud.schemas.in: Removed scroll_output schema.
 	* src/Makefile.am: Added the autofoo for glib-mkenums.
