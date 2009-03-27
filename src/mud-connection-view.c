@@ -58,6 +58,12 @@ struct _MudConnectionViewPrivate
     GString *processed;
     gboolean hiding;
     gdouble old_adjustment;
+    gboolean toggled_off;
+    gboolean block_show;
+
+    gulong term_changed;
+    gulong term_value_changed;
+    gulong term2_value_changed;
     
     gulong signal;
     gulong signal_profile_changed;
@@ -98,6 +104,7 @@ enum
     PROP_PROFILE_NAME,
     PROP_LOGGING,
     PROP_TERMINAL,
+    PROP_TERMINAL2,
     PROP_VBOX
 };
 
@@ -145,6 +152,8 @@ static void mud_connection_view_value_changed_term2_cb(GtkAdjustment *adjustment
                                                  MudConnectionView *view);
 static void mud_connection_view_changed_cb(GtkAdjustment *adjustment,
                                                  MudConnectionView *view);
+static void mud_connection_view_toggled_off_cb(MudWindow *window,
+                                   MudConnectionView *view);
 
 
 /* Private Methods */
@@ -352,6 +361,14 @@ mud_connection_view_class_init (MudConnectionViewClass *klass)
                 G_PARAM_READABLE));
 
     g_object_class_install_property(object_class,
+            PROP_TERMINAL2,
+            g_param_spec_object("scroll-terminal",
+                "Scroll Terminal",
+                "the scrollback terminal widget",
+                VTE_TYPE_TERMINAL,
+                G_PARAM_READABLE));
+
+    g_object_class_install_property(object_class,
             PROP_VBOX,
             g_param_spec_object("ui-vbox",
                 "ui vbox",
@@ -381,6 +398,8 @@ mud_connection_view_init (MudConnectionView *self)
 
     self->priv->hiding = FALSE;
     self->priv->old_adjustment = 0.0;
+    self->priv->toggled_off = FALSE;
+    self->priv->block_show = FALSE; 
 
     self->connect_string = NULL;
     self->remote_encoding = NULL;
@@ -533,19 +552,24 @@ mud_connection_view_constructor (GType gtype,
                      G_CALLBACK(mud_connection_view_button_press_event),
                      self);
 
-    g_signal_connect(self->terminal->adjustment,
+    self->priv->term_value_changed = g_signal_connect(self->terminal->adjustment,
                      "value-changed",
                      G_CALLBACK(mud_connection_view_value_changed_cb),
                      self);
 
-    g_signal_connect(VTE_TERMINAL(self->priv->terminal2)->adjustment,
+    self->priv->term2_value_changed = g_signal_connect(VTE_TERMINAL(self->priv->terminal2)->adjustment,
                      "value-changed",
                      G_CALLBACK(mud_connection_view_value_changed_term2_cb),
                      self);
 
-    g_signal_connect(self->terminal->adjustment,
+    self->priv->term_changed = g_signal_connect(self->terminal->adjustment,
                      "changed",
                      G_CALLBACK(mud_connection_view_changed_cb),
+                     self);
+
+    g_signal_connect(self->window,
+                     "toggled-off",
+                     G_CALLBACK(mud_connection_view_toggled_off_cb),
                      self);
 
     g_object_set_data(G_OBJECT(self->terminal),
@@ -806,6 +830,7 @@ mud_connection_view_set_property(GObject *object,
             if(new_boolean != self->local_echo)
             {
                 self->local_echo = new_boolean;
+                
                 mud_window_toggle_input_mode(self->window, self);
             }
             break;
@@ -970,6 +995,10 @@ mud_connection_view_get_property(GObject *object,
             g_value_take_object(value, self->terminal);
             break;
 
+        case PROP_TERMINAL2:
+            g_value_take_object(value, self->priv->terminal2);
+            break;
+
         case PROP_VBOX:
             g_value_take_object(value, self->ui_vbox);
             break;
@@ -982,8 +1011,52 @@ mud_connection_view_get_property(GObject *object,
 
 /* Callbacks */
 static void
+mud_connection_view_toggled_off_cb(MudWindow *window,
+                                   MudConnectionView *view)
+{
+    g_signal_handler_disconnect(VTE_TERMINAL(view->priv->terminal2)->adjustment,
+                                view->priv->term2_value_changed);
+
+    g_signal_handler_disconnect(view->terminal->adjustment,
+                                view->priv->term_value_changed);
+
+    g_signal_handler_disconnect(view->terminal->adjustment,
+                                view->priv->term_changed);
+
+    gtk_adjustment_set_value(VTE_TERMINAL(view->priv->terminal2)->adjustment,
+            VTE_TERMINAL(view->priv->terminal2)->adjustment->upper);
+    gtk_adjustment_set_value(view->terminal->adjustment,
+            view->terminal->adjustment->upper - view->terminal->adjustment->page_size);
+
+    gtk_adjustment_value_changed(VTE_TERMINAL(view->priv->terminal2)->adjustment);
+    gtk_adjustment_value_changed(view->terminal->adjustment);
+    gtk_adjustment_changed(view->terminal->adjustment);
+    gtk_adjustment_changed(VTE_TERMINAL(view->priv->terminal2)->adjustment);
+
+    view->priv->term_value_changed = g_signal_connect(view->terminal->adjustment,
+                     "value-changed",
+                     G_CALLBACK(mud_connection_view_value_changed_cb),
+                     view);
+
+    view->priv->term2_value_changed = g_signal_connect(VTE_TERMINAL(view->priv->terminal2)->adjustment,
+                     "value-changed",
+                     G_CALLBACK(mud_connection_view_value_changed_term2_cb),
+                     view);
+
+    view->priv->term_changed = g_signal_connect(view->terminal->adjustment,
+                     "changed",
+                     G_CALLBACK(mud_connection_view_changed_cb),
+                     view);
+
+
+    gtk_widget_hide(view->priv->terminal2);
+
+    view->priv->toggled_off = TRUE;
+}
+
+static void
 mud_connection_view_changed_cb(GtkAdjustment *adjustment,
-                                     MudConnectionView *view)
+                               MudConnectionView *view)
 {
     if(view->priv->hiding)
     {
@@ -1022,8 +1095,19 @@ mud_connection_view_value_changed_term2_cb(GtkAdjustment *adjustment,
     gtk_adjustment_set_value(view->terminal->adjustment,
                              view->terminal->adjustment->upper);
 
-    if(adjustment->value + adjustment->page_size != adjustment->upper)
-        gtk_widget_show(view->priv->terminal2);
+    if(adjustment->value + adjustment->page_size !=  adjustment->upper)
+        if(view->priv->toggled_off)
+        {
+            view->priv->block_show = TRUE;
+            view->priv->toggled_off = FALSE;
+        }
+        else
+        {
+            if(view->priv->block_show)
+                view->priv->block_show = FALSE;
+            else
+                gtk_widget_show(view->priv->terminal2);
+        }
     else
     {
         if(GTK_WIDGET_MAPPED(view->priv->terminal2))

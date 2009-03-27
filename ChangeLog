@@ -1,5 +1,13 @@
 2009-03-27  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c: Fixed an issue where the splitview would
+	auto-split when the password entry was hidden.
+	* src/mud-window.c: Added new signal, toggled-off which emits when the
+	password entry is hidden.  Will now only attempt to hide the password
+	entry when it is mapped.
+
+2009-03-27  Les Harris  <lharris@gnome.org>
+
 	* ui/prefs.glade: Translation string fixes.
 
 2009-03-27  Les Harris  <lharris@gnome.org>

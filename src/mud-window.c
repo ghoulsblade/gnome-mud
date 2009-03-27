@@ -96,11 +96,12 @@ enum
 enum
 {
     RESIZED,
+    TOGGLEDOFF,
     LAST_SIGNAL
 };
 
 /* Signal Identifier Map */
-static guint mud_window_signal[LAST_SIGNAL] = { 0 };
+static guint mud_window_signal[LAST_SIGNAL] = { 0, 0 };
 
 /* Class Function Prototypes */
 static void mud_window_init       (MudWindow *self);
@@ -210,6 +211,17 @@ mud_window_class_init (MudWindowClass *klass)
                      2,
                      G_TYPE_INT,
                      G_TYPE_INT);
+
+    mud_window_signal[TOGGLEDOFF] =
+        g_signal_new("toggled-off",
+                     G_TYPE_FROM_CLASS(object_class),
+                     G_SIGNAL_RUN_LAST | G_SIGNAL_NO_HOOKS,
+                     0,
+                     NULL,
+                     NULL,
+                     g_cclosure_marshal_VOID__VOID,
+                     G_TYPE_NONE,
+                     0);
 
 }
 
@@ -1098,12 +1110,17 @@ mud_window_toggle_input_mode(MudWindow *self,
 
         if(local_echo)
         {
-            gtk_widget_hide(self->priv->password_entry);
+            if(GTK_WIDGET_MAPPED(self->priv->password_entry))
+            {
+                gtk_widget_hide(self->priv->password_entry);
 
-            gtk_widget_show(self->priv->textviewscroll);
-            gtk_widget_show(self->priv->textview);
+                gtk_widget_show(self->priv->textviewscroll);
+                gtk_widget_show(self->priv->textview);
 
-            gtk_widget_grab_focus(self->priv->textview);
+                gtk_widget_grab_focus(self->priv->textview);
+
+                g_signal_emit(self, mud_window_signal[TOGGLEDOFF], 0);
+            }
         }
         else
         {
