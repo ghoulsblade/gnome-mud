@@ -1,5 +1,9 @@
 2009-03-27  Les Harris  <lharris@gnome.org>
 
+	* src/mud-profile.h: Readded ScrollOnOutput variables.
+
+2009-03-27  Les Harris  <lharris@gnome.org>
+
 	* gnome-mud.schemas.in:
 	* src/mud-connection-view.c:
 	* src/mud-profile.c:

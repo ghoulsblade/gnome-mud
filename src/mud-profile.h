@@ -47,6 +47,7 @@ struct _MudPrefs
     gboolean   KeepText;
     gboolean   AutoSave;
     gboolean   DisableKeys;
+    gboolean   ScrollOnOutput;
 
     gchar     *FontName;
     gchar     *CommDev;
@@ -89,6 +90,7 @@ typedef struct
     unsigned int DisableKeys : 1;
     unsigned int CommDev : 1;
     unsigned int History : 1;
+    unsigned int ScrollOnOutput : 1;
     unsigned int Scrollback : 1;
     unsigned int FontName : 1;
     unsigned int Foreground : 1;
