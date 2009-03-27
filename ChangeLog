@@ -1,5 +1,9 @@
 2009-03-27  Les Harris  <lharris@gnome.org>
 
+	* ui/prefs.glade: Translation string fixes.
+
+2009-03-27  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_constructor):
 	Initially hide the scrollback terminal.
 

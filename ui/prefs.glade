@@ -1293,7 +1293,6 @@ WINDOWS-1258</property>
                 <child>
                   <widget class="GtkLabel" id="label35">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">label</property>
                   </widget>
                   <packing>
                     <property name="position">2</property>
@@ -1313,7 +1312,6 @@ WINDOWS-1258</property>
                 <child>
                   <widget class="GtkLabel" id="label36">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">label</property>
                   </widget>
                   <packing>
                     <property name="position">3</property>
@@ -1333,7 +1331,6 @@ WINDOWS-1258</property>
                 <child>
                   <widget class="GtkLabel" id="label37">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">label</property>
                   </widget>
                   <packing>
                     <property name="position">4</property>
@@ -1353,7 +1350,6 @@ WINDOWS-1258</property>
                 <child>
                   <widget class="GtkLabel" id="label38">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">label</property>
                   </widget>
                   <packing>
                     <property name="position">5</property>
@@ -1373,7 +1369,6 @@ WINDOWS-1258</property>
                 <child>
                   <widget class="GtkLabel" id="label39">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">label</property>
                   </widget>
                   <packing>
                     <property name="position">6</property>
