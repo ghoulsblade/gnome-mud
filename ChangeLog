@@ -1,5 +1,12 @@
 2009-03-27  Les Harris  <lharris@gnome.org>
 
+	* src/mud-connection-view.c (mud_connection_view_network_event_cb),
+	(mud_connection_view_feed_text): Reversed the order of the feeds to
+	the terminals. Fixes a problem where it would appear the 'real'
+	terminal had a screen clear.
+
+2009-03-27  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c: Fixed an issue where the splitview would
 	auto-split when the password entry was hidden.
 	* src/mud-window.c: Added new signal, toggled-off which emits when the

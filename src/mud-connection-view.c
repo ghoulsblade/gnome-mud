@@ -1382,11 +1382,11 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
                     {
                         if(g_str_equal(view->priv->current_output, "main"))
                         {
-                            vte_terminal_feed(view->terminal,
+                            vte_terminal_feed(VTE_TERMINAL(view->priv->terminal2),
                                               buf,
                                               length);
 
-                            vte_terminal_feed(VTE_TERMINAL(view->priv->terminal2),
+                            vte_terminal_feed(view->terminal,
                                               buf,
                                               length);
 
@@ -1402,11 +1402,11 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
                                 mud_subwindow_feed(sub, buf, length);
                             else
                             {
-                                vte_terminal_feed(view->terminal,
+                                vte_terminal_feed(VTE_TERMINAL(view->priv->terminal2),
                                         buf,
                                         length);
 
-                                vte_terminal_feed(VTE_TERMINAL(view->priv->terminal2),
+                                vte_terminal_feed(view->terminal,
                                         buf,
                                         length);
 
@@ -1567,8 +1567,8 @@ mud_connection_view_feed_text(MudConnectionView *view, gchar *message)
     utils_str_replace(buf, "\r", "");
     utils_str_replace(buf, "\n", "\n\r");
 
-    vte_terminal_feed(view->terminal, buf, strlen(buf));
     vte_terminal_feed(VTE_TERMINAL(view->priv->terminal2), buf, strlen(buf));
+    vte_terminal_feed(view->terminal, buf, strlen(buf));
 }
 
 static void
