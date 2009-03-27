@@ -329,6 +329,7 @@ mud_profile_copy_preferences(MudProfile *from, MudProfile *to)
     mud_profile_set_echotext(to, from->preferences->EchoText);
     mud_profile_set_keeptext(to, from->preferences->KeepText);
     mud_profile_set_disablekeys(to, from->preferences->DisableKeys);
+    mud_profile_set_scrolloutput(to, from->preferences->ScrollOnOutput);
     mud_profile_set_commdev(to, from->preferences->CommDev);
     mud_profile_set_scrollback(to, from->preferences->Scrollback);
     mud_profile_set_font(to, from->preferences->FontName);
@@ -429,6 +430,7 @@ mud_profile_load_preferences(MudProfile *profile)
     GCONF_GET_BOOLEAN(echo,     		functionality,	EchoText);
     GCONF_GET_BOOLEAN(keeptext,			functionality,	KeepText);
     GCONF_GET_BOOLEAN(system_keys,		functionality,	DisableKeys);
+    GCONF_GET_BOOLEAN(scroll_on_output,	functionality,	ScrollOnOutput);
     GCONF_GET_INT(flush_interval,		functionality,	FlushInterval);
     GCONF_GET_STRING(encoding,          functionality,  Encoding);
     GCONF_GET_STRING(proxy_version,     functionality,  ProxyVersion);
@@ -568,6 +570,19 @@ mud_profile_gconf_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry,
         {
             mask.DisableKeys = TRUE;
             profile->priv->preferences.DisableKeys = bool_setting;
+        }
+    }
+    else if(strcmp(key, "scroll_on_output") == 0)
+    {
+        bool_setting = FALSE;
+
+        if(val && val->type == GCONF_VALUE_BOOL)
+            bool_setting = gconf_value_get_bool(val);
+
+        if(bool_setting != profile->priv->preferences.ScrollOnOutput)
+        {
+            mask.ScrollOnOutput = TRUE;
+            profile->priv->preferences.ScrollOnOutput = bool_setting;
         }
     }
     else if(strcmp(key, "use_proxy") == 0)
@@ -792,6 +807,15 @@ set_Encoding(MudProfile *profile, const gchar *candidate)
     }
 
     return FALSE;
+}
+
+void
+mud_profile_set_scrolloutput (MudProfile *profile, gboolean value)
+{
+    const gchar *key = mud_profile_gconf_get_key(profile, "functionality/scroll_on_output");
+    RETURN_IF_NOTIFYING(profile);
+
+    gconf_client_set_bool(profile->priv->gconf_client, key, value, NULL);
 }
 
 void

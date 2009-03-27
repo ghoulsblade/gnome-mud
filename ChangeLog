@@ -1,5 +1,14 @@
 2009-03-27  Les Harris  <lharris@gnome.org>
 
+	* gnome-mud.schemas.in:
+	* src/mud-connection-view.c:
+	* src/mud-profile.c:
+	* src/mud-subwindow.c:
+	* src/mud-window-prefs.c:
+	* ui/prefs.glade: Reverted splitview changes.
+
+2009-03-27  Les Harris  <lharris@gnome.org>
+
 	* src/mud-connection-view.c (mud_connection_view_network_event_cb),
 	(mud_connection_view_feed_text): Reversed the order of the feeds to
 	the terminals. Fixes a problem where it would appear the 'real'

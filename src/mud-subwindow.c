@@ -155,6 +155,7 @@ const gchar *mud_subwindow_get_history_item(MudSubwindow *self,
 static void mud_subwindow_update_geometry (MudSubwindow *window);
 static void mud_subwindow_set_terminal_colors(MudSubwindow *self);
 static void mud_subwindow_set_terminal_scrollback(MudSubwindow *self);
+static void mud_subwindow_set_terminal_scrolloutput(MudSubwindow *self);
 static void mud_subwindow_set_terminal_font(MudSubwindow *self);
 
 /* MudSubwindow class functions */
@@ -416,8 +417,6 @@ mud_subwindow_constructor (GType gtype,
 
     vte_terminal_set_cursor_blink_mode(VTE_TERMINAL(self->priv->terminal),
                                        VTE_CURSOR_BLINK_OFF);
-
-    vte_terminal_set_scroll_on_output(VTE_TERMINAL(self->priv->terminal), TRUE);
 
     vte_terminal_set_size(VTE_TERMINAL(self->priv->terminal),
                                        self->priv->initial_width,
@@ -729,6 +728,16 @@ mud_subwindow_set_terminal_scrollback(MudSubwindow *self)
 
     vte_terminal_set_scrollback_lines(VTE_TERMINAL(self->priv->terminal),
             self->priv->parent_view->profile->preferences->Scrollback);
+}
+
+static void
+mud_subwindow_set_terminal_scrolloutput(MudSubwindow *self)
+{
+    g_return_if_fail(MUD_IS_SUBWINDOW(self));
+
+    if(self->priv->terminal)
+        vte_terminal_set_scroll_on_output(VTE_TERMINAL(self->priv->terminal),
+                self->priv->parent_view->profile->preferences->ScrollOnOutput);
 }
 
 static void
@@ -1069,6 +1078,7 @@ mud_subwindow_reread_profile(MudSubwindow *self)
 
     mud_subwindow_set_terminal_colors(self);
     mud_subwindow_set_terminal_scrollback(self);
+    mud_subwindow_set_terminal_scrolloutput(self);
     mud_subwindow_set_terminal_font(self);
 }
 
