@@ -249,21 +249,6 @@
 		</schema>
 
 		<schema>
-			<key>/schemas/apps/gnome-mud/functionality/scroll_on_output</key>
-			<applyto>/apps/gnome-mud/functionality/scroll_on_output</applyto>
-			<owner>gnome-mud</owner>
-			<type>bool</type>
-			<default>false</default>
-			<locale name="C">
-				<short>Whether to scroll to the bottom when there's new output</short>
-				<long>
-				 If enabled, whenever there's new output the
-				 terminal will be scrolled to the bottom.
-				</long>
-			</locale>
-		</schema>
-
-		<schema>
 			<key>/schemas/apps/gnome-mud/functionality/last_log_dir</key>
 			<applyto>/apps/gnome-mud/functionality/last_log_dir</applyto>
 			<owner>gnome-mud</owner>

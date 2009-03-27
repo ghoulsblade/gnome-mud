@@ -26,6 +26,7 @@
 #include <glib-object.h>
 
 #include "mud-line-buffer.h"
+#include "gnome-mud-marshallers.h"
 
 struct _MudLineBufferPrivate
 {
@@ -120,16 +121,17 @@ mud_line_buffer_class_init (MudLineBufferClass *klass)
 
     /* Register Signals */
     mud_line_buffer_signal[LINE_ADDED] =
-        g_signal_newv("line-added",
-                      G_TYPE_FROM_CLASS(object_class),
-                      G_SIGNAL_RUN_LAST | G_SIGNAL_NO_HOOKS,
-                      NULL,
-                      NULL,
-                      NULL,
-                      g_cclosure_marshal_VOID__VOID,
-                      G_TYPE_NONE,
-                      0,
-                      NULL);
+        g_signal_new("line-added",
+                     G_TYPE_FROM_CLASS(object_class),
+                     G_SIGNAL_RUN_LAST | G_SIGNAL_NO_HOOKS,
+                     0,
+                     NULL,
+                     NULL,
+                     gnome_mud_cclosure_VOID__STRING_UINT,
+                     G_TYPE_NONE,
+                     2,
+                     G_TYPE_STRING,
+                     G_TYPE_UINT);
 
     mud_line_buffer_signal[LINE_REMOVED] =
         g_signal_newv("line-removed",
@@ -150,10 +152,11 @@ mud_line_buffer_class_init (MudLineBufferClass *klass)
                       0,
                       NULL,
                       NULL,
-                      g_cclosure_marshal_VOID__STRING,
+                      gnome_mud_cclosure_VOID__STRING_UINT,
                       G_TYPE_NONE,
-                      1,
-                      G_TYPE_STRING);
+                      2,
+                      G_TYPE_STRING,
+                      G_TYPE_UINT);
 }
 
 static void
@@ -288,7 +291,7 @@ mud_line_buffer_add_data(MudLineBuffer *self,
 
             self->priv->line_buffer =
                 g_list_append(self->priv->line_buffer,
-                              g_string_free(line, FALSE));
+                              g_strdup(line->str));
 
             if(self->priv->length == self->priv->maximum_line_count + 1)
             {
@@ -309,7 +312,11 @@ mud_line_buffer_add_data(MudLineBuffer *self,
 
             g_signal_emit(self,
                           mud_line_buffer_signal[LINE_ADDED],
-                          0);
+                          0,
+                          line->str,
+                          line->len);
+
+            g_string_free(line, TRUE);
 
             line = g_string_new(NULL);
         }
@@ -324,7 +331,8 @@ mud_line_buffer_add_data(MudLineBuffer *self,
         g_signal_emit(self,
                       mud_line_buffer_signal[PARTIAL_LINE_RECEIVED],
                       0,
-                      line->str);
+                      line->str,
+                      line->len);
     }
 
     g_string_free(line, TRUE);
@@ -424,6 +432,25 @@ mud_line_buffer_get_range(MudLineBuffer *self,
     }
 
     return g_string_free(range, (range->len == 0) );
+}
+
+void
+mud_line_buffer_remove_line(MudLineBuffer *self,
+                            guint line)
+{
+    const gchar *remove_data;
+
+    g_return_if_fail(MUD_IS_LINE_BUFFER(self));
+
+    remove_data = mud_line_buffer_get_line(self, line);
+
+    if(!remove_data)
+        return;
+
+    self->priv->line_buffer = g_list_remove(self->priv->line_buffer,
+                                            remove_data);
+
+    g_free((gchar *)remove_data); // Somewhat naughty. But the line is removed.
 }
 
 /* Private Methods */

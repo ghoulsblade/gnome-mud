@@ -1,3 +1,28 @@
+2009-03-27  Les Harris  <lharris@gnome.org>
+
+	* configure.ac: Added check for glib-mkenums.
+	* gnome-mud.schemas.in: Removed scroll_output schema.
+	* src/Makefile.am: Added the autofoo for glib-mkenums.
+	* src/gnome-mud-builtins.c.template:
+	* src/gnome-mud-builtins.h.template: New files which create GType
+	derived enumerations.
+	* src/gnome-mud-marshallers.list: Added VOID:STRING,UINT
+	* src/gnome-mud.c (main): Added temp trigger debug code, will go away
+	later.
+	* src/mud-connection-view.c: Removed scrolloutput functions. Added
+	second terminal so we can have a split window.
+	* src/mud-line-buffer.[ch]: Added a remove line method.  Changed
+	signals to emit the line added as well.
+	* src/mud-log.c: Updated line_added callback to use new signal
+	prototype. Now pops and inserts spans off the queue when color is
+	enabled and the log closes.
+	* src/mud-window-prefs.c
+	* src/mud-profile.[ch]:
+	* src/mud-subwindow.c: Removed scrolloutput related code.
+	* src/mud-trigger.[ch]: Basic trigger functionality added.
+	* ui/muds.glade: Made connections window center again.
+	* ui/prefs.glade: Removed scroll output checkbox.
+
 2009-03-26  Les Harris  <lharris@gnome.org>
 
 	* ui/prefs.glade: Marked the encoding list and proxy versions as not

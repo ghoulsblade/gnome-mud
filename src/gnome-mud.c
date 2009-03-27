@@ -39,6 +39,7 @@
 #include "mud-window.h"
 #include "utils.h"
 #include "debug-logger.h"
+#include "mud-trigger.h"
 
 gint
 main (gint argc, char *argv[])
@@ -118,6 +119,23 @@ main (gint argc, char *argv[])
 
     /* Let 'er rip */
     window = g_object_new(MUD_TYPE_WINDOW, NULL);
+
+    {
+        MudTrigger *trigger = g_object_new(MUD_TYPE_TRIGGER,
+                                           "trigger-key", "test",
+                                           "profile-key", "test",
+                                           "lines", 3,
+                                           "action-type", MUD_TRIGGER_ACTION_TEXT,
+                                           "action", "\n=== %0 ===\n=== %1 ===\n",
+                                           NULL);
+
+        gchar *test_line = g_strdup("Foo says, \"Bar\"\n");
+
+        mud_trigger_add_data(trigger, test_line, strlen(test_line));
+
+        g_free(test_line);
+        g_object_unref(trigger);
+    }
 
     gtk_main();
 

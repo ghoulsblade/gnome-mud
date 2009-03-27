@@ -57,7 +57,37 @@ typedef enum
     MUD_TRIGGER_TYPE_CONDITION
 } MudTriggerType;
 
+typedef enum
+{
+    MUD_TRIGGER_ACTION_TEXT,
+    MUD_TRIGGER_ACTION_VAR,
+    MUD_TRIGGER_ACTION_LUA
+} MudTriggerAction;
+
+typedef enum
+{
+    MUD_TRIGGER_CONDITION_TEXT,
+    MUD_TRIGGER_CONDITION_VAR,
+    MUD_TRIGGER_CONDITION_LUA
+} MudTriggerConditionType;
+
+typedef struct MudTriggerCondition
+{
+    MudTriggerConditionType type;
+
+    union
+    {
+        //MudVariable *var;
+        gchar *data;
+    };
+
+} MudTriggerCondition;
+
 GType         mud_trigger_get_type (void);
+
+void mud_trigger_add_data(MudTrigger *self,
+                          const gchar *data,
+                          guint length);
 
 G_END_DECLS
 

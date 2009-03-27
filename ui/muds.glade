@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <glade-interface>
-  <!-- interface-requires gtk+ 2.10 -->
+  <!-- interface-requires gtk+ 2.14 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="mudviewwindow">
     <property name="visible">True</property>
     <property name="title" translatable="yes">Connections</property>
-    <property name="window_position">center-on-parent</property>
+    <property name="window_position">center-always</property>
     <property name="default_width">600</property>
     <property name="default_height">400</property>
     <property name="skip_taskbar_hint">True</property>

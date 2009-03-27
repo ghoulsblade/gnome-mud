@@ -52,7 +52,12 @@ struct _MudConnectionViewPrivate
     GtkWidget *dl_label;
     GtkWidget *dl_button;
 
+    GtkWidget *pane;
+    GtkWidget *terminal2;
+
     GString *processed;
+    gboolean hiding;
+    gdouble old_adjustment;
     
     gulong signal;
     gulong signal_profile_changed;
@@ -134,12 +139,17 @@ static void mud_connection_view_close_current_cb(GtkWidget *menu_item,
 static void mud_connection_view_profile_changed_cb(MudProfile *profile,
                                                    MudProfileMask *mask,
                                                    MudConnectionView *view);
+static void mud_connection_view_value_changed_cb(GtkAdjustment *adjustment,
+                                                 MudConnectionView *view);
+static void mud_connection_view_value_changed_term2_cb(GtkAdjustment *adjustment,
+                                                 MudConnectionView *view);
+static void mud_connection_view_changed_cb(GtkAdjustment *adjustment,
+                                                 MudConnectionView *view);
 
 
 /* Private Methods */
 static void mud_connection_view_set_terminal_colors(MudConnectionView *view);
 static void mud_connection_view_set_terminal_scrollback(MudConnectionView *view);
-static void mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view);
 static void mud_connection_view_set_terminal_font(MudConnectionView *view);
 static GtkWidget* append_stock_menuitem(GtkWidget *menu, 
                                         const gchar *text,
@@ -367,7 +377,10 @@ mud_connection_view_init (MudConnectionView *self)
     self->local_echo = TRUE;
     self->remote_encode = FALSE;   
     self->connect_hook = FALSE;
-    self->connected = FALSE;;
+    self->connected = FALSE;
+
+    self->priv->hiding = FALSE;
+    self->priv->old_adjustment = 0.0;
 
     self->connect_string = NULL;
     self->remote_encoding = NULL;
@@ -450,7 +463,9 @@ mud_connection_view_constructor (GType gtype,
     box = gtk_vbox_new(FALSE, 0);
     self->ui_vbox = GTK_VBOX(box);
     self->terminal = VTE_TERMINAL(vte_terminal_new());
+    self->priv->terminal2 = vte_terminal_new();
     self->priv->scrollbar = gtk_vscrollbar_new(NULL);
+    self->priv->pane = gtk_vpaned_new();
     term_box = gtk_hbox_new(FALSE, 0);
 
 #ifdef ENABLE_GST
@@ -485,8 +500,15 @@ mud_connection_view_constructor (GType gtype,
 #endif
 
     /* Pack the Terminal UI */
+    
+    gtk_paned_add1(GTK_PANED(self->priv->pane),
+                   self->priv->terminal2);
+
+    gtk_paned_add2(GTK_PANED(self->priv->pane),
+                   GTK_WIDGET(self->terminal));
+
     gtk_box_pack_start(GTK_BOX(term_box),
-                       GTK_WIDGET(self->terminal),
+                       self->priv->pane,
                        TRUE,
                        TRUE,
                        0);
@@ -497,6 +519,11 @@ mud_connection_view_constructor (GType gtype,
                      FALSE,
                      0);
 
+    g_object_set(self->priv->pane,
+                 "position", 300,
+                 NULL);
+
+
     /* Pack into Main UI */
     gtk_box_pack_end(GTK_BOX(box), term_box, TRUE, TRUE, 0);
 
@@ -504,6 +531,21 @@ mud_connection_view_constructor (GType gtype,
     g_signal_connect(G_OBJECT(self->terminal),
                      "button_press_event",
                      G_CALLBACK(mud_connection_view_button_press_event),
+                     self);
+
+    g_signal_connect(self->terminal->adjustment,
+                     "value-changed",
+                     G_CALLBACK(mud_connection_view_value_changed_cb),
+                     self);
+
+    g_signal_connect(VTE_TERMINAL(self->priv->terminal2)->adjustment,
+                     "value-changed",
+                     G_CALLBACK(mud_connection_view_value_changed_term2_cb),
+                     self);
+
+    g_signal_connect(self->terminal->adjustment,
+                     "changed",
+                     G_CALLBACK(mud_connection_view_changed_cb),
                      self);
 
     g_object_set_data(G_OBJECT(self->terminal),
@@ -516,11 +558,15 @@ mud_connection_view_constructor (GType gtype,
     /* Setup scrollbar */
     gtk_range_set_adjustment(
             GTK_RANGE(self->priv->scrollbar),
-            self->terminal->adjustment);
+            VTE_TERMINAL(self->priv->terminal2)->adjustment);
 
     /* Setup VTE */
     vte_terminal_set_encoding(self->terminal, "ISO-8859-1");
     vte_terminal_set_emulation(self->terminal, "xterm");
+    vte_terminal_set_encoding(VTE_TERMINAL(self->priv->terminal2), "ISO-8859-1");
+    vte_terminal_set_emulation(VTE_TERMINAL(self->priv->terminal2), "xterm");
+    vte_terminal_set_scroll_on_output(self->terminal, TRUE);
+    vte_terminal_set_scroll_on_output(VTE_TERMINAL(self->priv->terminal2), FALSE);
 
     g_object_get(self->window,
                  "window", &main_window,
@@ -935,6 +981,60 @@ mud_connection_view_get_property(GObject *object,
 
 /* Callbacks */
 static void
+mud_connection_view_changed_cb(GtkAdjustment *adjustment,
+                                     MudConnectionView *view)
+{
+    if(view->priv->hiding)
+    {
+        view->priv->hiding = FALSE;
+        gtk_adjustment_set_value(adjustment,
+                                 adjustment->upper - adjustment->page_size);
+    }
+}
+
+
+static void
+mud_connection_view_value_changed_cb(GtkAdjustment *adjustment,
+                                     MudConnectionView *view)
+{
+    if(GTK_WIDGET_MAPPED(view->priv->terminal2))
+        gtk_adjustment_set_value(adjustment,
+                                 adjustment->upper - adjustment->page_size);
+
+    if(!GTK_WIDGET_MAPPED(view->priv->terminal2))
+    {
+        if(adjustment->value < view->priv->old_adjustment)
+            gtk_adjustment_set_value(VTE_TERMINAL(view->priv->terminal2)->adjustment,
+                    VTE_TERMINAL(view->priv->terminal2)->adjustment->value - 1);
+        else
+            gtk_adjustment_set_value(VTE_TERMINAL(view->priv->terminal2)->adjustment,
+                    VTE_TERMINAL(view->priv->terminal2)->adjustment->upper);
+
+        view->priv->old_adjustment = adjustment->value;
+    }
+}
+
+static void
+mud_connection_view_value_changed_term2_cb(GtkAdjustment *adjustment,
+                                     MudConnectionView *view)
+{
+    gtk_adjustment_set_value(view->terminal->adjustment,
+                             view->terminal->adjustment->upper);
+
+    if(adjustment->value + adjustment->page_size != adjustment->upper)
+        gtk_widget_show(view->priv->terminal2);
+    else
+    {
+        if(GTK_WIDGET_MAPPED(view->priv->terminal2))
+        {
+            view->priv->hiding = TRUE;
+            gtk_widget_hide(view->priv->terminal2);
+            gtk_adjustment_set_value(adjustment, adjustment->upper);
+        }
+    }
+}
+
+static void
 choose_profile_callback(GtkWidget *menu_item, MudConnectionView *view)
 {
     MudProfile *profile;
@@ -962,8 +1062,6 @@ mud_connection_view_profile_changed_cb(MudProfile *profile, MudProfileMask *mask
 {
     GList *entry;
 
-    if (mask->ScrollOnOutput)
-        mud_connection_view_set_terminal_scrolloutput(view);
     if (mask->Scrollback)
         mud_connection_view_set_terminal_scrollback(view);
     if (mask->FontName)
@@ -1203,6 +1301,10 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
                                               buf,
                                               length);
 
+                            vte_terminal_feed(VTE_TERMINAL(view->priv->terminal2),
+                                              buf,
+                                              length);
+
                             mud_window_toggle_tab_icon(view->window, view);
                         }
                         else
@@ -1216,6 +1318,10 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
                             else
                             {
                                 vte_terminal_feed(view->terminal,
+                                        buf,
+                                        length);
+
+                                vte_terminal_feed(VTE_TERMINAL(view->priv->terminal2),
                                         buf,
                                         length);
 
@@ -1377,6 +1483,7 @@ mud_connection_view_feed_text(MudConnectionView *view, gchar *message)
     utils_str_replace(buf, "\n", "\n\r");
 
     vte_terminal_feed(view->terminal, buf, strlen(buf));
+    vte_terminal_feed(VTE_TERMINAL(view->priv->terminal2), buf, strlen(buf));
 }
 
 static void
@@ -1386,7 +1493,6 @@ mud_connection_view_reread_profile(MudConnectionView *view)
 
     mud_connection_view_set_terminal_colors(view);
     mud_connection_view_set_terminal_scrollback(view);
-    mud_connection_view_set_terminal_scrolloutput(view);
     mud_connection_view_set_terminal_font(view);
 }
 
@@ -1399,6 +1505,11 @@ mud_connection_view_set_terminal_colors(MudConnectionView *view)
             &view->profile->preferences->Foreground,
             &view->profile->preferences->Background,
             view->profile->preferences->Colors, C_MAX);
+
+    vte_terminal_set_colors(VTE_TERMINAL(view->priv->terminal2),
+            &view->profile->preferences->Foreground,
+            &view->profile->preferences->Background,
+            view->profile->preferences->Colors, C_MAX);
 }
 
 static void
@@ -1408,16 +1519,9 @@ mud_connection_view_set_terminal_scrollback(MudConnectionView *view)
 
     vte_terminal_set_scrollback_lines(view->terminal,
             view->profile->preferences->Scrollback);
-}
 
-static void
-mud_connection_view_set_terminal_scrolloutput(MudConnectionView *view)
-{
-    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
-
-    if(view->terminal)
-        vte_terminal_set_scroll_on_output(view->terminal,
-                view->profile->preferences->ScrollOnOutput);
+    vte_terminal_set_scrollback_lines(VTE_TERMINAL(view->priv->terminal2),
+            view->profile->preferences->Scrollback);
 }
 
 static void
@@ -1437,6 +1541,7 @@ mud_connection_view_set_terminal_font(MudConnectionView *view)
         desc = pango_font_description_from_string("Monospace 10");
 
     vte_terminal_set_font(view->terminal, desc);
+    vte_terminal_set_font(VTE_TERMINAL(view->priv->terminal2), desc);
 }
 
 /* Public Methods */
@@ -1711,6 +1816,7 @@ mud_connection_view_add_text(MudConnectionView *view, gchar *message, enum MudCo
         text = NULL;
     }
 
+    vte_terminal_set_encoding(VTE_TERMINAL(view->priv->terminal2), encoding);
     vte_terminal_set_encoding(view->terminal, encoding);
 
     g_free(encoding);

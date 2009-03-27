@@ -33,6 +33,8 @@ gnome_mud_SOURCES =				\
 	ecma48.h				\
 	gnome-mud.c				\
 	gnome-mud.h				\
+	gnome-mud-builtins.c			\
+	gnome-mud-builtins.h			\
 	gnome-mud-marshallers.c			\
 	gnome-mud-marshallers.h			\
 	gnome-mud-icons.h			\
@@ -75,10 +77,17 @@ gnome_mud_SOURCES =				\
 
 BUILT_SOURCES = \
 	gnome-mud-marshallers.c \
-	gnome-mud-marshallers.h
+	gnome-mud-marshallers.h \
+	gnome-mud-builtins.c \
+	gnome-mud-builtins.h
+
+enumheaders = \
+	mud-trigger.h
 
 EXTRA_DIST = \
-	gnome-mud-marshallers.list
+	gnome-mud-marshallers.list \
+	gnome-mud-builtins.h.template \
+	gnome-mud-builtins.c.template
 
 CLEANFILES = \
 	$(BUILT_SOURCES)
@@ -94,4 +103,16 @@ gnome-mud-marshallers.c: gnome-mud-marshallers.list
 	    gnome-mud-marshallers.list > gnome-mud-marshallers.c.tmp \
 	    && mv gnome-mud-marshallers.c.tmp gnome-mud-marshallers.c ) \
 	    || ( rm -f gnome-mud-marshallers.c.tmp && exit 1 )
+
+gnome-mud-builtins.h: $(enumheaders) gnome-mud-builtins.h.template
+	( $(GLIB_MKENUMS) --template gnome-mud-builtins.h.template \
+	    $(enumheaders) > gnome-mud-builtins.h.tmp \
+	    && mv gnome-mud-builtins.h.tmp gnome-mud-builtins.h ) \
+	    || ( rm -f gnome-mud-builtins.h.tmp && exit 1 )
+
+gnome-mud-builtins.c: $(enumheaders) gnome-mud-builtins.c.template
+	( $(GLIB_MKENUMS) --template gnome-mud-builtins.c.template \
+	    $(enumheaders) > gnome-mud-builtins.c.tmp \
+	    && mv gnome-mud-builtins.c.tmp gnome-mud-builtins.c ) \
+	    || ( rm -f gnome-mud-builtins.c.tmp && exit 1 )
 

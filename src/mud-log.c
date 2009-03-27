@@ -127,7 +127,10 @@ static void mud_log_prev_spin_changed_cb(GtkSpinButton *button, MudLog *self);
 static gboolean mud_log_keypress_cb(GtkWidget *widget,
                                     GdkEventKey *event,
                                     MudLog *self);
-static void mud_log_line_added_cb(MudLineBuffer *buffer, MudLog *self);
+static void mud_log_line_added_cb(MudLineBuffer *buffer,
+                                  const gchar *line,
+                                  guint length,
+                                  MudLog *self);
 
 /* Private Methods */
 static void mud_log_write(MudLog *log, const gchar *data, gsize size);
@@ -580,19 +583,14 @@ mud_log_prev_spin_changed_cb(GtkSpinButton *button,
 
 static void
 mud_log_line_added_cb(MudLineBuffer *buffer,
+                      const gchar *line,
+                      guint length,
                       MudLog *self)
 {
-    gulong length;
-    const gchar *line;
-
     if(!self->priv->done)
     {
-        g_object_get(buffer, "length", &length, NULL);
-
-        line = mud_line_buffer_get_line(buffer, length - 1);
-
-        if(line && strlen(line) != 0) 
-            mud_log_write(self, line, strlen(line));
+        if(line && length != 0) 
+            mud_log_write(self, line, length);
 
         if(self->priv->include_next)
         {
@@ -826,6 +824,15 @@ mud_log_close(MudLog *log)
     time_t t;
 
     g_return_if_fail(MUD_IS_LOG(log));
+
+    if(log->priv->color)
+    {
+        while(!g_queue_is_empty(log->priv->span_queue))
+        {
+            mud_log_write(log, "</span>", strlen("</span>"));
+            g_queue_pop_head(log->priv->span_queue);
+        }
+    }
 
     time(&t);
     strftime(buf, 255,

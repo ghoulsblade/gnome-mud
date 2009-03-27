@@ -66,6 +66,9 @@ gchar *       mud_line_buffer_get_range(MudLineBuffer *self,
                                         guint start,
                                         guint end);
 
+void          mud_line_buffer_remove_line(MudLineBuffer *self,
+                                          guint line);
+
 G_END_DECLS
 
 #endif // MUD_LINE_BUFFER_H

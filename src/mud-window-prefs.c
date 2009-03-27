@@ -52,7 +52,6 @@ struct _MudWindowPrefsPrivate
     GtkWidget *keep_check;
     GtkWidget *div_entry;
     GtkWidget *encoding_combo;
-    GtkWidget *scroll_check;
     GtkWidget *lines_spin;
     GtkWidget *font_button;
     GtkWidget *fore_button;
@@ -129,8 +128,6 @@ static void mud_window_prefs_construct_terminal_tab(MudWindowPrefs *self);
 // Update Functions
 static void mud_window_prefs_update_commdev(MudWindowPrefs *self,
                                             MudPrefs *preferences);
-static void mud_window_prefs_update_scrolloutput(MudWindowPrefs *self,
-                                                 MudPrefs *preferences);
 static void mud_window_prefs_update_encoding_combo(MudWindowPrefs *self,
                                                    MudPrefs *preferences);
 static void mud_window_prefs_update_keeptext(MudWindowPrefs *self,
@@ -156,8 +153,6 @@ static void mud_window_prefs_echo_cb(GtkWidget *widget,
                                      MudWindowPrefs *window);
 static void mud_window_prefs_keeptext_cb(GtkWidget *widget,
                                          MudWindowPrefs *window);
-static void mud_window_prefs_scrolloutput_cb(GtkWidget *widget,
-                                             MudWindowPrefs *window);
 static void mud_window_prefs_commdev_cb(GtkWidget *widget,
                                         MudWindowPrefs *window);
 static void mud_window_prefs_scrollback_cb(GtkWidget *widget,
@@ -425,7 +420,6 @@ mud_window_prefs_construct_window(MudWindowPrefs *self)
     self->priv->keep_check     = glade_xml_get_widget(glade, "cb_keep");
     self->priv->div_entry      = glade_xml_get_widget(glade, "entry_commdev");
     self->priv->encoding_combo = glade_xml_get_widget(glade, "encoding_combo");
-    self->priv->scroll_check   = glade_xml_get_widget(glade, "cb_scrollback");
     self->priv->lines_spin     = glade_xml_get_widget(glade, "sb_lines");
     self->priv->font_button    = glade_xml_get_widget(glade, "fp_font");
     self->priv->fore_button    = glade_xml_get_widget(glade, "cb_foreground");
@@ -483,8 +477,6 @@ mud_window_prefs_changed_cb(MudProfile *profile,
         mud_window_prefs_update_echotext(window, profile->preferences);
     if (mask->KeepText)
         mud_window_prefs_update_keeptext(window, profile->preferences);
-    if (mask->ScrollOnOutput)
-        mud_window_prefs_update_scrolloutput(window, profile->preferences);
     if (mask->CommDev)
         mud_window_prefs_update_commdev(window, profile->preferences);
     if (mask->Scrollback)
@@ -518,7 +510,6 @@ mud_window_prefs_set_preferences(MudWindowPrefs *self)
     // Terminal
     mud_window_prefs_update_echotext(self, self->priv->profile->preferences);
     mud_window_prefs_update_keeptext(self, self->priv->profile->preferences);
-    mud_window_prefs_update_scrolloutput(self, self->priv->profile->preferences);
     mud_window_prefs_update_commdev(self, self->priv->profile->preferences);
     mud_window_prefs_update_scrollback(self, self->priv->profile->preferences);
     mud_window_prefs_update_font(self, self->priv->profile->preferences);
@@ -551,11 +542,6 @@ mud_window_prefs_construct_terminal_tab(MudWindowPrefs *self)
                      G_CALLBACK(mud_window_prefs_keeptext_cb),
                      self);
 
-    g_signal_connect(self->priv->scroll_check,
-                     "toggled",
-                     G_CALLBACK(mud_window_prefs_scrolloutput_cb),
-                     self);
-    
     g_signal_connect(self->priv->div_entry,
                      "changed",
                      G_CALLBACK(mud_window_prefs_commdev_cb),
@@ -600,14 +586,6 @@ mud_window_prefs_update_commdev(MudWindowPrefs *self,
 {
     gtk_entry_set_text(GTK_ENTRY(self->priv->div_entry),
                        preferences->CommDev);
-}
-
-static void
-mud_window_prefs_update_scrolloutput(MudWindowPrefs *self,
-                                     MudPrefs *preferences)
-{
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(self->priv->scroll_check),
-                                 preferences->ScrollOnOutput);
 }
 
 static void
@@ -725,16 +703,6 @@ mud_window_prefs_update_colors(MudWindowPrefs *self,
 }
 
 // Callbacks
-static void
-mud_window_prefs_scrolloutput_cb(GtkWidget *widget,
-                                 MudWindowPrefs *self)
-{
-    gboolean value = GTK_TOGGLE_BUTTON(widget)->active ? TRUE : FALSE;
-    RETURN_IF_CHANGING_PROFILES(self);
-
-    mud_profile_set_scrolloutput(self->priv->profile, value);
-}
-
 static void
 mud_window_prefs_keeptext_cb(GtkWidget *widget,
                              MudWindowPrefs *self)

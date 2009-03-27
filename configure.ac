@@ -83,6 +83,8 @@ AC_SUBST(GMUD_LIBS)
 
 GLIB_GENMARSHAL="$($PKG_CONFIG --variable=glib_genmarshal glib-2.0)"
 AC_SUBST([GLIB_GENMARSHAL])
+GLIB_MKENUMS="$($PKG_CONFIG --variable=glib_mkenums glib-2.0)"
+AC_SUBST([GLIB_MKENUMS])
 
 AC_DEFINE(HAVE_LIBSM, 1, [Define this to have session management.])
 
