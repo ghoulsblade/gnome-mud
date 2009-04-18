@@ -1,3 +1,7 @@
+2009-04-18  Les Harris  <lharris@gnome.org>
+
+	* gnome-mud.doap: New meta information file for the gnome git repo.
+
 2009-03-27  Les Harris  <lharris@gnome.org>
 
 	* src/mud-profile.h: Readded ScrollOnOutput variables.
