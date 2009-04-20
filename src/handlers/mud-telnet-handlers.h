@@ -44,7 +44,6 @@ G_BEGIN_DECLS
 #include "mud-telnet-new-environ.h"
 #include "mud-telnet-ttype.h"
 #include "mud-telnet-zmp.h"
-#include "mud-telnet-aardwolf.h"
 
 G_END_DECLS
 
