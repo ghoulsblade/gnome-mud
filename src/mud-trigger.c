@@ -29,6 +29,7 @@
 
 #include "mud-line-buffer.h"
 #include "mud-trigger.h"
+#include "mud-subwindow.h"
 #include "gnome-mud-builtins.h"
 #include "utils.h"
 
@@ -40,9 +41,11 @@ struct _MudTriggerPrivate
     gulong lines;
 
     gboolean enabled;
-    gboolean gag_output;
+    gboolean gag;
     
-    gboolean multiline;
+    /* Simple Text Triggers */
+    GRegex *simple_regex;
+    gchar *match_string;
 
     /* Glob Triggers */
     GPatternSpec *glob;
@@ -56,8 +59,11 @@ struct _MudTriggerPrivate
     /* Condition Triggers */
     GList *condition_items;
 
-    /* Filter Child */
-    MudTrigger *child;
+    /* Filter */
+    gboolean filter;
+    GList *filter_set;
+    guint filter_line;
+    gboolean filter_active_step;
 
     /* Key names */
     gchar *profile_key;
@@ -69,6 +75,14 @@ struct _MudTriggerPrivate
 
     /* Variables */
     GList *variables;
+
+    /* Subwindow */
+    GList *windows;
+    gchar *title;
+    guint width;
+    guint height;
+    gboolean input;
+    gboolean scroll;
 };
 
 enum
@@ -109,7 +123,7 @@ static void mud_trigger_get_property(GObject *object,
 
 // Callbacks
 static void mud_trigger_line_added_cb(MudLineBuffer *buffer,
-                                      const gchar *line,
+                                      MudLineBufferLine *line,
                                       guint length,
                                       MudTrigger *self);
 
@@ -192,8 +206,7 @@ mud_trigger_init (MudTrigger *self)
 
     self->priv->line_buffer = NULL;
 
-    self->priv->gag_output = FALSE;
-    self->priv->multiline = FALSE;
+    self->priv->gag = FALSE;
 
     self->priv->glob = NULL;
     self->priv->glob_string = NULL;
@@ -203,10 +216,12 @@ mud_trigger_init (MudTrigger *self)
 
     self->priv->condition_items = NULL;
 
-    self->priv->child = NULL;
-
     self->priv->trigger_key = NULL;
     self->priv->profile_key = NULL;
+
+    self->priv->windows = NULL;
+
+    self->priv->filter_set = NULL;
 }
 
 static GObject *
@@ -244,12 +259,23 @@ mud_trigger_constructor (GType gtype,
     g_printf("Action: %s\n", self->priv->action);
     g_printf("Action Type: %d\n", self->priv->action_type);
 
+    self->priv->type = MUD_TRIGGER_TYPE_SINGLE;
+    /*self->priv->regex = g_regex_new("^(.*) says, \n\"(.*)\"",
+                                    G_REGEX_OPTIMIZE|G_REGEX_MULTILINE|G_REGEX_DOTALL,
+                                    0,
+                                    NULL);*/
+
+    //self->priv->glob = g_pattern_spec_new("foo?*bar*");
+   
+    /*self->priv->simple_regex = g_regex_new("hello world",
+                                           G_REGEX_OPTIMIZE,
+                                           0,
+                                           NULL);*/
+
     self->priv->regex = g_regex_new("^(.*) says, \"(.*)\"",
                                     G_REGEX_OPTIMIZE,
-                                    G_REGEX_MATCH_NOTEMPTY,
+                                    0,
                                     NULL);
-                                     
-
     return obj;
 }
 
@@ -265,6 +291,9 @@ mud_trigger_finalize (GObject *object)
 
     if(self->priv->regex)
         g_regex_unref(self->priv->regex);
+
+    if(self->priv->glob)
+        g_pattern_spec_free(self->priv->glob);
 
     g_free(self->priv->trigger_key);
     g_free(self->priv->profile_key);
@@ -407,21 +436,22 @@ mud_trigger_add_data(MudTrigger *self,
     g_free(stripped);
 }
 
-// Callbacks
-static void
-mud_trigger_line_added_cb(MudLineBuffer *buffer,
-                          const gchar *line,
-                          guint length,
-                          MudTrigger *self)
+void
+mud_trigger_execute(MudTrigger *self,
+                    MudLineBufferLine *line,
+                    guint length)
 {
+    gchar *stripped = utils_strip_ansi(line->line);
+    guint len = strlen(stripped);
+
     switch(self->priv->type)
     {
         case MUD_TRIGGER_TYPE_SINGLE:
-            if(self->priv->regex)
+            if(self->priv->regex) // Regex match
             {
                 if(g_regex_match_full(self->priv->regex,
-                                      line,
-                                      length,
+                                      stripped,
+                                      len,
                                       0,
                                       0,
                                       &self->priv->info,
@@ -429,19 +459,149 @@ mud_trigger_line_added_cb(MudLineBuffer *buffer,
                 {
                     mud_trigger_do_action(self);
 
+                    if(self->priv->gag)
+                        line->gag = TRUE;
+
                     g_match_info_free(self->priv->info);
                 }
-
             }
-            break;
+            else if(self->priv->glob) // Glob match
+            {
+                if(g_pattern_match_string(self->priv->glob,
+                                          stripped))
+                {
+                    mud_trigger_do_action(self);
 
-        case MUD_TRIGGER_TYPE_MULTI:
-            break;
+                    if(self->priv->gag)
+                        line->gag = TRUE;
+                }
+            }
+            else if(self->priv->simple_regex) // Simple text match.
+            {
+                if(g_regex_match_full(self->priv->simple_regex,
+                                      stripped,
+                                      len,
+                                      0,
+                                      0,
+                                      &self->priv->info,
+                                      NULL))
+                {
+                    mud_trigger_do_action(self);
 
-        case MUD_TRIGGER_TYPE_FILTER:
+                    if(self->priv->gag)
+                        line->gag = TRUE;
+
+                    g_match_info_free(self->priv->info);
+                } 
+            }
+            else
+                g_return_if_reached();
+
             break;
 
         case MUD_TRIGGER_TYPE_CONDITION:
+            break;
+
+        default:
+            g_warn_if_reached();
+            break;
+    }
+
+    g_free(stripped);
+}
+
+void
+mud_trigger_add_filter_child(MudTrigger *self,
+                             MudTrigger *child)
+{
+    g_return_if_fail(MUD_IS_TRIGGER(self));
+    g_return_if_fail(MUD_IS_TRIGGER(child));
+
+    self->priv->filter_set = g_list_append(self->priv->filter_set,
+                                           child);
+}
+
+void
+mud_trigger_add_window(MudTrigger *self,
+                       const gchar *title,
+                       guint width,
+                       guint height,
+                       gboolean input,
+                       gboolean scroll)
+{
+
+}
+
+// Callbacks
+static void
+mud_trigger_line_added_cb(MudLineBuffer *buffer,
+                          MudLineBufferLine *line,
+                          guint length,
+                          MudTrigger *self)
+{
+    gulong len, max;
+    
+    switch(self->priv->type)
+    {
+        case MUD_TRIGGER_TYPE_MULTI:
+            g_object_get(self->priv->line_buffer,
+                         "length", &len,
+                         "maximum-line-count", &max,
+                         NULL);
+
+            if(len == max)
+            {
+                gchar *lines = mud_line_buffer_get_lines(self->priv->line_buffer);
+                guint lines_length = strlen(lines);
+
+                if(self->priv->regex) // Regex match
+                {
+                    if(g_regex_match_full(self->priv->regex,
+                                lines,
+                                lines_length,
+                                0,
+                                0,
+                                &self->priv->info,
+                                NULL))
+                    {
+                        mud_trigger_do_action(self);
+
+                        g_match_info_free(self->priv->info);
+                    }
+
+                }
+                else if(self->priv->glob) // Glob match
+                {
+                    if(g_pattern_match_string(self->priv->glob,
+                                lines))
+                    {
+                        mud_trigger_do_action(self);
+                    }
+                }
+                else if(self->priv->simple_regex) // Simple text match.
+                {
+                   if(g_regex_match_full(self->priv->simple_regex,
+                                         lines,
+                                         lines_length,
+                                         0,
+                                         0,
+                                         &self->priv->info,
+                                         NULL))
+                   {
+                       mud_trigger_do_action(self);
+
+                       g_match_info_free(self->priv->info);
+                   } 
+                }
+                else
+                    g_return_if_reached();
+
+                g_free(lines);
+            }
+            break;
+
+        default:
+            g_warn_if_reached();
             break;
     }
 }
@@ -462,10 +622,16 @@ mud_trigger_do_action(MudTrigger *self)
                    data = mud_trigger_parse(self,
                                             self->priv->action);
 
+                   // send to mud here
                    g_printf("Parsed: %s\n", data);
 
                    g_free(data);
-               } 
+               }
+               else
+               {
+                   // send to mud here
+                   g_printf("Action Fired: %s\n", self->priv->action);
+               }
             }
             break;
 
@@ -473,6 +639,7 @@ mud_trigger_do_action(MudTrigger *self)
             break;
 
         case MUD_TRIGGER_ACTION_LUA:
+            // coming in 0.13
             break;
     }
 }
@@ -480,10 +647,10 @@ mud_trigger_do_action(MudTrigger *self)
 static gchar * 
 mud_trigger_parse(MudTrigger *self, const gchar *data)
 {
-    guint length, matches_length, i;
     gint state;
-    GString *ret, *reg_num;
     gchar **matches;
+    GString *ret, *reg_num;
+    guint length, matches_length, i, j, num;
 
     length = strlen(data);
 
@@ -503,87 +670,62 @@ mud_trigger_parse(MudTrigger *self, const gchar *data)
         switch(state)
         {
             case PARSE_STATE_TEXT:
-                if(data[i] == '%')
-                {
-                    reg_num = g_string_new(NULL);
+                if(data[i] == '%' && i + 1 < length)
                     state = PARSE_STATE_REGISTER;
-                }
                 else
                     ret = g_string_append_c(ret, data[i]);
                 break;
 
             case PARSE_STATE_REGISTER:
-                if(!g_ascii_isdigit(data[i]) &&
-                   i + 1 < length &&
-                   !g_ascii_isdigit(data[i + 1]))
+                reg_num = g_string_new(NULL);
+
+                j = i;
+
+                while(TRUE)
                 {
-                    if(reg_num->len == 0)
-                    {
-                        ret = g_string_append_c(ret, data[i]);
+                    if(j == length || data[j] != '%')
+                        break;
 
-                        if(i != 0 && data[ i - 1 ] == '%')
-                            ret = g_string_append_c(ret, data[ i - 1 ]);
+                    ret = g_string_append_c(ret, data[j++]);
+                }
 
-                        g_string_free(reg_num, TRUE);
-                        reg_num = NULL;
+                if(j == length)
+                {
+                    if(data[j - 1] == '%')
+                        ret = g_string_append_c(ret, data[j - 1]);
 
-                        state = PARSE_STATE_TEXT;
-                    }
-                    else
-                    {
-                        guint num = atol(reg_num->str);
-                        gint check = i - reg_num->len - 2;
+                    i = j;
+                    break;
+                }
 
-                        if(num >= matches_length - 1)
-                        {
-                            if(i != 0 && check > -1 && data[check] == '%')
-                                ret = g_string_append_c(ret, '%');
+                for(; g_ascii_isdigit(data[j]) && j < length; j++)
+                    reg_num = g_string_append_c(reg_num, data[j]);
 
-                            ret = g_string_append(ret, _("#Submatch Out of Range#"));
-                            ret = g_string_append_c(ret, data[i]);
+                if(reg_num->len == 0) // No number, not a register.
+                {
+                    /* Append the % that got us here. */
+                    ret = g_string_append_c(ret, '%');
 
-                            state = PARSE_STATE_TEXT; 
-                        }
-                        else
-                        {
-                            if(i != 0 && check > -1 && data[check] == '%')
-                                ret = g_string_append_c(ret, '%');
-                            ret = g_string_append(ret, matches[num + 1]);
-                            ret = g_string_append_c(ret, data[i]);
+                    i = j - 1;
 
-                            state = PARSE_STATE_TEXT;
-                        }
+                    g_string_free(reg_num, TRUE);
 
-                        g_string_free(reg_num, TRUE);
-                        reg_num = NULL;
-                    }
+                    state = PARSE_STATE_TEXT;
                 }
                 else
                 {
-                    if(g_ascii_isdigit(data[i]))
-                        reg_num = g_string_append_c(reg_num, data[i]);
+                    i = j - 1;
 
-                    if(i + 1 == length)
-                    {
-                        if(reg_num->len != 0)
-                        {
-                            guint num  = atol(reg_num->str);
+                    num = atol(reg_num->str);
 
-                            if(num >= matches_length - 1)
-                            {
-                                ret = g_string_append(ret, _("#Submatch Out of Range#"));
-                                state = PARSE_STATE_TEXT; 
-                            }
-                            else
-                                ret = g_string_append(ret, matches[num + 1]);
-                        }
+                    g_string_free(reg_num, TRUE);
 
-                        if(!g_ascii_isdigit(data[i]))
-                            ret = g_string_append_c(ret, data[i]);
+                    if(num >= matches_length)
+                        ret = g_string_append(ret, _("#Submatch Out of Range#"));
+                    else
+                        ret = g_string_append(ret, matches[num]);
 
-                        g_string_free(reg_num, TRUE);
-                        reg_num = NULL;
-                    }
+                    state = PARSE_STATE_TEXT;
                 }
                 break;
         }

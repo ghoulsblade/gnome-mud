@@ -41,6 +41,8 @@ typedef struct _MudTelnetMsp            MudTelnetMsp;
 typedef struct _MudTelnetMspClass       MudTelnetMspClass;
 typedef struct _MudTelnetMspPrivate     MudTelnetMspPrivate;
 
+#include "mud-line-buffer.h"
+
 struct _MudTelnetMspClass
 {
     GObjectClass parent_class;
@@ -139,7 +141,7 @@ typedef struct MudMSPSound
 GType mud_telnet_msp_get_type (void);
 
 void mud_telnet_msp_download_item_free(MudMSPDownloadItem *item);
-GString *mud_telnet_msp_parse(MudTelnetMsp *self, GString *buf, gint *len);
+void mud_telnet_msp_parse(MudTelnetMsp *self, MudLineBufferLine *line);
 void mud_telnet_msp_stop_playing(MudTelnetMsp *self, MudMSPTypes type);
 void mud_telnet_msp_parser_clear(MudTelnetMsp *self);
 

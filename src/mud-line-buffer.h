@@ -49,25 +49,42 @@ struct _MudLineBuffer
     MudLineBufferPrivate *priv;
 };
 
-GType         mud_line_buffer_get_type (void);
+typedef struct MudLineBufferLine
+{
+    // Attributes
+    gboolean gag;
 
-void          mud_line_buffer_add_data(MudLineBuffer *self,
-                                       const gchar *data,
-                                       guint length);
+    // Line Data
+    gchar *line;
+} MudLineBufferLine;
 
-void          mud_line_buffer_flush(MudLineBuffer *self);
+GType           mud_line_buffer_get_type (void);
 
-gchar *       mud_line_buffer_get_lines(MudLineBuffer *self);
+void            mud_line_buffer_add_data(MudLineBuffer *self,
+                                         const gchar *data,
+                                         guint length);
 
-const gchar * mud_line_buffer_get_line(MudLineBuffer *self,
-                                       guint line);
+void            mud_line_buffer_flush(MudLineBuffer *self);
 
-gchar *       mud_line_buffer_get_range(MudLineBuffer *self,
-                                        guint start,
-                                        guint end);
+gchar *         mud_line_buffer_get_lines(MudLineBuffer *self);
 
-void          mud_line_buffer_remove_line(MudLineBuffer *self,
-                                          guint line);
+const GList *   mud_line_buffer_get_lines_with_attributes(MudLineBuffer *self);
+
+gchar *         mud_line_buffer_get_lines_and_partial(MudLineBuffer *self);
+
+const gchar *   mud_line_buffer_get_line(MudLineBuffer *self,
+                                         guint line);
+
+gchar *         mud_line_buffer_get_range(MudLineBuffer *self,
+                                          guint start,
+                                          guint end);
+
+void            mud_line_buffer_remove_line(MudLineBuffer *self,
+                                            guint line);
+
+void            mud_line_buffer_clear_partial_line(MudLineBuffer *self);
+
+gboolean        mud_line_buffer_partial_clear(MudLineBuffer *self);
 
 G_END_DECLS
 

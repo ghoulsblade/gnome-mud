@@ -51,7 +51,7 @@ struct _MudTelnetNaws
 
 GType mud_telnet_naws_get_type (void);
 
-
+void mud_telnet_naws_disconnect_signals(MudTelnetNaws *self);
 
 G_END_DECLS
 

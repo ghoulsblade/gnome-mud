@@ -55,7 +55,7 @@ struct _MudLog
 GType mud_log_get_type (void);
 
 /*< Public Methods >*/
-void mud_log_write_hook(MudLog *log, gchar *data, gint length);
+void mud_log_write_hook(MudLog *log, const gchar *data, gint length);
 void mud_log_open(MudLog *log);
 void mud_log_close(MudLog *log);
 gboolean mud_log_islogging(MudLog *log);

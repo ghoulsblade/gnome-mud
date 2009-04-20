@@ -121,20 +121,28 @@ main (gint argc, char *argv[])
     window = g_object_new(MUD_TYPE_WINDOW, NULL);
 
     {
+        MudLineBufferLine *line = g_new0(MudLineBufferLine, 1);
         MudTrigger *trigger = g_object_new(MUD_TYPE_TRIGGER,
                                            "trigger-key", "test",
                                            "profile-key", "test",
-                                           "lines", 3,
+                                           "lines", 1,
                                            "action-type", MUD_TRIGGER_ACTION_TEXT,
-                                           "action", "\n=== %0 ===\n=== %1 ===\n",
+                                           "action", "=== %0 ===\n\t%1\n\t%2",
                                            NULL);
 
-        gchar *test_line = g_strdup("Foo says, \"Bar\"\n");
+        line->line = g_strdup("Foo says, \"foobazbar\"");
 
-        mud_trigger_add_data(trigger, test_line, strlen(test_line));
+        mud_trigger_execute(trigger, line, strlen(line->line));
 
-        g_free(test_line);
+        g_free(line->line);
+        g_free(line);
         g_object_unref(trigger);
+    }
+
+    {
+        g_printf("%c%c%d%c%d%c%d%c", '\x1B', '[', 1 , ';', 36, ';', 40, 'm');
+        g_printf("%s", "test");
+        g_printf("%c%c%d%c\n", '\x1B', '[', 0, 'm');
     }
 
     gtk_main();

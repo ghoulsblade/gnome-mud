@@ -116,7 +116,7 @@ mud_line_buffer_class_init (MudLineBufferClass *klass)
                                            "Total possible number of lines in buffer.",
                                            0,
                                            G_MAXULONG,
-                                           20,
+                                           G_MAXULONG,
                                            G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
 
     /* Register Signals */
@@ -127,10 +127,10 @@ mud_line_buffer_class_init (MudLineBufferClass *klass)
                      0,
                      NULL,
                      NULL,
-                     gnome_mud_cclosure_VOID__STRING_UINT,
+                     gnome_mud_cclosure_VOID__POINTER_UINT,
                      G_TYPE_NONE,
                      2,
-                     G_TYPE_STRING,
+                     G_TYPE_POINTER,
                      G_TYPE_UINT);
 
     mud_line_buffer_signal[LINE_REMOVED] =
@@ -273,11 +273,15 @@ mud_line_buffer_add_data(MudLineBuffer *self,
     g_return_if_fail(MUD_IS_LINE_BUFFER(self));
 
     data_buffer = g_string_new_len(data, length);
-    data_buffer = g_string_prepend(data_buffer,
-                                   self->priv->incoming_buffer->str);
 
-    g_string_free(self->priv->incoming_buffer, TRUE);
-    self->priv->incoming_buffer = g_string_new(NULL);
+    if(self->priv->incoming_buffer)
+    {
+        data_buffer = g_string_prepend(data_buffer,
+                                       self->priv->incoming_buffer->str);
+
+        g_string_free(self->priv->incoming_buffer, TRUE);
+        self->priv->incoming_buffer = g_string_new(NULL);
+    }
 
     line = g_string_new(NULL);
 
@@ -287,21 +291,29 @@ mud_line_buffer_add_data(MudLineBuffer *self,
 
         if(data_buffer->str[i] == '\n')
         {
+            MudLineBufferLine *new_line = g_new0(MudLineBufferLine, 1);
+
             ++self->priv->length;
+
+            new_line->gag = FALSE;
+            new_line->line = g_strdup(line->str);
 
             self->priv->line_buffer =
                 g_list_append(self->priv->line_buffer,
-                              g_strdup(line->str));
+                              new_line);
 
             if(self->priv->length == self->priv->maximum_line_count + 1)
             {
-                gchar *kill_line =
+                MudLineBufferLine *kill_line =
                     (g_list_first(self->priv->line_buffer))->data;
 
                 self->priv->line_buffer = g_list_remove(self->priv->line_buffer,
                                                         kill_line);
                 if(kill_line)
+                {
+                    g_free(kill_line->line);
                     g_free(kill_line);
+                }
 
                 --self->priv->length;
 
@@ -313,7 +325,7 @@ mud_line_buffer_add_data(MudLineBuffer *self,
             g_signal_emit(self,
                           mud_line_buffer_signal[LINE_ADDED],
                           0,
-                          line->str,
+                          new_line,
                           line->len);
 
             g_string_free(line, TRUE);
@@ -346,7 +358,9 @@ mud_line_buffer_flush(MudLineBuffer *self)
 
     g_list_foreach(self->priv->line_buffer, mud_line_buffer_free_line, NULL);
     g_list_free(self->priv->line_buffer);
-    g_string_free(self->priv->incoming_buffer, TRUE);
+
+    if(self->priv->incoming_buffer)
+        g_string_free(self->priv->incoming_buffer, TRUE);
 
     self->priv->length = 0;
     self->priv->line_buffer = NULL;
@@ -370,9 +384,10 @@ mud_line_buffer_get_lines(MudLineBuffer *self)
 
     while(entry)
     {
-        const gchar *line = (gchar *)entry->data;
+        const MudLineBufferLine *line =
+            (MudLineBufferLine *)entry->data;
 
-        lines = g_string_append(lines, line);
+        lines = g_string_append(lines, line->line);
 
         entry = g_list_next(entry);
     }
@@ -380,10 +395,67 @@ mud_line_buffer_get_lines(MudLineBuffer *self)
     return g_string_free(lines, (lines->len == 0) );
 }
 
+const GList *
+mud_line_buffer_get_lines_with_attributes(MudLineBuffer *self)
+{
+    return self->priv->line_buffer;
+}
+
+gchar *
+mud_line_buffer_get_lines_and_partial(MudLineBuffer *self)
+{
+    GList *entry;
+    GString *lines;
+
+    if(!MUD_IS_LINE_BUFFER(self))
+    {
+        g_critical("Invalid MudLineBuffer passed to mud_line_buffer_get_lines");
+        return NULL;
+    }
+
+    entry = g_list_first(self->priv->line_buffer);
+    lines = g_string_new(NULL);
+
+    while(entry)
+    {
+        const MudLineBufferLine *line =
+            (MudLineBufferLine *)entry->data;
+
+        lines = g_string_append(lines, line->line);
+
+        entry = g_list_next(entry);
+    }
+
+    if(self->priv->incoming_buffer)
+    {
+        lines = g_string_append(lines,
+                                g_string_free(self->priv->incoming_buffer,
+                                              FALSE));
+
+        self->priv->incoming_buffer = NULL;
+    }
+
+    return g_string_free(lines, (lines->len == 0) );
+}
+
+void
+mud_line_buffer_clear_partial_line(MudLineBuffer *self)
+{
+    g_return_if_fail(MUD_IS_LINE_BUFFER(self));
+
+    if(self->priv->incoming_buffer)
+    {
+        g_string_free(self->priv->incoming_buffer, TRUE);
+        self->priv->incoming_buffer = g_string_new(NULL);
+    }
+}
+
 const gchar *
 mud_line_buffer_get_line(MudLineBuffer *self,
                          guint line)
 {
+    MudLineBufferLine *buffer_line;
+
     if(!MUD_IS_LINE_BUFFER(self))
     {
         g_critical("Invalid MudLineBuffer passed to mud_line_buffer_get_line");
@@ -393,7 +465,10 @@ mud_line_buffer_get_line(MudLineBuffer *self,
     if(line >= self->priv->length)
         return NULL;
 
-    return g_list_nth_data(self->priv->line_buffer, line);
+    buffer_line = g_list_nth_data(self->priv->line_buffer,
+                                  line);
+
+    return buffer_line->line;
 }
 
 gchar *
@@ -426,7 +501,10 @@ mud_line_buffer_get_range(MudLineBuffer *self,
 
     for(i = start; i < end; ++i)
     {
-        range = g_string_append(range, entry->data);
+        MudLineBufferLine *buffer_line =
+            (MudLineBufferLine *)entry->data;
+
+        range = g_string_append(range, buffer_line->line);
 
         entry = g_list_next(entry);
     }
@@ -438,19 +516,35 @@ void
 mud_line_buffer_remove_line(MudLineBuffer *self,
                             guint line)
 {
-    const gchar *remove_data;
+    MudLineBufferLine *buffer_line;
 
     g_return_if_fail(MUD_IS_LINE_BUFFER(self));
 
-    remove_data = mud_line_buffer_get_line(self, line);
-
-    if(!remove_data)
+    if(line >= self->priv->length)
         return;
 
-    self->priv->line_buffer = g_list_remove(self->priv->line_buffer,
-                                            remove_data);
+    buffer_line = g_list_nth_data(self->priv->line_buffer,
+                                  line);
 
-    g_free((gchar *)remove_data); // Somewhat naughty. But the line is removed.
+    self->priv->line_buffer = g_list_remove(self->priv->line_buffer,
+                                            buffer_line);
+
+    g_free(buffer_line->line);
+    g_free(buffer_line);
+}
+
+gboolean
+mud_line_buffer_partial_clear(MudLineBuffer *self)
+{
+    if(!MUD_IS_LINE_BUFFER(self))
+        return TRUE;
+
+    if(!self->priv->incoming_buffer)
+        return TRUE;
+    else if(self->priv->incoming_buffer->len == 0)
+        return TRUE;
+
+    return FALSE;
 }
 
 /* Private Methods */
@@ -458,9 +552,12 @@ static void
 mud_line_buffer_free_line(gpointer value,
                           gpointer user_data)
 {
-    gchar *line = (gchar *)value;
+    MudLineBufferLine *line = (MudLineBufferLine *)value;
 
     if(line)
+    {
+        g_free(line->line);
         g_free(line);
+    }
 }
 

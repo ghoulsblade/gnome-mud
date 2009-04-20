@@ -128,7 +128,7 @@ static gboolean mud_log_keypress_cb(GtkWidget *widget,
                                     GdkEventKey *event,
                                     MudLog *self);
 static void mud_log_line_added_cb(MudLineBuffer *buffer,
-                                  const gchar *line,
+                                  MudLineBufferLine *line,
                                   guint length,
                                   MudLog *self);
 
@@ -583,14 +583,14 @@ mud_log_prev_spin_changed_cb(GtkSpinButton *button,
 
 static void
 mud_log_line_added_cb(MudLineBuffer *buffer,
-                      const gchar *line,
+                      MudLineBufferLine *line,
                       guint length,
                       MudLog *self)
 {
     if(!self->priv->done)
     {
         if(line && length != 0) 
-            mud_log_write(self, line, length);
+            mud_log_write(self, line->line, length);
 
         if(self->priv->include_next)
         {
@@ -829,7 +829,7 @@ mud_log_close(MudLog *log)
     {
         while(!g_queue_is_empty(log->priv->span_queue))
         {
-            mud_log_write(log, "</span>", strlen("</span>"));
+            fwrite("</span>", 1, strlen("</span>"), log->priv->logfile);
             g_queue_pop_head(log->priv->span_queue);
         }
     }
@@ -875,7 +875,7 @@ mud_log_islogging(MudLog *log)
 }
 
 void
-mud_log_write_hook(MudLog *log, gchar *data, gint length)
+mud_log_write_hook(MudLog *log, const gchar *data, gint length)
 {
     g_return_if_fail(MUD_IS_LOG(log));
 
@@ -988,6 +988,7 @@ mud_log_parse_ecma_color(MudLog *self,
     gchar **argv;
     gboolean xterm_forecolor, xterm_color;
 
+    g_printf("%s\n", data);
     argv = g_strsplit(data, ";", -1);
     argc = g_strv_length(argv);
 

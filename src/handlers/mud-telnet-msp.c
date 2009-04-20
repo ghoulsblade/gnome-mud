@@ -34,6 +34,7 @@
 #include "mud-telnet.h"
 #include "mud-telnet-handler-interface.h"
 #include "mud-telnet-msp.h"
+#include "mud-line-buffer.h"
 
 struct _MudTelnetMspPrivate
 {
@@ -365,93 +366,51 @@ mud_telnet_msp_parser_clear(MudTelnetMsp *self)
     self->priv->msp_parser.output = g_string_new(NULL);
 }
 
-GString *
-mud_telnet_msp_parse(MudTelnetMsp *self, GString *buf, gint *len)
+void
+mud_telnet_msp_parse(MudTelnetMsp *self, MudLineBufferLine *line)
 {
-    gint count;
-    GString *ret = NULL;
+    guint len = strlen(line->line);
+    gchar *buf = line->line;
 
-    if(!MUD_IS_TELNET_MSP(self))
-        return NULL;
+    g_return_if_fail(MUD_IS_TELNET_MSP(self));
 
     mud_telnet_msp_parser_reset(self);
 
-    if(self->priv->prev_buffer)
-    {
-        buf = g_string_prepend(buf, self->priv->prev_buffer->str);
-        g_string_free(self->priv->prev_buffer, TRUE);
-        self->priv->prev_buffer = NULL;
-    }
-
-    while(self->priv->msp_parser.lex_pos_start < *len)
+    while(self->priv->msp_parser.lex_pos_start < len)
     {
         switch(self->priv->msp_parser.state)
         {
             case MSP_STATE_TEXT:
-                if(buf->str[self->priv->msp_parser.lex_pos_start] == '!')
+                if(buf[self->priv->msp_parser.lex_pos_start] == '!')
                     self->priv->msp_parser.state = MSP_STATE_POSSIBLE_COMMAND;
                 else
-                {
-                    self->priv->msp_parser.output = 
-                        g_string_append_c(self->priv->msp_parser.output,
-                                buf->str[self->priv->msp_parser.lex_pos_start++]);
-                }
+                    self->priv->msp_parser.lex_pos_start++;
                 break;
 
             case MSP_STATE_POSSIBLE_COMMAND:
-                if(self->priv->msp_parser.lex_pos_start + 1 == *len)
-                    continue;
-                else if(buf->str[self->priv->msp_parser.lex_pos_start + 1] != '!')
-                {
-                    self->priv->msp_parser.output = 
-                        g_string_append_c(self->priv->msp_parser.output,
-                                buf->str[self->priv->msp_parser.lex_pos_start++]);
-                    self->priv->msp_parser.state = MSP_STATE_TEXT;
-                    continue;
-                }
+                if(buf[self->priv->msp_parser.lex_pos_start + 1] != '!')
+                    return;
 
                 self->priv->msp_parser.state = MSP_STATE_COMMAND;
                 break;
 
             case MSP_STATE_COMMAND:
-                if(self->priv->msp_parser.lex_pos_start + 8 >= *len)
-                {
-                    self->priv->prev_buffer = g_string_new(NULL);
-
-                    count = self->priv->msp_parser.lex_pos_start;
-
-                    while(count != buf->len)
-                        self->priv->prev_buffer = 
-                            g_string_append_c(self->priv->prev_buffer, buf->str[count++]);
-
-                    self->priv->msp_parser.lex_pos_start += count;
-                    continue;
-                }
-
-                if(buf->str[self->priv->msp_parser.lex_pos_start + 2] == 'S' &&
-                        buf->str[self->priv->msp_parser.lex_pos_start + 3] == 'O' &&
-                        buf->str[self->priv->msp_parser.lex_pos_start + 4] == 'U' &&
-                        buf->str[self->priv->msp_parser.lex_pos_start + 5] == 'N' &&
-                        buf->str[self->priv->msp_parser.lex_pos_start + 6] == 'D')
+                if(buf[self->priv->msp_parser.lex_pos_start + 2] == 'S' &&
+                        buf[self->priv->msp_parser.lex_pos_start + 3] == 'O' &&
+                        buf[self->priv->msp_parser.lex_pos_start + 4] == 'U' &&
+                        buf[self->priv->msp_parser.lex_pos_start + 5] == 'N' &&
+                        buf[self->priv->msp_parser.lex_pos_start + 6] == 'D')
                     self->priv->msp_type = MSP_TYPE_SOUND;
-                else if(buf->str[self->priv->msp_parser.lex_pos_start + 2] == 'M' &&
-                        buf->str[self->priv->msp_parser.lex_pos_start + 3] == 'U' &&
-                        buf->str[self->priv->msp_parser.lex_pos_start + 4] == 'S' &&
-                        buf->str[self->priv->msp_parser.lex_pos_start + 5] == 'I' &&
-                        buf->str[self->priv->msp_parser.lex_pos_start + 6] == 'C')
+                else if(buf[self->priv->msp_parser.lex_pos_start + 2] == 'M' &&
+                        buf[self->priv->msp_parser.lex_pos_start + 3] == 'U' &&
+                        buf[self->priv->msp_parser.lex_pos_start + 4] == 'S' &&
+                        buf[self->priv->msp_parser.lex_pos_start + 5] == 'I' &&
+                        buf[self->priv->msp_parser.lex_pos_start + 6] == 'C')
                     self->priv->msp_type = MSP_TYPE_MUSIC;
                 else
                 {
                     /* Not an msp command, bail out. */
-                    self->priv->msp_parser.output = 
-                        g_string_append_c(self->priv->msp_parser.output,
-                                buf->str[self->priv->msp_parser.lex_pos_start++]);
-                    self->priv->msp_parser.output = 
-                        g_string_append_c(self->priv->msp_parser.output,
-                                buf->str[self->priv->msp_parser.lex_pos_start++]);
-
-                    self->priv->msp_parser.state = MSP_STATE_TEXT;
-                    continue;
+                    return;
                 }
 
                 // Skip leading (
@@ -461,19 +420,20 @@ mud_telnet_msp_parse(MudTelnetMsp *self, GString *buf, gint *len)
                 break;
 
             case MSP_STATE_GET_ARGS:
-                self->priv->msp_parser.lex_pos_end = self->priv->msp_parser.lex_pos_start;
+                self->priv->msp_parser.lex_pos_end =
+                    self->priv->msp_parser.lex_pos_start;
 
                 if(self->priv->msp_parser.arg_buffer == NULL)
                     self->priv->msp_parser.arg_buffer = g_string_new(NULL);
 
-                while(self->priv->msp_parser.lex_pos_end < *len &&
-                        buf->str[self->priv->msp_parser.lex_pos_end] != ')')
+                while(self->priv->msp_parser.lex_pos_end < len &&
+                        buf[self->priv->msp_parser.lex_pos_end] != ')')
                     self->priv->msp_parser.arg_buffer = 
                         g_string_append_c(self->priv->msp_parser.arg_buffer,
-                                buf->str[self->priv->msp_parser.lex_pos_end++]);
+                                buf[self->priv->msp_parser.lex_pos_end++]);
 
-                if(self->priv->msp_parser.lex_pos_end >= *len &&
-                        buf->str[self->priv->msp_parser.lex_pos_end - 1] != ')')
+                if(self->priv->msp_parser.lex_pos_end >= len &&
+                        buf[self->priv->msp_parser.lex_pos_end - 1] != ')')
                 {
                     self->priv->msp_parser.lex_pos_start =
                         self->priv->msp_parser.lex_pos_end;
@@ -492,20 +452,12 @@ mud_telnet_msp_parse(MudTelnetMsp *self, GString *buf, gint *len)
                 self->priv->msp_parser.lex_pos_start =
                     self->priv->msp_parser.lex_pos_end + 1;
                 self->priv->msp_parser.state = MSP_STATE_TEXT;
-                break;
+
+                line->gag = TRUE;
+
+                return;
         }
     }
-
-    if(self->priv->msp_parser.state == MSP_STATE_TEXT)
-    {
-        ret = g_string_new(g_strdup(self->priv->msp_parser.output->str));
-        *len = self->priv->msp_parser.output->len;
-    }
-
-    g_string_free(buf, TRUE);
-    *(&buf) = NULL;
-
-    return ret;
 }
 
 void

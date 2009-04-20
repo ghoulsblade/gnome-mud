@@ -187,10 +187,10 @@ mud_telnet_naws_finalize (GObject *object)
 
     self = MUD_TELNET_NAWS(object);
 
-    if(self->priv->resized_signal != 0)
+    if(self->priv->resized_signal != 0 && IS_MUD_WINDOW(self->priv->window))
         g_signal_handler_disconnect(self->priv->window, self->priv->resized_signal);
 
-    if(self->priv->delete_signal != 0)
+    if(self->priv->delete_signal != 0 && GTK_IS_WIDGET(self->priv->main_window))
         g_signal_handler_disconnect(self->priv->main_window, self->priv->delete_signal);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
@@ -387,5 +387,19 @@ mud_telnet_naws_delete_event_cb(GtkWidget *widget,
     }
 
     return FALSE;
+}
+
+void
+mud_telnet_naws_disconnect_signals(MudTelnetNaws *self)
+{
+
+    if(self->priv->resized_signal != 0)
+        g_signal_handler_disconnect(self->priv->window, self->priv->resized_signal);
+
+    if(self->priv->delete_signal != 0)
+        g_signal_handler_disconnect(self->priv->main_window, self->priv->delete_signal);
+
+    self->priv->resized_signal = 0;
+    self->priv->delete_signal = 0;
 }
 

@@ -162,7 +162,7 @@ mud_telnet_class_init (MudTelnetClass *klass)
                 "ga received",
                 "set if GA has been received",
                 FALSE,
-                G_PARAM_READABLE));
+                G_PARAM_READWRITE));
 
     g_object_class_install_property(object_class,
             PROP_EOR_RECEIVED,
@@ -170,7 +170,7 @@ mud_telnet_class_init (MudTelnetClass *klass)
                 "eor received",
                 "set if EOR has been received",
                 FALSE,
-                G_PARAM_READABLE));
+                G_PARAM_READWRITE));
 
     g_object_class_install_property(object_class,
             PROP_CONNECTION,
@@ -277,6 +277,14 @@ mud_telnet_set_property(GObject *object,
         /* Parent is Construct Only */
         case PROP_PARENT_VIEW:
             self->parent_view = MUD_CONNECTION_VIEW(g_value_get_object(value));
+            break;
+
+        case PROP_GA_RECEIVED:
+            self->ga_received = g_value_get_boolean(value);
+            break;
+
+        case PROP_EOR_RECEIVED:
+            self->eor_received = g_value_get_boolean(value);
             break;
 
         default:
@@ -504,13 +512,13 @@ mud_telnet_process(MudTelnet *telnet, guchar * buf, guint32 c, gint *len)
 
                     case (guchar)TEL_GA:
                         telnet->ga_received = TRUE;
-                        g_log("Telnet", G_LOG_LEVEL_INFO, "%s", "GA Received.");
                         // TODO: Hook up to triggers.
                         telnet->priv->tel_state = TEL_STATE_TEXT;
                         break;
 
                     case (guchar)TEL_EOR_BYTE:
                         // TODO: Hook up to triggers.
+                        telnet->eor_received = TRUE;
                         telnet->priv->tel_state = TEL_STATE_TEXT;
                         break;
 
@@ -772,6 +780,7 @@ mud_telnet_register_handlers(MudTelnet *telnet)
                          g_object_new(MUD_TYPE_TELNET_NEWENVIRON,
                                       "telnet", telnet,
                                       NULL));
+
 #ifdef ENABLE_GST
     /* MSP */
     g_hash_table_replace(telnet->priv->handlers,
@@ -867,6 +876,10 @@ mud_telnet_get_telopt_string(guchar ch)
 
         case TELOPT_ZMP:
             string = g_string_append(string, "ZMP");
+            break;
+
+        case TELOPT_AARDWOLF:
+            string = g_string_append(string, "AARDWOLF");
             break;
 
         default:

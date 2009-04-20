@@ -50,6 +50,7 @@ struct _MudSubwindowPrivate
     gboolean visible;
     gboolean view_hidden;
     gboolean input_enabled;
+    gboolean scroll;
 
     GQueue *history;
     gint current_history_index;
@@ -60,7 +61,7 @@ struct _MudSubwindowPrivate
     GtkWidget *window;
     GtkWidget *entry;
     GtkWidget *terminal;
-    GtkWidget *scroll;
+    GtkWidget *scrollbar;
     GtkWidget *vbox;
 
     gint x, y;
@@ -87,7 +88,8 @@ enum
     PROP_VIEW_HIDDEN,
     PROP_INPUT,
     PROP_OLD_WIDTH,
-    PROP_OLD_HEIGHT
+    PROP_OLD_HEIGHT,
+    PROP_SCROLL
 };
 
 /* Signal Indices */
@@ -268,6 +270,14 @@ mud_subwindow_class_init (MudSubwindowClass *klass)
                 FALSE,
                 G_PARAM_READWRITE));
 
+    g_object_class_install_property(object_class,
+            PROP_SCROLL,
+            g_param_spec_boolean("scroll-enabled",
+                "Scroll Enabled",
+                "True if subwindow scrolls.",
+                TRUE,
+                G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
+
     /* Register Signals */
     mud_subwindow_signal[RESIZED] =
         g_signal_new("resized",
@@ -322,7 +332,7 @@ mud_subwindow_init (MudSubwindow *self)
 
     self->priv->window = NULL;
     self->priv->entry = NULL;
-    self->priv->scroll = NULL;
+    self->priv->scrollbar = NULL;
     self->priv->terminal = NULL;
     self->priv->vbox = NULL;
 }
@@ -403,7 +413,7 @@ mud_subwindow_constructor (GType gtype,
     gtk_widget_hide(self->priv->entry);
 
     self->priv->terminal = vte_terminal_new();
-    self->priv->scroll = gtk_vscrollbar_new(NULL);
+    self->priv->scrollbar = gtk_vscrollbar_new(NULL);
     term_box = gtk_hbox_new(FALSE, 0);
 
     vte_terminal_set_encoding(VTE_TERMINAL(self->priv->terminal),
@@ -429,7 +439,7 @@ mud_subwindow_constructor (GType gtype,
                        0);
 
     gtk_box_pack_end(GTK_BOX(term_box),
-                     self->priv->scroll,
+                     self->priv->scrollbar,
                      FALSE,
                      FALSE,
                      0);
@@ -439,14 +449,17 @@ mud_subwindow_constructor (GType gtype,
     gtk_container_add(GTK_CONTAINER(self->priv->window), self->priv->vbox);
 
     gtk_range_set_adjustment(
-            GTK_RANGE(self->priv->scroll),
+            GTK_RANGE(self->priv->scrollbar),
             VTE_TERMINAL(self->priv->terminal)->adjustment);
 
     gtk_window_set_title(GTK_WINDOW(self->priv->window), self->priv->title);
 
     gtk_widget_show(term_box);
     gtk_widget_show(self->priv->vbox);
-    gtk_widget_show(self->priv->scroll);
+
+    if(self->priv->scroll)
+        gtk_widget_show(self->priv->scrollbar);
+
     gtk_widget_show(self->priv->terminal);
     gtk_widget_show(self->priv->window);
 
@@ -543,6 +556,13 @@ mud_subwindow_set_property(GObject *object,
 
             if(new_boolean != self->priv->input_enabled)
                 self->priv->input_enabled = new_boolean;
+            break;
+
+        case PROP_SCROLL:
+            new_boolean = g_value_get_boolean(value);
+
+            if(new_boolean != self->priv->scroll)
+                self->priv->scroll = new_boolean;
             break;
 
         case PROP_VISIBLE:
@@ -645,6 +665,10 @@ mud_subwindow_get_property(GObject *object,
 
         case PROP_IDENT:
             g_value_set_string(value, self->priv->identifier);
+            break;
+
+        case PROP_SCROLL:
+            g_value_set_boolean(value, self->priv->scroll);
             break;
 
         case PROP_WIDTH:
@@ -1115,6 +1139,22 @@ mud_subwindow_enable_input(MudSubwindow *self,
         gtk_widget_show(self->priv->entry);
     else
         gtk_widget_hide(self->priv->entry);
+
+    mud_subwindow_set_size(self, self->priv->width, self->priv->height);
+}
+
+void
+mud_subwindow_enable_scroll(MudSubwindow *self,
+                           gboolean enable)
+{
+    g_return_if_fail(MUD_IS_SUBWINDOW(self));
+
+    self->priv->input_enabled = enable;
+
+    if(enable)
+        gtk_widget_show(self->priv->scrollbar);
+    else
+        gtk_widget_hide(self->priv->scrollbar);
 
     mud_subwindow_set_size(self, self->priv->width, self->priv->height);
 }

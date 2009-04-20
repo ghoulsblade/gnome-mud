@@ -39,6 +39,7 @@
 #include "mud-log.h"
 #include "mud-parse-base.h"
 #include "mud-telnet.h"
+#include "mud-line-buffer.h"
 #include "mud-subwindow.h"
 #include "utils.h"
 
@@ -62,6 +63,8 @@ struct _MudConnectionViewPrivate
 
     gchar *current_output;
     GList *subwindows;
+
+    MudLineBuffer *line_buffer;
 
 #ifdef ENABLE_GST
     GQueue *download_queue;
@@ -134,6 +137,14 @@ static void mud_connection_view_close_current_cb(GtkWidget *menu_item,
 static void mud_connection_view_profile_changed_cb(MudProfile *profile,
                                                    MudProfileMask *mask,
                                                    MudConnectionView *view);
+static void mud_connection_view_line_added_cb(MudLineBuffer *buffer,
+                                              MudLineBufferLine *line,
+                                              guint length,
+                                              MudConnectionView *view);
+static void mud_connection_view_partial_line_cb(MudLineBuffer *buffer,
+                                                const gchar *line,
+                                                guint length,
+                                                MudConnectionView *view);
 
 
 /* Private Methods */
@@ -388,6 +399,9 @@ mud_connection_view_init (MudConnectionView *self)
 
     self->priv->subwindows = NULL;
     self->priv->current_output = g_strdup("main");
+
+    self->priv->line_buffer = g_object_new(MUD_TYPE_LINE_BUFFER,
+                                           NULL);
 }
 
 static GObject *
@@ -521,6 +535,11 @@ mud_connection_view_constructor (GType gtype,
     /* Setup VTE */
     vte_terminal_set_encoding(self->terminal, "ISO-8859-1");
     vte_terminal_set_emulation(self->terminal, "xterm");
+    vte_terminal_set_cursor_shape(self->terminal,
+                                  VTE_CURSOR_SHAPE_UNDERLINE);
+
+    vte_terminal_set_cursor_blink_mode(self->terminal,
+                                       VTE_CURSOR_BLINK_OFF);
 
     g_object_get(self->window,
                  "window", &main_window,
@@ -606,6 +625,16 @@ mud_connection_view_constructor (GType gtype,
     gtk_widget_hide(self->priv->dl_button);
 #endif
 
+    g_signal_connect(self->priv->line_buffer,
+                     "line-added",
+                     G_CALLBACK(mud_connection_view_line_added_cb),
+                     self);
+
+    g_signal_connect(self->priv->line_buffer,
+                     "partial-line-received",
+                     G_CALLBACK(mud_connection_view_partial_line_cb),
+                     self);
+
     gnet_conn_connect(self->connection);
 
     return obj;
@@ -666,8 +695,13 @@ mud_connection_view_finalize (GObject *object)
         g_object_unref(connection_view->telnet);
   
     g_object_unref(connection_view->log);
+
     g_object_unref(connection_view->parse);
-    g_object_unref(connection_view->profile);
+
+    if(connection_view->profile)
+        g_object_unref(connection_view->profile);
+
+    g_object_unref(connection_view->priv->line_buffer);
 
     entry = g_list_first(connection_view->priv->subwindows);
 
@@ -1093,16 +1127,11 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
 static void
 mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pview)
 {
-    gint gag;
-    gchar *buf;
-    gboolean temp;
-    MudConnectionView *view = MUD_CONNECTION_VIEW(pview);
     gint length;
+    MudConnectionView *view = MUD_CONNECTION_VIEW(pview);
 
 #ifdef ENABLE_GST
     MudMSPDownloadItem *item;
-    MudTelnetMsp *msp_handler;
-    gboolean msp_parser_enabled;
 #endif
 
     g_assert(view != NULL);
@@ -1159,88 +1188,21 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
             }
 
             view->priv->processed =
-                mud_telnet_process(view->telnet, (guchar *)event->buffer,
-                        event->length, &length);
+                mud_telnet_process(view->telnet, 
+                                   (guchar *)event->buffer,
+                                   event->length,
+                                   &length);
 
-            if(view->priv->processed != NULL)
+            if(view->priv->processed)
             {
-#ifdef ENABLE_GST
-                msp_handler =
-                    MUD_TELNET_MSP(mud_telnet_get_handler(view->telnet,
-                                                          TELOPT_MSP));
+                mud_line_buffer_add_data(view->priv->line_buffer,
+                                         view->priv->processed->str,
+                                         view->priv->processed->len);
 
-                g_object_get(msp_handler,
-                             "enabled", &msp_parser_enabled,
-                             NULL);
+                g_string_free(view->priv->processed, TRUE);
+                view->priv->processed = NULL;
 
-                if(msp_parser_enabled)
-                {
-                    view->priv->processed =
-                        mud_telnet_msp_parse(msp_handler,
-                                             view->priv->processed,
-                                             &length);
-                }
-#endif
-                if(view->priv->processed != NULL)
-                {
-#ifdef ENABLE_GST
-                    if(msp_parser_enabled)
-                        mud_telnet_msp_parser_clear(msp_handler);
-#endif 
-                    buf = view->priv->processed->str;
-
-                    temp = view->local_echo;
-                    view->local_echo = FALSE;
-                    gag = mud_parse_base_do_triggers(view->parse,
-                            buf);
-                    view->local_echo = temp;
-
-                    if(!gag)
-                    {
-                        if(g_str_equal(view->priv->current_output, "main"))
-                        {
-                            vte_terminal_feed(view->terminal,
-                                              buf,
-                                              length);
-
-                            mud_window_toggle_tab_icon(view->window, view);
-                        }
-                        else
-                        {
-                            MudSubwindow *sub =
-                                mud_connection_view_get_subwindow(view,
-                                        view->priv->current_output);
-
-                            if(sub)
-                                mud_subwindow_feed(sub, buf, length);
-                            else
-                            {
-                                vte_terminal_feed(view->terminal,
-                                        buf,
-                                        length);
-
-                                mud_window_toggle_tab_icon(view->window, view);
-                            }
-
-                        }
-
-                        if(view->logging)
-                            mud_log_write_hook(view->log, buf, length);
-                    }
-
-                    if (view->connect_hook) {
-                        mud_connection_view_send (view, view->connect_string);
-                        view->connect_hook = FALSE;
-                    }
-
-                    if(view->priv->processed != NULL)
-                    {
-                        g_string_free(view->priv->processed, TRUE);
-                        view->priv->processed = NULL;
-                    }
-
-                    buf = NULL;
-                }
+                mud_line_buffer_flush(view->priv->line_buffer);
             }
 
             gnet_conn_read(view->connection);
@@ -1257,6 +1219,121 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
     }
 }
 
+static void
+mud_connection_view_line_added_cb(MudLineBuffer *buffer,
+                                  MudLineBufferLine *line,
+                                  guint length,
+                                  MudConnectionView *view)
+{
+#ifdef ENABLE_GST
+    MudTelnetMsp *msp_handler;
+    gboolean msp_parser_enabled;
+
+    msp_handler =
+        MUD_TELNET_MSP(mud_telnet_get_handler(view->telnet,
+                    TELOPT_MSP));
+
+    g_object_get(msp_handler,
+            "enabled", &msp_parser_enabled,
+            NULL);
+
+    if(msp_parser_enabled)
+    {
+        mud_telnet_msp_parse(msp_handler,
+                             line);
+
+        mud_telnet_msp_parser_clear(msp_handler);
+
+        if(line->gag)
+            return;
+    }
+#endif
+
+    // TODO: Trigger & script code.
+
+    if(!line->gag)
+    {
+        if(g_str_equal(view->priv->current_output, "main"))
+        {
+            vte_terminal_feed(view->terminal,
+                              line->line,
+                              length);
+
+            mud_window_toggle_tab_icon(view->window, view);
+        }
+        else
+        {
+            MudSubwindow *sub =
+                mud_connection_view_get_subwindow(view,
+                        view->priv->current_output);
+
+            if(sub)
+                mud_subwindow_feed(sub, line->line, length);
+            else
+            {
+                vte_terminal_feed(view->terminal,
+                                  line->line,
+                                  length);
+
+                mud_window_toggle_tab_icon(view->window, view);
+            }
+        }
+
+        if (view->connect_hook)
+        {
+            mud_connection_view_send (view, view->connect_string);
+            view->connect_hook = FALSE;
+        }
+    }
+
+    if(view->logging)
+        mud_log_write_hook(view->log, line->line, length);
+}
+
+static void
+mud_connection_view_partial_line_cb(MudLineBuffer *buffer,
+                                    const gchar *line,
+                                    guint length,
+                                    MudConnectionView *view)
+{
+    //TODO:  Pass through trigger and script code.
+    
+    if(!mud_line_buffer_partial_clear(buffer))
+    {
+        mud_line_buffer_clear_partial_line(buffer);
+
+        if(g_str_equal(view->priv->current_output, "main"))
+        {
+            vte_terminal_feed(view->terminal,
+                    line,
+                    length);
+
+            mud_window_toggle_tab_icon(view->window, view);
+        }
+        else
+        {
+            MudSubwindow *sub =
+                mud_connection_view_get_subwindow(view,
+                        view->priv->current_output);
+
+            if(sub)
+                mud_subwindow_feed(sub, line, length);
+            else
+            {
+                vte_terminal_feed(view->terminal,
+                        line,
+                        length);
+
+                mud_window_toggle_tab_icon(view->window, view);
+            }
+
+        }
+
+    }
+
+    if(view->logging)
+        mud_log_write_hook(view->log, line, length);
+}
 
 static void
 popup_menu_detach(GtkWidget *widget, GtkMenu *menu)
@@ -1399,6 +1476,9 @@ mud_connection_view_set_terminal_colors(MudConnectionView *view)
             &view->profile->preferences->Foreground,
             &view->profile->preferences->Background,
             view->profile->preferences->Colors, C_MAX);
+
+    vte_terminal_set_color_cursor(view->terminal,
+                                  &view->profile->preferences->Background);
 }
 
 static void
@@ -1528,6 +1608,22 @@ mud_connection_view_enable_subwindow_input(MudConnectionView *view,
             mud_connection_view_get_subwindow(view, identifier);
 
         mud_subwindow_enable_input(sub, enable);
+    }
+}
+
+void
+mud_connection_view_enable_subwindow_scroll(MudConnectionView *view,
+                                            const gchar *identifier,
+                                            gboolean enable)
+{
+    g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
+
+    if(mud_connection_view_has_subwindow(view, identifier))
+    {
+        MudSubwindow *sub =
+            mud_connection_view_get_subwindow(view, identifier);
+
+        mud_subwindow_enable_scroll(sub, enable);
     }
 }
 
@@ -2049,10 +2145,13 @@ mud_connection_view_start_logging(MudConnectionView *view)
 {
     g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
-    mud_log_open(view->log);
+    if(!view->logging)
+    {
+        mud_log_open(view->log);
 
-    if(mud_log_islogging(view->log))
-        view->logging = TRUE;
+        if(mud_log_islogging(view->log))
+            view->logging = TRUE;
+    }
 }
 
 void
@@ -2060,8 +2159,11 @@ mud_connection_view_stop_logging(MudConnectionView *view)
 {
     g_return_if_fail(IS_MUD_CONNECTION_VIEW(view));
 
-    view->logging = FALSE;
-    mud_log_close(view->log);
+    if(view->logging)
+    {
+        view->logging = FALSE;
+        mud_log_close(view->log);
+    }
 }
 
 void

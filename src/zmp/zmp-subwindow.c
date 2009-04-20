@@ -78,6 +78,7 @@ static void zmp_subwindow_open(MudTelnetZmp *self, gint argc, gchar **argv);
 static void zmp_subwindow_close(MudTelnetZmp *self, gint argc, gchar **argv);
 static void zmp_subwindow_select(MudTelnetZmp *self, gint argc, gchar **argv);
 static void zmp_subwindow_set_input(MudTelnetZmp *self, gint argc, gchar **argv);
+static void zmp_subwindow_set_scroll(MudTelnetZmp *self, gint argc, gchar **argv);
 static void zmp_subwindow_do_input(MudSubwindow *sub,
                                    const gchar *input,
                                    ZmpSubwindow *self);
@@ -244,6 +245,9 @@ zmp_subwindow_register_commands(MudTelnetZmp *zmp)
     mud_zmp_register(zmp, mud_zmp_new_command("subwindow.",
                                               "subwindow.set-input",
                                               zmp_subwindow_set_input));
+    mud_zmp_register(zmp, mud_zmp_new_command("subwindow.",
+                                              "subwindow.set-scroll",
+                                              zmp_subwindow_set_scroll));
 
 
     /* If the server sends us these, its a broken server.
@@ -388,6 +392,29 @@ zmp_subwindow_set_input(MudTelnetZmp *self,
     mud_connection_view_enable_subwindow_input(view,
                                                argv[1],
                                                enable);
+
+}
+
+static void
+zmp_subwindow_set_scroll(MudTelnetZmp *self,
+                         gint argc,
+                         gchar **argv)
+{
+    MudConnectionView *view;
+    MudTelnet *telnet;
+    guint enable;
+
+    if(argc != 3)
+        return;
+
+    g_object_get(self, "telnet", &telnet, NULL);
+    g_object_get(telnet, "parent-view", &view, NULL);
+
+    enable = (guint)atol(argv[2]);
+
+    mud_connection_view_enable_subwindow_scroll(view,
+                                                argv[1],
+                                                enable);
 
 }
 

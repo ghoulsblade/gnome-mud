@@ -36,6 +36,8 @@ typedef struct _MudTrigger            MudTrigger;
 typedef struct _MudTriggerClass       MudTriggerClass;
 typedef struct _MudTriggerPrivate     MudTriggerPrivate;
 
+#include "mud-line-buffer.h"
+
 struct _MudTriggerClass
 {
     GObjectClass parent_class;
@@ -53,7 +55,6 @@ typedef enum
 {
     MUD_TRIGGER_TYPE_SINGLE,
     MUD_TRIGGER_TYPE_MULTI,
-    MUD_TRIGGER_TYPE_FILTER,
     MUD_TRIGGER_TYPE_CONDITION
 } MudTriggerType;
 
@@ -88,6 +89,10 @@ GType         mud_trigger_get_type (void);
 void mud_trigger_add_data(MudTrigger *self,
                           const gchar *data,
                           guint length);
+
+void mud_trigger_execute(MudTrigger *self,
+                         MudLineBufferLine *line,
+                         guint length);
 
 G_END_DECLS
 

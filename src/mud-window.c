@@ -44,6 +44,8 @@
 #include "mud-parse-base.h"
 #include "mud-connections.h"
 #include "gnome-mud-marshallers.h"
+#include "mud-telnet.h"
+#include "handlers/mud-telnet-handlers.h"
 #include "utils.h"
 
 struct _MudWindowPrivate
@@ -424,6 +426,7 @@ mud_window_constructor (GType gtype,
     self->profile_manager = g_object_new(MUD_TYPE_PROFILE_MANAGER,
                                          "parent-window", self,
                                         NULL);
+
     mud_window_populate_profiles_menu(self);
 
     return obj;
@@ -448,11 +451,11 @@ mud_window_finalize (GObject *object)
         entry = g_slist_next(entry);
     }
 
-    g_object_unref(self->profile_manager);
-
     g_slist_free(self->priv->mud_views_list);
     
     g_object_unref(self->tray);
+
+    g_object_unref(self->profile_manager);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
@@ -518,6 +521,26 @@ mud_window_get_property(GObject *object,
 static int
 mud_window_close(GtkWidget *widget, MudWindow *self)
 {
+    GSList *entry = self->priv->mud_views_list;
+
+    while(entry != NULL)
+    {
+        MudTelnetNaws *naws;
+        gboolean enabled;
+        MudConnectionView *view =
+            MUD_CONNECTION_VIEW(entry->data);
+
+        naws = MUD_TELNET_NAWS(mud_telnet_get_handler(view->telnet,
+                    TELOPT_NAWS));
+
+        g_object_get(naws, "enabled", &enabled, NULL);
+
+        if(enabled)
+            mud_telnet_naws_disconnect_signals(naws);
+
+        entry = g_slist_next(entry);
+    }
+
     g_object_unref(self);
 
     return TRUE;

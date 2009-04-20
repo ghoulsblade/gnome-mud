@@ -122,6 +122,10 @@ void mud_connection_view_enable_subwindow_input(MudConnectionView *view,
                                                 const gchar *identifier,
                                                 gboolean enable);
 
+void mud_connection_view_enable_subwindow_scroll(MudConnectionView *view,
+                                                 const gchar *identifier,
+                                                 gboolean enable);
+
 void mud_connection_view_show_subwindow(MudConnectionView *view,
                                         const gchar *identifier);
 

@@ -98,6 +98,37 @@ G_BEGIN_DECLS
 #define     TEL_NEWENVIRON_ESC          2
 #define     TEL_NEWENVIRON_USERVAR      3
 
+/* Aardwolf
+ * http://www.aardwolf.com/blog/2008/07/10/telnet-negotiation-control-mud-client-interaction */
+#define TELOPT_AARDWOLF                 102
+#define TEL_AARDWOLF_STATMON            1
+#define TEL_AARDWOLF_BIGMAP             2
+#define TEL_AARDWOLF_HELP               3
+#define TEL_AARDWOLF_MAP_TAGS           4
+#define TEL_AARDWOLF_CHANNEL_TAGS       5
+#define TEL_AARDWOLF_TELL_TAGS          6
+#define TEL_AARDWOLF_SPELLUP_TAGS       7
+#define TEL_AARDWOLF_SKILLGAINS_TAGS    8
+#define TEL_AARDWOLF_SAY_TAGS           9
+#define TEL_AARDWOLF_SCORE_TAGS         11
+#define TEL_AARDWOLF_MAPPER_ROOM_NAMES  12
+#define TEL_AARDWOLF_MAPPER_EXITS       14
+#define TEL_AARDWOLF_EDITOR_TAGS        15
+#define TEL_AARDWOLF_EQUIP_TAGS         16
+#define TEL_AARDWOLF_INVENTORY_TAGS     17
+#define TEL_AARDWOLF_QUIET_ALL          50
+#define TEL_AARDWOLF_AUTOTICK           51
+#define TEL_AARDWOLF_PROMPTS            52
+#define TEL_AARDWOLF_PAGING             53
+#define TEL_AARDWOLF_SERVER             100
+#define TEL_AARDWOLF_SERVER_LOGIN       1
+#define TEL_AARDWOLF_SERVER_MOTD        2
+#define TEL_AARDWOLF_SERVER_ACTIVE      3
+#define TEL_AARDWOLF_SERVER_AFK         4
+#define TEL_AARDWOLF_SERVER_NOTE        5
+#define TEL_AARDWOLF_SERVER_EDIT        6
+#define TEL_AARDWOLF_SERVER_PAGED       7
+
 #define TEL_SUBREQ_BUFFER_SIZE 16318 
 #define TELOPT_STATE_QUEUE_EMPTY	FALSE
 #define TELOPT_STATE_QUEUE_OPPOSITE	TRUE
