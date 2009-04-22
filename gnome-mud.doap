@@ -23,4 +23,19 @@
       <gnome:userid>lharris</gnome:userid>
     </foaf:Person>
   </maintainer>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Mart Raudsepp</foaf:name>
+      <foaf:mbox rdf:resource="leio@gentoo.org" />
+    </foaf:Person>
+  </maintainer>
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Jordi Mallach</foaf:name>
+      <foaf:mbox rdf:resource="jordi@sindominio.net" />
+    </foaf:Person>
+  </maintainer>
+
 </Project>
