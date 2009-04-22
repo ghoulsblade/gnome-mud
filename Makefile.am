@@ -38,6 +38,23 @@ DISTCLEANFILES =		\
 	intltool-merge		\
 	intltool-update
 
+MAINTAINERCLEANFILES = \
+	INSTALL \
+	aclocal.m4 \
+	compile \
+	config.guess \
+	config.h.in \
+	config.sub \
+	configure.scan \
+	depcomp \
+	install-sh \
+	ltmain.sh \
+	missing \
+	mkinstalldirs \
+	gnome-mud.desktop \
+	gnome-mud.schemas
+
+
 DISTCHECK_CONFIGURE_FLAGS = --disable-schemas-install --disable-scrollkeeper
 
 install-data-local: $(schema_DATA)
