@@ -4,13 +4,6 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
 
-  <!--
-  This is a DOAP template file.  It contains Pulse's best guesses at
-  some basic content.  You should verify the information in this file
-  and modify anything that isn't right.  Add the corrected file to your
-  source code repository to help tools better understand your project.
-  -->
-
   <name xml:lang="en">Gnome-MUD</name>
   <shortdesc xml:lang="en">A mud client for GNOME.</shortdesc>
   <homepage rdf:resource="http://live.gnome.org/GnomeMud" />
