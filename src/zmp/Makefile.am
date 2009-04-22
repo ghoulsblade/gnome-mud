@@ -29,3 +29,5 @@ libzmpcommands_la_LIBADD = \
 	$(MSP_LIBS) \
 	$(Z_LIBS)
 
+
+-include $(top_srcdir)/git.mk

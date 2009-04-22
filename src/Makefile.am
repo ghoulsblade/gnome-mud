@@ -116,3 +116,5 @@ gnome-mud-builtins.c: $(enumheaders) gnome-mud-builtins.c.template
 	    && mv gnome-mud-builtins.c.tmp gnome-mud-builtins.c ) \
 	    || ( rm -f gnome-mud-builtins.c.tmp && exit 1 )
 
+
+-include $(top_srcdir)/git.mk

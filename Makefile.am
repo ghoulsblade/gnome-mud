@@ -48,3 +48,5 @@ if GCONF_SCHEMAS_INSTALL
 		done \
 	fi
 endif
+
+-include $(top_srcdir)/git.mk

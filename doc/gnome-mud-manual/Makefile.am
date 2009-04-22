@@ -8,3 +8,5 @@ DOC_FIGURES = figures/connections-window.png figures/main-window.png figures/mud
 
 DOC_LINGUAS =
 
+
+-include $(top_srcdir)/git.mk
