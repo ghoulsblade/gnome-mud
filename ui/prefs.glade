@@ -13,6 +13,7 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkHBox" id="hbox8">
             <property name="visible">True</property>
@@ -99,9 +100,11 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox3">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkVBox" id="vbox9">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <child>
               <widget class="GtkHBox" id="hbox27">
                 <property name="visible">True</property>
@@ -245,6 +248,7 @@
     <child>
       <widget class="GtkVBox" id="vbox2">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkToolbar" id="mainToolbar">
             <property name="visible">True</property>
@@ -627,7 +631,7 @@ WINDOWS-1258</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">&#x25CF;</property>
-                                    <property name="adjustment">1 1 100000 1 10 10</property>
+                                    <property name="adjustment">1 1 100000 1 10 0</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>

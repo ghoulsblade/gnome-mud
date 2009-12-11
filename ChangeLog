@@ -1,3 +1,8 @@
+2009-12-11  Les Harris  <lharris@gnome.org>
+
+	* ui/prefs.glade, ui/muds.glade, ui/main.glade: Set all page_sizes to
+	0 for spinbuttons. Bumped required Gtk+ version to 2.16.
+
 2009-04-18  Les Harris  <lharris@gnome.org>
 
 	* gnome-mud.doap: New meta information file for the gnome git repo.

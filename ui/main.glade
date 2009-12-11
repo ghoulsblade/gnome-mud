@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <glade-interface>
-  <!-- interface-requires gtk+ 2.10 -->
+  <!-- interface-requires gtk+ 2.16 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
@@ -10,6 +10,7 @@
     <child>
       <widget class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkMenuBar" id="menubar1">
             <property name="visible">True</property>
@@ -297,6 +298,7 @@
         <child>
           <widget class="GtkVBox" id="content_box">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <child>
               <placeholder/>
             </child>
@@ -334,6 +336,7 @@
                 <child>
                   <widget class="GtkVBox" id="vbox4">
                     <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkScrolledWindow" id="text_view_scroll">
                         <property name="visible">True</property>
@@ -605,7 +608,6 @@
                           <widget class="GtkImage" id="image1">
                             <property name="visible">True</property>
                             <property name="stock">gtk-file</property>
-                            <property name="icon-size">4</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -691,7 +693,7 @@
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
-                    <property name="adjustment">100 1 100000 1 10 10</property>
+                    <property name="adjustment">100 1 100000 1 10 0</property>
                     <property name="numeric">True</property>
                   </widget>
                   <packing>
@@ -738,7 +740,7 @@
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
-                    <property name="adjustment">100 1 100000 1 10 10</property>
+                    <property name="adjustment">100 1 100000 1 10 0</property>
                     <property name="numeric">True</property>
                   </widget>
                   <packing>
