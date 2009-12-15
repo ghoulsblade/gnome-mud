@@ -1,3 +1,7 @@
+2009-12-15  Les Harris  <lharris@gnome.org>
+
+	* src/gnome-mud.c: Purged some debug code that snuck in.
+
 2009-12-11  Les Harris  <lharris@gnome.org>
 
 	* ui/prefs.glade, ui/muds.glade, ui/main.glade: Set all page_sizes to
