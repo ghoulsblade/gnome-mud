@@ -2,84 +2,98 @@
 # Copyright (C) 2004 Free Software Foundation, Inc.
 # This file is distributed under the same license as the PACKAGE package.
 # storm-119@163.com ,2004.
+# YunQiang Su <wzssyqa@gmail.com>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version:gnome-mud \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-06 03:50+0200\n"
-"PO-Revision-Date: 2004-06-06 19:37+0800\n"
-"Last-Translator: storm <storm-119@163.com>\n"
+"Project-Id-Version: gnome-mud\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"mud&component=general\n"
+"POT-Creation-Date: 2010-01-14 17:37+0000\n"
+"PO-Revision-Date: 2010-02-21 18:00+0800\n"
+"Last-Translator: Eleanor Chen <chenyueg@gmail.com>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: gnome-mud.desktop.in.h:1 src/init.c:270
+#: ../gnome-mud.desktop.in.h:1
 msgid "GNOME-Mud"
 msgstr "GNOME-Mud"
 
-#: gnome-mud.desktop.in.h:2
+#: ../gnome-mud.desktop.in.h:2
 msgid "The GNOME MUD Client"
 msgstr "GNOME MUD 客户端"
 
-#: gnome-mud.schemas.in.h:1
+#: ../gnome-mud.schemas.in.h:1
 msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
 msgstr "Pango 字体名称。例如“Sans 12”或“Monospace Bold 14”。"
 
-#: gnome-mud.schemas.in.h:2
+#: ../gnome-mud.schemas.in.h:2
 msgid ""
 "A character that is used to split commands in a string like \"w;w;w;l\", "
 "which will be sent to the MUD as 4 separate commands."
-msgstr "用于分隔像“w;w;w;l”这样的字符串命令的字符，结果是向 MUD 发送四个单独的命令。"
+msgstr ""
+"用于分隔像“w;w;w;l”这样的字符串命令的字符，结果是向 MUD 发送四个单独的命令。"
 
-#: gnome-mud.schemas.in.h:3 src/profiles.c:1212
+#: ../gnome-mud.schemas.in.h:3 ../ui/prefs.glade.h:7
 msgid "Aliases"
 msgstr "别名"
 
-#: gnome-mud.schemas.in.h:4
+#: ../gnome-mud.schemas.in.h:4
 msgid "Color palette"
 msgstr "调色板"
 
-#: gnome-mud.schemas.in.h:5
+#: ../gnome-mud.schemas.in.h:5
 msgid "Command Divider"
 msgstr "命令分隔符"
 
-#: gnome-mud.schemas.in.h:6
+#: ../gnome-mud.schemas.in.h:6
 msgid "Default color of the background"
 msgstr "背景的默认颜色"
 
-#: gnome-mud.schemas.in.h:7
+#: ../gnome-mud.schemas.in.h:7
 msgid ""
 "Default color of the background, as a color specification (can be HTML-style "
 "hex digits, or a color name such as \"red\")."
 msgstr ""
-"背景的默认颜色，必须是颜色指定(可以是 HTML 风格的十六进制数字，或者是像“red"
-"”这样的颜色名称)。"
+"背景的默认颜色，必须是颜色指定(可以是 HTML 风格的十六进制数字，或者是"
+"像“red”这样的颜色名称)。"
 
-#: gnome-mud.schemas.in.h:8
+#: ../gnome-mud.schemas.in.h:8
 msgid "Default color of the text"
 msgstr "文本的默认颜色"
 
-#: gnome-mud.schemas.in.h:9
+#: ../gnome-mud.schemas.in.h:9
 msgid ""
 "Default color of the text, as a color specification (can be HTML-style hex "
 "digits, or a color name such as \"red\")."
 msgstr ""
-"文本的默认颜色，必须是颜色指定(可以是 HTML 风格的十六进制数字，或者是像“red"
-"”这样的颜色名称)。"
+"文本的默认颜色，必须是颜色指定(可以是 HTML 风格的十六进制数字，或者是"
+"像“red”这样的颜色名称)。"
 
-#: gnome-mud.schemas.in.h:10
-msgid ""
-"File where the mud list will be read from to be used in the MudList dialog."
-msgstr "在 MudList 对话框使用的要读取 Mud 列表的文件。"
+#: ../gnome-mud.schemas.in.h:10
+msgid "Directional keybindings"
+msgstr "定向键绑定"
 
-#: gnome-mud.schemas.in.h:11
+#: ../gnome-mud.schemas.in.h:11
+msgid "Enable sound file downloading on MSP enabled MUDs"
+msgstr "启用在启用了 MUD 的 MSP 上下载声音文件"
+
+#: ../gnome-mud.schemas.in.h:12
+msgid "Encoding"
+msgstr "编码"
+
+#: ../gnome-mud.schemas.in.h:13
+msgid "Encoding Index"
+msgstr "编码索引"
+
+#: ../gnome-mud.schemas.in.h:14
 msgid "Font"
 msgstr "字体"
 
-#: gnome-mud.schemas.in.h:12
+#: ../gnome-mud.schemas.in.h:15
 msgid ""
 "GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in "
 "the form of a colon-separated list of color names. Color names should be in "
@@ -88,27 +102,11 @@ msgstr ""
 "GNOME-Mud 有 MUD 可用的16色的调色板。它必须以用冒号分隔的颜色名称的格式指定。"
 "颜色名称必须是十六进制格式，例如“#FF00FF”。"
 
-#: gnome-mud.schemas.in.h:13 src/prefs.c:850
-msgid ""
-"GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
-"the MUD requests one. This option sets the terminal type that will be sent."
-msgstr ""
-"如果 MUD 请求，GNOME-Mud 将尝试传送一种终端类型(像 ANSI 或 VT100)。此选项设置将"
-"要发送的终端类型。"
-
-#: gnome-mud.schemas.in.h:14
-msgid "How many entries to keep in the command history"
-msgstr "在命令历史中保留多少项目"
-
-#: gnome-mud.schemas.in.h:15
-msgid "How many entries to keep in the command history."
-msgstr "在命令历史中保留多少项目。"
-
-#: gnome-mud.schemas.in.h:16
+#: ../gnome-mud.schemas.in.h:16
 msgid "How often in seconds gnome-mud should flush logfiles."
 msgstr "Gnome-mud 多少秒刷新日志文件。"
 
-#: gnome-mud.schemas.in.h:17 src/prefs.c:804
+#: ../gnome-mud.schemas.in.h:17
 msgid ""
 "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
 "overridden by custom keybindings, or they can be disabled completely with "
@@ -117,13 +115,13 @@ msgstr ""
 "如果启用，GNOME-Mud 会提供一些内建的键绑定。它们会覆盖自定义的键绑定，或者使"
 "用此选项完全禁用。"
 
-#: gnome-mud.schemas.in.h:18 src/prefs.c:782
+#: ../gnome-mud.schemas.in.h:18
 msgid ""
 "If enabled, all the text typed in will be echoed in the terminal, making it "
 "easier to control what is sent."
 msgstr "如果启用，输入的所有文本会现在终端中，这样可以使控制发送内容容易些。"
 
-#: gnome-mud.schemas.in.h:19 src/prefs.c:793
+#: ../gnome-mud.schemas.in.h:19
 msgid ""
 "If enabled, the text that is sent to the connection will be left as a "
 "selection in the entry box. Otherwise, the text entry box will be cleared "
@@ -132,47 +130,25 @@ msgstr ""
 "如果启用，发送到连接的文本会在输入项框作为选择内容保留。否则，在每次文本输入"
 "后文本输入项框将被清空。"
 
-#: gnome-mud.schemas.in.h:20
+#: ../gnome-mud.schemas.in.h:20
 msgid ""
 "If enabled, whenever there's new output the terminal will be scrolled to the "
 "bottom."
 msgstr "如果启用，任何时候新的输出将滚动到终端底部。"
 
-#: gnome-mud.schemas.in.h:21 src/profiles.c:1243
+#: ../gnome-mud.schemas.in.h:21 ../ui/prefs.glade.h:16
 msgid "Keybindings"
 msgstr "键绑定"
 
-#: gnome-mud.schemas.in.h:22
+#: ../gnome-mud.schemas.in.h:22
 msgid "Last log file"
 msgstr "最近的日志文件"
 
-#: gnome-mud.schemas.in.h:23
-msgid ""
-"List of commands which will be treated as movement commands by the "
-"automapper. A semicolon is used to separate each command."
-msgstr "自动地图认为是移动命令的命令列表。分号用来分隔每个命令。"
-
-#: gnome-mud.schemas.in.h:24
-msgid "List of connections"
-msgstr "连接列表"
-
-#: gnome-mud.schemas.in.h:25
-msgid ""
-"List of connections known to GNOME-Mud. The list contains strings naming "
-"subdirectories relative to /apps/gnome-mud/connections."
-msgstr ""
-"GNOME-Mud 已知的连接列表。列表中包含了一些字符串，它们是在 /apps/gnome-mud/"
-"connections 子目录中相关命名的。"
-
-#: gnome-mud.schemas.in.h:26
-msgid "List of movement commands"
-msgstr "移动命令列表"
-
-#: gnome-mud.schemas.in.h:27
+#: ../gnome-mud.schemas.in.h:23
 msgid "List of profiles"
 msgstr "配置文件列表"
 
-#: gnome-mud.schemas.in.h:28
+#: ../gnome-mud.schemas.in.h:24
 msgid ""
 "List of profiles known to GNOME-Mud. The list contains strings naming "
 "subdirectories relative to /apps/gnome-mud/profiles."
@@ -180,19 +156,15 @@ msgstr ""
 "GNOME-Mud 已知的配置文件列表。列表中包含了一些字符串，它们是在 /apps/gnome-"
 "mud/profiles 子目录中相关命名的。"
 
-#: gnome-mud.schemas.in.h:29
+#: ../gnome-mud.schemas.in.h:25
 msgid "Log flush interval"
 msgstr "日值刷新时间间隔"
 
-#: gnome-mud.schemas.in.h:30
-msgid "Mudlist file"
-msgstr "Mud 列表文件"
-
-#: gnome-mud.schemas.in.h:31
+#: ../gnome-mud.schemas.in.h:26
 msgid "Number of lines to keep in scrollback"
 msgstr "回滚的行数"
 
-#: gnome-mud.schemas.in.h:32
+#: ../gnome-mud.schemas.in.h:27
 msgid ""
 "Number of scrollback lines to keep around. You can scroll back in the "
 "terminal by this number of lines; lines that don't fit in the scrollback are "
@@ -201,997 +173,1174 @@ msgstr ""
 "向后滚动保持的行数。您可以在终端中由此数字向后滚动屏幕；在向后滚动中不合适的"
 "行将会被丢弃。"
 
-#: gnome-mud.schemas.in.h:33
-msgid "Tab location"
-msgstr "标签位置"
+#: ../gnome-mud.schemas.in.h:28
+msgid "Proxy Hostname"
+msgstr "代理主机名"
 
-#: gnome-mud.schemas.in.h:34
-msgid "Terminal type"
-msgstr "终端类型"
+#: ../gnome-mud.schemas.in.h:29
+msgid "Proxy Version"
+msgstr "代理版本"
 
-#: gnome-mud.schemas.in.h:35
-msgid "The file that was last used to save a mudlog in."
-msgstr "用来保存最近日志的文件。"
+#: ../gnome-mud.schemas.in.h:30
+msgid "Remote Download"
+msgstr "远程下载"
 
-#: gnome-mud.schemas.in.h:36
-msgid ""
-"The location of the connection tabs. Valid options are \"left\", \"right\", "
-"\"top\" and \"bottom\"."
-msgstr "连接标签位置。有效选项是“left”，“right”，“top”和“bottom”。"
+#: ../gnome-mud.schemas.in.h:31
+msgid "Remote Encoding"
+msgstr "远程编码"
 
-#: gnome-mud.schemas.in.h:37 src/data.c:346 src/profiles.c:1226
+#: ../gnome-mud.schemas.in.h:32
+msgid "The SOCKS Version to be used."
+msgstr "要使用的 SOCKS 版本。"
+
+#: ../gnome-mud.schemas.in.h:33
+msgid "The encoding for the terminal widget."
+msgstr "命令构件的编码。"
+
+#: ../gnome-mud.schemas.in.h:34
+msgid "The file in which a mudlog was last saved."
+msgstr "用来保存最近 mudlog 的文件。"
+
+#: ../gnome-mud.schemas.in.h:35
+msgid "The hostname for the SOCKS proxy server."
+msgstr "SOCKS 代理服务器的主机名。"
+
+#: ../gnome-mud.schemas.in.h:36
+msgid "The index of the currently selected encoding."
+msgstr "当前选择编码的索引。"
+
+#: ../gnome-mud.schemas.in.h:37 ../ui/prefs.glade.h:25
 msgid "Triggers"
 msgstr "切换开关"
 
-#. vars
-#: gnome-mud.schemas.in.h:38 src/data.c:353 src/profiles.c:1219
+#: ../gnome-mud.schemas.in.h:38
+msgid "Use Proxy"
+msgstr "使用代理"
+
+#: ../gnome-mud.schemas.in.h:39
+msgid "Use Remote Encoding negotiation."
+msgstr "使用远程编码协商。"
+
+#: ../gnome-mud.schemas.in.h:40
+msgid "Use a proxy server to connect to the mud."
+msgstr "使用代理服务器连接到 Mud。"
+
+#: ../gnome-mud.schemas.in.h:41 ../ui/prefs.glade.h:26
 msgid "Variables"
 msgstr "变量"
 
-#: gnome-mud.schemas.in.h:39
+#: ../gnome-mud.schemas.in.h:42
 msgid "Whether to echo sent text to the connection"
 msgstr "是否显示到连接的文本"
 
-#: gnome-mud.schemas.in.h:40
+#: ../gnome-mud.schemas.in.h:43
 msgid "Whether to enable or disable the system keys"
 msgstr "是否启用或禁用系统键"
 
-#: gnome-mud.schemas.in.h:41
+#: ../gnome-mud.schemas.in.h:44
 msgid "Whether to keep text sent to the connection"
 msgstr "是否保留到连接的文本"
 
-#: gnome-mud.schemas.in.h:42
+#: ../gnome-mud.schemas.in.h:45
 msgid "Whether to scroll to the bottom when there's new output"
 msgstr "是否在有新输出时滚动到底部"
 
-#: src/data.c:247
-msgid "No void characters allowed."
-msgstr "没有有效的允许字符。"
+#: ../src/debug-logger.c:827 ../src/mud-connections.c:1272
+msgid "Error"
+msgstr "错误"
 
-#. actions
-#: src/data.c:251 src/data.c:345
-msgid "Actions"
-msgstr "动作"
-
-#: src/data.c:253
+#: ../src/debug-logger.c:830 ../src/debug-logger.c:913
 #, c-format
-msgid "Character '%c' not allowed."
-msgstr "字符“%c”不被允许。"
+msgid "ERROR: %s\n"
+msgstr "错误：%s\n"
 
-#: src/data.c:260 src/data.c:267
+#: ../src/debug-logger.c:834
+msgid "Critical"
+msgstr "关键"
+
+#: ../src/debug-logger.c:841
+msgid "Warning"
+msgstr "警告"
+
+#: ../src/debug-logger.c:848 ../src/debug-logger.c:998
+msgid "Message"
+msgstr "消息"
+
+#: ../src/debug-logger.c:855
+msgid "Info"
+msgstr "信息"
+
+#: ../src/debug-logger.c:862
+msgid "Debug"
+msgstr "调试"
+
+#: ../src/debug-logger.c:869
+msgid "Unknown"
+msgstr "未知"
+
+#: ../src/debug-logger.c:917
 #, c-format
-msgid "%s too big."
-msgstr "%s 太大。"
+msgid "CRITICAL ERROR: %s\n"
+msgstr "关键错误：%s\n"
 
-#: src/data.c:274
+#: ../src/debug-logger.c:921
 #, c-format
-msgid "Can't duplicate %s."
-msgstr "不能复制 %s。"
+msgid "Warning: %s\n"
+msgstr "警告：%s\n"
 
-#. alias
-#: src/data.c:337
-msgid "Alias"
-msgstr "别名"
+#: ../src/debug-logger.c:991
+msgid "Type"
+msgstr "类型"
 
-#: src/data.c:338
-msgid "Replacement"
-msgstr "替换"
-
-#: src/data.c:354
-msgid "Values"
-msgstr "值"
-
-#: src/data.c:361
-#, c-format
-msgid "%s: trying to access to undefined data range: %d"
-msgstr "%s：尝试访问未定义的数据范围：%d"
-
-#: src/data.c:373
-msgid "GNOME-Mud Configuration Center"
-msgstr "GNOME-Mud 设置中心"
-
-#: src/eggtrayicon.c:118
-msgid "Orientation"
-msgstr "方向"
-
-#: src/eggtrayicon.c:119
-msgid "The orientation of the tray."
-msgstr "托盘的方向。"
-
-#: src/gnome-mud.c:51
-#, c-format
-msgid "There was an error accessing GConf: %s"
-msgstr "访问 GConf 错误：%s"
-
-#: src/gnome-mud.c:64
-msgid "The default configuration values could not be retrieved correctly."
-msgstr "默认的设置值不能被正确检索。"
-
-#: src/gnome-mud.c:65
-msgid ""
-"Please check your GConf configuration, specifically that the schemas have "
-"been installed correctly."
-msgstr "请检查 GConf 设置，明确模式是否正确安装。"
-
-#: src/gnome-mud.c:89
+#: ../src/gnome-mud.c:63
 #, c-format
 msgid "Failed to init GConf: %s"
 msgstr "初始化 GConf 失败：%s"
 
-#: src/init.c:93
-msgid "Do you really want to quit?"
-msgstr "您真要退出吗？"
-
-#: src/init.c:143 src/init.c:676
-msgid "Connect..."
-msgstr "连接..."
-
-#: src/init.c:155 src/profiles.c:950
-msgid "Host:"
-msgstr "主机："
-
-#: src/init.c:161 src/profiles.c:970
-msgid "Port:"
-msgstr "端口："
-
-#: src/init.c:215
-msgid "*** Internal error: no such connection.\n"
-msgstr "*** 内部错误：没有此连接。\n"
-
-#: src/init.c:256
-msgid "Artwork by:"
-msgstr "美工由："
-
-#. Translators: translate as your names & emails
-#. * Paul Translator <paul@translator.org>
-#: src/init.c:266
-msgid "translator_credits"
-msgstr "Li Shaojie <storm-119@163.com>"
-
-#: src/init.c:272
-msgid "A Multi-User Dungeon (MUD) client for GNOME.\n"
-msgstr "GNOME 的多用户地牢(MUD)客户端。\n"
-
-#: src/init.c:284
-msgid "GNOME-Mud home page"
-msgstr "GNOME-Mud 主页"
-
-#: src/init.c:626 src/init.c:656
+#: ../src/mud-connections.c:933
 #, c-format
-msgid "There was an error displaying help: %s"
-msgstr "显示帮助错误：%s"
+msgid "Are you sure you want to delete %s?"
+msgstr "您确定想要删除 %s 吗？"
 
-#: src/init.c:672
-msgid "Wizard..."
-msgstr "向导..."
-
-#: src/init.c:672
-msgid "Open the Connection Wizard"
-msgstr "打开连接向导"
-
-#: src/init.c:674
-msgid "Profiles..."
-msgstr "配置文件..."
-
-#: src/init.c:674
-msgid "Manage user profiles"
-msgstr "管理用户配置文件"
-
-#: src/init.c:676
-msgid "Connect to a mud"
-msgstr "连接到一个 Mud"
-
-#: src/init.c:678
-msgid "Disconnect"
-msgstr "断开连接"
-
-#: src/init.c:678
-msgid "Disconnect from the mud"
-msgstr "从 Mud 断开连接"
-
-#: src/init.c:680
-msgid "Reconnect"
-msgstr "重新连接"
-
-#: src/init.c:680
-msgid "Reconnect to the mud"
-msgstr "重新连接到 Mud"
-
-#: src/init.c:682
-msgid "Exit"
-msgstr "退出"
-
-#: src/init.c:682
-msgid "Quit GNOME-Mud"
-msgstr "退出 GNOME-Mud"
-
-#: src/init.c:687
-msgid "Connection _Wizard..."
-msgstr "连接向导(_W)..."
-
-#: src/init.c:688
-msgid "_MudList Listing..."
-msgstr "列出 Mud 列表(_M)..."
-
-#: src/init.c:690
-msgid "C_onnect..."
-msgstr "连接(_O)..."
-
-#: src/init.c:691
-msgid "_Disconnect"
-msgstr "断开连接(_D)"
-
-#: src/init.c:692
-msgid "_Reconnect"
-msgstr "重新连接(_R)"
-
-#: src/init.c:694
-msgid "S_tart Logging..."
-msgstr "开始记录(_T)..."
-
-#: src/init.c:695
-msgid "Sto_p Logging"
-msgstr "停止登录(_P)"
-
-#: src/init.c:696
-msgid "_Save Buffer..."
-msgstr "保存缓冲区(_S)..."
-
-#: src/init.c:698
-msgid "_Close Window"
-msgstr "关闭窗口(_C)"
-
-#: src/init.c:706
-msgid "_Plugin Information..."
-msgstr "插件信息(_P)..."
-
-#: src/init.c:712
-msgid "Auto _Mapper..."
-msgstr "自动地图(_M)..."
-
-#: src/init.c:715
-msgid "P_lugins"
-msgstr "插件(_L)"
-
-#: src/init.c:722
-msgid "User Manual"
-msgstr "用户手册"
-
-#: src/init.c:723
-msgid "Display the GNOME-Mud User Manual"
-msgstr "显示 GNOME-Mud 用户手册"
-
-#: src/init.c:727
-msgid "Plugin API Manual"
-msgstr "插件 API 手册"
-
-#: src/init.c:728
-msgid "Display the GNOME-Mud Plugin API Manual"
-msgstr "显示 GNOME-Mud 插件 API 手册"
-
-#. Do we really need this now?
-#: src/init.c:784
-msgid "Main"
-msgstr "主要"
-
-#: src/init.c:820
+#: ../src/mud-connections.c:934
 #, c-format
-msgid "GNOME-Mud version %s (compiled %s, %s)\n"
-msgstr "GNOME-Mud 版本 %s (编译 %s, %s)\n"
+msgid "Delete %s?"
+msgstr "删除 %s ？"
 
-#: src/init.c:822
-msgid "Distributed under the terms of the GNU General Public License.\n"
-msgstr "依照 GNU 通用公共许可证发行。\n"
+#: ../src/mud-connections.c:1273
+msgid "No mud name specified."
+msgstr "没有指定 mud 名。"
 
-#: src/keybind.c:149
-msgid "You must use capture first!"
-msgstr "您必须首先使用截留！"
-
-#: src/keybind.c:162
-msgid "Can't add an existing key."
-msgstr "不能添加已存在的键。"
-
-#: src/keybind.c:189
-msgid "Incomplete fields."
-msgstr "不完整的字段。"
-
-#: src/keybind.c:311
-msgid "GNOME-Mud Keybinding Center"
-msgstr "GNOME-Mud 键绑定中心"
-
-#: src/keybind.c:328
-msgid "Key"
-msgstr "键"
-
-#: src/keybind.c:331 src/keybind.c:348 src/keybind.c:366
-msgid "Command"
-msgstr "命令"
-
-#: src/keybind.c:344
-msgid "Bind"
-msgstr "绑定"
-
-#: src/keybind.c:360 src/keybind.c:381
-msgid "Capture"
-msgstr "截留"
-
-#: src/log.c:57
+#: ../src/mud-connection-view.c:575 ../src/mud-connection-view.c:1977
 #, c-format
-msgid "*** Already logging to %s. Close that log first.\n"
-msgstr "*** 已经登录为 %s。首先关闭日志。\n"
+msgid "*** Making connection to %s, port %d.\n"
+msgstr "*** 建立到 %s 的连接，端口 %d。\n"
 
-#: src/log.c:63
-msgid "Open log"
-msgstr "打开日志"
-
-#: src/log.c:76
-msgid "*** No log to be closed is open in this window.\n"
-msgstr "*** 在此窗口中没有已打开要关闭的的日志。\n"
-
-#: src/log.c:103
-#, c-format
-msgid "*** Couldn't open %s.\n"
-msgstr "*** 不能打开 %s。\n"
-
-#: src/log.c:115
-#, c-format
-msgid "*** Logging to %s.\n"
-msgstr "*** 登录为 %s。\n"
-
-#: src/log.c:176
-#, c-format
-msgid "*** Stopped logging to %s.\n"
-msgstr "*** 停止登录为 %s。\n"
-
-#: src/log.c:201
-msgid "*** Could not open file for writing.\n"
-msgstr "*** 不能打开文件写入。\n"
-
-#: src/log.c:215
-msgid "Please select a log file..."
-msgstr "请选择一个日志文件..."
-
-#. Free the create_link_data structure
-#: src/map.c:567
-msgid "Ready."
-msgstr "准备。"
-
-#: src/map.c:568
-msgid "Canceled."
-msgstr "取消。"
-
-#: src/map.c:604
-msgid "A link already exists here!"
-msgstr "链接已经在此存在！"
-
-#. Create the hint label
-#: src/map.c:656 src/map.c:3548 src/map.c:3551
-msgid "Ready"
-msgstr "准备"
-
-#: src/map.c:657
-msgid "Link created"
-msgstr "链接已创建"
-
-#: src/map.c:661
-msgid "Can't create a node here"
-msgstr "不能在此创建结点"
-
-#: src/map.c:892
-msgid "New Map"
-msgstr "新建地图"
-
-#. Translator: "path" means "line of travel", ie "road"
-#: src/map.c:901
-msgid "Creating a path"
-msgstr "创建路径"
-
-#. The radio button (new map)
-#: src/map.c:909
-msgid "Path lead to a new map"
-msgstr "连接到新地图的路径"
-
-#: src/map.c:916
-msgid "New map"
-msgstr "新地图"
-
-#. The radio button (default)
-#: src/map.c:933
-msgid "Path follows an already existing path:"
-msgstr "路径遵从一个存在的路径："
-
-#: src/map.c:952
-msgid "Create"
-msgstr "创建"
-
-#: src/map.c:1115
-msgid "Enter in a path"
-msgstr "输入一个路径"
-
-#: src/map.c:1122
-msgid "Create a new path:"
-msgstr "创建新路径："
-
-#: src/map.c:1139
-msgid "Enter in existing path:"
-msgstr "输入已存在的路径："
-
-#: src/map.c:1190
-msgid ""
-"This node has already 8 links. Destroy one of these before trying to create "
-"a new one"
-msgstr "此结点已经有 8 个连接。在创建新的之前要删除一有的之一"
-
-#. Change the automap state
-#: src/map.c:1197
-msgid "Enter to finish, Esc to quit"
-msgstr "回车结束，Esc 退出"
-
-#: src/map.c:1198
-msgid "Use move buttons to build the link."
-msgstr "使用移动按钮来建立连接。"
-
-#: src/map.c:1376
-msgid "Zoom In"
-msgstr "放大"
-
-#: src/map.c:1377
-msgid "Zoom Out"
-msgstr "缩小"
-
-#: src/map.c:1378
-msgid "Configure Automap"
-msgstr "设置自动地图"
-
-#. Teleport here
-#: src/map.c:1418
-msgid "Teleport here"
-msgstr "远程端口此处"
-
-#.
-#. /* Set node properties */
-#. properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
-#. gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
-#. gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
-#. Create new link
-#: src/map.c:1428
-msgid "Create new link"
-msgstr "创建新链接"
-
-#. Translator: this is an action, not a key
-#: src/map.c:1435
-msgid "Enter"
-msgstr "输入"
-
-#. Can easily be optimised ... but why bother ?
-#. Translator: "N" means "North" here
-#. Create button directions
-#: src/map.c:1736 src/map.c:3576
-msgid "N"
-msgstr "北"
-
-#. Translator: "NE" means "Northeast" here
-#: src/map.c:1738 src/map.c:3577
-msgid "NE"
-msgstr "东北"
-
-#. Translator: "E" means "East" here
-#: src/map.c:1740 src/map.c:3578
-msgid "E"
-msgstr "东"
-
-#. Translator: "SE" means "Southeast" here
-#: src/map.c:1742 src/map.c:3579
-msgid "SE"
-msgstr "东南"
-
-#. Translator: "S" means "South" here
-#: src/map.c:1744 src/map.c:3580
-msgid "S"
-msgstr "南"
-
-#. Translator: "SW" means "Southwest" here
-#: src/map.c:1746 src/map.c:3581
-msgid "SW"
-msgstr "西南"
-
-#. Translator: "W" means "West" here
-#: src/map.c:1748 src/map.c:3582
-msgid "W"
-msgstr "西"
-
-#. Translator: "NW" means "Northwest" here
-#: src/map.c:1750 src/map.c:3583
-msgid "NW"
-msgstr "西北"
-
-#: src/map.c:1751 src/map.c:3584
-msgid "Up"
-msgstr "上"
-
-#: src/map.c:1752 src/map.c:3585
-msgid "Down"
-msgstr "下"
-
-#: src/map.c:1753 src/map.c:3573
-msgid "Remove"
-msgstr "移除"
-
-#. Some buttons
-#: src/map.c:1754 src/map.c:3571
-msgid "Load"
-msgstr "载入"
-
-#: src/map.c:1755 src/map.c:3572
-msgid "Save"
-msgstr "保存"
-
-#: src/map.c:2802
-msgid "Load map"
-msgstr "载入地图"
-
-#: src/map.c:2802
-msgid "Save map"
-msgstr "保存地图"
-
-#: src/map.c:3051
-msgid "No link existed in that direction"
-msgstr "没有在该方向的连接"
-
-#: src/map.c:3057
-msgid "Cannot break links to a node going up or down"
-msgstr "在一个结点的上或下不能断开链接"
-
-#. It would seem this node already has a connection to here, That's
-#. * possible so we need to inform the user that his move is illegal.
-#.
-#: src/map.c:3166
-msgid "Destination node has already a connection here"
-msgstr "目标节点已是一个此处的连接"
-
-#: src/map.c:3315
-msgid "Can't create a link to another floor!"
-msgstr "不能创建到另一层的链接！"
-
-#: src/map.c:3321
-msgid "There is already a link here!"
-msgstr "此处已有一个链接！"
-
-#. Set the title
-#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
-#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
-#: src/map.c:3456
-msgid "GNOME-Mud AutoMapper"
-msgstr "GNOME-Mud 自动地图"
-
-#: src/modules.c:197
-msgid "Plugin Information"
-msgstr "插件信息"
-
-#: src/modules.c:213
-msgid "Plugin Name:"
-msgstr "插件名称："
-
-#: src/modules.c:233
-msgid "Plugin Author:"
-msgstr "插件作者："
-
-#: src/modules.c:243
-msgid "Plugin Version:"
-msgstr "插件版本："
-
-#: src/modules.c:253
-msgid "Plugin Description:"
-msgstr "插件描述："
-
-#: src/modules.c:263
-msgid "Enable plugin"
-msgstr "启用插件"
-
-#: src/modules.c:419
-#, c-format
-msgid "Error getting plugin handle (%s): %s."
-msgstr "获取插件句柄(%s)错误：%s。"
-
-#: src/modules.c:424
-#, c-format
-msgid "Error, %s not an GNOME-Mud module: %s."
-msgstr "错误，%s 不是 GNOME-Mud 模块：%s。"
-
-#: src/modules.c:450
-msgid "Registering plugin `%s' under the name `%s'."
-msgstr "以名称“%2$s”注册插件“%1$s”。"
-
-#: src/modules_api.c:66
-#, c-format
-msgid "Error while registering the menu: %s"
-msgstr "注册菜单时出错：%s"
-
-#: src/modules_api.c:86
-#, c-format
-msgid "Error while registering data %s: %s"
-msgstr "注册数据 %s 时出错：%s"
-
-#: src/modules_api.c:94
-msgid "Error while getting plugin from handle."
-msgstr "从句柄获取插件时出错。"
-
-#: src/mudlist.c:404
-msgid "Could not open MudList file for reading"
-msgstr "不能打开 Mud 列表文件来读"
-
-#: src/mudlist.c:410
-msgid "GNOME-Mud MudList"
-msgstr "GNOME-Mud Mud 列表"
-
-#: src/mudlist.c:420
-msgid "Mud name:"
-msgstr "Mud 名称："
-
-#: src/mudlist.c:434
-msgid "Codebase:"
-msgstr "编码基准："
-
-#: src/mudlist.c:448
-msgid "Telnet address:"
-msgstr "Telnet 地址："
-
-#: src/mudlist.c:464
-msgid "Connect to the mud"
-msgstr "连接到 Mud"
-
-#: src/mudlist.c:468
-msgid "Import and close"
-msgstr "导入并关闭"
-
-#: src/mudlist.c:476
-msgid "Go to webpage of the mud"
-msgstr "转到 Mud 的网页"
-
-#: src/mudlist.c:483
-msgid "Description:"
-msgstr "描述："
-
-#: src/net.c:221
-msgid "*** Connection closed.\n"
-msgstr "*** 连接已关闭。\n"
-
-#: src/net.c:243
-msgid "*** Can't connect - you didn't specify a host.\n"
-msgstr "*** 不能连接 - 您没有指定一个主机。\n"
-
-#: src/net.c:249
-msgid "*** No port specified - assuming port 23.\n"
-msgstr "*** 没有指定端口 - 默认端口 23。\n"
-
-#: src/net.c:264
-#, c-format
-msgid "*** Making connection to %s, port %s.\n"
-msgstr "*** 连接到 %s，端口 %s。\n"
-
-#: src/net.c:289
-#, c-format
-msgid "*** Trying %s port %s...\n"
-msgstr "*** 尝试 %s 端口 %s...\n"
-
-#: src/net.c:316
-msgid "*** Connection established.\n"
-msgstr "*** 连接建立。\n"
-
-#: src/net.c:455
-msgid "Couldn't convert text input"
-msgstr "不能转换文本输入"
-
-#: src/prefs.c:253 src/prefs.c:411
-#, c-format
-msgid "Palette had %d entry instead of %d\n"
-msgid_plural "Palette had %d entries instead of %d\n"
-msgstr[0] "调色板的 %2$d 项目替换为 %1$d\n"
-
-#: src/prefs.c:354
-#, c-format
-msgid "%s already exists and is not a directory!"
-msgstr "%s 已经存在并且不是一个目录！"
-
-#: src/prefs.c:363
-#, c-format
-msgid "%s does not exist and can NOT be created: %s"
-msgstr "%s 不存在并且无法创建：%s"
-
-#: src/prefs.c:638
-msgid "Font:"
-msgstr "字体："
-
-#: src/prefs.c:646
-msgid "Main font that is used on all open connections."
-msgstr "主字体用于所有打开的连接。"
-
-#: src/prefs.c:649
-msgid "The quick brown fox jumps over the lazy dog"
-msgstr "棕色的狐狸迅速的跳过懒惰的狗"
-
-#: src/prefs.c:653
-msgid "Color palette:"
-msgstr "调色板："
-
-#: src/prefs.c:659
-msgid "Background color:"
-msgstr "背景颜色："
-
-#: src/prefs.c:665
-msgid "Foreground color:"
-msgstr "前景颜色："
-
-#: src/prefs.c:673
-msgid ""
-"Default foreground color used when the connection doesn't request the use of "
-"a specific color."
-msgstr "当连接没有请求使用指定的前景色，将使用默认的前景色。"
-
-#: src/prefs.c:682
-msgid ""
-"Default background color used when the connection doesn't request the use of "
-"a specific color."
-msgstr "当连接没有请求使用指定的背景色，将使用默认的背景色。"
-
-#: src/prefs.c:698
-msgid "Change the color of a specific color that the MUD requests to use."
-msgstr "改变 MUD 请求使用的指定颜色。"
-
-#: src/prefs.c:740
-msgid "on top"
-msgstr "顶部"
-
-#: src/prefs.c:740
-msgid "on the right"
-msgstr "靠右"
-
-#: src/prefs.c:740
-msgid "at the bottom"
-msgstr "底部"
-
-#: src/prefs.c:740
-msgid "on the left"
-msgstr "靠左"
-
-#: src/prefs.c:758
-msgid "GNOME-Mud Preferences"
-msgstr "GNOME-Mud 首选项"
-
-#: src/prefs.c:772
-msgid "Functionality"
-msgstr "功能性"
-
-#: src/prefs.c:778
-msgid "_Echo the text sent"
-msgstr "回显发送的文本(_E)"
-
-#: src/prefs.c:789
-msgid "_Keep the text entered"
-msgstr "保留输入的文本(_K)"
-
-#: src/prefs.c:800
-msgid "Disable _System Keys"
-msgstr "禁用系统键(_S)"
-
-#: src/prefs.c:814
-msgid "Command division character:"
-msgstr "命令分隔字符："
-
-#: src/prefs.c:819
-msgid ""
-"The character used to divide commands sent to the mud. For example, \";\", "
-"will let the string \"w;look\" be sent to the mud as 2 separate commands."
-msgstr ""
-"发送到 Mud 的用来分隔命令的字符。例如，“;”，会将字符串“w;look”作为两个分开的"
-"命令发送给 Mud。"
-
-#: src/prefs.c:829
-msgid "Command history:"
-msgstr "命令历史："
-
-#: src/prefs.c:835
-msgid "The number of entries to be saved in the command history."
-msgstr "命令历史中保存的项目数目。"
-
-#: src/prefs.c:843
-msgid "Terminal type:"
-msgstr "终端类型："
-
-#: src/prefs.c:858
-msgid "MudList file:"
-msgstr "Mud 列表文件："
-
-#: src/prefs.c:861
-msgid "Select a MudList File..."
-msgstr "选择一个 Mud 列表文件..."
-
-#: src/prefs.c:863
-msgid "Mudlist file to be used for the mudlist functionality."
-msgstr "用于 Mud 列表功能性的 Mud  列表文件"
-
-#: src/prefs.c:872
-msgid "Color and Fonts"
-msgstr "颜色和字体"
-
-#: src/prefs.c:880
-msgid "Appearance"
-msgstr "外观"
-
-#: src/prefs.c:889
-msgid "Tabs are located:"
-msgstr "标签位置："
-
-#: src/prefs.c:902
-msgid ""
-"This setting defines where to place the connection tabs that are used to "
-"change active connection."
-msgstr "此设置定义了在什么地方放置连接标签，这些标签用来改变活动的连接。"
-
-#: src/prefs.c:913
-msgid "Scrollback:"
-msgstr "向后滚动："
-
-#: src/prefs.c:919
-msgid "Number of lines to save in the scrollback."
-msgstr "保存在向后滚动的行数"
-
-#: src/prefs.c:923
-msgid "lines"
-msgstr "行数"
-
-#: src/prefs.c:929
-msgid "S_croll on output"
-msgstr "输出滚动(_R)"
-
-#: src/prefs.c:931
-msgid ""
-"If enabled, the terminal will scroll to the bottom if new output appears in "
-"the connection when the terminal was scrolled back."
-msgstr "如果启用，连接中终端向后滚动时，终端会在新输出出现时滚到底部。"
-
-#: src/prefs.c:942
-msgid "AutoMapper"
-msgstr "自动地图"
-
-#: src/prefs.c:956
-msgid "Unusual movement commands:"
-msgstr "不常见的移动命令："
-
-#: src/prefs.c:963
-msgid ""
-"If you use the automapper, you may want to specify here some unusual "
-"movement commands. When you use one of these, the automapper will create a "
-"path to an other map. Use a semicolon to separate the different commands."
-msgstr ""
-"如果您使用自动地图，您可能想指定一些不常见的移动命令。当您使用其中一个的时"
-"候，自动地图会创建到另一个地图的路径。使用分号来分隔不同的命令。"
-
-#: src/profiles.c:301
-msgid "New profile"
-msgstr "新建配置文件"
-
-#: src/profiles.c:304
-msgid "Name of new profile:"
-msgstr "新配置文件的名称："
-
-#: src/profiles.c:506
-msgid "GNOME-Mud: Profilelist"
-msgstr "GNOME-Mud：配置文件列表"
-
-#: src/profiles.c:675 src/profiles.c:1047
-msgid "Default"
-msgstr "默认"
-
-#: src/profiles.c:856 src/profiles.c:1195
-msgid "Delete"
-msgstr "删除"
-
-#: src/profiles.c:872
-msgid "GNOME-Mud Connections"
-msgstr "GNOME-Mud 连接"
-
-#: src/profiles.c:906
-msgid "Mud"
-msgstr "Mud"
-
-#. Translators: this is the name of your player
-#: src/profiles.c:913
-msgid "Character"
-msgstr "角色"
-
-#: src/profiles.c:926
-msgid "Mud information"
-msgstr "Mud 信息"
-
-#: src/profiles.c:942
-msgid "Title:"
-msgstr "标题："
-
-#: src/profiles.c:986
-msgid "Character information"
-msgstr "角色信息"
-
-#: src/profiles.c:1002
-msgid "Character:"
-msgstr "角色："
-
-#: src/profiles.c:1010
-msgid "Password:"
-msgstr "密码："
-
-#: src/profiles.c:1031
-msgid "Profile information"
-msgstr "配置文件信息"
-
-#: src/profiles.c:1057
-msgid "Select Profile"
-msgstr "选择配置文件"
-
-#: src/profiles.c:1073
-msgid "Fetch from mudlist"
-msgstr "从 Mud 列表中取回"
-
-#: src/profiles.c:1125
-msgid "Connect"
-msgstr "连接"
-
-#: src/profiles.c:1164
-msgid "Profiles"
-msgstr "配置文件"
-
-#: src/profiles.c:1173
-msgid "GNOME-Mud Profiles"
-msgstr "GNOME-Mud 配置文件"
-
-#: src/profiles.c:1187
-msgid "New"
-msgstr "新建"
-
-#: src/profiles.c:1188
-msgid "Create a new profile"
-msgstr "创建新配置文件"
-
-#: src/profiles.c:1195
-msgid "Delete a profile"
-msgstr "删除配置文件"
-
-#: src/profiles.c:1212
-msgid "Set aliases"
-msgstr "设置别名"
-
-#: src/profiles.c:1219
-msgid "Set variables"
-msgstr "设置变量"
-
-#: src/profiles.c:1226
-msgid "Set triggers"
-msgstr "设置切换开关"
-
-#: src/profiles.c:1243
-msgid "Set keybindings"
-msgstr "设置键绑定"
-
-#: src/profiles.c:1260
+#: ../src/mud-connection-view.c:1054
 msgid "Close"
 msgstr "关闭"
 
-#: src/profiles.c:1260
-msgid "Close the window"
-msgstr "关闭窗口"
+#: ../src/mud-connection-view.c:1074
+msgid "Change P_rofile"
+msgstr "更改用户配置文件(_R)"
 
-#: src/tray.c:101
+#: ../src/mud-connection-view.c:1113
+msgid "_Input Methods"
+msgstr "输入法(_I)"
+
+#: ../src/mud-connection-view.c:1142
+msgid "*** Could not connect.\n"
+msgstr "*** 无法连接。\n"
+
+#: ../src/mud-connection-view.c:1147
+msgid "*** Connected.\n"
+msgstr "*** 已连接。\n"
+
+#: ../src/mud-connection-view.c:1175
+msgid "*** Connection closed.\n"
+msgstr "*** 连接已关闭。\n"
+
+#: ../src/mud-connection-view.c:1405
+#, c-format
+msgid ""
+"There was an error loading config value for whether to use image in menus. (%"
+"s)\n"
+msgstr "在加载菜单中是否使用配置值时出错。(%s)\n"
+
+#: ../src/mud-connection-view.c:1880 ../src/mud-connection-view.c:1924
+msgid ""
+"\n"
+"*** Connection closed.\n"
+msgstr ""
+"\n"
+"*** 连接已关闭。\n"
+
+#: ../src/mud-connection-view.c:2027
+msgid "<password removed>"
+msgstr "<口令已经删除>"
+
+#: ../src/mud-connection-view.c:2223
+msgid "Connecting..."
+msgstr "正在连接..."
+
+#: ../src/mud-connection-view.c:2346
+msgid "Connection timed out."
+msgstr "连接超时。"
+
+#: ../src/mud-connection-view.c:2362
+msgid "There was an internal http connection error."
+msgstr "有一个内部 http 连接错误。"
+
+#: ../src/mud-connection-view.c:2384
+msgid "Downloading"
+msgstr "正在下载"
+
+#: ../src/mud-log.c:395
+msgid "Save log as..."
+msgstr "保存日志为..."
+
+#: ../src/mud-log.c:727
+msgid ""
+"\n"
+"*** Log starts *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+"*** 日志开始 *** %d/%m/%Y %H:%M:%S\n"
+
+#: ../src/mud-log.c:811
+msgid "Log Error"
+msgstr "日志错误"
+
+#: ../src/mud-log.c:812
+#, c-format
+msgid "Could not open \"%s\" for writing."
+msgstr "*** 不能打开 \"%s\" 用以写入。"
+
+#: ../src/mud-log.c:839
+msgid ""
+"\n"
+" *** Log stops *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+" *** 日志结束 *** %d/%m/%Y %H:%M:%S\n"
+
+#: ../src/mud-log.c:913
+msgid "Could not write data to log file!"
+msgstr "无法向日志文件写入数据！"
+
+#: ../src/mud-tray.c:271
 msgid "_Hide window"
 msgstr "隐藏窗口(_H)"
 
-#: src/tray.c:103
+#: ../src/mud-tray.c:273
 msgid "_Show window"
 msgstr "显示窗口(_S)"
 
-#: src/tray.c:108
+#: ../src/mud-tray.c:279
 msgid "_Quit"
 msgstr "退出(_Q)"
 
-#: src/tray.c:158
-msgid "GNOME Mud"
-msgstr "GNOME Mud"
+#: ../src/mud-trigger.c:724
+msgid "#Submatch Out of Range#"
+msgstr "#子匹配超出范围#"
+
+#: ../src/mud-window.c:847
+msgid "A Multi-User Dungeon (MUD) client for GNOME"
+msgstr "GNOME 的一款多人参与历险游戏 (MUD) 客户端"
+
+#: ../src/mud-window.c:859
+msgid "translator-credits"
+msgstr ""
+"Li Shaojie <storm-119@163.com>\n"
+"YunQiang Su <wzssyqa@gmail.com>"
+
+#: ../src/mud-window.c:968
+msgid "Error Saving Buffer"
+msgstr "保存缓冲出错"
+
+#: ../src/mud-window.c:1279
+msgid "_Manage Profiles..."
+msgstr "管理用户配置文件(_M)..."
+
+#: ../src/handlers/mud-telnet-mccp.c:429
+msgid ""
+"\n"
+"MCCP data corrupted. Aborting connection.\n"
+msgstr ""
+"\n"
+"MCCP 数据损坏。终止连接。\n"
+
+#: ../ui/main.glade.h:1
+msgid "<b>Logging Options:</b>"
+msgstr "<b>日志选项：</b>"
+
+#: ../ui/main.glade.h:2
+msgid "<b>_Log to File:</b>"
+msgstr "<b>向文件写入日志(_L)：</b>"
+
+#: ../ui/main.glade.h:3
+msgid "C_onnection..."
+msgstr "连接(_O)..."
+
+#: ../ui/main.glade.h:4
+msgid "Close _Window"
+msgstr "关闭窗口(_W)"
+
+#: ../ui/main.glade.h:5
+msgid "Connect"
+msgstr "连接"
+
+#: ../ui/main.glade.h:6
+msgid "Connect to MUD"
+msgstr "连接到 Mud"
+
+#: ../ui/main.glade.h:7
+msgid "Connect to host"
+msgstr "连接到 主机"
+
+#: ../ui/main.glade.h:8
+msgid "Debug Log"
+msgstr "调试日志"
+
+#: ../ui/main.glade.h:9
+msgid "Disconnect"
+msgstr "断开连接"
+
+#: ../ui/main.glade.h:10
+msgid "Disconnect from current MUD"
+msgstr "从当前 Mud 断开连接"
+
+#: ../ui/main.glade.h:11
+msgid "Disconnect from current host"
+msgstr "从当前主机断开连接"
+
+#: ../ui/main.glade.h:12
+msgid "Gnome-Mud"
+msgstr "Gnome-Mud"
+
+#: ../ui/main.glade.h:13
+msgid "Include C_olor"
+msgstr "包括颜色(_O)"
+
+#: ../ui/main.glade.h:14
+msgid "Log Inp_ut"
+msgstr "日志输入(_U)"
+
+#: ../ui/main.glade.h:15
+msgid "Number of _previous lines to include:"
+msgstr "要包含的先前行数(_P)："
+
+#: ../ui/main.glade.h:16
+msgid "P_rofiles"
+msgstr "用户配置文件(_R)"
+
+#: ../ui/main.glade.h:17
+msgid "Reconnect"
+msgstr "重新连接"
+
+#: ../ui/main.glade.h:18
+msgid "Reconnect to current MUD"
+msgstr "重新连接到当前 Mud"
+
+#: ../ui/main.glade.h:19
+msgid "Save buffer as..."
+msgstr "保存缓冲为(_S)..."
+
+#: ../ui/main.glade.h:20
+msgid "Start Logging..."
+msgstr "开始记录..."
+
+#: ../ui/main.glade.h:21
+msgid "Start _Logging..."
+msgstr "开始记录(_L)..."
+
+#: ../ui/main.glade.h:22
+msgid "Stop Lo_gging"
+msgstr "停止登录(_G)"
+
+#: ../ui/main.glade.h:23
+msgid "_Append to file"
+msgstr "追加到文件(_A)"
+
+#: ../ui/main.glade.h:24
+msgid "_Disconnect"
+msgstr "断开连接(_D)"
+
+#: ../ui/main.glade.h:25
+msgid "_File"
+msgstr "文件(_F)"
+
+#: ../ui/main.glade.h:26
+msgid "_Help"
+msgstr "帮助(_H)"
+
+#: ../ui/main.glade.h:27
+msgid "_Include entire buffer"
+msgstr "包含整个缓冲区(_I)"
+
+#: ../ui/main.glade.h:28
+msgid "_Number of lines to log:"
+msgstr "要记录的行数(_N)："
+
+#: ../ui/main.glade.h:29
+msgid "_Reconnect"
+msgstr "重新连接(_R)"
+
+#: ../ui/main.glade.h:30
+msgid "_Save Buffer..."
+msgstr "保存缓冲区(_S)..."
+
+#: ../ui/main.glade.h:31
+msgid "_Select File"
+msgstr "选择文件(_S)"
+
+#: ../ui/main.glade.h:32
+msgid "_Settings"
+msgstr "设置(_S)"
+
+#: ../ui/muds.glade.h:1
+msgid " _Host: "
+msgstr "主机(_H)："
+
+#: ../ui/muds.glade.h:2
+msgid " _Port: "
+msgstr " 端口(_P)："
+
+#: ../ui/muds.glade.h:3
+msgid "<b>Character</b>"
+msgstr "<b>字符</b>"
+
+#: ../ui/muds.glade.h:4
+msgid "<b>Custom Connection</b>"
+msgstr "<b>自定义连接</b>"
+
+#: ../ui/muds.glade.h:5
+msgid "<b>Mud</b>"
+msgstr "<b>Mud</b>"
+
+#: ../ui/muds.glade.h:6
+msgid "<b>Profile</b>"
+msgstr "<b>用户配置文件</b>"
+
+#: ../ui/muds.glade.h:7
+msgid "Are you sure you want to delete this mud?"
+msgstr "您确定要删除此 mud ？"
+
+#: ../ui/muds.glade.h:8
+msgid "Close _without Saving"
+msgstr "关闭而不保存(_W)"
+
+#: ../ui/muds.glade.h:9
+msgid "Connection Properties"
+msgstr "连接属性"
+
+#: ../ui/muds.glade.h:10
+msgid "Connections"
+msgstr "连接"
+
+#: ../ui/muds.glade.h:11
+msgid "Delete Mud?"
+msgstr "删除 Mud？"
+
+#: ../ui/muds.glade.h:12
+msgid "Host:"
+msgstr "主机："
+
+#: ../ui/muds.glade.h:13
+msgid "Logon:"
+msgstr "登录："
+
+#: ../ui/muds.glade.h:14
+msgid "Name:"
+msgstr "名称："
+
+#: ../ui/muds.glade.h:15
+msgid "Port:"
+msgstr "端口："
+
+#: ../ui/muds.glade.h:16
+msgid "Select A Folder"
+msgstr "选择一个文件夹"
+
+#: ../ui/muds.glade.h:17
+msgid "Select An Icon..."
+msgstr "选择一个图标..."
+
+#: ../ui/muds.glade.h:18
+msgid "Unsaved Changes"
+msgstr "未保存更改"
+
+#: ../ui/muds.glade.h:19
+msgid "You have unsaved changes. Do you want to save before closing?"
+msgstr "您有未保存的更改。关闭之前想要保存吗？"
+
+#: ../ui/prefs.glade.h:1
+msgid "<b>Encoding</b>"
+msgstr "<b>编码</b>"
+
+#: ../ui/prefs.glade.h:2
+msgid "<b>Input</b>"
+msgstr "<b>输入</b>"
+
+#: ../ui/prefs.glade.h:3
+msgid "<b>New Profile Name:</b>"
+msgstr "<b>新用户配置文件名：</b>"
+
+#: ../ui/prefs.glade.h:4
+msgid "<b>Output</b>"
+msgstr "<b>输入</b>"
+
+#: ../ui/prefs.glade.h:5
+msgid "<b>Proxy</b>"
+msgstr "<b>代理</b>"
+
+#: ../ui/prefs.glade.h:6
+msgid "<b>Telnet Options</b>"
+msgstr "<b>Telnet 选项</b>"
+
+#: ../ui/prefs.glade.h:8
+msgid "Color Palette:"
+msgstr "调色板："
+
+#: ../ui/prefs.glade.h:9
+msgid "Command _Division Character:"
+msgstr "命令分隔字符(_D)："
+
+#: ../ui/prefs.glade.h:10
+msgid "Enable Mud _Sound Protocol (MSP)"
+msgstr "启用 Mud 声音协议(M_SP)"
+
+#: ../ui/prefs.glade.h:11
+msgid "Enable _Character Encoding Negotiation (CHARSET)"
+msgstr "启用字符编码协商(_CHARSET)"
+
+#: ../ui/prefs.glade.h:12
+msgid "Error At:"
+msgstr "错误，于："
+
+#: ../ui/prefs.glade.h:13
+msgid "Error Code:"
+msgstr "错误代码："
+
+#: ../ui/prefs.glade.h:14
+msgid "Error String:"
+msgstr "错误字符串："
+
+#: ../ui/prefs.glade.h:15
+msgid "Fon_t:"
+msgstr "字体(_T)："
+
+#: ../ui/prefs.glade.h:17
+msgid "Network"
+msgstr "网络"
+
+#: ../ui/prefs.glade.h:18
+msgid "New Profile"
+msgstr "新建用户配置文件"
+
+#: ../ui/prefs.glade.h:19
+msgid "Preferences"
+msgstr "首选项"
+
+#: ../ui/prefs.glade.h:20
+msgid "Profiles"
+msgstr "用户配置文件"
+
+#: ../ui/prefs.glade.h:21
+msgid "Regex Error"
+msgstr "正则表达式错误"
+
+#: ../ui/prefs.glade.h:22
+msgid "Scroll on _Output"
+msgstr "输出滚动(_O)"
+
+#: ../ui/prefs.glade.h:23
+msgid "Terminal"
+msgstr "终端"
+
+#: ../ui/prefs.glade.h:24
+msgid "Timers"
+msgstr "计时器"
+
+#: ../ui/prefs.glade.h:27
+msgid "_Background Color:"
+msgstr "背景颜色(_B)："
+
+#: ../ui/prefs.glade.h:28
+msgid "_Character Set:"
+msgstr "字符集(_C)："
+
+#: ../ui/prefs.glade.h:29
+msgid "_Echo the Text Sent"
+msgstr "回显发送的文本(_E)"
+
+#: ../ui/prefs.glade.h:30
+msgid "_Enable Proxy"
+msgstr "启用代理服务器(_E)"
+
+#: ../ui/prefs.glade.h:31
+msgid "_Foreground Color:"
+msgstr "前景色(_F)："
+
+#: ../ui/prefs.glade.h:32
+msgid "_Host:"
+msgstr "主机(_H)："
+
+#: ../ui/prefs.glade.h:33
+msgid "_Keep the Text Entered"
+msgstr "保留输入的文本(_K)"
+
+#: ../ui/prefs.glade.h:34
+msgid "_Number of Scrollback Lines:"
+msgstr "回滚行数(_N)："
+
+#: ../ui/prefs.glade.h:35
+msgid "_Version:"
+msgstr "版本(_V)："
+
+#~ msgid ""
+#~ "File where the mud list will be read from to be used in the MudList "
+#~ "dialog."
+#~ msgstr "在 MudList 对话框使用的要读取 Mud 列表的文件。"
+
+#~ msgid ""
+#~ "GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) "
+#~ "if the MUD requests one. This option sets the terminal type that will be "
+#~ "sent."
+#~ msgstr ""
+#~ "如果 MUD 请求，GNOME-Mud 将尝试传送一种终端类型(像 ANSI 或 VT100)。此选项"
+#~ "设置将要发送的终端类型。"
+
+#~ msgid "How many entries to keep in the command history"
+#~ msgstr "在命令历史中保留多少项目"
+
+#~ msgid "How many entries to keep in the command history."
+#~ msgstr "在命令历史中保留多少项目。"
+
+#~ msgid ""
+#~ "List of commands which will be treated as movement commands by the "
+#~ "automapper. A semicolon is used to separate each command."
+#~ msgstr "自动地图认为是移动命令的命令列表。分号用来分隔每个命令。"
+
+#~ msgid ""
+#~ "List of connections known to GNOME-Mud. The list contains strings naming "
+#~ "subdirectories relative to /apps/gnome-mud/connections."
+#~ msgstr ""
+#~ "GNOME-Mud 已知的连接列表。列表中包含了一些字符串，它们是在 /apps/gnome-"
+#~ "mud/connections 子目录中相关命名的。"
+
+#~ msgid "List of movement commands"
+#~ msgstr "移动命令列表"
+
+#~ msgid "Mudlist file"
+#~ msgstr "Mud 列表文件"
+
+#~ msgid "Tab location"
+#~ msgstr "标签位置"
+
+#~ msgid ""
+#~ "The location of the connection tabs. Valid options are \"left\", \"right"
+#~ "\", \"top\" and \"bottom\"."
+#~ msgstr "连接标签位置。有效选项是“left”，“right”，“top”和“bottom”。"
+
+#~ msgid "No void characters allowed."
+#~ msgstr "没有有效的允许字符。"
+
+#~ msgid "Actions"
+#~ msgstr "动作"
+
+#~ msgid "Character '%c' not allowed."
+#~ msgstr "字符“%c”不被允许。"
+
+#~ msgid "%s too big."
+#~ msgstr "%s 太大。"
+
+#~ msgid "Can't duplicate %s."
+#~ msgstr "不能复制 %s。"
+
+#~ msgid "Alias"
+#~ msgstr "别名"
+
+#~ msgid "Replacement"
+#~ msgstr "替换"
+
+#~ msgid "Values"
+#~ msgstr "值"
+
+#~ msgid "%s: trying to access to undefined data range: %d"
+#~ msgstr "%s：尝试访问未定义的数据范围：%d"
+
+#~ msgid "GNOME-Mud Configuration Center"
+#~ msgstr "GNOME-Mud 设置中心"
+
+#~ msgid "Orientation"
+#~ msgstr "方向"
+
+#~ msgid "The orientation of the tray."
+#~ msgstr "托盘的方向。"
+
+#~ msgid "There was an error accessing GConf: %s"
+#~ msgstr "访问 GConf 错误：%s"
+
+#~ msgid "The default configuration values could not be retrieved correctly."
+#~ msgstr "默认的设置值不能被正确检索。"
+
+#~ msgid ""
+#~ "Please check your GConf configuration, specifically that the schemas have "
+#~ "been installed correctly."
+#~ msgstr "请检查 GConf 设置，明确模式是否正确安装。"
+
+#~ msgid "*** Internal error: no such connection.\n"
+#~ msgstr "*** 内部错误：没有此连接。\n"
+
+#~ msgid "Artwork by:"
+#~ msgstr "美工由："
+
+#~ msgid "GNOME-Mud home page"
+#~ msgstr "GNOME-Mud 主页"
+
+#~ msgid "There was an error displaying help: %s"
+#~ msgstr "显示帮助错误：%s"
+
+#~ msgid "Wizard..."
+#~ msgstr "向导..."
+
+#~ msgid "Open the Connection Wizard"
+#~ msgstr "打开连接向导"
+
+#~ msgid "Exit"
+#~ msgstr "退出"
+
+#~ msgid "Quit GNOME-Mud"
+#~ msgstr "退出 GNOME-Mud"
+
+#~ msgid "_MudList Listing..."
+#~ msgstr "列出 Mud 列表(_M)..."
+
+#~ msgid "_Plugin Information..."
+#~ msgstr "插件信息(_P)..."
+
+#~ msgid "Auto _Mapper..."
+#~ msgstr "自动地图(_M)..."
+
+#~ msgid "P_lugins"
+#~ msgstr "插件(_L)"
+
+#~ msgid "User Manual"
+#~ msgstr "用户手册"
+
+#~ msgid "Display the GNOME-Mud User Manual"
+#~ msgstr "显示 GNOME-Mud 用户手册"
+
+#~ msgid "Plugin API Manual"
+#~ msgstr "插件 API 手册"
+
+#~ msgid "Display the GNOME-Mud Plugin API Manual"
+#~ msgstr "显示 GNOME-Mud 插件 API 手册"
+
+#~ msgid "Main"
+#~ msgstr "主要"
+
+#~ msgid "GNOME-Mud version %s (compiled %s, %s)\n"
+#~ msgstr "GNOME-Mud 版本 %s (编译 %s, %s)\n"
+
+#~ msgid "Distributed under the terms of the GNU General Public License.\n"
+#~ msgstr "依照 GNU 通用公共许可证发行。\n"
+
+#~ msgid "You must use capture first!"
+#~ msgstr "您必须首先使用截留！"
+
+#~ msgid "Can't add an existing key."
+#~ msgstr "不能添加已存在的键。"
+
+#~ msgid "Incomplete fields."
+#~ msgstr "不完整的字段。"
+
+#~ msgid "GNOME-Mud Keybinding Center"
+#~ msgstr "GNOME-Mud 键绑定中心"
+
+#~ msgid "Key"
+#~ msgstr "键"
+
+#~ msgid "Command"
+#~ msgstr "命令"
+
+#~ msgid "Bind"
+#~ msgstr "绑定"
+
+#~ msgid "Capture"
+#~ msgstr "截留"
+
+#~ msgid "*** Already logging to %s. Close that log first.\n"
+#~ msgstr "*** 已经登录为 %s。首先关闭日志。\n"
+
+#~ msgid "Open log"
+#~ msgstr "打开日志"
+
+#~ msgid "*** No log to be closed is open in this window.\n"
+#~ msgstr "*** 在此窗口中没有已打开要关闭的的日志。\n"
+
+#~ msgid "*** Logging to %s.\n"
+#~ msgstr "*** 登录为 %s。\n"
+
+#~ msgid "*** Stopped logging to %s.\n"
+#~ msgstr "*** 停止登录为 %s。\n"
+
+#~ msgid "Please select a log file..."
+#~ msgstr "请选择一个日志文件..."
+
+#~ msgid "Ready."
+#~ msgstr "准备。"
+
+#~ msgid "Canceled."
+#~ msgstr "取消。"
+
+#~ msgid "A link already exists here!"
+#~ msgstr "链接已经在此存在！"
+
+#~ msgid "Ready"
+#~ msgstr "准备"
+
+#~ msgid "Link created"
+#~ msgstr "链接已创建"
+
+#~ msgid "Can't create a node here"
+#~ msgstr "不能在此创建结点"
+
+#~ msgid "New Map"
+#~ msgstr "新建地图"
+
+#~ msgid "Creating a path"
+#~ msgstr "创建路径"
+
+#~ msgid "Path lead to a new map"
+#~ msgstr "连接到新地图的路径"
+
+#~ msgid "New map"
+#~ msgstr "新地图"
+
+#~ msgid "Path follows an already existing path:"
+#~ msgstr "路径遵从一个存在的路径："
+
+#~ msgid "Create"
+#~ msgstr "创建"
+
+#~ msgid "Enter in a path"
+#~ msgstr "输入一个路径"
+
+#~ msgid "Create a new path:"
+#~ msgstr "创建新路径："
+
+#~ msgid "Enter in existing path:"
+#~ msgstr "输入已存在的路径："
+
+#~ msgid ""
+#~ "This node has already 8 links. Destroy one of these before trying to "
+#~ "create a new one"
+#~ msgstr "此结点已经有 8 个连接。在创建新的之前要删除一有的之一"
+
+#~ msgid "Enter to finish, Esc to quit"
+#~ msgstr "回车结束，Esc 退出"
+
+#~ msgid "Use move buttons to build the link."
+#~ msgstr "使用移动按钮来建立连接。"
+
+#~ msgid "Zoom In"
+#~ msgstr "放大"
+
+#~ msgid "Zoom Out"
+#~ msgstr "缩小"
+
+#~ msgid "Configure Automap"
+#~ msgstr "设置自动地图"
+
+#~ msgid "Teleport here"
+#~ msgstr "远程端口此处"
+
+#~ msgid "Create new link"
+#~ msgstr "创建新链接"
+
+#~ msgid "Enter"
+#~ msgstr "输入"
+
+#~ msgid "N"
+#~ msgstr "北"
+
+#~ msgid "NE"
+#~ msgstr "东北"
+
+#~ msgid "E"
+#~ msgstr "东"
+
+#~ msgid "SE"
+#~ msgstr "东南"
+
+#~ msgid "S"
+#~ msgstr "南"
+
+#~ msgid "SW"
+#~ msgstr "西南"
+
+#~ msgid "W"
+#~ msgstr "西"
+
+#~ msgid "NW"
+#~ msgstr "西北"
+
+#~ msgid "Up"
+#~ msgstr "上"
+
+#~ msgid "Down"
+#~ msgstr "下"
+
+#~ msgid "Remove"
+#~ msgstr "移除"
+
+#~ msgid "Load"
+#~ msgstr "载入"
+
+#~ msgid "Save"
+#~ msgstr "保存"
+
+#~ msgid "Load map"
+#~ msgstr "载入地图"
+
+#~ msgid "Save map"
+#~ msgstr "保存地图"
+
+#~ msgid "No link existed in that direction"
+#~ msgstr "没有在该方向的连接"
+
+#~ msgid "Cannot break links to a node going up or down"
+#~ msgstr "在一个结点的上或下不能断开链接"
+
+#~ msgid "Destination node has already a connection here"
+#~ msgstr "目标节点已是一个此处的连接"
+
+#~ msgid "Can't create a link to another floor!"
+#~ msgstr "不能创建到另一层的链接！"
+
+#~ msgid "There is already a link here!"
+#~ msgstr "此处已有一个链接！"
+
+#~ msgid "GNOME-Mud AutoMapper"
+#~ msgstr "GNOME-Mud 自动地图"
+
+#~ msgid "Plugin Information"
+#~ msgstr "插件信息"
+
+#~ msgid "Plugin Name:"
+#~ msgstr "插件名称："
+
+#~ msgid "Plugin Author:"
+#~ msgstr "插件作者："
+
+#~ msgid "Plugin Description:"
+#~ msgstr "插件描述："
+
+#~ msgid "Enable plugin"
+#~ msgstr "启用插件"
+
+#~ msgid "Error getting plugin handle (%s): %s."
+#~ msgstr "获取插件句柄(%s)错误：%s。"
+
+#~ msgid "Error, %s not an GNOME-Mud module: %s."
+#~ msgstr "错误，%s 不是 GNOME-Mud 模块：%s。"
+
+#~ msgid "Registering plugin `%s' under the name `%s'."
+#~ msgstr "以名称“%2$s”注册插件“%1$s”。"
+
+#~ msgid "Error while registering the menu: %s"
+#~ msgstr "注册菜单时出错：%s"
+
+#~ msgid "Error while registering data %s: %s"
+#~ msgstr "注册数据 %s 时出错：%s"
+
+#~ msgid "Error while getting plugin from handle."
+#~ msgstr "从句柄获取插件时出错。"
+
+#~ msgid "Could not open MudList file for reading"
+#~ msgstr "不能打开 Mud 列表文件来读"
+
+#~ msgid "GNOME-Mud MudList"
+#~ msgstr "GNOME-Mud Mud 列表"
+
+#~ msgid "Mud name:"
+#~ msgstr "Mud 名称："
+
+#~ msgid "Codebase:"
+#~ msgstr "编码基准："
+
+#~ msgid "Telnet address:"
+#~ msgstr "Telnet 地址："
+
+#~ msgid "Import and close"
+#~ msgstr "导入并关闭"
+
+#~ msgid "Go to webpage of the mud"
+#~ msgstr "转到 Mud 的网页"
+
+#~ msgid "Description:"
+#~ msgstr "描述："
+
+#~ msgid "*** Can't connect - you didn't specify a host.\n"
+#~ msgstr "*** 不能连接 - 您没有指定一个主机。\n"
+
+#~ msgid "*** No port specified - assuming port 23.\n"
+#~ msgstr "*** 没有指定端口 - 默认端口 23。\n"
+
+#~ msgid "*** Trying %s port %s...\n"
+#~ msgstr "*** 尝试 %s 端口 %s...\n"
+
+#~ msgid "Couldn't convert text input"
+#~ msgstr "不能转换文本输入"
+
+#~ msgid "Palette had %d entry instead of %d\n"
+#~ msgid_plural "Palette had %d entries instead of %d\n"
+#~ msgstr[0] "调色板的 %2$d 项目替换为 %1$d\n"
+
+#~ msgid "%s already exists and is not a directory!"
+#~ msgstr "%s 已经存在并且不是一个目录！"
+
+#~ msgid "%s does not exist and can NOT be created: %s"
+#~ msgstr "%s 不存在并且无法创建：%s"
+
+#~ msgid "Main font that is used on all open connections."
+#~ msgstr "主字体用于所有打开的连接。"
+
+#~ msgid "The quick brown fox jumps over the lazy dog"
+#~ msgstr "棕色的狐狸迅速的跳过懒惰的狗"
+
+#~ msgid ""
+#~ "Default foreground color used when the connection doesn't request the use "
+#~ "of a specific color."
+#~ msgstr "当连接没有请求使用指定的前景色，将使用默认的前景色。"
+
+#~ msgid ""
+#~ "Default background color used when the connection doesn't request the use "
+#~ "of a specific color."
+#~ msgstr "当连接没有请求使用指定的背景色，将使用默认的背景色。"
+
+#~ msgid "Change the color of a specific color that the MUD requests to use."
+#~ msgstr "改变 MUD 请求使用的指定颜色。"
+
+#~ msgid "on top"
+#~ msgstr "顶部"
+
+#~ msgid "on the right"
+#~ msgstr "靠右"
+
+#~ msgid "at the bottom"
+#~ msgstr "底部"
+
+#~ msgid "on the left"
+#~ msgstr "靠左"
+
+#~ msgid "Functionality"
+#~ msgstr "功能性"
+
+#~ msgid "Disable _System Keys"
+#~ msgstr "禁用系统键(_S)"
+
+#~ msgid ""
+#~ "The character used to divide commands sent to the mud. For example, \";"
+#~ "\", will let the string \"w;look\" be sent to the mud as 2 separate "
+#~ "commands."
+#~ msgstr ""
+#~ "发送到 Mud 的用来分隔命令的字符。例如，“;”，会将字符串“w;look”作为两个分开"
+#~ "的命令发送给 Mud。"
+
+#~ msgid "Command history:"
+#~ msgstr "命令历史："
+
+#~ msgid "The number of entries to be saved in the command history."
+#~ msgstr "命令历史中保存的项目数目。"
+
+#~ msgid "Terminal type:"
+#~ msgstr "终端类型："
+
+#~ msgid "MudList file:"
+#~ msgstr "Mud 列表文件："
+
+#~ msgid "Select a MudList File..."
+#~ msgstr "选择一个 Mud 列表文件..."
+
+#~ msgid "Mudlist file to be used for the mudlist functionality."
+#~ msgstr "用于 Mud 列表功能性的 Mud  列表文件"
+
+#~ msgid "Color and Fonts"
+#~ msgstr "颜色和字体"
+
+#~ msgid "Appearance"
+#~ msgstr "外观"
+
+#~ msgid "Tabs are located:"
+#~ msgstr "标签位置："
+
+#~ msgid ""
+#~ "This setting defines where to place the connection tabs that are used to "
+#~ "change active connection."
+#~ msgstr "此设置定义了在什么地方放置连接标签，这些标签用来改变活动的连接。"
+
+#~ msgid "Scrollback:"
+#~ msgstr "向后滚动："
+
+#~ msgid "Number of lines to save in the scrollback."
+#~ msgstr "保存在向后滚动的行数"
+
+#~ msgid "lines"
+#~ msgstr "行数"
+
+#~ msgid ""
+#~ "If enabled, the terminal will scroll to the bottom if new output appears "
+#~ "in the connection when the terminal was scrolled back."
+#~ msgstr "如果启用，连接中终端向后滚动时，终端会在新输出出现时滚到底部。"
+
+#~ msgid "AutoMapper"
+#~ msgstr "自动地图"
+
+#~ msgid "Unusual movement commands:"
+#~ msgstr "不常见的移动命令："
+
+#~ msgid ""
+#~ "If you use the automapper, you may want to specify here some unusual "
+#~ "movement commands. When you use one of these, the automapper will create "
+#~ "a path to an other map. Use a semicolon to separate the different "
+#~ "commands."
+#~ msgstr ""
+#~ "如果您使用自动地图，您可能想指定一些不常见的移动命令。当您使用其中一个的时"
+#~ "候，自动地图会创建到另一个地图的路径。使用分号来分隔不同的命令。"
+
+#~ msgid "Name of new profile:"
+#~ msgstr "新配置文件的名称："
+
+#~ msgid "GNOME-Mud: Profilelist"
+#~ msgstr "GNOME-Mud：配置文件列表"
+
+#~ msgid "Default"
+#~ msgstr "默认"
+
+#~ msgid "GNOME-Mud Connections"
+#~ msgstr "GNOME-Mud 连接"
+
+#~ msgid "Mud"
+#~ msgstr "Mud"
+
+#~ msgid "Mud information"
+#~ msgstr "Mud 信息"
+
+#~ msgid "Title:"
+#~ msgstr "标题："
+
+#~ msgid "Character information"
+#~ msgstr "角色信息"
+
+#~ msgid "Password:"
+#~ msgstr "密码："
+
+#~ msgid "Profile information"
+#~ msgstr "配置文件信息"
+
+#~ msgid "Fetch from mudlist"
+#~ msgstr "从 Mud 列表中取回"
+
+#~ msgid "GNOME-Mud Profiles"
+#~ msgstr "GNOME-Mud 配置文件"
+
+#~ msgid "Create a new profile"
+#~ msgstr "创建新配置文件"
+
+#~ msgid "Delete a profile"
+#~ msgstr "删除配置文件"
+
+#~ msgid "Set aliases"
+#~ msgstr "设置别名"
+
+#~ msgid "Set variables"
+#~ msgstr "设置变量"
+
+#~ msgid "Close the window"
+#~ msgstr "关闭窗口"
+
+#~ msgid "GNOME Mud"
+#~ msgstr "GNOME Mud"
