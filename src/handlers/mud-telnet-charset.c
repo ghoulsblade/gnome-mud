@@ -286,7 +286,7 @@ mud_telnet_charset_handle_sub_neg(MudTelnetHandler *handler,
         case TEL_CHARSET_REQUEST:
             // Check for [TTABLE] and
             // reject if found.
-            memcpy(&buf[1], tbuf, 8);
+            memcpy(tbuf, &buf[1], 8);
             tbuf[8] = '\0';
 
             if(strcmp((gchar *)tbuf, "[TTABLE]") == 0)
