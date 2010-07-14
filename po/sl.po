@@ -1,6 +1,7 @@
-# Slovenian translation of gnome-mud package
+# Slovenian translations for gnome-mud.
 # Copyright (C) 2009 gnome-mud's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-mud package.
+#
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010.
 #
 msgid ""
@@ -8,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gnome-mud master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-mud&component=general\n"
 "POT-Creation-Date: 2009-07-07 17:41+0000\n"
-"PO-Revision-Date: 2010-01-13 08:56+0100\n"
+"PO-Revision-Date: 2010-07-14 18:51+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +26,7 @@ msgstr "GNOME-Mud"
 
 #: ../gnome-mud.desktop.in.h:2
 msgid "The GNOME MUD Client"
-msgstr "Odjemalec za GNOME MUD"
+msgstr "Odjemalec GNOME Mud"
 
 #: ../gnome-mud.schemas.in.h:1
 msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
@@ -33,7 +34,7 @@ msgstr "Ime pisave Pango. Primera sta \"Sans 12\" ali \"Monospace Bold 14\"."
 
 #: ../gnome-mud.schemas.in.h:2
 msgid "A character that is used to split commands in a string like \"w;w;w;l\", which will be sent to the MUD as 4 separate commands."
-msgstr "Znak uporabljen za deljenje ukazov v nizu kot \"w;w;w;l\", kar bo bilo poslano kot 4 ločeni ukazi."
+msgstr "Znak uporabljen za razdeljevanje ukazov v nizu \"w;w;w;l\", ki je poslan kot 4 ločeni ukazi."
 
 #: ../gnome-mud.schemas.in.h:3
 #: ../ui/prefs.glade.h:7
@@ -46,7 +47,7 @@ msgstr "Barvna paleta"
 
 #: ../gnome-mud.schemas.in.h:5
 msgid "Command Divider"
-msgstr "Ločnik ukazov"
+msgstr "Ločilnik ukazov"
 
 #: ../gnome-mud.schemas.in.h:6
 msgid "Default color of the background"
@@ -54,7 +55,7 @@ msgstr "Privzeta barva ozadja"
 
 #: ../gnome-mud.schemas.in.h:7
 msgid "Default color of the background, as a color specification (can be HTML-style hex digits, or a color name such as \"red\")."
-msgstr "Privzeta barva besedila kot določitev barve (lahko hex številke ali ime barve, kot je \"rdeča\")."
+msgstr "Privzeta barva besedila določena s kodo (lahko je določena šestnajstiško, s HTML kodo ali pa z imenom barve, kot je \"rdeča\")."
 
 #: ../gnome-mud.schemas.in.h:8
 msgid "Default color of the text"
@@ -62,7 +63,7 @@ msgstr "Privzeta barva besedila"
 
 #: ../gnome-mud.schemas.in.h:9
 msgid "Default color of the text, as a color specification (can be HTML-style hex digits, or a color name such as \"red\")."
-msgstr "Privzeta barva besedila kot določitev barve (lahko hex številke ali ime barve, kot je \"rdeča\")."
+msgstr "Privzeta barva besedila določena s kodo (lahko je določena šestnajstiško, s HTML kodo ali pa z imenom barve, kot je \"rdeča\")."
 
 #: ../gnome-mud.schemas.in.h:10
 msgid "Directional keybindings"
@@ -70,7 +71,7 @@ msgstr "Smerne tipkovne bližnjice"
 
 #: ../gnome-mud.schemas.in.h:11
 msgid "Enable sound file downloading on MSP enabled MUDs"
-msgstr "Omogoči zvočno datoteko prejeto na MUD-ih z omogočenim MSP"
+msgstr "Omogoči zvočno datoteko prejeto preko strežnika Mud z omogočenim MSP"
 
 #: ../gnome-mud.schemas.in.h:12
 msgid "Encoding"
@@ -78,7 +79,7 @@ msgstr "Kodiranje"
 
 #: ../gnome-mud.schemas.in.h:13
 msgid "Encoding Index"
-msgstr "Seznam kodiranj"
+msgstr "Kazalo kodiranja"
 
 #: ../gnome-mud.schemas.in.h:14
 msgid "Font"
@@ -86,7 +87,7 @@ msgstr "Pisava"
 
 #: ../gnome-mud.schemas.in.h:15
 msgid "GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in the form of a colon-separated list of color names. Color names should be in hex format e.g. \"#FF00FF\"."
-msgstr "Program uporablja 16-barvno paleto, ki jo lahko uporabijo MUD-i. Določena mora biti v obliki z dvopičjem ločenega seznama imen barv. Imena barv morajo biti v obliki hex, na primer \"#FF00FF\"."
+msgstr "Program uporablja 16-barvno paleto, ki jo lahko uporabijo strežniki Mud. Določena mora biti v obliki z dvopičjem ločenega seznama imen barv. Določila barv morajo biti v šestnajstiškem zapisu, na primer \"#FF00FF\"."
 
 #: ../gnome-mud.schemas.in.h:16
 msgid "How often in seconds gnome-mud should flush logfiles."
@@ -102,7 +103,7 @@ msgstr "Izbrana možnost omogoči kopiranje vsega vnesenega besedila v terminal,
 
 #: ../gnome-mud.schemas.in.h:19
 msgid "If enabled, the text that is sent to the connection will be left as a selection in the entry box. Otherwise, the text entry box will be cleared after each text input."
-msgstr "Izbrana možnost določi. da bo besedilo poslano povezavi ostalo v vnosnem polju kot izbira. V nasprotnem primeru bo vnosno polje počiščeno po vsakem vnosu besedila."
+msgstr "Izbrana možnost omogoči, da bo besedilo poslano na povezavo, ostalo izbrano v vnosnem polju. V nasprotnem primeru se vnosno polje počiti po vsakem vnosu besedila."
 
 #: ../gnome-mud.schemas.in.h:20
 msgid "If enabled, whenever there's new output the terminal will be scrolled to the bottom."
@@ -123,11 +124,11 @@ msgstr "Seznam profilov"
 
 #: ../gnome-mud.schemas.in.h:24
 msgid "List of profiles known to GNOME-Mud. The list contains strings naming subdirectories relative to /apps/gnome-mud/profiles."
-msgstr "Seznam profilov v GNOME-Mud. Seznam vsebuje nize, ki poimenujejo podmape relativno na /apps/gnome-mud/profiles."
+msgstr "Seznam profilov v GNOME-Mud. Seznam vsebuje nize, ki poimenujejo podrejene mape relativno na /apps/gnome-mud/profiles."
 
 #: ../gnome-mud.schemas.in.h:25
 msgid "Log flush interval"
-msgstr "Interval brisanja dnevnika"
+msgstr "Časovni razmik brisanja dnevnika"
 
 #: ../gnome-mud.schemas.in.h:26
 msgid "Number of lines to keep in scrollback"
@@ -163,7 +164,7 @@ msgstr "Kodiranje gradnika terminala."
 
 #: ../gnome-mud.schemas.in.h:34
 msgid "The file in which a mudlog was last saved."
-msgstr "Datoteka v kateri je bil dnevnik mud zadnjič shranjen."
+msgstr "Datoteka v kateri je bil dnevnik Mud nazadnje shranjen."
 
 #: ../gnome-mud.schemas.in.h:35
 msgid "The hostname for the SOCKS proxy server."
@@ -188,7 +189,7 @@ msgstr "Uporaba pogajanja oddaljenega kodiranja."
 
 #: ../gnome-mud.schemas.in.h:40
 msgid "Use a proxy server to connect to the mud."
-msgstr "Uporaba posredniškega strežnika za povezavo z mud."
+msgstr "Uporaba posredniškega strežnika za povezavo s strežnikom Mud."
 
 #: ../gnome-mud.schemas.in.h:41
 #: ../ui/prefs.glade.h:26
@@ -274,17 +275,17 @@ msgstr "Ali ste prepričani, da želite izbrisati '%s'?"
 #: ../src/mud-connections.c:934
 #, c-format
 msgid "Delete %s?"
-msgstr "Ali naj se izbriše %s?"
+msgstr "Ali naj se %s izbriše?"
 
 #: ../src/mud-connections.c:1273
 msgid "No mud name specified."
-msgstr "Mud ime ni določeno."
+msgstr "Ime Mud ni določeno."
 
 #: ../src/mud-connection-view.c:575
 #: ../src/mud-connection-view.c:1977
 #, c-format
 msgid "*** Making connection to %s, port %d.\n"
-msgstr "*** Povezovanje z %s, vrata %d.\n"
+msgstr "*** Povezovanje s strežnikom %s preko vrat %d.\n"
 
 #: ../src/mud-connection-view.c:1054
 msgid "Close"
@@ -326,7 +327,7 @@ msgstr ""
 
 #: ../src/mud-connection-view.c:2027
 msgid "<password removed>"
-msgstr "<geslo odstranjeno>"
+msgstr "<geslo je odstranjeno>"
 
 #: ../src/mud-connection-view.c:2223
 msgid "Connecting..."
@@ -338,7 +339,7 @@ msgstr "Povezava je časovno potekla."
 
 #: ../src/mud-connection-view.c:2362
 msgid "There was an internal http connection error."
-msgstr "Prišlo je do notranje napake http povezave."
+msgstr "Prišlo je do notranje napake povezave HTTP."
 
 #: ../src/mud-connection-view.c:2384
 msgid "Downloading"
@@ -354,7 +355,7 @@ msgid ""
 "*** Log starts *** %d/%m/%Y %H:%M:%S\n"
 msgstr ""
 "\n"
-"*** Beleženje se začne *** %d.%m.%Y %H.%M.%S\n"
+"*** Beleženje je začeto: *** %d.%m.%Y %H.%M.%S\n"
 
 #: ../src/mud-log.c:811
 msgid "Log Error"
@@ -371,7 +372,7 @@ msgid ""
 " *** Log stops *** %d/%m/%Y %H:%M:%S\n"
 msgstr ""
 "\n"
-"*** Beleženje končano *** %d.%m.%Y %H.%M.%S\n"
+"*** Beleženje je končano: *** %d.%m.%Y %H.%M.%S\n"
 
 #: ../src/mud-log.c:913
 msgid "Could not write data to log file!"
@@ -391,11 +392,11 @@ msgstr "_Končaj"
 
 #: ../src/mud-trigger.c:724
 msgid "#Submatch Out of Range#"
-msgstr "Številka je izven meja!"
+msgstr "Številka je izven območja!"
 
 #: ../src/mud-window.c:847
 msgid "A Multi-User Dungeon (MUD) client for GNOME"
-msgstr "Odjemalec več uporabniške ječe (MUD) za GNOME"
+msgstr "Strežniški odjemalec Mud za GNOME"
 
 #: ../src/mud-window.c:859
 msgid "translator-credits"
@@ -415,7 +416,7 @@ msgid ""
 "MCCP data corrupted. Aborting connection.\n"
 msgstr ""
 "\n"
-"Podatki MCCP so pokvarjeni. Prekinjanje povezave.\n"
+"Podatki MCCP so okvarjeni. Povezava bo prekinjena.\n"
 
 #: ../ui/main.glade.h:1
 msgid "<b>Logging Options:</b>"
@@ -435,11 +436,11 @@ msgstr "Zapri _okno"
 
 #: ../ui/main.glade.h:5
 msgid "Connect"
-msgstr "Poveži se"
+msgstr "Poveži"
 
 #: ../ui/main.glade.h:6
 msgid "Connect to MUD"
-msgstr "Povezava z MUD"
+msgstr "Povezava s strežnikom Mud"
 
 #: ../ui/main.glade.h:7
 msgid "Connect to host"
@@ -455,7 +456,7 @@ msgstr "Prekinitev povezave"
 
 #: ../ui/main.glade.h:10
 msgid "Disconnect from current MUD"
-msgstr "Prekinitev povezave s trenutnim MUD"
+msgstr "Prekinitev povezave s trenutnim strežnikom Mud"
 
 #: ../ui/main.glade.h:11
 msgid "Disconnect from current host"
@@ -471,7 +472,7 @@ msgstr "Vključi b_arvo"
 
 #: ../ui/main.glade.h:14
 msgid "Log Inp_ut"
-msgstr "Beleži v_hod"
+msgstr "Beleži do_vod"
 
 #: ../ui/main.glade.h:15
 msgid "Number of _previous lines to include:"
@@ -487,7 +488,7 @@ msgstr "Ponovno se poveži"
 
 #: ../ui/main.glade.h:18
 msgid "Reconnect to current MUD"
-msgstr "Poveži se na trenutni MUD"
+msgstr "Poveži se na trenutni strežnik MUD"
 
 #: ../ui/main.glade.h:19
 msgid "Save buffer as..."
@@ -495,7 +496,7 @@ msgstr "Shrani medpomnilnik kot ..."
 
 #: ../ui/main.glade.h:20
 msgid "Start Logging..."
-msgstr "Začni beleženje ..."
+msgstr "Začni z beleženjem ..."
 
 #: ../ui/main.glade.h:21
 msgid "Start _Logging..."
@@ -507,7 +508,7 @@ msgstr "Zaustavi be_leženje"
 
 #: ../ui/main.glade.h:23
 msgid "_Append to file"
-msgstr "Pripni d_atoteki"
+msgstr "Pripni k d_atoteki"
 
 #: ../ui/main.glade.h:24
 msgid "_Disconnect"
@@ -571,7 +572,7 @@ msgstr "<b>Profil</b>"
 
 #: ../ui/muds.glade.h:7
 msgid "Are you sure you want to delete this mud?"
-msgstr "Ali ste prepričani, da želite izbrisati ta mud?"
+msgstr "Ali ste prepričani, da želite izbrisati ta protokol Mud?"
 
 #: ../ui/muds.glade.h:8
 msgid "Close _without Saving"
@@ -587,7 +588,7 @@ msgstr "Povezave"
 
 #: ../ui/muds.glade.h:11
 msgid "Delete Mud?"
-msgstr "Izbris Mud?"
+msgstr "Ali naj se protokol Mud izbriše?"
 
 #: ../ui/muds.glade.h:12
 msgid "Host:"
@@ -619,7 +620,7 @@ msgstr "Neshranjene spremembe"
 
 #: ../ui/muds.glade.h:19
 msgid "You have unsaved changes. Do you want to save before closing?"
-msgstr "Imate neshranjene spremembe. Ali jih želite shraniti pred zapiranjem?"
+msgstr "Spremembe niso shranjene. Ali jih želite shraniti pred zapiranjem?"
 
 #: ../ui/prefs.glade.h:1
 msgid "<b>Encoding</b>"
@@ -627,7 +628,7 @@ msgstr "<b>Kodiranje</b>"
 
 #: ../ui/prefs.glade.h:2
 msgid "<b>Input</b>"
-msgstr "<b>Vhod</b>"
+msgstr "<b>Dovod</b>"
 
 #: ../ui/prefs.glade.h:3
 msgid "<b>New Profile Name:</b>"
@@ -651,7 +652,7 @@ msgstr "Barvna paleta:"
 
 #: ../ui/prefs.glade.h:9
 msgid "Command _Division Character:"
-msgstr "Znak _deljenja ukaza:"
+msgstr "Znak za _ločevanje ukaza:"
 
 #: ../ui/prefs.glade.h:10
 msgid "Enable Mud _Sound Protocol (MSP)"
@@ -671,7 +672,7 @@ msgstr "Koda napake:"
 
 #: ../ui/prefs.glade.h:14
 msgid "Error String:"
-msgstr "Nit napake:"
+msgstr "Niz napake:"
 
 #: ../ui/prefs.glade.h:15
 msgid "Fon_t:"
@@ -707,7 +708,7 @@ msgstr "Terminal"
 
 #: ../ui/prefs.glade.h:24
 msgid "Timers"
-msgstr "Merilci časa"
+msgstr "Časomeri"
 
 #: ../ui/prefs.glade.h:27
 msgid "_Background Color:"
@@ -727,7 +728,7 @@ msgstr "O_mogoči posredovalni strežnik"
 
 #: ../ui/prefs.glade.h:31
 msgid "_Foreground Color:"
-msgstr "Ba_rva ospredja:"
+msgstr "Ba_rva pisave:"
 
 #: ../ui/prefs.glade.h:32
 msgid "_Host:"
@@ -735,13 +736,12 @@ msgstr "_Gostitelj:"
 
 #: ../ui/prefs.glade.h:33
 msgid "_Keep the Text Entered"
-msgstr "O_bdrži vneseno besedilo"
+msgstr "O_hrani vneseno besedilo"
 
 #: ../ui/prefs.glade.h:34
 msgid "_Number of Scrollback Lines:"
-msgstr "Število _pomnjenih vrstic:"
+msgstr "Število _zapomnjenih vrstic:"
 
 #: ../ui/prefs.glade.h:35
 msgid "_Version:"
 msgstr "_Različica:"
-
