@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "mud&component=general\n"
 "POT-Creation-Date: 2010-07-14 16:53+0000\n"
-"PO-Revision-Date: 2010-12-02 06:11+0300\n"
+"PO-Revision-Date: 2010-12-02 06:14+0300\n"
 "Last-Translator: Lucian Adrian Grijincu <lucian.grijincu@gmail.com>\n"
 "Language-Team: Romanian Gnome Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -435,7 +435,7 @@ msgstr "_Părăsește"
 
 #: ../src/mud-trigger.c:724
 msgid "#Submatch Out of Range#"
-msgstr ""
+msgstr "#Subpotrivire în afara intervalului corect#"
 
 #: ../src/mud-window.c:847
 msgid "A Multi-User Dungeon (MUD) client for GNOME"
