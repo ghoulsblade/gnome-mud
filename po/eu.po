@@ -1,0 +1,1281 @@
+# translation of gnome-mud.master.po to Basque
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-mud.master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
+"cgi?product=gnome-mud&component=general\n"
+"POT-Creation-Date: 2009-07-07 17:41+0000\n"
+"PO-Revision-Date: 2011-06-20 12:12+0200\n"
+"Last-Translator: \n"
+"Language-Team: American English <kde-i18n-doc@kde.org>\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"\n"
+"\n"
+
+#: ../gnome-mud.desktop.in.h:1
+msgid "GNOME-Mud"
+msgstr "GNOME-Mud"
+
+#: ../gnome-mud.desktop.in.h:2
+msgid "The GNOME MUD Client"
+msgstr "GNOME MUD bezeroa"
+
+#: ../gnome-mud.schemas.in.h:1
+msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
+msgstr ""
+"Pango letra-tipo baten izena. Adib., \"Sans 12\" edo \"Monospace Bold 14\"."
+
+#: ../gnome-mud.schemas.in.h:2
+msgid ""
+"A character that is used to split commands in a string like \"w;w;w;l\", "
+"which will be sent to the MUD as 4 separate commands."
+msgstr ""
+"Kateetako komandoak zatitzeko erabilitako karakterea (\"w;w;w;l\", adib.), "
+"MUDera 4 komando bereizi gisa bidaltzeko."
+
+#: ../gnome-mud.schemas.in.h:3 ../src/mud-preferences-window.c:543
+#: ../src/mud-preferences-window.c:579 ../ui/prefs.glade.h:6
+msgid "Aliases"
+msgstr "Aliasak"
+
+#: ../gnome-mud.schemas.in.h:4
+msgid "Color palette"
+msgstr "Kolore-paleta"
+
+#: ../gnome-mud.schemas.in.h:5
+msgid "Command Divider"
+msgstr "Komando-bereizlea"
+
+#: ../gnome-mud.schemas.in.h:6
+msgid "Default color of the background"
+msgstr "Atzeko planoko kolore lehenetsia"
+
+#: ../gnome-mud.schemas.in.h:7
+msgid ""
+"Default color of the background, as a color specification (can be HTML-style "
+"hex digits, or a color name such as \"red\")."
+msgstr ""
+"Atzeko planoko kolore lehenetsia, kolore-zehaztapen gisa (HTML estiloko "
+"digitu hamaseitarretan, edo kolore-izena emanda, adib. \"red\")."
+
+#: ../gnome-mud.schemas.in.h:8
+msgid "Default color of the text"
+msgstr "Testuaren kolore lehenetsia"
+
+#: ../gnome-mud.schemas.in.h:9
+msgid ""
+"Default color of the text, as a color specification (can be HTML-style hex "
+"digits, or a color name such as \"red\")."
+msgstr ""
+"Testuaren kolore lehenetsia, kolore-zehaztapen gisa (HTML estiloko digitu "
+"hamaseitarretan, edo kolore-izena emanda, adib. \"red\")."
+
+#: ../gnome-mud.schemas.in.h:10 ../ui/directions.glade.h:1
+msgid "Directional keybindings"
+msgstr "Direkziozko laster-teklak"
+
+#: ../gnome-mud.schemas.in.h:11
+msgid "Enable sound file downloading on MSP enabled MUDs"
+msgstr "Gaitu soinu-fitxategiak deskargatzea MSP gaitutako MUDetan"
+
+#: ../gnome-mud.schemas.in.h:12
+msgid "Encoding"
+msgstr "Kodeketa"
+
+#: ../gnome-mud.schemas.in.h:13
+msgid "Encoding Index"
+msgstr "Indize-kodeketa"
+
+#: ../gnome-mud.schemas.in.h:14
+msgid "File where the mud list (used in the MudList dialog) will be read"
+msgstr ""
+"Fitxategia mud zerrenda irakurtzeko (Mud-en zerrendaren "
+"elkarrizketa-koadroan erabilita)"
+
+#: ../gnome-mud.schemas.in.h:15
+msgid "Font"
+msgstr "Letra-tipoa"
+
+#: ../gnome-mud.schemas.in.h:16
+msgid ""
+"GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in "
+"the form of a colon-separated list of color names. Color names should be in "
+"hex format e.g. \"#FF00FF\"."
+msgstr ""
+"GNOME-Mud-ek 16 koloreko paleta du MUDek erabili ahal izateko. Puntuz "
+"bereizitako kolore-izenen zerrenda gisa zehaztu behar da. Kolore-izenak "
+"formatu hamaseitarrean ematen dira, adib. \"#FF00FF\"."
+
+#: ../gnome-mud.schemas.in.h:17
+msgid ""
+"GNOME-Mud will attempt to transmit a terminal type (like ANSI or VT100) if "
+"the MUD requests one. This option sets the terminal type that will be sent."
+msgstr ""
+"'GNOME-Mud'-ek terminal mota bat (ANSI edo VT100) transmititzen "
+"saiatuko da  MUDek bat eskatzen badu. Aukera honek bidaliko "
+"den terminal mota  ezartzen du."
+
+#: ../gnome-mud.schemas.in.h:18
+msgid "How many entries to keep in the command history"
+msgstr "Komandoen historian gordeko diren sarreren kopurua"
+
+#: ../gnome-mud.schemas.in.h:19
+msgid "How many entries to keep in the command history."
+msgstr "Komandoen historian gordeko diren sarreren kopurua."
+
+#: ../gnome-mud.schemas.in.h:20
+msgid "How often in seconds gnome-mud should flush logfiles."
+msgstr ""
+"Gnome-mud-ek zenbat segundoz behin irauli beharko lituzkeen egunkari-"
+"fitxategiak."
+
+#: ../gnome-mud.schemas.in.h:21
+msgid ""
+"If enabled, GNOME-Mud will offer a few built-in keybindings. They can be "
+"overridden by custom keybindings, or they can be disabled completely with "
+"this option."
+msgstr ""
+"Gaituz gero, GNOME-Mud-ek laster-tekla inkorporatu batzuk eskainiko ditu. "
+"Laster-tekla pertsonalizatuek gainidatz ditzakete, edo erabat desgaitu "
+"aukera honekin."
+
+#: ../gnome-mud.schemas.in.h:22
+msgid ""
+"If enabled, all the text typed in will be echoed in the terminal, making it "
+"easier to control what is sent."
+msgstr ""
+"Gaituz gero, bertan idatzitako testu guztiaren oihartzuna azalduko da "
+"terminalean, eta beraz errazagoa izango da zer bidaltzen den kontrolatzea."
+
+#: ../gnome-mud.schemas.in.h:23
+msgid ""
+"If enabled, the text that is sent to the connection will be left as a "
+"selection in the entry box. Otherwise, the text entry box will be cleared "
+"after each text input."
+msgstr ""
+"Gaituz gero, konexiora bidalitako testua hautapen gisa utziko da sarrera-"
+"koadroan. Bestela, testu-sarreraren koadroa testua sartzen den bakoitzean "
+"garbituko da."
+
+#: ../gnome-mud.schemas.in.h:24 ../ui/prefs.glade.h:25
+msgid ""
+"If enabled, whenever there's new output the terminal will be scrolled to the "
+"bottom."
+msgstr ""
+"Gaituz gero, irteera berri bat dagoenean terminala beheraino korrituko da."
+
+#: ../gnome-mud.schemas.in.h:25
+msgid "Keybindings"
+msgstr "Laster-teklak"
+
+#: ../gnome-mud.schemas.in.h:26
+msgid "Last log file"
+msgstr "Azken egunkari-fitxategia"
+
+#: ../gnome-mud.schemas.in.h:27
+msgid ""
+"List of MUDs known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/muds"
+msgstr ""
+"GNOME-Mud-ek ezagutzen dituen MUDen zerrenda. /apps/gnome-mud/muds "
+"direktorioko azpidirektorioen izenak dira."
+
+#: ../gnome-mud.schemas.in.h:28
+msgid "List of Muds"
+msgstr "MUDen zerrenda"
+
+#: ../gnome-mud.schemas.in.h:29
+msgid ""
+"List of commands which will be treated as movement commands by the "
+"automapper. A semicolon is used to separate each command."
+msgstr ""
+"Komandoen zerrenda mapatzaile automatikoak mugimenduko komandoak "
+"bezala erabiltzeko. Puntu eta koma erabili komando bakoitza bereizteko."
+
+#: ../gnome-mud.schemas.in.h:30
+msgid "List of connections"
+msgstr "Konexioen zerrenda"
+
+#: ../gnome-mud.schemas.in.h:31
+msgid ""
+"List of connections known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/connections."
+msgstr ""
+"GNOME-Mud-ek ezagutzen dituen konexio ezagunen zerrenda. /apps/gnome-mud/"
+"connections direktorioko azpidirektorioen izenak dira."
+
+#: ../gnome-mud.schemas.in.h:32
+msgid "List of movement commands"
+msgstr "Mugimenduko komandoen zerrenda"
+
+#: ../gnome-mud.schemas.in.h:33
+msgid "List of profiles"
+msgstr "Profilen zerrenda"
+
+#: ../gnome-mud.schemas.in.h:34
+msgid ""
+"List of profiles known to GNOME-Mud. The list contains strings naming "
+"subdirectories relative to /apps/gnome-mud/profiles."
+msgstr ""
+"GNOME-Mud-ek ezagutzen dituen profil ezagunen zerrenda. /apps/gnome-mud/"
+"profiles direktorioko azpidirektorioen izenak dira."
+
+#: ../gnome-mud.schemas.in.h:35
+msgid "Log flush interval"
+msgstr "Egunkaria iraultzeko bitartea"
+
+#: ../gnome-mud.schemas.in.h:36
+msgid "Mudlist file"
+msgstr "MUD zerrendaren fitxategia"
+
+#: ../gnome-mud.schemas.in.h:37
+msgid "Number of lines to keep in scrollback"
+msgstr "Korritze-barran mantentzeko lerro kopurua"
+
+#: ../gnome-mud.schemas.in.h:38
+msgid ""
+"Number of scrollback lines to keep around. You can scroll back in the "
+"terminal by this number of lines; lines that don't fit in the scrollback are "
+"discarded."
+msgstr ""
+"Korritze-barran zenbat lerro mantendu. Terminalean atzera korri zaitezkeen "
+"lerro kopurua; korritze-barran sartzen ez diren lerroak baztertzen dira."
+
+#: ../gnome-mud.schemas.in.h:39
+msgid "Proxy Hostname"
+msgstr "Proxyaren ostalari-izena"
+
+#: ../gnome-mud.schemas.in.h:40
+msgid "Proxy Version"
+msgstr "Proxy-bertsioa"
+
+#: ../gnome-mud.schemas.in.h:41
+msgid "Remote Download"
+msgstr "Urruneko deskarga"
+
+#: ../gnome-mud.schemas.in.h:42
+msgid "Remote Encoding"
+msgstr "Urruneko kodeketa"
+
+#: ../gnome-mud.schemas.in.h:43
+msgid "Tab location"
+msgstr "Fitxen kokalekua"
+
+#: ../gnome-mud.schemas.in.h:44
+msgid "Terminal type"
+msgstr "Terminal mota"
+
+#: ../gnome-mud.schemas.in.h:45
+msgid "The SOCKS Version to be used."
+msgstr "Erabili beharreko SOCKS bertsioa."
+
+#: ../gnome-mud.schemas.in.h:46
+msgid "The encoding for the terminal widget."
+msgstr "Terminalaren kodeketa."
+
+#: ../gnome-mud.schemas.in.h:47
+msgid "The file in which a mudlog was last saved."
+msgstr "mudlog bat azken aldiz gorde zen fitxategia."
+
+#: ../gnome-mud.schemas.in.h:48
+msgid "The hostname for the SOCKS proxy server."
+msgstr "SOCKS proxy-zerbitzariaren ostalari-izena."
+
+#: ../gnome-mud.schemas.in.h:49
+msgid "The index of the currently selected encoding."
+msgstr "Unean hautatutako kodeketaren indizea."
+
+#: ../gnome-mud.schemas.in.h:50
+msgid ""
+"The location of the connection tabs. Valid options are \"left\", \"right\", "
+"\"top\" and \"bottom\"."
+msgstr ""
+"Konexioen fitxen kokalekua. Balio erabilgarriak: \"left\" (ezkerrean), "
+"\"right\" (eskuinean), \"top\" (goian) eta \"bottom\" (behean)."
+
+#: ../gnome-mud.schemas.in.h:51 ../src/mud-preferences-window.c:549
+#: ../src/mud-preferences-window.c:586 ../ui/prefs.glade.h:37
+msgid "Triggers"
+msgstr "Abiarazleak"
+
+#: ../gnome-mud.schemas.in.h:52
+msgid "Use Proxy"
+msgstr "Erabili proxya"
+
+#: ../gnome-mud.schemas.in.h:53
+msgid "Use Remote Encoding negotiation."
+msgstr "Erabili urruneko kodeketaren negoziazioa."
+
+#: ../gnome-mud.schemas.in.h:54
+msgid "Use a proxy server to connect to the mud."
+msgstr "Erabili proxy-zerbitzaria mud-arekin konektatzeko."
+
+#: ../gnome-mud.schemas.in.h:55
+msgid "Variables"
+msgstr "Aldagaiak"
+
+#: ../gnome-mud.schemas.in.h:56
+msgid "Whether to echo sent text to the connection"
+msgstr "Bidalitako testuaren oihartzuna konexioan azaltzea ala ez"
+
+#: ../gnome-mud.schemas.in.h:57
+msgid "Whether to enable or disable the system keys"
+msgstr "Sistema-teklak gaitu ala desgaitu behar diren"
+
+#: ../gnome-mud.schemas.in.h:58
+msgid "Whether to keep text sent to the connection"
+msgstr "Konexiora bidalitako testua gordetzea ala ez"
+
+#: ../gnome-mud.schemas.in.h:59
+msgid "Whether to scroll to the bottom when there's new output"
+msgstr "Irteera berri bat dagoenean beheraino korritu behar den"
+
+#: ../src/gconf-helper.c:74
+#, c-format
+msgid "%s already exists and is not a directory!"
+msgstr "%s badago lehendik ere eta ez da direktorioa."
+
+#: ../src/gconf-helper.c:83
+#, c-format
+msgid "%s does not exist and can NOT be created: %s"
+msgstr "%s ez da existitzen eta EZIN da sortu: %s"
+
+#: ../src/gconf-helper.c:140
+#, c-format
+msgid "Palette had %d entry instead of %d\n"
+msgid_plural "Palette had %d entries instead of %d\n"
+msgstr[0] "La paleta tenía %d entrada en vez de %d\n"
+msgstr[1] "La paleta tenía %d entradas en vez de %d\n"
+
+#: ../src/gnome-mud.c:61
+#, c-format
+msgid "There was an error accessing GConf: %s"
+msgstr "Errorea gertatu da GConf atzitzean: %s"
+
+#: ../src/gnome-mud.c:74
+msgid "The default configuration values could not be retrieved correctly."
+msgstr "Konfigurazioko balio lehenetsiak ezin izan dira ongi eskuratu."
+
+#: ../src/gnome-mud.c:75
+msgid ""
+"Please check your GConf configuration, specifically that the schemas have "
+"been installed correctly."
+msgstr ""
+"Egiaztatu GConf-en konfigurazioa, bereziki eskemak ongi instalatu direla."
+
+#: ../src/gnome-mud.c:102
+#, c-format
+msgid "Failed to init GConf: %s"
+msgstr "Huts egin du Gconf hasieratzean: %s"
+
+#: ../src/modules.c:200
+msgid "Plugin Information"
+msgstr "Pluginaren informazioa"
+
+#: ../src/modules.c:216
+msgid "Plugin Name:"
+msgstr "Pluginaren izena:"
+
+#: ../src/modules.c:236
+msgid "Plugin Author:"
+msgstr "Pluginaren egilea:"
+
+#: ../src/modules.c:246
+msgid "Plugin Version:"
+msgstr "Pluginaren bertsioa:"
+
+#: ../src/modules.c:256
+msgid "Plugin Description:"
+msgstr "Pluginaren azalpena:"
+
+#: ../src/modules.c:266
+msgid "Enable plugin"
+msgstr "Gaitu plugina"
+
+#: ../src/modules.c:380
+#, c-format
+msgid "Plugin error (%s)"
+msgstr "Pluginaren errorea (%s)"
+
+#: ../src/modules.c:424
+#, c-format
+msgid "Error getting plugin handle (%s): %s."
+msgstr "Errorea pluginaren kudeatzailearen IDa lortzean (%s): %s"
+
+#: ../src/modules.c:432
+#, c-format
+msgid "Error, %s not an GNOME-Mud module: %s."
+msgstr "Errorea. %s ez da GNOME-Mud modulu bat: %s."
+
+#: ../src/modules_api.c:69
+#, c-format
+msgid "Error while registering the menu: %s"
+msgstr "Errorea menua erregistratzean: %s"
+
+#: ../src/modules_api.c:96
+#, c-format
+msgid "Error while registering data %s: %s"
+msgstr "Errorea %s datuak erregistratzean: %s"
+
+#: ../src/modules_api.c:104
+msgid "Error while getting plugin from handle."
+msgstr "Errorea plugina IDtik lortzean."
+
+#: ../src/mud-connection-view.c:167
+#, c-format
+msgid ""
+"There was an error loading config value for whether to use image in menus. "
+"(%s)\n"
+msgstr ""
+"Errorea menuetan irudirik erabili behar den zehazteko konfigurazio-balioa "
+"kargatzean. (%s)\n"
+
+#: ../src/mud-connection-view.c:514 ../src/mud-connection-view.c:553
+#: ../src/mud-connection-view.c:1008
+msgid "*** Connection closed.\n"
+msgstr "*** Konexioa itxi da.\n"
+
+#: ../src/mud-connection-view.c:566 ../src/mud-connection-view.c:878
+#, c-format
+msgid "*** Making connection to %s, port %d.\n"
+msgstr "*** %s(r)ekin konektatzen, %d ataka.\n"
+
+#: ../src/mud-connection-view.c:590
+msgid "<password removed>"
+msgstr "<pasahitza kendu da>"
+
+#: ../src/mud-connection-view.c:729
+msgid "Close"
+msgstr "Itxi"
+
+#: ../src/mud-connection-view.c:749
+msgid "Change P_rofile"
+msgstr "Aldatu p_rofila"
+
+#: ../src/mud-connection-view.c:788
+msgid "_Input Methods"
+msgstr "_Sarrera-metodoak"
+
+#: ../src/mud-connection-view.c:999
+msgid "*** Could not connect.\n"
+msgstr "*** Ezin izan da konektatu.\n"
+
+#: ../src/mud-connection-view.c:1003
+msgid "*** Connected.\n"
+msgstr "*** Konektatuta.\n"
+
+#: ../src/mud-connection-view.c:1114
+msgid "Connecting..."
+msgstr "Konektatzen..."
+
+#: ../src/mud-connection-view.c:1229
+msgid "Connection timed out."
+msgstr "Konexioaren denbora-muga gainditu da."
+
+#: ../src/mud-connection-view.c:1245
+msgid "There was an internal http connection error."
+msgstr "Barneko http konexio-errorea zegoen."
+
+#: ../src/mud-connection-view.c:1267
+msgid "Downloading"
+msgstr "Deskargatzen"
+
+#: ../src/mud-log.c:142
+msgid ""
+"\n"
+"*** Log starts *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+"*** Egunkariaren hasiera *** %Y/%m/%d %H:%M:%S\n"
+
+#: ../src/mud-log.c:178
+msgid ""
+"\n"
+" *** Log stops *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+"*** Egunkariaren amaiera *** %Y/%m/%d %H:%M:%S\n"
+
+#: ../src/mud-tray.c:161
+msgid "_Hide window"
+msgstr "_Ezkutatu leihoa"
+
+#: ../src/mud-tray.c:163
+msgid "_Show window"
+msgstr "_Erakutsi leihoa"
+
+#: ../src/mud-tray.c:168
+msgid "_Quit"
+msgstr "I_rten"
+
+#: ../src/mud-preferences-window.c:385 ../src/mud-preferences-window.c:411
+msgid "Name"
+msgstr "Izena"
+
+#: ../src/mud-preferences-window.c:386 ../src/mud-preferences-window.c:412
+msgid "Enabled"
+msgstr "Gaituta"
+
+#: ../src/mud-preferences-window.c:413
+msgid "Gag"
+msgstr "Gag"
+
+#: ../src/mud-preferences-window.c:536 ../src/mud-preferences-window.c:573
+#: ../ui/prefs.glade.h:30
+msgid "Preferences"
+msgstr "Hobespenak"
+
+#: ../src/mud-preferences-window.c:1775 ../src/mud-preferences-window.c:1880
+msgid "Error in Regex."
+msgstr "Errore adierazpen erregularrean."
+
+#: ../src/mud-preferences-window.c:1820 ../src/mud-preferences-window.c:1925
+msgid "No match."
+msgstr "Ez dago bat datorrenik"
+
+#: ../src/mud-window.c:425
+msgid "A Multi-User Dungeon (MUD) client for GNOME"
+msgstr "Multi-User Dungeon (MUD) bezeroa GNOMErako"
+
+#: ../src/mud-window.c:437
+msgid "translator-credits"
+msgstr "Hizkuntza Politikarako Sailburuordetza <hizkpol@ej-gv.es>"
+
+#: ../src/mud-window.c:560
+msgid "Could not save the file in specified location!"
+msgstr "Ezin izan da fitxategia gorde zehaztutakokokalekuan."
+
+#: ../src/mud-window.c:717
+msgid "_Manage Profiles..."
+msgstr "_Kudeatu profilak..."
+
+#: ../ui/connect.glade.h:1
+msgid "<b>Quick connect</b>"
+msgstr "<b>Konexio azkarra</b>"
+
+#: ../ui/connect.glade.h:2
+msgid "Connect..."
+msgstr "Konektatu..."
+
+#: ../ui/connect.glade.h:3 ../ui/muds.glade.h:9 ../ui/prefs.glade.h:24
+msgid "Host:"
+msgstr "Ostalaria:"
+
+#: ../ui/connect.glade.h:4 ../ui/muds.glade.h:12
+msgid "Port:"
+msgstr "Ataka:"
+
+#: ../ui/directions.glade.h:2 ../plugins/automapper/map.c:1832
+#: ../plugins/automapper/map.c:3679
+msgid "Down"
+msgstr "Behera"
+
+#: ../ui/directions.glade.h:3
+msgid "East"
+msgstr "Ekialdea"
+
+#: ../ui/directions.glade.h:4
+msgid "Look"
+msgstr "Itxura"
+
+#: ../ui/directions.glade.h:5
+msgid "North"
+msgstr "Iparraldea"
+
+#: ../ui/directions.glade.h:6
+msgid "Northeast"
+msgstr "Ipar-ekialdea"
+
+#: ../ui/directions.glade.h:7
+msgid "Northwest"
+msgstr "Ipar-mendebaldea"
+
+#: ../ui/directions.glade.h:8
+msgid "South"
+msgstr "Hegoaldea"
+
+#: ../ui/directions.glade.h:9
+msgid "Southeast"
+msgstr "Hego-ekialdea"
+
+#: ../ui/directions.glade.h:10
+msgid "Southwest"
+msgstr "Hego-mendebaldea"
+
+#: ../ui/directions.glade.h:11 ../plugins/automapper/map.c:1831
+#: ../plugins/automapper/map.c:3678
+msgid "Up"
+msgstr "Gora"
+
+#: ../ui/directions.glade.h:12
+msgid "West"
+msgstr "Mendebaldea"
+
+#: ../ui/main.glade.h:1
+msgid "C_onnection..."
+msgstr "_Konexioa..."
+
+#: ../ui/main.glade.h:2
+msgid "Close _Window"
+msgstr "Itxi _leihoa"
+
+#: ../ui/main.glade.h:3
+msgid "Connect"
+msgstr "Konektatu"
+
+#: ../ui/main.glade.h:4
+msgid "Connect to MUD"
+msgstr "Konektatu MUDekin"
+
+#: ../ui/main.glade.h:5
+msgid "Connect to host"
+msgstr "Konektatu ostalariarekin"
+
+#: ../ui/main.glade.h:6
+msgid "Disconnect"
+msgstr "Deskonektatu"
+
+#: ../ui/main.glade.h:7
+msgid "Disconnect from current MUD"
+msgstr "Deskonektatu uneko MUDetik"
+
+#: ../ui/main.glade.h:8
+msgid "Disconnect from current host"
+msgstr "Deskonektatu uneko ostalaritik"
+
+#: ../ui/main.glade.h:9
+msgid "Gnome-Mud"
+msgstr "Gnome-Mud"
+
+#: ../ui/main.glade.h:10
+msgid "P_rofiles"
+msgstr "P_rofilak..."
+
+#: ../ui/main.glade.h:11
+msgid "Plugin _Information..."
+msgstr "Pluginaren _informazioa:"
+
+#: ../ui/main.glade.h:12
+msgid "Q_uick Connect..."
+msgstr "Konexio azkarra..."
+
+#: ../ui/main.glade.h:13
+msgid "Reconnect"
+msgstr "Konektatu berriro"
+
+#: ../ui/main.glade.h:14
+msgid "Reconnect to current MUD"
+msgstr "Konektatu berriro uneko MUDekin"
+
+#: ../ui/main.glade.h:15
+msgid "Save buffer as..."
+msgstr "Gorde bufferra honela..."
+
+#: ../ui/main.glade.h:16
+msgid "Start _Logging..."
+msgstr "Hasi _saioa..."
+
+#: ../ui/main.glade.h:17
+msgid "Stop Lo_gging"
+msgstr "_Gelditu saioa"
+
+#: ../ui/main.glade.h:18
+msgid "_Disconnect"
+msgstr "_Deskonektatu"
+
+#: ../ui/main.glade.h:19
+msgid "_File"
+msgstr "_Fitxategia"
+
+#: ../ui/main.glade.h:20
+msgid "_Help"
+msgstr "_Laguntza"
+
+#: ../ui/main.glade.h:21
+msgid "_Plugins"
+msgstr "_Pluginak"
+
+#: ../ui/main.glade.h:22
+msgid "_Reconnect"
+msgstr "_Konektatu berriro"
+
+#: ../ui/main.glade.h:23
+msgid "_Save Buffer..."
+msgstr "_Gorde bufferra..."
+
+#: ../ui/main.glade.h:24
+msgid "_Settings"
+msgstr "_Ezarpenak"
+
+#: ../ui/muds.glade.h:1
+msgid "<b>Character</b>"
+msgstr "<b>Pertsonaia</b>"
+
+#: ../ui/muds.glade.h:2
+msgid "<b>Mud</b>"
+msgstr "<b>Mud</b>"
+
+#: ../ui/muds.glade.h:3
+msgid "<b>Profile</b>"
+msgstr "<b>Profila</b>"
+
+#: ../ui/muds.glade.h:4
+msgid "Are you sure you want to delete this mud?"
+msgstr "Ziur zaude mud hau ezabatu nahi duzula?"
+
+#: ../ui/muds.glade.h:5
+msgid "Close _without Saving"
+msgstr "Itxi _gorde gabe"
+
+#: ../ui/muds.glade.h:6
+msgid "Connection Properties"
+msgstr "Konexioaren propietateak"
+
+#: ../ui/muds.glade.h:7
+msgid "Connections"
+msgstr "Konexioak"
+
+#: ../ui/muds.glade.h:8
+msgid "Delete Mud?"
+msgstr "Mud ezabatu?"
+
+#: ../ui/muds.glade.h:10
+msgid "Logon:"
+msgstr "Saio-hasiera:"
+
+#: ../ui/muds.glade.h:11
+msgid "Name:"
+msgstr "Izena:"
+
+#: ../ui/muds.glade.h:13
+msgid "Select A Folder"
+msgstr "Hautatu karpeta"
+
+#: ../ui/muds.glade.h:14
+msgid "Select An Icon..."
+msgstr "Hautatu ikono bat..."
+
+#: ../ui/muds.glade.h:15
+msgid "Unsaved Changes"
+msgstr "Gorde gabeko aldaketak"
+
+#: ../ui/muds.glade.h:16
+msgid "You have unsaved changes. Do you want to save before closing?"
+msgstr "Gorde gabeko aldaketak dituzu. Gorde nahi duzu itxi aurretik?"
+
+#: ../ui/prefs.glade.h:1
+msgid "<b>Encoding</b>"
+msgstr "<b>Kodeketa</b>"
+
+#: ../ui/prefs.glade.h:2
+msgid "<b>Input</b>"
+msgstr "<b>Sarrera</b>"
+
+#: ../ui/prefs.glade.h:3
+msgid "<b>New Profile Name:</b>"
+msgstr "<b>Profil berriaren izena:</b>"
+
+#: ../ui/prefs.glade.h:4
+msgid "<b>Proxy</b>"
+msgstr "<b>Proxy-a</b>"
+
+#: ../ui/prefs.glade.h:5
+msgid "<b>Sound</b>"
+msgstr "<b>Soinua</b>"
+
+#: ../ui/prefs.glade.h:7
+msgid "Background color:"
+msgstr "Atzeko planoaren kolorea:"
+
+#: ../ui/prefs.glade.h:8
+msgid "Blank"
+msgstr "Hutsik"
+
+#: ../ui/prefs.glade.h:9
+msgid "Character Set:"
+msgstr "Karaktere-jokoa:"
+
+#: ../ui/prefs.glade.h:10
+msgid "Color and Fonts"
+msgstr "Kolorea eta letra-tipoak"
+
+#: ../ui/prefs.glade.h:11
+msgid "Color palette:"
+msgstr "Kolore-paleta:"
+
+#: ../ui/prefs.glade.h:12
+msgid "Command Division Character:"
+msgstr "Komandoak bereizteko karaketerea:"
+
+#: ../ui/prefs.glade.h:13
+msgid "Disable _System Keys"
+msgstr "Desgaitu _sistemako gakoak"
+
+#: ../ui/prefs.glade.h:14
+msgid "Enable Encoding Negotiation"
+msgstr "Gaitu kodeketaren negoziazioa"
+
+#: ../ui/prefs.glade.h:15
+msgid "Enable Proxy"
+msgstr "Gaitu proxy-a"
+
+#: ../ui/prefs.glade.h:16
+msgid "Enable Remote Download"
+msgstr "Gaitu urruneko deskarga"
+
+#: ../ui/prefs.glade.h:17
+msgid "Enable Sound"
+msgstr "Gaitu soinua"
+
+#: ../ui/prefs.glade.h:18
+msgid "Error At:"
+msgstr "Errorea -"
+
+#: ../ui/prefs.glade.h:19
+msgid "Error Code:"
+msgstr "Errore-kodea:"
+
+#: ../ui/prefs.glade.h:20
+msgid "Error String:"
+msgstr "Errore-katea:"
+
+#: ../ui/prefs.glade.h:21
+msgid "Font:"
+msgstr "Letra-tipoa:"
+
+#: ../ui/prefs.glade.h:22
+msgid "Foreground color:"
+msgstr "Aurreko planoaren kolorea:"
+
+#: ../ui/prefs.glade.h:23
+msgid "Functionality"
+msgstr "Funtzionalitatea"
+
+#: ../ui/prefs.glade.h:26
+msgid "Match Text:"
+msgstr "Bat datorren testua:"
+
+#: ../ui/prefs.glade.h:27
+msgid "Match:"
+msgstr "Bat datorrena:"
+
+#: ../ui/prefs.glade.h:28
+msgid "New Profile"
+msgstr "Profil berria"
+
+#: ../ui/prefs.glade.h:29
+msgid "Number of lines to save in the scrollback."
+msgstr "Korritze-barran mantentzeko lerro kopurua"
+
+#: ../ui/prefs.glade.h:31
+msgid "Profiles"
+msgstr "Profilak"
+
+#: ../ui/prefs.glade.h:32
+msgid "Regex Error"
+msgstr "Adierazpen erregularren errorea"
+
+#: ../ui/prefs.glade.h:33
+msgid "S_croll on output"
+msgstr "Korritu _irteeran"
+
+#: ../ui/prefs.glade.h:34
+msgid "Scrollback:"
+msgstr "Korritu atzerantz:"
+
+#: ../ui/prefs.glade.h:35
+msgid "Terminal"
+msgstr "Terminala"
+
+#: ../ui/prefs.glade.h:36
+msgid "Test"
+msgstr "Proba"
+
+#: ../ui/prefs.glade.h:38
+msgid "Version:"
+msgstr "Bertsioa:"
+
+#: ../ui/prefs.glade.h:39
+msgid "_Action List:"
+msgstr "_Ekintzen zerrenda:"
+
+#: ../ui/prefs.glade.h:40
+msgid "_Echo the Text Sent"
+msgstr "_Azaldu bidalitako testuaren oihartzuna"
+
+#: ../ui/prefs.glade.h:41
+msgid "_Keep the Text Entered"
+msgstr "_Utzi testua sartuta"
+
+#: ../ui/prefs.glade.h:42
+msgid "_Name:"
+msgstr "_Izena:"
+
+#: ../ui/prefs.glade.h:43
+msgid "_Regex:"
+msgstr "_Adi. erreg:"
+
+#: ../ui/prefs.glade.h:44
+msgid "_Trigger:"
+msgstr "_Abiarazlea:"
+
+#: ../ui/prefs.glade.h:45
+msgid "lines"
+msgstr "lerroak"
+
+#.  Free the create_link_data structure
+#: ../plugins/automapper/map.c:641
+msgid "Ready."
+msgstr "Prest."
+
+#: ../plugins/automapper/map.c:642
+msgid "Canceled."
+msgstr "Bertan behera utzita."
+
+#: ../plugins/automapper/map.c:678
+msgid "A link already exists here!"
+msgstr "Badago esteka lehendik ere."
+
+#.  Create the hint label
+#: ../plugins/automapper/map.c:730 ../plugins/automapper/map.c:3642
+#: ../plugins/automapper/map.c:3645
+msgid "Ready"
+msgstr "Prest"
+
+#: ../plugins/automapper/map.c:731
+msgid "Link created"
+msgstr "Esteka sortuta"
+
+#: ../plugins/automapper/map.c:735
+msgid "Can't create a node here"
+msgstr "Ezin da nodoa hemen sortu"
+
+#: ../plugins/automapper/map.c:966
+msgid "New Map"
+msgstr "Mapa berria"
+
+#.  Translator: "path" means "line of travel", ie "road"
+#: ../plugins/automapper/map.c:975
+msgid "Creating a path"
+msgstr "Bide-izena sortzen"
+
+#.  The radio button (new map)
+#: ../plugins/automapper/map.c:983
+msgid "Path leads to a new map"
+msgstr "Bide-izenak mapa berrirantz darama"
+
+#: ../plugins/automapper/map.c:990
+msgid "New map"
+msgstr "Mapa berria"
+
+#.  The radio button (default)
+#: ../plugins/automapper/map.c:1007
+msgid "Path follows an already existing path:"
+msgstr "Bide-izenak lehendik ere bdagoen bide-izen bat jarraitzen du:"
+
+#: ../plugins/automapper/map.c:1026
+msgid "Create"
+msgstr "Sortu"
+
+#: ../plugins/automapper/map.c:1195
+msgid "Enter in a path"
+msgstr "Sartu bide-izenean"
+
+#: ../plugins/automapper/map.c:1202
+msgid "Create a new path:"
+msgstr "Sortu bide-izen berria:"
+
+#: ../plugins/automapper/map.c:1219
+msgid "Enter in existing path:"
+msgstr "Sartu existitzen den bide-izena:"
+
+#: ../plugins/automapper/map.c:1270
+msgid ""
+"This node has already 8 links. Destroy one of these before trying to create "
+"a new one"
+msgstr ""
+"Nodo honek jadanik 8 esteka ditu. Ezabatu hauetariko bat berri bat "
+"sortu aurretik."
+
+#.  Change the automap state
+#: ../plugins/automapper/map.c:1277
+msgid "Enter to finish, Esc to quit"
+msgstr "Sartu amaitzeko, Ihes irtetzeko"
+
+#: ../plugins/automapper/map.c:1278
+msgid "Use move buttons to build the link."
+msgstr "Erabili botoi mugikorrak esteka sortzeko."
+
+#: ../plugins/automapper/map.c:1456
+msgid "Zoom In"
+msgstr "Handiagotu"
+
+#: ../plugins/automapper/map.c:1457
+msgid "Zoom Out"
+msgstr "Txikiagotu"
+
+#: ../plugins/automapper/map.c:1458
+msgid "Configure Automap"
+msgstr "Konfiguratu auto-mapa"
+
+#.  Teleport here
+#: ../plugins/automapper/map.c:1498
+msgid "Teleport here"
+msgstr "Telegarraiatu hona"
+
+#.
+#. /* Set node properties */
+#. properties_item = gtk_menu_item_new_with_label(_("Set node properties"));
+#. gtk_menu_shell_append(GTK_MENU_SHELL(pop_menu), properties_item);
+#. gtk_signal_connect(GTK_OBJECT(properties_item), "activate", GTK_SIGNAL_FUNC(on_properties_item_activated), data);
+#. Create new link
+#: ../plugins/automapper/map.c:1508
+msgid "Create new link"
+msgstr "Sortu esteka berria"
+
+#.  Translator: this is an action, not a key
+#: ../plugins/automapper/map.c:1515
+msgid "Enter"
+msgstr "Sartu"
+
+#.  Can easily be optimised ... but why bother ?
+#. Translator: "N" means "North" here
+#. Create button directions
+#: ../plugins/automapper/map.c:1816 ../plugins/automapper/map.c:3670
+msgid "N"
+msgstr "I"
+
+#.  Translator: "NE" means "Northeast" here
+#: ../plugins/automapper/map.c:1818 ../plugins/automapper/map.c:3671
+msgid "NE"
+msgstr "IE"
+
+#.  Translator: "E" means "East" here
+#: ../plugins/automapper/map.c:1820 ../plugins/automapper/map.c:3672
+msgid "E"
+msgstr "E"
+
+#.  Translator: "SE" means "Southeast" here
+#: ../plugins/automapper/map.c:1822 ../plugins/automapper/map.c:3673
+msgid "SE"
+msgstr "HE"
+
+#.  Translator: "S" means "South" here
+#: ../plugins/automapper/map.c:1824 ../plugins/automapper/map.c:3674
+msgid "S"
+msgstr "H"
+
+#.  Translator: "SW" means "Southwest" here
+#: ../plugins/automapper/map.c:1826 ../plugins/automapper/map.c:3675
+msgid "SW"
+msgstr "HM"
+
+#.  Translator: "W" means "West" here
+#: ../plugins/automapper/map.c:1828 ../plugins/automapper/map.c:3676
+msgid "W"
+msgstr "M"
+
+#.  Translator: "NW" means "Northwest" here
+#: ../plugins/automapper/map.c:1830 ../plugins/automapper/map.c:3677
+msgid "NW"
+msgstr "IM"
+
+#: ../plugins/automapper/map.c:1833 ../plugins/automapper/map.c:3667
+msgid "Remove"
+msgstr "Kendu"
+
+#.  Some buttons
+#: ../plugins/automapper/map.c:1834 ../plugins/automapper/map.c:3665
+msgid "Load"
+msgstr "Kargatu"
+
+#: ../plugins/automapper/map.c:1835 ../plugins/automapper/map.c:3666
+msgid "Save"
+msgstr "Gorde"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Load map"
+msgstr "Kargatu mapa"
+
+#: ../plugins/automapper/map.c:2893
+msgid "Save map"
+msgstr "Gorde mapa"
+
+#: ../plugins/automapper/map.c:3142
+msgid "No link existed in that direction"
+msgstr "Ez da estekarik existitzen helbide horretan"
+
+#: ../plugins/automapper/map.c:3148
+msgid "Cannot break links to a node going up or down"
+msgstr "Ezin da nodo batekiko estekarik hautsi gora edo behera joatean"
+
+#.  It would seem this node already has a connection to here, That's
+#. * possible so we need to inform the user that his move is illegal.
+#.
+#: ../plugins/automapper/map.c:3257
+msgid "Destination node has already a connection here"
+msgstr "Helburuko nodoak badu jadanik konexio bat hemen"
+
+#: ../plugins/automapper/map.c:3406
+msgid "Can't create a link to another floor!"
+msgstr "Ezin da estekarik sortu beste zoru batean."
+
+#: ../plugins/automapper/map.c:3412
+msgid "There is already a link here!"
+msgstr "Hemen badago esteka bat lehendik ere."
+
+#.  Set the title
+#. g_snprintf(name, 100, "window%d", g_list_length(AutoMapList));
+#. gtk_window_set_title(GTK_WINDOW(automap->window), name);
+#: ../plugins/automapper/map.c:3550
+msgid "GNOME-Mud AutoMapper"
+msgstr "GNOME-Mud-en auto-mapatzailea"
+
+#~ msgid "Error"
+#~ msgstr "Errorea"
+
+#~ msgid "ERROR: %s\n"
+#~ msgstr "ERROREA: %s\n"
+
+#~ msgid "Critical"
+#~ msgstr "Larria"
+
+#~ msgid "Warning"
+#~ msgstr "Abisua"
+
+#~ msgid "Message"
+#~ msgstr "Mezua"
+
+#~ msgid "Info"
+#~ msgstr "Informazioa"
+
+#~ msgid "Debug"
+#~ msgstr "Araztu"
+
+#~ msgid "Unknown"
+#~ msgstr "Ezezaguna"
+
+#~ msgid "CRITICAL ERROR: %s\n"
+#~ msgstr "ERRORE LARRIA: %s\n"
+
+#~ msgid "Warning: %s\n"
+#~ msgstr "Abisua: %s\n"
+
+#~ msgid "Type"
+#~ msgstr "Mota"
+
+#~ msgid "Are you sure you want to delete %s?"
+#~ msgstr "Ziur zaude %s ezabatu nahi duzula?"
+
+#~ msgid "Delete %s?"
+#~ msgstr "Ezabatu %s?"
+
+#~ msgid "No mud name specified."
+#~ msgstr "Ez da mud izenik zehaztu."
+
+#~ msgid ""
+#~ "\n"
+#~ "*** Connection closed.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "*** Konexioa itxi da.\n"
+
+#~ msgid "Save log as..."
+#~ msgstr "Gorde egunkaria honela..."
+
+#~ msgid "Log Error"
+#~ msgstr "Egunkari-errorea"
+
+#~ msgid "Could not open \"%s\" for writing."
+#~ msgstr "Ezin izan da \"%s\" ireki idazteko."
+
+#~ msgid "Could not write data to log file!"
+#~ msgstr "Ezin izan da daturik idatzi egunkari-fitxategian!"
+
+#~ msgid "#Submatch Out of Range#"
+#~ msgstr "#Azpitaldea barrutitik kanpo#"
+
+#~ msgid "Error Saving Buffer"
+#~ msgstr "Errorea bufferra gordetzean"
+
+#~ msgid ""
+#~ "\n"
+#~ "MCCP data corrupted. Aborting connection.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "MCCP datuak hondatuta. Konexioa abortatzen.\n"
+
+#~ msgid "<b>Logging Options:</b>"
+#~ msgstr "<b>Saio-hasierako aukerak:</b>"
+
+#~ msgid "<b>_Log to File:</b>"
+#~ msgstr "<b>_Hasi saioa fitxategian:</b>"
+
+#~ msgid "Debug Log"
+#~ msgstr "Arazketa-egunkaria"
+
+#~ msgid "Include C_olor"
+#~ msgstr "_Sartu kolorea"
+
+#~ msgid "Log Inp_ut"
+#~ msgstr "E_gunkari-sarrera"
+
+#~ msgid "Number of _previous lines to include:"
+#~ msgstr "Sartu _beharreko aurreko lerro kopurua:"
+
+#~ msgid "Start Logging..."
+#~ msgstr "Saioa hasten..."
+
+#~ msgid "_Append to file"
+#~ msgstr "_Erantsi fitxategiari"
+
+#~ msgid "_Include entire buffer"
+#~ msgstr "_Sartu buffer osoa"
+
+#~ msgid "_Number of lines to log:"
+#~ msgstr "_Erregistratu beharreko lerro kopurura:"
+
+#~ msgid "_Select File"
+#~ msgstr "_Hautatu fitxategia"
+
+#~ msgid " _Host: "
+#~ msgstr " _Ostalaria: "
+
+#~ msgid " _Port: "
+#~ msgstr " _Ataka: "
+
+#~ msgid "<b>Output</b>"
+#~ msgstr "<b>Irteera</b>"
+
+#~ msgid "<b>Telnet Options</b>"
+#~ msgstr "<b>Telnet aukerak</b>"
+
+#~ msgid "Color Palette:"
+#~ msgstr "Kolore-paleta:"
+
+#~ msgid "Enable Mud _Sound Protocol (MSP)"
+#~ msgstr "Gaitu Mud _soinu-protokoloa (MSP)"
+
+#~ msgid "Fon_t:"
+#~ msgstr "Letra-ti_poa:"
+
+#~ msgid "Network"
+#~ msgstr "Sarea"
+
+#~ msgid "Timers"
+#~ msgstr "Denboragailuak"
+
+#~ msgid "_Host:"
+#~ msgstr "_Ostalaria:"
+
+#~ msgid "_Number of Scrollback Lines:"
+#~ msgstr "_Korritze-barrako lerro kopurua:"
