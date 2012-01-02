@@ -166,10 +166,7 @@ mud_telnet_charset_constructor (GType gtype,
 static void
 mud_telnet_charset_finalize (GObject *object)
 {
-    MudTelnetCharset *self;
     GObjectClass *parent_class;
-
-    self = MUD_TELNET_CHARSET(object);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);

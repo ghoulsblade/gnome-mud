@@ -160,10 +160,7 @@ mud_telnet_eor_constructor (GType gtype,
 static void
 mud_telnet_eor_finalize (GObject *object)
 {
-    MudTelnetEor *self;
     GObjectClass *parent_class;
-
-    self = MUD_TELNET_EOR(object);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
