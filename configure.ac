@@ -24,6 +24,7 @@ AC_INIT([GNOME-Mud],[0.11.2], [gnome-mud-list@gnome.org], [gnome-mud])
 AC_CONFIG_SRCDIR(src/gnome-mud.c)
 AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 AC_CONFIG_HEADERS([config.h])
 
 PKG_PROG_PKG_CONFIG(0.9.0)
