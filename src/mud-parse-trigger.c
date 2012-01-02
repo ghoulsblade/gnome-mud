@@ -133,10 +133,7 @@ mud_parse_trigger_constructor (GType gtype,
 static void
 mud_parse_trigger_finalize (GObject *object)
 {
-    MudParseTrigger *parse_trigger;
     GObjectClass *parent_class;
-
-    parse_trigger = MUD_PARSE_TRIGGER(object);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);

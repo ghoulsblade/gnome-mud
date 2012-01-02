@@ -131,10 +131,7 @@ mud_parse_alias_constructor (GType gtype,
 static void
 mud_parse_alias_finalize (GObject *object)
 {
-    MudParseAlias *parse_alias;
     GObjectClass *parent_class;
-
-    parse_alias = MUD_PARSE_ALIAS(object);
 
     parent_class = g_type_class_peek_parent(G_OBJECT_GET_CLASS(object));
     parent_class->finalize(object);
