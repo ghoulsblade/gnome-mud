@@ -134,7 +134,7 @@ static void debug_logger_save_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_copy_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_select_clicked(GtkWidget *widget, DebugLogger *logger);
 static void debug_logger_clear_clicked(GtkWidget *widget, DebugLogger *logger);
-static void debug_logger_switch_page(GtkNotebook *notebook, GtkNotebookPage *page,
+static void debug_logger_switch_page(GtkNotebook *notebook, gpointer page,
                                      guint page_num, DebugLogger *logger);
 static gboolean debug_logger_window_delete(GtkWidget *widget,
                                            GdkEvent *event,
@@ -781,7 +781,7 @@ debug_logger_clear_clicked(GtkWidget *widget, DebugLogger *logger)
 }
 
 static void
-debug_logger_switch_page(GtkNotebook *notebook, GtkNotebookPage *page,
+debug_logger_switch_page(GtkNotebook *notebook, gpointer page,
                          guint page_num, DebugLogger *logger)
 {
     GtkWidget *current_page =

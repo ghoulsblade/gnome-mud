@@ -137,9 +137,9 @@ static gboolean mud_window_textview_keypress(GtkWidget *widget,
 static gboolean mud_window_entry_keypress(GtkWidget *widget,
                                           GdkEventKey *event, 
                                           MudWindow *self);
-static void mud_window_notebook_page_change(GtkNotebook *notebook, 
-                                            GtkNotebookPage *page, 
-                                            gint arg, 
+static void mud_window_notebook_page_change(GtkNotebook *notebook,
+                                            gpointer page,
+                                            gint arg,
                                             MudWindow *self);
 static void mud_window_preferences_cb(GtkWidget *widget, MudWindow *self);
 static void mud_window_profiles_cb(GtkWidget *widget, MudWindow *self);
@@ -706,7 +706,7 @@ mud_window_entry_keypress(GtkWidget *widget,
 }
 
 static void
-mud_window_notebook_page_change(GtkNotebook *notebook, GtkNotebookPage *page, gint arg, MudWindow *self)
+mud_window_notebook_page_change(GtkNotebook *notebook, gpointer page, gint arg, MudWindow *self)
 {
     gboolean connected;
     gboolean logging;
