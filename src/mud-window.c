@@ -394,7 +394,7 @@ mud_window_init (MudWindow *self)
             GTK_SCROLLED_WINDOW(self->priv->textviewscroll)->vscrollbar,
             -1, 1);
 
-    if (GTK_WIDGET_VISIBLE(self->priv->textviewscroll))
+    if (gtk_widget_get_visible(self->priv->textviewscroll))
         gtk_widget_queue_resize(self->priv->textviewscroll);
 
     gtk_window_get_size(GTK_WINDOW(self->window),
@@ -553,7 +553,7 @@ mud_window_grab_entry_focus_cb(GtkWidget *widget,
 {
     MudWindow *self = MUD_WINDOW(user_data);
 
-    if(GTK_WIDGET_VISIBLE(self->priv->textview))
+    if(gtk_widget_get_visible(self->priv->textview))
         gtk_widget_grab_focus(self->priv->textview);
     else
         gtk_widget_grab_focus(self->priv->password_entry);
@@ -758,7 +758,7 @@ mud_window_notebook_page_change(GtkNotebook *notebook, gpointer page, gint arg, 
 
         mud_window_toggle_input_mode(self, self->priv->current_view);
 
-        if(GTK_WIDGET_VISIBLE(self->priv->textview))
+        if(gtk_widget_get_visible(self->priv->textview))
             gtk_widget_grab_focus(self->priv->textview);
         else
             gtk_widget_grab_focus(self->priv->password_entry);
@@ -895,7 +895,7 @@ mud_window_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer
         g_object_unref(buf);
     }
 
-    if(GTK_WIDGET_VISIBLE(self->priv->textview))
+    if(gtk_widget_get_visible(self->priv->textview))
         gtk_widget_grab_focus(self->priv->textview);
     else
         gtk_widget_grab_focus(self->priv->password_entry);
@@ -908,7 +908,7 @@ mud_window_size_allocate_cb(GtkWidget *widget,
                             GtkAllocation *allocation,
                             MudWindow *self)
 {
-    if(GTK_WIDGET_MAPPED(self->window))
+    if(gtk_widget_get_mapped(GTK_WIDGET(self->window)))
     {
         if(self->priv->width != allocation->width ||
            self->priv->height != allocation->height)
@@ -1133,7 +1133,7 @@ mud_window_toggle_input_mode(MudWindow *self,
 
         if(local_echo)
         {
-            if(GTK_WIDGET_MAPPED(self->priv->password_entry))
+            if(gtk_widget_get_mapped(self->priv->password_entry))
             {
                 gtk_widget_hide(self->priv->password_entry);
 
@@ -1368,7 +1368,7 @@ mud_window_disconnected(MudWindow *self)
     gtk_widget_set_sensitive(self->priv->menu_disconnect, FALSE);
     gtk_widget_set_sensitive(self->priv->toolbar_disconnect, FALSE);
 
-    if(GTK_WIDGET_VISIBLE(self->priv->password_entry))
+    if(gtk_widget_get_visible(self->priv->password_entry))
     {
         gtk_widget_hide(self->priv->password_entry);
 

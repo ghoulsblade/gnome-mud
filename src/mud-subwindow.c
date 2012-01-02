@@ -839,7 +839,7 @@ mud_subwindow_set_size_force_grid (MudSubwindow *window,
     w += xpad * 2 + char_width * grid_width;
     h += ypad * 2 + char_height * grid_height;
 
-    if (even_if_mapped && GTK_WIDGET_MAPPED (app)) {
+    if (even_if_mapped && gtk_widget_get_mapped (app)) {
         gtk_window_resize (GTK_WINDOW (app), w, h);
     }
 }
@@ -853,7 +853,7 @@ mud_subwindow_update_geometry (MudSubwindow *window)
     gint char_height;
     gint xpad, ypad;
 
-    if(GTK_WIDGET_MAPPED(window->priv->window))
+    if(gtk_widget_get_mapped(window->priv->window))
     {
         char_width = VTE_TERMINAL(widget)->char_width;
         char_height = VTE_TERMINAL(widget)->char_height;
@@ -911,7 +911,7 @@ mud_subwindow_configure_event_cb(GtkWidget *widget,
 {
     MudSubwindow *self = MUD_SUBWINDOW(user_data);
 
-    if(GTK_WIDGET_MAPPED(self->priv->entry))
+    if(gtk_widget_get_mapped(self->priv->entry))
         gtk_widget_grab_focus(self->priv->entry);
 
     return FALSE;
@@ -922,7 +922,7 @@ mud_subwindow_size_allocate_cb(GtkWidget *widget,
                                GtkAllocation *allocation,
                                MudSubwindow *self)
 {
-    if(GTK_WIDGET_MAPPED(self->priv->window))
+    if(gtk_widget_get_mapped(self->priv->window))
     {
         if(self->priv->width != allocation->width ||
                 self->priv->height != allocation->height)
@@ -946,7 +946,7 @@ mud_subwindow_focus_in_cb(GtkWidget *widget,
 {
     MudSubwindow *self = MUD_SUBWINDOW(user_data);
 
-    if(GTK_WIDGET_MAPPED(self->priv->entry))
+    if(gtk_widget_get_mapped(self->priv->entry))
         gtk_widget_grab_focus(self->priv->entry);
 
     return TRUE;
@@ -962,7 +962,7 @@ mud_subwindow_entry_keypress_cb(GtkWidget *widget,
 
     if ((event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) &&
         (event->state & gtk_accelerator_get_default_mod_mask()) == 0   &&
-         GTK_WIDGET_MAPPED(self->priv->entry) )
+         gtk_widget_get_mapped(self->priv->entry) )
     {
         gchar *head = g_queue_peek_head(self->priv->history);
         const gchar *text = gtk_entry_get_text(GTK_ENTRY(self->priv->entry));
