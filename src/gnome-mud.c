@@ -97,8 +97,6 @@ main (gint argc, char *argv[])
     g_mkdir_with_parents(dir->str, 0755); 
     g_string_free(dir, TRUE);
 
-    gtk_about_dialog_set_url_hook(utils_activate_url, NULL, NULL);
-
     gtk_window_set_default_icon_name(GMUD_STOCK_ICON);
 
      /*Setup debug logging */

@@ -101,12 +101,6 @@ utils_strip_ansi(const gchar *orig)
 }
 
 void
-utils_activate_url(GtkAboutDialog *about, const gchar *url, gpointer data)
-{
-    // use gtk_show_uri when available.
-}
-
-void
 utils_error_message(GtkWidget *parent, const gchar *title, const gchar *fmt, ...)
 {
     GtkWidget *dialog, *label, *icon, *hbox;

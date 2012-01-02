@@ -24,7 +24,6 @@
 
 gchar *utils_remove_whitespace(const gchar *string);
 gchar *utils_strip_ansi(const gchar *orig);
-void utils_activate_url(GtkAboutDialog *about, const gchar *url, gpointer data);
 void utils_error_message(GtkWidget *parent, const gchar *title, const gchar *fmt, ...);
 void utils_str_replace (gchar *buf, const gchar *s, const gchar *repl);
 
