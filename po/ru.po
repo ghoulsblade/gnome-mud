@@ -1,0 +1,745 @@
+# Russian translation for gnome-mud.
+# Copyright (C) 2012 gnome-mud's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-mud package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-mud master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-mud&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-01-02 01:11+0000\n"
+"PO-Revision-Date: 2012-03-29 14:20+0300\n"
+"Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
+"Language-Team: Russian <gnome-cyr@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+
+#: ../gnome-mud.desktop.in.h:1
+msgid "GNOME-Mud"
+msgstr "GNOME-Mud"
+
+#: ../gnome-mud.desktop.in.h:2
+msgid "The GNOME MUD Client"
+msgstr "Клиент GNOME MUD"
+
+#: ../gnome-mud.schemas.in.h:1
+msgid "A Pango font name. Examples are \"Sans 12\" or \"Monospace Bold 14\"."
+msgstr "Имя шрифта Pango. Примеры: «Sans 12» или «Monospace Bold 14»."
+
+#: ../gnome-mud.schemas.in.h:2
+msgid "A character that is used to split commands in a string like \"w;w;w;l\", which will be sent to the MUD as 4 separate commands."
+msgstr "Символ, используемый для разделения команд в строке типа «w;w;w;l» (эта строка будет отправлена на MUD как 4 отдельных команды)."
+
+#: ../gnome-mud.schemas.in.h:3
+#: ../ui/prefs.glade.h:7
+msgid "Aliases"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:4
+msgid "Color palette"
+msgstr "Палитра цветов"
+
+#: ../gnome-mud.schemas.in.h:5
+msgid "Command Divider"
+msgstr "Разделитель команд"
+
+#: ../gnome-mud.schemas.in.h:6
+msgid "Default color of the background"
+msgstr "Цвет фона по умолчанию"
+
+#: ../gnome-mud.schemas.in.h:7
+msgid "Default color of the background, as a color specification (can be HTML-style hex digits, or a color name such as \"red\")."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:8
+msgid "Default color of the text"
+msgstr "Цвет текста по умолчанию"
+
+#: ../gnome-mud.schemas.in.h:9
+msgid "Default color of the text, as a color specification (can be HTML-style hex digits, or a color name such as \"red\")."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:10
+msgid "Directional keybindings"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:11
+msgid "Enable sound file downloading on MSP enabled MUDs"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:12
+msgid "Encoding"
+msgstr "Кодировка"
+
+#: ../gnome-mud.schemas.in.h:13
+msgid "Encoding Index"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:14
+msgid "Font"
+msgstr "Шрифт"
+
+#: ../gnome-mud.schemas.in.h:15
+msgid "GNOME-Mud has a 16-color palette that MUDs can use. It must be specified in the form of a colon-separated list of color names. Color names should be in hex format e.g. \"#FF00FF\"."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:16
+msgid "How often in seconds gnome-mud should flush logfiles."
+msgstr "Как часто gnome-mud должен скидывать буфер журнальных файлов (в секундах)."
+
+#: ../gnome-mud.schemas.in.h:17
+msgid "If enabled, GNOME-Mud will offer a few built-in keybindings. They can be overridden by custom keybindings, or they can be disabled completely with this option."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:18
+msgid "If enabled, all the text typed in will be echoed in the terminal, making it easier to control what is sent."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:19
+msgid "If enabled, the text that is sent to the connection will be left as a selection in the entry box. Otherwise, the text entry box will be cleared after each text input."
+msgstr "Если этот параметр включен, отправляемый текст будет оставаться выделенным в поле ввода. В противном случае поле ввода будет очищаться после каждого ввода текста."
+
+#: ../gnome-mud.schemas.in.h:20
+msgid "If enabled, whenever there's new output the terminal will be scrolled to the bottom."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:21
+#: ../ui/prefs.glade.h:16
+msgid "Keybindings"
+msgstr "Привязки клавиш"
+
+#: ../gnome-mud.schemas.in.h:22
+msgid "Last log file"
+msgstr "Последний журнал"
+
+#: ../gnome-mud.schemas.in.h:23
+msgid "List of profiles"
+msgstr "Список профилей"
+
+#: ../gnome-mud.schemas.in.h:24
+msgid "List of profiles known to GNOME-Mud. The list contains strings naming subdirectories relative to /apps/gnome-mud/profiles."
+msgstr "Список профилей, известных GNOME-Mud. Список содержит строки, в которых подкаталоги указываются относительно /apps/gnome-mud/profiles."
+
+#: ../gnome-mud.schemas.in.h:25
+msgid "Log flush interval"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:26
+msgid "Number of lines to keep in scrollback"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:27
+msgid "Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lines; lines that don't fit in the scrollback are discarded."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:28
+msgid "Proxy Hostname"
+msgstr "Имя узла прокси"
+
+#: ../gnome-mud.schemas.in.h:29
+msgid "Proxy Version"
+msgstr "Версия прокси"
+
+#: ../gnome-mud.schemas.in.h:30
+msgid "Remote Download"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:31
+msgid "Remote Encoding"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:32
+msgid "The SOCKS Version to be used."
+msgstr "Используемая версия SOCKS."
+
+#: ../gnome-mud.schemas.in.h:33
+msgid "The encoding for the terminal widget."
+msgstr "Кодировка для виджета терминала."
+
+#: ../gnome-mud.schemas.in.h:34
+msgid "The file in which a mudlog was last saved."
+msgstr "Файл, в который был сохранён mudlog."
+
+#: ../gnome-mud.schemas.in.h:35
+msgid "The hostname for the SOCKS proxy server."
+msgstr "Имя узла для прокси-сервера SOCKS."
+
+#: ../gnome-mud.schemas.in.h:36
+msgid "The index of the currently selected encoding."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:37
+#: ../ui/prefs.glade.h:25
+msgid "Triggers"
+msgstr "Триггеры"
+
+#: ../gnome-mud.schemas.in.h:38
+msgid "Use Proxy"
+msgstr "Использовать прокси"
+
+#: ../gnome-mud.schemas.in.h:39
+msgid "Use Remote Encoding negotiation."
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:40
+msgid "Use a proxy server to connect to the mud."
+msgstr "Использовать прокси-сервер для подключения к MUD."
+
+#: ../gnome-mud.schemas.in.h:41
+#: ../ui/prefs.glade.h:26
+msgid "Variables"
+msgstr "Переменные"
+
+#: ../gnome-mud.schemas.in.h:42
+msgid "Whether to echo sent text to the connection"
+msgstr ""
+
+#: ../gnome-mud.schemas.in.h:43
+msgid "Whether to enable or disable the system keys"
+msgstr "Включить или выключить системные клавиши"
+
+#: ../gnome-mud.schemas.in.h:44
+msgid "Whether to keep text sent to the connection"
+msgstr "Сохранять ли текст, отправленный подключению"
+
+#: ../gnome-mud.schemas.in.h:45
+msgid "Whether to scroll to the bottom when there's new output"
+msgstr "Выполнять ли прокрутку вниз при наличии нового вывода"
+
+#: ../src/debug-logger.c:827
+#: ../src/mud-connections.c:1272
+msgid "Error"
+msgstr "Ошибка"
+
+#: ../src/debug-logger.c:830
+#: ../src/debug-logger.c:913
+#, c-format
+msgid "ERROR: %s\n"
+msgstr "ОШИБКА: %s\n"
+
+#: ../src/debug-logger.c:834
+#, fuzzy
+msgid "Critical"
+msgstr "Критическая ошибка"
+
+#: ../src/debug-logger.c:841
+msgid "Warning"
+msgstr "Предупреждение"
+
+#: ../src/debug-logger.c:848
+#: ../src/debug-logger.c:998
+msgid "Message"
+msgstr "Сообщение"
+
+#: ../src/debug-logger.c:855
+msgid "Info"
+msgstr "Информация"
+
+#: ../src/debug-logger.c:862
+msgid "Debug"
+msgstr "Отладка"
+
+#: ../src/debug-logger.c:869
+msgid "Unknown"
+msgstr ""
+
+#: ../src/debug-logger.c:917
+#, c-format
+msgid "CRITICAL ERROR: %s\n"
+msgstr "КРИТИЧЕСКАЯ ОШИБКА: %s\n"
+
+#: ../src/debug-logger.c:921
+#, c-format
+msgid "Warning: %s\n"
+msgstr "Предупреждение: %s\n"
+
+#: ../src/debug-logger.c:991
+msgid "Type"
+msgstr "Тип"
+
+#: ../src/gnome-mud.c:63
+#, c-format
+msgid "Failed to init GConf: %s"
+msgstr "Не удалось инициировать GConf: %s"
+
+#: ../src/mud-connections.c:933
+#, c-format
+msgid "Are you sure you want to delete %s?"
+msgstr "Вы действительно хотите удалить %s?"
+
+#: ../src/mud-connections.c:934
+#, c-format
+msgid "Delete %s?"
+msgstr "Удалить %s?"
+
+#: ../src/mud-connections.c:1273
+msgid "No mud name specified."
+msgstr "Не указано имя MUD."
+
+#: ../src/mud-connection-view.c:575
+#: ../src/mud-connection-view.c:1977
+#, c-format
+msgid "*** Making connection to %s, port %d.\n"
+msgstr "*** Подключение к %s, порт %d.\n"
+
+#: ../src/mud-connection-view.c:1054
+msgid "Close"
+msgstr "Закрыть"
+
+#: ../src/mud-connection-view.c:1074
+msgid "Change P_rofile"
+msgstr "Из_менить профиль"
+
+#: ../src/mud-connection-view.c:1113
+msgid "_Input Methods"
+msgstr "_Методы ввода"
+
+#: ../src/mud-connection-view.c:1142
+msgid "*** Could not connect.\n"
+msgstr "*** Не удалось подключиться.\n"
+
+#: ../src/mud-connection-view.c:1147
+msgid "*** Connected.\n"
+msgstr "*** Подключен.\n"
+
+#: ../src/mud-connection-view.c:1175
+msgid "*** Connection closed.\n"
+msgstr "*** Подключение закрыто.\n"
+
+#: ../src/mud-connection-view.c:1405
+#, c-format
+msgid "There was an error loading config value for whether to use image in menus. (%s)\n"
+msgstr "При загрузке конфигурационного значения для использования изображений в меню произошла ошибка. (%s)\n"
+
+#: ../src/mud-connection-view.c:1880
+#: ../src/mud-connection-view.c:1924
+msgid ""
+"\n"
+"*** Connection closed.\n"
+msgstr ""
+"\n"
+"*** Подключение закрыто.\n"
+
+#: ../src/mud-connection-view.c:2027
+msgid "<password removed>"
+msgstr "<пароль удалён>"
+
+#: ../src/mud-connection-view.c:2223
+msgid "Connecting..."
+msgstr "Подключение..."
+
+#: ../src/mud-connection-view.c:2346
+msgid "Connection timed out."
+msgstr "Превышено время ожидания подключения."
+
+#: ../src/mud-connection-view.c:2362
+msgid "There was an internal http connection error."
+msgstr "Произошла внутренняя ошибка подключения HTTP."
+
+#: ../src/mud-connection-view.c:2384
+msgid "Downloading"
+msgstr "Загрузка"
+
+#: ../src/mud-log.c:395
+msgid "Save log as..."
+msgstr "Сохранить журнал как..."
+
+#: ../src/mud-log.c:727
+msgid ""
+"\n"
+"*** Log starts *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+"*** Журнал начат *** %d/%m/%Y %H:%M:%S\n"
+
+#: ../src/mud-log.c:811
+msgid "Log Error"
+msgstr "Ошибка журнала"
+
+#: ../src/mud-log.c:812
+#, c-format
+msgid "Could not open \"%s\" for writing."
+msgstr "Не удалось открыть «%s» для записи."
+
+#: ../src/mud-log.c:839
+msgid ""
+"\n"
+" *** Log stops *** %d/%m/%Y %H:%M:%S\n"
+msgstr ""
+"\n"
+"*** Журнал закончен *** %d/%m/%Y %H:%M:%S\n"
+
+#: ../src/mud-log.c:913
+msgid "Could not write data to log file!"
+msgstr "Не удалось записать данные в файл журнала!"
+
+#: ../src/mud-tray.c:271
+msgid "_Hide window"
+msgstr "_Скрыть окно"
+
+#: ../src/mud-tray.c:273
+msgid "_Show window"
+msgstr "_Показать окно"
+
+#: ../src/mud-tray.c:279
+msgid "_Quit"
+msgstr "В_ыйти"
+
+#: ../src/mud-trigger.c:724
+msgid "#Submatch Out of Range#"
+msgstr ""
+
+#: ../src/mud-window.c:847
+msgid "A Multi-User Dungeon (MUD) client for GNOME"
+msgstr "Клиент Multi-User Dungeon (MUD) для GNOME"
+
+#: ../src/mud-window.c:859
+msgid "translator-credits"
+msgstr "Aleksey Kabanov <ak099@mail.ru>, 2011"
+
+#: ../src/mud-window.c:968
+msgid "Error Saving Buffer"
+msgstr "Ошибка сохранения буфера"
+
+#: ../src/mud-window.c:1279
+msgid "_Manage Profiles..."
+msgstr "_Управление профилями..."
+
+#: ../src/handlers/mud-telnet-mccp.c:429
+msgid ""
+"\n"
+"MCCP data corrupted. Aborting connection.\n"
+msgstr ""
+
+#: ../ui/main.glade.h:1
+msgid "<b>Logging Options:</b>"
+msgstr "<b>Параметры журналирования:</b>"
+
+#: ../ui/main.glade.h:2
+msgid "<b>_Log to File:</b>"
+msgstr "<b>_Сохранять журнал в файл:</b>"
+
+#: ../ui/main.glade.h:3
+msgid "C_onnection..."
+msgstr "_Подключение..."
+
+#: ../ui/main.glade.h:4
+msgid "Close _Window"
+msgstr "Закрыть ок_но"
+
+#: ../ui/main.glade.h:5
+msgid "Connect"
+msgstr "Подключиться"
+
+#: ../ui/main.glade.h:6
+msgid "Connect to MUD"
+msgstr "Подключиться к MUD"
+
+#: ../ui/main.glade.h:7
+msgid "Connect to host"
+msgstr "Подключиться к хосту"
+
+#: ../ui/main.glade.h:8
+msgid "Debug Log"
+msgstr "Журнал отладки"
+
+#: ../ui/main.glade.h:9
+msgid "Disconnect"
+msgstr "Отключиться"
+
+#: ../ui/main.glade.h:10
+msgid "Disconnect from current MUD"
+msgstr "Отключиться от текущего MUD"
+
+#: ../ui/main.glade.h:11
+msgid "Disconnect from current host"
+msgstr "Отключиться от текущего хоста"
+
+#: ../ui/main.glade.h:12
+msgid "Gnome-Mud"
+msgstr "Gnome-Mud"
+
+#: ../ui/main.glade.h:13
+msgid "Include C_olor"
+msgstr ""
+
+#: ../ui/main.glade.h:14
+msgid "Log Inp_ut"
+msgstr ""
+
+#: ../ui/main.glade.h:15
+msgid "Number of _previous lines to include:"
+msgstr ""
+
+#: ../ui/main.glade.h:16
+msgid "P_rofiles"
+msgstr "Про_фили"
+
+#: ../ui/main.glade.h:17
+msgid "Reconnect"
+msgstr "Переподключиться"
+
+#: ../ui/main.glade.h:18
+msgid "Reconnect to current MUD"
+msgstr "Переподключиться к текущему MUD"
+
+#: ../ui/main.glade.h:19
+msgid "Save buffer as..."
+msgstr "Сохранить буфер как..."
+
+#: ../ui/main.glade.h:20
+msgid "Start Logging..."
+msgstr "Начать запись в журнал..."
+
+#: ../ui/main.glade.h:21
+msgid "Start _Logging..."
+msgstr "Начать запись в _журнал..."
+
+#: ../ui/main.glade.h:22
+msgid "Stop Lo_gging"
+msgstr "Ос_тановить запись в журнал"
+
+#: ../ui/main.glade.h:23
+msgid "_Append to file"
+msgstr "До_бавить к файлу"
+
+#: ../ui/main.glade.h:24
+msgid "_Disconnect"
+msgstr "_Отключиться"
+
+#: ../ui/main.glade.h:25
+msgid "_File"
+msgstr "_Файл"
+
+#: ../ui/main.glade.h:26
+msgid "_Help"
+msgstr "_Справка"
+
+#: ../ui/main.glade.h:27
+msgid "_Include entire buffer"
+msgstr ""
+
+#: ../ui/main.glade.h:28
+msgid "_Number of lines to log:"
+msgstr "_Количество строк журнала:"
+
+#: ../ui/main.glade.h:29
+msgid "_Reconnect"
+msgstr "Пе_реподключиться"
+
+#: ../ui/main.glade.h:30
+msgid "_Save Buffer..."
+msgstr "_Сохранить буфер..."
+
+#: ../ui/main.glade.h:31
+msgid "_Select File"
+msgstr "_Выбрать файл"
+
+#: ../ui/main.glade.h:32
+msgid "_Settings"
+msgstr "_Параметры"
+
+#: ../ui/muds.glade.h:1
+msgid " _Host: "
+msgstr " _Хост: "
+
+#: ../ui/muds.glade.h:2
+msgid " _Port: "
+msgstr " _Порт: "
+
+#: ../ui/muds.glade.h:3
+msgid "<b>Character</b>"
+msgstr ""
+
+#: ../ui/muds.glade.h:4
+msgid "<b>Custom Connection</b>"
+msgstr ""
+
+#: ../ui/muds.glade.h:5
+msgid "<b>Mud</b>"
+msgstr "<b>Mud</b>"
+
+#: ../ui/muds.glade.h:6
+msgid "<b>Profile</b>"
+msgstr "<b>Профиль</b>"
+
+#: ../ui/muds.glade.h:7
+msgid "Are you sure you want to delete this mud?"
+msgstr "Вы действительно хотите удалить этот MUD?"
+
+#: ../ui/muds.glade.h:8
+msgid "Close _without Saving"
+msgstr "Закрыть _без сохранения"
+
+#: ../ui/muds.glade.h:9
+msgid "Connection Properties"
+msgstr "Параметры соединения"
+
+#: ../ui/muds.glade.h:10
+msgid "Connections"
+msgstr "Подключения"
+
+#: ../ui/muds.glade.h:11
+msgid "Delete Mud?"
+msgstr "Удалить MUD?"
+
+#: ../ui/muds.glade.h:12
+msgid "Host:"
+msgstr "Хост:"
+
+#: ../ui/muds.glade.h:13
+msgid "Logon:"
+msgstr ""
+
+#: ../ui/muds.glade.h:14
+msgid "Name:"
+msgstr "Имя:"
+
+#: ../ui/muds.glade.h:15
+msgid "Port:"
+msgstr "Порт:"
+
+#: ../ui/muds.glade.h:16
+msgid "Select A Folder"
+msgstr "Выберите папку"
+
+#: ../ui/muds.glade.h:17
+msgid "Select An Icon..."
+msgstr "Выберите значок..."
+
+#: ../ui/muds.glade.h:18
+msgid "Unsaved Changes"
+msgstr "Несохранённые изменения"
+
+#: ../ui/muds.glade.h:19
+msgid "You have unsaved changes. Do you want to save before closing?"
+msgstr "Имеются несохранённые изменения. Хотите выполнить сохранение перед закрытием?"
+
+#: ../ui/prefs.glade.h:1
+msgid "<b>Encoding</b>"
+msgstr "<b>Кодировка</b>"
+
+#: ../ui/prefs.glade.h:2
+msgid "<b>Input</b>"
+msgstr "<b>Ввод</b>"
+
+#: ../ui/prefs.glade.h:3
+msgid "<b>New Profile Name:</b>"
+msgstr "<b>Имя нового профиля:</b>"
+
+#: ../ui/prefs.glade.h:4
+msgid "<b>Output</b>"
+msgstr "<b>Вывод</b>"
+
+#: ../ui/prefs.glade.h:5
+msgid "<b>Proxy</b>"
+msgstr "<b>Прокси</b>"
+
+#: ../ui/prefs.glade.h:6
+msgid "<b>Telnet Options</b>"
+msgstr "<b>Параметры Telnet</b>"
+
+#: ../ui/prefs.glade.h:8
+msgid "Color Palette:"
+msgstr "Палитра цветов:"
+
+#: ../ui/prefs.glade.h:9
+msgid "Command _Division Character:"
+msgstr "Символ-_разделитель команд:"
+
+#: ../ui/prefs.glade.h:10
+msgid "Enable Mud _Sound Protocol (MSP)"
+msgstr ""
+
+#: ../ui/prefs.glade.h:11
+msgid "Enable _Character Encoding Negotiation (CHARSET)"
+msgstr ""
+
+#: ../ui/prefs.glade.h:12
+msgid "Error At:"
+msgstr ""
+
+#: ../ui/prefs.glade.h:13
+msgid "Error Code:"
+msgstr "Код ошибки:"
+
+#: ../ui/prefs.glade.h:14
+msgid "Error String:"
+msgstr "Строка ошибки:"
+
+#: ../ui/prefs.glade.h:15
+msgid "Fon_t:"
+msgstr "_Шрифт:"
+
+#: ../ui/prefs.glade.h:17
+msgid "Network"
+msgstr "Сеть"
+
+#: ../ui/prefs.glade.h:18
+msgid "New Profile"
+msgstr "Новый профиль"
+
+#: ../ui/prefs.glade.h:19
+msgid "Preferences"
+msgstr "Предпочтения"
+
+#: ../ui/prefs.glade.h:20
+msgid "Profiles"
+msgstr "Профили"
+
+#: ../ui/prefs.glade.h:21
+msgid "Regex Error"
+msgstr "Ошибка Regex"
+
+#: ../ui/prefs.glade.h:22
+msgid "Scroll on _Output"
+msgstr "Прокрутка при в_ыводе"
+
+#: ../ui/prefs.glade.h:23
+msgid "Terminal"
+msgstr "Терминал"
+
+#: ../ui/prefs.glade.h:24
+msgid "Timers"
+msgstr "Таймеры"
+
+#: ../ui/prefs.glade.h:27
+msgid "_Background Color:"
+msgstr "Цвет _фона:"
+
+#: ../ui/prefs.glade.h:28
+msgid "_Character Set:"
+msgstr "_Набор символов:"
+
+#: ../ui/prefs.glade.h:29
+msgid "_Echo the Text Sent"
+msgstr "_Эхо отправляемого текста"
+
+#: ../ui/prefs.glade.h:30
+msgid "_Enable Proxy"
+msgstr "Разрешить _прокси"
+
+#: ../ui/prefs.glade.h:31
+msgid "_Foreground Color:"
+msgstr "Цвет _переднего плана:"
+
+#: ../ui/prefs.glade.h:32
+msgid "_Host:"
+msgstr "_Хост:"
+
+#: ../ui/prefs.glade.h:33
+msgid "_Keep the Text Entered"
+msgstr "Не _убирать введённый текст"
+
+#: ../ui/prefs.glade.h:34
+msgid "_Number of Scrollback Lines:"
+msgstr "_Число прокручиваемых строк:"
+
+#: ../ui/prefs.glade.h:35
+msgid "_Version:"
+msgstr "_Версия:"
+
