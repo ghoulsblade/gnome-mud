@@ -75,6 +75,7 @@ gnome_mud_SOURCES =				\
 	mud-window-profile.c			\
 	mud-window-profile.h			\
 	lua-plugin.c			\
+	lua-plugin-net.c		\
 	utils.c					\
 	utils.h
 
