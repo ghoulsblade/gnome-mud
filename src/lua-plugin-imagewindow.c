@@ -22,8 +22,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define LUA_IMAGEWINDOW_PARAM_BLA	"bla"
-
 /// open image window, w,h in pixels
 /// for lua:	window	  MUD_ImageWindow_Open	(title,w,h,x=640,y=40)
 static int 				l_MUD_ImageWindow_Open	(lua_State* L) {
@@ -70,18 +68,6 @@ static int 				l_MUD_ImageWindow_AddText	(lua_State* L) {
 	// set font
 	PangoFontDescription* fontdesc = pango_font_description_from_string(font);
 	gtk_widget_modify_font(textview,fontdesc);
-	/*
-	// add text
-	GtkWidget* textview = gtk_text_view_new();
-	gtk_text_view_set_editable(GTK_TEXT_VIEW(textview),FALSE);
-	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textview),FALSE);
-	// set font
-	PangoFontDescription* fontdesc = pango_font_description_from_string(font);
-	gtk_widget_modify_font(textview,fontdesc);
-	// set text
-	GtkTextBuffer* textbuf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
-	gtk_text_buffer_set_text(textbuf,text,-1);
-	*/
 	// add to parent
 	GtkWidget* layout = gtk_bin_get_child(GTK_BIN(window));
 	if (layout) gtk_layout_put(GTK_LAYOUT(layout),textview,x,y);
@@ -109,11 +95,21 @@ static int 				l_MUD_ImageWindow_AddImage	(lua_State* L) {
 	lua_pushlightuserdata(L,(void*)image);
 	return 1;
 }
-	
+
+/// destroy image/text/...
+/// for lua:	void	  MUD_ImageWindow_DestroyWidget	(widget)
+static int 				l_MUD_ImageWindow_DestroyWidget	(lua_State* L) {
+	GtkWidget*	widget	= (GtkWidget*)lua_touserdata(L,1);
+	if (!widget) return 0;
+	gtk_widget_destroy(GTK_WIDGET(widget));
+	return 0;
+}
+
 void	InitLuaEnvironment_Imagewindow	(lua_State* L) {
 	lua_register(L,"MUD_ImageWindow_Open",			l_MUD_ImageWindow_Open); 
 	lua_register(L,"MUD_ImageWindow_AddText",		l_MUD_ImageWindow_AddText); 
-	lua_register(L,"MUD_ImageWindow_AddImage",		l_MUD_ImageWindow_AddImage); 
+	lua_register(L,"MUD_ImageWindow_AddImage",		l_MUD_ImageWindow_AddImage);
+	lua_register(L,"MUD_ImageWindow_DestroyWidget",	l_MUD_ImageWindow_DestroyWidget);
 }
 
 #endif // ENABLE_LUA
