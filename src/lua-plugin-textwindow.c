@@ -28,12 +28,12 @@
 /// open monospace readonly text window, w,h in pixels
 /// for lua:	window	  MUD_TextWindow_Open	(title,w,h,font="monospace 12",x=640,y=40)
 static int 				l_MUD_TextWindow_Open	(lua_State* L) {
-	const gchar* title	= luaL_checkstring(L,1);
-	gint w				= luaL_checkint(L,2);
-	gint h				= luaL_checkint(L,3);
-	const char*	font	= lua2_isset(L,4) ? luaL_checkstring(L,4) : "monospace 12";
-	gint x				= lua2_isset(L,5) ? luaL_checkint(L,5) : 680;
-	gint y				= lua2_isset(L,6) ? luaL_checkint(L,6) : 40;
+	const gchar*	title	= luaL_checkstring(L,1);
+	gint			w		= luaL_checkint(L,2);
+	gint			h		= luaL_checkint(L,3);
+	const char*		font	= lua2_isset(L,4) ? luaL_checkstring(L,4) : "monospace 12";
+	gint			x		= lua2_isset(L,5) ? luaL_checkint(L,5) : 680;
+	gint			y		= lua2_isset(L,6) ? luaL_checkint(L,6) : 40;
 	
 	// open window
 	GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -55,17 +55,17 @@ static int 				l_MUD_TextWindow_Open	(lua_State* L) {
 	
 	
 	// add text
-	GtkWidget* view = gtk_text_view_new();
-	GtkTextBuffer* textbuf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-	gtk_text_view_set_editable(GTK_TEXT_VIEW(view),FALSE);
-	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(view),FALSE);
+	GtkWidget* textview = gtk_text_view_new();
+	GtkTextBuffer* textbuf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
+	gtk_text_view_set_editable(GTK_TEXT_VIEW(textview),FALSE);
+	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textview),FALSE);
 	// set font
 	PangoFontDescription* fontdesc = pango_font_description_from_string(font);
-	gtk_widget_modify_font(view,fontdesc);
+	gtk_widget_modify_font(textview,fontdesc);
 	// add to parent
-	gtk_container_add(GTK_CONTAINER(parent),view);
+	gtk_container_add(GTK_CONTAINER(parent),textview);
 	g_object_set_data(G_OBJECT(window),LUA_TEXTWINDOW_PARAM_TEXTBUF,(gpointer)textbuf);
-	g_object_set_data(G_OBJECT(window),LUA_TEXTWINDOW_PARAM_TEXTVIEW,(gpointer)view);
+	g_object_set_data(G_OBJECT(window),LUA_TEXTWINDOW_PARAM_TEXTVIEW,(gpointer)textview);
 	
 	// present window
 	gtk_widget_show_all(window);
@@ -76,10 +76,10 @@ static int 				l_MUD_TextWindow_Open	(lua_State* L) {
 	return 1;
 }
 
-/// for lua:	void	  MUD_TextWindow_SetText	(txt)
+/// for lua:	void	  MUD_TextWindow_SetText	(window,txt)
 static int 				l_MUD_TextWindow_SetText	(lua_State* L) {
-	GtkWidget*			window = (GtkWidget*)lua_touserdata(L,1);
-	const char*			buf = luaL_checkstring(L,2);
+	GtkWidget*	window	= (GtkWidget*)lua_touserdata(L,1);
+	const char*	buf		= luaL_checkstring(L,2);
 	if (!window) return 0;
 	
 	GtkTextBuffer*		textbuf = (GtkTextBuffer*)g_object_get_data(G_OBJECT(window),LUA_TEXTWINDOW_PARAM_TEXTBUF);
@@ -89,10 +89,10 @@ static int 				l_MUD_TextWindow_SetText	(lua_State* L) {
 	return 0;
 }
 	
-/// for lua:	void	  MUD_TextWindow_AppendText	(txt)
+/// for lua:	void	  MUD_TextWindow_AppendText	(window,txt)
 static int 				l_MUD_TextWindow_AppendText	(lua_State* L) {
-	GtkWidget*			window = (GtkWidget*)lua_touserdata(L,1);
-	const char*			buf = luaL_checkstring(L,2);
+	GtkWidget*	window	= (GtkWidget*)lua_touserdata(L,1);
+	const char*	buf		= luaL_checkstring(L,2);
 	if (!window) return 0;
 	
 	GtkTextBuffer*		textbuf = (GtkTextBuffer*)g_object_get_data(G_OBJECT(window),LUA_TEXTWINDOW_PARAM_TEXTBUF);
@@ -104,19 +104,19 @@ static int 				l_MUD_TextWindow_AppendText	(lua_State* L) {
 	return 0;
 }
 
-/// for lua:	void	  MUD_TextWindow_ScrollToEnd	()
+/// for lua:	void	  MUD_TextWindow_ScrollToEnd	(window)
 static int 				l_MUD_TextWindow_ScrollToEnd	(lua_State* L) {
 	GtkWidget*			window = (GtkWidget*)lua_touserdata(L,1);
 	if (!window) return 0;
 	
 	GtkTextBuffer*		textbuf = (GtkTextBuffer*)g_object_get_data(G_OBJECT(window),LUA_TEXTWINDOW_PARAM_TEXTBUF);
-	GtkWidget*			view = (GtkWidget*)g_object_get_data(G_OBJECT(window),LUA_TEXTWINDOW_PARAM_TEXTVIEW);
-	if (!textbuf || !view) return 0;
+	GtkWidget*			textview = (GtkWidget*)g_object_get_data(G_OBJECT(window),LUA_TEXTWINDOW_PARAM_TEXTVIEW);
+	if (!textbuf || !textview) return 0;
 	GtkTextIter end_start_iter;
 	gtk_text_buffer_get_end_iter(textbuf,&end_start_iter);
 	GtkTextMark* insert_mark = gtk_text_buffer_get_insert(textbuf);
-	gtk_text_buffer_place_cursor(textbuf, &end_start_iter);
-	gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(view),insert_mark, 0.0, TRUE, 0.0, 1.0); 
+	gtk_text_buffer_place_cursor(textbuf,&end_start_iter);
+	gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(textview),insert_mark, 0.0, TRUE, 0.0, 1.0); 
 	return 0;
 }
 

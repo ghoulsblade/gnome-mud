@@ -27,11 +27,11 @@
 /// open image window, w,h in pixels
 /// for lua:	window	  MUD_ImageWindow_Open	(title,w,h,x=640,y=40)
 static int 				l_MUD_ImageWindow_Open	(lua_State* L) {
-	const gchar* title	= luaL_checkstring(L,1);
-	gint w				= luaL_checkint(L,2);
-	gint h				= luaL_checkint(L,3);
-	gint x				= lua2_isset(L,4) ? luaL_checkint(L,4) : 680;
-	gint y				= lua2_isset(L,5) ? luaL_checkint(L,5) : 40;
+	const gchar*	title	= luaL_checkstring(L,1);
+	gint			w		= luaL_checkint(L,2);
+	gint			h		= luaL_checkint(L,3);
+	gint			x		= lua2_isset(L,4) ? luaL_checkint(L,4) : 680;
+	gint			y		= lua2_isset(L,5) ? luaL_checkint(L,5) : 40;
 	
 	// open window
 	GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -43,7 +43,10 @@ static int 				l_MUD_ImageWindow_Open	(lua_State* L) {
 	gtk_widget_set_size_request(window,w,h);
 	GtkWidget* parent = window;
 	
-	// TODO...
+	// layout
+	GtkWidget* layout = gtk_layout_new(NULL,NULL);
+	gtk_container_add(GTK_CONTAINER(parent),layout);
+	parent = layout;
 	
 	// present window
 	gtk_widget_show_all(window);
@@ -54,18 +57,33 @@ static int 				l_MUD_ImageWindow_Open	(lua_State* L) {
 	return 1;
 }
 
-/// for lua:	void	  MUD_ImageWindow_AddText	(txt,x,y)
+/// for lua:	void	  MUD_ImageWindow_AddText	(window,txt,x,y,font="monospace 12")
 static int 				l_MUD_ImageWindow_AddText	(lua_State* L) {
-	GtkWidget*			window = (GtkWidget*)lua_touserdata(L,1);
-	const char*			buf = luaL_checkstring(L,2);
-	gint x				= luaL_checkint(L,3);
-	gint y				= luaL_checkint(L,4);
+	GtkWidget*	window	= (GtkWidget*)lua_touserdata(L,1);
+	const char*	text	= luaL_checkstring(L,2);
+	gint		x		= luaL_checkint(L,3);
+	gint		y		= luaL_checkint(L,4);
+	const char*	font	= lua2_isset(L,5) ? luaL_checkstring(L,5) : "monospace 12";
 	if (!window) return 0;
+	printf("MUD_ImageWindow_AddText\n");
 	
-	//~ GtkTextBuffer*		textbuf = (GtkTextBuffer*)g_object_get_data(G_OBJECT(window),LUA_WINDOW_PARAM_TEXTBUF);
-	//~ if (!textbuf) return 0;
-	//~ gtk_text_buffer_set_text(textbuf, buf, -1);
-	return 0;
+	// add text
+	GtkWidget* textview = gtk_text_view_new();
+	gtk_text_view_set_editable(GTK_TEXT_VIEW(textview),FALSE);
+	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(textview),FALSE);
+	// set font
+	PangoFontDescription* fontdesc = pango_font_description_from_string(font);
+	gtk_widget_modify_font(textview,fontdesc);
+	// set text
+	GtkTextBuffer* textbuf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
+	gtk_text_buffer_set_text(textbuf,text,-1);
+	// add to parent
+	GtkWidget* layout = gtk_bin_get_child(GTK_BIN(window));
+	if (layout) gtk_layout_put(GTK_LAYOUT(layout),textview,x,y);
+	gtk_widget_show(textview);
+	
+	lua_pushlightuserdata(L,(void*)textview);
+	return 1;
 }
 	
 void	InitLuaEnvironment_Imagewindow	(lua_State* L) {
