@@ -57,7 +57,7 @@ static int 				l_MUD_ImageWindow_Open	(lua_State* L) {
 	return 1;
 }
 
-/// for lua:	void	  MUD_ImageWindow_AddText	(window,txt,x,y,font="monospace 12")
+/// for lua:	widget	  MUD_ImageWindow_AddText	(window,txt,x,y,font="monospace 12")
 static int 				l_MUD_ImageWindow_AddText	(lua_State* L) {
 	GtkWidget*	window	= (GtkWidget*)lua_touserdata(L,1);
 	const char*	text	= luaL_checkstring(L,2);
@@ -65,8 +65,12 @@ static int 				l_MUD_ImageWindow_AddText	(lua_State* L) {
 	gint		y		= luaL_checkint(L,4);
 	const char*	font	= lua2_isset(L,5) ? luaL_checkstring(L,5) : "monospace 12";
 	if (!window) return 0;
-	printf("MUD_ImageWindow_AddText\n");
 	
+	GtkWidget* textview = gtk_label_new(text);
+	// set font
+	PangoFontDescription* fontdesc = pango_font_description_from_string(font);
+	gtk_widget_modify_font(textview,fontdesc);
+	/*
 	// add text
 	GtkWidget* textview = gtk_text_view_new();
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(textview),FALSE);
@@ -77,6 +81,7 @@ static int 				l_MUD_ImageWindow_AddText	(lua_State* L) {
 	// set text
 	GtkTextBuffer* textbuf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
 	gtk_text_buffer_set_text(textbuf,text,-1);
+	*/
 	// add to parent
 	GtkWidget* layout = gtk_bin_get_child(GTK_BIN(window));
 	if (layout) gtk_layout_put(GTK_LAYOUT(layout),textview,x,y);
@@ -85,10 +90,30 @@ static int 				l_MUD_ImageWindow_AddText	(lua_State* L) {
 	lua_pushlightuserdata(L,(void*)textview);
 	return 1;
 }
+
+/// for lua:	widget	  MUD_ImageWindow_AddImage	(window,path,x,y)
+static int 				l_MUD_ImageWindow_AddImage	(lua_State* L) {
+	GtkWidget*	window	= (GtkWidget*)lua_touserdata(L,1);
+	const char*	path	= luaL_checkstring(L,2);
+	gint		x		= luaL_checkint(L,3);
+	gint		y		= luaL_checkint(L,4);
+	if (!window) return 0;
+	
+	// add image
+	GtkWidget* image = gtk_image_new_from_file(path);
+	// add to parent
+	GtkWidget* layout = gtk_bin_get_child(GTK_BIN(window));
+	if (layout) gtk_layout_put(GTK_LAYOUT(layout),image,x,y);
+	gtk_widget_show(image);
+	
+	lua_pushlightuserdata(L,(void*)image);
+	return 1;
+}
 	
 void	InitLuaEnvironment_Imagewindow	(lua_State* L) {
 	lua_register(L,"MUD_ImageWindow_Open",			l_MUD_ImageWindow_Open); 
 	lua_register(L,"MUD_ImageWindow_AddText",		l_MUD_ImageWindow_AddText); 
+	lua_register(L,"MUD_ImageWindow_AddImage",		l_MUD_ImageWindow_AddImage); 
 }
 
 #endif // ENABLE_LUA

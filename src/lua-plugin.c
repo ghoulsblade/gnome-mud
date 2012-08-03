@@ -102,7 +102,7 @@ void	LuaPlugin_Cleanup () {
 
 void	LuaPlugin_ExecLuaFile () {
 	gchar filename[1024];
-	g_snprintf(filename, 1024, "%s/%s", g_get_home_dir(), LUA_MAIN_FILENAME);
+	g_snprintf(filename, 1024, "%s/%s", (const char*)g_get_home_dir(), LUA_MAIN_FILENAME);
 	int res = luaL_dofile(L,filename);
 	if (res) {
 		fprintf(stderr,"lua: error in main script-initialisation:\n");
@@ -168,6 +168,13 @@ static int 				l_MUD_Send		(lua_State* L) {
 	return 0;
 }
 
+/// returns filepath to user home dir
+/// for lua:	string	  get_home_dir		()
+static int 				l_get_home_dir		(lua_State* L) {
+	lua_pushstring(L,g_get_home_dir());
+	return 1;
+}
+
 void	InitLuaEnvironment_Textwindow	(lua_State* L);
 void	InitLuaEnvironment_Imagewindow	(lua_State* L);
 
@@ -176,7 +183,8 @@ void	InitLuaEnvironment	(lua_State*	L) {
 	luaL_openlibs(L);
 	
 	// register custom functions here
-	lua_register(L,"MUD_Send",						l_MUD_Send); 
+	lua_register(L,"MUD_Send",		l_MUD_Send); 
+	lua_register(L,"get_home_dir",	l_get_home_dir); 
 	InitLuaEnvironment_Textwindow(L);
 	InitLuaEnvironment_Imagewindow(L);
 #ifdef ENABLE_LUA_NETWORK
