@@ -10,22 +10,20 @@ function on_data (txt,dir,view,rawdata)
 end
 */
 
-#define LUA_NETWORK
-
-
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
 #endif
 
 #ifdef ENABLE_LUA
-#ifdef LUA_NETWORK
+#include "lua-plugin.h"
+#ifdef ENABLE_LUA_NETWORK
 
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
 
 
-// ***** ***** ***** ***** ***** LUA_NETWORK headers 
+// ***** ***** ***** ***** ***** ENABLE_LUA_NETWORK headers 
 
 
 //~ #include <time.h> // timeval ?
@@ -89,7 +87,7 @@ void closesocket (int socket) { close(socket); }
 
 /// simulate user input. view = param from LUA_ON_DATA call
 /// for lua:	res,bRead,bWrite,bExcept	  Net_Select	(socket,to_usec,to_sec)
-static int 									l_Net_Select	(lua_State *L) {
+static int 									l_Net_Select	(lua_State* L) {
 	struct timeval timeout;
 	int res,imax=0;
 	int mysocket	= luaL_checkint(L,1);
@@ -127,5 +125,5 @@ void	InitLuaEnvironment_Net	(lua_State*	L) {
 }
 
 // ***** ***** ***** ***** ***** end
-#endif // LUA_NETWORK
+#endif // ENABLE_LUA_NETWORK
 #endif // ENABLE_LUA
