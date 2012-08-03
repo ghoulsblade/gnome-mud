@@ -23,13 +23,13 @@
 #include <stdio.h>
 
 /// open image window, w,h in pixels
-/// for lua:	window	  MUD_ImageWindow_Open	(title,w,h,x=640,y=40)
+/// for lua:	window	  MUD_ImageWindow_Open	(title,w,h,x=680,y=0)
 static int 				l_MUD_ImageWindow_Open	(lua_State* L) {
 	const gchar*	title	= luaL_checkstring(L,1);
 	gint			w		= luaL_checkint(L,2);
 	gint			h		= luaL_checkint(L,3);
 	gint			x		= lua2_isset(L,4) ? luaL_checkint(L,4) : 680;
-	gint			y		= lua2_isset(L,5) ? luaL_checkint(L,5) : 40;
+	gint			y		= lua2_isset(L,5) ? luaL_checkint(L,5) : 0;
 	
 	// open window
 	GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);

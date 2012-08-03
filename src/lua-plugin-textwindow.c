@@ -26,14 +26,14 @@
 #define LUA_TEXTWINDOW_PARAM_TEXTVIEW	"textview"
 
 /// open monospace readonly text window, w,h in pixels
-/// for lua:	window	  MUD_TextWindow_Open	(title,w,h,font="monospace 12",x=640,y=40)
+/// for lua:	window	  MUD_TextWindow_Open	(title,w,h,x=680,y=0,font="monospace 12")
 static int 				l_MUD_TextWindow_Open	(lua_State* L) {
 	const gchar*	title	= luaL_checkstring(L,1);
 	gint			w		= luaL_checkint(L,2);
 	gint			h		= luaL_checkint(L,3);
-	const char*		font	= lua2_isset(L,4) ? luaL_checkstring(L,4) : "monospace 12";
-	gint			x		= lua2_isset(L,5) ? luaL_checkint(L,5) : 680;
-	gint			y		= lua2_isset(L,6) ? luaL_checkint(L,6) : 40;
+	gint			x		= lua2_isset(L,4) ? luaL_checkint(L,4) : 680;
+	gint			y		= lua2_isset(L,5) ? luaL_checkint(L,5) : 0;
+	const char*		font	= lua2_isset(L,6) ? luaL_checkstring(L,6) : "monospace 12";
 	
 	// open window
 	GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
