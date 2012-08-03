@@ -1124,6 +1124,10 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
             event ? event->time : gtk_get_current_event_time());
 }
 
+#ifdef ENABLE_LUA
+void	LuaPlugin_data_hook	(MudConnectionView* view,const gchar *data,guint length,int dir);
+#endif
+
 static void
 mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pview)
 {
@@ -1195,6 +1199,9 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
 
             if(view->priv->processed)
             {
+#ifdef ENABLE_LUA
+				LuaPlugin_data_hook(view,view->priv->processed->str,view->priv->processed->len,1);
+#endif
                 mud_line_buffer_add_data(view->priv->line_buffer,
                                          view->priv->processed->str,
                                          view->priv->processed->len);
@@ -2084,7 +2091,7 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
                 conv_text = NULL;
                 error = NULL;
             }
-
+			
             zmp_handler = MUD_TELNET_ZMP(mud_telnet_get_handler(view->telnet,
                                                                 TELOPT_ZMP));
             if(!zmp_handler)
@@ -2095,6 +2102,9 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             if(!zmp_enabled)
             {
                 gchar *line = (conv_text == NULL) ? text : conv_text;
+#ifdef ENABLE_LUA
+				LuaPlugin_data_hook(view,line, strlen(line),0);
+#endif
 
                 gnet_conn_write(view->connection, line, strlen(line));
                 gnet_conn_write(view->connection, "\r\n", 2);
@@ -2102,6 +2112,9 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             else // ZMP is enabled, use zmp.input.
             {
                 gchar *line = (conv_text == NULL) ? text : conv_text;
+#ifdef ENABLE_LUA
+				LuaPlugin_data_hook(view,line, strlen(line),0);
+#endif
 
                 mud_zmp_send_command(zmp_handler, 2,
                                      "zmp.input",

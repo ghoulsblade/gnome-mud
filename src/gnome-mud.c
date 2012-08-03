@@ -41,6 +41,10 @@
 #include "debug-logger.h"
 #include "mud-trigger.h"
 
+#ifdef ENABLE_LUA
+void	LuaPlugin_Init ();
+#endif
+
 gint
 main (gint argc, char *argv[])
 {
@@ -118,6 +122,10 @@ main (gint argc, char *argv[])
     /* Let 'er rip */
     window = g_object_new(MUD_TYPE_WINDOW, NULL);
 
+#ifdef ENABLE_LUA
+	LuaPlugin_Init();
+#endif
+	
     gtk_main();
 
     gconf_client_suggest_sync(client, &err);

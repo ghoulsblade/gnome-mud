@@ -16,6 +16,7 @@ gnome_mud_CPPFLAGS =							\
 	-DPKGDATADIR=\""$(pkgdatadir)"\"
 
 gnome_mud_CFLAGS = \
+	$(LUA_CFLAGS) \
 	$(GMUD_CFLAGS) \
 	$(MSP_CFLAGS) \
 	-g -Wall -O0
@@ -23,6 +24,7 @@ gnome_mud_CFLAGS = \
 gnome_mud_LDADD = \
 	handlers/libtelnethandlers.la \
 	zmp/libzmpcommands.la \
+	$(LUA_LIBS)	\
 	$(GMUD_LIBS)	\
 	$(Z_LIBS)	\
 	$(MSP_LIBS)
@@ -72,6 +74,7 @@ gnome_mud_SOURCES =				\
 	mud-window-prefs.h			\
 	mud-window-profile.c			\
 	mud-window-profile.h			\
+	lua-plugin.c			\
 	utils.c					\
 	utils.h
 

@@ -77,6 +77,7 @@ VTE_REQUIRED=0.11.00
 PCRE_REQUIRED=6.0.0
 GCONF_REQUIRED=0.20
 GSTREAMER_REQUIRED=0.10
+LUA_REQUIRED=5.1
 
 PKG_CHECK_MODULES(GMUD, gtk+-2.0 >= $GTK_REQUIRED vte >= $VTE_REQUIRED libglade-2.0 >= $LIBGLADE_REQUIRED libpcre >= $PCRE_REQUIRED gmodule-2.0 >= $GMODULE_REQUIRED gnet-2.0 >= $LIBGNET_REQUIRED gconf-2.0 >= $GCONF_REQUIRED)
 AC_SUBST(GMUD_CFLAGS)
@@ -128,6 +129,26 @@ AM_CONDITIONAL(USE_GSTREAMER, test "x$enable_gstreamer" = xyes)
 AC_SUBST(MSP_CFLAGS)
 AC_SUBST(MSP_LIBS)
 
+dnl Check whether to include Lua scripting support
+AC_ARG_ENABLE(lua,
+	AS_HELP_STRING([--enable-lua],
+		       [Enable Lua scripting support. Default=auto]),,
+		enable_lua=auto)
+if test "x$enable_lua" != "xno"; then
+	PKG_CHECK_EXISTS(lua5.1, have_lua=yes, have_lua=no)
+	if test "x$have_gst" = "xno" -a "x$enable_lua" = "xyes"; then
+	  AC_MSG_ERROR([Lua scripting support explicitly requested but lua library was not found])
+	fi
+	if test "x$have_lua" = "xyes"; then
+	  AC_DEFINE(ENABLE_LUA, 1, [Define if Lua scripting should be enabled])
+	  enable_lua=yes
+	  PKG_CHECK_MODULES(LUA, lua5.1 >= $LUA_REQUIRED)
+	fi
+fi
+AM_CONDITIONAL(USE_LUA, test "x$enable_lua" = xyes)
+AC_SUBST(LUA_CFLAGS)
+AC_SUBST(LUA_LIBS)
+
 dnl Check whether to build debug logger or not.
 AC_ARG_ENABLE(debug-logger,
               AC_HELP_STRING([--enable-debug-logger],
@@ -165,6 +186,12 @@ if test "x$enable_gstreamer" = xyes; then
 	AC_MSG_NOTICE([    * GStreamer support is enabled])
 else
 	AC_MSG_NOTICE([    * GStreamer support is disabled])
+fi
+
+if test "x$enable_lua" = xyes; then
+	AC_MSG_NOTICE([    * Lua scripting support is enabled])
+else
+	AC_MSG_NOTICE([    * Lua scripting support is disabled])
 fi
 
 if test "x$enable_debug_logger" = xyes; then
