@@ -61,6 +61,8 @@ void	InitLuaEnvironment			(lua_State*	L);
 int 	PCallWithErrFuncWrapper		(lua_State* L,int narg, int nret);
 void	LuaPlugin_ExecLuaFile		();
 
+lua_State*	LuaPlugin_GetMainState	() { return L; }
+
 /// new hook for git master after v0.11.2
 void	LuaPlugin_data_hook			(MudConnectionView* view,const gchar *data,guint length,int dir) {
 	GString *buf = g_string_new(NULL);
@@ -125,21 +127,23 @@ void	LuaPlugin	(const gchar* buf, guint len, MudConnectionView* view,int dir) {
 	
 	// lua
 	if (L) {
-		lua_getglobal(L, LUA_ON_DATA); // get function
+		const char* func = LUA_ON_DATA;
+		lua_getglobal(L, func); // get function
 		if (lua_isnil(L,1)) {
 			lua_pop(L,1);
-			//~ fprintf(stderr,"lua: function `%s' not found\n",LUA_ON_DATA);
+			//~ fprintf(stderr,"lua: function `%s' not found\n",func);
 		} else {
 			int narg = 4, nres = 0;
 			//~ luaL_checkstack(L, narg, "too many arguments");
 			lua_pushstring(L, (const char*)stripped_data); // arg 1
-			lua_pushnumber(L, dir); // arg 2
+			lua_pushinteger(L, dir); // arg 2
 			lua_pushlightuserdata(L, (void*)view); // arg 3
 			lua_pushstring(L, (const char*)buf); // arg 4
 			if (PCallWithErrFuncWrapper(L,narg, nres) != 0) {
-				fprintf(stderr,"lua: error running function `%s': %s\n",LUA_ON_DATA, lua_tostring(L, -1));
+				fprintf(stderr,"lua: error running function `%s': %s\n",func, lua_tostring(L, -1));
+			} else {
+				if (nres > 0) lua_pop(L, nres);
 			}
-			if (nres > 0) lua_pop(L, nres);
 		}
 	}
 	
@@ -177,6 +181,9 @@ static int 				l_get_home_dir		(lua_State* L) {
 
 void	InitLuaEnvironment_Textwindow	(lua_State* L);
 void	InitLuaEnvironment_Imagewindow	(lua_State* L);
+#ifdef ENABLE_LUA_NETWORK
+void	InitLuaEnvironment_Net			(lua_State*	L);
+#endif
 
 void	InitLuaEnvironment	(lua_State*	L) {
 	// lua standard lib
