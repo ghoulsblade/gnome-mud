@@ -614,7 +614,7 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *s
 #ifdef ENABLE_LUA
     if (LuaPlugin_key_press_hook(self->priv->current_view, widget, event)) return TRUE;
 #endif
-
+	
     if ((event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) &&
             (event->state & gtk_accelerator_get_default_mod_mask()) == 0)
     {
@@ -635,7 +635,13 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *s
                 mud_connection_view_send(self->priv->current_view, text);
 
             g_free(text);
-        }
+        } else {
+#ifdef ENABLE_LUA
+            text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+			LuaPlugin_data_hook(NULL,text,strlen(text),0);
+            g_free(text);
+#endif
+		}
 
         if (gconf_client_get_bool(client,
                     "/apps/gnome-mud/functionality/keeptext", NULL) == FALSE)
