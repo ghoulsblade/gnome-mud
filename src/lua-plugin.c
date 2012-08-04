@@ -56,7 +56,7 @@ gboolean	gbLuaPlugin_Init_done = FALSE;
 #define DIR_IN  1 // server to client, message from server
 #define DIR_OUT 0 // client to server, user input
 
-void	LuaPlugin					(const gchar* buf, guint len, MudConnectionView* view,int dir);
+void	LuaPlugin_OnData			(const gchar* buf,MudConnectionView* view,int dir);
 void	LuaPlugin_ExecLuaFile		();
 void	InitLuaEnvironment			(lua_State*	L);
 int 	PCallWithErrFuncWrapper		(lua_State* L,int narg, int nret);
@@ -67,16 +67,12 @@ void	LuaNetCleanup				();
 #endif
 
 /// new hook for git master after v0.11.2
-void	LuaPlugin_data_hook			(MudConnectionView* view,const gchar *data,guint length,int dir) {
-	GString *buf = g_string_new(NULL);
-	int i;
-
-	for(i = 0; i < length; i++)
-		g_string_append_c(buf, data[i]);
-	
-	LuaPlugin(buf->str, length, view, dir);
-	
-	g_string_free(buf, FALSE);
+void	LuaPlugin_data_hook			(MudConnectionView* view,const gchar* data,guint length,int dir) {
+	GString *str = g_string_new_len(data,length);
+	g_string_append_c(str,0); // zero-terminate
+	gchar* datacopy = g_string_free(str,FALSE);
+	LuaPlugin_OnData(datacopy,view,dir);
+	g_free(datacopy);
 }
 	
 void	LuaPlugin_Init (MudWindow* pMainWindow) {
@@ -114,10 +110,8 @@ void	LuaPlugin_ExecLuaFile () {
 	}
 }
 
-void	LuaPlugin	(const gchar* buf, guint len, MudConnectionView* view,int dir) { 
+void	LuaPlugin_OnData	(const gchar* buf,MudConnectionView* view,int dir) { 
     gchar* stripped_data;
-
-	g_assert(!buf[len]);
 	
 	stripped_data = utils_strip_ansi((const gchar *) buf); // warning: assume zero terminated v0.11.2+x(master)
 	//~ stripped_data = strip_ansi(buf); // warning: assume zero terminated  v0.11.2
@@ -165,11 +159,11 @@ int 	PCallWithErrFuncWrapper (lua_State* L,int narg, int nret) {
 
 // ***** ***** ***** ***** ***** event handler
 
-/// gtk handler/callback for "button-press-event" and similar, calls lua callback
-static gint LuaPlugin_EventHandler (GtkWidget *widget, GdkEvent *event) {
+/// this actually calls the lua code
+gboolean	LuaPlugin_LuaCall_EventHandler (GtkWidget *widget, GdkEvent *event,const char* context,void* userdata) {
 	g_return_val_if_fail (widget != NULL, FALSE);
-	g_return_val_if_fail (GTK_IS_WINDOW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
+	//~ g_return_val_if_fail (GTK_IS_WINDOW (widget), FALSE); // fails when called from LuaPlugin_key_press_hook (gnome-mud main window)
 	
 	// access lua state
 	lua_State* L = LuaPlugin_GetMainState();
@@ -184,14 +178,14 @@ static gint LuaPlugin_EventHandler (GtkWidget *widget, GdkEvent *event) {
 			lua_pop(L,1);
 			//~ fprintf(stderr,"lua: function `%s' not found\n",func);
 		} else {
-			int narg = 5, nres = 1;
-			//~ luaL_checkstack(L, narg, "too many arguments");
-			lua_pushlightuserdata(L, (void*)widget); // arg 1
-			lua_pushinteger(L, event_button->button); // arg 2
-			lua_pushinteger(L, event_button->x); // arg 3
-			lua_pushinteger(L, event_button->y); // arg 4
-			lua_pushinteger(L, event_button->time); // arg 5
-			//~ lua_pushlightuserdata(L, (void*)event_button->time); // arg 3
+			int narg = 0, nres = 1;
+			++narg; lua_pushlightuserdata(L, (void*)widget);
+			++narg; lua_pushinteger(L, event_button->button);
+			++narg; lua_pushinteger(L, event_button->x);
+			++narg; lua_pushinteger(L, event_button->y);
+			++narg; lua_pushinteger(L, event_button->time);
+			++narg; lua_pushstring(L, context);
+			++narg; lua_pushlightuserdata(L, (void*)userdata);
 			if (PCallWithErrFuncWrapper(L,narg, nres) != 0) {
 				fprintf(stderr,"lua: error running function `%s': %s\n",func, lua_tostring(L, -1));
 			} else {
@@ -212,14 +206,14 @@ static gint LuaPlugin_EventHandler (GtkWidget *widget, GdkEvent *event) {
 			lua_pop(L,1);
 			//~ fprintf(stderr,"lua: function `%s' not found\n",func);
 		} else {
-			int narg = 5, nres = 1;
-			//~ luaL_checkstack(L, narg, "too many arguments");
-			lua_pushlightuserdata(L, (void*)widget); // arg 1
-			lua_pushinteger(L, event_key->keyval); // arg 2
-			lua_pushinteger(L, event_key->state); // arg 3
-			lua_pushlstring(L, event_key->string, event_key->length); // arg 4
-			lua_pushinteger(L, event_key->time); // arg 5
-			//~ lua_pushlightuserdata(L, (void*)event_button->time); // arg 3
+			int narg = 0, nres = 1;
+			++narg; lua_pushlightuserdata(L, (void*)widget);
+			++narg; lua_pushinteger(L, event_key->keyval);
+			++narg; lua_pushinteger(L, event_key->state);
+			++narg; lua_pushlstring(L, event_key->string, event_key->length);
+			++narg; lua_pushinteger(L, event_key->time);
+			++narg; lua_pushstring(L, context);
+			++narg; lua_pushlightuserdata(L, (void*)userdata);
 			if (PCallWithErrFuncWrapper(L,narg, nres) != 0) {
 				fprintf(stderr,"lua: error running function `%s': %s\n",func, lua_tostring(L, -1));
 			} else {
@@ -233,18 +227,30 @@ static gint LuaPlugin_EventHandler (GtkWidget *widget, GdkEvent *event) {
 	return FALSE;
 }
 
+
+/// hook called from gnome-mud code
+gboolean	LuaPlugin_key_press_hook	(MudConnectionView* view,GtkWidget *widget, GdkEventKey *event) {
+	return LuaPlugin_LuaCall_EventHandler(widget,(GdkEvent*)event,"gnome-mud-window",(void*)view);
+}
+
+/// gtk handler/callback for "button-press-event" and similar, calls lua callback
+static gboolean LuaPlugin_SignalHandler_Event (GtkWidget *widget, GdkEvent *event) {
+	return LuaPlugin_LuaCall_EventHandler(widget,event,"lua-plugin",NULL);
+}
+
+/// utility function that connects our handler to a signal
 void	LuaPlugin_SignalConnectEvent	(GtkWidget* widget,const char* signalname) {
 	// note: swapped and 2x widget : no idea, copy-pasted from GtkMenu popup example
-	g_signal_connect_swapped(widget,signalname, G_CALLBACK(LuaPlugin_EventHandler), widget);
+	g_signal_connect_swapped(widget,signalname, G_CALLBACK(LuaPlugin_SignalHandler_Event), widget);
 }
 
 // ***** ***** ***** ***** ***** api
 
-/// simulate user input. view = param from LUA_ON_DATA call
-/// for lua:	void	  MUD_Send		(txt,view)
+/// simulate user input. view = param from LUA_ON_DATA call  (or udata for LUA_ON_KEY_PRESS with context "gnome-mud-window")
+/// for lua:	void	  MUD_Send		(view,txt)
 static int 				l_MUD_Send		(lua_State* L) {
-	const char*			buf = luaL_checkstring(L,1);
-	MudConnectionView*	view = (MudConnectionView*)lua_touserdata(L,2);
+	MudConnectionView*	view = (MudConnectionView*)lua_touserdata(L,1);
+	const char*			buf = luaL_checkstring(L,2);
 	if (view) mud_connection_view_send(view, (const gchar *)buf);
 	return 0;
 }

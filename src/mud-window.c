@@ -597,6 +597,10 @@ mud_window_textview_buffer_changed(GtkTextBuffer *buffer, MudWindow *self)
     mud_window_textview_ensure_height(self, 5);
 }
 
+#ifdef ENABLE_LUA
+gboolean	LuaPlugin_key_press_hook	(MudConnectionView* view,GtkWidget *widget, GdkEventKey *event);
+#endif
+
 static gboolean
 mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *self)
 {
@@ -606,6 +610,10 @@ mud_window_textview_keypress(GtkWidget *widget, GdkEventKey *event, MudWindow *s
     GtkTextIter start, end;
     MudParseBase *base;
     GConfClient *client = gconf_client_get_default();
+	
+#ifdef ENABLE_LUA
+    if (LuaPlugin_key_press_hook(self->priv->current_view, widget, event)) return TRUE;
+#endif
 
     if ((event->keyval == GDK_Return || event->keyval == GDK_KP_Enter) &&
             (event->state & gtk_accelerator_get_default_mod_mask()) == 0)
