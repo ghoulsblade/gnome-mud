@@ -23,11 +23,12 @@
 #include <stdio.h>
 
 #define	LUA_IMAGEWINDOW_ON_BUTTON_PRESS		"imagewindow_on_button_press" // this lua function gets notified of incoming and outgoing data
+#define	LUA_IMAGEWINDOW_ON_KEY_PRESS		"imagewindow_on_key_press" // this lua function gets notified of incoming and outgoing data
 
 lua_State*	LuaPlugin_GetMainState	();
 int 		PCallWithErrFuncWrapper (lua_State* L,int narg, int nret);
 
-/// "button_press_event" handler, should call lua callback
+/// "button-press-event" handler, should call lua callback
 static gint ImageWindow_On_Button_Press_Event (GtkWidget *widget, GdkEvent *event) {
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_WINDOW (widget), FALSE);
@@ -67,6 +68,47 @@ static gint ImageWindow_On_Button_Press_Event (GtkWidget *widget, GdkEvent *even
 	return FALSE;
 }
 
+/// "key-press-event" handler, should call lua callback
+static gint ImageWindow_On_Key_Press_Event (GtkWidget *widget, GdkEvent *event) {
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (GTK_IS_WINDOW (widget), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+	if (event->type != GDK_KEY_PRESS) return FALSE;
+	
+	GdkEventKey* event_key = (GdkEventKey*)event;
+	
+	// lua
+	lua_State* L = LuaPlugin_GetMainState();
+	if (L) {
+		const char* func = LUA_IMAGEWINDOW_ON_KEY_PRESS;
+		lua_getglobal(L, func); // get function
+		if (lua_isnil(L,1)) {
+			lua_pop(L,1);
+			//~ fprintf(stderr,"lua: function `%s' not found\n",func);
+		} else {
+			int narg = 5, nres = 1;
+			//~ luaL_checkstack(L, narg, "too many arguments");
+			lua_pushlightuserdata(L, (void*)widget); // arg 1
+			lua_pushinteger(L, event_key->keyval); // arg 2
+			lua_pushinteger(L, event_key->state); // arg 3
+			lua_pushlstring(L, event_key->string, event_key->length); // arg 4
+			lua_pushinteger(L, event_key->time); // arg 5
+			//~ lua_pushlightuserdata(L, (void*)event_button->time); // arg 3
+			if (PCallWithErrFuncWrapper(L,narg, nres) != 0) {
+				fprintf(stderr,"lua: error running function `%s': %s\n",func, lua_tostring(L, -1));
+			} else {
+				gboolean res = lua_toboolean(L,-1);
+				if (nres > 0) lua_pop(L, nres);
+				return res ? TRUE : FALSE;
+			}
+		}
+	}
+	
+	return FALSE;
+}
+
+
+
 /// open image window, w,h in pixels
 /// for lua:	window	  MUD_ImageWindow_Open	(title,w,h,x=680,y=0)
 static int 				l_MUD_ImageWindow_Open	(lua_State* L) {
@@ -93,7 +135,9 @@ static int 				l_MUD_ImageWindow_Open	(lua_State* L) {
 	
 	// bind events
 	gtk_widget_set_events(window,gtk_widget_get_events(window) | GDK_BUTTON_PRESS_MASK);
-	g_signal_connect_swapped(window,"button_press_event", G_CALLBACK (ImageWindow_On_Button_Press_Event), window);
+	gtk_widget_set_events(window,gtk_widget_get_events(window) | GDK_KEY_PRESS_MASK);
+	g_signal_connect_swapped(window,"button-press-event", G_CALLBACK(ImageWindow_On_Button_Press_Event), window);
+	g_signal_connect_swapped(window,"key-press-event", G_CALLBACK(ImageWindow_On_Key_Press_Event), window);
 	
 	// present window
 	gtk_widget_show_all(window);
