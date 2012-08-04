@@ -42,7 +42,8 @@
 #include "mud-trigger.h"
 
 #ifdef ENABLE_LUA
-void	LuaPlugin_Init ();
+void	LuaPlugin_Init	 (MudWindow* pMainWindow);
+void	LuaPlugin_Cleanup ();
 #endif
 
 gint
@@ -123,10 +124,14 @@ main (gint argc, char *argv[])
     window = g_object_new(MUD_TYPE_WINDOW, NULL);
 
 #ifdef ENABLE_LUA
-	LuaPlugin_Init();
+	LuaPlugin_Init(window);
 #endif
 	
     gtk_main();
+	
+#ifdef ENABLE_LUA
+	LuaPlugin_Cleanup();
+#endif
 
     gconf_client_suggest_sync(client, &err);
     
