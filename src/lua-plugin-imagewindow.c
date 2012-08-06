@@ -145,13 +145,6 @@ GtkProgressBar*	GtkProgressBar_FromLua	(lua_State* L,int i) {
 	return GTK_PROGRESS_BAR(widget);
 }
 
-GtkProgress*	GtkProgress_FromLua	(lua_State* L,int i) {
-	GtkWidget*	widget = (GtkWidget*)lua_touserdata(L,i);
-	g_return_val_if_fail(GTK_IS_PROGRESS(widget), NULL);
-	return GTK_PROGRESS(widget);
-}
-
-
 #define LUA_BIND(name,mytype,params)			\
 	static int l_ ## name (lua_State* L) {		\
 		mytype* o = mytype ## _FromLua (L,1);	\
