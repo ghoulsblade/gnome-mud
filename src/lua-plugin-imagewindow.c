@@ -25,6 +25,8 @@
 
 void	LuaPlugin_SignalConnectEvent	(GtkWidget* widget,const char* signalname);
 
+// ***** ***** ***** ***** ***** main window
+
 /// open image window, w,h in pixels
 /// for lua:	window	  MUD_ImageWindow_Open	(title,w,h,x=680,y=0)
 static int 				l_MUD_ImageWindow_Open	(lua_State* L) {
@@ -63,6 +65,8 @@ static int 				l_MUD_ImageWindow_Open	(lua_State* L) {
 	lua_pushlightuserdata(L, (void*)window);
 	return 1;
 }
+
+// ***** ***** ***** ***** ***** main widgets
 
 /// for lua:	widget	  MUD_ImageWindow_AddText	(window,txt,x,y,font="monospace 12")
 static int 				l_MUD_ImageWindow_AddText	(lua_State* L) {
@@ -105,6 +109,24 @@ static int 				l_MUD_ImageWindow_AddImage	(lua_State* L) {
 	return 1;
 }
 
+/// for lua:	widget	  MUD_ImageWindow_AddProgressBar	(window,x,y)
+static int 				l_MUD_ImageWindow_AddProgressBar	(lua_State* L) {
+	GtkWidget*	window	= (GtkWidget*)lua_touserdata(L,1);
+	gint		x		= luaL_checkint(L,2);
+	gint		y		= luaL_checkint(L,3);
+	if (!window) return 0;
+	
+	// add image
+	GtkWidget* pbar = gtk_progress_bar_new();
+	// add to parent
+	GtkWidget* layout = gtk_bin_get_child(GTK_BIN(window));
+	if (layout) gtk_layout_put(GTK_LAYOUT(layout),pbar,x,y);
+	gtk_widget_show(pbar);
+	
+	lua_pushlightuserdata(L,(void*)pbar);
+	return 1;
+}
+
 /// destroy image/text/...
 /// for lua:	void	  MUD_ImageWindow_DestroyWidget	(widget)
 static int 				l_MUD_ImageWindow_DestroyWidget	(lua_State* L) {
@@ -114,11 +136,68 @@ static int 				l_MUD_ImageWindow_DestroyWidget	(lua_State* L) {
 	return 0;
 }
 
+
+// ***** ***** ***** ***** ***** GtkProgressBar
+
+GtkProgressBar*	GtkProgressBar_FromLua	(lua_State* L,int i) {
+	GtkWidget*	widget = (GtkWidget*)lua_touserdata(L,i);
+	g_return_val_if_fail(GTK_IS_PROGRESS_BAR(widget), NULL);
+	return GTK_PROGRESS_BAR(widget);
+}
+
+GtkProgress*	GtkProgress_FromLua	(lua_State* L,int i) {
+	GtkWidget*	widget = (GtkWidget*)lua_touserdata(L,i);
+	g_return_val_if_fail(GTK_IS_PROGRESS(widget), NULL);
+	return GTK_PROGRESS(widget);
+}
+
+
+#define LUA_BIND(name,mytype,params)			\
+	static int l_ ## name (lua_State* L) {		\
+		mytype* o = mytype ## _FromLua (L,1);	\
+		if (o) { name params; } 				\
+		return 0;								\
+	}
+
+// http://developer.gnome.org/gtk/2.24/GtkProgressBar.html
+/*lua: void gtk.. (o,..)*/	LUA_BIND(gtk_progress_bar_pulse				,GtkProgressBar,(o))
+/*lua: void gtk.. (o,..)*/	LUA_BIND(gtk_progress_bar_set_text			,GtkProgressBar,(o,luaL_checkstring(L,2)))
+/*lua: void gtk.. (o,..)*/	LUA_BIND(gtk_progress_bar_set_fraction		,GtkProgressBar,(o,luaL_checknumber(L,2)))
+/*lua: void gtk.. (o,..)*/	LUA_BIND(gtk_progress_bar_set_pulse_step	,GtkProgressBar,(o,luaL_checknumber(L,2)))
+/*lua: void gtk.. (o,..)*/	LUA_BIND(gtk_progress_bar_set_orientation	,GtkProgressBar,(o,(GtkProgressBarOrientation)luaL_checkint(L,2)))
+/*lua: void gtk.. (o,..)*/	LUA_BIND(gtk_progress_bar_set_ellipsize		,GtkProgressBar,(o,(PangoEllipsizeMode)luaL_checkint(L,2)))
+
+
+// ***** ***** ***** ***** ***** register
+
+#define LUA_REG_FUN_BY_L_NAME(L,name)	{ lua_register(L,#name,l_ ## name); }
+#define LUA_REG_CONSTANT(L,name)		{ lua_pushinteger(L,name); lua_setglobal(L,#name); }
+
 void	InitLuaEnvironment_Imagewindow	(lua_State* L) {
-	lua_register(L,"MUD_ImageWindow_Open",			l_MUD_ImageWindow_Open); 
-	lua_register(L,"MUD_ImageWindow_AddText",		l_MUD_ImageWindow_AddText); 
-	lua_register(L,"MUD_ImageWindow_AddImage",		l_MUD_ImageWindow_AddImage);
-	lua_register(L,"MUD_ImageWindow_DestroyWidget",	l_MUD_ImageWindow_DestroyWidget);
+	LUA_REG_FUN_BY_L_NAME(L,MUD_ImageWindow_Open)
+	LUA_REG_FUN_BY_L_NAME(L,MUD_ImageWindow_AddText)
+	LUA_REG_FUN_BY_L_NAME(L,MUD_ImageWindow_AddImage)
+	LUA_REG_FUN_BY_L_NAME(L,MUD_ImageWindow_AddProgressBar)
+	LUA_REG_FUN_BY_L_NAME(L,MUD_ImageWindow_DestroyWidget)
+	
+	LUA_REG_FUN_BY_L_NAME(L,gtk_progress_bar_pulse)
+	LUA_REG_FUN_BY_L_NAME(L,gtk_progress_bar_set_text)
+	LUA_REG_FUN_BY_L_NAME(L,gtk_progress_bar_set_fraction)
+	LUA_REG_FUN_BY_L_NAME(L,gtk_progress_bar_set_pulse_step)
+	LUA_REG_FUN_BY_L_NAME(L,gtk_progress_bar_set_orientation)
+	LUA_REG_FUN_BY_L_NAME(L,gtk_progress_bar_set_ellipsize)
+	
+	// GtkProgressBarOrientation
+	LUA_REG_CONSTANT(L,GTK_PROGRESS_LEFT_TO_RIGHT)
+	LUA_REG_CONSTANT(L,GTK_PROGRESS_RIGHT_TO_LEFT)
+	LUA_REG_CONSTANT(L,GTK_PROGRESS_BOTTOM_TO_TOP)
+	LUA_REG_CONSTANT(L,GTK_PROGRESS_TOP_TO_BOTTOM)
+	
+	// PangoEllipsizeMode
+	LUA_REG_CONSTANT(L,PANGO_ELLIPSIZE_NONE)
+	LUA_REG_CONSTANT(L,PANGO_ELLIPSIZE_START)
+	LUA_REG_CONSTANT(L,PANGO_ELLIPSIZE_MIDDLE)
+	LUA_REG_CONSTANT(L,PANGO_ELLIPSIZE_END)
 }
 
 #endif // ENABLE_LUA
