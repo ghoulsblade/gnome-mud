@@ -599,6 +599,7 @@ mud_window_textview_buffer_changed(GtkTextBuffer *buffer, MudWindow *self)
 
 #ifdef ENABLE_LUA
 gboolean	LuaPlugin_key_press_hook	(MudConnectionView* view,GtkWidget *widget, GdkEventKey *event);
+gboolean	LuaPlugin_data_hook			(MudConnectionView* view,const gchar *data,guint length,int dir);
 #endif
 
 static gboolean

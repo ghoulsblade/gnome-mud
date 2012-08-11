@@ -56,10 +56,10 @@ gboolean	gbLuaPlugin_Init_done = FALSE;
 #define DIR_IN  1 // server to client, message from server
 #define DIR_OUT 0 // client to server, user input
 
-void	LuaPlugin_OnData			(const gchar* buf,MudConnectionView* view,int dir);
-void	LuaPlugin_ExecLuaFile		();
-void	InitLuaEnvironment			(lua_State*	L);
-int 	PCallWithErrFuncWrapper		(lua_State* L,int narg, int nret);
+gboolean	LuaPlugin_OnData			(const gchar* buf,MudConnectionView* view,int dir);
+void		LuaPlugin_ExecLuaFile		();
+void		InitLuaEnvironment			(lua_State*	L);
+int 		PCallWithErrFuncWrapper		(lua_State* L,int narg, int nret);
 
 #ifdef ENABLE_LUA_NETWORK
 void	LuaNetInit					();
@@ -67,12 +67,13 @@ void	LuaNetCleanup				();
 #endif
 
 /// new hook for git master after v0.11.2
-void	LuaPlugin_data_hook			(MudConnectionView* view,const gchar* data,guint length,int dir) {
+gboolean	LuaPlugin_data_hook			(MudConnectionView* view,const gchar* data,guint length,int dir) {
 	GString *str = g_string_new_len(data,length);
 	g_string_append_c(str,0); // zero-terminate
 	gchar* datacopy = g_string_free(str,FALSE);
-	LuaPlugin_OnData(datacopy,view,dir);
+	gboolean res = LuaPlugin_OnData(datacopy,view,dir);
 	g_free(datacopy);
+	return res;
 }
 	
 void	LuaPlugin_Init (MudWindow* pMainWindow) {
@@ -110,14 +111,16 @@ void	LuaPlugin_ExecLuaFile () {
 	}
 }
 
-void	LuaPlugin_OnData	(const gchar* buf,MudConnectionView* view,int dir) { 
+/// return TRUE if blocked (currently only if dir == DIR_OUT)
+gboolean	LuaPlugin_OnData	(const gchar* buf,MudConnectionView* view,int dir) { 
     gchar* stripped_data;
+	gboolean res = FALSE;
 	
 	stripped_data = utils_strip_ansi((const gchar *) buf); // warning: assume zero terminated v0.11.2+x(master)
 	//~ stripped_data = strip_ansi(buf); // warning: assume zero terminated  v0.11.2
 
 	// reload lua on keyword
-	if (dir == DIR_OUT && strstr((const char*)stripped_data,LUA_COMMAND_RELOAD)) LuaPlugin_ExecLuaFile();
+	if (dir == DIR_OUT && strstr((const char*)stripped_data,LUA_COMMAND_RELOAD)) { LuaPlugin_ExecLuaFile(); res = TRUE; }
 	
 	// lua
 	if (L) {
@@ -127,7 +130,7 @@ void	LuaPlugin_OnData	(const gchar* buf,MudConnectionView* view,int dir) {
 			lua_pop(L,1);
 			//~ fprintf(stderr,"lua: function `%s' not found\n",func);
 		} else {
-			int narg = 4, nres = 0;
+			int narg = 4, nres = 1;
 			//~ luaL_checkstack(L, narg, "too many arguments");
 			lua_pushstring(L, (const char*)stripped_data); // arg 1
 			lua_pushinteger(L, dir); // arg 2
@@ -136,6 +139,7 @@ void	LuaPlugin_OnData	(const gchar* buf,MudConnectionView* view,int dir) {
 			if (PCallWithErrFuncWrapper(L,narg, nres) != 0) {
 				fprintf(stderr,"lua: error running function `%s': %s\n",func, lua_tostring(L, -1));
 			} else {
+				res = lua_toboolean(L,-1);
 				if (nres > 0) lua_pop(L, nres);
 			}
 		}
@@ -143,6 +147,8 @@ void	LuaPlugin_OnData	(const gchar* buf,MudConnectionView* view,int dir) {
 	
 	// free buffer
 	if (stripped_data) g_free(stripped_data);
+	
+	return res;
 }
 
 // ***** ***** ***** ***** ***** lua utils

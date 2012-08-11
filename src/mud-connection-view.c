@@ -1125,7 +1125,7 @@ mud_connection_view_popup(MudConnectionView *view, GdkEventButton *event)
 }
 
 #ifdef ENABLE_LUA
-void	LuaPlugin_data_hook	(MudConnectionView* view,const gchar *data,guint length,int dir);
+gboolean	LuaPlugin_data_hook	(MudConnectionView* view,const gchar *data,guint length,int dir);
 #endif
 
 static void
@@ -1200,11 +1200,14 @@ mud_connection_view_network_event_cb(GConn *conn, GConnEvent *event, gpointer pv
             if(view->priv->processed)
             {
 #ifdef ENABLE_LUA
-				LuaPlugin_data_hook(view,view->priv->processed->str,view->priv->processed->len,1);
+				if (!LuaPlugin_data_hook(view,view->priv->processed->str,view->priv->processed->len,1)) {
 #endif
                 mud_line_buffer_add_data(view->priv->line_buffer,
                                          view->priv->processed->str,
                                          view->priv->processed->len);
+#ifdef ENABLE_LUA
+				}
+#endif
 
                 g_string_free(view->priv->processed, TRUE);
                 view->priv->processed = NULL;
@@ -2103,22 +2106,28 @@ mud_connection_view_send(MudConnectionView *view, const gchar *data)
             {
                 gchar *line = (conv_text == NULL) ? text : conv_text;
 #ifdef ENABLE_LUA
-				LuaPlugin_data_hook(view,line, strlen(line),0);
+				if (!LuaPlugin_data_hook(view,line, strlen(line),0)) {
 #endif
 
                 gnet_conn_write(view->connection, line, strlen(line));
                 gnet_conn_write(view->connection, "\r\n", 2);
+#ifdef ENABLE_LUA
+				}
+#endif
             }
             else // ZMP is enabled, use zmp.input.
             {
                 gchar *line = (conv_text == NULL) ? text : conv_text;
 #ifdef ENABLE_LUA
-				LuaPlugin_data_hook(view,line, strlen(line),0);
+				if (!LuaPlugin_data_hook(view,line, strlen(line),0)) {
 #endif
 
                 mud_zmp_send_command(zmp_handler, 2,
                                      "zmp.input",
                                      line);
+#ifdef ENABLE_LUA
+				}
+#endif
             }
 
             if (view->profile->preferences->EchoText && view->local_echo)
